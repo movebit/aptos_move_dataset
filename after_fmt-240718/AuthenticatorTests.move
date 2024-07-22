@@ -5,12 +5,9 @@ module DiemFramework::AuthenticatorTests {
 
     #[test]
     fun create_valid_multisig_policies_and_compute_auth_keys() {
-        let pubkey1 =
-            x"c48b687a1dd8265101b33df6ae0b6825234e3f28df9ecb38fb286cf76dae919d";
-        let pubkey2 =
-            x"4b2a60883383be0ba24ed79aa5a6c9379728099a7b0c57edcec193a14ea5fce2";
-        let pubkey3 =
-            x"323285d3d4b0f19482730c5f481d9f745c2927d73c231bad47859d9b2f7376f1";
+        let pubkey1 = x"c48b687a1dd8265101b33df6ae0b6825234e3f28df9ecb38fb286cf76dae919d";
+        let pubkey2 = x"4b2a60883383be0ba24ed79aa5a6c9379728099a7b0c57edcec193a14ea5fce2";
+        let pubkey3 = x"323285d3d4b0f19482730c5f481d9f745c2927d73c231bad47859d9b2f7376f1";
 
         let keys = vector::empty<vector<u8>>();
         vector::push_back(&mut keys, pubkey1);
@@ -38,7 +35,8 @@ module DiemFramework::AuthenticatorTests {
         );
         // check that auth key matches expect result
         assert!(
-            Authenticator::multi_ed25519_authentication_key(&t) == x"1761bca45f83ecdefe202650ca5ba9518b9c2cc032667a95b275dc3f43173ae0",
+            Authenticator::multi_ed25519_authentication_key(&t)
+                == x"1761bca45f83ecdefe202650ca5ba9518b9c2cc032667a95b275dc3f43173ae0",
             3011,
         );
 
@@ -105,8 +103,7 @@ module DiemFramework::AuthenticatorTests {
 
     #[test]
     fun one_of_one_multi_ed25519_should_have_different_auth_key_than_ed25519_with_same_public_key() {
-        let pubkey =
-            x"c48b687a1dd8265101b33df6ae0b6825234e3f28df9ecb38fb286cf76dae919d";
+        let pubkey = x"c48b687a1dd8265101b33df6ae0b6825234e3f28df9ecb38fb286cf76dae919d";
         let keys = vector::empty<vector<u8>>();
         vector::push_back(&mut keys, copy pubkey);
 
@@ -117,9 +114,8 @@ module DiemFramework::AuthenticatorTests {
             3011,
         );
         assert!(
-            x"ba10abb6d85ea3897baa1cae457fc724a916d258bd47ab852f200c5851a6d057" == Authenticator::ed25519_authentication_key(
-                pubkey
-            ),
+            x"ba10abb6d85ea3897baa1cae457fc724a916d258bd47ab852f200c5851a6d057"
+                == Authenticator::ed25519_authentication_key(pubkey),
             3012,
         );
     }

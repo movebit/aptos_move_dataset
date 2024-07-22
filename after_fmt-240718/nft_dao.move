@@ -193,7 +193,8 @@ module dao_platform::nft_dao {
     /// Get the proposal
     public fun get_proposal(proposal_id: u64, nft_dao: address): Proposal acquires Proposals {
         assert!(
-            exists<Proposals>(nft_dao), error::not_found(EPRPOSALS_NOT_EXIST_AT_ADDRESS)
+            exists<Proposals>(nft_dao),
+            error::not_found(EPRPOSALS_NOT_EXIST_AT_ADDRESS),
         );
         let proposals = &borrow_global<Proposals>(nft_dao).proposals;
         assert!(
@@ -352,14 +353,20 @@ module dao_platform::nft_dao {
         let dao = borrow_global_mut<DAO>(nft_dao);
         assert!(string::length(&name) <= 64, error::invalid_argument(ESTRING_TOO_LONG));
         assert!(
-            string::length(&description) <= 512, error::invalid_argument(ESTRING_TOO_LONG)
+            string::length(&description) <= 512,
+            error::invalid_argument(ESTRING_TOO_LONG),
         );
         let admin_addr = signer::address_of(account);
         // verify the account's token has enough weights to create proposal
 
         if (admin_addr != dao.admin) {
             let weights =
-                get_proposal_weights(account, &token_names, &property_versions, dao);
+                get_proposal_weights(
+                    account,
+                    &token_names,
+                    &property_versions,
+                    dao,
+                );
             assert!(
                 weights >= dao.min_required_proposer_voting_power,
                 error::permission_denied(EVOTING_POWER_NOT_ENOUGH),
@@ -472,7 +479,10 @@ module dao_platform::nft_dao {
                 let property_version = *vector::borrow(&property_versions, i);
                 let token_id =
                     token::create_token_id_raw(
-                        gtoken.creator, gtoken.collection, token_name, property_version
+                        gtoken.creator,
+                        gtoken.collection,
+                        token_name,
+                        property_version,
                     );
                 // check if this token already voted
                 assert!(
@@ -698,7 +708,8 @@ module dao_platform::nft_dao {
     ) acquires DAO {
         assert!(exists<DAO>(dao), error::not_found(EDAO_NOT_EXIST));
         assert!(
-            string::length(&new_name) < 128, error::invalid_argument(ESTRING_TOO_LONG)
+            string::length(&new_name) < 128,
+            error::invalid_argument(ESTRING_TOO_LONG),
         );
         let admin_addr = signer::address_of(admin);
         let dao_config = borrow_global_mut<DAO>(dao);
@@ -821,7 +832,12 @@ module dao_platform::nft_dao {
         dst: address
     ) {
         let token_id =
-            create_token_id_raw(creator, collection, token_name, property_version);
+            create_token_id_raw(
+                creator,
+                collection,
+                token_name,
+                property_version,
+            );
         token_transfers::offer(res_acct, dst, token_id, 1);
     }
 
@@ -832,28 +848,22 @@ module dao_platform::nft_dao {
             |i, function_name| {
                 let args = vector::borrow(&proposal.function_args, i);
                 if (function_name == &string::utf8(b"transfer_fund")) {
-                    let res_signer = create_signer_with_capability(
-                        &dao.dao_signer_capability
-                    );
+                    let res_signer =
+                        create_signer_with_capability(&dao.dao_signer_capability);
                     let dst_addr = property_map::read_address(args, &string::utf8(b"dst"));
                     let amount = property_map::read_u64(args, &string::utf8(b"amount"));
                     transfer_fund(&res_signer, dst_addr, amount);
                 } else if (function_name == &string::utf8(b"offer_nft")) {
-                    let res_signer = create_signer_with_capability(
-                        &dao.dao_signer_capability
-                    );
-                    let creator = property_map::read_address(
-                        args, &string::utf8(b"creator")
-                    );
-                    let collection = property_map::read_string(
-                        args, &string::utf8(b"collection")
-                    );
-                    let token_name = property_map::read_string(
-                        args, &string::utf8(b"token_name")
-                    );
-                    let property_version = property_map::read_u64(
-                        args, &string::utf8(b"property_version")
-                    );
+                    let res_signer =
+                        create_signer_with_capability(&dao.dao_signer_capability);
+                    let creator =
+                        property_map::read_address(args, &string::utf8(b"creator"));
+                    let collection =
+                        property_map::read_string(args, &string::utf8(b"collection"));
+                    let token_name =
+                        property_map::read_string(args, &string::utf8(b"token_name"));
+                    let property_version =
+                        property_map::read_u64(args, &string::utf8(b"property_version"));
                     let dst = property_map::read_address(args, &string::utf8(b"dst"));
                     offer_nft(
                         &res_signer,
@@ -939,7 +949,10 @@ module dao_platform::nft_dao {
                 let property_version = *vector::borrow(property_versions, i);
                 let token_id =
                     token::create_token_id_raw(
-                        gtoken.creator, gtoken.collection, token_name, property_version
+                        gtoken.creator,
+                        gtoken.collection,
+                        token_name,
+                        property_version,
                     );
                 assert!(
                     !vector::contains(&used_token_ids, &token_id),
@@ -1009,7 +1022,10 @@ module dao_platform::nft_dao {
             vector::empty(),
         );
         token::create_token_id_raw(
-            signer::address_of(creator), collection_name, token_name, 0
+            signer::address_of(creator),
+            collection_name,
+            token_name,
+            0,
         )
     }
 

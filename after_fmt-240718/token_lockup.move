@@ -84,9 +84,8 @@ module token_lockup::token_lockup {
             error::permission_denied(ENOT_TOKEN_OWNER),
         );
         let now = timestamp::now_seconds();
-        let lockup_config = borrow_global_mut<LockupConfig>(
-            object::object_address(&token)
-        );
+        let lockup_config =
+            borrow_global_mut<LockupConfig>(object::object_address(&token));
 
         let time_since_transfer = now - lockup_config.last_transfer;
         let lockup_period_secs = LOCKUP_PERIOD_SECS;

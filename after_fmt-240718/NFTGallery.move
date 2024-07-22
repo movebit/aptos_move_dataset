@@ -26,9 +26,11 @@ module 0x1::NFTGallery {
         assert!(exists<NFTGallery<TokenType>>(owner), EGALLERY_NOT_PUBLISHED);
         let gallery = &mut borrow_global_mut<NFTGallery<TokenType>>(owner).gallery;
         if (!NFT::is_data_inlined<TokenType>(&token)) {
-            let index_opt = index_of_token<TokenType>(
-                gallery, &NFT::id<TokenType>(&token)
-            );
+            let index_opt =
+                index_of_token<TokenType>(
+                    gallery,
+                    &NFT::id<TokenType>(&token),
+                );
             if (option::is_some(&index_opt)) {
                 let prev_token_idx = option::extract(&mut index_opt);
                 // The gallery already has the given token: update its balance
@@ -45,8 +47,9 @@ module 0x1::NFTGallery {
     ): bool acquires NFTGallery {
         option::is_some(
             &index_of_token(
-                &borrow_global<NFTGallery<TokenType>>(owner).gallery, token_id
-            )
+                &borrow_global<NFTGallery<TokenType>>(owner).gallery,
+                token_id,
+            ),
         )
     }
 

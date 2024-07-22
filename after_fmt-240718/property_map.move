@@ -84,7 +84,8 @@ module aptos_token::property_map {
                 error::invalid_argument(EPROPERTY_MAP_NAME_TOO_LONG),
             );
             simple_map::add(
-                &mut properties.map, key,
+                &mut properties.map,
+                key,
                 PropertyValue {
                     value: *vector::borrow(&values, i),
                     type: *vector::borrow(&types, i)
@@ -208,7 +209,8 @@ module aptos_token::property_map {
     public fun read_address(map: &PropertyMap, key: &String): address {
         let prop = borrow(map, key);
         assert!(
-            prop.type == string::utf8(b"address"), error::invalid_state(ETYPE_NOT_MATCH)
+            prop.type == string::utf8(b"address"),
+            error::invalid_state(ETYPE_NOT_MATCH),
         );
         from_bcs::to_address(prop.value)
     }
@@ -233,9 +235,7 @@ module aptos_token::property_map {
         property.type
     }
 
-    public fun remove(
-        map: &mut PropertyMap, key: &String
-    ): (String, PropertyValue) {
+    public fun remove(map: &mut PropertyMap, key: &String): (String, PropertyValue) {
         let found = contains_key(map, key);
         assert!(found, error::not_found(EPROPERTY_NOT_EXIST));
         simple_map::remove(&mut map.map, key)
@@ -280,9 +280,7 @@ module aptos_token::property_map {
         *property_val = value;
     }
 
-    public fun create_property_value_raw(
-        value: vector<u8>, type: String
-    ): PropertyValue {
+    public fun create_property_value_raw(value: vector<u8>, type: String): PropertyValue {
         PropertyValue { value, type, }
     }
 

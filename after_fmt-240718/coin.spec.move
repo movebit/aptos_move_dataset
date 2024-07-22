@@ -504,17 +504,16 @@ spec aptos_framework::coin {
         let post limit = optional_aggregator::optional_aggregator_limit(supply);
         modifies global<CoinInfo<CoinType>>(account_addr);
         aborts_if monitor_supply
-            && parallelizable && !exists<aggregator_factory::AggregatorFactory>(
-            @aptos_framework
-        );
+            && parallelizable
+            && !exists<aggregator_factory::AggregatorFactory>(@aptos_framework);
         /// [managed_coin::high-level-req-2]
-        ensures exists<CoinInfo<CoinType>>(account_addr) && coin_info.name == name && coin_info
-            .symbol == symbol && coin_info.decimals == decimals;
+        ensures exists<CoinInfo<CoinType>>(account_addr)
+            && coin_info.name == name
+            && coin_info.symbol == symbol && coin_info.decimals == decimals;
         ensures if (monitor_supply) {
             value == 0
-                && limit == MAX_U128 && (
-                parallelizable == optional_aggregator::is_parallelizable(supply)
-            )
+                && limit == MAX_U128
+                && (parallelizable == optional_aggregator::is_parallelizable(supply))
         } else {
             option::spec_is_none(coin_info.supply)
         };

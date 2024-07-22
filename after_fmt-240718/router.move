@@ -105,8 +105,7 @@ module swap::router {
         recipient: address,
     ) {
         let in = coin::withdraw<FromCoin>(user, amount_in);
-        let out =
-            swap_coin_for_asset<FromCoin>(in, amount_out_min, to_token, is_stable);
+        let out = swap_coin_for_asset<FromCoin>(in, amount_out_min, to_token, is_stable);
         primary_fungible_store::deposit(recipient, out);
     }
 
@@ -155,8 +154,7 @@ module swap::router {
         recipient: address,
     ) {
         let in = coin::withdraw<FromCoin>(user, amount_in);
-        let out =
-            swap_coin_for_coin<FromCoin, ToCoin>(in, amount_out_min, is_stable);
+        let out = swap_coin_for_coin<FromCoin, ToCoin>(in, amount_out_min, is_stable);
         coin::deposit(recipient, out);
     }
 
@@ -203,9 +201,8 @@ module swap::router {
                 math128::sqrt(amount_1 * amount_2)
                     - (liquidity_pool::min_liquidity() as u128)
             } else if (reserves_1 > 0 && reserves_2 > 0) {
-                let amount_2_optimal = math128::mul_div(
-                    amount_1_desired, reserves_2, reserves_1
-                );
+                let amount_2_optimal =
+                    math128::mul_div(amount_1_desired, reserves_2, reserves_1);
                 if (amount_2 <= amount_2_desired) {
                     assert!(amount_2_optimal >= amount_2_min, EINSUFFICIENT_OUTPUT_AMOUNT);
                     amount_2 = amount_2_optimal;
@@ -286,8 +283,7 @@ module swap::router {
                 amount_1_min,
                 amount_2_min,
             );
-        let optimal_1 =
-            coin_wrapper::wrap(coin::withdraw<CoinType>(lp, optimal_amount_1));
+        let optimal_1 = coin_wrapper::wrap(coin::withdraw<CoinType>(lp, optimal_amount_1));
         let optimal_2 = primary_fungible_store::withdraw(lp, token_2, optimal_amount_2);
         add_liquidity(lp, optimal_1, optimal_2, is_stable);
     }
@@ -341,7 +337,10 @@ module swap::router {
         is_stable: bool,
     ) {
         add_liquidity(
-            lp, coin_wrapper::wrap(token_1), coin_wrapper::wrap(token_2), is_stable
+            lp,
+            coin_wrapper::wrap(token_1),
+            coin_wrapper::wrap(token_2),
+            is_stable,
         );
     }
 
@@ -407,9 +406,15 @@ module swap::router {
         amount_2_min: u64,
         recipient: address,
     ) {
-        let (amount_1, amount_2) = remove_liquidity_coin<CoinType>(
-            lp, token_2, is_stable, liquidity, amount_1_min, amount_2_min
-        );
+        let (amount_1, amount_2) =
+            remove_liquidity_coin<CoinType>(
+                lp,
+                token_2,
+                is_stable,
+                liquidity,
+                amount_1_min,
+                amount_2_min,
+            );
         aptos_account::deposit_coins<CoinType>(recipient, amount_1);
         primary_fungible_store::deposit(recipient, amount_2);
     }
@@ -425,15 +430,16 @@ module swap::router {
     ): (Coin<CoinType>, FungibleAsset) {
         let token_1 = coin_wrapper::get_wrapper<CoinType>();
         assert!(!coin_wrapper::is_wrapper(token_2), ENOT_NATIVE_FUNGIBLE_ASSETS);
-        let (amount_1, amount_2) = remove_liquidity_internal(
-            lp,
-            token_1,
-            token_2,
-            is_stable,
-            liquidity,
-            amount_1_min,
-            amount_2_min,
-        );
+        let (amount_1, amount_2) =
+            remove_liquidity_internal(
+                lp,
+                token_1,
+                token_2,
+                is_stable,
+                liquidity,
+                amount_1_min,
+                amount_2_min,
+            );
         (coin_wrapper::unwrap(amount_1), amount_2)
     }
 
@@ -447,9 +453,14 @@ module swap::router {
         amount_2_min: u64,
         recipient: address,
     ) {
-        let (amount_1, amount_2) = remove_liquidity_both_coins<CoinType1, CoinType2>(
-            lp, is_stable, liquidity, amount_1_min, amount_2_min
-        );
+        let (amount_1, amount_2) =
+            remove_liquidity_both_coins<CoinType1, CoinType2>(
+                lp,
+                is_stable,
+                liquidity,
+                amount_1_min,
+                amount_2_min,
+            );
         aptos_account::deposit_coins<CoinType1>(recipient, amount_1);
         aptos_account::deposit_coins<CoinType2>(recipient, amount_2);
     }
@@ -464,15 +475,16 @@ module swap::router {
     ): (Coin<CoinType1>, Coin<CoinType2>) {
         let token_1 = coin_wrapper::get_wrapper<CoinType1>();
         let token_2 = coin_wrapper::get_wrapper<CoinType2>();
-        let (amount_1, amount_2) = remove_liquidity_internal(
-            lp,
-            token_1,
-            token_2,
-            is_stable,
-            liquidity,
-            amount_1_min,
-            amount_2_min,
-        );
+        let (amount_1, amount_2) =
+            remove_liquidity_internal(
+                lp,
+                token_1,
+                token_2,
+                is_stable,
+                liquidity,
+                amount_1_min,
+                amount_2_min,
+            );
         (coin_wrapper::unwrap(amount_1), coin_wrapper::unwrap(amount_2))
     }
 
@@ -485,9 +497,10 @@ module swap::router {
         amount_1_min: u64,
         amount_2_min: u64,
     ): (FungibleAsset, FungibleAsset) {
-        let (redeemed_1, redeemed_2) = liquidity_pool::burn(
-            lp, token_1, token_2, is_stable, liquidity
-        );
+        let (redeemed_1, redeemed_2) =
+            liquidity_pool::burn(
+                lp, token_1, token_2, is_stable, liquidity
+            );
         let amount_1 = fungible_asset::amount(&redeemed_1);
         let amount_2 = fungible_asset::amount(&redeemed_2);
         assert!(

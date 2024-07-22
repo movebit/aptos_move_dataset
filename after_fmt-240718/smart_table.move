@@ -179,10 +179,13 @@ module aptos_std::smart_table {
     public fun add_all<K, V>(
         table: &mut SmartTable<K, V>, keys: vector<K>, values: vector<V>
     ) {
-        vector::zip(keys, values,
+        vector::zip(
+            keys,
+            values,
             |key, value| {
                 add(table, key, value);
-            });
+            },
+        );
     }
 
     inline fun unzip_entries<K: copy, V: copy>(entries: &vector<Entry<K, V>>)
@@ -209,9 +212,8 @@ module aptos_std::smart_table {
         let i = 0;
         let res = simple_map::new<K, V>();
         while (i < table.num_buckets) {
-            let (keys, values) = unzip_entries(
-                table_with_length::borrow(&table.buckets, i)
-            );
+            let (keys, values) =
+                unzip_entries(table_with_length::borrow(&table.buckets, i));
             simple_map::add_all(&mut res, keys, values);
             i = i + 1;
         };
@@ -333,15 +335,16 @@ module aptos_std::smart_table {
     /// Acquire an immutable reference to the value which `key` maps to.
     /// Aborts if there is no entry for `key`.
     public fun borrow<K: drop, V>(table: &SmartTable<K, V>, key: K): &V {
-        let index =
-            bucket_index(table.level, table.num_buckets, sip_hash_from_value(&key));
+        let index = bucket_index(
+            table.level, table.num_buckets, sip_hash_from_value(&key)
+        );
         let bucket = table_with_length::borrow(&table.buckets, index);
         let i = 0;
         let len = vector::length(bucket);
         while (i < len) {
             let entry = vector::borrow(bucket, i);
             if (&entry.key == &key) {
-                return&entry.value
+                return &entry.value
             };
             i = i + 1;
         };
@@ -363,15 +366,16 @@ module aptos_std::smart_table {
     /// Acquire a mutable reference to the value which `key` maps to.
     /// Aborts if there is no entry for `key`.
     public fun borrow_mut<K: drop, V>(table: &mut SmartTable<K, V>, key: K): &mut V {
-        let index =
-            bucket_index(table.level, table.num_buckets, sip_hash_from_value(&key));
+        let index = bucket_index(
+            table.level, table.num_buckets, sip_hash_from_value(&key)
+        );
         let bucket = table_with_length::borrow_mut(&mut table.buckets, index);
         let i = 0;
         let len = vector::length(bucket);
         while (i < len) {
             let entry = vector::borrow_mut(bucket, i);
             if (&entry.key == &key) {
-                return&mut entry.value
+                return &mut entry.value
             };
             i = i + 1;
         };
@@ -381,7 +385,8 @@ module aptos_std::smart_table {
     /// Acquire a mutable reference to the value which `key` maps to.
     /// Insert the pair (`key`, `default`) first if there is no entry for `key`.
     public fun borrow_mut_with_default<K: copy + drop, V: drop>(
-        table: &mut SmartTable<K, V>, key: K,
+        table: &mut SmartTable<K, V>,
+        key: K,
         default: V
     ): &mut V {
         if (!contains(table, copy key)) {
@@ -407,8 +412,9 @@ module aptos_std::smart_table {
     /// Remove from `table` and return the value which `key` maps to.
     /// Aborts if there is no entry for `key`.
     public fun remove<K: copy + drop, V>(table: &mut SmartTable<K, V>, key: K): V {
-        let index =
-            bucket_index(table.level, table.num_buckets, sip_hash_from_value(&key));
+        let index = bucket_index(
+            table.level, table.num_buckets, sip_hash_from_value(&key)
+        );
         let bucket = table_with_length::borrow_mut(&mut table.buckets, index);
         let i = 0;
         let len = vector::length(bucket);
@@ -640,9 +646,11 @@ module aptos_std::smart_table {
     public fun smart_table_add_all_test() {
         let table: SmartTable<u64, u64> = new_with_config(1, 100, 2);
         assert!(length(&table) == 0, 0);
-        add_all(&mut table,
+        add_all(
+            &mut table,
             vector[1, 2, 3, 4, 5, 6, 7],
-            vector[1, 2, 3, 4, 5, 6, 7],);
+            vector[1, 2, 3, 4, 5, 6, 7],
+        );
         assert!(length(&table) == 7, 1);
         let i = 1;
         while (i < 8) {
@@ -777,9 +785,8 @@ module aptos_std::smart_table {
             add(&mut table, i, 0);
             vector::push_back(&mut expected_keys, i);
         };
-        let (keys, starting_bucket_index_r, starting_vector_index_r) = keys_paginated(
-            &table, 0, 0, 5
-        ); // Both indices 0.
+        let (keys, starting_bucket_index_r, starting_vector_index_r) =
+            keys_paginated(&table, 0, 0, 5); // Both indices 0.
         assert!(vector::length(&keys) == 5, 0);
         vector::for_each_ref(
             &keys,

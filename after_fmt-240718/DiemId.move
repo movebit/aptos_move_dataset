@@ -155,7 +155,8 @@ module DiemFramework::DiemId {
     ) acquires DiemIdDomainManager, DiemIdDomains {
         Roles::assert_treasury_compliance(tc_account);
         assert!(
-            tc_domain_manager_exists(), errors::not_published(EDIEM_ID_DOMAIN_MANAGER)
+            tc_domain_manager_exists(),
+            errors::not_published(EDIEM_ID_DOMAIN_MANAGER),
         );
         assert!(
             exists<DiemIdDomains>(address),
@@ -223,7 +224,8 @@ module DiemFramework::DiemId {
     ) acquires DiemIdDomainManager, DiemIdDomains {
         Roles::assert_treasury_compliance(tc_account);
         assert!(
-            tc_domain_manager_exists(), errors::not_published(EDIEM_ID_DOMAIN_MANAGER)
+            tc_domain_manager_exists(),
+            errors::not_published(EDIEM_ID_DOMAIN_MANAGER),
         );
         assert!(
             exists<DiemIdDomains>(address),

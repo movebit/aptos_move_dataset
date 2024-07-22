@@ -12,7 +12,8 @@ module 0x8675309::M {
 
     fun t2(cond: bool) {
         if (cond) {
-            let x = 0;copy x;
+            let x = 0;
+            copy x;
         }
     }
 

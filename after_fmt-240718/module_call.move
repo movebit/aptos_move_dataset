@@ -12,8 +12,7 @@ module X {
         (false, a, x)
     }
 
-    public fun bing(b: bool, a: address, x: u64) {
-    }
+    public fun bing(b: bool, a: address, x: u64) {}
 }
 
 module M {

@@ -92,10 +92,12 @@ spec aptos_framework::transaction_validation {
             );
 
         aborts_if features::spec_is_enabled(
-            features::SPONSORED_AUTOMATIC_ACCOUNT_CREATION
-        ) && transaction_sender != gas_payer && txn_sequence_number == 0 && !account::exists_at(
-            transaction_sender
-        ) && txn_authentication_key != bcs::to_bytes(transaction_sender);
+                features::SPONSORED_AUTOMATIC_ACCOUNT_CREATION
+            )
+            && transaction_sender != gas_payer
+            && txn_sequence_number == 0
+            && !account::exists_at(transaction_sender)
+            && txn_authentication_key != bcs::to_bytes(transaction_sender);
 
         aborts_if !(txn_sequence_number < (1u64 << 63));
 

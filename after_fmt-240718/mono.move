@@ -1,4 +1,3 @@
-
 module 0x42::TestMonomorphization {
     use std::signer;
     use std::bcs;

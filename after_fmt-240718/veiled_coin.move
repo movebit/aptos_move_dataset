@@ -252,14 +252,10 @@ module veiled_coin::veiled_coin {
 
         // Create the resource account. This will allow this module to later obtain a `signer` for this account and
         // transfer `Coin<T>`'s into its `CoinStore<T>` before minting a `VeiledCoin<T>`.
-        let (_resource, signer_cap) = account::create_resource_account(
-            deployer, vector::empty()
-        );
+        let (_resource, signer_cap) =
+            account::create_resource_account(deployer, vector::empty());
 
-        move_to(
-            deployer,
-            VeiledCoinMinter { signer_cap },
-        )
+        move_to(deployer, VeiledCoinMinter { signer_cap })
     }
 
     //
@@ -317,7 +313,8 @@ module veiled_coin::veiled_coin {
             error::invalid_argument(EDESERIALIZATION_FAILED),
         );
 
-        let sigma_proof = sigma_protos::deserialize_withdrawal_subproof(withdraw_subproof);
+        let sigma_proof =
+            sigma_protos::deserialize_withdrawal_subproof(withdraw_subproof);
         assert!(
             std::option::is_some(&sigma_proof),
             error::invalid_argument(EDESERIALIZATION_FAILED),
@@ -333,7 +330,11 @@ module veiled_coin::veiled_coin {
 
         // Do the actual work
         unveil_to_internal<CoinType>(
-            sender, recipient, amount, comm_new_balance, withdrawal_proof
+            sender,
+            recipient,
+            amount,
+            comm_new_balance,
+            withdrawal_proof,
         );
     }
 
@@ -406,9 +407,8 @@ module veiled_coin::veiled_coin {
             error::invalid_argument(EDESERIALIZATION_FAILED),
         );
 
-        let transfer_subproof = sigma_protos::deserialize_transfer_subproof(
-            transfer_subproof
-        );
+        let transfer_subproof =
+            sigma_protos::deserialize_transfer_subproof(transfer_subproof);
         assert!(
             std::option::is_some(&transfer_subproof),
             error::invalid_argument(EDESERIALIZATION_FAILED),
@@ -616,7 +616,10 @@ module veiled_coin::veiled_coin {
 
         // Withdraw normal `Coin`'s from the resource account and deposit them in the recipient's
         let c =
-            coin::withdraw(&get_resource_account_signer(), cast_u32_to_u64_amount(amount));
+            coin::withdraw(
+                &get_resource_account_signer(),
+                cast_u32_to_u64_amount(amount),
+            );
 
         coin::deposit<CoinType>(recipient, c);
     }
@@ -637,9 +640,8 @@ module veiled_coin::veiled_coin {
         let recipient_pk = encryption_public_key<CoinType>(recipient_addr);
 
         // Note: The `encryption_public_key` call from above already asserts that `sender_addr` has a coin store.
-        let sender_veiled_coin_store = borrow_global_mut<VeiledCoinStore<CoinType>>(
-            sender_addr
-        );
+        let sender_veiled_coin_store =
+            borrow_global_mut<VeiledCoinStore<CoinType>>(sender_addr);
 
         // Fetch the veiled balance of the veiled account
         let veiled_balance =

@@ -179,9 +179,7 @@ module tic_tac_toe::ttt {
         assert!(!game.is_game_over, error::invalid_argument(EGAME_HAS_ALREADY_FINISHED));
         assert!(option::is_none(&game.player_x), error::already_exists(EPLAYER_TAKEN));
 
-        game.player_x = option::some(
-            Player { type: PLAYER_X_TYPE, owner: user, }
-        );
+        game.player_x = option::some(Player { type: PLAYER_X_TYPE, owner: user, });
     }
 
     /*
@@ -191,9 +189,7 @@ module tic_tac_toe::ttt {
         assert!(!game.is_game_over, error::invalid_argument(EGAME_HAS_ALREADY_FINISHED));
         assert!(option::is_none(&game.player_o), error::already_exists(EPLAYER_TAKEN));
 
-        game.player_o = option::some(
-            Player { type: PLAYER_O_TYPE, owner: user, }
-        );
+        game.player_o = option::some(Player { type: PLAYER_O_TYPE, owner: user, });
     }
 
     /*

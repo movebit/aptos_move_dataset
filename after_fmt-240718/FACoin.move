@@ -98,8 +98,7 @@ module FACoin::fa_coin {
     public entry fun freeze_account(admin: &signer, account: address) acquires ManagedFungibleAsset {
         let asset = get_metadata();
         let transfer_ref = &authorized_borrow_refs(admin, asset).transfer_ref;
-        let wallet =
-            primary_fungible_store::ensure_primary_store_exists(account, asset);
+        let wallet = primary_fungible_store::ensure_primary_store_exists(account, asset);
         fungible_asset::set_frozen_flag(transfer_ref, wallet, true);
     }
 
@@ -107,8 +106,7 @@ module FACoin::fa_coin {
     public entry fun unfreeze_account(admin: &signer, account: address) acquires ManagedFungibleAsset {
         let asset = get_metadata();
         let transfer_ref = &authorized_borrow_refs(admin, asset).transfer_ref;
-        let wallet =
-            primary_fungible_store::ensure_primary_store_exists(account, asset);
+        let wallet = primary_fungible_store::ensure_primary_store_exists(account, asset);
         fungible_asset::set_frozen_flag(transfer_ref, wallet, false);
     }
 
@@ -161,9 +159,7 @@ module FACoin::fa_coin {
 
     #[test(creator = @FACoin, aaron = @0xface)]
     #[expected_failure(abort_code = 0x50001, location = Self)]
-    fun test_permission_denied(
-        creator: &signer, aaron: &signer
-    ) acquires ManagedFungibleAsset {
+    fun test_permission_denied(creator: &signer, aaron: &signer) acquires ManagedFungibleAsset {
         init_module(creator);
         let creator_address = signer::address_of(creator);
         mint(aaron, creator_address, 100);

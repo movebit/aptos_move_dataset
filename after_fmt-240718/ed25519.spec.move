@@ -17,8 +17,10 @@ spec aptos_std::ed25519 {
     spec new_validated_public_key_from_bytes(bytes: vector<u8>): Option<ValidatedPublicKey> {
         aborts_if false;
         let cond = spec_public_key_validate_internal(bytes);
-        ensures cond ==> result == option::spec_some(ValidatedPublicKey { bytes });
-        ensures !cond ==> result == option::spec_none<ValidatedPublicKey>();
+        ensures cond ==>
+            result == option::spec_some(ValidatedPublicKey { bytes });
+        ensures !cond ==>
+            result == option::spec_none<ValidatedPublicKey>();
     }
 
     spec new_signature_from_bytes(bytes: vector<u8>): Signature {

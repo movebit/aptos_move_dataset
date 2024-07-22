@@ -34,9 +34,8 @@ module DiemFramework::SharedEd25519PublicKey {
         };
         rotate_key_(&mut t, key);
         assert!(
-            !exists_at(signer::address_of(account)), errors::already_published(
-                ESHARED_KEY
-            )
+            !exists_at(signer::address_of(account)),
+            errors::already_published(ESHARED_KEY),
         );
         move_to(account, t);
     }
@@ -47,7 +46,8 @@ module DiemFramework::SharedEd25519PublicKey {
     }
 
     spec schema PublishAbortsIf {
-        account: signer;key: vector<u8>;
+        account: signer;
+        key: vector<u8>;
         let addr = signer::address_of(account);
         include DiemAccount::ExtractKeyRotationCapabilityAbortsIf;
         include RotateKey_AbortsIf {
@@ -61,7 +61,8 @@ module DiemFramework::SharedEd25519PublicKey {
     }
 
     spec schema PublishEnsures {
-        account: signer;key: vector<u8>;
+        account: signer;
+        key: vector<u8>;
         let addr = signer::address_of(account);
 
         ensures exists_at(addr);

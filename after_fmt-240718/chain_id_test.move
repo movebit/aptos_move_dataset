@@ -13,13 +13,12 @@ module 0x1::chain_id_test {
 
     /// Called when the module is first deployed at address `signer`, which is set to 0x1 (according to the `module 0x1::chain_id_test` line above).
     fun init_module(sender: &signer) {
-        move_to(
-            sender,
-            ChainIdStore { id: 0u8 },
-        );
+        move_to(sender, ChainIdStore { id: 0u8 });
 
         features::change_feature_flags_for_next_epoch(
-            sender, vector[features::get_aptos_stdlib_chain_id_feature()], vector[]
+            sender,
+            vector[features::get_aptos_stdlib_chain_id_feature()],
+            vector[],
         );
         aptos_governance::force_end_epoch(sender);
     }

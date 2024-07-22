@@ -68,9 +68,7 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
     // Calculate the deterministic address of an FA using it's unique name and symbol combination within the
     // "FA Generator" object.
     #[view]
-    public fun get_fa_obj_address(
-        name: String, symbol: String
-    ): address acquires LaunchPad {
+    public fun get_fa_obj_address(name: String, symbol: String): address acquires LaunchPad {
         let launchpad = borrow_global<LaunchPad>(@bonding_curve_launchpad);
         let fa_generator_address =
             object::address_from_extend_ref(&launchpad.fa_generator_extend_ref);
@@ -82,28 +80,21 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
 
     // Retrieve the FA balance of a given user's address.
     #[view]
-    public fun get_balance(
-        name: String, symbol: String, user: address
-    ): u64 acquires LaunchPad {
-        let fa_metadata_obj: Object<Metadata> = object::address_to_object(
-            get_fa_obj_address(name, symbol)
-        );
+    public fun get_balance(name: String, symbol: String, user: address): u64 acquires LaunchPad {
+        let fa_metadata_obj: Object<Metadata> =
+            object::address_to_object(get_fa_obj_address(name, symbol));
         primary_fungible_store::balance(user, fa_metadata_obj)
     }
 
     // Retrieve the Metadata object of a given FA's unique name and symbol.
     #[view]
-    public fun get_metadata(
-        name: String, symbol: String
-    ): Object<Metadata> acquires LaunchPad {
+    public fun get_metadata(name: String, symbol: String): Object<Metadata> acquires LaunchPad {
         object::address_to_object(get_fa_obj_address(name, symbol))
     }
 
     // Retrieve frozen status of a given FA's unique name and symbol, from associated `liquidity_pair` state.
     #[view]
-    public fun get_is_frozen(
-        name: String, symbol: String
-    ): bool {
+    public fun get_is_frozen(name: String, symbol: String): bool {
         liquidity_pairs::get_is_frozen_metadata(name, symbol)
     }
 
@@ -139,7 +130,14 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
     ) acquires LaunchPad, FAController {
         // Create, mint, and control the FA using the signer obtained from the "FA Generator" object.
         let (fa_address, fa_minted) =
-            create_fa(name, symbol, max_supply, decimals, icon_uri, project_uri);
+            create_fa(
+                name,
+                symbol,
+                max_supply,
+                decimals,
+                icon_uri,
+                project_uri,
+            );
         let fa_metadata_obj = object::address_to_object(fa_address);
         // `transfer_ref` is required for swapping in `liquidity_pair`. Otherwise, the custom withdraw function would
         // block the transfer of APT to the creator.
@@ -176,11 +174,21 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
         // Initiate the swap on the associated liquidity pair.
         if (swap_to_apt) {
             liquidity_pairs::swap_fa_to_apt(
-                name, symbol, transfer_ref, account, fa_metadata_obj, amount_in
+                name,
+                symbol,
+                transfer_ref,
+                account,
+                fa_metadata_obj,
+                amount_in,
             );
         } else {
             liquidity_pairs::swap_apt_to_fa(
-                name, symbol, transfer_ref, account, fa_metadata_obj, amount_in
+                name,
+                symbol,
+                transfer_ref,
+                account,
+                fa_metadata_obj,
+                amount_in,
             );
         };
     }
@@ -208,15 +216,13 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
         let fa_key_seed = *string::bytes(&name);
         vector::append(&mut fa_key_seed, b"-");
         vector::append(&mut fa_key_seed, *string::bytes(&symbol));
-        let fa_obj_constructor_ref = &object::create_named_object(
-            &fa_generator_signer, fa_key_seed
-        );
+        let fa_obj_constructor_ref =
+            &object::create_named_object(&fa_generator_signer, fa_key_seed);
         let fa_obj_signer = object::generate_signer(fa_obj_constructor_ref);
         // Create the FA and it's associated capabilities within the `bonding_curve_launchpad` account.
         // Plus, mint the predefined amount of FA to be moved to `liquidity_pairs`.
-        let base_unit_max_supply = option::some(
-            max_supply * math128::pow(10, (decimals as u128))
-        );
+        let base_unit_max_supply =
+            option::some(max_supply * math128::pow(10, (decimals as u128)));
         primary_fungible_store::create_primary_store_enabled_fungible_asset(
             fa_obj_constructor_ref,
             base_unit_max_supply,
@@ -239,9 +245,7 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
         // Store `transfer_ref` for later usage, within the FA's object.
         // `tranfer_ref` will be required to allow the smart contract's modules to ignore the dispatchable
         // withdraw's frozen status for each swap of an FA on `liquidity_pair`.
-        move_to(
-            &fa_obj_signer, FAController { transfer_ref }
-        );
+        move_to(&fa_obj_signer, FAController { transfer_ref });
         event::emit(
             FungibleAssetCreated {
                 name,

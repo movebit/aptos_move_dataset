@@ -201,7 +201,8 @@ spec aptos_framework::resource_account {
             !exists<Container>(source_addr);
         ensures exists<Container>(source_addr) ==>
             !simple_map::spec_contains_key(
-                global<Container>(source_addr).store, resource_addr
+                global<Container>(source_addr).store,
+                resource_addr,
             );
     }
 }

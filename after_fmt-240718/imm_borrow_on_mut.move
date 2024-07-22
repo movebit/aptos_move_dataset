@@ -17,7 +17,7 @@ module 0x8675309::Tester {
         let init = borrow_global_mut<Initializer>(sender);
         p.x = init.x;
         p.y = init.y;
-        if (p.x >= p.y)&mut p.x else&mut p.y
+        if (p.x >= p.y)&mut p.x else &mut p.y
     }
 
     fun bump_and_give(u: &mut u64): &u64 {

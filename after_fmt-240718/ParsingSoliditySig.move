@@ -6,8 +6,7 @@ module 0x2::M {
 
     // No parameter and no return value
     #[callable(sig = b"no_para_return(   )")]
-    fun no_para_return() {
-    }
+    fun no_para_return() {}
 
     // One parameter and one return value
     #[callable(sig = b"$_fun1$   (uint64)returns (int64)")]

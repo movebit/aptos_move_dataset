@@ -256,7 +256,8 @@ module 0x42::VerifyVector {
         aborts_if false;
         ensures result_1 == (exists x in v: x == e); // whether v contains e or not
         ensures result_1 ==> v[result_2] == e; // if true, return the index where v contains e
-        ensures result_1 ==> (forall i in 0..result_2: v[i] != e); // ensure the smallest index
+        ensures result_1 ==>
+            (forall i in 0..result_2: v[i] != e); // ensure the smallest index
         ensures !result_1 ==> result_2 == 0; // return 0 if v does not contain e
     }
 
@@ -277,7 +278,8 @@ module 0x42::VerifyVector {
         aborts_if false;
         ensures result_1 == (exists x in v: x == e); // whether v contains e or not
         ensures result_1 ==> v[result_2] == e; // if true, return the index where v contains e
-        ensures result_1 ==> (forall i in 0..result_2: v[i] != e); // ensure the smallest index
+        ensures result_1 ==>
+            (forall i in 0..result_2: v[i] != e); // ensure the smallest index
         ensures !result_1 ==> result_2 == 0; // return 0 if v does not contain e
     }
 
@@ -289,7 +291,8 @@ module 0x42::VerifyVector {
         aborts_if false;
         ensures result_1 == (exists x in v: x == e); // whether v contains e or not
         ensures result_1 ==> v[result_2] == e; // if true, return the index where v contains e
-        ensures result_1 ==> (forall i in 0..result_2: v[i] != e); // ensure the smallest index
+        ensures result_1 ==>
+            (forall i in 0..result_2: v[i] != e); // ensure the smallest index
         ensures !result_1 ==> result_2 == 0; // return 0 if v does not contain e
     }
 

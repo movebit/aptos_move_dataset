@@ -136,8 +136,8 @@ module OneToOneMarket {
         let input_deposited = deposited_amount<In, Out>(account, pool_owner);
         let output_deposited = borrowed_amount<In, Out>(account, pool_owner);
 
-        let input_into_output = input_deposited
-            * borrow_global<Price<In, Out>>(pool_owner).price;
+        let input_into_output =
+            input_deposited * borrow_global<Price<In, Out>>(pool_owner).price;
         let max_output =
             if (input_into_output < output_deposited) 0
             else (input_into_output - output_deposited);

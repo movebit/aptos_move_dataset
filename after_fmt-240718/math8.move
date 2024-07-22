@@ -156,8 +156,9 @@ module 0x42::math8 {
             else {
                 if (e == 2) { n * n }
                 else {
-                    if (e == 3) { n * n * n }
-                    else {
+                    if (e == 3) {
+                        n * n * n
+                    } else {
                         if (e == 4) {
                             n * n * n * n
                         } else {

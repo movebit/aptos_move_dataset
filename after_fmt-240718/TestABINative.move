@@ -36,7 +36,7 @@ module 0x2::M {
         assert!(encode_packed_string(b"", b"abc") == b"abc", 102);
         assert!(
             encode_packed_string(encode_packed_string(b"a", b"bc"), b"de") == b"abcde",
-            103
+            103,
         );
         assert!(encode_packed_string(b"test", b"") == b"test", 104);
     }

@@ -1,5 +1,4 @@
-module 0x1::M {
-}
+module 0x1::M {}
 
 address 0x2 { module M {
     struct X {}

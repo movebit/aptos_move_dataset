@@ -14,9 +14,7 @@ module 0x1337::reproduce {
     inline fun check_if_space_is_open(space: &Option<u8>) {
         // TODO: Ensure given space is not already marked. If it is, abort with code:
         //          ESpaceAlreadyMarked
-        assert!(
-            option::is_none(space), ESpaceAlreadyMarked
-        );
+        assert!(option::is_none(space), ESpaceAlreadyMarked);
     }
 
     #[test]

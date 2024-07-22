@@ -134,7 +134,8 @@ module std::capability {
             assert!(exists<CapState<Feature>>(root_addr), error::invalid_state(EDELEGATE));
             assert!(
                 vector::contains(
-                    &borrow_global<CapState<Feature>>(root_addr).delegates, &addr
+                    &borrow_global<CapState<Feature>>(root_addr).delegates,
+                    &addr,
                 ),
                 error::invalid_state(EDELEGATE),
             );
@@ -180,7 +181,8 @@ module std::capability {
         if (!exists<CapDelegateState<Feature>>(from)) return;
         let CapDelegateState { root: _root } = move_from<CapDelegateState<Feature>>(from);
         remove_element(
-            &mut borrow_global_mut<CapState<Feature>>(cap.root).delegates, &from
+            &mut borrow_global_mut<CapState<Feature>>(cap.root).delegates,
+            &from,
         );
     }
 

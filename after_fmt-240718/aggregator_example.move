@@ -1,4 +1,3 @@
-
 module 0xABCD::aggregator_example {
     use std::error;
     use std::signer;
@@ -38,9 +37,7 @@ module 0xABCD::aggregator_example {
             ENOT_AUTHORIZED,
         );
 
-        move_to<Counter>(
-            publisher, Counter { count: 0 }
-        );
+        move_to<Counter>(publisher, Counter { count: 0 });
         move_to<CounterAggV2>(
             publisher,
             CounterAggV2 { count: aggregator_v2::create_unbounded_aggregator() },

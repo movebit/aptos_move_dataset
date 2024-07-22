@@ -16,38 +16,50 @@ module 0xdeadbeef::test {
 
     fun test2(): u64 {
         let x = 1;
-        add({
+        add(
+            {
                 x = x + 1;
                 x
-            }, {
+            },
+            {
                 x = x + 1;
                 x
-            }, x)
+            },
+            x,
+        )
     }
 
     fun test3(): u64 {
         let x = 1;
-        add({
+        add(
+            {
                 x = x + 1;
                 x
-            }, x, {
+            },
+            x,
+            {
                 x = x + 1;
                 x
-            })
+            },
+        )
     }
 
     fun test4(): u64 {
         let x = 1;
-        add({
+        add(
+            {
                 x = x + 1;
                 x
-            }, {
+            },
+            {
                 x = x + 1;
                 x
-            }, {
+            },
+            {
                 x = x + 1;
                 x
-            })
+            },
+        )
     }
 }
 

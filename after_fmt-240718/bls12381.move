@@ -168,9 +168,7 @@ module aptos_std::bls12381 {
         : Option<AggrOrMultiSignature> {
         let (bytes, success) = aggregate_signatures_internal(signatures);
         if (success) {
-            option::some(
-                AggrOrMultiSignature { bytes },
-            )
+            option::some(AggrOrMultiSignature { bytes })
         } else {
             option::none<AggrOrMultiSignature>()
         }
@@ -258,8 +256,7 @@ module aptos_std::bls12381 {
         let sigs = vector[];
         let i: u64 = 0;
         while (i < n) {
-            let sig =
-                sign_arbitrary_bytes(std::vector::borrow(signing_keys, i), message);
+            let sig = sign_arbitrary_bytes(std::vector::borrow(signing_keys, i), message);
             std::vector::push_back(&mut sigs, sig);
             i = i + 1;
         };
@@ -283,9 +280,8 @@ module aptos_std::bls12381 {
         while (i < signing_key_count) {
             let sig =
                 sign_arbitrary_bytes(
-                    std::vector::borrow(signing_keys, i), *std::vector::borrow(
-                        messages, i
-                    )
+                    std::vector::borrow(signing_keys, i),
+                    *std::vector::borrow(messages, i),
                 );
             std::vector::push_back(&mut sigs, sig);
             i = i + 1;
@@ -713,7 +709,9 @@ module aptos_std::bls12381 {
 
             assert!(
                 verify_multisignature(
-                    std::vector::borrow(&multisigs, i), &apk, b"Hello, Aptoverse!"
+                    std::vector::borrow(&multisigs, i),
+                    &apk,
+                    b"Hello, Aptoverse!",
                 ),
                 1,
             );
@@ -768,9 +766,8 @@ module aptos_std::bls12381 {
                 std::vector::push_back(&mut signatures, sig);
                 i = i + 1;
             };
-            let aggregated_signature = option::extract(
-                &mut aggregate_signatures(signatures)
-            );
+            let aggregated_signature =
+                option::extract(&mut aggregate_signatures(signatures));
             assert!(aggr_or_multi_signature_subgroup_check(&aggregated_signature), 1);
             assert!(
                 aggr_or_multi_signature_to_bytes(&aggregated_signature)
@@ -945,10 +942,12 @@ module aptos_std::bls12381 {
                 1,
             );
             assert!(
-                !verify_aggregate_signature(&aggrsig, mauled_public_keys, messages), 1
+                !verify_aggregate_signature(&aggrsig, mauled_public_keys, messages),
+                1,
             );
             assert!(
-                !verify_aggregate_signature(&aggrsig, public_keys, mauled_messages), 1
+                !verify_aggregate_signature(&aggrsig, public_keys, mauled_messages),
+                1,
             );
 
             // Also test signature aggregation.
@@ -1040,12 +1039,11 @@ module aptos_std::bls12381 {
 
             let pk = option::extract(&mut public_key_from_bytes(pk));
 
-            let notok =
-                verify_normal_signature(
-                    sig,
-                    &pk,
-                    msg,
-                );
+            let notok = verify_normal_signature(
+                sig,
+                &pk,
+                msg,
+            );
             assert!(notok == false, 1);
 
             let notok =
@@ -1114,7 +1112,8 @@ module aptos_std::bls12381 {
         while (i < std::vector::length(&pks)) {
             let opt_pk =
                 public_key_from_bytes_with_pop(
-                    *std::vector::borrow(&pks, i), std::vector::borrow(&pops, i)
+                    *std::vector::borrow(&pks, i),
+                    std::vector::borrow(&pops, i),
                 );
             assert!(option::is_some(&opt_pk), 1);
 
@@ -1150,7 +1149,7 @@ module aptos_std::bls12381 {
         assert!(option::is_some(&public_key_from_bytes_with_pop(pk_bytes, &pop)), 1);
         assert!(
             option::is_none(
-                &public_key_from_bytes_with_pop(pk_bytes, &maul_proof_of_possession(&pop))
+                &public_key_from_bytes_with_pop(pk_bytes, &maul_proof_of_possession(&pop)),
             ),
             1,
         );

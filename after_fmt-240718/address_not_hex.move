@@ -1,2 +1,1 @@
-address 1 {
-}
+address 1 {}

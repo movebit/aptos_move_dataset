@@ -114,9 +114,7 @@ module CoreFramework::DiemSystem {
     ///////////////////////////////////////////////////////////////////////////
 
     /// Adds a new validator to the validator set.
-    public fun add_validator<T>(
-        validator_addr: address, _cap: Cap<T>
-    ) acquires DiemSystem {
+    public fun add_validator<T>(validator_addr: address, _cap: Cap<T>) acquires DiemSystem {
         DiemTimestamp::assert_operating();
         assert_chain_marker_is_published<T>();
 
@@ -156,9 +154,7 @@ module CoreFramework::DiemSystem {
     }
 
     /// Removes a validator, aborts unless called by diem root account
-    public fun remove_validator<T>(
-        validator_addr: address, _cap: Cap<T>
-    ) acquires DiemSystem {
+    public fun remove_validator<T>(validator_addr: address, _cap: Cap<T>) acquires DiemSystem {
         DiemTimestamp::assert_operating();
         assert_chain_marker_is_published<T>();
 
@@ -237,9 +233,8 @@ module CoreFramework::DiemSystem {
     /// Returns validator config. Aborts if `addr` is not in the validator set.
     public fun get_validator_config(addr: address): ValidatorConfig::Config acquires DiemSystem {
         let diem_system_config = get_diem_system_config();
-        let validator_index_vec = get_validator_index_(
-            &diem_system_config.validators, addr
-        );
+        let validator_index_vec =
+            get_validator_index_(&diem_system_config.validators, addr);
         assert!(
             option::is_some(&validator_index_vec),
             errors::invalid_argument(ENOT_AN_ACTIVE_VALIDATOR),

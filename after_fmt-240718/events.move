@@ -27,9 +27,8 @@ module marketplace::events {
     }
 
     public fun token_metadata_for_tokenv1(token_id: tokenv1::TokenId): TokenMetadata {
-        let (creator_address, collection_name, token_name, property_version) = tokenv1::get_token_id_fields(
-            &token_id
-        );
+        let (creator_address, collection_name, token_name, property_version) =
+            tokenv1::get_token_id_fields(&token_id);
 
         TokenMetadata {
             creator_address,

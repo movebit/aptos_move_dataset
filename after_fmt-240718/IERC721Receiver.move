@@ -9,12 +9,20 @@ module Evm::IERC721Receiver {
 
     #[external]
     public native fun call_onERC721Received(
-        contract: address, operator: address, from: address, tokenId: U256, bytes: vector<u8>
+        contract: address,
+        operator: address,
+        from: address,
+        tokenId: U256,
+        bytes: vector<u8>
     ): vector<u8>;
 
     #[external]
     public native fun try_call_onERC721Received(
-        contract: address, operator: address, from: address, tokenId: U256, bytes: vector<u8>
+        contract: address,
+        operator: address,
+        from: address,
+        tokenId: U256,
+        bytes: vector<u8>
     ): Result<vector<u8>, vector<u8>>;
 
     #[selector]

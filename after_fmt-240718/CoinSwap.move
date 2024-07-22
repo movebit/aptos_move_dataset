@@ -35,7 +35,10 @@ module CoinSwap::CoinSwap {
             !exists<LiquidityPool<CoinType1, CoinType2>>(signer::address_of(coinswap)),
             error::already_exists(EPOOL),
         );
-        move_to(coinswap, LiquidityPool<CoinType1, CoinType2> { coin1, coin2, share });
+        move_to(
+            coinswap,
+            LiquidityPool<CoinType1, CoinType2> { coin1, coin2, share },
+        );
 
         // Transfer the initial liquidity of CoinType1 and CoinType2 to the pool under @CoinSwap.
         BasicCoin::transfer<CoinType1>(
@@ -96,8 +99,7 @@ module CoinSwap::CoinSwap {
         witness1: CoinType1,
         witness2: CoinType2,
     ) acquires LiquidityPool {
-        let pool =
-            borrow_global_mut<LiquidityPool<CoinType1, CoinType2>>(@CoinSwap);
+        let pool = borrow_global_mut<LiquidityPool<CoinType1, CoinType2>>(@CoinSwap);
 
         let coin1_added = coin1;
         let share_minted = (coin1_added * pool.share) / pool.coin1;
@@ -119,8 +121,7 @@ module CoinSwap::CoinSwap {
         witness1: CoinType1,
         witness2: CoinType2,
     ) acquires LiquidityPool {
-        let pool =
-            borrow_global_mut<LiquidityPool<CoinType1, CoinType2>>(@CoinSwap);
+        let pool = borrow_global_mut<LiquidityPool<CoinType1, CoinType2>>(@CoinSwap);
 
         let coin1_removed = (pool.coin1 * share) / pool.share;
         let coin2_removed = (pool.coin2 * share) / pool.share;
@@ -130,10 +131,16 @@ module CoinSwap::CoinSwap {
         pool.share = pool.share - share;
 
         BasicCoin::transfer<CoinType1>(
-            coinswap, signer::address_of(requester), coin1_removed, witness1
+            coinswap,
+            signer::address_of(requester),
+            coin1_removed,
+            witness1,
         );
         BasicCoin::transfer<CoinType2>(
-            coinswap, signer::address_of(requester), coin2_removed, witness2
+            coinswap,
+            signer::address_of(requester),
+            coin2_removed,
+            witness2,
         );
         PoolToken::burn<CoinType1, CoinType2>(signer::address_of(requester), share)
     }

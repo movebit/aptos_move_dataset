@@ -18,13 +18,16 @@ module 0x8675309::M {
         };
         if (z == 1) {
             x = x + 1;
-            foo(freeze(s), {
+            foo(
+                freeze(s),
+                {
                     *({
                             x = x + 1;
                             f
                         }) = 0;
                     1
-                })
+                },
+            )
         } else {
             x = x + 1
         };

@@ -28,19 +28,24 @@ module ExperimentalFramework::VoteTests {
         (voter1, voter1_address, voter2, voter2_address, voter3, voter3_address)
     }
 
-    fun vote_test_helper(
-        dr: &signer, expiration_timestamp_secs: u64,
-    ): (signer, signer, signer, Vote::BallotID, TestProposal) {
-        let (voter1, voter1_address, voter2, voter2_address, voter3, voter3_address) = get_three_voters();
+    fun vote_test_helper(dr: &signer, expiration_timestamp_secs: u64,)
+        : (
+        signer, signer, signer, Vote::BallotID, TestProposal
+    ) {
+        let (voter1, voter1_address, voter2, voter2_address, voter3, voter3_address) =
+            get_three_voters();
         let approvers = vector::empty();
         vector::push_back(
-            &mut approvers, Vote::new_weighted_voter(1, bcs::to_bytes(&voter1_address))
+            &mut approvers,
+            Vote::new_weighted_voter(1, bcs::to_bytes(&voter1_address)),
         );
         vector::push_back(
-            &mut approvers, Vote::new_weighted_voter(1, bcs::to_bytes(&voter2_address))
+            &mut approvers,
+            Vote::new_weighted_voter(1, bcs::to_bytes(&voter2_address)),
         );
         vector::push_back(
-            &mut approvers, Vote::new_weighted_voter(1, bcs::to_bytes(&voter3_address))
+            &mut approvers,
+            Vote::new_weighted_voter(1, bcs::to_bytes(&voter3_address)),
         );
 
         let (proposer, _addr, _addr_bcs) = ballot_setup(dr);
@@ -165,10 +170,12 @@ module ExperimentalFramework::VoteTests {
         let remove_ballots = Vote::gc_test_helper<TestProposal>(addr);
         assert!(vector::length(&remove_ballots) == 2, 0);
         assert!(
-            &vector::pop_back(&mut remove_ballots) == &Vote::new_ballot_id(1, addr), 0
+            &vector::pop_back(&mut remove_ballots) == &Vote::new_ballot_id(1, addr),
+            0,
         );
         assert!(
-            &vector::pop_back(&mut remove_ballots) == &Vote::new_ballot_id(0, addr), 0
+            &vector::pop_back(&mut remove_ballots) == &Vote::new_ballot_id(0, addr),
+            0,
         );
     }
 
@@ -210,27 +217,35 @@ module ExperimentalFramework::VoteTests {
     fun vote_simple(dr: signer) {
         let (voter1, voter2, voter3, ballot_id, proposal) = vote_test_helper(&dr, 10);
         // First vote does not approve the ballot
-        assert!(!Vote::vote(&voter1, *(&ballot_id), b"test_proposal", *(&proposal)),
-            0,);
+        assert!(
+            !Vote::vote(&voter1, *(&ballot_id), b"test_proposal", *(&proposal)),
+            0,
+        );
         // Second vote approves the ballot
-        assert!(Vote::vote(&voter2, *(&ballot_id), b"test_proposal", *(&proposal)),
-            0,);
+        assert!(
+            Vote::vote(&voter2, *(&ballot_id), b"test_proposal", *(&proposal)),
+            0,
+        );
         // Third vote aborts
         Vote::vote(&voter3, *(&ballot_id), b"test_proposal", *(&proposal));
     }
 
     #[test(dr = @CoreResources)]
     fun vote_weighted(dr: signer) {
-        let (voter1, voter1_address, voter2, voter2_address, _voter3, voter3_address) = get_three_voters();
+        let (voter1, voter1_address, voter2, voter2_address, _voter3, voter3_address) =
+            get_three_voters();
         let approvers = vector::empty();
         vector::push_back(
-            &mut approvers, Vote::new_weighted_voter(3, bcs::to_bytes(&voter1_address))
+            &mut approvers,
+            Vote::new_weighted_voter(3, bcs::to_bytes(&voter1_address)),
         );
         vector::push_back(
-            &mut approvers, Vote::new_weighted_voter(4, bcs::to_bytes(&voter2_address))
+            &mut approvers,
+            Vote::new_weighted_voter(4, bcs::to_bytes(&voter2_address)),
         );
         vector::push_back(
-            &mut approvers, Vote::new_weighted_voter(2, bcs::to_bytes(&voter3_address))
+            &mut approvers,
+            Vote::new_weighted_voter(2, bcs::to_bytes(&voter3_address)),
         );
 
         let (proposer, _addr, _addr_bcs) = ballot_setup(&dr);
@@ -246,11 +261,15 @@ module ExperimentalFramework::VoteTests {
             );
 
         // First vote does not approve the ballot
-        assert!(!Vote::vote(&voter1, *(&ballot_id), b"test_proposal", *(&proposal)),
-            0,);
+        assert!(
+            !Vote::vote(&voter1, *(&ballot_id), b"test_proposal", *(&proposal)),
+            0,
+        );
         // Second vote approves the ballot
-        assert!(Vote::vote(&voter2, *(&ballot_id), b"test_proposal", *(&proposal)),
-            0,);
+        assert!(
+            Vote::vote(&voter2, *(&ballot_id), b"test_proposal", *(&proposal)),
+            0,
+        );
     }
 
     #[test(dr = @CoreResources)]
@@ -266,8 +285,10 @@ module ExperimentalFramework::VoteTests {
     fun vote_repeat(dr: signer) {
         let (voter1, _voter2, _voter3, ballot_id, proposal) = vote_test_helper(&dr, 10);
         // First vote does not approve the ballot
-        assert!(!Vote::vote(&voter1, *(&ballot_id), b"test_proposal", *(&proposal)),
-            0,);
+        assert!(
+            !Vote::vote(&voter1, *(&ballot_id), b"test_proposal", *(&proposal)),
+            0,
+        );
         // Cannot vote again
         Vote::vote(&voter1, *(&ballot_id), b"test_proposal", *(&proposal));
     }

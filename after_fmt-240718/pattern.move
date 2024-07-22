@@ -12,10 +12,13 @@ module 0xcafe::m {
 
     /// Lambda with pattern
     fun pattern(s: S<u64>, x: u64): u64 {
-        consume(s, x,
+        consume(
+            s,
+            x,
             |S { x }, _y| {
                 let y = x;
                 x + y
-            })
+            },
+        )
     }
 }

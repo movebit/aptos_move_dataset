@@ -103,9 +103,7 @@ module common_account::common_account {
     }
 
     /// Generate a signer for the common_account if permissions allow.
-    public fun acquire_signer(
-        sender: &signer, common_account: address,
-    ): signer acquires Capability, CommonAccount, Management {
+    public fun acquire_signer(sender: &signer, common_account: address,): signer acquires Capability, CommonAccount, Management {
         let sender_addr = signer::address_of(sender);
         if (!exists<Capability>(sender_addr)) {
             acquire_capability(sender, common_account)
@@ -142,9 +140,7 @@ module common_account::common_account {
     use std::vector;
 
     #[test(alice = @0xa11c3, bob = @0xb0b)]
-    public fun test_end_to_end(
-        alice: &signer, bob: &signer,
-    ) acquires Capability, Management, CommonAccount {
+    public fun test_end_to_end(alice: &signer, bob: &signer,) acquires Capability, Management, CommonAccount {
         let alice_addr = signer::address_of(alice);
         let bob_addr = signer::address_of(bob);
         let common_addr = account::create_resource_address(&alice_addr, vector::empty());
@@ -158,9 +154,7 @@ module common_account::common_account {
 
     #[test(alice = @0xa11c3, bob = @0xb0b)]
     #[expected_failure(abort_code = 0x60001, location = Self)]
-    public fun test_no_account_capability(
-        alice: &signer, bob: &signer,
-    ) acquires Management {
+    public fun test_no_account_capability(alice: &signer, bob: &signer,) acquires Management {
         let alice_addr = signer::address_of(alice);
         let common_addr = account::create_resource_address(&alice_addr, vector::empty());
 
@@ -169,9 +163,7 @@ module common_account::common_account {
 
     #[test(alice = @0xa11c3, bob = @0xb0b)]
     #[expected_failure(abort_code = 0x60001, location = Self)]
-    public fun test_no_account_signer(
-        alice: &signer, bob: &signer,
-    ) acquires Capability, CommonAccount, Management {
+    public fun test_no_account_signer(alice: &signer, bob: &signer,) acquires Capability, CommonAccount, Management {
         let alice_addr = signer::address_of(alice);
         let common_addr = account::create_resource_address(&alice_addr, vector::empty());
 
@@ -180,9 +172,7 @@ module common_account::common_account {
 
     #[test(alice = @0xa11c3, bob = @0xb0b)]
     #[expected_failure(abort_code = 0x60004, location = Self)]
-    public fun test_account_no_capability(
-        alice: &signer, bob: &signer,
-    ) acquires Management {
+    public fun test_account_no_capability(alice: &signer, bob: &signer,) acquires Management {
         let alice_addr = signer::address_of(alice);
         let common_addr = account::create_resource_address(&alice_addr, vector::empty());
 
@@ -192,9 +182,7 @@ module common_account::common_account {
 
     #[test(alice = @0xa11c3, bob = @0xb0b)]
     #[expected_failure(abort_code = 0x60003, location = Self)]
-    public fun test_account_revoke_none(
-        alice: &signer, bob: &signer,
-    ) acquires Capability, Management {
+    public fun test_account_revoke_none(alice: &signer, bob: &signer,) acquires Capability, Management {
         let alice_addr = signer::address_of(alice);
         let bob_addr = signer::address_of(bob);
         let common_addr = account::create_resource_address(&alice_addr, vector::empty());
@@ -218,9 +206,7 @@ module common_account::common_account {
     }
 
     #[test(alice = @0xa11c3, bob = @0xb0b)]
-    public fun test_account_revoke_acl(
-        alice: &signer, bob: &signer,
-    ) acquires Capability, Management {
+    public fun test_account_revoke_acl(alice: &signer, bob: &signer,) acquires Capability, Management {
         let alice_addr = signer::address_of(alice);
         let bob_addr = signer::address_of(bob);
         let common_addr = account::create_resource_address(&alice_addr, vector::empty());
@@ -232,9 +218,7 @@ module common_account::common_account {
 
     #[test(alice = @0xa11c3, bob = @0xb0b)]
     #[expected_failure(abort_code = 0x50005, location = Self)]
-    public fun test_wrong_admin(
-        alice: &signer, bob: &signer,
-    ) acquires Management {
+    public fun test_wrong_admin(alice: &signer, bob: &signer,) acquires Management {
         let alice_addr = signer::address_of(alice);
         let bob_addr = signer::address_of(bob);
         let common_addr = account::create_resource_address(&alice_addr, vector::empty());
@@ -245,14 +229,11 @@ module common_account::common_account {
 
     #[test(alice = @0xa11c3, bob = @0xb0b)]
     #[expected_failure(abort_code = 0x30006, location = Self)]
-    public fun test_wrong_cap(
-        alice: &signer, bob: &signer,
-    ) acquires Capability, Management, CommonAccount {
+    public fun test_wrong_cap(alice: &signer, bob: &signer,) acquires Capability, Management, CommonAccount {
         let alice_addr = signer::address_of(alice);
         let bob_addr = signer::address_of(bob);
-        let alice_common_addr = account::create_resource_address(
-            &alice_addr, vector::empty()
-        );
+        let alice_common_addr =
+            account::create_resource_address(&alice_addr, vector::empty());
         let bob_common_addr = account::create_resource_address(&bob_addr, vector::empty());
 
         create(alice, vector::empty());

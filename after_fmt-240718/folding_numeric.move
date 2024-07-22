@@ -217,7 +217,7 @@ script {
         assert!(BAND4 == 0xFFFFFFFF, 42);
         assert!(
             BAND5 == 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,
-            42
+            42,
         );
 
         assert!(BXOR0 == 0, 42);

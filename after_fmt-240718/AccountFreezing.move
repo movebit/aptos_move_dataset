@@ -83,16 +83,13 @@ module DiemFramework::AccountFreezing {
     }
 
     /// Freeze the account at `addr`.
-    public fun freeze_account(
-        account: &signer, frozen_address: address,
-    ) acquires FreezingBit, FreezeEventsHolder {
+    public fun freeze_account(account: &signer, frozen_address: address,) acquires FreezingBit, FreezeEventsHolder {
         DiemTimestamp::assert_operating();
         Roles::assert_treasury_compliance(account);
         // The diem root account and TC cannot be frozen
         assert!(
-            frozen_address != @DiemRoot, errors::invalid_argument(
-                ECANNOT_FREEZE_DIEM_ROOT
-            )
+            frozen_address != @DiemRoot,
+            errors::invalid_argument(ECANNOT_FREEZE_DIEM_ROOT),
         );
         assert!(
             frozen_address != @TreasuryCompliance,
@@ -135,7 +132,8 @@ module DiemFramework::AccountFreezing {
         DiemTimestamp::assert_operating();
         Roles::assert_treasury_compliance(account);
         assert!(
-            exists<FreezingBit>(unfrozen_address), errors::not_published(EFREEZING_BIT)
+            exists<FreezingBit>(unfrozen_address),
+            errors::not_published(EFREEZING_BIT),
         );
         borrow_global_mut<FreezingBit>(unfrozen_address).is_frozen = false;
         let initiator_address = signer::address_of(account);

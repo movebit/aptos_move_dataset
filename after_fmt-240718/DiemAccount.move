@@ -209,9 +209,7 @@ module DiemFramework::DiemAccount {
         CoreAddresses::assert_diem_root(dr_account);
 
         create_diem_root_account(copy dummy_auth_key_prefix);
-        create_treasury_compliance_account(
-            dr_account, copy dummy_auth_key_prefix
-        );
+        create_treasury_compliance_account(dr_account, copy dummy_auth_key_prefix);
     }
 
     spec initialize {
@@ -309,7 +307,8 @@ module DiemFramework::DiemAccount {
             DualAttestation::assert_payment_ok<Token>(
                 payer,
                 payee,
-                deposit_value, copy metadata,
+                deposit_value,
+                copy metadata,
                 metadata_signature,
             );
         };
@@ -400,12 +399,10 @@ module DiemFramework::DiemAccount {
         ensures balance<Token>(payee) == old(balance<Token>(payee)) + amount;
 
         ensures exists<DiemAccount>(payee);
-        ensures global<DiemAccount>(payee).withdraw_capability == old(
-            global<DiemAccount>(payee).withdraw_capability
-        );
-        ensures global<DiemAccount>(payee).authentication_key == old(
-            global<DiemAccount>(payee).authentication_key
-        );
+        ensures global<DiemAccount>(payee).withdraw_capability
+            == old(global<DiemAccount>(payee).withdraw_capability);
+        ensures global<DiemAccount>(payee).authentication_key
+            == old(global<DiemAccount>(payee).authentication_key);
 
         ensures event::spec_guid_eq(
             global<DiemAccount>(payee).sent_events,
@@ -587,7 +584,8 @@ module DiemFramework::DiemAccount {
         let coin = &mut balance.coin;
         // Abort if this withdrawal would make the `payer`'s balance go negative
         assert!(
-            Diem::value(coin) >= amount, errors::limit_exceeded(EINSUFFICIENT_BALANCE)
+            Diem::value(coin) >= amount,
+            errors::limit_exceeded(EINSUFFICIENT_BALANCE),
         );
         Diem::withdraw(coin, amount)
     }
@@ -670,9 +668,8 @@ module DiemFramework::DiemAccount {
         modifies global<DiemAccount>(payer);
         modifies global<AccountLimits::Window<Token>>(VASP::spec_parent_address(payer));
         ensures exists<DiemAccount>(payer);
-        ensures global<DiemAccount>(payer).withdraw_capability == old(
-            global<DiemAccount>(payer).withdraw_capability
-        );
+        ensures global<DiemAccount>(payer).withdraw_capability
+            == old(global<DiemAccount>(payer).withdraw_capability);
         ensures event::spec_guid_eq(
             global<DiemAccount>(payer).sent_events,
             old(global<DiemAccount>(payer).sent_events),
@@ -736,7 +733,8 @@ module DiemFramework::DiemAccount {
         Roles::assert_designated_dealer(dd);
         DiemTimestamp::assert_operating();
         Diem::preburn_to<Token>(
-            dd, withdraw_from(cap, signer::address_of(dd), amount, x"")
+            dd,
+            withdraw_from(cap, signer::address_of(dd), amount, x""),
         )
     }
 
@@ -747,9 +745,8 @@ module DiemFramework::DiemAccount {
         modifies global<AccountLimits::Window<Token>>(VASP::spec_parent_address(payer));
         modifies global<DiemAccount>(payer);
         ensures exists<DiemAccount>(payer);
-        ensures global<DiemAccount>(payer).withdraw_capability == old(
-            global<DiemAccount>(payer).withdraw_capability
-        );
+        ensures global<DiemAccount>(payer).withdraw_capability
+            == old(global<DiemAccount>(payer).withdraw_capability);
         ensures event::spec_guid_eq(
             global<DiemAccount>(payer).sent_events,
             old(global<DiemAccount>(payer).sent_events),
@@ -943,9 +940,8 @@ module DiemFramework::DiemAccount {
         ensures exists_at(payee);
         ensures exists<Balance<Token>>(payer);
         ensures exists<Balance<Token>>(payee);
-        ensures global<DiemAccount>(payer).withdraw_capability == old(
-            global<DiemAccount>(payer).withdraw_capability
-        );
+        ensures global<DiemAccount>(payer).withdraw_capability
+            == old(global<DiemAccount>(payer).withdraw_capability);
         ensures event::spec_guid_eq(
             global<DiemAccount>(payer).sent_events,
             old(global<DiemAccount>(payer).sent_events),
@@ -973,7 +969,8 @@ module DiemFramework::DiemAccount {
         amount: u64;
         metadata: vector<u8>;
         include DepositAbortsIf<Token> { payer: cap.account_address };
-        include cap.account_address != payee ==> DepositOverflowAbortsIf<Token>;
+        include cap.account_address != payee ==>
+            DepositOverflowAbortsIf<Token>;
         include WithdrawFromAbortsIf<Token>;
     }
 
@@ -1164,9 +1161,7 @@ module DiemFramework::DiemAccount {
     /// Aborts if there is already an account at `new_account_address`.
     ///
     /// Creating an account at address 0x0 will abort as it is a reserved address for the MoveVM.
-    fun make_account(
-        new_account: &signer, auth_key_prefix: vector<u8>,
-    ) acquires AccountOperationsCapability {
+    fun make_account(new_account: &signer, auth_key_prefix: vector<u8>,) acquires AccountOperationsCapability {
         let new_account_addr = signer::address_of(new_account);
         // cannot create an account at the reserved address 0x0
         assert!(
@@ -1202,10 +1197,10 @@ module DiemFramework::DiemAccount {
             DiemAccount {
                 authentication_key,
                 withdraw_capability: option::some(
-                    WithdrawCapability { account_address: new_account_addr },
+                    WithdrawCapability { account_address: new_account_addr }
                 ),
                 key_rotation_capability: option::some(
-                    KeyRotationCapability { account_address: new_account_addr },
+                    KeyRotationCapability { account_address: new_account_addr }
                 ),
                 received_events: event::new_event_handle<ReceivedPaymentEvent>(
                     new_account
@@ -1259,9 +1254,8 @@ module DiemFramework::DiemAccount {
         aborts_if exists<AccountFreezing::FreezingBit>(addr) with errors::ALREADY_PUBLISHED;
         // There is an invariant below that says that there is always an AccountOperationsCapability
         // after Genesis, so this can only abort during Genesis.
-        aborts_if DiemTimestamp::is_genesis() && !exists<AccountOperationsCapability>(
-            @DiemRoot
-        ) with errors::NOT_PUBLISHED;
+        aborts_if DiemTimestamp::is_genesis()
+            && !exists<AccountOperationsCapability>(@DiemRoot) with errors::NOT_PUBLISHED;
         include CreateAuthenticationKeyAbortsIf;
         // We do not need to specify aborts_if if account already exists, because make_account will
         // abort because of a published FreezingBit, first.
@@ -1283,7 +1277,8 @@ module DiemFramework::DiemAccount {
     ): vector<u8> {
         let authentication_key = auth_key_prefix;
         vector::append(
-            &mut authentication_key, bcs::to_bytes(signer::borrow_address(account))
+            &mut authentication_key,
+            bcs::to_bytes(signer::borrow_address(account)),
         );
         /*
         assert!(
@@ -1508,7 +1503,8 @@ module DiemFramework::DiemAccount {
         aborts_if exists<DesignatedDealer::Dealer>(new_account_address) with errors::ALREADY_PUBLISHED;
         include if (add_all_currencies)
             DesignatedDealer::AddCurrencyAbortsIf<XUS> { dd_addr: new_account_address }
-        else DesignatedDealer::AddCurrencyAbortsIf<CoinType> { dd_addr: new_account_address };
+        else
+            DesignatedDealer::AddCurrencyAbortsIf<CoinType> { dd_addr: new_account_address };
         include AddCurrencyForAccountAbortsIf<CoinType> { addr: new_account_address };
         include MakeAccountAbortsIf { addr: new_account_address };
     }
@@ -1595,9 +1591,7 @@ module DiemFramework::DiemAccount {
         Roles::assert_parent_vasp_role(parent);
         let new_account = create_signer(new_account_address);
         Roles::new_child_vasp_role(parent, &new_account);
-        VASP::publish_child_vasp_credential(
-            parent, &new_account
-        );
+        VASP::publish_child_vasp_credential(parent, &new_account);
         make_account(&new_account, auth_key_prefix);
         add_currencies_for_account<Token>(&new_account, add_all_currencies);
     }
@@ -1932,7 +1926,9 @@ module DiemFramework::DiemAccount {
     }
 
     spec writeset_prologue {
-        include WritesetPrologueAbortsIf { txn_expiration_time_seconds: txn_expiration_time };
+        include WritesetPrologueAbortsIf {
+            txn_expiration_time_seconds: txn_expiration_time
+        };
         ensures prologue_guarantees(sender);
         ensures Roles::has_diem_root_role(sender);
     }
@@ -1969,8 +1965,8 @@ module DiemFramework::DiemAccount {
         while ({
                 spec {
                     invariant forall j in 0..i: exists_at(secondary_signer_addresses[j]);
-                    invariant forall j in 0..i: secondary_signer_public_key_hashes[j] == global<
-                        DiemAccount>(secondary_signer_addresses[j]).authentication_key;
+                    invariant forall j in 0..i: secondary_signer_public_key_hashes[j]
+                        == global<DiemAccount>(secondary_signer_addresses[j]).authentication_key;
                 };
                 (i < num_secondary_signers)
             }) {
@@ -1984,9 +1980,8 @@ module DiemFramework::DiemAccount {
             // Check that for each secondary signer, the provided public key hash is equal to the
             // authentication key stored on-chain.
             let signer_account = borrow_global<DiemAccount>(secondary_address);
-            let signer_public_key_hash = *vector::borrow(
-                &secondary_signer_public_key_hashes, i
-            );
+            let signer_public_key_hash =
+                *vector::borrow(&secondary_signer_public_key_hashes, i);
             assert!(
                 signer_public_key_hash == *&signer_account.authentication_key,
                 errors::invalid_argument(PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY),
@@ -2093,12 +2088,14 @@ module DiemFramework::DiemAccount {
 
         // [PCA1]: Check that the chain ID stored on-chain matches the chain ID specified by the transaction
         assert!(
-            ChainId::get() == chain_id, errors::invalid_argument(PROLOGUE_EBAD_CHAIN_ID)
+            ChainId::get() == chain_id,
+            errors::invalid_argument(PROLOGUE_EBAD_CHAIN_ID),
         );
 
         // [PCA2]: Verify that the transaction sender's account exists
         assert!(
-            exists_at(transaction_sender), errors::invalid_argument(PROLOGUE_EACCOUNT_DNE)
+            exists_at(transaction_sender),
+            errors::invalid_argument(PROLOGUE_EACCOUNT_DNE),
         );
 
         // [PCA3]: We check whether this account is frozen, if it is no transaction can be sent from it.
@@ -2451,7 +2448,8 @@ module DiemFramework::DiemAccount {
             committed_timestamp_secs: DiemTimestamp::spec_now_seconds()
         };
         emits msg to handle;
-        include should_trigger_reconfiguration ==> DiemConfig::ReconfigureEmits;
+        include should_trigger_reconfiguration ==>
+            DiemConfig::ReconfigureEmits;
     }
 
     /// Create a Validator account
@@ -2577,7 +2575,7 @@ module DiemFramework::DiemAccount {
         /// The absence of KeyRotationCap is preserved.
         ensures forall addr: address: old(
             !exists<DiemAccount>(addr)
-            || !spec_has_key_rotation_cap(addr)
+            || !spec_has_key_rotation_cap(addr),
         ) ==>
             (!exists<DiemAccount>(addr)
                 || !spec_has_key_rotation_cap(addr));
@@ -2696,7 +2694,7 @@ module DiemFramework::DiemAccount {
         /// An account has a WriteSetManager iff if it is Diem root
         invariant [suspendable] forall addr: address: exists<DiemWriteSetManager>(addr) <==>
 
-            (addr == @DiemRoot && exists_at(addr));
+        (addr == @DiemRoot && exists_at(addr));
 
         /// There is a VASPDomainManager at an address iff the address is a diem treasury compliance account
         invariant [suspendable] forall addr: address: exists<VASPDomain::VASPDomainManager>(
@@ -2734,22 +2732,21 @@ module DiemFramework::DiemAccount {
             addr
         ) <==>
             (
-                Roles::spec_has_designated_dealer_role_addr(addr) || Roles::spec_has_parent_VASP_role_addr(
-                    addr
-                )
+                Roles::spec_has_designated_dealer_role_addr(addr)
+                    || Roles::spec_has_parent_VASP_role_addr(addr)
             );
 
         /// An address has an account iff there is a published FreezingBit struct
-        invariant [suspendable] forall addr: address: exists_at(addr) <==> exists<
-            AccountFreezing::FreezingBit>(addr);
+        invariant [suspendable] forall addr: address: exists_at(addr) <==>
+            exists<AccountFreezing::FreezingBit>(addr);
 
         // This invariant is redundant with the previous invariant, but weaker.
         // But it holds throughout make_account, and is useful to prove that the
         // "move_to" that publishes the account will never abort.
         // TODO: This is too clever.  Should modify code to an assert or requires at
         // beginning of make_account that account does not already exist.
-        invariant [suspendable] forall addr: address: exists_at(addr) ==> exists<
-            AccountFreezing::FreezingBit>(addr);
+        invariant [suspendable] forall addr: address: exists_at(addr) ==>
+            exists<AccountFreezing::FreezingBit>(addr);
 
         /// Balances can only be published at addresses where an account exists
         /// >TODO: I think this is redundant with previous invariants. exists_at <==> Role, and
@@ -2770,7 +2767,7 @@ module DiemFramework::DiemAccount {
         /// Address has a ValidatorConfig iff it is a Validator address
         invariant [suspendable] forall addr: address: ValidatorConfig::exists_config(addr) <==>
 
-            Roles::spec_has_validator_role_addr(addr);
+        Roles::spec_has_validator_role_addr(addr);
 
         /// Address has a ValidatorOperatorConfig iff it is a ValidatorOperator address
         invariant [suspendable] forall addr: address: ValidatorOperatorConfig::has_validator_operator_config(
@@ -2810,8 +2807,8 @@ module DiemFramework::DiemAccount {
         /// Returns true if the DiemAccount at `addr` holds
         /// `KeyRotationCapability` for itself.
         fun spec_holds_own_key_rotation_cap(addr: address): bool {
-            spec_has_key_rotation_cap(addr) && addr
-                == spec_get_key_rotation_cap(addr).account_address
+            spec_has_key_rotation_cap(addr)
+                && addr == spec_get_key_rotation_cap(addr).account_address
         }
 
         /// Returns true if `AccountOperationsCapability` is published.
@@ -2836,8 +2833,8 @@ module DiemFramework::DiemAccount {
 
         /// Returns true if the DiemAccount at `addr` holds `WithdrawCapability` for itself.
         fun spec_holds_own_withdraw_cap(addr: address): bool {
-            spec_has_withdraw_cap(addr) && addr
-                == spec_get_withdraw_cap(addr).account_address
+            spec_has_withdraw_cap(addr)
+                && addr == spec_get_withdraw_cap(addr).account_address
         }
 
         /// Returns true of the account holds a delegated withdraw capability.

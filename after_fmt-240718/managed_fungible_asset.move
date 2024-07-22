@@ -157,11 +157,13 @@ module example_addr::managed_fungible_asset {
             to,
             |addr| primary_fungible_store::ensure_primary_store_exists(addr, asset),
         );
-        transfer(admin,
+        transfer(
+            admin,
             asset,
             sender_primary_stores,
             receiver_primary_stores,
-            amounts,);
+            amounts,
+        );
     }
 
     /// Transfer as the owner of metadata object ignoring `frozen` field between fungible stores.
@@ -427,7 +429,10 @@ module example_addr::managed_fungible_asset {
         assert!(primary_fungible_store::balance(aaron_address, metadata) == 50, 2);
 
         set_primary_stores_frozen_status(
-            creator, metadata, vector[creator_address, aaron_address], true
+            creator,
+            metadata,
+            vector[creator_address, aaron_address],
+            true,
         );
         assert!(primary_fungible_store::is_frozen(creator_address, metadata), 3);
         assert!(primary_fungible_store::is_frozen(aaron_address, metadata), 4);
@@ -443,7 +448,10 @@ module example_addr::managed_fungible_asset {
         assert!(primary_fungible_store::balance(aaron_address, metadata) == 55, 6);
 
         set_primary_stores_frozen_status(
-            creator, metadata, vector[creator_address, aaron_address], false
+            creator,
+            metadata,
+            vector[creator_address, aaron_address],
+            false,
         );
         assert!(!primary_fungible_store::is_frozen(creator_address, metadata), 7);
         assert!(!primary_fungible_store::is_frozen(aaron_address, metadata), 8);
@@ -476,9 +484,7 @@ module example_addr::managed_fungible_asset {
 
     #[test(creator = @example_addr, aaron = @0xface)]
     #[expected_failure(abort_code = 0x50001, location = Self)]
-    fun test_permission_denied(
-        creator: &signer, aaron: &signer
-    ) acquires ManagingRefs {
+    fun test_permission_denied(creator: &signer, aaron: &signer) acquires ManagingRefs {
         let metadata = create_test_mfa(creator);
         let creator_address = signer::address_of(creator);
         mint_to_primary_stores(aaron, metadata, vector[creator_address], vector[100]);

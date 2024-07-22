@@ -39,9 +39,8 @@ module 0x1::resource_groups_test {
     }
 
     public entry fun init_signer(main_account: &signer, seed: vector<u8>) {
-        let (_resource_account_signer, signer_cap) = account::create_resource_account(
-            main_account, seed
-        );
+        let (_resource_account_signer, signer_cap) =
+            account::create_resource_account(main_account, seed);
         let main_resource = MainResource { signer_cap, };
         move_to<MainResource>(main_account, main_resource);
     }
@@ -50,8 +49,7 @@ module 0x1::resource_groups_test {
         main_account: address, index: u32, name: String, value: u32
     ) acquires MainResource, MyResource1, MyResource2, MyResource3, MyResource4 {
         let main_resource = borrow_global_mut<MainResource>(main_account);
-        let owner =
-            account::create_signer_with_capability(&main_resource.signer_cap);
+        let owner = account::create_signer_with_capability(&main_resource.signer_cap);
         let owner_address = signer::address_of(&owner);
 
         if (index == 1) {
@@ -167,8 +165,7 @@ module 0x1::resource_groups_test {
 
     public entry fun read_or_init(main_account: address, index: u32) acquires MainResource, MyResource1, MyResource2, MyResource3, MyResource4 {
         let main_resource = borrow_global_mut<MainResource>(main_account);
-        let owner =
-            account::create_signer_with_capability(&main_resource.signer_cap);
+        let owner = account::create_signer_with_capability(&main_resource.signer_cap);
         let owner_address = signer::address_of(&owner);
 
         if (index == 1) {

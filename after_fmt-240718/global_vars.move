@@ -38,9 +38,9 @@ module 0x42::TestGlobalVars {
         bor.i = bor.i + b;
         spec {
             update sum_table = table::spec_set(
-                sum_table, signer::address_of(s), table::spec_get(
-                    sum_table, signer::address_of(s)
-                ) + b
+                sum_table,
+                signer::address_of(s),
+                table::spec_get(sum_table, signer::address_of(s)) + b
             );
         };
     }
@@ -55,9 +55,9 @@ module 0x42::TestGlobalVars {
         bor.i = bor.i - 1;
         spec {
             update sum_table = table::spec_set(
-                sum_table, signer::address_of(s), table::spec_get(
-                    sum_table, signer::address_of(s)
-                ) - 1
+                sum_table,
+                signer::address_of(s),
+                table::spec_get(sum_table, signer::address_of(s)) - 1
             );
         };
     }

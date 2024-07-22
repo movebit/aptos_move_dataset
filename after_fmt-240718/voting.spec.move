@@ -247,9 +247,8 @@ spec aptos_framework::voting {
         aborts_if timestamp::spec_now_seconds()
             <= from_bcs::deserialize<u64>(
                 simple_map::spec_get(
-                    proposal.metadata, std::string::spec_utf8(
-                        RESOLVABLE_TIME_METADATA_KEY
-                    )
+                    proposal.metadata,
+                    std::string::spec_utf8(RESOLVABLE_TIME_METADATA_KEY),
                 ),
             );
         aborts_if transaction_context::spec_get_script_hash() != proposal.execution_hash;
@@ -394,9 +393,8 @@ spec aptos_framework::voting {
 
     spec fun spec_can_be_resolved_early<ProposalType: store>(proposal: Proposal<ProposalType>): bool {
         if (option::spec_is_some(proposal.early_resolution_vote_threshold)) {
-            let early_resolution_threshold = option::spec_borrow(
-                proposal.early_resolution_vote_threshold
-            );
+            let early_resolution_threshold =
+                option::spec_borrow(proposal.early_resolution_vote_threshold);
             if (proposal.yes_votes >= early_resolution_threshold
                     || proposal.no_votes >= early_resolution_threshold) { true }
             else { false }

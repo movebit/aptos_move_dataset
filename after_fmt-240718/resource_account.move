@@ -88,9 +88,8 @@ module aptos_framework::resource_account {
         seed: vector<u8>,
         optional_auth_key: vector<u8>,
     ) acquires Container {
-        let (resource, resource_signer_cap) = account::create_resource_account(
-            origin, seed
-        );
+        let (resource, resource_signer_cap) =
+            account::create_resource_account(origin, seed);
         rotate_account_authentication_key_and_store_capability(
             origin,
             resource,
@@ -110,9 +109,8 @@ module aptos_framework::resource_account {
         optional_auth_key: vector<u8>,
         fund_amount: u64,
     ) acquires Container {
-        let (resource, resource_signer_cap) = account::create_resource_account(
-            origin, seed
-        );
+        let (resource, resource_signer_cap) =
+            account::create_resource_account(origin, seed);
         coin::register<AptosCoin>(&resource);
         coin::transfer<AptosCoin>(origin, signer::address_of(&resource), fund_amount);
         rotate_account_authentication_key_and_store_capability(
@@ -131,9 +129,8 @@ module aptos_framework::resource_account {
         metadata_serialized: vector<u8>,
         code: vector<vector<u8>>,
     ) acquires Container {
-        let (resource, resource_signer_cap) = account::create_resource_account(
-            origin, seed
-        );
+        let (resource, resource_signer_cap) =
+            account::create_resource_account(origin, seed);
         aptos_framework::code::publish_package_txn(&resource, metadata_serialized, code);
         rotate_account_authentication_key_and_store_capability(
             origin,
@@ -174,7 +171,8 @@ module aptos_framework::resource_account {
         resource: &signer, source_addr: address,
     ): account::SignerCapability acquires Container {
         assert!(
-            exists<Container>(source_addr), error::not_found(ECONTAINER_NOT_PUBLISHED)
+            exists<Container>(source_addr),
+            error::not_found(ECONTAINER_NOT_PUBLISHED),
         );
 
         let resource_addr = signer::address_of(resource);
@@ -184,9 +182,8 @@ module aptos_framework::resource_account {
                 simple_map::contains_key(&container.store, &resource_addr),
                 error::invalid_argument(EUNAUTHORIZED_NOT_OWNER),
             );
-            let (_resource_addr, signer_cap) = simple_map::remove(
-                &mut container.store, &resource_addr
-            );
+            let (_resource_addr, signer_cap) =
+                simple_map::remove(&mut container.store, &resource_addr);
             (signer_cap, simple_map::length(&container.store) == 0)
         };
 

@@ -403,7 +403,10 @@ spec aptos_framework::staking_contract {
     }
 
     spec create_stake_pool(
-        staker: &signer, operator: address, voter: address, contract_creation_seed: vector<u8>,
+        staker: &signer,
+        operator: address,
+        voter: address,
+        contract_creation_seed: vector<u8>,
     ): (signer, SignerCapability, OwnerCapability) {
         pragma verify_duration_estimate = 120;
         include stake::ResourceRequirement;
@@ -412,7 +415,8 @@ spec aptos_framework::staking_contract {
 
         let seed_0 = bcs::to_bytes(staker_address);
         let seed_1 = concat(
-            concat(concat(seed_0, bcs::to_bytes(operator)), SALT), contract_creation_seed
+            concat(concat(seed_0, bcs::to_bytes(operator)), SALT),
+            contract_creation_seed,
         );
         let resource_addr = account::spec_create_resource_address(staker_address, seed_1);
         include CreateStakePoolAbortsIf { resource_addr };
@@ -429,8 +433,10 @@ spec aptos_framework::staking_contract {
         let post post_stake_pool = global<stake::StakePool>(post_pool_address);
         let post post_operator = post_stake_pool.operator_address;
         let post post_delegated_voter = post_stake_pool.delegated_voter;
-        ensures resource_addr != operator ==> post_operator == operator;
-        ensures resource_addr != voter ==> post_delegated_voter == voter;
+        ensures resource_addr != operator ==>
+            post_operator == operator;
+        ensures resource_addr != voter ==>
+            post_delegated_voter == voter;
         ensures signer::address_of(result_1) == resource_addr;
         ensures result_2 == SignerCapability { account: resource_addr };
         ensures result_3 == OwnerCapability { pool_address: resource_addr };
@@ -565,9 +571,8 @@ spec aptos_framework::staking_contract {
 
         let staker_address = signer::address_of(staker);
         let account = global<account::Account>(staker_address);
-        aborts_if !exists<Store>(staker_address) && !exists<account::Account>(
-            staker_address
-        );
+        aborts_if !exists<Store>(staker_address)
+            && !exists<account::Account>(staker_address);
         aborts_if !exists<Store>(staker_address)
             && account.guid_creation_num + 9 >= account::MAX_GUID_CREATION_NUM;
         /// [high-level-req-1]
@@ -598,7 +603,8 @@ spec aptos_framework::staking_contract {
     spec schema PreconditionsInCreateContract {
         requires exists<stake::ValidatorPerformance>(@aptos_framework);
         requires exists<stake::ValidatorSet>(@aptos_framework);
-        requires exists<staking_config::StakingRewardsConfig>(@aptos_framework) || !std::features::spec_periodical_reward_rate_decrease_enabled();
+        requires exists<staking_config::StakingRewardsConfig>(@aptos_framework)
+            || !std::features::spec_periodical_reward_rate_decrease_enabled();
         requires exists<stake::ValidatorFees>(@aptos_framework);
         requires exists<aptos_framework::timestamp::CurrentTimeMicroseconds>(
             @aptos_framework
@@ -615,9 +621,7 @@ spec aptos_framework::staking_contract {
         // postconditions account::create_resource_account()
         let acc = global<account::Account>(resource_addr);
         aborts_if exists<account::Account>(resource_addr)
-            && (
-                len(acc.signer_capability_offer.for.vec) != 0 || acc.sequence_number != 0
-            );
+            && (len(acc.signer_capability_offer.for.vec) != 0 || acc.sequence_number != 0);
         aborts_if !exists<account::Account>(resource_addr)
             && len(bcs::to_bytes(resource_addr)) != 32;
         aborts_if len(account::ZERO_AUTH_KEY) != 32;

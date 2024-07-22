@@ -34,8 +34,7 @@ module aptos_std::math_fixed64 {
 
     public fun ln_plus_32ln2(x: FixedPoint64): FixedPoint64 {
         let raw_value = fixed_point64::get_raw_value(x);
-        let x =
-            (fixed_point64::get_raw_value(math128::log2_64(raw_value)) as u256);
+        let x = (fixed_point64::get_raw_value(math128::log2_64(raw_value)) as u256);
         fixed_point64::create_from_raw_value(((x * LN2) >> 64 as u128))
     }
 
@@ -105,7 +104,9 @@ module aptos_std::math_fixed64 {
 
         let result = sqrt(fixed_point64::create_from_u128(2));
         assert_approx_the_same(
-            (fixed_point64::get_raw_value(result) as u256), 26087635650665564424, 16
+            (fixed_point64::get_raw_value(result) as u256),
+            26087635650665564424,
+            16,
         );
     }
 

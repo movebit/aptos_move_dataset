@@ -10,8 +10,10 @@ module Evm::Result {
 
     spec Result {
         /// `Result` cannot contain both a value and an error value.
-        invariant option::is_some(value) ==> option::is_none(error);
-        invariant option::is_some(error) ==> option::is_none(value);
+        invariant option::is_some(value) ==>
+            option::is_none(error);
+        invariant option::is_some(error) ==>
+            option::is_none(value);
     }
 
     /// Return a Result containing `value`.

@@ -7,14 +7,13 @@ module 0x42::Test {
         // function call return type. This is clearly an erroneous state, but is
         // okay because we have previously marked the spec fucntion translation
         // as failure and subsequent errors can be ignored.
-        let addr =
-            if (cond) {
-                dummy(0);
-                @0x1
-            } else {
-                dummy(42);
-                @0x2
-            };
+        let addr = if (cond) {
+            dummy(0);
+            @0x1
+        } else {
+            dummy(42);
+            @0x2
+        };
         bar(addr);
     }
 

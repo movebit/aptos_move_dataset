@@ -69,7 +69,11 @@ module Evm::ERC1155Tests {
         );
         ERC1155::safeTransferFrom(sender(), Bob, id1, u256_from_u128(50), copy dummy_data);
         ERC1155::safeTransferFrom(
-            sender(), Alice, id2, u256_from_u128(300), copy dummy_data
+            sender(),
+            Alice,
+            id2,
+            u256_from_u128(300),
+            copy dummy_data,
         );
         ERC1155::safeTransferFrom(
             sender(), Bob, id2, u256_from_u128(200), copy dummy_data

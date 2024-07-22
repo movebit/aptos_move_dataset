@@ -126,9 +126,8 @@ module 0x42::SmokeTest {
     }
 
     fun ref_A(a: address, b: bool): A {
-        let var_a =
-            if (b) A { addr: a, val: 1 }
-            else A { addr: a, val: 42 };
+        let var_a = if (b) A { addr: a, val: 1 }
+        else A { addr: a, val: 42 };
         let var_a_ref = &var_a;
         let b_val_ref = &var_a_ref.val;
         let b_var = *b_val_ref;

@@ -40,13 +40,21 @@ spec aptos_std::string_utils {
     }
 
     spec native_format<T>(
-        s: &T, type_tag: bool, canonicalize: bool, single_line: bool, include_int_types: bool
+        s: &T,
+        type_tag: bool,
+        canonicalize: bool,
+        single_line: bool,
+        include_int_types: bool
     ): String {
         pragma opaque;
         aborts_if false;
         ensures result
             == spec_native_format(
-                s, type_tag, canonicalize, single_line, include_int_types
+                s,
+                type_tag,
+                canonicalize,
+                single_line,
+                include_int_types,
             );
     }
 
@@ -57,7 +65,11 @@ spec aptos_std::string_utils {
     }
 
     spec fun spec_native_format<T>(
-        s: T, type_tag: bool, canonicalize: bool, single_line: bool, include_int_types: bool
+        s: T,
+        type_tag: bool,
+        canonicalize: bool,
+        single_line: bool,
+        include_int_types: bool
     ): String;
 
     spec fun spec_native_format_list<T>(fmt: vector<u8>, val: T): String;

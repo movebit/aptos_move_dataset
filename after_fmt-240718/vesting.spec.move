@@ -230,8 +230,8 @@ spec aptos_framework::vesting {
         let pool = vesting_contract.grant_pool;
         let shares = pool_u64::spec_shares(pool, shareholder);
         aborts_if pool.total_coins > 0
-            && pool.total_shares > 0 && (shares * total_accumulated_rewards)
-            / pool.total_shares > MAX_U64;
+            && pool.total_shares > 0
+            && (shares * total_accumulated_rewards) / pool.total_shares > MAX_U64;
 
         ensures result
             == pool_u64::spec_shares_to_amount_with_total_coins(
@@ -341,10 +341,11 @@ spec aptos_framework::vesting {
         requires forall i in 0..len(contract_addresses): simple_map::spec_get(
             global<staking_contract::Store>(contract_addresses[i]).staking_contracts,
             global<VestingContract>(contract_addresses[i]).staking.operator,
-        ).commission_percentage >= 0 && simple_map::spec_get(
-            global<staking_contract::Store>(contract_addresses[i]).staking_contracts,
-            global<VestingContract>(contract_addresses[i]).staking.operator,
-        ).commission_percentage <= 100;
+        ).commission_percentage >= 0
+            && simple_map::spec_get(
+                global<staking_contract::Store>(contract_addresses[i]).staking_contracts,
+                global<VestingContract>(contract_addresses[i]).staking.operator,
+            ).commission_percentage <= 100;
     }
 
     spec distribute(contract_address: address) {
@@ -660,16 +661,16 @@ spec aptos_framework::vesting {
         aborts_if !exists<stake::ValidatorSet>(@aptos_framework);
         let validator_set = global<stake::ValidatorSet>(@aptos_framework);
         let inactive_state = !stake::spec_contains(
-            validator_set.pending_active, pool_address_1
-        ) && !stake::spec_contains(validator_set.active_validators, pool_address_1) && !stake::spec_contains(
-            validator_set.pending_inactive, pool_address_1
-        );
+                validator_set.pending_active, pool_address_1
+            )
+            && !stake::spec_contains(validator_set.active_validators, pool_address_1)
+            && !stake::spec_contains(validator_set.pending_inactive, pool_address_1);
         let inactive_1 = stake_pool_1.inactive.value;
         let pending_inactive_1 = stake_pool_1.pending_inactive.value;
         let new_inactive_1 = inactive_1 + pending_inactive_1;
         aborts_if inactive_state
-            && timestamp::spec_now_seconds() >= stake_pool_1.locked_until_secs && inactive_1
-            + pending_inactive_1 > MAX_U64;
+            && timestamp::spec_now_seconds() >= stake_pool_1.locked_until_secs
+            && inactive_1 + pending_inactive_1 > MAX_U64;
     }
 
     spec get_beneficiary(contract: &VestingContract, shareholder: address): address {

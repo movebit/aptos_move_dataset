@@ -47,7 +47,8 @@ module 0x42::Faucet {
 
         // Limit withdrawal amount
         assert!(
-            U256::le(copy amount, U256::u256_from_u128(100)), errors::invalid_argument(0)
+            U256::le(copy amount, U256::u256_from_u128(100)),
+            errors::invalid_argument(0),
         );
 
         // Funds must be available.

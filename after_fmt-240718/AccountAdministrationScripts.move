@@ -208,9 +208,8 @@ module DiemFramework::AccountAdministrationScripts {
     public entry fun rotate_authentication_key(
         account: signer, new_key: vector<u8>
     ) {
-        let key_rotation_capability = DiemAccount::extract_key_rotation_capability(
-            &account
-        );
+        let key_rotation_capability =
+            DiemAccount::extract_key_rotation_capability(&account);
         DiemAccount::rotate_authentication_key(&key_rotation_capability, new_key);
         DiemAccount::restore_key_rotation_capability(key_rotation_capability);
     }
@@ -279,9 +278,8 @@ module DiemFramework::AccountAdministrationScripts {
         account: signer, sliding_nonce: u64, new_key: vector<u8>
     ) {
         SlidingNonce::record_nonce_or_abort(&account, sliding_nonce);
-        let key_rotation_capability = DiemAccount::extract_key_rotation_capability(
-            &account
-        );
+        let key_rotation_capability =
+            DiemAccount::extract_key_rotation_capability(&account);
         DiemAccount::rotate_authentication_key(&key_rotation_capability, new_key);
         DiemAccount::restore_key_rotation_capability(key_rotation_capability);
     }
@@ -351,9 +349,8 @@ module DiemFramework::AccountAdministrationScripts {
         dr_account: signer, account: signer, sliding_nonce: u64, new_key: vector<u8>
     ) {
         SlidingNonce::record_nonce_or_abort(&dr_account, sliding_nonce);
-        let key_rotation_capability = DiemAccount::extract_key_rotation_capability(
-            &account
-        );
+        let key_rotation_capability =
+            DiemAccount::extract_key_rotation_capability(&account);
         DiemAccount::rotate_authentication_key(&key_rotation_capability, new_key);
         DiemAccount::restore_key_rotation_capability(key_rotation_capability);
     }

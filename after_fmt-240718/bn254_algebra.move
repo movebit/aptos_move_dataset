@@ -280,7 +280,7 @@ module std::bn254_algebra {
         let val_minus_7 = neg(&val_7);
         assert!(
             FQ12_VAL_7_NEG_SERIALIZED == serialize<Fq12, FormatFq12LscLsb>(&val_minus_7),
-            1
+            1,
         );
 
         // Addition.
@@ -310,7 +310,8 @@ module std::bn254_algebra {
 
         // Downcasting.
         assert!(
-            eq(&zero<Gt>(), &std::option::extract(&mut downcast<Fq12, Gt>(&val_1))), 1
+            eq(&zero<Gt>(), &std::option::extract(&mut downcast<Fq12, Gt>(&val_1))),
+            1,
         );
         // upcasting
         assert!(eq(&val_1, &upcast<Gt, Fq12>(&zero<Gt>())), 1);
@@ -347,10 +348,11 @@ module std::bn254_algebra {
         // Serialization/deserialization.
         assert!(
             G1_GENERATOR_SERIALIZED_UNCOMP == serialize<G1, FormatG1Uncompr>(&generator),
-            1
+            1,
         );
         assert!(
-            G1_GENERATOR_SERIALIZED_COMP == serialize<G1, FormatG1Compr>(&generator), 1
+            G1_GENERATOR_SERIALIZED_COMP == serialize<G1, FormatG1Compr>(&generator),
+            1,
         );
         let generator_from_comp =
             std::option::extract(
@@ -388,7 +390,8 @@ module std::bn254_algebra {
             1,
         );
         assert!(
-            G1_INF_SERIALIZED_COMP == serialize<G1, FormatG1Compr>(&point_at_infinity), 1
+            G1_INF_SERIALIZED_COMP == serialize<G1, FormatG1Compr>(&point_at_infinity),
+            1,
         );
         let inf_from_uncomp =
             std::option::extract(
@@ -573,15 +576,16 @@ module std::bn254_algebra {
 
         // Serialization/deserialization.
         assert!(
-            G2_GENERATOR_SERIALIZED_COMP == serialize<G2, FormatG2Compr>(&generator), 1
+            G2_GENERATOR_SERIALIZED_COMP == serialize<G2, FormatG2Compr>(&generator),
+            1,
         );
         assert!(
             G2_GENERATOR_SERIALIZED_UNCOMP == serialize<G2, FormatG2Uncompr>(&generator),
-            1
+            1,
         );
         let generator_from_uncomp =
             std::option::extract(
-                &mut deserialize<G2, FormatG2Uncompr>(&G2_GENERATOR_SERIALIZED_UNCOMP),
+                &mut deserialize<G2, FormatG2Uncompr>(&G2_GENERATOR_SERIALIZED_UNCOMP)
             );
         let generator_from_comp =
             std::option::extract(
@@ -594,7 +598,8 @@ module std::bn254_algebra {
             1,
         );
         assert!(
-            G2_INF_SERIALIZED_COMP == serialize<G2, FormatG2Compr>(&point_at_infinity), 1
+            G2_INF_SERIALIZED_COMP == serialize<G2, FormatG2Compr>(&point_at_infinity),
+            1,
         );
         let inf_from_uncomp =
             std::option::extract(
@@ -771,7 +776,9 @@ module std::bn254_algebra {
         // Serialization/deserialization.
         assert!(GT_GENERATOR_SERIALIZED == serialize<Gt, FormatGt>(&generator), 1);
         let generator_from_deser =
-            std::option::extract(&mut deserialize<Gt, FormatGt>(&GT_GENERATOR_SERIALIZED));
+            std::option::extract(
+                &mut deserialize<Gt, FormatGt>(&GT_GENERATOR_SERIALIZED)
+            );
         assert!(eq(&generator, &generator_from_deser), 1);
         assert!(FQ12_ONE_SERIALIZED == serialize<Gt, FormatGt>(&identity), 1);
         let identity_from_deser =
@@ -904,7 +911,7 @@ module std::bn254_algebra {
         assert!(
             std::option::is_none(
                 &deserialize<Fr, FormatFrLsb>(
-                    &x"01000000fffffffffe5bfeff02a4bd5305d8a10908d83933487d9d2953a7ed73"
+                    &x"01000000fffffffffe5bfeff02a4bd5305d8a10908d83933487d9d2953a7ed73",
                 ),
             ),
             1,
@@ -912,7 +919,7 @@ module std::bn254_algebra {
         assert!(
             std::option::is_none(
                 &deserialize<Fr, FormatFrMsb>(
-                    &x"73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001"
+                    &x"73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001",
                 ),
             ),
             1,
@@ -922,7 +929,7 @@ module std::bn254_algebra {
         assert!(
             std::option::is_none(
                 &deserialize<Fr, FormatFrLsb>(
-                    &x"01000000fffffffffe5bfeff02a4bd5305d8a10908d83933487d9d2953a7ed7300"
+                    &x"01000000fffffffffe5bfeff02a4bd5305d8a10908d83933487d9d2953a7ed7300",
                 ),
             ),
             1,
@@ -930,7 +937,7 @@ module std::bn254_algebra {
         assert!(
             std::option::is_none(
                 &deserialize<Fr, FormatFrMsb>(
-                    &x"0073eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001"
+                    &x"0073eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001",
                 ),
             ),
             1,
@@ -941,7 +948,8 @@ module std::bn254_algebra {
         // Negation.
         let val_minus_7 = neg(&val_7);
         assert!(
-            FR_VAL_7_NEG_SERIALIZED_LSB == serialize<Fr, FormatFrLsb>(&val_minus_7), 1
+            FR_VAL_7_NEG_SERIALIZED_LSB == serialize<Fr, FormatFrLsb>(&val_minus_7),
+            1,
         );
 
         // Addition.
@@ -1013,7 +1021,7 @@ module std::bn254_algebra {
         assert!(
             std::option::is_none(
                 &deserialize<Fq, FormatFqLsb>(
-                    &x"47fd7cd8168c203c8dca7168916a81975d588181b64550b829a031e1724e6430"
+                    &x"47fd7cd8168c203c8dca7168916a81975d588181b64550b829a031e1724e6430",
                 ),
             ),
             1,
@@ -1021,7 +1029,7 @@ module std::bn254_algebra {
         assert!(
             std::option::is_none(
                 &deserialize<Fq, FormatFqMsb>(
-                    &x"30644e72e131a029b85045b68181585d97816a916871ca8d3c208c16d87cfd47"
+                    &x"30644e72e131a029b85045b68181585d97816a916871ca8d3c208c16d87cfd47",
                 ),
             ),
             1,
@@ -1031,7 +1039,7 @@ module std::bn254_algebra {
         assert!(
             std::option::is_none(
                 &deserialize<Fq, FormatFqLsb>(
-                    &x"46fd7cd8168c203c8dca7168916a81975d588181b64550b829a031e1724e643000"
+                    &x"46fd7cd8168c203c8dca7168916a81975d588181b64550b829a031e1724e643000",
                 ),
             ),
             1,
@@ -1039,7 +1047,7 @@ module std::bn254_algebra {
         assert!(
             std::option::is_none(
                 &deserialize<Fq, FormatFqMsb>(
-                    &x"30644e72e131a029b85045b68181585d97816a916871ca8d3c208c16d87cfd4600"
+                    &x"30644e72e131a029b85045b68181585d97816a916871ca8d3c208c16d87cfd4600",
                 ),
             ),
             1,
@@ -1050,7 +1058,8 @@ module std::bn254_algebra {
         // Negation.
         let val_minus_7 = neg(&val_7);
         assert!(
-            FQ_VAL_7_NEG_SERIALIZED_LSB == serialize<Fq, FormatFqLsb>(&val_minus_7), 1
+            FQ_VAL_7_NEG_SERIALIZED_LSB == serialize<Fq, FormatFqLsb>(&val_minus_7),
+            1,
         );
 
         // Addition.
@@ -1089,9 +1098,15 @@ module std::bn254_algebra {
         let a = rand_insecure<Fr>();
         let b = rand_insecure<Fr>();
         let gt_element =
-            pairing<G1, G2, Gt>(&scalar_mul(&element_p, &a), &scalar_mul(&element_q, &b));
+            pairing<G1, G2, Gt>(
+                &scalar_mul(&element_p, &a),
+                &scalar_mul(&element_q, &b),
+            );
         let gt_element_another =
-            scalar_mul(&pairing<G1, G2, Gt>(&element_p, &element_q), &mul(&a, &b));
+            scalar_mul(
+                &pairing<G1, G2, Gt>(&element_p, &element_q),
+                &mul(&a, &b),
+            );
         assert!(eq(&gt_element, &gt_element_another), 1);
     }
 
@@ -1131,7 +1146,8 @@ module std::bn254_algebra {
         // Efficient API.
         let m =
             multi_pairing<G1, G2, Gt>(
-                &vector[p0_a0, p1_a1, p2_a2], &vector[q0_b0, q1_b1, q2_b2]
+                &vector[p0_a0, p1_a1, p2_a2],
+                &vector[q0_b0, q1_b1, q2_b2],
             );
         assert!(eq(&n, &m), 1);
     }

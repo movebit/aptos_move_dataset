@@ -15,12 +15,11 @@ module 0x42::Test {
     public fun diff_field(cond: bool): S {
         let s = S { x: 0, y: 0 };
 
-        let f =
-            if (cond) {
-                &mut s.x
-            } else {
-                &mut s.y
-            };
+        let f = if (cond) {
+            &mut s.x
+        } else {
+            &mut s.y
+        };
         *f = 1;
 
         s
@@ -50,14 +49,13 @@ module 0x42::Test {
     }
 
     public fun diff_location(cond: bool, a: address, l: &mut T) acquires T {
-        let x =
-            if (cond) {
-                let t1 = borrow_global_mut<T>(a);
-                &mut t1.x
-            } else {
-                let t2 = l;
-                &mut t2.x
-            };
+        let x = if (cond) {
+            let t1 = borrow_global_mut<T>(a);
+            &mut t1.x
+        } else {
+            let t2 = l;
+            &mut t2.x
+        };
         *x = 0;
     }
 
@@ -144,6 +142,7 @@ module 0x42::Test {
     spec diff_local_global_mix_simple {
         aborts_if cond && !exists<T>(@0x1);
         ensures (cond) ==> global<T>(@0x1).x == 1;
-        ensures (!cond) ==> global<T>(@0x1).x == old(global<T>(@0x1).x);
+        ensures (!cond) ==>
+            global<T>(@0x1).x == old(global<T>(@0x1).x);
     }
 }

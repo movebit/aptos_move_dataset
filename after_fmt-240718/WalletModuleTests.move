@@ -96,9 +96,7 @@ module DiemFramework::ColdWallet {
     }
 
     // deposit money into a payee's cold wallet
-    public fun deposit(
-        payee: address, to_deposit: Diem::Diem<XUS>,
-    ) acquires ColdWallet {
+    public fun deposit(payee: address, to_deposit: Diem::Diem<XUS>,) acquires ColdWallet {
         // Load the payee's account
         let payee_wallet_ref = borrow_global_mut<ColdWallet>(payee);
         // Deposit the `to_deposit` coin
@@ -152,13 +150,12 @@ module DiemFramework::ColdWallet {
         assert!(amount <= account_balance, 1001);
 
         // obtain the expected serialization of the transaction struct
-        let transaction_bytes =
-            get_transaction_bytes(
-                payer,
-                payee,
-                amount,
-                payer_ref,
-            );
+        let transaction_bytes = get_transaction_bytes(
+            payer,
+            payee,
+            amount,
+            payer_ref,
+        );
 
         let hash = hash::sha3_256(transaction_bytes);
         let has_authority =

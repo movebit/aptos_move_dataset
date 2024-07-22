@@ -83,14 +83,14 @@ module 0x42::freeze_mut_ref {
         let s1 = G { f: 2 };
         let s2 = G { f: 3 };
         let x;
-        x = if (true) &s1 else&mut s2;
+        x = if (true) &s1 else &mut s2;
         assert!(x.f == 2, 0);
     }
 
     fun test_7() {
         let s1 = G { f: 2 };
         let s2 = G { f: 3 };
-        let x: &G = if (true) &s1 else&mut s2;
+        let x: &G = if (true) &s1 else &mut s2;
         assert!(x.f == 2, 0);
     }
 }

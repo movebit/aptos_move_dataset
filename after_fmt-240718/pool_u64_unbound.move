@@ -163,7 +163,8 @@ module aptos_std::pool_u64_unbound {
         pool: &mut Pool, shareholder: address, shares_to_redeem: u128
     ): u64 {
         assert!(
-            contains(pool, shareholder), error::invalid_argument(ESHAREHOLDER_NOT_FOUND)
+            contains(pool, shareholder),
+            error::invalid_argument(ESHAREHOLDER_NOT_FOUND),
         );
         assert!(
             shares(pool, shareholder) >= shares_to_redeem,
@@ -188,7 +189,8 @@ module aptos_std::pool_u64_unbound {
         shares_to_transfer: u128,
     ) {
         assert!(
-            contains(pool, shareholder_1), error::invalid_argument(ESHAREHOLDER_NOT_FOUND)
+            contains(pool, shareholder_1),
+            error::invalid_argument(ESHAREHOLDER_NOT_FOUND),
         );
         assert!(
             shares(pool, shareholder_1) >= shares_to_transfer,
@@ -205,7 +207,8 @@ module aptos_std::pool_u64_unbound {
         pool: &mut Pool, shareholder: address, num_shares: u128
     ): u128 {
         assert!(
-            contains(pool, shareholder), error::invalid_argument(ESHAREHOLDER_NOT_FOUND)
+            contains(pool, shareholder),
+            error::invalid_argument(ESHAREHOLDER_NOT_FOUND),
         );
         assert!(
             shares(pool, shareholder) >= num_shares,
@@ -245,7 +248,10 @@ module aptos_std::pool_u64_unbound {
             // New number of shares = new_amount / shares_price = new_amount * existing_shares / total_amount.
             // We rearrange the calc and do multiplication first to avoid rounding errors.
             multiply_then_divide(
-                pool, to_u128(coins_amount), pool.total_shares, to_u128(total_coins)
+                pool,
+                to_u128(coins_amount),
+                pool.total_shares,
+                to_u128(total_coins),
             )
         }
     }
@@ -269,7 +275,10 @@ module aptos_std::pool_u64_unbound {
             // We rearrange the calc and do multiplication first to avoid rounding errors.
             (
                 multiply_then_divide(
-                    pool, shares, to_u128(total_coins), pool.total_shares
+                    pool,
+                    shares,
+                    to_u128(total_coins),
+                    pool.total_shares,
                 ) as u64
             )
         }

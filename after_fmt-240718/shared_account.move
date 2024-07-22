@@ -30,7 +30,10 @@ module shared_account::SharedAccount {
 
     // Create and initialize a shared account
     public entry fun initialize(
-        source: &signer, seed: vector<u8>, addresses: vector<address>, numerators: vector<u64>
+        source: &signer,
+        seed: vector<u8>,
+        addresses: vector<address>,
+        numerators: vector<u64>
     ) {
         let total = 0;
         let share_record = vector::empty<Share>();
@@ -44,7 +47,8 @@ module shared_account::SharedAccount {
                 // make sure that the account exists, so when we call disperse() it wouldn't fail
                 // because one of the accounts does not exist
                 assert!(
-                    account::exists_at(addr), error::invalid_argument(EACCOUNT_NOT_FOUND)
+                    account::exists_at(addr),
+                    error::invalid_argument(EACCOUNT_NOT_FOUND),
                 );
 
                 vector::push_back(
@@ -54,9 +58,8 @@ module shared_account::SharedAccount {
             },
         );
 
-        let (resource_signer, resource_signer_cap) = account::create_resource_account(
-            source, seed
-        );
+        let (resource_signer, resource_signer_cap) =
+            account::create_resource_account(source, seed);
 
         move_to(
             &resource_signer,
@@ -76,7 +79,8 @@ module shared_account::SharedAccount {
     // Disperse all available balance to addresses in the shared account
     public entry fun disperse<CoinType>(resource_addr: address) acquires SharedAccount {
         assert!(
-            exists<SharedAccount>(resource_addr), error::invalid_argument(ERESOURCE_DNE)
+            exists<SharedAccount>(resource_addr),
+            error::invalid_argument(ERESOURCE_DNE),
         );
 
         let total_balance = coin::balance<CoinType>(resource_addr);
@@ -123,7 +127,8 @@ module shared_account::SharedAccount {
         initialize(&user, seed, addresses, numerators);
 
         assert!(
-            exists<SharedAccountEvent>(user_addr), error::not_found(EACCOUNT_NOT_FOUND)
+            exists<SharedAccountEvent>(user_addr),
+            error::not_found(EACCOUNT_NOT_FOUND),
         );
         borrow_global<SharedAccountEvent>(user_addr).resource_addr
     }

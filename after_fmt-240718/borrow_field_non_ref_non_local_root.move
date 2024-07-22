@@ -7,7 +7,7 @@ module 0x8675309::M {
         (&foo().f: &u64);
         (&bar().f: &u64);
         (&mut bar().f: &mut u64);
-        (&(if (cond) foo() else&bar()).f: &u64);
+        (&(if (cond) foo() else &bar()).f: &u64);
         (&(if (cond) *foo() else bar()).f: &u64);
     }
 

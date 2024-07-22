@@ -77,9 +77,8 @@ module aptos_framework::randomness_config {
     public fun enabled(): bool acquires RandomnessConfig {
         if (exists<RandomnessConfig>(@aptos_framework)) {
             let config = borrow_global<RandomnessConfig>(@aptos_framework);
-            let variant_type_name = *string::bytes(
-                copyable_any::type_name(&config.variant)
-            );
+            let variant_type_name =
+                *string::bytes(copyable_any::type_name(&config.variant));
             variant_type_name != b"0x1::randomness_config::ConfigOff"
         } else { false }
     }
@@ -95,7 +94,7 @@ module aptos_framework::randomness_config {
     ): RandomnessConfig {
         RandomnessConfig {
             variant: copyable_any::pack(
-                ConfigV1 { secrecy_threshold, reconstruction_threshold },
+                ConfigV1 { secrecy_threshold, reconstruction_threshold }
             )
         }
     }

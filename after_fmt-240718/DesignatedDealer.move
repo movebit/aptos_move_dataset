@@ -68,7 +68,8 @@ module DiemFramework::DesignatedDealer {
         Roles::assert_treasury_compliance(tc_account);
         Roles::assert_designated_dealer(dd);
         assert!(
-            !exists<Dealer>(signer::address_of(dd)), errors::already_published(EDEALER)
+            !exists<Dealer>(signer::address_of(dd)),
+            errors::already_published(EDEALER),
         );
         move_to(
             dd,
@@ -158,9 +159,8 @@ module DiemFramework::DesignatedDealer {
         // Delete deprecated `TierInfo` resources.
         // TODO: delete this code once there are no more TierInfo resources in the system
         if (exists<TierInfo<CoinType>>(dd_addr)) {
-            let TierInfo { window_start: _, window_inflow: _, tiers: _ } = move_from<TierInfo<CoinType>>(
-                dd_addr
-            );
+            let TierInfo { window_start: _, window_inflow: _, tiers: _ } =
+                move_from<TierInfo<CoinType>>(dd_addr);
         };
 
         // Send ReceivedMintEvent

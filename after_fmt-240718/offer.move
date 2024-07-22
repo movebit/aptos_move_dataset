@@ -61,7 +61,8 @@ module std::offer {
         account: &signer, offer_address: address
     ): Offered acquires Offer {
         assert!(
-            exists<Offer<Offered>>(offer_address), error::not_found(EOFFER_DOES_NOT_EXIST)
+            exists<Offer<Offered>>(offer_address),
+            error::not_found(EOFFER_DOES_NOT_EXIST),
         );
         let Offer<Offered> { offered, for } = move_from<Offer<Offered>>(offer_address);
         let sender = signer::address_of(account);
@@ -99,7 +100,8 @@ module std::offer {
     // Fails if no such `Offer` exists.
     public fun address_of<Offered: store>(offer_address: address): address acquires Offer {
         assert!(
-            exists<Offer<Offered>>(offer_address), error::not_found(EOFFER_DOES_NOT_EXIST)
+            exists<Offer<Offered>>(offer_address),
+            error::not_found(EOFFER_DOES_NOT_EXIST),
         );
         borrow_global<Offer<Offered>>(offer_address).for
     }

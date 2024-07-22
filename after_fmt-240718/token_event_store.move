@@ -272,7 +272,10 @@ module aptos_token::token_event_store {
 
     /// Emit the collection description mutation event
     public(friend) fun emit_collection_description_mutate_event(
-        creator: &signer, collection: String, old_description: String, new_description: String
+        creator: &signer,
+        collection: String,
+        old_description: String,
+        new_description: String
     ) acquires TokenEventStoreV1 {
         let event = CollectionDescriptionMutateEvent {
             creator_addr: signer::address_of(creator),

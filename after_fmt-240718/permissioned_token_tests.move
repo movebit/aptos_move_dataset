@@ -33,8 +33,7 @@ module 0xcafe::permissioned_token_tests {
         assert!(fungible_asset::supply(metadata) == option::some(100), 3);
         dispatchable_fungible_asset::deposit(aaron_store, fa);
 
-        let fa =
-            dispatchable_fungible_asset::withdraw(creator, creator_store, 10);
+        let fa = dispatchable_fungible_asset::withdraw(creator, creator_store, 10);
         assert!(fungible_asset::supply(metadata) == option::some(100), 3);
         dispatchable_fungible_asset::deposit(aaron_store, fa);
     }

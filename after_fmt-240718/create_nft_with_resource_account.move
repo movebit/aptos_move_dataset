@@ -142,7 +142,9 @@ module mint_nft::create_nft_with_resource_account {
         // we rotate th resource account's authentication key to 0 and give up our control over the resource account. Before calling this function,
         // the resource account has the same authentication key as the source account so we had control over the resource account.
         let resource_signer_cap =
-            resource_account::retrieve_resource_account_cap(resource_signer, @source_addr);
+            resource_account::retrieve_resource_account_cap(
+                resource_signer, @source_addr
+            );
 
         // Store the token data id and the resource account's signer capability within the module, so we can programmatically
         // sign for transactions in the `mint_event_ticket()` function.
@@ -162,20 +164,17 @@ module mint_nft::create_nft_with_resource_account {
         // Create a signer of the resource account from the signer capability stored in this module.
         // Using a resource account and storing its signer capability within the module allows the module to programmatically
         // sign transactions on behalf of the module.
-        let resource_signer = account::create_signer_with_capability(
-            &module_data.signer_cap
-        );
-        let token_id =
-            token::mint_token(&resource_signer, module_data.token_data_id, 1);
+        let resource_signer =
+            account::create_signer_with_capability(&module_data.signer_cap);
+        let token_id = token::mint_token(&resource_signer, module_data.token_data_id, 1);
         token::direct_transfer(&resource_signer, receiver, token_id, 1);
 
         // Mutate the token properties to update the property version of this token.
         // Note that here we are re-using the same token data id and only updating the property version.
         // This is because we are simply printing edition of the same token, instead of creating unique
         // tokens. The tokens created this way will have the same token data id, but different property versions.
-        let (creator_address, collection, name) = token::get_token_data_id_fields(
-            &module_data.token_data_id
-        );
+        let (creator_address, collection, name) =
+            token::get_token_data_id_fields(&module_data.token_data_id);
         token::mutate_token_properties(
             &resource_signer,
             signer::address_of(receiver),

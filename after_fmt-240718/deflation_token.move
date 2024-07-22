@@ -45,7 +45,9 @@ module 0xcafe::deflation_token {
         let burn_amount = amount / 10;
         if (burn_amount > 0) {
             fungible_asset::burn_from(
-                &borrow_global<BurnStore>(@0xcafe).burn_ref, store, burn_amount
+                &borrow_global<BurnStore>(@0xcafe).burn_ref,
+                store,
+                burn_amount,
             );
         };
 
@@ -75,8 +77,7 @@ module 0xcafe::deflation_token {
         dispatchable_fungible_asset::deposit(creator_store, fa);
 
         // Withdraw will cause an re-entrant call into self module.
-        let fa =
-            dispatchable_fungible_asset::withdraw(creator, creator_store, 10);
+        let fa = dispatchable_fungible_asset::withdraw(creator, creator_store, 10);
         dispatchable_fungible_asset::deposit(creator_store, fa);
     }
 }

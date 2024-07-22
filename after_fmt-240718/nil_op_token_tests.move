@@ -25,8 +25,7 @@ module aptos_framework::nil_op_token_tests {
         dispatchable_fungible_asset::deposit(creator_store, fa);
 
         // Withdraw will fail because it's not drawing the basic amount.
-        let fa =
-            dispatchable_fungible_asset::withdraw(creator, creator_store, 10);
+        let fa = dispatchable_fungible_asset::withdraw(creator, creator_store, 10);
         dispatchable_fungible_asset::deposit(creator_store, fa);
     }
 }

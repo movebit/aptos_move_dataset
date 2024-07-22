@@ -270,9 +270,8 @@ module std::vault {
             revoke_all(&delegate_cap);
         };
         if (exists<VaultEvents<Content>>(addr)) {
-            let VaultEvents { metadata: _metadata, delegate_events, transfer_events } = move_from<VaultEvents<Content>>(
-                addr
-            );
+            let VaultEvents { metadata: _metadata, delegate_events, transfer_events } =
+                move_from<VaultEvents<Content>>(addr);
             event::destroy_handle(delegate_events);
             event::destroy_handle(transfer_events);
         };
@@ -294,9 +293,8 @@ module std::vault {
     /// of the vault or a delegate with appropriate access.
     public fun acquire_modify_cap<Content: store + drop>(requester: &signer)
         : ModifyCap<Content> acquires VaultDelegate {
-        let (vault_address, authority) = validate_cap<Content>(
-            requester, modify_cap_type()
-        );
+        let (vault_address, authority) =
+            validate_cap<Content>(requester, modify_cap_type());
         ModifyCap { vault_address, authority }
     }
 
@@ -305,9 +303,8 @@ module std::vault {
     public fun acquire_delegate_cap<Content: store + drop>(
         requester: &signer
     ): DelegateCap<Content> acquires VaultDelegate {
-        let (vault_address, authority) = validate_cap<Content>(
-            requester, delegate_cap_type()
-        );
+        let (vault_address, authority) =
+            validate_cap<Content>(requester, delegate_cap_type());
         DelegateCap { vault_address, authority }
     }
 
@@ -316,9 +313,8 @@ module std::vault {
     public fun acquire_transfer_cap<Content: store + drop>(
         requester: &signer
     ): TransferCap<Content> acquires VaultDelegate {
-        let (vault_address, authority) = validate_cap<Content>(
-            requester, transfer_cap_type()
-        );
+        let (vault_address, authority) =
+            validate_cap<Content>(requester, transfer_cap_type());
         TransferCap { vault_address, authority }
     }
 
@@ -359,8 +355,7 @@ module std::vault {
     /// `Self::release_read_accessor`.
     public fun read_accessor<Content: store + drop>(cap: &ReadCap<Content>)
         : ReadAccessor<Content> acquires Vault {
-        let content =
-            &mut borrow_global_mut<Vault<Content>>(cap.vault_address).content;
+        let content = &mut borrow_global_mut<Vault<Content>>(cap.vault_address).content;
         assert!(option::is_some(content), error::invalid_state(EACCESSOR_IN_USE));
         ReadAccessor {
             vault_address: cap.vault_address,
@@ -402,8 +397,7 @@ module std::vault {
     public fun modify_accessor<Content: store + drop>(
         cap: &ModifyCap<Content>
     ): ModifyAccessor<Content> acquires Vault {
-        let content =
-            &mut borrow_global_mut<Vault<Content>>(cap.vault_address).content;
+        let content = &mut borrow_global_mut<Vault<Content>>(cap.vault_address).content;
         assert!(option::is_some(content), error::invalid_state(EACCESSOR_IN_USE));
         ModifyAccessor {
             vault_address: cap.vault_address,
@@ -457,9 +451,8 @@ module std::vault {
                 },
             );
             // Add the delegate to VaultDelegates.
-            let vault_delegates = borrow_global_mut<VaultDelegates<Content>>(
-                cap.vault_address
-            );
+            let vault_delegates =
+                borrow_global_mut<VaultDelegates<Content>>(cap.vault_address);
             add_element(&mut vault_delegates.delegates, addr);
         };
 
@@ -486,12 +479,10 @@ module std::vault {
 
         // If the granted caps of this delegate drop to zero, remove it.
         if (vector::is_empty(&delegate.granted_caps)) {
-            let VaultDelegate { vault_address: _owner, granted_caps: _granted_caps } = move_from<VaultDelegate<Content>>(
-                addr
-            );
-            let vault_delegates = borrow_global_mut<VaultDelegates<Content>>(
-                cap.vault_address
-            );
+            let VaultDelegate { vault_address: _owner, granted_caps: _granted_caps } =
+                move_from<VaultDelegate<Content>>(addr);
+            let vault_delegates =
+                borrow_global_mut<VaultDelegates<Content>>(cap.vault_address);
             remove_element(&mut vault_delegates.delegates, &addr);
         };
 
@@ -509,9 +500,8 @@ module std::vault {
             &mut borrow_global_mut<VaultDelegates<Content>>(cap.vault_address).delegates;
         while (!vector::is_empty(delegates)) {
             let addr = vector::pop_back(delegates);
-            let VaultDelegate { vault_address: _vault_address, granted_caps } = move_from<VaultDelegate<Content>>(
-                cap.vault_address
-            );
+            let VaultDelegate { vault_address: _vault_address, granted_caps } =
+                move_from<VaultDelegate<Content>>(cap.vault_address);
             while (!vector::is_empty(&granted_caps)) {
                 let cap_type = vector::pop_back(&mut granted_caps);
                 emit_delegate_event(cap, cap_type, addr, true);

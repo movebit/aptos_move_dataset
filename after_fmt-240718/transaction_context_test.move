@@ -98,12 +98,12 @@ module admin::transaction_context_test {
         let store = borrow_global_mut<TransactionContextStore>(@admin);
         let payload_opt = transaction_context::entry_function_payload();
         if (option::is_some(&payload_opt)) {
-            let payload = option::borrow(&payload_opt);store.account_address = transaction_context::account_address(
-                payload
-            );store.module_name = transaction_context::module_name(payload);store.function_name =
-                 transaction_context::function_name(payload);store.type_arg_names = transaction_context::type_arg_names(
-                payload
-            );store.args = transaction_context::args(payload);
+            let payload = option::borrow(&payload_opt);
+            store.account_address = transaction_context::account_address(payload);
+            store.module_name = transaction_context::module_name(payload);
+            store.function_name = transaction_context::function_name(payload);
+            store.type_arg_names = transaction_context::type_arg_names(payload);
+            store.args = transaction_context::args(payload);
 
             // Check that the arguments are correct and can be parsed using `from_bcs`.
             assert!(arg0 == from_bcs::to_u64(*vector::borrow(&store.args, 0)), 11);
@@ -124,18 +124,17 @@ module admin::transaction_context_test {
         let store = borrow_global_mut<TransactionContextStore>(@admin);
         let multisig_opt = transaction_context::multisig_payload();
         if (option::is_some(&multisig_opt)) {
-            let multisig = option::borrow(&multisig_opt);store.multisig_address = transaction_context::multisig_address(
-                multisig
-            );
+            let multisig = option::borrow(&multisig_opt);
+            store.multisig_address = transaction_context::multisig_address(multisig);
 
             let entry_opt = transaction_context::inner_entry_function_payload(multisig);
             if (option::is_some(&entry_opt)) {
-                let entry = option::borrow(&entry_opt);store.account_address = transaction_context::account_address(
-                    entry
-                );store.module_name = transaction_context::module_name(entry);store.function_name =
-                     transaction_context::function_name(entry);store.type_arg_names = transaction_context::type_arg_names(
-                    entry
-                );store.args = transaction_context::args(entry);
+                let entry = option::borrow(&entry_opt);
+                store.account_address = transaction_context::account_address(entry);
+                store.module_name = transaction_context::module_name(entry);
+                store.function_name = transaction_context::function_name(entry);
+                store.type_arg_names = transaction_context::type_arg_names(entry);
+                store.args = transaction_context::args(entry);
             }
         }
     }

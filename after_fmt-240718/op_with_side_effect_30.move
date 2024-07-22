@@ -10,13 +10,17 @@ module 0xc0ffee::m {
 
     public fun test(): u64 {
         let x = 1;
-        add3(x, {
+        add3(
+            x,
+            {
                 x = add2(x, 1);
                 x
-            }, {
+            },
+            {
                 x = add2(x, 1);
                 x
-            })
+            },
+        )
     }
 }
 

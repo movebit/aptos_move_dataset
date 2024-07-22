@@ -18,17 +18,20 @@ spec aptos_std::multi_ed25519 {
 
     spec new_validated_public_key_from_bytes(bytes: vector<u8>): Option<ValidatedPublicKey> {
         aborts_if false;
-        let cond = len(bytes) % INDIVIDUAL_PUBLIC_KEY_NUM_BYTES == THRESHOLD_SIZE_BYTES && spec_public_key_validate_internal(
-            bytes
-        );
-        ensures cond ==> result == option::spec_some(ValidatedPublicKey { bytes });
-        ensures !cond ==> result == option::spec_none<ValidatedPublicKey>();
+        let cond = len(bytes) % INDIVIDUAL_PUBLIC_KEY_NUM_BYTES == THRESHOLD_SIZE_BYTES
+            && spec_public_key_validate_internal(bytes);
+        ensures cond ==>
+            result == option::spec_some(ValidatedPublicKey { bytes });
+        ensures !cond ==>
+            result == option::spec_none<ValidatedPublicKey>();
     }
 
     spec new_validated_public_key_from_bytes_v2(bytes: vector<u8>): Option<ValidatedPublicKey> {
         let cond = spec_public_key_validate_v2_internal(bytes);
-        ensures cond ==> result == option::spec_some(ValidatedPublicKey { bytes });
-        ensures !cond ==> result == option::spec_none<ValidatedPublicKey>();
+        ensures cond ==>
+            result == option::spec_some(ValidatedPublicKey { bytes });
+        ensures !cond ==>
+            result == option::spec_none<ValidatedPublicKey>();
     }
 
     spec new_signature_from_bytes(bytes: vector<u8>): Signature {
@@ -88,7 +91,7 @@ spec aptos_std::multi_ed25519 {
         aborts_if false;
         ensures (len(bytes) / INDIVIDUAL_PUBLIC_KEY_NUM_BYTES > MAX_NUMBER_OF_PUBLIC_KEYS) ==>
 
-            (result == false);
+        (result == false);
         ensures result == spec_public_key_validate_internal(bytes);
     }
 

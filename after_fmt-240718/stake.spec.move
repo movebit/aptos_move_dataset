@@ -85,14 +85,14 @@ spec aptos_framework::stake {
     spec schema StakePoolNotChangeDuringReconfig {
         ensures forall a: address where old(exists<StakePool>(a)): reconfiguration_state::spec_is_in_progress() ==>
 
-            (
-                old(global<StakePool>(a).pending_inactive)
-                    == global<StakePool>(a).pending_inactive
-                && old(global<StakePool>(a).pending_active)
-                    == global<StakePool>(a).pending_active
-                && old(global<StakePool>(a).inactive) == global<StakePool>(a).inactive
-                && old(global<StakePool>(a).active) == global<StakePool>(a).active
-            );
+        (
+            old(global<StakePool>(a).pending_inactive)
+                == global<StakePool>(a).pending_inactive
+            && old(global<StakePool>(a).pending_active)
+                == global<StakePool>(a).pending_active
+            && old(global<StakePool>(a).inactive) == global<StakePool>(a).inactive
+            && old(global<StakePool>(a).active) == global<StakePool>(a).active
+        );
     }
 
     spec schema ValidatorOwnerNoChange {
@@ -126,9 +126,8 @@ spec aptos_framework::stake {
             && spec_validators_are_initialized(validator_set.pending_inactive)
             && spec_validators_are_initialized(validator_set.pending_active)
             && spec_validator_indices_are_valid(validator_set.active_validators)
-            && spec_validator_indices_are_valid(validator_set.pending_inactive) && spec_validator_indices_active_pending_inactive(
-            validator_set
-        )
+            && spec_validator_indices_are_valid(validator_set.pending_inactive)
+            && spec_validator_indices_active_pending_inactive(validator_set)
     }
 
     // -----------------------
@@ -296,15 +295,15 @@ spec aptos_framework::stake {
         let coin_store = global<coin::CoinStore<AptosCoin>>(addr);
         let post p_coin_store = global<coin::CoinStore<AptosCoin>>(addr);
         ensures bool_find_validator
-            && timestamp::now_seconds() > stake_pool.locked_until_secs && exists<account::Account>(
-                addr
-            )
+            && timestamp::now_seconds() > stake_pool.locked_until_secs
+            && exists<account::Account>(addr)
             && exists<coin::CoinStore<AptosCoin>>(addr) ==>
             coin_store.coin.value + new_withdraw_amount_1 == p_coin_store.coin.value;
         ensures !(
-            bool_find_validator
-            && exists<timestamp::CurrentTimeMicroseconds>(@aptos_framework)
-        ) && exists<account::Account>(addr)
+                bool_find_validator
+                && exists<timestamp::CurrentTimeMicroseconds>(@aptos_framework)
+            )
+            && exists<account::Account>(addr)
             && exists<coin::CoinStore<AptosCoin>>(addr) ==>
             coin_store.coin.value + new_withdraw_amount_2 == p_coin_store.coin.value;
     }
@@ -336,7 +335,9 @@ spec aptos_framework::stake {
             == len(post_active_validators) + len(post_pending_inactive_validators);
 
         aborts_if !validator_find_bool
-            && !option::spec_is_some(spec_find_validator(active_validators, pool_address));
+            && !option::spec_is_some(
+                spec_find_validator(active_validators, pool_address)
+            );
         aborts_if !validator_find_bool
             && vector::length(validator_set.active_validators)
                 <= option::spec_borrow(
@@ -351,8 +352,8 @@ spec aptos_framework::stake {
         let validator_stake = (get_next_epoch_voting_power(stake_pool) as u128);
         ensures validator_find_bool && validator_set.total_joining_power > validator_stake ==>
 
-            p_validator_set.total_joining_power
-                == validator_set.total_joining_power - validator_stake;
+        p_validator_set.total_joining_power
+            == validator_set.total_joining_power - validator_stake;
         ensures !validator_find_bool ==>
             !option::spec_is_some(
                 spec_find_validator(p_validator_set.pending_active, pool_address)
@@ -652,7 +653,8 @@ spec aptos_framework::stake {
                         rewards_rate_denominator,
                     );
         ensures old(stake.value) == 0 ==> result == 0;
-        ensures old(stake.value) == 0 ==> stake.value == old(stake.value);
+        ensures old(stake.value) == 0 ==>
+            stake.value == old(stake.value);
     }
 
     spec schema DistributeRewardsAbortsIf {
@@ -739,7 +741,8 @@ spec aptos_framework::stake {
         ensures option::is_some(result) ==>
             v[option::borrow(result)].addr == addr;
         // Additional postcondition to help the quantifier instantiation.
-        ensures option::is_some(result) ==> spec_contains(v, addr);
+        ensures option::is_some(result) ==>
+            spec_contains(v, addr);
         ensures [abstract] result == spec_find_validator(v, addr);
     }
 
@@ -925,9 +928,8 @@ spec aptos_framework::stake {
         let post post_validator_set = global<ValidatorSet>(@aptos_framework);
         let update_voting_power_increase = amount != 0
             && (
-                spec_contains(validator_set.active_validators, pool_address) || spec_contains(
-                    validator_set.pending_active, pool_address
-                )
+                spec_contains(validator_set.active_validators, pool_address)
+                    || spec_contains(validator_set.pending_active, pool_address)
             );
         aborts_if update_voting_power_increase
             && validator_set.total_joining_power + amount > MAX_U128;
@@ -935,12 +937,12 @@ spec aptos_framework::stake {
             post_validator_set.total_joining_power
                 == validator_set.total_joining_power + amount;
         aborts_if update_voting_power_increase
-            && validator_set.total_voting_power > 0 && validator_set.total_voting_power
-            * voting_power_increase_limit > MAX_U128;
+            && validator_set.total_voting_power > 0
+            && validator_set.total_voting_power * voting_power_increase_limit > MAX_U128;
         aborts_if update_voting_power_increase
-            && validator_set.total_voting_power > 0 && validator_set.total_joining_power
-            + amount > validator_set.total_voting_power * voting_power_increase_limit /
-            100;
+            && validator_set.total_voting_power > 0
+            && validator_set.total_joining_power + amount
+                > validator_set.total_voting_power * voting_power_increase_limit / 100;
         let stake_pool = global<StakePool>(pool_address);
         let post post_stake_pool = global<StakePool>(pool_address);
         let value_pending_active = stake_pool.pending_active.value;
@@ -1045,11 +1047,11 @@ spec aptos_framework::stake {
 
     spec fun spec_is_current_epoch_validator(pool_address: address): bool {
         let validator_set = global<ValidatorSet>(@aptos_framework);
-        !spec_contains(validator_set.pending_active, pool_address) && (
-            spec_contains(validator_set.active_validators, pool_address) || spec_contains(
-                validator_set.pending_inactive, pool_address
+        !spec_contains(validator_set.pending_active, pool_address)
+            && (
+                spec_contains(validator_set.active_validators, pool_address)
+                    || spec_contains(validator_set.pending_inactive, pool_address)
             )
-        )
     }
 
     // These resources are required to successfully execute `on_new_epoch`, which cannot
@@ -1077,12 +1079,11 @@ spec aptos_framework::stake {
                     aptos_std::fixed_point64::spec_divide_u128(
                         staking_config::MAX_REWARDS_RATE, epoch_rewards_rate
                     );
-                let denominator =
-                    if (denominator_0 > MAX_U64) {
-                        MAX_U64
-                    } else {
-                        denominator_0
-                    };
+                let denominator = if (denominator_0 > MAX_U64) {
+                    MAX_U64
+                } else {
+                    denominator_0
+                };
                 let nominator =
                     aptos_std::fixed_point64::spec_multiply_u128(
                         denominator, epoch_rewards_rate
@@ -1104,12 +1105,11 @@ spec aptos_framework::stake {
                     aptos_std::fixed_point64::spec_divide_u128(
                         staking_config::MAX_REWARDS_RATE, epoch_rewards_rate
                     );
-                let denominator =
-                    if (denominator_0 > MAX_U64) {
-                        MAX_U64
-                    } else {
-                        denominator_0
-                    };
+                let denominator = if (denominator_0 > MAX_U64) {
+                    MAX_U64
+                } else {
+                    denominator_0
+                };
                 denominator
             }
         } else {

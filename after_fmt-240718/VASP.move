@@ -76,7 +76,8 @@ module DiemFramework::VASP {
         Roles::assert_child_vasp_role(child);
         let child_vasp_addr = signer::address_of(child);
         assert!(
-            !is_vasp(child_vasp_addr), errors::already_published(EPARENT_OR_CHILD_VASP)
+            !is_vasp(child_vasp_addr),
+            errors::already_published(EPARENT_OR_CHILD_VASP),
         );
         let parent_vasp_addr = signer::address_of(parent);
         assert!(is_parent(parent_vasp_addr), errors::invalid_argument(ENOT_A_PARENT_VASP));

@@ -142,7 +142,8 @@ module aptos_framework::code {
             move_to(package_owner, PackageRegistry { packages: vector[metadata] })
         } else {
             vector::push_back(
-                &mut borrow_global_mut<PackageRegistry>(addr).packages, metadata
+                &mut borrow_global_mut<PackageRegistry>(addr).packages,
+                metadata,
             )
         }
     }
@@ -200,14 +201,16 @@ module aptos_framework::code {
             vector::push_back(packages, pack)
         };
 
-        event::emit(
-            PublishPackage { code_address: addr, is_upgrade: upgrade_number > 0 },
-        );
+        event::emit(PublishPackage { code_address: addr, is_upgrade: upgrade_number > 0 });
 
         // Request publish
         if (features::code_dependency_check_enabled())
             request_publish_with_allowed_deps(
-                addr, module_names, allowed_deps, code, policy.policy
+                addr,
+                module_names,
+                allowed_deps,
+                code,
+                policy.policy,
             ) else
         // The new `request_publish_with_allowed_deps` has not yet rolled out, so call downwards
         // compatible code.
@@ -243,7 +246,9 @@ module aptos_framework::code {
         owner: &signer, metadata_serialized: vector<u8>, code: vector<vector<u8>>
     ) acquires PackageRegistry {
         publish_package(
-            owner, util::from_bytes<PackageMetadata>(metadata_serialized), code
+            owner,
+            util::from_bytes<PackageMetadata>(metadata_serialized),
+            code,
         )
     }
 
@@ -252,7 +257,9 @@ module aptos_framework::code {
 
     /// Checks whether the given package is upgradable, and returns true if a compatibility check is needed.
     fun check_upgradability(
-        old_pack: &PackageMetadata, new_pack: &PackageMetadata, new_modules: &vector<String>
+        old_pack: &PackageMetadata,
+        new_pack: &PackageMetadata,
+        new_modules: &vector<String>
     ) {
         assert!(
             old_pack.upgrade_policy.policy < upgrade_policy_immutable().policy,

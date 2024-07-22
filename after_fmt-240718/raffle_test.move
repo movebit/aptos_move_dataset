@@ -63,8 +63,7 @@ module raffle::raffle_test {
         give_coins(&mint_cap, &u3);
         give_coins(&mint_cap, &u4);
 
-        let winner =
-            test_raffle_with_randomness(&u1, &u2, &u3, &u4);
+        let winner = test_raffle_with_randomness(&u1, &u2, &u3, &u4);
 
         let players = vector[
             signer::address_of(&u1),

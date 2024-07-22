@@ -6,7 +6,11 @@ module Async::Runtime {
         actor: address, message_hash: u64, arg1: vector<u8>, arg2: vector<u8>
     );
     public native fun send__3(
-        actor: address, message_hash: u64, arg1: vector<u8>, arg2: vector<u8>, arg3: vector<u8>
+        actor: address,
+        message_hash: u64,
+        arg1: vector<u8>,
+        arg2: vector<u8>,
+        arg3: vector<u8>
     );
     public native fun send__4(
         actor: address,

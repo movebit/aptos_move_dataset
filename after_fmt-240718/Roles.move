@@ -204,7 +204,8 @@ module DiemFramework::Roles {
         include GrantRole { addr: signer::address_of(account) };
         let addr = signer::address_of(account);
         // Requires to satisfy global invariants.
-        requires role_id == DIEM_ROOT_ROLE_ID ==> addr == @DiemRoot;
+        requires role_id == DIEM_ROOT_ROLE_ID ==>
+            addr == @DiemRoot;
         requires role_id == TREASURY_COMPLIANCE_ROLE_ID ==>
             addr == @TreasuryCompliance;
     }

@@ -194,7 +194,9 @@ module mint_nft::create_nft_getting_production_ready {
         // store the token data id within the module, so we can refer to it later
         // when we're minting the NFT
         let resource_signer_cap =
-            resource_account::retrieve_resource_account_cap(resource_signer, @source_addr);
+            resource_account::retrieve_resource_account_cap(
+                resource_signer, @source_addr
+            );
 
         // hardcoded public key - we will update it to the real one by calling `set_public_key` from the admin account
         let pk_bytes =
@@ -240,11 +242,9 @@ module mint_nft::create_nft_getting_production_ready {
         );
 
         // mint token to the receiver
-        let resource_signer = account::create_signer_with_capability(
-            &module_data.signer_cap
-        );
-        let token_id =
-            token::mint_token(&resource_signer, module_data.token_data_id, 1);
+        let resource_signer =
+            account::create_signer_with_capability(&module_data.signer_cap);
+        let token_id = token::mint_token(&resource_signer, module_data.token_data_id, 1);
         token::direct_transfer(&resource_signer, receiver, token_id, 1);
 
         event::emit(
@@ -255,9 +255,8 @@ module mint_nft::create_nft_getting_production_ready {
         );
 
         // mutate the token properties to update the property version of this token
-        let (creator_address, collection, name) = token::get_token_data_id_fields(
-            &module_data.token_data_id
-        );
+        let (creator_address, collection, name) =
+            token::get_token_data_id_fields(&module_data.token_data_id);
         token::mutate_token_properties(
             &resource_signer,
             receiver_addr,
@@ -392,9 +391,8 @@ module mint_nft::create_nft_getting_production_ready {
 
         // check that the nft_receiver has the token in their token store
         let module_data = borrow_global_mut<ModuleData>(@mint_nft);
-        let resource_signer = account::create_signer_with_capability(
-            &module_data.signer_cap
-        );
+        let resource_signer =
+            account::create_signer_with_capability(&module_data.signer_cap);
         let resource_signer_addr = signer::address_of(&resource_signer);
         let token_id =
             token::create_token_id_raw(

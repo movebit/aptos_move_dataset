@@ -192,7 +192,8 @@ spec aptos_token::token {
         aborts_if !exists<Collections>(creator_addr);
         aborts_if !table::spec_contains(collections.token_data, token_id.token_data_id);
         aborts_if !simple_map::spec_contains_key(
-            token_data.default_properties.map, std::string::spec_utf8(BURNABLE_BY_CREATOR)
+            token_data.default_properties.map,
+            std::string::spec_utf8(BURNABLE_BY_CREATOR),
         );
     }
 
@@ -242,7 +243,8 @@ spec aptos_token::token {
         let addr = signer::address_of(creator);
         let account = global<account::Account>(addr);
         let collection_data = table::spec_get(
-            global<Collections>(addr).collection_data, collection_name
+            global<Collections>(addr).collection_data,
+            collection_name,
         );
         include AssertCollectionExistsAbortsIf {
             creator_address: addr,
@@ -262,7 +264,8 @@ spec aptos_token::token {
         let addr = signer::address_of(creator);
         let account = global<account::Account>(addr);
         let collection_data = table::spec_get(
-            global<Collections>(addr).collection_data, collection_name
+            global<Collections>(addr).collection_data,
+            collection_name,
         );
         aborts_if len(uri.bytes) > MAX_URI_LENGTH;
         include AssertCollectionExistsAbortsIf {
@@ -285,7 +288,8 @@ spec aptos_token::token {
         let addr = signer::address_of(creator);
         let account = global<account::Account>(addr);
         let collection_data = table::spec_get(
-            global<Collections>(addr).collection_data, collection_name
+            global<Collections>(addr).collection_data,
+            collection_name,
         );
         include AssertCollectionExistsAbortsIf {
             creator_address: addr,
@@ -424,7 +428,9 @@ spec aptos_token::token {
     }
 
     spec create_royalty(
-        royalty_points_numerator: u64, royalty_points_denominator: u64, payee_address: address
+        royalty_points_numerator: u64,
+        royalty_points_denominator: u64,
+        payee_address: address
     ): Royalty {
         include CreateRoyaltyAbortsIf;
     }
@@ -443,7 +449,8 @@ spec aptos_token::token {
         pragma verify = false;
         pragma aborts_if_is_partial;
         let account_addr = signer::address_of(account);
-        include !exists<TokenStore>(account_addr) ==> InitializeTokenStore;
+        include !exists<TokenStore>(account_addr) ==>
+            InitializeTokenStore;
         let token_id = token.id;
         let token_amount = token.amount;
         include DirectDepositAbortsIf;

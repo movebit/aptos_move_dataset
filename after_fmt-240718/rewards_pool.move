@@ -156,7 +156,8 @@ module rewards_pool::rewards_pool {
         let rewards = claim_rewards(claimer, rewards_pool, epoch);
         let claimer_addr = signer::address_of(claimer);
         vector::for_each_reverse(
-            rewards, |r| primary_fungible_store::deposit(claimer_addr, r)
+            rewards,
+            |r| primary_fungible_store::deposit(claimer_addr, r),
         );
     }
 
@@ -178,9 +179,8 @@ module rewards_pool::rewards_pool {
             reward_tokens,
             |reward_token| {
                 let reward = rewards(claimer_addr, rewards_data, reward_token, epoch);
-                let reward_store = simple_map::borrow(
-                    &rewards_data.reward_stores, &reward_token
-                );
+                let reward_store =
+                    simple_map::borrow(&rewards_data.reward_stores, &reward_token);
                 if (reward == 0) {
                     vector::push_back(
                         &mut rewards,
@@ -200,9 +200,8 @@ module rewards_pool::rewards_pool {
                     );
 
                     // Update the remaining amount of rewards for the epoch.
-                    let epoch_rewards = smart_table::borrow_mut(
-                        &mut rewards_data.epoch_rewards, epoch
-                    );
+                    let epoch_rewards =
+                        smart_table::borrow_mut(&mut rewards_data.epoch_rewards, epoch);
                     let total_token_rewards =
                         simple_map::borrow_mut(
                             &mut epoch_rewards.total_amounts, &reward_token
@@ -252,9 +251,8 @@ module rewards_pool::rewards_pool {
                 let total_amounts =
                     &mut epoch_rewards_or_default(&mut rewards_data.epoch_rewards, epoch).total_amounts;
                 if (simple_map::contains_key(total_amounts, &reward_token)) {
-                    let current_amount = simple_map::borrow_mut(
-                        total_amounts, &reward_token
-                    );
+                    let current_amount =
+                        simple_map::borrow_mut(total_amounts, &reward_token);
                     *current_amount = *current_amount + amount;
                 } else {
                     simple_map::add(total_amounts, reward_token, amount);
@@ -306,18 +304,15 @@ module rewards_pool::rewards_pool {
         };
 
         // Return the claimer's shares of the current total rewards for the epoch.
-        let total_token_rewards = *simple_map::borrow(
-            &epoch_rewards.total_amounts, &reward_token
-        );
+        let total_token_rewards =
+            *simple_map::borrow(&epoch_rewards.total_amounts, &reward_token);
         let claimer_shares = pool_u64::shares(&epoch_rewards.claimer_pool, claimer);
         pool_u64::shares_to_amount_with_total_coins(
             &epoch_rewards.claimer_pool, claimer_shares, total_token_rewards
         )
     }
 
-    inline fun safe_rewards_pool_data(
-        rewards_pool: &Object<RewardsPool>,
-    ): &RewardsPool acquires RewardsPool {
+    inline fun safe_rewards_pool_data(rewards_pool: &Object<RewardsPool>,): &RewardsPool acquires RewardsPool {
         borrow_global<RewardsPool>(object::object_address(rewards_pool))
     }
 

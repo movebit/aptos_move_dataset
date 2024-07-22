@@ -50,7 +50,8 @@ spec aptos_std::pool_u64_unbound {
         aborts_if pool.total_shares + new_shares > MAX_U128;
         include coins_amount > 0 ==>
             AddSharesAbortsIf { new_shares: new_shares };
-        include coins_amount > 0 ==> AddSharesEnsures { new_shares: new_shares };
+        include coins_amount > 0 ==>
+            AddSharesEnsures { new_shares: new_shares };
         ensures pool.total_coins == old(pool.total_coins) + coins_amount;
         ensures pool.total_shares == old(pool.total_shares) + new_shares;
         ensures result == new_shares;
@@ -109,10 +110,10 @@ spec aptos_std::pool_u64_unbound {
 
     spec amount_to_shares_with_total_coins(pool: &Pool, coins_amount: u64, total_coins: u64): u128 {
         aborts_if pool.total_coins > 0
-            && pool.total_shares > 0 && (coins_amount * pool.total_shares) / total_coins
-            > MAX_U128;
-        aborts_if (pool.total_coins == 0 || pool.total_shares == 0) && coins_amount
-            * pool.scaling_factor > MAX_U128;
+            && pool.total_shares > 0
+            && (coins_amount * pool.total_shares) / total_coins > MAX_U128;
+        aborts_if (pool.total_coins == 0 || pool.total_shares == 0)
+            && coins_amount * pool.scaling_factor > MAX_U128;
         aborts_if pool.total_coins > 0
             && pool.total_shares > 0
             && total_coins == 0;
@@ -122,8 +123,8 @@ spec aptos_std::pool_u64_unbound {
 
     spec shares_to_amount_with_total_coins(pool: &Pool, shares: u128, total_coins: u64): u64 {
         aborts_if pool.total_coins > 0
-            && pool.total_shares > 0 && (shares * total_coins) / pool.total_shares
-            > MAX_U64;
+            && pool.total_shares > 0
+            && (shares * total_coins) / pool.total_shares > MAX_U64;
         ensures result == spec_shares_to_amount_with_total_coins(
             pool, shares, total_coins
         );

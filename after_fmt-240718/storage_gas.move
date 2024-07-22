@@ -339,7 +339,10 @@ module aptos_framework::storage_gas {
     }
 
     public fun new_usage_gas_config(
-        target_usage: u64, read_curve: GasCurve, create_curve: GasCurve, write_curve: GasCurve
+        target_usage: u64,
+        read_curve: GasCurve,
+        create_curve: GasCurve,
+        write_curve: GasCurve
     ): UsageGasConfig {
         assert!(target_usage > 0, error::invalid_argument(EZERO_TARGET_USAGE));
         assert!(
@@ -455,12 +458,11 @@ module aptos_framework::storage_gas {
                 };
                 i <= len
             }) {
-            let cur =
-                if (i == 0) {
-                    &Point { x: 0, y: 0 }
-                } else {
-                    vector::borrow(points, i - 1)
-                };
+            let cur = if (i == 0) {
+                &Point { x: 0, y: 0 }
+            } else {
+                vector::borrow(points, i - 1)
+            };
             let next =
                 if (i == len) {
                     &Point { x: BASIS_POINT_DENOMINATION, y: BASIS_POINT_DENOMINATION }
@@ -526,9 +528,14 @@ module aptos_framework::storage_gas {
                 };
                 (vector::borrow(points, i), vector::borrow(points, i + 1))
             };
-        let y_interpolated = interpolate(
-            left.x, right.x, left.y, right.y, current_usage_bps
-        );
+        let y_interpolated =
+            interpolate(
+                left.x,
+                right.x,
+                left.y,
+                right.y,
+                current_usage_bps,
+            );
         interpolate(
             0,
             BASIS_POINT_DENOMINATION,
@@ -634,14 +641,27 @@ module aptos_framework::storage_gas {
                 vector[new_point(3000, 0), new_point(5000, 5000), new_point(8000, 5000)],
             );
         let byte_curve =
-            new_gas_curve(0, 1000, vector::singleton<Point>(new_point(5000, 3000)));
+            new_gas_curve(
+                0,
+                1000,
+                vector::singleton<Point>(new_point(5000, 3000)),
+            );
         let item_usage_config =
-            new_usage_gas_config(100, copy item_curve, copy item_curve, copy item_curve);
+            new_usage_gas_config(
+                100,
+                copy item_curve,
+                copy item_curve,
+                copy item_curve,
+            );
         let byte_usage_config =
-            new_usage_gas_config(2000, copy byte_curve, copy byte_curve, copy byte_curve);
-        let storage_gas_config = new_storage_gas_config(
-            item_usage_config, byte_usage_config
-        );
+            new_usage_gas_config(
+                2000,
+                copy byte_curve,
+                copy byte_curve,
+                copy byte_curve,
+            );
+        let storage_gas_config =
+            new_storage_gas_config(item_usage_config, byte_usage_config);
         set_config(&framework, storage_gas_config);
         {
             state_storage::set_for_test(0, 20, 100);

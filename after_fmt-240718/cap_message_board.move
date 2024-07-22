@@ -47,8 +47,7 @@ module message_board::cap_based_mb {
 
     /// create the message board and move the resource to signer
     public entry fun message_board_init(account: &signer) {
-        let board =
-            CapBasedMB { pinned_post: vector::empty<u8>() };
+        let board = CapBasedMB { pinned_post: vector::empty<u8>() };
         let board_addr = signer::address_of(account);
         move_to(account, board);
         let notice_cap = MessageChangeCapability { board: board_addr };
@@ -73,8 +72,7 @@ module message_board::cap_based_mb {
 
     /// claim offered capability
     public entry fun claim_notice_cap(account: &signer, board: address) {
-        let notice_cap =
-            offer::redeem<MessageChangeCapability>(account, board);
+        let notice_cap = offer::redeem<MessageChangeCapability>(account, board);
         move_to(account, notice_cap);
     }
 
@@ -94,8 +92,7 @@ module message_board::cap_based_mb {
     public entry fun send_pinned_message(
         account: &signer, board_addr: address, message: vector<u8>
     ) acquires MessageChangeCapability, CapBasedMB {
-        let cap =
-            borrow_global<MessageChangeCapability>(signer::address_of(account));
+        let cap = borrow_global<MessageChangeCapability>(signer::address_of(account));
         assert!(cap.board == board_addr, EACCOUNT_NO_NOTICE_CAP);
         let board = borrow_global_mut<CapBasedMB>(board_addr);
         board.pinned_post = message;

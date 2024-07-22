@@ -100,7 +100,9 @@ module aptos_std::math_fixed {
 
         let result = sqrt(fixed_point32::create_from_u64(2));
         assert_approx_the_same(
-            (fixed_point32::get_raw_value(result) as u128), 6074001000, 9
+            (fixed_point32::get_raw_value(result) as u128),
+            6074001000,
+            9,
         );
     }
 

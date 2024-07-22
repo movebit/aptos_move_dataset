@@ -170,7 +170,10 @@ module DiemFramework::CRSN {
         include has_crsn(addr)
             && (sequence_nonce >= crsn.min_nonce)
             && (sequence_nonce + crsn.min_nonce < bit_vector::length(crsn.slots)) ==>
-            bit_vector::IsIndexSetAbortsIf { bitvector: crsn.slots, bit_index: scaled_nonce };
+            bit_vector::IsIndexSetAbortsIf {
+                bitvector: crsn.slots,
+                bit_index: scaled_nonce
+            };
     }
 
     spec fun spec_check(addr: address, sequence_nonce: u64): bool {

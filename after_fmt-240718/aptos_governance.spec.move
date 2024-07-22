@@ -515,22 +515,18 @@ spec aptos_framework::aptos_governance {
         // Due to the complexity of the success state, the validation of 'borrow_global_mut<ApprovedExecutionHashes>(@aptos_framework);' is discussed in four cases.
         /// [high-level-req-3]
         aborts_if if (should_pass) {
-            proposal_state_successed_0 && !exists<ApprovedExecutionHashes>(
-                @aptos_framework
-            )
+            proposal_state_successed_0
+                && !exists<ApprovedExecutionHashes>(@aptos_framework)
         } else {
-            proposal_state_successed_1 && !exists<ApprovedExecutionHashes>(
-                @aptos_framework
-            )
+            proposal_state_successed_1
+                && !exists<ApprovedExecutionHashes>(@aptos_framework)
         };
         aborts_if if (should_pass) {
-            proposal_state_successed_2 && !exists<ApprovedExecutionHashes>(
-                @aptos_framework
-            )
+            proposal_state_successed_2
+                && !exists<ApprovedExecutionHashes>(@aptos_framework)
         } else {
-            proposal_state_successed_3 && !exists<ApprovedExecutionHashes>(
-                @aptos_framework
-            )
+            proposal_state_successed_3
+                && !exists<ApprovedExecutionHashes>(@aptos_framework)
         };
         ensures proposal_state_successed ==>
             simple_map::spec_contains_key(post_approved_hashes.hashes, proposal_id)

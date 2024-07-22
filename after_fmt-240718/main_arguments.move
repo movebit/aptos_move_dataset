@@ -26,6 +26,5 @@ script {
         _vvvv64: vector<vector<vector<vector<u64>>>>,
         _vvvv128: vector<vector<vector<vector<u128>>>>,
         _vvvvb: vector<vector<vector<vector<bool>>>>,
-    ) {
-    }
+    ) {}
 }

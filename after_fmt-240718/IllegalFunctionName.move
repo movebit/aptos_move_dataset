@@ -5,6 +5,5 @@ module 0x2::M {
     fun illegal_char_begin() {}
 
     #[callable(sig = b"add) () ")]
-    fun illegal_char() {
-    }
+    fun illegal_char() {}
 }

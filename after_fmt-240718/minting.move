@@ -266,9 +266,8 @@ module post_mint_reveal_nft::minting {
 
         // If CollectionConfig already exists, update it.
         if (exists<CollectionConfig>(@post_mint_reveal_nft)) {
-            let collection_config = borrow_global_mut<CollectionConfig>(
-                @post_mint_reveal_nft
-            );
+            let collection_config =
+                borrow_global_mut<CollectionConfig>(@post_mint_reveal_nft);
             collection_config.destination_collection_name = destination_collection_name;
             collection_config.destination_collection_description = destination_collection_description;
             collection_config.destination_collection_maximum = destination_collection_maximum;
@@ -361,9 +360,8 @@ module post_mint_reveal_nft::minting {
 
         // If PublicMintConfig already exists, update it.
         if (exists<PublicMintConfig>(@post_mint_reveal_nft)) {
-            let public_mint_config = borrow_global_mut<PublicMintConfig>(
-                @post_mint_reveal_nft
-            );
+            let public_mint_config =
+                borrow_global_mut<PublicMintConfig>(@post_mint_reveal_nft);
             public_mint_config.public_minting_start_time = public_minting_start_time;
             public_mint_config.public_minting_end_time = public_minting_end_time;
             public_mint_config.public_mint_price = public_mint_price;
@@ -452,16 +450,16 @@ module post_mint_reveal_nft::minting {
         );
         assert!(
             vector::length(&token_uris) == vector::length(&property_keys)
-            && vector::length(&property_keys)
-                == vector::length(&property_values)
+            && vector::length(&property_keys) == vector::length(&property_values)
             && vector::length(&property_values) == vector::length(&property_types),
             error::invalid_argument(EVECTOR_LENGTH_UNMATCHED),
         );
-        let collection_config = borrow_global_mut<CollectionConfig>(@post_mint_reveal_nft);
+        let collection_config =
+            borrow_global_mut<CollectionConfig>(@post_mint_reveal_nft);
 
         assert!(
-            vector::length(&token_uris) + big_vector::length(&collection_config.tokens) <= collection_config
-            .destination_collection_maximum
+            vector::length(&token_uris) + big_vector::length(&collection_config.tokens)
+                <= collection_config.destination_collection_maximum
                 || collection_config.destination_collection_maximum == 0,
             error::invalid_argument(EEXCEEDS_COLLECTION_MAXIMUM),
         );
@@ -497,10 +495,10 @@ module post_mint_reveal_nft::minting {
             error::permission_denied(ECONFIG_NOT_INITIALIZED),
         );
 
-        let public_mint_config = borrow_global_mut<PublicMintConfig>(
-            @post_mint_reveal_nft
-        );
-        let collection_config = borrow_global_mut<CollectionConfig>(@post_mint_reveal_nft);
+        let public_mint_config =
+            borrow_global_mut<PublicMintConfig>(@post_mint_reveal_nft);
+        let collection_config =
+            borrow_global_mut<CollectionConfig>(@post_mint_reveal_nft);
 
         let now = timestamp::now_seconds();
         let price = public_mint_config.public_mint_price;
@@ -525,7 +523,10 @@ module post_mint_reveal_nft::minting {
         if (user_currently_eligible_for_whitelist_minting) {
             price = whitelist_price;
             whitelist::deduct_user_minting_amount(
-                @post_mint_reveal_nft, claimer_addr, whitelist_stage, amount
+                @post_mint_reveal_nft,
+                claimer_addr,
+                whitelist_stage,
+                amount,
             );
         } else {
             if (collection_config.public_mint_limit != 0) {
@@ -557,9 +558,7 @@ module post_mint_reveal_nft::minting {
 
     // Exchange a source certificate token to a destination token. This function will burn the source certificate
     // and put a destination token in the nft_claimer's TokenStore.
-    entry fun exchange(
-        nft_claimer: &signer, source_token_name: String
-    ) acquires NFTMintConfig, CollectionConfig, RevealConfig, SourceToken {
+    entry fun exchange(nft_claimer: &signer, source_token_name: String) acquires NFTMintConfig, CollectionConfig, RevealConfig, SourceToken {
         let nft_mint_config = borrow_global_mut<NFTMintConfig>(@post_mint_reveal_nft);
         assert!(
             exists<CollectionConfig>(@post_mint_reveal_nft)
@@ -574,7 +573,8 @@ module post_mint_reveal_nft::minting {
             error::permission_denied(ECANNOT_EXCHANGE_BEFORE_REVEAL_STARTS),
         );
 
-        let collection_config = borrow_global_mut<CollectionConfig>(@post_mint_reveal_nft);
+        let collection_config =
+            borrow_global_mut<CollectionConfig>(@post_mint_reveal_nft);
         let source_collection_creator =
             borrow_global<SourceToken>(@post_mint_reveal_nft).source_collection_creator;
         let source_collection_name =
@@ -646,7 +646,7 @@ module post_mint_reveal_nft::minting {
             Exchange {
                 token_receiver_address: signer::address_of(nft_claimer),
                 token_id,
-            }
+            },
         );
     }
 
@@ -671,7 +671,8 @@ module post_mint_reveal_nft::minting {
 
         let nft_mint_config = borrow_global_mut<NFTMintConfig>(@post_mint_reveal_nft);
         let source_token = borrow_global_mut<SourceToken>(@post_mint_reveal_nft);
-        let collection_config = borrow_global_mut<CollectionConfig>(@post_mint_reveal_nft);
+        let collection_config =
+            borrow_global_mut<CollectionConfig>(@post_mint_reveal_nft);
         assert!(
             source_token.source_token_counter + amount
                 <= big_vector::length(&collection_config.tokens) + 1,
@@ -847,9 +848,8 @@ module post_mint_reveal_nft::minting {
 
         timestamp::fast_forward_seconds(160);
         mint_source_certificate(&public_nft_claimer, 1);
-        let public_mint_config = borrow_global_mut<PublicMintConfig>(
-            @post_mint_reveal_nft
-        );
+        let public_mint_config =
+            borrow_global_mut<PublicMintConfig>(@post_mint_reveal_nft);
         assert!(
             *bucket_table::borrow(
                 &mut public_mint_config.public_minting_addresses,
@@ -887,12 +887,14 @@ module post_mint_reveal_nft::minting {
         assert!(token::balance_of(signer::address_of(&wl_nft_claimer), token_id1) == 1, 0);
         assert!(token::balance_of(signer::address_of(&wl_nft_claimer), token_id2) == 1, 1);
         assert!(
-            token::balance_of(signer::address_of(&public_nft_claimer), token_id3) == 1, 2
+            token::balance_of(signer::address_of(&public_nft_claimer), token_id3) == 1,
+            2,
         );
         assert!(coin::balance<AptosCoin>(signer::address_of(&treasury_account)) == 20, 1);
         assert!(coin::balance<AptosCoin>(signer::address_of(&wl_nft_claimer)) == 90, 2);
         assert!(
-            coin::balance<AptosCoin>(signer::address_of(&public_nft_claimer)) == 90, 3
+            coin::balance<AptosCoin>(signer::address_of(&public_nft_claimer)) == 90,
+            3,
         );
 
         // Exchange to the destination NFT.
@@ -947,7 +949,8 @@ module post_mint_reveal_nft::minting {
         assert!(token::balance_of(signer::address_of(&wl_nft_claimer), token_id1) == 0, 8);
         assert!(token::balance_of(signer::address_of(&wl_nft_claimer), token_id2) == 0, 9);
         assert!(
-            token::balance_of(signer::address_of(&public_nft_claimer), token_id3) == 0, 10
+            token::balance_of(signer::address_of(&public_nft_claimer), token_id3) == 0,
+            10,
         );
     }
 
@@ -1224,9 +1227,8 @@ module post_mint_reveal_nft::minting {
         set_public_minting_and_reveal_config(&admin_account, 201, 400, 10, 400);
         set_public_minting_and_reveal_config(&admin_account, 400, 600, 50, 600);
 
-        let public_minting_config = borrow_global_mut<PublicMintConfig>(
-            @post_mint_reveal_nft
-        );
+        let public_minting_config =
+            borrow_global_mut<PublicMintConfig>(@post_mint_reveal_nft);
         assert!(public_minting_config.public_minting_start_time == 400, 3);
         assert!(public_minting_config.public_minting_end_time == 600, 4);
         assert!(public_minting_config.public_mint_price == 50, 5);
@@ -1465,7 +1467,8 @@ module post_mint_reveal_nft::minting {
                 0,
             );
         assert!(
-            token::balance_of(signer::address_of(&wl_nft_claimer2), token_id3) == 1, 3
+            token::balance_of(signer::address_of(&wl_nft_claimer2), token_id3) == 1,
+            3,
         );
         assert!(coin::balance<AptosCoin>(signer::address_of(&wl_nft_claimer2)) == 94, 4);
     }

@@ -249,9 +249,8 @@ module aptos_framework::staking_config {
 
     /// Calculate and return the up-to-date StakingRewardsConfig.
     fun calculate_and_save_latest_rewards_config(): StakingRewardsConfig acquires StakingRewardsConfig {
-        let staking_rewards_config = borrow_global_mut<StakingRewardsConfig>(
-            @aptos_framework
-        );
+        let staking_rewards_config =
+            borrow_global_mut<StakingRewardsConfig>(@aptos_framework);
         let current_time_in_secs = timestamp::now_seconds();
         assert!(
             current_time_in_secs
@@ -261,7 +260,7 @@ module aptos_framework::staking_config {
         if (current_time_in_secs
                 - staking_rewards_config.last_rewards_rate_period_start_in_secs
                 < staking_rewards_config.rewards_rate_period_in_secs) {
-            return*staking_rewards_config
+            return *staking_rewards_config
         };
         // Rewards rate decrease rate cannot be greater than 100%. Otherwise rewards rate will be negative.
         assert!(
@@ -283,7 +282,7 @@ module aptos_framework::staking_config {
         staking_rewards_config.last_rewards_rate_period_start_in_secs = staking_rewards_config
             .last_rewards_rate_period_start_in_secs
             + staking_rewards_config.rewards_rate_period_in_secs;
-        return*staking_rewards_config
+        return *staking_rewards_config
     }
 
     /// Update the min and max stake amounts.
@@ -368,9 +367,8 @@ module aptos_framework::staking_config {
             rewards_rate_decrease_rate,
         );
 
-        let staking_rewards_config = borrow_global_mut<StakingRewardsConfig>(
-            @aptos_framework
-        );
+        let staking_rewards_config =
+            borrow_global_mut<StakingRewardsConfig>(@aptos_framework);
         // Currently rewards_rate_period_in_secs is not allowed to be changed because this could bring complicated
         // logics. At the moment the argument is just a placeholder for future use.
         assert!(
@@ -536,7 +534,8 @@ module aptos_framework::staking_config {
         assert!(config.rewards_rate_period_in_secs == ONE_YEAR_IN_SECS, 4);
         assert!(config.last_rewards_rate_period_start_in_secs == start_time_in_secs, 4);
         assert!(
-            equal(config.rewards_rate_decrease_rate, create_from_rational(25, 100)), 5
+            equal(config.rewards_rate_decrease_rate, create_from_rational(25, 100)),
+            5,
         );
     }
 

@@ -10,9 +10,7 @@ module DiemFramework::XUS {
     struct XUS {}
 
     /// Registers the `XUS` cointype. This can only be called from genesis.
-    public fun initialize(
-        dr_account: &signer, tc_account: &signer,
-    ) {
+    public fun initialize(dr_account: &signer, tc_account: &signer,) {
         DiemTimestamp::assert_genesis();
         Roles::assert_treasury_compliance(tc_account);
         Roles::assert_diem_root(dr_account);
@@ -60,7 +58,8 @@ module DiemFramework::XUS {
     /// # Persistence of Resources
     spec module {
         /// After genesis, XUS is registered.
-        invariant [suspendable] DiemTimestamp::is_operating() ==> Diem::is_currency<XUS>();
+        invariant [suspendable] DiemTimestamp::is_operating() ==>
+            Diem::is_currency<XUS>();
 
         /// After genesis, `LimitsDefinition<XUS>` is published at Diem root. It's published by
         /// AccountLimits::publish_unrestricted_limits, but we can't prove the condition there because

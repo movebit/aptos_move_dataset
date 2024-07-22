@@ -45,9 +45,10 @@ spec aptos_std::secp256k1 {
             == spec_ecdsa_recover_internal_result_1(message, recovery_id, signature);
         ensures result_2
             == spec_ecdsa_recover_internal_result_2(message, recovery_id, signature);
-        ensures len(result_1) == if (result_2) {
-            RAW_PUBLIC_KEY_NUM_BYTES
-        } else { 0 };
+        ensures len(result_1)
+            == if (result_2) {
+                RAW_PUBLIC_KEY_NUM_BYTES
+            } else { 0 };
     }
 
     spec fun ecdsa_recover_internal_abort_condition(

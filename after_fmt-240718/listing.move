@@ -145,22 +145,19 @@ module marketplace::listing {
         let direct_transfer_enabled = tokenv1::get_direct_transfer(recipient);
         let object_addr = object::object_address(&object);
         if (direct_transfer_enabled) {
-            let TokenV1Container { token, delete_ref, transfer_ref: _, } = move_from(
-                object_addr
-            );
+            let TokenV1Container { token, delete_ref, transfer_ref: _, } =
+                move_from(object_addr);
             tokenv1::direct_deposit_with_opt_in(recipient, token);
             object::delete(delete_ref);
         } else if (signer::address_of(closer) == recipient) {
-            let TokenV1Container { token, delete_ref, transfer_ref: _, } = move_from(
-                object_addr
-            );
+            let TokenV1Container { token, delete_ref, transfer_ref: _, } =
+                move_from(object_addr);
             tokenv1::deposit_token(closer, token);
             object::delete(delete_ref);
         } else {
             let tokenv1_container = borrow_global<TokenV1Container>(object_addr);
-            let linear_transfer_ref = object::generate_linear_transfer_ref(
-                &tokenv1_container.transfer_ref
-            );
+            let linear_transfer_ref =
+                object::generate_linear_transfer_ref(&tokenv1_container.transfer_ref);
             object::transfer_with_ref(linear_transfer_ref, recipient);
         };
     }
@@ -175,9 +172,8 @@ module marketplace::listing {
             object::is_owner(object, signer::address_of(owner)),
             error::permission_denied(ENOT_OWNER),
         );
-        let TokenV1Container { token, delete_ref, transfer_ref: _, } = move_from(
-            object_addr
-        );
+        let TokenV1Container { token, delete_ref, transfer_ref: _, } =
+            move_from(object_addr);
         object::delete(delete_ref);
         tokenv1::deposit_token(owner, token);
     }
@@ -243,9 +239,7 @@ module marketplace::listing {
     #[view]
     /// Compute the royalty either from the internal TokenV1, TokenV2 if it exists, or return
     /// no royalty.
-    public fun compute_royalty(
-        object: Object<Listing>, amount: u64,
-    ): (address, u64) acquires Listing, TokenV1Container {
+    public fun compute_royalty(object: Object<Listing>, amount: u64,): (address, u64) acquires Listing, TokenV1Container {
         let listing = borrow_listing(object);
         let obj_addr = object::object_address(&listing.object);
         if (exists<TokenV1Container>(obj_addr)) {

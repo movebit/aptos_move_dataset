@@ -45,9 +45,7 @@ module DiemFramework::XDX {
     /// correct address (`@CurrencyInfo`) and have the
     /// correct permissions (`&Capability<RegisterNewCurrency>`). Both of these
     /// restrictions are enforced in the `Diem::register_currency` function, but also enforced here.
-    public fun initialize(
-        dr_account: &signer, tc_account: &signer,
-    ) {
+    public fun initialize(dr_account: &signer, tc_account: &signer,) {
         DiemTimestamp::assert_genesis();
         // Operational constraint
         CoreAddresses::assert_currency_info(dr_account);
@@ -138,7 +136,8 @@ module DiemFramework::XDX {
         invariant [suspendable] DiemTimestamp::is_operating() ==> reserve_exists();
 
         /// After genesis, XDX is registered.
-        invariant [suspendable] DiemTimestamp::is_operating() ==> Diem::is_currency<XDX>();
+        invariant [suspendable] DiemTimestamp::is_operating() ==>
+            Diem::is_currency<XDX>();
 
         /// After genesis, the exchange rate to XDX is always equal to 1.0.
         invariant [suspendable] DiemTimestamp::is_operating() ==>

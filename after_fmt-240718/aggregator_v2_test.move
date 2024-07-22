@@ -54,7 +54,9 @@ module 0x1::aggregator_v2_test {
         let snapshot = aggregator_v2::create_snapshot(42);
         let snapshot2 =
             aggregator_v2::derive_string_concat(
-                std::string::utf8(b"before"), &snapshot, std::string::utf8(b"after")
+                std::string::utf8(b"before"),
+                &snapshot,
+                std::string::utf8(b"after"),
             );
         let val = aggregator_v2::read_derived_string(&snapshot2);
 
@@ -100,7 +102,8 @@ module 0x1::aggregator_v2_test {
     fun delete<Agg: store + drop>(account_addr: address, use_type: u32) acquires AggregatorInResource, AggregatorInResourceGroup {
         if (use_type == USE_RESOURCE_TYPE) {
             assert!(
-                exists<AggregatorInResource<Agg>>(account_addr), ERESOURCE_DOESNT_EXIST
+                exists<AggregatorInResource<Agg>>(account_addr),
+                ERESOURCE_DOESNT_EXIST,
             );
             move_from<AggregatorInResource<Agg>>(account_addr);
             // } else if (use_type == USE_TABLE_TYPE) {
@@ -147,7 +150,8 @@ module 0x1::aggregator_v2_test {
         let vector_data =
             if (use_type == USE_RESOURCE_TYPE) {
                 assert!(
-                    exists<AggregatorInResource<Agg>>(account_addr), ERESOURCE_DOESNT_EXIST
+                    exists<AggregatorInResource<Agg>>(account_addr),
+                    ERESOURCE_DOESNT_EXIST,
                 );
                 &mut borrow_global_mut<AggregatorInResource<Agg>>(account_addr).data
             } else if (use_type == USE_TABLE_TYPE) {
@@ -191,7 +195,8 @@ module 0x1::aggregator_v2_test {
         let vector_data =
             if (use_type == USE_RESOURCE_TYPE) {
                 assert!(
-                    exists<AggregatorInResource<Agg>>(account_addr), ERESOURCE_DOESNT_EXIST
+                    exists<AggregatorInResource<Agg>>(account_addr),
+                    ERESOURCE_DOESNT_EXIST,
                 );
                 &borrow_global<AggregatorInResource<Agg>>(account_addr).data
             } else if (use_type == USE_TABLE_TYPE) {
@@ -249,7 +254,10 @@ module 0x1::aggregator_v2_test {
         addr: address, use_type: u32, i: u64, limit: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         insert<Aggregator<Element>>(
-            addr, use_type, i, aggregator_v2::create_aggregator(limit)
+            addr,
+            use_type,
+            i,
+            aggregator_v2::create_aggregator(limit),
         );
     }
 
@@ -257,7 +265,10 @@ module 0x1::aggregator_v2_test {
         addr: address, use_type: u32, i: u64
     ): Element acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         for_element_ref<Aggregator<Element>, Element>(
-            addr, use_type, i, |aggregator| aggregator_v2::read(aggregator)
+            addr,
+            use_type,
+            i,
+            |aggregator| aggregator_v2::read(aggregator),
         )
     }
 
@@ -327,14 +338,22 @@ module 0x1::aggregator_v2_test {
     }
 
     public entry fun new_add<Element: drop + copy + store>(
-        addr: address, use_type: u32, i: u64, limit: Element, a: Element
+        addr: address,
+        use_type: u32,
+        i: u64,
+        limit: Element,
+        a: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         new(addr, use_type, i, limit);
         add(addr, use_type, i, a);
     }
 
     public entry fun sub_add<Element: store + drop>(
-        addr: address, use_type: u32, i: u64, a: Element, b: Element
+        addr: address,
+        use_type: u32,
+        i: u64,
+        a: Element,
+        b: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         for_element_mut<Aggregator<Element>, bool>(
             addr,
@@ -349,7 +368,11 @@ module 0x1::aggregator_v2_test {
     }
 
     public entry fun add_if_at_least<Element: store + drop>(
-        addr: address, use_type: u32, i: u64, a: Element, b: Element
+        addr: address,
+        use_type: u32,
+        i: u64,
+        a: Element,
+        b: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         let is_at_least =
             for_element_ref<Aggregator<Element>, bool>(
@@ -373,7 +396,11 @@ module 0x1::aggregator_v2_test {
     }
 
     public entry fun add_sub<Element: store + drop>(
-        addr: address, use_type: u32, i: u64, a: Element, b: Element
+        addr: address,
+        use_type: u32,
+        i: u64,
+        a: Element,
+        b: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         for_element_mut<Aggregator<Element>, bool>(
             addr,
@@ -506,7 +533,10 @@ module 0x1::aggregator_v2_test {
         addr: address, use_type: u32, i: u64
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         for_element_ref<AggregatorSnapshot<Element>, Element>(
-            addr, use_type, i, |snapshot| aggregator_v2::read_snapshot(snapshot)
+            addr,
+            use_type,
+            i,
+            |snapshot| aggregator_v2::read_snapshot(snapshot),
         );
     }
 
@@ -515,7 +545,10 @@ module 0x1::aggregator_v2_test {
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         let actual =
             for_element_ref<AggregatorSnapshot<Element>, Element>(
-                addr, use_type, i, |snapshot| aggregator_v2::read_snapshot(snapshot)
+                addr,
+                use_type,
+                i,
+                |snapshot| aggregator_v2::read_snapshot(snapshot),
             );
         assert!(actual == expected, ENOT_EQUAL)
     }
@@ -525,7 +558,10 @@ module 0x1::aggregator_v2_test {
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         let actual =
             for_element_ref<DerivedStringSnapshot, String>(
-                addr, use_type, i, |snapshot| aggregator_v2::read_derived_string(snapshot)
+                addr,
+                use_type,
+                i,
+                |snapshot| aggregator_v2::read_derived_string(snapshot),
             );
         assert!(actual == expected, ENOT_EQUAL)
     }
@@ -545,15 +581,12 @@ module 0x1::aggregator_v2_test {
                 let aggregator_snapshot_2 = aggregator_v2::snapshot(aggregator);
                 aggregator_v2::add(aggregator, value);
                 let aggregator_snapshot_3 = aggregator_v2::snapshot(aggregator);
-                let _snapshot_value_1 = aggregator_v2::read_snapshot(
-                    &aggregator_snapshot_1
-                );
-                let _snapshot_value_2 = aggregator_v2::read_snapshot(
-                    &aggregator_snapshot_2
-                );
-                let snapshot_value_3 = aggregator_v2::read_snapshot(
-                    &aggregator_snapshot_3
-                );
+                let _snapshot_value_1 =
+                    aggregator_v2::read_snapshot(&aggregator_snapshot_1);
+                let _snapshot_value_2 =
+                    aggregator_v2::read_snapshot(&aggregator_snapshot_2);
+                let snapshot_value_3 =
+                    aggregator_v2::read_snapshot(&aggregator_snapshot_3);
                 // assert!(snapshot_value_2 == snapshot_value_1 + value, ENOT_EQUAL);
                 // assert!(snapshot_value_3 == snapshot_value_2 + value, ENOT_EQUAL);
                 snapshot_value_3

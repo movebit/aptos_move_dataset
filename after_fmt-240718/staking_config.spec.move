@@ -81,7 +81,8 @@ spec aptos_framework::staking_config {
 
     spec StakingRewardsConfig {
         invariant fixed_point64::spec_less_or_equal(
-            rewards_rate, fixed_point64::spec_create_from_u128((1u128))
+            rewards_rate,
+            fixed_point64::spec_create_from_u128((1u128)),
         );
         invariant fixed_point64::spec_less_or_equal(min_rewards_rate, rewards_rate);
         invariant rewards_rate_period_in_secs > 0;
@@ -314,7 +315,8 @@ spec aptos_framework::staking_config {
         rewards_rate_decrease_rate: FixedPoint64;
 
         aborts_if fixed_point64::spec_greater(
-            rewards_rate, fixed_point64::spec_create_from_u128((1u128))
+            rewards_rate,
+            fixed_point64::spec_create_from_u128((1u128)),
         );
         aborts_if fixed_point64::spec_greater(min_rewards_rate, rewards_rate);
         aborts_if rewards_rate_period_in_secs == 0;
@@ -337,7 +339,8 @@ spec aptos_framework::staking_config {
         let rewards_rate_decrease_rate = staking_rewards_config.rewards_rate_decrease_rate;
 
         requires fixed_point64::spec_less_or_equal(
-            rewards_rate, fixed_point64::spec_create_from_u128((1u128))
+            rewards_rate,
+            fixed_point64::spec_create_from_u128((1u128)),
         );
         requires fixed_point64::spec_less_or_equal(min_rewards_rate, rewards_rate);
         requires rewards_rate_period_in_secs > 0;

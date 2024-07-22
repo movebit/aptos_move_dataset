@@ -16,7 +16,7 @@ module 0x8675309::Tester {
         let data = borrow_global_mut<Data>(sender);
         b1.f = data.v1;
         b2.f = data.v2;
-        if (b1.f > b2.f) &b1.f else&b2.f
+        if (b1.f > b2.f) &b1.f else &b2.f
     }
 
     fun larger_field(account: &signer, drop: address, result: &mut u64) acquires Box, Data {

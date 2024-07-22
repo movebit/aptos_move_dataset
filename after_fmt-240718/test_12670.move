@@ -6,9 +6,11 @@ module 0x1::Test {
 
     fun foo(xs: vector<S>) {
         let sum: u8 = 0;
-        for_each_ref(&xs,
+        for_each_ref(
+            &xs,
             |e| {
                 sum = sum + e.x;
-            });
+            },
+        );
     }
 }

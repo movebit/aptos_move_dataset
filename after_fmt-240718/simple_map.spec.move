@@ -81,9 +81,8 @@ spec aptos_std::simple_map {
         pragma opaque;
         aborts_if [abstract] false;
         ensures [abstract] spec_len(result) == len(keys);
-        ensures [abstract] forall k: Key: spec_contains_key(result, k) <==> vector::spec_contains(
-            keys, k
-        );
+        ensures [abstract] forall k: Key: spec_contains_key(result, k) <==>
+            vector::spec_contains(keys, k);
         ensures [abstract] forall i in 0..len(keys): spec_get(
             result, vector::borrow(keys, i)
         ) == vector::borrow(values, i);
@@ -108,8 +107,10 @@ spec aptos_std::simple_map {
         pragma intrinsic;
         pragma opaque;
         aborts_if [abstract] false;
-        ensures [abstract]!spec_contains_key(old(map), key) ==> option::is_none(result_1);
-        ensures [abstract]!spec_contains_key(old(map), key) ==> option::is_none(result_2);
+        ensures [abstract]!spec_contains_key(old(map), key) ==>
+            option::is_none(result_1);
+        ensures [abstract]!spec_contains_key(old(map), key) ==>
+            option::is_none(result_2);
         ensures [abstract] spec_contains_key(map, key);
         ensures [abstract] spec_get(map, key) == value;
         ensures [abstract] spec_contains_key(old(map), key) ==>

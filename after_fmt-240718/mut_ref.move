@@ -40,7 +40,7 @@ module 0x1::TestMutRef {
     // ====================================
 
     fun return_ref_different_root(b: bool, x: &mut T, y: &mut R): &mut u64 {
-        if (b)&mut x.value else&mut y.value
+        if (b)&mut x.value else &mut y.value
     }
 
     fun call_return_ref_different_root(b: bool): (T, R) {
@@ -52,15 +52,17 @@ module 0x1::TestMutRef {
     }
 
     spec call_return_ref_different_root {
-        ensures b ==> result_1 == T { value: 5 } && result_2 == R { value: 10 };
-        ensures !b ==> result_1 == T { value: 1 } && result_2 == R { value: 5 };
+        ensures b ==>
+            result_1 == T { value: 5 } && result_2 == R { value: 10 };
+        ensures !b ==>
+            result_1 == T { value: 1 } && result_2 == R { value: 5 };
     }
 
     // Return reference with different path
     // ====================================
 
     fun return_ref_different_path(b: bool, x: &mut N): &mut u64 {
-        if (b)&mut x.value else&mut x.t.value
+        if (b)&mut x.value else &mut x.t.value
     }
 
     fun call_return_ref_different_path(b: bool): N {
@@ -101,8 +103,10 @@ module 0x1::TestMutRef {
     }
 
     spec call_return_ref_different_path_vec {
-        ensures b ==> result == V { is: concat(vec(1u64), vec(5u64)), ts: vec() };
-        ensures !b ==> result == V { is: concat(vec(5u64), vec(2u64)), ts: vec() };
+        ensures b ==>
+            result == V { is: concat(vec(1u64), vec(5u64)), ts: vec() };
+        ensures !b ==>
+            result == V { is: concat(vec(5u64), vec(2u64)), ts: vec() };
     }
 
     // Different path into a vector or a vector of structs subfield

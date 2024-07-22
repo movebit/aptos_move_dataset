@@ -22,7 +22,13 @@ module 0x8675309::M {
         let s4 = S { f: 0 };
 
         (
-            &mut v1, &v2, id_mut(&mut v3), id(&v4), &mut s1.f, &s2.f, id_mut(&mut s3.f),
+            &mut v1,
+            &v2,
+            id_mut(&mut v3),
+            id(&v4),
+            &mut s1.f,
+            &s2.f,
+            id_mut(&mut s3.f),
             id(&s4.f)
         )
     }

@@ -74,8 +74,8 @@ module DiemFramework::DiemTransactionPublishingOption {
         let publish_option = DiemConfig::get<DiemTransactionPublishingOption>();
         // allowlist empty = open publishing, anyone can send txes
         vector::is_empty(&publish_option.script_allow_list)
-        // fixed allowlist. check inclusion
-        || vector::contains(&publish_option.script_allow_list, hash)
+            // fixed allowlist. check inclusion
+            || vector::contains(&publish_option.script_allow_list, hash)
     }
 
     spec is_script_allowed {
@@ -182,7 +182,9 @@ module DiemFramework::DiemTransactionPublishingOption {
     spec schema DiemVersionRemainsSame {
         ensures old(DiemConfig::spec_is_published<DiemTransactionPublishingOption>()) ==>
             global<DiemConfig<DiemTransactionPublishingOption>>(@DiemRoot)
-                == old(global<DiemConfig<DiemTransactionPublishingOption>>(@DiemRoot));
+                == old(
+                    global<DiemConfig<DiemTransactionPublishingOption>>(@DiemRoot),
+                );
     }
 
     spec module {
@@ -192,25 +194,24 @@ module DiemFramework::DiemTransactionPublishingOption {
     /// # Helper Functions
     spec module {
         fun spec_is_script_allowed(account: signer, hash: vector<u8>): bool {
-            let publish_option = DiemConfig::spec_get_config<
-                DiemTransactionPublishingOption>();
+            let publish_option =
+                DiemConfig::spec_get_config<DiemTransactionPublishingOption>();
             Roles::has_diem_root_role(account)
                 || (
                     !transactions_halted()
                     && (
                         vector::is_empty(hash)
                         || (
-                            vector::is_empty(publish_option.script_allow_list) || contains(
-                                publish_option.script_allow_list, hash
-                            )
+                            vector::is_empty(publish_option.script_allow_list)
+                            || contains(publish_option.script_allow_list, hash)
                         )
                     )
                 )
         }
 
         fun spec_is_module_allowed(account: signer): bool {
-            let publish_option = DiemConfig::spec_get_config<
-                DiemTransactionPublishingOption>();
+            let publish_option =
+                DiemConfig::spec_get_config<DiemTransactionPublishingOption>();
             publish_option.module_publishing_allowed || Roles::has_diem_root_role(account)
         }
     }

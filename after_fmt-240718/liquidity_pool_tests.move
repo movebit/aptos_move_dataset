@@ -26,7 +26,9 @@ module swap::liquidity_pool_tests {
         let expected_total_reserves_1 = ((200000 - amount_out_1 - fees_1 + 10000) as u128);
         let expected_total_reserves_2 = ((300000 - amount_out_2 - fees_2 + 10000) as u128);
         verify_reserves(
-            pool, (expected_total_reserves_1 as u64), (expected_total_reserves_2 as u64)
+            pool,
+            (expected_total_reserves_1 as u64),
+            (expected_total_reserves_2 as u64),
         );
 
         // Remove half of the liquidity. Should receive the proportional amounts of tokens back.
@@ -73,9 +75,8 @@ module swap::liquidity_pool_tests {
         primary_fungible_store::deposit(lp_1_address, claimed_2);
 
         // No more rewards to claim.
-        let (remaining_1, remaining_2) = liquidity_pool::claimable_fees(
-            lp_1_address, pool
-        );
+        let (remaining_1, remaining_2) =
+            liquidity_pool::claimable_fees(lp_1_address, pool);
         assert!(remaining_1 == 0, 0);
         assert!(remaining_2 == 0, 0);
 
@@ -84,9 +85,8 @@ module swap::liquidity_pool_tests {
         let (claimed_1, claimed_2) = liquidity_pool::claim_fees(lp_2, pool);
         assert!(fungible_asset::amount(&claimed_1) == fees_1 - 1, 0);
         assert!(fungible_asset::amount(&claimed_2) == 0, 0);
-        let (original_claimable_1, original_claimable_2) = liquidity_pool::claimable_fees(
-            lp_1_address, pool
-        );
+        let (original_claimable_1, original_claimable_2) =
+            liquidity_pool::claimable_fees(lp_1_address, pool);
         assert!(original_claimable_1 == 0 && original_claimable_2 == 0, 0);
         primary_fungible_store::deposit(lp_1_address, claimed_1);
         primary_fungible_store::deposit(lp_1_address, claimed_2);
@@ -128,8 +128,7 @@ module swap::liquidity_pool_tests {
         if (fungible_asset::asset_metadata(tokens) != *vector::borrow(&pool_assets, 0)) {
             (reserves_1, reserves_2) = (reserves_2, reserves_1);
         };
-        let out =
-            liquidity_pool::swap(pool, fungible_asset::extract(tokens, amount_in));
+        let out = liquidity_pool::swap(pool, fungible_asset::extract(tokens, amount_in));
 
         let fees_amount = liquidity_pool::swap_fee_bps(pool) * amount_in / 10000;
         amount_in = amount_in - fees_amount;

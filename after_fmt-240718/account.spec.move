@@ -232,7 +232,10 @@ spec aptos_framework::account {
         include AssertValidRotationProofSignatureAndGetAuthKeyAbortsIf;
         ensures [abstract] result
             == spec_assert_valid_rotation_proof_signature_and_get_auth_key(
-                scheme, public_key_bytes, signature, challenge
+                scheme,
+                public_key_bytes,
+                signature,
+                challenge,
             );
     }
 
@@ -691,7 +694,8 @@ spec aptos_framework::account {
         let resource_addr = spec_create_resource_address(source_addr, seed);
 
         aborts_if len(ZERO_AUTH_KEY) != 32;
-        include exists_at(resource_addr) ==> CreateResourceAccountAbortsIf;
+        include exists_at(resource_addr) ==>
+            CreateResourceAccountAbortsIf;
         include !exists_at(resource_addr) ==>
             CreateAccountAbortsIf { addr: resource_addr };
 

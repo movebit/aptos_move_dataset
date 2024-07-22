@@ -276,7 +276,8 @@ module aptos_token_objects::collection {
             error::out_of_range(ECOLLECTION_NAME_TOO_LONG),
         );
         assert!(
-            string::length(&uri) <= MAX_URI_LENGTH, error::out_of_range(EURI_TOO_LONG)
+            string::length(&uri) <= MAX_URI_LENGTH,
+            error::out_of_range(EURI_TOO_LONG),
         );
         assert!(
             string::length(&description) <= MAX_DESCRIPTION_LENGTH,
@@ -613,7 +614,8 @@ module aptos_token_objects::collection {
 
     public fun set_uri(mutator_ref: &MutatorRef, uri: String) acquires Collection {
         assert!(
-            string::length(&uri) <= MAX_URI_LENGTH, error::out_of_range(EURI_TOO_LONG)
+            string::length(&uri) <= MAX_URI_LENGTH,
+            error::out_of_range(EURI_TOO_LONG),
         );
         let collection = borrow_mut(mutator_ref);
         if (std::features::module_event_migration_enabled()) {
@@ -672,9 +674,8 @@ module aptos_token_objects::collection {
         let metadata_object_address = object::address_from_extend_ref(ref);
         let metadata_object_signer = object::generate_signer_for_extending(ref);
 
-        let ConcurrentSupply { current_supply, total_minted, } = move_from<ConcurrentSupply>(
-            metadata_object_address
-        );
+        let ConcurrentSupply { current_supply, total_minted, } =
+            move_from<ConcurrentSupply>(metadata_object_address);
 
         if (aggregator_v2::max_value(&current_supply) == MAX_U64) {
             move_to(
@@ -842,7 +843,7 @@ module aptos_token_objects::collection {
         let mutator_ref = generate_mutator_ref(&constructor_ref);
         let collection =
             object::address_to_object<Collection>(
-                create_collection_address(&signer::address_of(creator), &collection_name)
+                create_collection_address(&signer::address_of(creator), &collection_name),
             );
         let new_collection_name = string::utf8(b"new collection name");
         assert!(new_collection_name != name(collection), 0);
@@ -864,7 +865,7 @@ module aptos_token_objects::collection {
         let constructor_ref = create_collection_helper(creator, collection_name);
         let collection =
             object::address_to_object<Collection>(
-                create_collection_address(&signer::address_of(creator), &collection_name)
+                create_collection_address(&signer::address_of(creator), &collection_name),
             );
         let mutator_ref = generate_mutator_ref(&constructor_ref);
         let description = string::utf8(b"no fail");
@@ -880,7 +881,7 @@ module aptos_token_objects::collection {
         let mutator_ref = generate_mutator_ref(&constructor_ref);
         let collection =
             object::address_to_object<Collection>(
-                create_collection_address(&signer::address_of(creator), &collection_name)
+                create_collection_address(&signer::address_of(creator), &collection_name),
             );
         let uri = string::utf8(b"no fail");
         assert!(uri != uri(collection), 0);

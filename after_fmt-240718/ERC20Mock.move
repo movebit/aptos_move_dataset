@@ -63,7 +63,10 @@ module Evm::ERC20Mock {
     #[create(sig = b"constructor(string,string,address,uint256)")]
     /// Constructor of this contract.
     public fun create(
-        name: vector<u8>, symbol: vector<u8>, initial_account: address, initial_balance: U256
+        name: vector<u8>,
+        symbol: vector<u8>,
+        initial_account: address,
+        initial_balance: U256
     ): State {
         // Initial state of contract
         let state = State {
@@ -163,10 +166,12 @@ module Evm::ERC20Mock {
             U256::ge(currentAllowance, subtractedValue),
             b"ERC20: decreased allowance below zero",
         );
-        approve_(state,
+        approve_(
+            state,
             owner,
             spender,
-            U256::sub(currentAllowance, subtractedValue),);
+            U256::sub(currentAllowance, subtractedValue),
+        );
         true
     }
 

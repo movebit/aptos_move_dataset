@@ -27,13 +27,15 @@ module TestFeatures {
         pragma bv = b"0";
         pragma opaque;
         aborts_if false;
-        ensures result
-            == ((feature / 8) < len(features) && spec_contains(features, feature));
+        ensures result == (
+            (feature / 8) < len(features) && spec_contains(features, feature)
+        );
     }
 
     fun is_enabled(feature: u64): bool acquires Features {
         exists<Features>(@std) && contains(
-            &borrow_global<Features>(@std).features, feature
+            &borrow_global<Features>(@std).features,
+            feature,
         )
     }
 
@@ -45,8 +47,10 @@ module TestFeatures {
                 exists<Features>(@std) // this one does not verify
                 && (
                     (
-                        (feature / 8) < len(global<Features>(@std).features) && spec_contains(
-                            global<Features>(@std).features, feature
+                        (feature / 8) < len(global<Features>(@std).features)
+                        && spec_contains(
+                            global<Features>(@std).features,
+                            feature,
                         )
                     )
                 )
@@ -65,7 +69,8 @@ module TestFeatures {
                     invariant n == len(features);
                     invariant n >= old_n;
                     invariant byte_index < old_n ==> len(features) == old_n;
-                    invariant byte_index >= old_n ==> len(features) <= byte_index + 1;
+                    invariant byte_index >= old_n ==>
+                        len(features) <= byte_index + 1;
                     invariant forall i in 0..old_n: features[i] == old_features[i];
                     invariant forall i in old_n..n: (features[i] as u8) == (0 as u8);
                 };
@@ -75,7 +80,7 @@ module TestFeatures {
             n = n + 1;
         };
         let entry = vector::borrow_mut(features, byte_index);
-        if (include) *entry = *entry | bit_mask else*entry = *entry & (0xff ^ bit_mask)
+        if (include) *entry = *entry | bit_mask else *entry = *entry & (0xff ^ bit_mask)
     }
 
     spec set {
@@ -122,8 +127,8 @@ module TestFeatures {
 
     spec fun spec_compute_feature_flag(features: vector<u8>, feature: u64): u8 {
         (
-            (int2bv((((1 as u8) << ((feature % (8 as u64)) as u64)) as u8)) as u8) & features[feature
-                / 8] as u8
+            (int2bv((((1 as u8) << ((feature % (8 as u64)) as u64)) as u8)) as u8)
+                & features[feature / 8] as u8
         )
     }
 

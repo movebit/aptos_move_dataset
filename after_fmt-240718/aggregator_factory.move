@@ -28,8 +28,7 @@ module aptos_framework::aggregator_factory {
         aptos_framework: &signer
     ) {
         system_addresses::assert_aptos_framework(aptos_framework);
-        let aggregator_factory =
-            AggregatorFactory { phantom_table: table::new() };
+        let aggregator_factory = AggregatorFactory { phantom_table: table::new() };
         move_to(aptos_framework, aggregator_factory);
     }
 

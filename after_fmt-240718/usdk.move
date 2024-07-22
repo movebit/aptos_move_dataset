@@ -246,9 +246,7 @@ module stablecoin::usdk {
             &management.transfer_ref,
         );
 
-        event::emit(
-            Mint { minter: signer::address_of(minter), to, amount, },
-        );
+        event::emit(Mint { minter: signer::address_of(minter), to, amount, });
     }
 
     /// Burn tokens from the specified account. This checks that the caller is a minter and the stablecoin is not paused.
@@ -263,7 +261,8 @@ module stablecoin::usdk {
     /// Burn tokens from the specified account's store. This checks that the caller is a minter and the stablecoin is
     /// not paused.
     public entry fun burn_from(
-        minter: &signer, store: Object<FungibleStore>,
+        minter: &signer,
+        store: Object<FungibleStore>,
         amount: u64,
     ) acquires Management, Roles, State {
         assert_not_paused();
@@ -273,7 +272,8 @@ module stablecoin::usdk {
         let management = borrow_global<Management>(usdk_address());
         let tokens =
             fungible_asset::withdraw_with_ref(
-                &management.transfer_ref, store,
+                &management.transfer_ref,
+                store,
                 amount,
             );
         fungible_asset::burn(&management.burn_ref, tokens);
@@ -281,7 +281,8 @@ module stablecoin::usdk {
         event::emit(
             Burn {
                 minter: signer::address_of(minter),
-                from: object::owner(store), store,
+                from: object::owner(store),
+                store,
                 amount,
             },
         );
@@ -295,9 +296,7 @@ module stablecoin::usdk {
         if (state.paused == paused) { return };
         state.paused = paused;
 
-        event::emit(
-            Pause { pauser: signer::address_of(pauser), is_paused: paused, },
-        );
+        event::emit(Pause { pauser: signer::address_of(pauser), is_paused: paused, });
     }
 
     /// Add an account to the denylist. This checks that the caller is the denylister.
@@ -309,9 +308,7 @@ module stablecoin::usdk {
         let freeze_ref = &borrow_global<Management>(usdk_address()).transfer_ref;
         primary_fungible_store::set_frozen_flag(freeze_ref, account, true);
 
-        event::emit(
-            Denylist { denylister: signer::address_of(denylister), account, },
-        );
+        event::emit(Denylist { denylister: signer::address_of(denylister), account, });
     }
 
     /// Remove an account from the denylist. This checks that the caller is the denylister.
@@ -323,9 +320,7 @@ module stablecoin::usdk {
         let freeze_ref = &borrow_global<Management>(usdk_address()).transfer_ref;
         primary_fungible_store::set_frozen_flag(freeze_ref, account, false);
 
-        event::emit(
-            Denylist { denylister: signer::address_of(denylister), account, },
-        );
+        event::emit(Denylist { denylister: signer::address_of(denylister), account, });
     }
 
     /// Add a new minter. This checks that the caller is the master minter and the account is not already a minter.

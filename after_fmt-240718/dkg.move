@@ -80,9 +80,7 @@ module aptos_framework::dkg {
             },
         );
 
-        emit(
-            DKGStartEvent { start_time_us, session_metadata: new_session_metadata, },
-        );
+        emit(DKGStartEvent { start_time_us, session_metadata: new_session_metadata, });
     }
 
     /// Put a transcript into the currently incomplete DKG session, then mark it completed.

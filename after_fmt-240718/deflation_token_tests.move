@@ -12,9 +12,7 @@ module 0xcafe::deflation_token_tests {
     use std::signer;
 
     #[test(creator = @0xcafe, aaron = @0xface)]
-    fun test_deflation_e2e_basic_flow(
-        creator: &signer, aaron: &signer,
-    ) {
+    fun test_deflation_e2e_basic_flow(creator: &signer, aaron: &signer,) {
         let (creator_ref, token_object) = fungible_asset::create_test_token(creator);
         let (mint, _, _) = fungible_asset::init_test_metadata(&creator_ref);
         let metadata = object::convert<TestToken, Metadata>(token_object);
@@ -40,8 +38,7 @@ module 0xcafe::deflation_token_tests {
         assert!(fungible_asset::balance(aaron_store) == 5, 42);
 
         // Withdrawing 10 token will cause 1 token to be burned.
-        let fa =
-            dispatchable_fungible_asset::withdraw(creator, creator_store, 10);
+        let fa = dispatchable_fungible_asset::withdraw(creator, creator_store, 10);
         assert!(fungible_asset::supply(metadata) == option::some(99), 3);
         dispatchable_fungible_asset::deposit(aaron_store, fa);
 
@@ -108,9 +105,7 @@ module 0xcafe::deflation_token_tests {
 
     #[test(creator = @0xcafe, aaron = @0xface)]
     #[expected_failure(abort_code = 0x1001C, location = aptos_framework::fungible_asset)]
-    fun test_deflation_fa_withdraw(
-        creator: &signer, aaron: &signer,
-    ) {
+    fun test_deflation_fa_withdraw(creator: &signer, aaron: &signer,) {
         let (creator_ref, token_object) = fungible_asset::create_test_token(creator);
         let (mint, _, _) = fungible_asset::init_test_metadata(&creator_ref);
         let metadata = object::convert<TestToken, Metadata>(token_object);
@@ -300,9 +295,7 @@ module 0xcafe::deflation_token_tests {
     }
 
     #[test(creator = @0xcafe, aaron = @0xface)]
-    fun test_basic_flow_primary_fa(
-        creator: &signer, aaron: &signer,
-    ) {
+    fun test_basic_flow_primary_fa(creator: &signer, aaron: &signer,) {
         let (creator_ref, token_object) = fungible_asset::create_test_token(creator);
         let (mint_ref, transfer_ref, burn_ref) =
             primary_fungible_store::init_test_metadata_with_primary_store_enabled(
@@ -352,9 +345,7 @@ module 0xcafe::deflation_token_tests {
 
     #[test(creator = @0xcafe, aaron = @0xface)]
     #[expected_failure(abort_code = 0x50003, location = aptos_framework::fungible_asset)]
-    fun test_deflation_set_frozen(
-        creator: &signer, aaron: &signer,
-    ) {
+    fun test_deflation_set_frozen(creator: &signer, aaron: &signer,) {
         let (creator_ref, token_object) = fungible_asset::create_test_token(creator);
         let (mint, transfer_ref, _) = fungible_asset::init_test_metadata(&creator_ref);
         let metadata = object::convert<TestToken, Metadata>(token_object);
@@ -386,9 +377,7 @@ module 0xcafe::deflation_token_tests {
 
     #[test(creator = @0xcafe, aaron = @0xface)]
     #[expected_failure(abort_code = 0x50008, location = aptos_framework::fungible_asset)]
-    fun test_deflation_wrong_withdraw(
-        creator: &signer, aaron: &signer,
-    ) {
+    fun test_deflation_wrong_withdraw(creator: &signer, aaron: &signer,) {
         let (creator_ref, token_object) = fungible_asset::create_test_token(creator);
         fungible_asset::init_test_metadata(&creator_ref);
         let metadata = object::convert<TestToken, Metadata>(token_object);

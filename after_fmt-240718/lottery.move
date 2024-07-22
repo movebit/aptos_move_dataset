@@ -70,9 +70,8 @@ module drand::lottery {
     fun init_module(deployer: &signer) {
         // Create the resource account. This will allow this module to later obtain a `signer` for this account and
         // update the list of purchased lottery tickets.
-        let (_resource, signer_cap) = account::create_resource_account(
-            deployer, vector::empty()
-        );
+        let (_resource, signer_cap) =
+            account::create_resource_account(deployer, vector::empty());
 
         // Acquire a signer for the resource account that stores the coin bounty
         let rsrc_acc_signer = account::create_signer_with_capability(&signer_cap);
@@ -136,7 +135,8 @@ module drand::lottery {
         // Make sure the lottery has been 'started' but has NOT been 'drawn' yet
         let draw_at = *option::borrow(&lottery.draw_at);
         assert!(
-            timestamp::now_seconds() < draw_at, error::out_of_range(E_LOTTERY_HAS_CLOSED)
+            timestamp::now_seconds() < draw_at,
+            error::out_of_range(E_LOTTERY_HAS_CLOSED),
         );
 
         // Get the address of the resource account that stores the coin bounty
@@ -176,11 +176,10 @@ module drand::lottery {
 
         // Verify the randomness for this round and pick a winner
         let randomness =
-            drand::verify_and_extract_randomness(
-                drand_signed_bytes, drand_round
-            );
+            drand::verify_and_extract_randomness(drand_signed_bytes, drand_round);
         assert!(
-            option::is_some(&randomness), error::permission_denied(E_INCORRECT_RANDOMNESS)
+            option::is_some(&randomness),
+            error::permission_denied(E_INCORRECT_RANDOMNESS),
         );
 
         // Use the bytes to pick a number at random from 0 to `|lottery.tickets| - 1` and select the winner
@@ -195,9 +194,7 @@ module drand::lottery {
         let balance = coin::balance<AptosCoin>(rsrc_acc_addr);
         let winner_addr = *vector::borrow(&lottery.tickets, winner_idx);
 
-        coin::transfer<AptosCoin>(
-            &rsrc_acc_signer, winner_addr, balance
-        );
+        coin::transfer<AptosCoin>(&rsrc_acc_signer, winner_addr, balance);
 
         // Close the lottery
         option::extract(&mut lottery.draw_at);

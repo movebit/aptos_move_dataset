@@ -112,9 +112,8 @@ module knight::food {
     #[view]
     /// Returns the restoration value of the food token
     public fun restoration_value(token: Object<FoodToken>): u64 acquires RestorationValue {
-        let restoration_value_in_food = borrow_global<RestorationValue>(
-            object::object_address(&token)
-        );
+        let restoration_value_in_food =
+            borrow_global<RestorationValue>(object::object_address(&token));
         restoration_value_in_food.value
     }
 
@@ -166,14 +165,20 @@ module knight::food {
     /// Transfers the given amount of the corn token from the given sender to the given receiver.
     public entry fun transfer_corn(from: &signer, to: address, amount: u64) {
         transfer_food(
-            from, object::address_to_object<FoodToken>(corn_token_address()), to, amount
+            from,
+            object::address_to_object<FoodToken>(corn_token_address()),
+            to,
+            amount,
         );
     }
 
     /// Transfers the given amount of the meat token from the given sender to the given receiver.
     public entry fun transfer_meat(from: &signer, to: address, amount: u64) {
         transfer_food(
-            from, object::address_to_object<FoodToken>(meat_token_address()), to, amount
+            from,
+            object::address_to_object<FoodToken>(meat_token_address()),
+            to,
+            amount,
         );
     }
 

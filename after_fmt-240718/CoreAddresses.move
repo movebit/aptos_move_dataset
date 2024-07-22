@@ -19,7 +19,8 @@ module DiemFramework::CoreAddresses {
     /// Assert that the account is the Diem root address.
     public fun assert_diem_root(account: &signer) {
         assert!(
-            signer::address_of(account) == @DiemRoot, errors::requires_address(EDIEM_ROOT)
+            signer::address_of(account) == @DiemRoot,
+            errors::requires_address(EDIEM_ROOT),
         )
     }
 

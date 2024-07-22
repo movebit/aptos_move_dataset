@@ -35,8 +35,10 @@ module 0x42::Test {
     }
 
     public fun test() {
-        assert!(elem_for_each_ref(&mut vector[Elem { k: 1, v: 2 }], |x, y| *x + *y) == 3,
-            0,)
+        assert!(
+            elem_for_each_ref(&mut vector[Elem { k: 1, v: 2 }], |x, y| *x + *y) == 3,
+            0,
+        )
     }
 }
 

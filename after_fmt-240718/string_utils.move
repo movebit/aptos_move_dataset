@@ -85,13 +85,17 @@ module aptos_std::string_utils {
         cons(a, list2(b, c))
     } inline fun list4<T0, T1, T2, T3>(a: T0, b: T1, c: T2, d: T3)
 
-        : Cons<T0, Cons<T1, Cons<T2, Cons<T3, NIL>>>> {
+    : Cons<T0, Cons<T1, Cons<T2, Cons<T3, NIL>>>> {
         cons(a, list3(b, c, d))
     }
 
     // Native functions
     native fun native_format<T>(
-        s: &T, type_tag: bool, canonicalize: bool, single_line: bool, include_int_types: bool
+        s: &T,
+        type_tag: bool,
+        canonicalize: bool,
+        single_line: bool,
+        include_int_types: bool
     ): String;
     native fun native_format_list<T>(fmt: &vector<u8>, val: &T): String;
 
@@ -112,8 +116,7 @@ module aptos_std::string_utils {
 
     #[test]
     fun test_format_list() {
-        let s =
-            format3(&b"a = {} b = {} c = {}", 1, 2, std::string::utf8(b"My string"));
+        let s = format3(&b"a = {} b = {} c = {}", 1, 2, std::string::utf8(b"My string"));
         assert!(s == std::string::utf8(b"a = 1 b = 2 c = \"My string\""), 1);
     }
 

@@ -25,11 +25,10 @@ module aptos_framework::simple_token_pfs_tests {
 
     // Copied from primary_fungible_store tests.
     #[test(user_1 = @0xcafe, user_2 = @0xface)]
-    fun test_transfer_to_burnt_store(
-        user_1: &signer, user_2: &signer,
-    ) {
+    fun test_transfer_to_burnt_store(user_1: &signer, user_2: &signer,) {
         let (creator_ref, metadata) = create_test_token(user_1);
-        let (mint_ref, _, _) = init_test_metadata_with_primary_store_enabled(&creator_ref);
+        let (mint_ref, _, _) =
+            init_test_metadata_with_primary_store_enabled(&creator_ref);
         simple_token::initialize(user_1, &creator_ref);
 
         let user_1_address = signer::address_of(user_1);
@@ -50,11 +49,10 @@ module aptos_framework::simple_token_pfs_tests {
     }
 
     #[test(user_1 = @0xcafe, user_2 = @0xface)]
-    fun test_withdraw_from_burnt_store(
-        user_1: &signer, user_2: &signer,
-    ) {
+    fun test_withdraw_from_burnt_store(user_1: &signer, user_2: &signer,) {
         let (creator_ref, metadata) = create_test_token(user_1);
-        let (mint_ref, _, _) = init_test_metadata_with_primary_store_enabled(&creator_ref);
+        let (mint_ref, _, _) =
+            init_test_metadata_with_primary_store_enabled(&creator_ref);
         simple_token::initialize(user_1, &creator_ref);
 
         let user_1_address = signer::address_of(user_1);
@@ -92,13 +90,10 @@ module aptos_framework::simple_token_pfs_tests {
     }
 
     #[test(creator = @0xcafe, aaron = @0xface)]
-    fun test_basic_flow(
-        creator: &signer, aaron: &signer,
-    ) {
+    fun test_basic_flow(creator: &signer, aaron: &signer,) {
         let (creator_ref, metadata) = create_test_token(creator);
-        let (mint_ref, transfer_ref, burn_ref) = init_test_metadata_with_primary_store_enabled(
-            &creator_ref
-        );
+        let (mint_ref, transfer_ref, burn_ref) =
+            init_test_metadata_with_primary_store_enabled(&creator_ref);
         simple_token::initialize(creator, &creator_ref);
 
         let creator_address = signer::address_of(creator);
@@ -127,9 +122,8 @@ module aptos_framework::simple_token_pfs_tests {
         creator: &signer, aaron: &signer,
     ) {
         let (creator_ref, metadata) = create_test_token(creator);
-        let (mint_ref, _transfer_ref, _) = init_test_metadata_with_primary_store_enabled(
-            &creator_ref
-        );
+        let (mint_ref, _transfer_ref, _) =
+            init_test_metadata_with_primary_store_enabled(&creator_ref);
         simple_token::initialize(creator, &creator_ref);
 
         let creator_address = signer::address_of(creator);

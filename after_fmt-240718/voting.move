@@ -314,7 +314,8 @@ module aptos_framework::voting {
             to_bytes(&is_multi_step_proposal),
         );
 
-        let is_multi_step_in_execution_key = utf8(IS_MULTI_STEP_PROPOSAL_IN_EXECUTION_KEY);
+        let is_multi_step_in_execution_key =
+            utf8(IS_MULTI_STEP_PROPOSAL_IN_EXECUTION_KEY);
         if (is_multi_step_proposal) {
             // If the given proposal is a multi-step proposal, we will add a flag to indicate if this multi-step proposal is in execution.
             // This value is by default false. We turn this value to true when we start executing the multi-step proposal. This value
@@ -489,9 +490,8 @@ module aptos_framework::voting {
 
         // Assert that the specified proposal is not a multi-step proposal.
         let multi_step_key = utf8(IS_MULTI_STEP_PROPOSAL_KEY);
-        let has_multi_step_key = simple_map::contains_key(
-            &proposal.metadata, &multi_step_key
-        );
+        let has_multi_step_key =
+            simple_map::contains_key(&proposal.metadata, &multi_step_key);
         if (has_multi_step_key) {
             let is_multi_step_proposal =
                 from_bcs::to_bool(
@@ -655,9 +655,8 @@ module aptos_framework::voting {
         proposal: &Proposal<ProposalType>
     ): bool {
         if (option::is_some(&proposal.early_resolution_vote_threshold)) {
-            let early_resolution_threshold = *option::borrow(
-                &proposal.early_resolution_vote_threshold
-            );
+            let early_resolution_threshold =
+                *option::borrow(&proposal.early_resolution_vote_threshold);
             if (proposal.yes_votes >= early_resolution_threshold
                     || proposal.no_votes >= early_resolution_threshold) {
                 return true
@@ -786,7 +785,8 @@ module aptos_framework::voting {
     ): bool acquires VotingForum {
         let voting_forum = borrow_global<VotingForum<ProposalType>>(voting_forum_address);
         let proposal = table::borrow(&voting_forum.proposals, proposal_id);
-        let is_multi_step_in_execution_key = utf8(IS_MULTI_STEP_PROPOSAL_IN_EXECUTION_KEY);
+        let is_multi_step_in_execution_key =
+            utf8(IS_MULTI_STEP_PROPOSAL_IN_EXECUTION_KEY);
         assert!(
             simple_map::contains_key(&proposal.metadata, &is_multi_step_in_execution_key),
             error::invalid_argument(EPROPOSAL_IS_SINGLE_STEP),
@@ -874,7 +874,9 @@ module aptos_framework::voting {
 
             if (finish_multi_step_execution) {
                 resolve_proposal_v2<TestProposal>(
-                    voting_forum_address, proposal_id, vector::empty<u8>()
+                    voting_forum_address,
+                    proposal_id,
+                    vector::empty<u8>(),
                 );
             };
         } else {
@@ -958,7 +960,9 @@ module aptos_framework::voting {
         account::create_account_for_test(governance_address);
         let proposal_id =
             create_test_proposal_generic(
-                governance, option::none<u128>(), use_create_multi_step
+                governance,
+                option::none<u128>(),
+                use_create_multi_step,
             );
         assert!(
             get_proposal_state<TestProposal>(governance_address, proposal_id)
@@ -984,11 +988,16 @@ module aptos_framework::voting {
         // we should be able to successfully resolve it using the generic `resolve_proposal_v2` function.
         if (!use_create_multi_step && use_resolve_multi_step) {
             resolve_proposal_v2<TestProposal>(
-                governance_address, proposal_id, vector::empty<u8>()
+                governance_address,
+                proposal_id,
+                vector::empty<u8>(),
             );
         } else {
             resolve_proposal_for_test<TestProposal>(
-                governance_address, proposal_id, use_resolve_multi_step, true
+                governance_address,
+                proposal_id,
+                use_resolve_multi_step,
+                true,
             );
         };
         let voting_forum = borrow_global<VotingForum<TestProposal>>(governance_address);
@@ -1035,7 +1044,11 @@ module aptos_framework::voting {
         let governance_address = signer::address_of(governance);
         account::create_account_for_test(governance_address);
         let proposal_id =
-            create_test_proposal_generic(governance, option::none<u128>(), is_multi_step);
+            create_test_proposal_generic(
+                governance,
+                option::none<u128>(),
+                is_multi_step,
+            );
         assert!(
             get_proposal_state<TestProposal>(governance_address, proposal_id)
                 == PROPOSAL_STATE_PENDING,
@@ -1125,17 +1138,19 @@ module aptos_framework::voting {
                 3,
             );
             resolve_proposal_for_test<TestProposal>(
-                governance_address, proposal_id, is_multi_step, false
+                governance_address,
+                proposal_id,
+                is_multi_step,
+                false,
             );
 
             // Assert that the multi-step proposal is in execution but not resolved yet.
             assert!(
                 is_multi_step_proposal_in_execution<TestProposal>(governance_address, 0),
-                4
+                4,
             );
-            let voting_forum = borrow_global_mut<VotingForum<TestProposal>>(
-                governance_address
-            );
+            let voting_forum =
+                borrow_global_mut<VotingForum<TestProposal>>(governance_address);
             let proposal = table::borrow_mut(&mut voting_forum.proposals, proposal_id);
             assert!(!proposal.is_resolved, 5);
         };
@@ -1143,9 +1158,8 @@ module aptos_framework::voting {
         resolve_proposal_for_test<TestProposal>(
             governance_address, proposal_id, is_multi_step, true
         );
-        let voting_forum = borrow_global_mut<VotingForum<TestProposal>>(
-            governance_address
-        );
+        let voting_forum =
+            borrow_global_mut<VotingForum<TestProposal>>(governance_address);
         assert!(table::borrow(&voting_forum.proposals, proposal_id).is_resolved, 6);
 
         // Assert that the IS_MULTI_STEP_PROPOSAL_IN_EXECUTION_KEY value is set back to `false` upon successful resolution of this multi-step proposal.
@@ -1223,7 +1237,11 @@ module aptos_framework::voting {
         let governance_address = signer::address_of(governance);
         account::create_account_for_test(governance_address);
         let proposal_id =
-            create_test_proposal_generic(governance, option::none<u128>(), is_multi_step);
+            create_test_proposal_generic(
+                governance,
+                option::none<u128>(),
+                is_multi_step,
+            );
 
         // Vote.
         let proof = TestProposal {};

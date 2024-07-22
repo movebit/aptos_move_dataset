@@ -241,7 +241,9 @@ module Evm::ERC1155Mock {
         *mut_balance_to = U256::add(*mut_balance_to, copy amount);
         let operator = sender();
 
-        emit(TransferSingle { operator, from, to, id: copy id, value: copy amount },);
+        emit(
+            TransferSingle { operator, from, to, id: copy id, value: copy amount },
+        );
 
         doSafeTransferAcceptanceCheck(operator, from, to, id, amount, data);
     }
@@ -286,7 +288,9 @@ module Evm::ERC1155Mock {
             i = i + 1;
         };
 
-        emit(TransferBatch { operator, from, to, ids: copy ids, values: copy amounts },);
+        emit(
+            TransferBatch { operator, from, to, ids: copy ids, values: copy amounts },
+        );
 
         doSafeBatchTransferAcceptanceCheck(operator, from, to, ids, amounts, data);
     }
@@ -361,7 +365,9 @@ module Evm::ERC1155Mock {
             U256::ge(*mut_balance_owner, amount), b"ERC1155: burn amount exceeds balance"
         );
         *mut_balance_owner = U256::sub(*mut_balance_owner, amount);
-        emit(TransferSingle { operator: sender(), from: owner, to: @0x0, id, value: amount },);
+        emit(
+            TransferSingle { operator: sender(), from: owner, to: @0x0, id, value: amount },
+        );
     }
 
     public fun burnBatch_(
@@ -389,7 +395,13 @@ module Evm::ERC1155Mock {
             i = i + 1;
         };
         emit(
-            TransferBatch { operator: sender(), from: owner, to: @0x0, ids, values: amounts },
+            TransferBatch {
+                operator: sender(),
+                from: owner,
+                to: @0x0,
+                ids,
+                values: amounts
+            },
         );
     }
 
@@ -405,9 +417,7 @@ module Evm::ERC1155Mock {
             )
         };
         let operatorApproval_account =
-            Table::borrow_mut(
-                &mut s.operatorApprovals, &account
-            );
+            Table::borrow_mut(&mut s.operatorApprovals, &account);
         Table::borrow_mut_with_default(operatorApproval_account, &operator, false)
     }
 
@@ -436,7 +446,12 @@ module Evm::ERC1155Mock {
         if (isContract(to)) {
             let result =
                 IERC1155Receiver_try_call_onERC1155Received(
-                    to, operator, from, id, amount, data
+                    to,
+                    operator,
+                    from,
+                    id,
+                    amount,
+                    data,
                 );
             if (ExternalResult::is_err_reason(&result)) {
                 // abort_with(b"err_reason");
@@ -469,7 +484,12 @@ module Evm::ERC1155Mock {
         if (isContract(to)) {
             let result =
                 IERC1155Receiver_try_call_onERC1155BatchReceived(
-                    to, operator, from, ids, amounts, data
+                    to,
+                    operator,
+                    from,
+                    ids,
+                    amounts,
+                    data,
                 );
             if (ExternalResult::is_err_reason(&result)) {
                 // abort_with(b"err_reason");

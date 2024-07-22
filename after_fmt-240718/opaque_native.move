@@ -10,8 +10,8 @@ module 0x42::OpaqueNative {
 
         // Uninterpreted generic spec function with axiom.
         fun generic_injection<T>(x: T): u64;
-        axiom<T> forall v1: T, v2: T: v1 == v2 <==> generic_injection(v1)
-            == generic_injection(v2);
+        axiom<T> forall v1: T, v2: T: v1 == v2 <==>
+            generic_injection(v1) == generic_injection(v2);
 
     }
 

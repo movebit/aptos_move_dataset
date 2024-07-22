@@ -5,7 +5,7 @@ module 0x8675309::M {
 
     fun t1(root: &mut S, cond: bool) {
         let x1 = 0;
-        let eps = if (cond) bar(root) else&x1;
+        let eps = if (cond) bar(root) else &x1;
         let g = &root.g;
         eps;
         g;

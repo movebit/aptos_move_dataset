@@ -170,13 +170,13 @@ module guild::guild {
     ) acquires GuildToken {
         // Checks if the guild master is the owner of the guild token.
         assert!(
-            object::owner(guild_token) == signer::address_of(guild_master), ENOT_OWNER
+            object::owner(guild_token) == signer::address_of(guild_master),
+            ENOT_OWNER,
         );
 
         let guild = borrow_global<GuildToken>(object::object_address(&guild_token));
-        let guild_token_object_signer = object::generate_signer_for_extending(
-            &guild.extend_ref
-        );
+        let guild_token_object_signer =
+            object::generate_signer_for_extending(&guild.extend_ref);
         // Creates the member token, and get the constructor ref of the token. The constructor ref
         // is used to generate the refs of the token.
         let constructor_ref =
@@ -207,9 +207,11 @@ module guild::guild {
     public entry fun burn_member(
         guild_master: &signer, token: Object<MemberToken>,
     ) acquires MemberToken {
-        let belonging_guild = borrow_global<MemberToken>(object::object_address(&token)).guild;
+        let belonging_guild =
+            borrow_global<MemberToken>(object::object_address(&token)).guild;
         assert!(
-            object::owner(belonging_guild) == signer::address_of(guild_master), ENOT_OWNER
+            object::owner(belonging_guild) == signer::address_of(guild_master),
+            ENOT_OWNER,
         );
         let member_token = move_from<MemberToken>(object::object_address(&token));
         let MemberToken { guild: _, burn_ref, } = member_token;
@@ -328,7 +330,8 @@ module guild::guild {
         // ------------------------------------------------
         let member_token_addr = member_token_address(guild_token, token_name);
         burn_member(
-            guild_master, object::address_to_object<MemberToken>(member_token_addr)
+            guild_master,
+            object::address_to_object<MemberToken>(member_token_addr),
         );
     }
 }

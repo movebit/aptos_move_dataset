@@ -65,8 +65,7 @@ module stablecoin::usdk_tests {
 
         let constructor_ref = object::create_object(receiver_address);
         fungible_asset::create_store(&constructor_ref, asset);
-        let store =
-            object::object_from_constructor_ref<FungibleStore>(&constructor_ref);
+        let store = object::object_from_constructor_ref<FungibleStore>(&constructor_ref);
 
         object::transfer(receiver, store, @0xdeadbeef);
     }

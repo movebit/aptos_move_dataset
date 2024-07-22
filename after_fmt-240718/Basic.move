@@ -17,10 +17,12 @@ module 0xcafe::m {
 
     /// More clashes
     fun with_name_clash2(x: u64, c: u64): u64 {
-        map(x,
+        map(
+            x,
             |x| {
                 let x = c + 1;
                 x
-            } + x)
+            } + x,
+        )
     }
 }

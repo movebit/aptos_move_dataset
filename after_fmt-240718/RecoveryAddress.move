@@ -56,7 +56,8 @@ module DiemFramework::RecoveryAddress {
             errors::invalid_argument(EKEY_ROTATION_DEPENDENCY_CYCLE),
         );
         assert!(
-            !exists<RecoveryAddress>(addr), errors::already_published(ERECOVERY_ADDRESS)
+            !exists<RecoveryAddress>(addr),
+            errors::already_published(ERECOVERY_ADDRESS),
         );
         move_to(
             recovery_account,
@@ -150,8 +151,8 @@ module DiemFramework::RecoveryAddress {
         aborts_if len(new_key) != 32 with errors::INVALID_ARGUMENT;
         aborts_if !spec_holds_key_rotation_cap_for(recovery_address, to_recover) with errors::INVALID_ARGUMENT;
         aborts_if !(
-            signer::address_of(account) == recovery_address || signer::address_of(account) ==
-             to_recover
+            signer::address_of(account) == recovery_address
+                || signer::address_of(account) == to_recover
         ) with errors::INVALID_ARGUMENT;
     }
 
@@ -173,9 +174,8 @@ module DiemFramework::RecoveryAddress {
             errors::not_published(ERECOVERY_ADDRESS),
         );
         // Only accept the rotation capability if both accounts belong to the same VASP
-        let to_recover_address = *DiemAccount::key_rotation_capability_address(
-            &to_recover
-        );
+        let to_recover_address =
+            *DiemAccount::key_rotation_capability_address(&to_recover);
         assert!(
             VASP::is_same_vasp(recovery_address, to_recover_address),
             errors::invalid_argument(EINVALID_KEY_ROTATION_DELEGATION),

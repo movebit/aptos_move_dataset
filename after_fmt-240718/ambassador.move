@@ -85,9 +85,8 @@ module ambassador::ambassador {
     #[view]
     /// Returns the ambassador level of the token
     public fun ambassador_level(token: Object<AmbassadorToken>): u64 acquires AmbassadorLevel {
-        let ambassador_level = borrow_global<AmbassadorLevel>(
-            object::object_address(&token)
-        );
+        let ambassador_level =
+            borrow_global<AmbassadorLevel>(object::object_address(&token));
         ambassador_level.ambassador_level
     }
 
@@ -140,7 +139,12 @@ module ambassador::ambassador {
         soul_bound_to: address,
     ) {
         mint_ambassador_token_impl(
-            creator, description, name, base_uri, soul_bound_to, false
+            creator,
+            description,
+            name,
+            base_uri,
+            soul_bound_to,
+            false,
         );
     }
 
@@ -271,11 +275,11 @@ module ambassador::ambassador {
     public entry fun burn(creator: &signer, token: Object<AmbassadorToken>) acquires AmbassadorToken, AmbassadorLevel {
         authorize_creator(creator, &token);
         let ambassador_token = move_from<AmbassadorToken>(object::object_address(&token));
-        let AmbassadorToken { mutator_ref: _, burn_ref, property_mutator_ref, base_uri: _ } = ambassador_token;
+        let AmbassadorToken { mutator_ref: _, burn_ref, property_mutator_ref, base_uri: _ } =
+            ambassador_token;
 
-        let AmbassadorLevel { ambassador_level: _ } = move_from<AmbassadorLevel>(
-            object::object_address(&token)
-        );
+        let AmbassadorLevel { ambassador_level: _ } =
+            move_from<AmbassadorLevel>(object::object_address(&token));
 
         property_map::burn(property_mutator_ref);
         token::burn(burn_ref);
@@ -341,7 +345,9 @@ module ambassador::ambassador {
         let property_mutator_ref = &ambassador_token.property_mutator_ref;
         // Updates the rank in the property map.
         property_map::update_typed(
-            property_mutator_ref, &string::utf8(b"Rank"), string::utf8(new_rank)
+            property_mutator_ref,
+            &string::utf8(b"Rank"),
+            string::utf8(new_rank),
         );
         // Updates the token URI based on the new rank.
         let uri = ambassador_token.base_uri;

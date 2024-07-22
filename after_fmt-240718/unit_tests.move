@@ -109,7 +109,9 @@ module token_lockup::unit_tests {
 
         let token_1_constructor_ref =
             token_lockup::mint_to(
-                creator, string::utf8(b"Token #1"), signer::address_of(owner_1)
+                creator,
+                string::utf8(b"Token #1"),
+                signer::address_of(owner_1),
             );
         object::transfer_raw(
             owner_1,
@@ -130,7 +132,9 @@ module token_lockup::unit_tests {
 
         let token_1_constructor_ref =
             token_lockup::mint_to(
-                creator, string::utf8(b"Token #1"), signer::address_of(owner_1)
+                creator,
+                string::utf8(b"Token #1"),
+                signer::address_of(owner_1),
             );
         let token_1_obj = object::object_from_constructor_ref(&token_1_constructor_ref);
 
@@ -151,7 +155,9 @@ module token_lockup::unit_tests {
 
         let token_1_constructor_ref =
             token_lockup::mint_to(
-                creator, string::utf8(b"Token #1"), signer::address_of(owner_1)
+                creator,
+                string::utf8(b"Token #1"),
+                signer::address_of(owner_1),
             );
         let token_1_obj =
             object::object_from_constructor_ref<Token>(&token_1_constructor_ref);

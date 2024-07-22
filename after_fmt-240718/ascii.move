@@ -43,9 +43,7 @@ module std::ascii {
     /// `bytes` contains non-ASCII characters.
     public fun string(bytes: vector<u8>): String {
         let x = try_string(bytes);
-        assert!(
-            option::is_some(&x), EINVALID_ASCII_CHARACTER
-        );
+        assert!(option::is_some(&x), EINVALID_ASCII_CHARACTER);
         option::destroy_some(x)
     }
 

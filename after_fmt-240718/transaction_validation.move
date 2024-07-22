@@ -113,7 +113,8 @@ module aptos_framework::transaction_validation {
             error::invalid_argument(PROLOGUE_ETRANSACTION_EXPIRED),
         );
         assert!(
-            chain_id::get() == chain_id, error::invalid_argument(PROLOGUE_EBAD_CHAIN_ID)
+            chain_id::get() == chain_id,
+            error::invalid_argument(PROLOGUE_EBAD_CHAIN_ID),
         );
 
         let transaction_sender = signer::address_of(&sender);
@@ -132,7 +133,8 @@ module aptos_framework::transaction_validation {
                 error::invalid_argument(PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY),
             );
 
-            let account_sequence_number = account::get_sequence_number(transaction_sender);
+            let account_sequence_number =
+                account::get_sequence_number(transaction_sender);
             assert!(
                 txn_sequence_number < (1u64 << 63),
                 error::out_of_range(PROLOGUE_ESEQUENCE_NUMBER_TOO_BIG),
@@ -272,9 +274,8 @@ module aptos_framework::transaction_validation {
                     invariant i <= num_secondary_signers;
                     invariant forall j in 0..i: account::exists_at(
                         secondary_signer_addresses[j]
-                    ) && secondary_signer_public_key_hashes[j] == account::get_authentication_key(
-                        secondary_signer_addresses[j]
-                    );
+                    ) && secondary_signer_public_key_hashes[j]
+                        == account::get_authentication_key(secondary_signer_addresses[j]);
                 };
                 (i < num_secondary_signers)
             }) {
@@ -284,9 +285,8 @@ module aptos_framework::transaction_validation {
                 error::invalid_argument(PROLOGUE_EACCOUNT_DOES_NOT_EXIST),
             );
 
-            let signer_public_key_hash = *vector::borrow(
-                &secondary_signer_public_key_hashes, i
-            );
+            let signer_public_key_hash =
+                *vector::borrow(&secondary_signer_public_key_hashes, i);
             assert!(
                 signer_public_key_hash == account::get_authentication_key(
                     secondary_address

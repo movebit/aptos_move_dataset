@@ -24,8 +24,13 @@ module deploy_address::number {
         let holder = borrow_global<NumberHolder>(addr);
 
         (
-            holder.u8, holder.u16, holder.u32, holder.u64, holder.u128, holder.u256, holder
-            .vec_u256
+            holder.u8,
+            holder.u16,
+            holder.u32,
+            holder.u64,
+            holder.u128,
+            holder.u256,
+            holder.vec_u256
         )
     }
 

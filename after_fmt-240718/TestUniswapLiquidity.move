@@ -38,9 +38,7 @@ module Evm::TestUniswapLiquidity {
             );
     }
 
-    public fun removeLiquidity(
-        tokenA: address, tokenB: address,
-    ) {
+    public fun removeLiquidity(tokenA: address, tokenB: address,) {
         // TODO: Replace these local constants with module-level constants once Move supports 20-bytes addresses and literals.
         let const_FACTORY =
             U256::to_address(

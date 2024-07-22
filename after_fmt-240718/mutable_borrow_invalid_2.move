@@ -7,7 +7,7 @@ module 0x8675309::M {
     }
 
     fun t1(root: &mut S, cond: bool) {
-        let x = if (cond)&mut root.f else&mut root.g;
+        let x = if (cond)&mut root.f else &mut root.g;
 
         // INVALID
         root.f = 1;

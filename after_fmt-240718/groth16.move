@@ -39,9 +39,8 @@ module groth16_example::groth16 {
         let right = add(&right, &pairing<G1, G2, Gt>(vk_alpha_g1, vk_beta_g2));
         let right =
             add(
-                &right, &pairing(
-                    &multi_scalar_mul(vk_uvw_gamma_g1, &scalars), vk_gamma_g2
-                )
+                &right,
+                &pairing(&multi_scalar_mul(vk_uvw_gamma_g1, &scalars), vk_gamma_g2),
             );
         let right = add(&right, &pairing(proof_c, vk_delta_g2));
         eq(&left, &right)
@@ -67,8 +66,10 @@ module groth16_example::groth16 {
         std::vector::append(&mut scalars, *public_inputs);
         let g1_elements = vector[*proof_a, multi_scalar_mul(pvk_uvw_gamma_g1, &scalars), *proof_c];
         let g2_elements = vector[*proof_b, *pvk_gamma_g2_neg, *pvk_delta_g2_neg];
-        eq(pvk_alpha_g1_beta_g2,
-            &multi_pairing<G1, G2, Gt>(&g1_elements, &g2_elements),)
+        eq(
+            pvk_alpha_g1_beta_g2,
+            &multi_pairing<G1, G2, Gt>(&g1_elements, &g2_elements),
+        )
     }
 
     /// A variant of `verify_proof_prepared()` that requires `pvk_alpha_g1_beta_g2` to be an element of `Fq12` instead of its subgroup `Gt`.
@@ -156,7 +157,7 @@ module groth16_example::groth16 {
         let public_inputs: vector<Element<Fr>> = vector[
             std::option::extract(
                 &mut deserialize<Fr, FormatFrLsb>(
-                    &x"0ee291cfc951388c3c7f7c85ff2dfd42bbc66a6b4acaef9a5a51ce955125a74f"
+                    &x"0ee291cfc951388c3c7f7c85ff2dfd42bbc66a6b4acaef9a5a51ce955125a74f",
                 ),
             ),];
         let proof_a =
@@ -231,7 +232,7 @@ module groth16_example::groth16 {
         let public_inputs: vector<Element<Fr>> = vector[
             std::option::extract(
                 &mut deserialize<Fr, FormatFrLsb>(
-                    &x"0ee291cfc951388c3c7f7c85ff2dfd42bbc66a6b4acaef9a5a51ce955125a74f"
+                    &x"0ee291cfc951388c3c7f7c85ff2dfd42bbc66a6b4acaef9a5a51ce955125a74f",
                 ),
             ),];
         let proof_a =
@@ -305,7 +306,7 @@ module groth16_example::groth16 {
         let public_inputs: vector<Element<Fr>> = vector[
             std::option::extract(
                 &mut deserialize<Fr, FormatFrLsb>(
-                    &x"0ee291cfc951388c3c7f7c85ff2dfd42bbc66a6b4acaef9a5a51ce955125a74f"
+                    &x"0ee291cfc951388c3c7f7c85ff2dfd42bbc66a6b4acaef9a5a51ce955125a74f",
                 ),
             ),];
         let proof_a =

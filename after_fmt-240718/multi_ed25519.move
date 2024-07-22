@@ -372,7 +372,9 @@ module aptos_std::multi_ed25519 {
     #[test(fx = @std)]
     fun bugfix_validated_pk_from_zero_subpks(fx: signer) {
         features::change_feature_flags_for_testing(
-            &fx, vector[features::multi_ed25519_pk_validate_v2_feature()], vector[]
+            &fx,
+            vector[features::multi_ed25519_pk_validate_v2_feature()],
+            vector[],
         );
         let bytes = vector<u8>[1u8];
         assert!(vector::length(&bytes) == 1, 1);
@@ -392,7 +394,9 @@ module aptos_std::multi_ed25519 {
     #[test(fx = @std)]
     fun test_validated_pk_without_threshold_byte(fx: signer) {
         features::change_feature_flags_for_testing(
-            &fx, vector[features::multi_ed25519_pk_validate_v2_feature()], vector[]
+            &fx,
+            vector[features::multi_ed25519_pk_validate_v2_feature()],
+            vector[],
         );
 
         let (_, subpk) = ed25519::generate_keys();
@@ -413,7 +417,9 @@ module aptos_std::multi_ed25519 {
     #[test(fx = @std)]
     fun test_validated_pk_from_small_order_subpk(fx: signer) {
         features::change_feature_flags_for_testing(
-            &fx, vector[features::multi_ed25519_pk_validate_v2_feature()], vector[]
+            &fx,
+            vector[features::multi_ed25519_pk_validate_v2_feature()],
+            vector[],
         );
         let torsion_point_with_threshold_1 = vector<u8>[
             1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -427,13 +433,11 @@ module aptos_std::multi_ed25519 {
 
         // Try deserializing a MultiEd25519 `ValidatedPublicKey` with 1 Ed25519 sub-PKs and 1 threshold byte, as it should,
         // except the sub-PK is of small order. This should not succeed,
-        let none =
-            new_validated_public_key_from_bytes(torsion_point_with_threshold_1);
+        let none = new_validated_public_key_from_bytes(torsion_point_with_threshold_1);
         assert!(option::is_none(&none), 2);
 
         // Similarly, the v2 API will also fail deserializing.
-        let none =
-            new_validated_public_key_from_bytes_v2(torsion_point_with_threshold_1);
+        let none = new_validated_public_key_from_bytes_v2(torsion_point_with_threshold_1);
         assert!(option::is_none(&none), 3);
     }
 

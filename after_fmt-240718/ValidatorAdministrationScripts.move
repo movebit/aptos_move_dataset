@@ -336,11 +336,12 @@ module ValidatorAdministrationScripts {
         ensures ValidatorConfig::is_valid(validator_account);
         // The published ValidatorConfig has the correct data, according to the arguments to
         // set_validator_config_and_reconfigure
-        ensures ValidatorConfig::spec_get_config(validator_account) == ValidatorConfig::Config {
-            consensus_pubkey,
-            validator_network_addresses,
-            fullnode_network_addresses,
-        };
+        ensures ValidatorConfig::spec_get_config(validator_account)
+            == ValidatorConfig::Config {
+                consensus_pubkey,
+                validator_network_addresses,
+                fullnode_network_addresses,
+            };
 
         include ValidatorConfig::SetConfigAbortsIf { validator_addr: validator_account };
         include DiemSystem::UpdateConfigAndReconfigureAbortsIf {
@@ -352,14 +353,16 @@ module ValidatorAdministrationScripts {
         // the new config
         let is_validator_info_updated = (
             exists v_info in DiemSystem::spec_get_validators(): v_info.addr
-                == validator_account && v_info.config
-                != ValidatorConfig::Config {
-                    consensus_pubkey,
-                    validator_network_addresses,
-                    fullnode_network_addresses,
-                }
+                == validator_account
+                && v_info.config
+                    != ValidatorConfig::Config {
+                        consensus_pubkey,
+                        validator_network_addresses,
+                        fullnode_network_addresses,
+                    }
         );
-        include is_validator_info_updated ==> DiemConfig::ReconfigureAbortsIf;
+        include is_validator_info_updated ==>
+            DiemConfig::ReconfigureAbortsIf;
         let validator_index = DiemSystem::spec_index_of_validator(
             DiemSystem::spec_get_validators(), validator_account
         );
@@ -375,7 +378,8 @@ module ValidatorAdministrationScripts {
         /// for which there is no useful recovery except to resubmit the transaction.
         aborts_with [check] errors::NOT_PUBLISHED, errors::REQUIRES_ROLE, errors::INVALID_ARGUMENT, errors::INVALID_STATE;
 
-        include is_validator_info_updated ==> DiemConfig::ReconfigureEmits;
+        include is_validator_info_updated ==>
+            DiemConfig::ReconfigureEmits;
 
         /// **Access Control:**
         /// Only the Validator Operator account which has been registered with the validator can

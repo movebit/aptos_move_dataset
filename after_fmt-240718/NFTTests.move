@@ -248,10 +248,12 @@ module 0x1::NFTTests {
         assert!(!NFTGallery::has_token<Game>(creator_addr, &nft_id), ETRANSFER_FAILED);
         assert!(NFTGallery::has_token<Game>(user_addr, &nft_id), ETRANSFER_FAILED);
         assert!(
-            NFTGallery::get_token_balance<Game>(user_addr, &nft_id) == 1, ETRANSFER_FAILED
+            NFTGallery::get_token_balance<Game>(user_addr, &nft_id) == 1,
+            ETRANSFER_FAILED,
         );
         assert!(
-            NFTGallery::get_token_supply<Game>(user_addr, &nft_id) == 1, ETRANSFER_FAILED
+            NFTGallery::get_token_supply<Game>(user_addr, &nft_id) == 1,
+            ETRANSFER_FAILED,
         );
         assert!(
             NFTGallery::get_token_metadata<Game>(user_addr, &nft_id)

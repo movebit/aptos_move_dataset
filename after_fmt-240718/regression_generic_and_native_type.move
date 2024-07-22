@@ -32,9 +32,7 @@ module Diem {
         preburn_ref: &mut Preburn<Token>, coin: T<Token>
     ) acquires Info {
         let coin_value = value(&coin);
-        vector::push_back(
-            &mut preburn_ref.requests, coin
-        );
+        vector::push_back(&mut preburn_ref.requests, coin);
         let market_cap = borrow_global_mut<Info<Token>>(@0xA550C18);
         market_cap.preburn_value = market_cap.preburn_value + coin_value
     }

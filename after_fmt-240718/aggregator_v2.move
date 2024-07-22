@@ -279,7 +279,9 @@ module aptos_framework::aggregator_v2 {
         let snapshot = create_snapshot(42);
         let derived =
             derive_string_concat(
-                std::string::utf8(b"before"), &snapshot, std::string::utf8(b"after")
+                std::string::utf8(b"before"),
+                &snapshot,
+                std::string::utf8(b"after"),
             );
         assert!(read_derived_string(&derived) == std::string::utf8(b"before42after"), 0);
     }

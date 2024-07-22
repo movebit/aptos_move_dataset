@@ -103,9 +103,13 @@ module post_mint_reveal_nft::whitelist {
 
     /// Deducts the number of source certificate that the user wants to mint from the user's minting limit.
     public(friend) fun deduct_user_minting_amount(
-        module_address: address, minter_address: address, stage: u64, user_minting_amount: u64
+        module_address: address,
+        minter_address: address,
+        stage: u64,
+        user_minting_amount: u64
     ) acquires WhitelistMintConfig {
-        let whitelist_mint_config = borrow_global_mut<WhitelistMintConfig>(module_address);
+        let whitelist_mint_config =
+            borrow_global_mut<WhitelistMintConfig>(module_address);
         assert!(
             stage < vector::length(&whitelist_mint_config.whitelist_configs),
             error::invalid_argument(EINVALID_STAGE),
@@ -145,8 +149,7 @@ module post_mint_reveal_nft::whitelist {
         };
         let num_stages = get_num_of_stages(signer::address_of(admin));
         assert!(whitelist_stage <= num_stages, error::invalid_argument(EINVALID_STAGE));
-        let config =
-            borrow_global_mut<WhitelistMintConfig>(signer::address_of(admin));
+        let config = borrow_global_mut<WhitelistMintConfig>(signer::address_of(admin));
 
         // If whitelist_stage equals num_stages, it means that the user wants to add a new stage at the end of the whitelist stages.
         if (whitelist_stage == num_stages) {
@@ -169,10 +172,12 @@ module post_mint_reveal_nft::whitelist {
 
     /// Adds addresses to a specified whitelist stage.
     public fun add_whitelist_addresses(
-        admin: &signer, wl_addresses: vector<address>, mint_limit: u64, whitelist_stage: u64
+        admin: &signer,
+        wl_addresses: vector<address>,
+        mint_limit: u64,
+        whitelist_stage: u64
     ) acquires WhitelistMintConfig {
-        let config =
-            borrow_global_mut<WhitelistMintConfig>(signer::address_of(admin));
+        let config = borrow_global_mut<WhitelistMintConfig>(signer::address_of(admin));
         assert!(
             whitelist_stage < vector::length(&config.whitelist_configs),
             error::invalid_argument(EINVALID_STAGE),

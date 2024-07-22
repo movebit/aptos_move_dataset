@@ -28,12 +28,10 @@ module 0x1::events_with_aggregators {
         let addr = signer::address_of(account);
         assert!(!exists<Counter>(addr), E_COUNTER_ALREADY_EXISTS);
 
-        let counter =
-            Counter { counter: aggregator_v2::create_aggregator(10), };
+        let counter = Counter { counter: aggregator_v2::create_aggregator(10), };
         move_to(account, counter);
 
-        let event_stream =
-            EventStream { events_v1: account::new_event_handle(account) };
+        let event_stream = EventStream { events_v1: account::new_event_handle(account) };
         move_to(account, event_stream);
     }
 
@@ -60,8 +58,7 @@ module 0x1::events_with_aggregators {
     public entry fun test_emit_event_v1(addr: address) acquires Counter, EventStream {
         assert!(exists<Counter>(addr), E_COUNTER_DOES_NOT_EXIST);
         let counter = &borrow_global<Counter>(addr).counter;
-        let event =
-            EventV1 { value: aggregator_v2::snapshot(counter), };
+        let event = EventV1 { value: aggregator_v2::snapshot(counter), };
         let event_stream = &mut borrow_global_mut<EventStream>(addr).events_v1;
         event::emit_event(event_stream, event);
     }
@@ -69,8 +66,7 @@ module 0x1::events_with_aggregators {
     public entry fun test_emit_event_v2(addr: address) acquires Counter {
         assert!(exists<Counter>(addr), E_COUNTER_DOES_NOT_EXIST);
         let counter = &borrow_global<Counter>(addr).counter;
-        let event =
-            EventV2 { value: aggregator_v2::snapshot(counter), };
+        let event = EventV2 { value: aggregator_v2::snapshot(counter), };
         event::emit(event);
     }
 }

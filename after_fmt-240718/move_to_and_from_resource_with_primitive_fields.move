@@ -45,9 +45,8 @@ module 0x42::m {
     }
 
     entry fun mf(a: address) acquires Foo {
-        let Foo { f1, f2, f3, f4, f5, f6, f7, f8, v1, v2, v3, v4, v5, v6, v7, v8, } = move_from(
-            a
-        );
+        let Foo { f1, f2, f3, f4, f5, f6, f7, f8, v1, v2, v3, v4, v5, v6, v7, v8, } =
+            move_from(a);
         assert!(f1 == f1, 0);
         assert!(f2 == f2, 0);
         assert!(f3 == f3, 0);

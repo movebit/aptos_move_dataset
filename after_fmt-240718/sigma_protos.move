@@ -531,9 +531,8 @@ module veiled_coin::sigma_protos {
 
         vector::append<u8>(&mut bytes, FIAT_SHAMIR_SIGMA_DST);
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(
-                &ristretto255::basepoint_compressed()
-            )
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::basepoint_compressed()),
         );
         vector::append<u8>(
             &mut bytes,
@@ -545,23 +544,29 @@ module veiled_coin::sigma_protos {
         );
         vector::append<u8>(&mut bytes, ristretto255::point_to_bytes(&y));
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(&ristretto255::point_compress(c1))
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::point_compress(c1)),
         );
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(&ristretto255::point_compress(c2))
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::point_compress(c2)),
         );
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(&ristretto255::point_compress(c))
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::point_compress(c)),
         );
         vector::append<u8>(&mut bytes, ristretto255::scalar_to_bytes(amount));
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(&ristretto255::point_compress(x1))
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x1)),
         );
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(&ristretto255::point_compress(x2))
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x2)),
         );
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(&ristretto255::point_compress(x3))
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x3)),
         );
 
         ristretto255::new_scalar_from_sha2_512(bytes)
@@ -597,9 +602,8 @@ module veiled_coin::sigma_protos {
 
         vector::append<u8>(&mut bytes, FIAT_SHAMIR_SIGMA_DST);
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(
-                &ristretto255::basepoint_compressed()
-            )
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::basepoint_compressed()),
         );
         vector::append<u8>(
             &mut bytes,
@@ -612,47 +616,60 @@ module veiled_coin::sigma_protos {
         vector::append<u8>(&mut bytes, ristretto255::point_to_bytes(&y));
         vector::append<u8>(&mut bytes, ristretto255::point_to_bytes(&y_prime));
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(&ristretto255::point_compress(big_c))
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::point_compress(big_c)),
         );
         vector::append<u8>(
             &mut bytes,
             ristretto255::point_to_bytes(&ristretto255::point_compress(big_c_prime)),
         );
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(&ristretto255::point_compress(big_d))
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::point_compress(big_d)),
         );
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(&ristretto255::point_compress(c))
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::point_compress(c)),
         );
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(&ristretto255::point_compress(c1))
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::point_compress(c1)),
         );
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(&ristretto255::point_compress(c2))
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::point_compress(c2)),
         );
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(&ristretto255::point_compress(bar_c))
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::point_compress(bar_c)),
         );
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(&ristretto255::point_compress(x1))
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x1)),
         );
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(&ristretto255::point_compress(x2))
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x2)),
         );
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(&ristretto255::point_compress(x3))
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x3)),
         );
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(&ristretto255::point_compress(x4))
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x4)),
         );
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(&ristretto255::point_compress(x5))
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x5)),
         );
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(&ristretto255::point_compress(x6))
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x6)),
         );
         vector::append<u8>(
-            &mut bytes, ristretto255::point_to_bytes(&ristretto255::point_compress(x7))
+            &mut bytes,
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x7)),
         );
 
         ristretto255::new_scalar_from_sha2_512(bytes)
@@ -998,9 +1015,8 @@ module veiled_coin::sigma_protos {
         let curr_balance_ct =
             elgamal::new_ciphertext_with_basepoint(&curr_balance, &rand, &sender_pk);
         // Commit to the amount
-        let new_balance_comm = pedersen::new_commitment_for_bulletproof(
-            &new_balance, &rand
-        );
+        let new_balance_comm =
+            pedersen::new_commitment_for_bulletproof(&new_balance, &rand);
 
         let sigma_proof =
             prove_withdrawal(
@@ -1098,23 +1114,23 @@ module veiled_coin::sigma_protos {
         assert!(ristretto255::point_equals(&sigma_proof.x6, &deserialized_proof.x6), 1);
         assert!(
             ristretto255::scalar_equals(&sigma_proof.alpha1, &deserialized_proof.alpha1),
-            1
+            1,
         );
         assert!(
             ristretto255::scalar_equals(&sigma_proof.alpha2, &deserialized_proof.alpha2),
-            1
+            1,
         );
         assert!(
             ristretto255::scalar_equals(&sigma_proof.alpha3, &deserialized_proof.alpha3),
-            1
+            1,
         );
         assert!(
             ristretto255::scalar_equals(&sigma_proof.alpha4, &deserialized_proof.alpha4),
-            1
+            1,
         );
         assert!(
             ristretto255::scalar_equals(&sigma_proof.alpha5, &deserialized_proof.alpha5),
-            1
+            1,
         );
     }
 }

@@ -156,7 +156,7 @@ spec aptos_framework::transaction_fee {
                 aggregator::spec_aggregator_get_val(
                     global<CollectedFeesPerBlock>(@aptos_framework).amount.value
                 ) <= optional_aggregator::optional_aggregator_value(
-                    option::spec_borrow(coin::get_coin_supply_opt<AptosCoin>())
+                    option::spec_borrow(coin::get_coin_supply_opt<AptosCoin>()),
                 )
             );
     }
@@ -233,9 +233,8 @@ spec aptos_framework::transaction_fee {
 
         aborts_if amount != 0
             && !(
-                exists<CoinInfo<AptosCoin>>(aptos_addr) && exists<CoinStore<AptosCoin>>(
-                    account_addr
-                )
+                exists<CoinInfo<AptosCoin>>(aptos_addr)
+                && exists<CoinStore<AptosCoin>>(account_addr)
             );
         aborts_if coin_store.coin.value < amount;
 

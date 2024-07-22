@@ -120,9 +120,9 @@ spec aptos_framework::staking_proxy {
             && !exists<stake::StakePool>(pool_address);
         ensures staking_contract_exists
             && commission_amount != 0 ==>
-            global<stake::StakePool>(pool_address).operator_address == new_operator && simple_map::spec_get(
-                post_store.staking_contracts, new_operator
-            ).commission_percentage == current_commission_percentage;
+            global<stake::StakePool>(pool_address).operator_address == new_operator
+                && simple_map::spec_get(post_store.staking_contracts, new_operator).commission_percentage ==
+                     current_commission_percentage;
 
         ensures staking_contract_exists ==>
             simple_map::spec_contains_key(post_store.staking_contracts, new_operator);

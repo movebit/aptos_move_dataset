@@ -26,7 +26,8 @@ spec aptos_std::capability {
         include AcquireSchema<Feature>;
         ensures spec_has_delegate_cap<Feature>(addr) ==>
             result.root == root_addr;
-        ensures !spec_has_delegate_cap<Feature>(addr) ==> result.root == addr;
+        ensures !spec_has_delegate_cap<Feature>(addr) ==>
+            result.root == addr;
     }
 
     spec acquire_linear<Feature>(requester: &signer, _feature_witness: &Feature): LinearCap<Feature> {
@@ -35,7 +36,8 @@ spec aptos_std::capability {
         include AcquireSchema<Feature>;
         ensures spec_has_delegate_cap<Feature>(addr) ==>
             result.root == root_addr;
-        ensures !spec_has_delegate_cap<Feature>(addr) ==> result.root == addr;
+        ensures !spec_has_delegate_cap<Feature>(addr) ==>
+            result.root == addr;
     }
 
     spec schema AcquireSchema<Feature> {

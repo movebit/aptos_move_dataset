@@ -287,11 +287,13 @@ module aptos_std::math128 {
             let taylor1 = ((1 << 32) / ((1u256 << idx)) as u128);
             let taylor2 = (taylor1 * taylor1) >> 32;
             let taylor3 = (taylor2 * taylor1) >> 32;
-            let expected =
-                expected - ((taylor1 + taylor2 / 2 + taylor3 / 3) << 32) / 2977044472;
+            let expected = expected
+                - ((taylor1 + taylor2 / 2 + taylor3 / 3) << 32) / 2977044472;
             // verify it matches to 8 significant digits
             assert_approx_the_same(
-                (fixed_point32::get_raw_value(res) as u128), expected, 8
+                (fixed_point32::get_raw_value(res) as u128),
+                expected,
+                8,
             );
             idx = idx + 1;
         };
@@ -321,7 +323,9 @@ module aptos_std::math128 {
                         / 12786308645202655660;
             // verify it matches to 8 significant digits
             assert_approx_the_same(
-                fixed_point64::get_raw_value(res), (expected as u128), 14
+                fixed_point64::get_raw_value(res),
+                (expected as u128),
+                14,
             );
             idx = idx + 1;
         };

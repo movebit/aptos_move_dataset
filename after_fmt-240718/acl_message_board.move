@@ -80,9 +80,7 @@ module message_board::acl_based_mb {
         board.pinned_post = message;
 
         let send_acct = signer::address_of(account);
-        event::emit(
-            MessageChange { board: board_addr, message, participant: send_acct },
-        );
+        event::emit(MessageChange { board: board_addr, message, participant: send_acct });
     }
 
     /// an account can send events containing message

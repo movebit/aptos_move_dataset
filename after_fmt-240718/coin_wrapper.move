@@ -64,11 +64,11 @@ module swap::coin_wrapper {
         if (is_initialized()) { return };
 
         let swap_signer = &package_manager::get_signer();
-        let (coin_wrapper_signer, signer_cap) = account::create_resource_account(
-            swap_signer, COIN_WRAPPER_NAME
-        );
+        let (coin_wrapper_signer, signer_cap) =
+            account::create_resource_account(swap_signer, COIN_WRAPPER_NAME);
         package_manager::add_address(
-            string::utf8(COIN_WRAPPER_NAME), signer::address_of(&coin_wrapper_signer)
+            string::utf8(COIN_WRAPPER_NAME),
+            signer::address_of(&coin_wrapper_signer),
         );
         move_to(
             &coin_wrapper_signer,

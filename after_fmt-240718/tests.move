@@ -49,7 +49,8 @@ module bcs_stream::tests {
                 stream,
                 |stream| {
                     bcs_stream::deserialize_vector(
-                        stream, |stream_| { deserialize_Bar(stream_) }
+                        stream,
+                        |stream_| { deserialize_Bar(stream_) },
                     )
                 },
             ),
@@ -65,12 +66,14 @@ module bcs_stream::tests {
         vector::append(&mut data, x"0400000000000000"); // u64
         vector::append(&mut data, x"05000000000000000000000000000000"); // u128
         vector::append(
-            &mut data, x"0600000000000000000000000000000000000000000000000000000000000000"
+            &mut data,
+            x"0600000000000000000000000000000000000000000000000000000000000000",
         ); // u256
         vector::append(&mut data, x"01"); // bool
         vector::append(&mut data, x"02010000020001"); // vector
         vector::append(
-            &mut data, x"000000000000000000000000000000000000000000000000000000000000ABCD"
+            &mut data,
+            x"000000000000000000000000000000000000000000000000000000000000ABCD",
         ); // address
         vector::append(&mut data, x"0B736F6D6520737472696E67"); // String
         vector::append(&mut data, x"0102010000020001"); // Option
@@ -372,8 +375,7 @@ module bcs_stream::tests {
 
     #[test]
     fun test_u256() {
-        let data =
-            x"0102030405060708111213141516171821222324252627283132333435363738";
+        let data = x"0102030405060708111213141516171821222324252627283132333435363738";
         let stream = bcs_stream::new(data);
         assert!(
             bcs_stream::deserialize_u256(&mut stream)
@@ -385,16 +387,14 @@ module bcs_stream::tests {
     #[test]
     #[expected_failure(abort_code = 0x020002, location = bcs_stream::bcs_stream)]
     fun test_u256_out_of_bytes() {
-        let data =
-            x"00000000000000000000000000000000000000000000000000000000000000";
+        let data = x"00000000000000000000000000000000000000000000000000000000000000";
         let stream = bcs_stream::new(data);
         bcs_stream::deserialize_u256(&mut stream);
     }
 
     #[test]
     fun test_address() {
-        let data =
-            x"0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF";
+        let data = x"0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF";
         let stream = bcs_stream::new(data);
         assert!(
             bcs_stream::deserialize_address(&mut stream)
@@ -406,8 +406,7 @@ module bcs_stream::tests {
     #[test]
     #[expected_failure(abort_code = 0x020002, location = bcs_stream::bcs_stream)]
     fun test_address_too_short() {
-        let data =
-            x"0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCD";
+        let data = x"0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCD";
         let stream = bcs_stream::new(data);
         bcs_stream::deserialize_address(&mut stream);
     }
@@ -508,12 +507,14 @@ module bcs_stream::tests {
         vector::append(&mut data, x"0400000000000000"); // u64
         vector::append(&mut data, x"05000000000000000000000000000000"); // u128
         vector::append(
-            &mut data, x"0600000000000000000000000000000000000000000000000000000000000000"
+            &mut data,
+            x"0600000000000000000000000000000000000000000000000000000000000000",
         ); // u256
         vector::append(&mut data, x"01"); // bool
         vector::append(&mut data, x"02010000020001"); // vector
         vector::append(
-            &mut data, x"000000000000000000000000000000000000000000000000000000000000ABCD"
+            &mut data,
+            x"000000000000000000000000000000000000000000000000000000000000ABCD",
         ); // address
         vector::append(&mut data, x"0B736F6D6520737472696E67"); // String
         vector::append(&mut data, x"0102010000020001"); // Option
@@ -521,7 +522,8 @@ module bcs_stream::tests {
         let stream = bcs_stream::new(data);
         let some_foo =
             bcs_stream::deserialize_option<Foo>(
-                &mut stream, |stream| { deserialize_Foo(stream) }
+                &mut stream,
+                |stream| { deserialize_Foo(stream) },
             );
 
         let expected =
@@ -538,7 +540,7 @@ module bcs_stream::tests {
                     i: @0xABCD,
                     j: string::utf8(b"some string"),
                     k: option::some(
-                        vector[Bar { x: 01, y: false }, Bar { x: 02, y: true }]
+                        vector[Bar { x: 01, y: false }, Bar { x: 02, y: true }],
                     ),
                 },
             );

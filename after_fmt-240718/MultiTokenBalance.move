@@ -122,7 +122,8 @@ module ExperimentalFramework::MultiTokenBalance {
         let post res_id = option::borrow(result);
         ensures is_in_gallery(gallery, id) <==>
             (option::is_some(result) && res_id == min_token_idx);
-        ensures result == option::spec_none() <==> !is_in_gallery(gallery, id);
+        ensures result == option::spec_none() <==>
+            !is_in_gallery(gallery, id);
     }
 
     /// Returns whether the owner has a token with given id.
@@ -131,7 +132,8 @@ module ExperimentalFramework::MultiTokenBalance {
     ): bool acquires TokenBalance {
         option::is_some(
             &index_of_token(
-                &borrow_global<TokenBalance<TokenType>>(owner).gallery, token_id
+                &borrow_global<TokenBalance<TokenType>>(owner).gallery,
+                token_id,
             ),
         )
     }

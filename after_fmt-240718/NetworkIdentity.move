@@ -143,7 +143,8 @@ module DiemFramework::NetworkIdentity {
         aborts_if len(to_add) == 0 with errors::INVALID_ARGUMENT;
         aborts_if len(prior_identities) + len(to_add) > MAX_U64;
         aborts_if len(prior_identities) + len(to_add) > MAX_ADDR_IDENTITIES with errors::LIMIT_EXCEEDED;
-        include has_change ==> DiemTimestamp::AbortsIfNotOperating;
+        include has_change ==>
+            DiemTimestamp::AbortsIfNotOperating;
         include AddMembersInternalEnsures<vector<u8>> {
             old_members: prior_identities,
             new_members: global<NetworkIdentity>(account_addr).identities,
@@ -205,7 +206,8 @@ module DiemFramework::NetworkIdentity {
         aborts_if len(to_remove) == 0 with errors::INVALID_ARGUMENT;
         aborts_if len(to_remove) > MAX_ADDR_IDENTITIES with errors::LIMIT_EXCEEDED;
         aborts_if !exists<NetworkIdentity>(account_addr) with errors::NOT_PUBLISHED;
-        include has_change ==> DiemTimestamp::AbortsIfNotOperating;
+        include has_change ==>
+            DiemTimestamp::AbortsIfNotOperating;
         include RemoveMembersInternalEnsures<vector<u8>> {
             old_members: prior_identities,
             new_members: global<NetworkIdentity>(account_addr).identities,

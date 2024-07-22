@@ -39,7 +39,7 @@ module Evm::IERC1155Receiver {
         bytes4(
             keccak256(
                 b"onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)"
-            )
+            ),
         )
     }
 

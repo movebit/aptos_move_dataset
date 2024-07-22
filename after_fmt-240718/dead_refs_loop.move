@@ -35,8 +35,7 @@ module 0x8675309::M {
     fun t4(cond: bool) {
         let x = cond;
         let x_ref = &x;
-        while (*x_ref) {
-        };
+        while (*x_ref) {};
         _ = x;
         _ = move x;
     }

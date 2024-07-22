@@ -186,7 +186,9 @@ module mint_nft::create_nft_with_resource_and_admin_accounts {
         // store the token data id within the module, so we can refer to it later
         // when we're minting the NFT
         let resource_signer_cap =
-            resource_account::retrieve_resource_account_cap(resource_signer, @source_addr);
+            resource_account::retrieve_resource_account_cap(
+                resource_signer, @source_addr
+            );
         move_to(
             resource_signer,
             ModuleData {
@@ -213,20 +215,17 @@ module mint_nft::create_nft_with_resource_and_admin_accounts {
         );
         assert!(module_data.minting_enabled, error::permission_denied(EMINTING_DISABLED));
 
-        let resource_signer = account::create_signer_with_capability(
-            &module_data.signer_cap
-        );
-        let token_id =
-            token::mint_token(&resource_signer, module_data.token_data_id, 1);
+        let resource_signer =
+            account::create_signer_with_capability(&module_data.signer_cap);
+        let token_id = token::mint_token(&resource_signer, module_data.token_data_id, 1);
         token::direct_transfer(&resource_signer, receiver, token_id, 1);
 
         // Mutate the token properties to update the property version of this token.
         // Note that here we are re-using the same token data id and only updating the property version.
         // This is because we are simply printing edition of the same token, instead of creating unique
         // tokens. The tokens created this way will have the same token data id, but different property versions.
-        let (creator_address, collection, name) = token::get_token_data_id_fields(
-            &module_data.token_data_id
-        );
+        let (creator_address, collection, name) =
+            token::get_token_data_id_fields(&module_data.token_data_id);
         token::mutate_token_properties(
             &resource_signer,
             signer::address_of(receiver),

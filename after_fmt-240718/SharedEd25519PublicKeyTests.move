@@ -30,8 +30,7 @@ module DiemFramework::SharedEd25519PublicKeyTests {
 
         let old_auth_key = DiemAccount::authentication_key(addr);
         // from RFC 8032
-        let pubkey1 =
-            x"3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c";
+        let pubkey1 = x"3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c";
         SharedEd25519PublicKey::publish(account, copy pubkey1);
         let new_auth_key = DiemAccount::authentication_key(addr);
 
@@ -46,8 +45,7 @@ module DiemFramework::SharedEd25519PublicKeyTests {
 
         // now rotate to another pubkey and redo the key-related checks
         // from RFC 8032
-        let pubkey2 =
-            x"d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a";
+        let pubkey2 = x"d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a";
         SharedEd25519PublicKey::rotate_key(account, copy pubkey2);
         assert!(SharedEd25519PublicKey::key(addr) == pubkey2, 3004);
         // make sure the auth key changed again

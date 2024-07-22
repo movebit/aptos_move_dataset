@@ -123,7 +123,7 @@ module std::option {
         t: &Option<Element>, default: Element,
     ): Element {
         let vec_ref = &t.vec;
-        if (vector::is_empty(vec_ref)) default else*vector::borrow(vec_ref, 0)
+        if (vector::is_empty(vec_ref)) default else *vector::borrow(vec_ref, 0)
     }
 
     spec get_with_default {

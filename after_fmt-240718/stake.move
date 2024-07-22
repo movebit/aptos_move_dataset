@@ -432,7 +432,8 @@ module aptos_framework::stake {
         // Both active and pending inactive validators can still vote in the current epoch.
         if (validator_state == VALIDATOR_STATUS_ACTIVE
                 || validator_state == VALIDATOR_STATUS_PENDING_INACTIVE) {
-            let active_stake = coin::value(&borrow_global<StakePool>(pool_address).active);
+            let active_stake =
+                coin::value(&borrow_global<StakePool>(pool_address).active);
             let pending_inactive_stake =
                 coin::value(&borrow_global<StakePool>(pool_address).pending_inactive);
             active_stake + pending_inactive_stake
@@ -617,7 +618,8 @@ module aptos_framework::stake {
                 &proof_of_possession_from_bytes(proof_of_possession),
             );
         assert!(
-            option::is_some(pubkey_from_pop), error::invalid_argument(EINVALID_PUBLIC_KEY)
+            option::is_some(pubkey_from_pop),
+            error::invalid_argument(EINVALID_PUBLIC_KEY),
         );
 
         initialize_owner(account);
@@ -636,7 +638,8 @@ module aptos_framework::stake {
         let owner_address = signer::address_of(owner);
         assert!(is_allowed(owner_address), error::not_found(EINELIGIBLE_VALIDATOR));
         assert!(
-            !stake_pool_exists(owner_address), error::already_exists(EALREADY_REGISTERED)
+            !stake_pool_exists(owner_address),
+            error::already_exists(EALREADY_REGISTERED),
         );
 
         move_to(
@@ -725,9 +728,7 @@ module aptos_framework::stake {
         stake_pool.operator_address = new_operator;
 
         if (std::features::module_event_migration_enabled()) {
-            event::emit(
-                SetOperator { pool_address, old_operator, new_operator, },
-            );
+            event::emit(SetOperator { pool_address, old_operator, new_operator, });
         };
 
         event::emit_event(
@@ -800,18 +801,15 @@ module aptos_framework::stake {
             coin::merge<AptosCoin>(&mut stake_pool.active, coins);
         };
 
-        let (_, maximum_stake) = staking_config::get_required_stake(
-            &staking_config::get()
-        );
+        let (_, maximum_stake) =
+            staking_config::get_required_stake(&staking_config::get());
         let voting_power = get_next_epoch_voting_power(stake_pool);
         assert!(
             voting_power <= maximum_stake, error::invalid_argument(ESTAKE_EXCEEDS_MAX)
         );
 
         if (std::features::module_event_migration_enabled()) {
-            event::emit(
-                AddStake { pool_address, amount_added: amount, },
-            );
+            event::emit(AddStake { pool_address, amount_added: amount, });
         };
         event::emit_event(
             &mut stake_pool.add_stake_events,
@@ -847,9 +845,7 @@ module aptos_framework::stake {
         coin::merge(&mut stake_pool.active, reactivated_coins);
 
         if (std::features::module_event_migration_enabled()) {
-            event::emit(
-                ReactivateStake { pool_address, amount, },
-            );
+            event::emit(ReactivateStake { pool_address, amount, });
         };
         event::emit_event(
             &mut stake_pool.reactivate_stake_events,
@@ -874,7 +870,8 @@ module aptos_framework::stake {
         );
 
         assert!(
-            exists<ValidatorConfig>(pool_address), error::not_found(EVALIDATOR_CONFIG)
+            exists<ValidatorConfig>(pool_address),
+            error::not_found(EVALIDATOR_CONFIG),
         );
         let validator_info = borrow_global_mut<ValidatorConfig>(pool_address);
         let old_consensus_pubkey = validator_info.consensus_pubkey;
@@ -885,7 +882,8 @@ module aptos_framework::stake {
                 &proof_of_possession_from_bytes(proof_of_possession),
             );
         assert!(
-            option::is_some(pubkey_from_pop), error::invalid_argument(EINVALID_PUBLIC_KEY)
+            option::is_some(pubkey_from_pop),
+            error::invalid_argument(EINVALID_PUBLIC_KEY),
         );
         validator_info.consensus_pubkey = new_consensus_pubkey;
 
@@ -923,7 +921,8 @@ module aptos_framework::stake {
             error::unauthenticated(ENOT_OPERATOR),
         );
         assert!(
-            exists<ValidatorConfig>(pool_address), error::not_found(EVALIDATOR_CONFIG)
+            exists<ValidatorConfig>(pool_address),
+            error::not_found(EVALIDATOR_CONFIG),
         );
         let validator_info = borrow_global_mut<ValidatorConfig>(pool_address);
         let old_network_addresses = validator_info.network_addresses;
@@ -1097,9 +1096,7 @@ module aptos_framework::stake {
         coin::merge<AptosCoin>(&mut stake_pool.pending_inactive, unlocked_stake);
 
         if (std::features::module_event_migration_enabled()) {
-            event::emit(
-                UnlockStake { pool_address, amount_unlocked: amount, },
-            );
+            event::emit(UnlockStake { pool_address, amount_unlocked: amount, });
         };
         event::emit_event(
             &mut stake_pool.unlock_stake_events,
@@ -1108,9 +1105,7 @@ module aptos_framework::stake {
     }
 
     /// Withdraw from `account`'s inactive stake.
-    public entry fun withdraw(
-        owner: &signer, withdraw_amount: u64
-    ) acquires OwnerCapability, StakePool, ValidatorSet {
+    public entry fun withdraw(owner: &signer, withdraw_amount: u64) acquires OwnerCapability, StakePool, ValidatorSet {
         let owner_address = signer::address_of(owner);
         assert_owner_cap_exists(owner_address);
         let ownership_cap = borrow_global<OwnerCapability>(owner_address);
@@ -1131,9 +1126,8 @@ module aptos_framework::stake {
         // This can leave their stake stuck in pending_inactive even after the current lockup cycle expires.
         if (get_validator_state(pool_address) == VALIDATOR_STATUS_INACTIVE
                 && timestamp::now_seconds() >= stake_pool.locked_until_secs) {
-            let pending_inactive_stake = coin::extract_all(
-                &mut stake_pool.pending_inactive
-            );
+            let pending_inactive_stake =
+                coin::extract_all(&mut stake_pool.pending_inactive);
             coin::merge(&mut stake_pool.inactive, pending_inactive_stake);
         };
 
@@ -1142,9 +1136,7 @@ module aptos_framework::stake {
         if (withdraw_amount == 0) return coin::zero<AptosCoin>();
 
         if (std::features::module_event_migration_enabled()) {
-            event::emit(
-                WithdrawStake { pool_address, amount_withdrawn: withdraw_amount, },
-            );
+            event::emit(WithdrawStake { pool_address, amount_withdrawn: withdraw_amount, });
         };
         event::emit_event(
             &mut stake_pool.withdraw_stake_events,
@@ -1180,9 +1172,8 @@ module aptos_framework::stake {
 
         let validator_set = borrow_global_mut<ValidatorSet>(@aptos_framework);
         // If the validator is still pending_active, directly kick the validator out.
-        let maybe_pending_active_index = find_validator(
-            &validator_set.pending_active, pool_address
-        );
+        let maybe_pending_active_index =
+            find_validator(&validator_set.pending_active, pool_address);
         if (option::is_some(&maybe_pending_active_index)) {
             vector::swap_remove(
                 &mut validator_set.pending_active,
@@ -1204,11 +1195,11 @@ module aptos_framework::stake {
             };
         } else {
             // Validate that the validator is already part of the validator set.
-            let maybe_active_index = find_validator(
-                &validator_set.active_validators, pool_address
-            );
+            let maybe_active_index =
+                find_validator(&validator_set.active_validators, pool_address);
             assert!(
-                option::is_some(&maybe_active_index), error::invalid_state(ENOT_VALIDATOR)
+                option::is_some(&maybe_active_index),
+                error::invalid_state(ENOT_VALIDATOR),
             );
             let validator_info = vector::swap_remove(
                 &mut validator_set.active_validators,
@@ -1386,9 +1377,8 @@ module aptos_framework::stake {
 
         // Update validator indices, reset performance scores, and renew lockups.
         validator_perf.validators = vector::empty();
-        let recurring_lockup_duration_secs = staking_config::get_recurring_lockup_duration(
-            &config
-        );
+        let recurring_lockup_duration_secs =
+            staking_config::get_recurring_lockup_duration(&config);
         let vlen = vector::length(&validator_set.active_validators);
         let validator_index = 0;
         while ({
@@ -1413,7 +1403,8 @@ module aptos_framework::stake {
                 &mut validator_set.active_validators, validator_index
             );
             validator_info.config.validator_index = validator_index;
-            let validator_config = borrow_global_mut<ValidatorConfig>(validator_info.addr);
+            let validator_config =
+                borrow_global_mut<ValidatorConfig>(validator_info.addr);
             validator_config.validator_index = validator_index;
 
             vector::push_back(
@@ -1462,9 +1453,8 @@ module aptos_framework::stake {
         let staking_config = staking_config::get();
         let validator_perf = borrow_global<ValidatorPerformance>(@aptos_framework);
         let (minimum_stake, _) = staking_config::get_required_stake(&staking_config);
-        let (rewards_rate, rewards_rate_denominator) = staking_config::get_reward_rate(
-            &staking_config
-        );
+        let (rewards_rate, rewards_rate_denominator) =
+            staking_config::get_reward_rate(&staking_config);
 
         // Compute new validator set.
         let new_active_validators = vector[];
@@ -1527,24 +1517,27 @@ module aptos_framework::stake {
 
             let cur_fee = 0;
             if (features::collect_and_distribute_gas_fees()) {
-                let fees_table = &borrow_global<ValidatorFees>(@aptos_framework).fees_table;
+                let fees_table =
+                    &borrow_global<ValidatorFees>(@aptos_framework).fees_table;
                 if (table::contains(fees_table, candidate.addr)) {
                     let fee_coin = table::borrow(fees_table, candidate.addr);
                     cur_fee = coin::value(fee_coin);
                 }
             };
 
-            let lockup_expired = get_reconfig_start_time_secs()
-                >= stake_pool.locked_until_secs;
+            let lockup_expired =
+                get_reconfig_start_time_secs() >= stake_pool.locked_until_secs;
             spec {
                 assume cur_active + cur_pending_active + cur_reward + cur_fee <= MAX_U64;
                 assume cur_active + cur_pending_inactive + cur_pending_active + cur_reward
                     + cur_fee <= MAX_U64;
             };
-            let new_voting_power = cur_active + if (lockup_expired) { 0 }
-            else {
-                cur_pending_inactive
-            } + cur_pending_active + cur_reward + cur_fee;
+            let new_voting_power =
+                cur_active
+                    + if (lockup_expired) { 0 }
+                    else {
+                        cur_pending_inactive
+                    } + cur_pending_active + cur_reward + cur_fee;
 
             if (new_voting_power >= minimum_stake) {
                 let config = *borrow_global<ValidatorConfig>(candidate.addr);
@@ -1711,9 +1704,8 @@ module aptos_framework::stake {
         };
         let num_total_proposals =
             cur_validator_perf.successful_proposals + cur_validator_perf.failed_proposals;
-        let (rewards_rate, rewards_rate_denominator) = staking_config::get_reward_rate(
-            staking_config
-        );
+        let (rewards_rate, rewards_rate_denominator) =
+            staking_config::get_reward_rate(staking_config);
         let rewards_active =
             distribute_rewards(
                 &mut stake_pool.active,
@@ -1823,7 +1815,8 @@ module aptos_framework::stake {
                 )
             } else { 0 };
         if (rewards_amount > 0) {
-            let mint_cap = &borrow_global<AptosCoinCapabilities>(@aptos_framework).mint_cap;
+            let mint_cap =
+                &borrow_global<AptosCoinCapabilities>(@aptos_framework).mint_cap;
             let rewards = coin::mint(rewards_amount, mint_cap);
             coin::merge(stake, rewards);
         };
@@ -1873,9 +1866,10 @@ module aptos_framework::stake {
 
     fun update_voting_power_increase(increase_amount: u64) acquires ValidatorSet {
         let validator_set = borrow_global_mut<ValidatorSet>(@aptos_framework);
-        let voting_power_increase_limit = (
-            staking_config::get_voting_power_increase_limit(&staking_config::get()) as u128
-        );
+        let voting_power_increase_limit =
+            (
+                staking_config::get_voting_power_increase_limit(&staking_config::get()) as u128
+            );
         validator_set.total_joining_power = validator_set.total_joining_power
             + (increase_amount as u128);
 
@@ -2061,7 +2055,11 @@ module aptos_framework::stake {
         let pk_bytes = bls12381::public_key_to_bytes(public_key);
         let pop_bytes = bls12381::proof_of_possession_to_bytes(proof_of_possession);
         initialize_validator(
-            validator, pk_bytes, pop_bytes, vector::empty(), vector::empty()
+            validator,
+            pk_bytes,
+            pop_bytes,
+            vector::empty(),
+            vector::empty(),
         );
 
         if (amount > 0) {
@@ -2316,7 +2314,8 @@ module aptos_framework::stake {
         timestamp::fast_forward_seconds(LOCKUP_CYCLE_SECONDS / 2);
         let validator_address = signer::address_of(validator);
         assert!(
-            get_remaining_lockup_secs(validator_address) == LOCKUP_CYCLE_SECONDS / 2, 1
+            get_remaining_lockup_secs(validator_address) == LOCKUP_CYCLE_SECONDS / 2,
+            1,
         );
 
         // Join the validator set with an existing lockup
@@ -2359,7 +2358,14 @@ module aptos_framework::stake {
     ) acquires AllowedValidators, OwnerCapability, StakePool, AptosCoinCapabilities, ValidatorConfig, ValidatorPerformance, ValidatorSet, ValidatorFees {
         // Only 50% voting power increase is allowed in each epoch.
         initialize_for_test_custom(
-            aptos_framework, 50, 10000, LOCKUP_CYCLE_SECONDS, true, 1, 10, 50
+            aptos_framework,
+            50,
+            10000,
+            LOCKUP_CYCLE_SECONDS,
+            true,
+            1,
+            10,
+            50,
         );
         let (_sk_1, pk_1, pop_1) = generate_identity();
         let (_sk_2, pk_2, pop_2) = generate_identity();
@@ -2416,7 +2422,14 @@ module aptos_framework::stake {
     ) acquires AllowedValidators, OwnerCapability, StakePool, AptosCoinCapabilities, ValidatorConfig, ValidatorPerformance, ValidatorSet, ValidatorFees {
         // 100% voting power increase is allowed in each epoch.
         initialize_for_test_custom(
-            aptos_framework, 50, 10000, LOCKUP_CYCLE_SECONDS, true, 1, 10, 100
+            aptos_framework,
+            50,
+            10000,
+            LOCKUP_CYCLE_SECONDS,
+            true,
+            1,
+            10,
+            100,
         );
         // Need 1 validator to be in the active validator set so joining limit works.
         let (_sk_1, pk_1, pop_1) = generate_identity();
@@ -2446,7 +2459,8 @@ module aptos_framework::stake {
 
         // Check that voting power increase is tracked.
         assert!(
-            borrow_global<ValidatorSet>(@aptos_framework).total_joining_power == 100, 0
+            borrow_global<ValidatorSet>(@aptos_framework).total_joining_power == 100,
+            0,
         );
 
         // Leave the validator set immediately.
@@ -2464,7 +2478,14 @@ module aptos_framework::stake {
     ) acquires AllowedValidators, OwnerCapability, StakePool, AptosCoinCapabilities, ValidatorConfig, ValidatorPerformance, ValidatorSet, ValidatorFees {
         // Only 50% voting power increase is allowed in each epoch.
         initialize_for_test_custom(
-            aptos_framework, 50, 10000, LOCKUP_CYCLE_SECONDS, true, 1, 10, 50
+            aptos_framework,
+            50,
+            10000,
+            LOCKUP_CYCLE_SECONDS,
+            true,
+            1,
+            10,
+            50,
         );
         // Add initial stake and join the validator set.
         let (_sk, pk, pop) = generate_identity();
@@ -2487,7 +2508,14 @@ module aptos_framework::stake {
     ) acquires AllowedValidators, OwnerCapability, StakePool, AptosCoinCapabilities, ValidatorConfig, ValidatorPerformance, ValidatorSet, ValidatorFees {
         // Only 50% voting power increase is allowed in each epoch.
         initialize_for_test_custom(
-            aptos_framework, 50, 10000, LOCKUP_CYCLE_SECONDS, true, 1, 10, 50
+            aptos_framework,
+            50,
+            10000,
+            LOCKUP_CYCLE_SECONDS,
+            true,
+            1,
+            10,
+            50,
         );
         let (_sk, pk, pop) = generate_identity();
         initialize_test_validator(&pk, &pop, validator, 100, true, true);
@@ -2502,7 +2530,14 @@ module aptos_framework::stake {
     ) acquires AllowedValidators, OwnerCapability, StakePool, AptosCoinCapabilities, ValidatorConfig, ValidatorPerformance, ValidatorSet, ValidatorFees {
         // Reward rate = 10%.
         initialize_for_test_custom(
-            aptos_framework, 50, 10000, LOCKUP_CYCLE_SECONDS, true, 1, 10, 100
+            aptos_framework,
+            50,
+            10000,
+            LOCKUP_CYCLE_SECONDS,
+            true,
+            1,
+            10,
+            100,
         );
         let (_sk, pk, pop) = generate_identity();
         initialize_test_validator(&pk, &pop, validator, 100, true, true);
@@ -2749,7 +2784,14 @@ module aptos_framework::stake {
     ) acquires AllowedValidators, OwnerCapability, StakePool, AptosCoinCapabilities, ValidatorConfig, ValidatorPerformance, ValidatorSet, ValidatorFees {
         // Only 50% voting power increase is allowed in each epoch.
         initialize_for_test_custom(
-            aptos_framework, 50, 10000, LOCKUP_CYCLE_SECONDS, true, 1, 10, 50
+            aptos_framework,
+            50,
+            10000,
+            LOCKUP_CYCLE_SECONDS,
+            true,
+            1,
+            10,
+            50,
         );
         let (_sk_1, pk_1, pop_1) = generate_identity();
         let (_sk_2, pk_2, pop_2) = generate_identity();
@@ -3528,9 +3570,8 @@ module aptos_framework::stake {
 
     #[test_only]
     public fun with_rewards(amount: u64): u64 {
-        let (numerator, denominator) = staking_config::get_reward_rate(
-            &staking_config::get()
-        );
+        let (numerator, denominator) =
+            staking_config::get_reward_rate(&staking_config::get());
         amount + amount * numerator / denominator
     }
 
@@ -3559,7 +3600,9 @@ module aptos_framework::stake {
     ) acquires AllowedValidators, AptosCoinCapabilities, OwnerCapability, StakePool, ValidatorConfig, ValidatorPerformance, ValidatorSet, ValidatorFees {
         // Make sure that fees collection and distribution is enabled.
         features::change_feature_flags_for_testing(
-            aptos_framework, vector[COLLECT_AND_DISTRIBUTE_GAS_FEES], vector[]
+            aptos_framework,
+            vector[COLLECT_AND_DISTRIBUTE_GAS_FEES],
+            vector[],
         );
         assert!(features::collect_and_distribute_gas_fees(), 0);
 

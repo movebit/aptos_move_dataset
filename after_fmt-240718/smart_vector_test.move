@@ -23,7 +23,7 @@ module aptos_std::smart_vector_test {
             |x| {
                 assert!(i + 1 == x, 0);
                 i = i + 1;
-            }
+            },
         );
     }
 
@@ -36,7 +36,7 @@ module aptos_std::smart_vector_test {
             |x| {
                 assert!(i == 100 - x, 0);
                 i = i + 1;
-            }
+            },
         );
     }
 
@@ -68,10 +68,12 @@ module aptos_std::smart_vector_test {
     #[test]
     fun smart_vector_enumerate_ref_test() {
         let v = make_smart_vector(100);
-        V::enumerate_ref(&v,
+        V::enumerate_ref(
+            &v,
             |i, x| {
                 assert!(i + 1 == *x, 0);
-            });
+            },
+        );
         V::destroy(v);
     }
 
@@ -93,16 +95,15 @@ module aptos_std::smart_vector_test {
     fun smart_vector_fold_test() {
         let v = make_smart_vector(100);
         let i = 0;
-        let sum =
-            V::fold(
-                v,
-                0,
-                |s, x| {
-                    assert!(i + 1 == x, 0);
-                    i = i + 1;
-                    s + x
-                },
-            );
+        let sum = V::fold(
+            v,
+            0,
+            |s, x| {
+                assert!(i + 1 == x, 0);
+                i = i + 1;
+                s + x
+            },
+        );
         assert!(sum == 5050, 0);
     }
 
@@ -110,16 +111,15 @@ module aptos_std::smart_vector_test {
     fun smart_vector_for_foldr_test() {
         let v = make_smart_vector(100);
         let i = 0;
-        let sum =
-            V::foldr(
-                v,
-                0,
-                |x, s| {
-                    assert!(i == 100 - x, i);
-                    i = i + 1;
-                    s + x
-                },
-            );
+        let sum = V::foldr(
+            v,
+            0,
+            |x, s| {
+                assert!(i == 100 - x, i);
+                i = i + 1;
+                s + x
+            },
+        );
         assert!(sum == 5050, 0);
     }
 
@@ -147,7 +147,7 @@ module aptos_std::smart_vector_test {
             &filtered_v,
             |i, x| {
                 assert!((i + 1) * 10 == *x, 0);
-            }
+            },
         );
         V::destroy(filtered_v);
     }

@@ -187,7 +187,8 @@ module aptos_framework::keyless_account {
 
         if (option::is_some(&pk)) {
             assert!(
-                vector::length(option::borrow(&pk)) == 32, E_TRAINING_WHEELS_PK_WRONG_SIZE
+                vector::length(option::borrow(&pk)) == 32,
+                E_TRAINING_WHEELS_PK_WRONG_SIZE,
             )
         };
 

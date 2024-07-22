@@ -20,8 +20,8 @@ module 0x42::OrderSensitiveTest2 {
     }
 
     public inline fun inline_fun2(a: u64, b: u64): u64 {
-        OrderSensitiveTest1::inline_fun2(inline_fun1(a, b), inline_fun3(a, b)) + 3
-            * inline_fun1(a, b) + 5 * inline_fun3(a, b)
+        OrderSensitiveTest1::inline_fun2(inline_fun1(a, b), inline_fun3(a, b))
+            + 3 * inline_fun1(a, b) + 5 * inline_fun3(a, b)
     }
 
     public inline fun inline_fun3(a: u64, b: u64): u64 {

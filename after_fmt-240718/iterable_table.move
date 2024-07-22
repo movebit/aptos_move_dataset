@@ -176,7 +176,8 @@ module aptos_std::iterable_table {
         let key = head_key(v2);
         while (option::is_some(&key)) {
             let (val, _, next) = remove_iter(v2, *option::borrow(&key));
-            add(v1, *option::borrow(&key), val);key = next;
+            add(v1, *option::borrow(&key), val);
+            key = next;
         };
     }
 
@@ -199,7 +200,8 @@ module aptos_std::iterable_table {
         i = 1;
         while (option::is_some(&key)) {
             let (val, _, next) = borrow_iter(&table, *option::borrow(&key));
-            assert!(*val == i, 0);key = next;
+            assert!(*val == i, 0);
+            key = next;
             i = i + 2;
         };
         assert!(i == 101, 0);
@@ -209,7 +211,8 @@ module aptos_std::iterable_table {
         let key = tail_key(&table2);
         while (option::is_some(&key)) {
             let (val, prev, _) = remove_iter(&mut table2, *option::borrow(&key));
-            assert!(val == *option::borrow(&key), 0);key = prev;
+            assert!(val == *option::borrow(&key), 0);
+            key = prev;
         };
         destroy_empty(table2);
     }

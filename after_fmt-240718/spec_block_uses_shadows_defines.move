@@ -18,8 +18,7 @@ module M {
         }
         fun R(): bool {
             false
-        }
-        ensures exists<S<u64>>(0x1) == exists<R>(0x1);
+        } ensures exists<S<u64>>(0x1) == exists<R>(0x1);
     }
 
     fun t2(): (R2<u64>, R1) {

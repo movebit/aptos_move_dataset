@@ -159,7 +159,10 @@ module Evm::ERC721Tradable {
     #[create(sig = b"constructor(string,string,address,string)")]
     /// Constructor of this contract.
     public fun create(
-        name: vector<u8>, symbol: vector<u8>, proxyRegistryAddress: address, baseURI: vector<u8>
+        name: vector<u8>,
+        symbol: vector<u8>,
+        proxyRegistryAddress: address,
+        baseURI: vector<u8>
     ) acquires State {
         // Initial state of contract
         move_to<State>(
@@ -401,6 +404,10 @@ module Evm::ERC721Tradable {
 
     #[external(sig = b"onERC721Received(address,address,uint256,bytes) returns (bytes4)")]
     public native fun IERC721Receiver_try_call_onERC721Received(
-        contract: address, operator: address, from: address, tokenId: U256, bytes: vector<u8>
+        contract: address,
+        operator: address,
+        from: address,
+        tokenId: U256,
+        bytes: vector<u8>
     ): ExternalResult<vector<u8>>;
 }

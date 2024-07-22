@@ -391,6 +391,10 @@ module Evm::ERC721 {
 
     #[external(sig = b"onERC721Received(address,address,uint256,bytes) returns (bytes4)")]
     public native fun IERC721Receiver_try_call_onERC721Received(
-        contract: address, operator: address, from: address, tokenId: U256, bytes: vector<u8>
+        contract: address,
+        operator: address,
+        from: address,
+        tokenId: U256,
+        bytes: vector<u8>
     ): ExternalResult<vector<u8>>;
 }

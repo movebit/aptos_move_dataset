@@ -32,9 +32,8 @@ module 0xABCD::token_v1 {
 
     public entry fun token_v1_initialize_collection(creator: &signer) {
         // Create the signer capability for the collection
-        let (resource_signer, signer_cap) = account::create_resource_account(
-            creator, vector::empty()
-        );
+        let (resource_signer, signer_cap) =
+            account::create_resource_account(creator, vector::empty());
 
         let collection_name = string::utf8(COLLECTION_NAME);
         let description = string::utf8(COLLECTION_DESCRIPTION);
@@ -144,7 +143,10 @@ module 0xABCD::token_v1 {
 
         let tokendata_id =
             token_v1_create_token_data(
-                &resource_signer, string::utf8(TOKEN_URI), tokendata_name, 1
+                &resource_signer,
+                string::utf8(TOKEN_URI),
+                tokendata_name,
+                1,
             );
         let token_id = token::mint_token(&resource_signer, tokendata_id, 1);
         (resource_signer, token_id)
@@ -159,7 +161,10 @@ module 0xABCD::token_v1 {
             );
         let tokendata_id =
             token_v1_create_token_data(
-                &resource_signer, string::utf8(TOKEN_URI), token_name, 1
+                &resource_signer,
+                string::utf8(TOKEN_URI),
+                token_name,
+                1,
             );
         let token_id = token::mint_token(&resource_signer, tokendata_id, 1);
         (resource_signer, token_id)

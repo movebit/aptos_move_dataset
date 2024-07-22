@@ -6,8 +6,7 @@ module addr::counter {
     }
 
     fun init_module(account: &signer) {
-        let counter =
-            Counter { counter: aggregator_v2::create_aggregator(100), };
+        let counter = Counter { counter: aggregator_v2::create_aggregator(100), };
         move_to(account, counter);
     }
 

@@ -4,12 +4,10 @@ module 0x2::M {
     // Extra commas
 
     #[callable(sig = b"f(uint64,) ")]
-    fun extra_comma_1(_x: u64) {
-    }
+    fun extra_comma_1(_x: u64) {}
 
     #[callable(sig = b"f(,uint64) ")]
-    fun extra_comma_2(_x: u64) {
-    }
+    fun extra_comma_2(_x: u64) {}
 
     #[callable(sig = b"f() returns (uint64,) ")]
     fun extra_comma_3(): u64 {

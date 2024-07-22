@@ -13,7 +13,8 @@ module ExperimentalFramework::ExperimentalConsensusConfig {
 
     public fun set(account: &signer, config: vector<u8>) {
         DiemConsensusConfig::set(
-            config, &capability::acquire(account, &ExperimentalConsensusConfig {})
+            config,
+            &capability::acquire(account, &ExperimentalConsensusConfig {}),
         );
     }
 }

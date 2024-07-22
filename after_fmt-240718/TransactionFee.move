@@ -133,9 +133,9 @@ module DiemFramework::TransactionFee {
             BurnFeesNotXDX<CoinType>;
 
         /// The correct amount of fees is burnt and subtracted from market cap.
-        ensures Diem::spec_market_cap<CoinType>() == old(
-            Diem::spec_market_cap<CoinType>()
-        ) - old(spec_transaction_fee<CoinType>().balance.value);
+        ensures Diem::spec_market_cap<CoinType>()
+            == old(Diem::spec_market_cap<CoinType>())
+                - old(spec_transaction_fee<CoinType>().balance.value);
         /// All the fees is burnt so the balance becomes 0.
         ensures spec_transaction_fee<CoinType>().balance.value == 0;
     }
@@ -155,7 +155,10 @@ module DiemFramework::TransactionFee {
         include Diem::AbortsIfNoBurnCapability<CoinType> { account: tc_account };
 
         let fees = spec_transaction_fee<CoinType>();
-        include Diem::BurnNowAbortsIf<CoinType> { coin: fees.balance, preburn: fees.preburn };
+        include Diem::BurnNowAbortsIf<CoinType> {
+            coin: fees.balance,
+            preburn: fees.preburn
+        };
 
         /// tc_account retrieves BurnCapability [[H3]][PERMISSION].
         /// BurnCapability is not transferrable [[J3]][PERMISSION].

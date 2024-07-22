@@ -41,7 +41,10 @@ spec aptos_token::token_event_store {
     }
 
     spec emit_collection_description_mutate_event(
-        creator: &signer, collection: String, old_description: String, new_description: String
+        creator: &signer,
+        collection: String,
+        old_description: String,
+        new_description: String
     ) {
         include InitializeTokenEventStoreAbortsIf;
     }
@@ -57,7 +60,11 @@ spec aptos_token::token_event_store {
     }
 
     spec emit_token_uri_mutate_event(
-        creator: &signer, collection: String, token: String, old_uri: String, new_uri: String,
+        creator: &signer,
+        collection: String,
+        token: String,
+        old_uri: String,
+        new_uri: String,
     ) {
         include InitializeTokenEventStoreAbortsIf;
     }

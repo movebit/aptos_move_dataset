@@ -138,10 +138,12 @@ module aptos_std::smart_vector {
 
     /// Add multiple values to the vector at once.
     public fun add_all<T: store>(v: &mut SmartVector<T>, vals: vector<T>) {
-        vector::for_each(vals,
+        vector::for_each(
+            vals,
             |val| {
                 push_back(v, val);
-            })
+            },
+        )
     }
 
     /// Convert a smart vector to a native vector, which is supposed to be called mostly by view functions to get an
@@ -176,7 +178,10 @@ module aptos_std::smart_vector {
                         return
                     };
                     let estimated_avg_size =
-                        max((size_of_val(&v.inline_vec) + val_size) / (inline_len + 1), 1);
+                        max(
+                            (size_of_val(&v.inline_vec) + val_size) / (inline_len + 1),
+                            1,
+                        );
                     max(1024 /* free_write_quota */ / estimated_avg_size, 1)
                 };
             option::fill(&mut v.big_vec, big_vector::empty(bucket_size));
@@ -269,7 +274,9 @@ module aptos_std::smart_vector {
         let inline_len = vector::length(&v.inline_vec);
         if (i >= inline_len) {
             big_vector::swap(
-                option::borrow_mut(&mut v.big_vec), i - inline_len, j - inline_len
+                option::borrow_mut(&mut v.big_vec),
+                i - inline_len,
+                j - inline_len,
             );
         } else if (j < inline_len) {
             vector::swap(&mut v.inline_vec, i, j);
@@ -444,7 +451,8 @@ module aptos_std::smart_vector {
     ): SmartVector<T2> {
         let result = aptos_std::smart_vector::new<T2>();
         aptos_std::smart_vector::for_each_ref(
-            v, |elem| aptos_std::smart_vector::push_back(&mut result, f(elem))
+            v,
+            |elem| aptos_std::smart_vector::push_back(&mut result, f(elem)),
         );
         result
     }
@@ -459,9 +467,7 @@ module aptos_std::smart_vector {
     }
 
     /// Filter the vector using the boolean function, removing all Ts for which `p(e)` is not true.
-    public inline fun filter<T: store + drop>(
-        v: SmartVector<T>, p: |&T| bool
-    ): SmartVector<T> {
+    public inline fun filter<T: store + drop>(v: SmartVector<T>, p: |&T| bool): SmartVector<T> {
         let result = aptos_std::smart_vector::new<T>();
         aptos_std::smart_vector::for_each(
             v,

@@ -135,16 +135,12 @@ module ExperimentalFramework::Vote {
     const EINVALID_NUM_VOTES: u64 = 9;
 
     /// A constructor for BallotID
-    public fun new_ballot_id(
-        counter: u64, proposer: address,
-    ): BallotID {
+    public fun new_ballot_id(counter: u64, proposer: address,): BallotID {
         BallotID { counter, proposer, }
     }
 
     /// A constructor for WeightedVoter
-    public fun new_weighted_voter(
-        weight: u64, voter: vector<u8>,
-    ): WeightedVoter {
+    public fun new_weighted_voter(weight: u64, voter: vector<u8>,): WeightedVoter {
         WeightedVoter { weight, voter, }
     }
 
@@ -331,9 +327,7 @@ module ExperimentalFramework::Vote {
         gc_internal<Proposal>(borrow_global_mut<Ballots<Proposal>>(addr));
     }
 
-    public(friend) fun gc_test_helper<Proposal: store + drop>(
-        addr: address,
-    ): vector<BallotID> acquires Ballots {
+    public(friend) fun gc_test_helper<Proposal: store + drop>(addr: address,): vector<BallotID> acquires Ballots {
         gc_internal<Proposal>(borrow_global_mut<Ballots<Proposal>>(addr))
     }
 
@@ -489,7 +483,8 @@ module ExperimentalFramework::Vote {
     /// ballot does not exist.
     /// NOTE: Maybe this should be "<=" not "<"
     spec fun is_expired_if_exists<Proposal>(ballot_address: address, ballot_id: BallotID): bool {
-        get_ballot<Proposal>(ballot_address, ballot_id).expiration_timestamp_secs <= DiemTimestamp::spec_now_seconds()
+        get_ballot<Proposal>(ballot_address, ballot_id).expiration_timestamp_secs
+            <= DiemTimestamp::spec_now_seconds()
     }
 
     // FUNCTIONS REPRESENTING STATES
@@ -518,16 +513,14 @@ module ExperimentalFramework::Vote {
     /// A BallotID is in the expired state if it is in the ballots vector and the
     /// current time is >= the expiration time.
     spec fun is_expired<Proposal>(ballot_address: address, ballot_id: BallotID): bool {
-        ballot_exists<Proposal>(ballot_address, ballot_id) && is_expired_if_exists<Proposal>(
-            ballot_address, ballot_id
-        )
+        ballot_exists<Proposal>(ballot_address, ballot_id)
+            && is_expired_if_exists<Proposal>(ballot_address, ballot_id)
     }
 
     /// A BallotID is active state if it is in the ballots vector and not expired.
     spec fun is_active<Proposal>(ballot_address: address, ballot_id: BallotID): bool {
-        ballot_exists<Proposal>(ballot_address, ballot_id) && !is_expired_if_exists<Proposal>(
-            ballot_address, ballot_id
-        )
+        ballot_exists<Proposal>(ballot_address, ballot_id)
+            && !is_expired_if_exists<Proposal>(ballot_address, ballot_id)
     }
 
     spec create_ballot {
@@ -550,9 +543,8 @@ module ExperimentalFramework::Vote {
     // This is equivalent to mapping each ballot in v to its ballot_id.
     // TODO: A map operation in the spec language would be much clearer.
     spec fun extract_ballot_ids<Proposal>(v: vector<Ballot<Proposal>>): vector<BallotID> {
-        choose result: vector<BallotID> where len(result) == len(v) && (
-            forall i in 0..len(v): result[i] == v[i].ballot_id
-        )
+        choose result: vector<BallotID> where len(result) == len(v)
+            && (forall i in 0..len(v): result[i] == v[i].ballot_id)
     }
 
     /// Common post-conditions for `gc_internal` and `gc_ballots` (which just calls `gc_internal`)
@@ -565,7 +557,9 @@ module ExperimentalFramework::Vote {
         ensures vector_subset(post_ballots, pre_ballots);
         /// All expired ballots are removed
         ensures no_expired_ballots<Proposal>(
-            post_ballots, DiemTimestamp::spec_now_seconds(), len(post_ballots)
+            post_ballots,
+            DiemTimestamp::spec_now_seconds(),
+            len(post_ballots),
         );
     }
 

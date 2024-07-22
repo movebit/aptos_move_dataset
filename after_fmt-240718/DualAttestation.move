@@ -373,15 +373,16 @@ module DiemFramework::DualAttestation {
 
     spec fun spec_is_inter_vasp(payer: address, payee: address): bool {
         VASP::is_vasp(payer)
-            && VASP::is_vasp(payee) && VASP::spec_parent_address(payer)
-            != VASP::spec_parent_address(payee)
+            && VASP::is_vasp(payee)
+            && VASP::spec_parent_address(payer) != VASP::spec_parent_address(payee)
     }
 
     /// Helper functions which simulates `Self::dual_attestation_required`.
     spec fun spec_dual_attestation_required<Token>(
         payer: address, payee: address, deposit_value: u64
     ): bool {
-        Diem::spec_approx_xdx_for_value<Token>(deposit_value) >= spec_get_cur_microdiem_limit()
+        Diem::spec_approx_xdx_for_value<Token>(deposit_value)
+            >= spec_get_cur_microdiem_limit()
             && payer != payee
             && spec_is_inter_vasp(payer, payee)
     }
@@ -477,9 +478,8 @@ module DiemFramework::DualAttestation {
         metadata: vector<u8>,
         deposit_value: u64
     ): bool {
-        let payee_compliance_key = spec_compliance_public_key(
-            spec_credential_address(payee)
-        );
+        let payee_compliance_key =
+            spec_compliance_public_key(spec_credential_address(payee));
         len(metadata_signature) == 64
             && !vector::is_empty(payee_compliance_key)
             && Signature::ed25519_verify(
@@ -600,7 +600,8 @@ module DiemFramework::DualAttestation {
 
     /// The Limit resource should be published after genesis
     spec module {
-        invariant [suspendable] DiemTimestamp::is_operating() ==> spec_is_published();
+        invariant [suspendable] DiemTimestamp::is_operating() ==>
+            spec_is_published();
     }
 
     /// # Helper Functions
@@ -643,8 +644,7 @@ module DiemFramework::DualAttestation {
 
         /// The permission "RotateDualAttestationInfo(addr)" is not transferred [[J17]][PERMISSION].
         /// resource struct `Credential` is persistent.
-        invariant<CoinType> update forall a: address: old(spec_has_credential(a)) ==> spec_has_credential(
-            a
-        );
+        invariant<CoinType> update forall a: address: old(spec_has_credential(a)) ==>
+            spec_has_credential(a);
     }
 }

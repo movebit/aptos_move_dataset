@@ -1,4 +1,3 @@
-
 module 0x42::TestBCS {
     use std::bcs;
 

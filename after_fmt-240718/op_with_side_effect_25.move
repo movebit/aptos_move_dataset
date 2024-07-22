@@ -4,18 +4,17 @@ module 0xc0ffee::m {
         let x = 1;
         if (p) { x }
         else {
-                x = x + 1;
-                x
-            }
-            + if (!p) { x }
-            else {
-                x = x + 1;
-                x
-            } + if (!p) { x }
-            else {
-                x = x + 1;
-                x
-            }
+            x = x + 1;
+            x
+        } + if (!p) { x }
+        else {
+            x = x + 1;
+            x
+        } + if (!p) { x }
+        else {
+            x = x + 1;
+            x
+        }
     }
 }
 

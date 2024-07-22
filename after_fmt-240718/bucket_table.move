@@ -141,15 +141,14 @@ module post_mint_reveal_nft::bucket_table {
     /// The requirement of &mut BucketTable is to bypass the borrow checker issue described in https://github.com/move-language/move/issues/95
     /// Once Table supports borrow by K, we can remove the &mut
     public fun borrow<K: copy + drop, V>(map: &mut BucketTable<K, V>, key: K): &V {
-        let index =
-            bucket_index(map.level, map.num_buckets, sip_hash_from_value(&key));
+        let index = bucket_index(map.level, map.num_buckets, sip_hash_from_value(&key));
         let bucket = table_with_length::borrow_mut(&mut map.buckets, index);
         let i = 0;
         let len = vector::length(bucket);
         while (i < len) {
             let entry = vector::borrow(bucket, i);
             if (&entry.key == &key) {
-                return&entry.value
+                return &entry.value
             };
             i = i + 1;
         };
@@ -161,15 +160,14 @@ module post_mint_reveal_nft::bucket_table {
     public fun borrow_mut<K: copy + drop, V>(
         map: &mut BucketTable<K, V>, key: K
     ): &mut V {
-        let index =
-            bucket_index(map.level, map.num_buckets, sip_hash_from_value(&key));
+        let index = bucket_index(map.level, map.num_buckets, sip_hash_from_value(&key));
         let bucket = table_with_length::borrow_mut(&mut map.buckets, index);
         let i = 0;
         let len = vector::length(bucket);
         while (i < len) {
             let entry = vector::borrow_mut(bucket, i);
             if (&entry.key == &key) {
-                return&mut entry.value
+                return &mut entry.value
             };
             i = i + 1;
         };
@@ -178,8 +176,7 @@ module post_mint_reveal_nft::bucket_table {
 
     /// Returns true iff `table` contains an entry for `key`.
     public fun contains<K, V>(map: &BucketTable<K, V>, key: &K): bool {
-        let index =
-            bucket_index(map.level, map.num_buckets, sip_hash_from_value(key));
+        let index = bucket_index(map.level, map.num_buckets, sip_hash_from_value(key));
         let bucket = table_with_length::borrow(&map.buckets, index);
         vector::any(
             bucket,
@@ -193,8 +190,7 @@ module post_mint_reveal_nft::bucket_table {
     /// Remove from `table` and return the value which `key` maps to.
     /// Aborts if there is no entry for `key`.
     public fun remove<K: drop, V>(map: &mut BucketTable<K, V>, key: &K): V {
-        let index =
-            bucket_index(map.level, map.num_buckets, sip_hash_from_value(key));
+        let index = bucket_index(map.level, map.num_buckets, sip_hash_from_value(key));
         let bucket = table_with_length::borrow_mut(&mut map.buckets, index);
         let i = 0;
         let len = vector::length(bucket);

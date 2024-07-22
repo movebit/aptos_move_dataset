@@ -290,7 +290,10 @@ module aptos_std::ristretto255 {
     /// Computes a double-scalar multiplication, returning a_1 p_1 + a_2 p_2
     /// This function is much faster than computing each a_i p_i using `point_mul` and adding up the results using `point_add`.
     public fun double_scalar_mul(
-        scalar1: &Scalar, point1: &RistrettoPoint, scalar2: &Scalar, point2: &RistrettoPoint
+        scalar1: &Scalar,
+        point1: &RistrettoPoint,
+        scalar2: &Scalar,
+        point2: &RistrettoPoint
     ): RistrettoPoint {
         if (!features::bulletproofs_enabled()) {
             abort(std::error::invalid_state(E_NATIVE_FUN_NOT_AVAILABLE))
@@ -298,7 +301,10 @@ module aptos_std::ristretto255 {
 
         RistrettoPoint {
             handle: double_scalar_mul_internal(
-                point1.handle, point2.handle, scalar1.data, scalar2.data
+                point1.handle,
+                point2.handle,
+                scalar1.data,
+                scalar2.data,
             )
         }
     }
@@ -309,10 +315,12 @@ module aptos_std::ristretto255 {
         points: &vector<RistrettoPoint>, scalars: &vector<Scalar>
     ): RistrettoPoint {
         assert!(
-            !std::vector::is_empty(points), std::error::invalid_argument(E_ZERO_POINTS)
+            !std::vector::is_empty(points),
+            std::error::invalid_argument(E_ZERO_POINTS),
         );
         assert!(
-            !std::vector::is_empty(scalars), std::error::invalid_argument(E_ZERO_SCALARS)
+            !std::vector::is_empty(scalars),
+            std::error::invalid_argument(E_ZERO_SCALARS),
         );
         assert!(
             std::vector::length(points) == std::vector::length(scalars),
@@ -684,8 +692,7 @@ module aptos_std::ristretto255 {
     fun test_point_equals() {
         let g = basepoint();
         let same_g = std::option::extract(&mut new_point_from_bytes(BASE_POINT));
-        let ag =
-            std::option::extract(&mut new_point_from_bytes(A_TIMES_BASE_POINT));
+        let ag = std::option::extract(&mut new_point_from_bytes(A_TIMES_BASE_POINT));
 
         assert!(point_equals(&g, &same_g), 1);
         assert!(!point_equals(&g, &ag), 1);
@@ -698,8 +705,7 @@ module aptos_std::ristretto255 {
         // fetch a
         let a = std::option::extract(&mut new_scalar_from_bytes(A_SCALAR));
         // fetch expected a*g
-        let ag =
-            std::option::extract(&mut new_point_from_bytes(A_TIMES_BASE_POINT));
+        let ag = std::option::extract(&mut new_point_from_bytes(A_TIMES_BASE_POINT));
 
         // compute a*g
         let p = point_mul(&g, &a);
@@ -720,8 +726,7 @@ module aptos_std::ristretto255 {
 
         let a = std::option::extract(&mut new_scalar_from_bytes(A_SCALAR));
 
-        let ag =
-            std::option::extract(&mut new_point_from_bytes(A_TIMES_BASE_POINT));
+        let ag = std::option::extract(&mut new_point_from_bytes(A_TIMES_BASE_POINT));
         assert!(ag.handle == 1, 1);
         assert!(!point_equals(&g, &ag), 1);
 
@@ -888,7 +893,9 @@ module aptos_std::ristretto255 {
     #[test(fx = @std)]
     fun test_basepoint_double_mul(fx: signer) {
         features::change_feature_flags_for_testing(
-            &fx, vector[features::get_bulletproofs_feature()], vector[]
+            &fx,
+            vector[features::get_bulletproofs_feature()],
+            vector[],
         );
 
         let expected =
@@ -944,8 +951,7 @@ module aptos_std::ristretto255 {
         let scalars = vector[Scalar { data: A_SCALAR },];
 
         let result = multi_scalar_mul(&points, &scalars);
-        let expected =
-            std::option::extract(&mut new_point_from_bytes(A_TIMES_BASE_POINT));
+        let expected = std::option::extract(&mut new_point_from_bytes(A_TIMES_BASE_POINT));
 
         assert!(point_equals(&result, &expected), 1);
     }
@@ -997,8 +1003,7 @@ module aptos_std::ristretto255 {
 
     #[test]
     fun test_new_point_from_sha2_512() {
-        let msg =
-            b"To really appreciate architecture, you may even need to commit a murder";
+        let msg = b"To really appreciate architecture, you may even need to commit a murder";
         let expected =
             option::extract(
                 &mut new_point_from_bytes(
@@ -1039,7 +1044,8 @@ module aptos_std::ristretto255 {
         // Test (0 - 1) % order = order - 1
         assert!(
             scalar_equals(
-                &scalar_sub(&scalar_zero(), &scalar_one()), &Scalar { data: L_MINUS_ONE }
+                &scalar_sub(&scalar_zero(), &scalar_one()),
+                &Scalar { data: L_MINUS_ONE },
             ),
             1,
         );
@@ -1276,7 +1282,8 @@ module aptos_std::ristretto255 {
         // Subtraction reduces: 0 - 1 = \ell - 1
         let ell_minus_one = Scalar { data: L_MINUS_ONE };
         assert!(
-            scalar_equals(&scalar_sub(&scalar_zero(), &scalar_one()), &ell_minus_one), 1
+            scalar_equals(&scalar_sub(&scalar_zero(), &scalar_one()), &ell_minus_one),
+            1,
         );
 
         // 2 - 1 = 1
@@ -1291,8 +1298,7 @@ module aptos_std::ristretto255 {
     #[test]
     fun test_scalar_reduced_from_32_bytes() {
         // \ell + 2 = 0 + 2 = 2 (modulo \ell)
-        let s =
-            std::option::extract(&mut new_scalar_reduced_from_32_bytes(L_PLUS_TWO));
+        let s = std::option::extract(&mut new_scalar_reduced_from_32_bytes(L_PLUS_TWO));
         let two = Scalar { data: TWO_SCALAR };
         assert!(scalar_equals(&s, &two), 1);
 
@@ -1302,7 +1308,8 @@ module aptos_std::ristretto255 {
                 &mut new_scalar_reduced_from_32_bytes(NON_CANONICAL_ALL_ONES)
             );
         assert!(
-            scalar_equals(&biggest, &Scalar { data: REDUCED_2_256_MINUS_1_SCALAR }), 1
+            scalar_equals(&biggest, &Scalar { data: REDUCED_2_256_MINUS_1_SCALAR }),
+            1,
         );
     }
 

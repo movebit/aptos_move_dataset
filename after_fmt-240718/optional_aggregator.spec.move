@@ -30,8 +30,10 @@ spec aptos_framework::optional_aggregator {
     }
 
     spec OptionalAggregator {
-        invariant option::is_some(aggregator) <==> option::is_none(integer);
-        invariant option::is_some(integer) <==> option::is_none(aggregator);
+        invariant option::is_some(aggregator) <==>
+            option::is_none(integer);
+        invariant option::is_some(integer) <==>
+            option::is_none(aggregator);
         invariant option::is_some(integer) ==>
             option::borrow(integer).value <= option::borrow(integer).limit;
         invariant option::is_some(aggregator) ==>

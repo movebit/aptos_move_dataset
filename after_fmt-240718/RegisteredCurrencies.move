@@ -80,7 +80,9 @@ module DiemFramework::RegisteredCurrencies {
         currency_code: vector<u8>;
         // The resulting currency_codes is the one before this function is called, with the new one added to the end.
         ensures vector::eq_push_back(
-            get_currency_codes(), old(get_currency_codes()), currency_code
+            get_currency_codes(),
+            old(get_currency_codes()),
+            currency_code,
         );
         include DiemConfig::SetEnsures<RegisteredCurrencies> {
             payload: DiemConfig::get<RegisteredCurrencies>()

@@ -82,7 +82,8 @@ module aptos_std::simple_map {
 
     /// Add a key/value pair to the map. The key must not already exist.
     public fun add<Key: store, Value: store>(
-        map: &mut SimpleMap<Key, Value>, key: Key,
+        map: &mut SimpleMap<Key, Value>,
+        key: Key,
         value: Value,
     ) {
         let maybe_idx = find(map, &key);
@@ -98,16 +99,18 @@ module aptos_std::simple_map {
         values: vector<Value>,
     ) {
         vector::zip(
-            keys, values,
+            keys,
+            values,
             |key, value| {
                 add(map, key, value);
-            }
+            },
         );
     }
 
     /// Insert key/value pair or update an existing key to a new value
     public fun upsert<Key: store, Value: store>(
-        map: &mut SimpleMap<Key, Value>, key: Key,
+        map: &mut SimpleMap<Key, Value>,
+        key: Key,
         value: Value
     ): (std::option::Option<Key>, std::option::Option<Value>) {
         let data = &mut map.data;

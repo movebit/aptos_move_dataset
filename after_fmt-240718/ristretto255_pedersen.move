@@ -38,8 +38,7 @@ module aptos_std::ristretto255_pedersen {
     public fun new_commitment_from_bytes(bytes: vector<u8>): Option<Commitment> {
         let point = ristretto255::new_point_from_bytes(bytes);
         if (std::option::is_some(&mut point)) {
-            let comm =
-                Commitment { point: std::option::extract(&mut point) };
+            let comm = Commitment { point: std::option::extract(&mut point) };
             std::option::some(comm)
         } else {
             std::option::none<Commitment>()
@@ -154,7 +153,7 @@ module aptos_std::ristretto255_pedersen {
         std::option::extract(
             &mut ristretto255::new_point_from_bytes(
                 BULLETPROOF_DEFAULT_PEDERSEN_RAND_BASE
-            )
+            ),
         )
     }
 }

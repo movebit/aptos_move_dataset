@@ -71,8 +71,7 @@ module addr::cli_e2e_tests {
             string::utf8(b"collection uri"),
         );
 
-        let on_chain_config =
-            OnChainConfig { collection: string::utf8(b"Hero Quest"), };
+        let on_chain_config = OnChainConfig { collection: string::utf8(b"Hero Quest"), };
         move_to(account, on_chain_config);
     }
 
@@ -223,12 +222,11 @@ module addr::cli_e2e_tests {
         name: String,
         description: String,
     ) acquires Hero {
-        let (hero_obj, hero) =
-            get_hero(
-                &signer::address_of(creator),
-                &collection,
-                &name,
-            );
+        let (hero_obj, hero) = get_hero(
+            &signer::address_of(creator),
+            &collection,
+            &name,
+        );
         let creator_addr = token::creator(hero_obj);
         assert!(
             creator_addr == signer::address_of(creator),
@@ -242,10 +240,7 @@ module addr::cli_e2e_tests {
     public fun view_hero(
         creator: address, collection: String, name: String
     ): Hero acquires Hero {
-        let token_address =
-            token::create_token_address(
-                &creator, &collection, &name
-            );
+        let token_address = token::create_token_address(&creator, &collection, &name);
         move_from<Hero>(token_address)
     }
 
@@ -321,10 +316,7 @@ module addr::cli_e2e_tests {
     inline fun get_hero(
         creator: &address, collection: &String, name: &String
     ): (Object<Hero>, &Hero) {
-        let token_address =
-            token::create_token_address(
-                creator, collection, name
-            );
+        let token_address = token::create_token_address(creator, collection, name);
         (
             object::address_to_object<Hero>(token_address),
             borrow_global<Hero>(token_address)

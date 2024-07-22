@@ -9,9 +9,7 @@ module ExperimentalFramework::ExperimentalValidatorSet {
         capability::create(account, &ExperimentalValidatorSet {});
     }
 
-    public fun add_validator(
-        account: &signer, validator_addr: address,
-    ) {
+    public fun add_validator(account: &signer, validator_addr: address,) {
         DiemSystem::add_validator(
             validator_addr,
             capability::acquire(account, &ExperimentalValidatorSet {}),

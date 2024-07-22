@@ -16,10 +16,11 @@ module 0x42::test {
     use 0x42::mathtest;
     use 0x42::mathtest2;
     fun test_nested_mul_div() {
-        let a =
-            mathtest::mul_div(
-                1, mathtest::mul_div(1, 1, 1), mathtest2::mul_div2(1, 1, 1)
-            );
+        let a = mathtest::mul_div(
+            1,
+            mathtest::mul_div(1, 1, 1),
+            mathtest2::mul_div2(1, 1, 1),
+        );
         assert!(a == 1, 0);
     }
 }

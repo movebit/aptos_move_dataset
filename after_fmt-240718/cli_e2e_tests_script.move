@@ -17,7 +17,10 @@ script {
         coin::merge(&mut coin_first, coin_second);
 
         let coin_second =
-            coin::extract(&mut coin_first, amount_first + amount_second - deposit_first);
+            coin::extract(
+                &mut coin_first,
+                amount_first + amount_second - deposit_first,
+            );
 
         coin::deposit(dst_first, coin_first);
         coin::deposit(dst_second, coin_second);

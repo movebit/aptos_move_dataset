@@ -32,9 +32,8 @@ module aptos_framework::staking_proxy {
             |vesting_contract| {
                 let vesting_contract = *vesting_contract;
                 if (vesting::operator(vesting_contract) == old_operator) {
-                    let current_commission_percentage = vesting::operator_commission_percentage(
-                        vesting_contract
-                    );
+                    let current_commission_percentage =
+                        vesting::operator_commission_percentage(vesting_contract);
                     vesting::update_operator(
                         owner,
                         vesting_contract,
@@ -54,7 +53,10 @@ module aptos_framework::staking_proxy {
             let current_commission_percentage =
                 staking_contract::commission_percentage(owner_address, old_operator);
             staking_contract::switch_operator(
-                owner, old_operator, new_operator, current_commission_percentage
+                owner,
+                old_operator,
+                new_operator,
+                current_commission_percentage,
             );
         };
     }
@@ -133,12 +135,20 @@ module aptos_framework::staking_proxy {
 
         let vesting_contract_1 =
             vesting::setup_vesting_contract(
-                owner, &vector[@11], &vector[INITIAL_BALANCE], owner_address, 0
+                owner,
+                &vector[@11],
+                &vector[INITIAL_BALANCE],
+                owner_address,
+                0,
             );
         vesting::update_operator(owner, vesting_contract_1, operator_1_address, 0);
         let vesting_contract_2 =
             vesting::setup_vesting_contract(
-                owner, &vector[@12], &vector[INITIAL_BALANCE], owner_address, 0
+                owner,
+                &vector[@12],
+                &vector[INITIAL_BALANCE],
+                owner_address,
+                0,
             );
         vesting::update_operator(owner, vesting_contract_2, operator_2_address, 0);
 
@@ -161,7 +171,7 @@ module aptos_framework::staking_proxy {
         );
         assert!(
             staking_contract::staking_contract_exists(owner_address, operator_2_address),
-            3
+            3,
         );
         // Vesting contract 1 has been switched from operator 1 to new operator while vesting contract 2 stays unchanged
         assert!(vesting::operator(vesting_contract_1) == new_operator_address, 4);
@@ -194,7 +204,11 @@ module aptos_framework::staking_proxy {
 
         let vesting_contract_2 =
             vesting::setup_vesting_contract(
-                owner, &vector[@12], &vector[INITIAL_BALANCE], owner_address, 0
+                owner,
+                &vector[@12],
+                &vector[INITIAL_BALANCE],
+                owner_address,
+                0,
             );
         vesting::update_operator(owner, vesting_contract_2, operator_2_address, 0);
 
@@ -208,7 +222,7 @@ module aptos_framework::staking_proxy {
         );
         assert!(
             staking_contract::staking_contract_exists(owner_address, operator_2_address),
-            1
+            1,
         );
         assert!(vesting::operator(vesting_contract_2) == operator_2_address, 2);
     }
@@ -242,12 +256,20 @@ module aptos_framework::staking_proxy {
 
         let vesting_contract_1 =
             vesting::setup_vesting_contract(
-                owner, &vector[@11], &vector[INITIAL_BALANCE], owner_address, 0
+                owner,
+                &vector[@11],
+                &vector[INITIAL_BALANCE],
+                owner_address,
+                0,
             );
         vesting::update_operator(owner, vesting_contract_1, operator_1_address, 0);
         let vesting_contract_2 =
             vesting::setup_vesting_contract(
-                owner, &vector[@12], &vector[INITIAL_BALANCE], owner_address, 0
+                owner,
+                &vector[@12],
+                &vector[INITIAL_BALANCE],
+                owner_address,
+                0,
             );
         vesting::update_operator(owner, vesting_contract_2, operator_2_address, 0);
 
@@ -296,7 +318,11 @@ module aptos_framework::staking_proxy {
 
         let vesting_contract_2 =
             vesting::setup_vesting_contract(
-                owner, &vector[@12], &vector[INITIAL_BALANCE], owner_address, 0
+                owner,
+                &vector[@12],
+                &vector[INITIAL_BALANCE],
+                owner_address,
+                0,
             );
         vesting::update_operator(owner, vesting_contract_2, operator_2_address, 0);
 

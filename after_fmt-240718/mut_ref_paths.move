@@ -15,7 +15,7 @@ module 0x42::m {
 
     fun nested_rejoin(c: bool, s: &mut S): &mut u64 {
         let r = if (c) g(s) else g(s);
-        if (!c)&mut r.x else&mut r.y
+        if (!c)&mut r.x else &mut r.y
 
     }
 

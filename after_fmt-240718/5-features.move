@@ -20,8 +20,7 @@ script {
             );
         let enabled_blob: vector<u64> = vector[1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 14,];
 
-        let disabled_blob: vector<u64> = vector[
-        ];
+        let disabled_blob: vector<u64> = vector[];
 
         features::change_feature_flags(&framework_signer, enabled_blob, disabled_blob);
     }

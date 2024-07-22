@@ -106,7 +106,10 @@ module token_offer {
         expiration_time: u64,
     ): Object<TokenOffer> {
         let offer_signer = init_offer(
-            purchaser, fee_schedule, item_price, expiration_time
+            purchaser,
+            fee_schedule,
+            item_price,
+            expiration_time,
         );
         init_coin_holder<CoinType>(purchaser, &offer_signer, fee_schedule, item_price);
         move_to(
@@ -163,7 +166,10 @@ module token_offer {
         expiration_time: u64,
     ): Object<TokenOffer> {
         let offer_signer = init_offer(
-            purchaser, fee_schedule, item_price, expiration_time
+            purchaser,
+            fee_schedule,
+            item_price,
+            expiration_time,
         );
         init_coin_holder<CoinType>(purchaser, &offer_signer, fee_schedule, item_price);
         move_to(&offer_signer, TokenOfferTokenV2 { token });
@@ -236,7 +242,7 @@ module token_offer {
         let token_metadata =
             if (exists<TokenOfferTokenV2>(token_offer_addr)) {
                 events::token_metadata_for_tokenv2(
-                    borrow_global<TokenOfferTokenV2>(token_offer_addr).token,
+                    borrow_global<TokenOfferTokenV2>(token_offer_addr).token
                 )
             } else {
                 let offer_info = borrow_global<TokenOfferTokenV1>(token_offer_addr);
@@ -276,9 +282,8 @@ module token_offer {
             exists<TokenOfferTokenV1>(token_offer_addr),
             error::not_found(ENO_TOKEN_OFFER),
         );
-        let token_offer_tokenv1_offer = borrow_global_mut<TokenOfferTokenV1>(
-            token_offer_addr
-        );
+        let token_offer_tokenv1_offer =
+            borrow_global_mut<TokenOfferTokenV1>(token_offer_addr);
 
         // Move the token to its destination
 
@@ -298,9 +303,8 @@ module token_offer {
                 tokenv1::direct_deposit_with_opt_in(recipient, token);
                 option::none()
             } else {
-                let container = listing::create_tokenv1_container_with_token(
-                    seller, token
-                );
+                let container =
+                    listing::create_tokenv1_container_with_token(seller, token);
                 object::transfer(seller, container, recipient);
                 option::some(container)
             };
@@ -427,9 +431,8 @@ module token_offer {
         let CoinOffer<CoinType> { coins } = move_from(token_offer_addr);
         aptos_account::deposit_coins(object::owner(token_offer), coins);
 
-        let TokenOffer { fee_schedule: _, item_price: _, expiration_time: _, delete_ref, } = move_from(
-            token_offer_addr
-        );
+        let TokenOffer { fee_schedule: _, item_price: _, expiration_time: _, delete_ref, } =
+            move_from(token_offer_addr);
         object::delete(delete_ref);
 
         if (exists<TokenOfferTokenV2>(token_offer_addr)) {
@@ -528,9 +531,13 @@ module token_offer_tests {
         seller: &signer,
         purchaser: &signer,
     ) {
-        let (marketplace_addr, seller_addr, purchaser_addr) = test_utils::setup(
-            aptos_framework, marketplace, seller, purchaser
-        );
+        let (marketplace_addr, seller_addr, purchaser_addr) =
+            test_utils::setup(
+                aptos_framework,
+                marketplace,
+                seller,
+                purchaser,
+            );
         let token = test_utils::mint_tokenv2(seller);
         assert!(object::is_owner(token, seller_addr), 0);
         let token_offer =
@@ -543,7 +550,8 @@ module token_offer_tests {
             );
         assert!(!token_offer::expired(token_offer), 0);
         assert!(
-            token_offer::expiration_time(token_offer) == timestamp::now_seconds() + 200, 0
+            token_offer::expiration_time(token_offer) == timestamp::now_seconds() + 200,
+            0,
         );
         assert!(token_offer::price(token_offer) == 500, 0);
 
@@ -565,18 +573,21 @@ module token_offer_tests {
         seller: &signer,
         purchaser: &signer,
     ) {
-        let (marketplace_addr, seller_addr, purchaser_addr) = test_utils::setup(
-            aptos_framework, marketplace, seller, purchaser
-        );
+        let (marketplace_addr, seller_addr, purchaser_addr) =
+            test_utils::setup(
+                aptos_framework,
+                marketplace,
+                seller,
+                purchaser,
+            );
         tokenv1::opt_in_direct_transfer(purchaser, true);
         tokenv1::opt_in_direct_transfer(seller, true);
 
         let token_id = test_utils::mint_tokenv1(seller);
         assert!(tokenv1::balance_of(seller_addr, token_id) == 1, 0);
 
-        let (creator_addr, collection_name, token_name, property_version) = tokenv1::get_token_id_fields(
-            &token_id
-        );
+        let (creator_addr, collection_name, token_name, property_version) =
+            tokenv1::get_token_id_fields(&token_id);
 
         let token_offer =
             token_offer::init_for_tokenv1<AptosCoin>(
@@ -611,16 +622,19 @@ module token_offer_tests {
         seller: &signer,
         purchaser: &signer,
     ) {
-        let (_marketplace_addr, seller_addr, purchaser_addr) = test_utils::setup(
-            aptos_framework, marketplace, seller, purchaser
-        );
+        let (_marketplace_addr, seller_addr, purchaser_addr) =
+            test_utils::setup(
+                aptos_framework,
+                marketplace,
+                seller,
+                purchaser,
+            );
 
         let token_id = test_utils::mint_tokenv1(seller);
         assert!(tokenv1::balance_of(seller_addr, token_id) == 1, 0);
 
-        let (creator_addr, collection_name, token_name, property_version) = tokenv1::get_token_id_fields(
-            &token_id
-        );
+        let (creator_addr, collection_name, token_name, property_version) =
+            tokenv1::get_token_id_fields(&token_id);
 
         let token_offer =
             token_offer::init_for_tokenv1<AptosCoin>(
@@ -677,9 +691,8 @@ module token_offer_tests {
     ) {
         test_utils::setup(aptos_framework, marketplace, seller, purchaser);
         let token_id = test_utils::mint_tokenv1(seller);
-        let (creator_addr, collection_name, token_name, property_version) = tokenv1::get_token_id_fields(
-            &token_id
-        );
+        let (creator_addr, collection_name, token_name, property_version) =
+            tokenv1::get_token_id_fields(&token_id);
 
         let token_offer =
             token_offer::init_for_tokenv1<AptosCoin>(
@@ -776,19 +789,21 @@ module token_offer_tests {
         seller: &signer,
         purchaser: &signer,
     ) {
-        let (_marketplace_addr, _seller_addr, purchaser_addr) = test_utils::setup(
-            aptos_framework, marketplace, seller, purchaser
-        );
+        let (_marketplace_addr, _seller_addr, purchaser_addr) =
+            test_utils::setup(
+                aptos_framework,
+                marketplace,
+                seller,
+                purchaser,
+            );
 
         let token_id_1 = test_utils::mint_tokenv1(seller);
-        let (_creator_addr, _collection_name, token_name_1, property_version_1) = tokenv1::get_token_id_fields(
-            &token_id_1
-        );
+        let (_creator_addr, _collection_name, token_name_1, property_version_1) =
+            tokenv1::get_token_id_fields(&token_id_1);
 
         let token_id_2 = test_utils::mint_tokenv1_additional(seller);
-        let (_creator_addr, collection_name, token_name_2, property_version_2) = tokenv1::get_token_id_fields(
-            &token_id_2
-        );
+        let (_creator_addr, collection_name, token_name_2, property_version_2) =
+            tokenv1::get_token_id_fields(&token_id_2);
         let token_offer =
             token_offer::init_for_tokenv1<AptosCoin>(
                 purchaser,

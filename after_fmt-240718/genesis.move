@@ -131,7 +131,8 @@ module ExperimentalFramework::Genesis {
             // create each validator account and rotate its auth key to the correct value
             ExperimentalAccount::create_validator_account(
                 &dr_account,
-                owner_address, copy dummy_auth_key_prefix,
+                owner_address,
+                copy dummy_auth_key_prefix,
                 owner_name,
             );
 
@@ -145,7 +146,9 @@ module ExperimentalFramework::Genesis {
             if (!ExperimentalAccount::exists_at(operator_address)) {
                 ExperimentalAccount::create_validator_operator_account(
                     &dr_account,
-                    operator_address, copy dummy_auth_key_prefix, copy operator_name,
+                    operator_address,
+                    copy dummy_auth_key_prefix,
+                    copy operator_name,
                 );
                 let operator_auth_key = *vector::borrow(&operator_auth_keys, i);
                 ExperimentalAccount::rotate_authentication_key(
@@ -160,12 +163,10 @@ module ExperimentalFramework::Genesis {
             ValidatorConfig::set_operator(owner, operator_address);
 
             // use the operator account set up the validator config
-            let validator_network_address = *vector::borrow(
-                &validator_network_addresses, i
-            );
-            let full_node_network_address = *vector::borrow(
-                &full_node_network_addresses, i
-            );
+            let validator_network_address =
+                *vector::borrow(&validator_network_addresses, i);
+            let full_node_network_address =
+                *vector::borrow(&full_node_network_addresses, i);
             let consensus_pubkey = *vector::borrow(&consensus_pubkeys, i);
             ValidatorConfig::set_config(
                 operator,

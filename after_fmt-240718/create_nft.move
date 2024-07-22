@@ -160,9 +160,8 @@ module mint_nft::create_nft {
         // This is because we are simply printing edition of the same token, instead of creating
         // tokens with unique names and token uris. The tokens created this way will have the same token data id,
         // but different property versions.
-        let (creator_address, collection, name) = token::get_token_data_id_fields(
-            &module_data.token_data_id
-        );
+        let (creator_address, collection, name) =
+            token::get_token_data_id_fields(&module_data.token_data_id);
         token::mutate_token_properties(
             module_owner,
             signer::address_of(receiver),

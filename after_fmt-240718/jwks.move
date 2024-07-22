@@ -299,9 +299,7 @@ module aptos_framework::jwks {
     /// Create a `JWK` of variant `RSA_JWK`.
     public fun new_rsa_jwk(kid: String, alg: String, e: String, n: String): JWK {
         JWK {
-            variant: copyable_any::pack(
-                RSA_JWK { kid, kty: utf8(b"RSA"), e, n, alg, },
-            ),
+            variant: copyable_any::pack(RSA_JWK { kid, kty: utf8(b"RSA"), e, n, alg, }),
         }
     }
 

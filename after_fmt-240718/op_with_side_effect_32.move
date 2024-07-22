@@ -11,23 +11,31 @@ module 0xc0ffee::m {
                 x,
                 {
                     x = inc(&mut x);
-                    add3(x, {
+                    add3(
+                        x,
+                        {
                             x = x + 1;
                             x
-                        }, {
+                        },
+                        {
                             x = x + 1;
                             x
-                        })
+                        },
+                    )
                 },
                 {
                     x = inc(&mut x);
-                    add3({
+                    add3(
+                        {
                             x = x + 1;
                             x
-                        }, x, {
+                        },
+                        x,
+                        {
                             x = x + 1;
                             x
-                        })
+                        },
+                    )
                 },
             ) + {
             x = inc(&mut x) + 1;
@@ -52,23 +60,31 @@ module 0xc0ffee::m {
                 x,
                 {
                     x = inc_by(&mut x, 3);
-                    add3(x, {
+                    add3(
+                        x,
+                        {
                             x = x + 1;
                             x
-                        }, {
+                        },
+                        {
                             x = x + 1;
                             x
-                        })
+                        },
+                    )
                 },
                 {
                     x = inc(&mut x);
-                    add3({
+                    add3(
+                        {
                             x = x + 1;
                             x
-                        }, x, {
+                        },
+                        x,
+                        {
                             x = x + 1;
                             x
-                        })
+                        },
+                    )
                 },
             ) + {
             x = inc_by(&mut x, 47) + 1;

@@ -690,13 +690,13 @@ module std::features {
             &enable,
             |feature| {
                 set(features, *feature, true);
-            }
+            },
         );
         vector::for_each_ref(
             &disable,
             |feature| {
                 set(features, *feature, false);
-            }
+            },
         );
     }
 
@@ -748,7 +748,8 @@ module std::features {
     /// Check whether the feature is enabled.
     public fun is_enabled(feature: u64): bool acquires Features {
         exists<Features>(@std) && contains(
-            &borrow_global<Features>(@std).features, feature
+            &borrow_global<Features>(@std).features,
+            feature,
         )
     }
 
@@ -758,7 +759,7 @@ module std::features {
         let bit_mask = 1 << ((feature % 8) as u8);
         while (vector::length(features) <= byte_index) { vector::push_back(features, 0) };
         let entry = vector::borrow_mut(features, byte_index);
-        if (include) *entry = *entry | bit_mask else*entry = *entry & (0xff ^ bit_mask)
+        if (include) *entry = *entry | bit_mask else *entry = *entry & (0xff ^ bit_mask)
     }
 
     /// Helper to check whether a feature flag is enabled.
@@ -776,13 +777,13 @@ module std::features {
             enable,
             |feature| {
                 set(features, feature, true);
-            }
+            },
         );
         vector::for_each(
             disable,
             |feature| {
                 set(features, feature, false);
-            }
+            },
         );
     }
 

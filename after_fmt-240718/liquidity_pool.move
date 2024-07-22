@@ -162,7 +162,8 @@ module publisher_address::liquidity_pool {
         //     return liquidity_pool_address(token_2, token_1, is_stable)
         // };
         object::create_object_address(
-            &@publisher_address, get_pool_seeds(token_1, token_2, is_stable)
+            &@publisher_address,
+            get_pool_seeds(token_1, token_2, is_stable),
         )
     }
 
@@ -381,21 +382,18 @@ module publisher_address::liquidity_pool {
         let mint_ref = &pool_data.lp_token_refs.mint_ref;
         let liquidity_token_amount =
             if (lp_token_supply == 0) {
-                let total_liquidity = (
-                    math128::sqrt((amount_1 as u128) * (amount_2 as u128)) as u64
-                );
+                let total_liquidity =
+                    (math128::sqrt((amount_1 as u128) * (amount_2 as u128)) as u64);
                 // Permanently lock the first MINIMUM_LIQUIDITY tokens.
                 fungible_asset::mint_to(mint_ref, pool, MINIMUM_LIQUIDITY);
                 total_liquidity - MINIMUM_LIQUIDITY
             } else {
                 // Only the smaller amount between the token 1 or token 2 is considered. Users should make sure to either
                 // use the router module or calculate the optimal amounts to provide before calling this function.
-                let token_1_liquidity = math64::mul_div(
-                    amount_1, (lp_token_supply as u64), reserve_1
-                );
-                let token_2_liquidity = math64::mul_div(
-                    amount_2, (lp_token_supply as u64), reserve_2
-                );
+                let token_1_liquidity =
+                    math64::mul_div(amount_1, (lp_token_supply as u64), reserve_1);
+                let token_2_liquidity =
+                    math64::mul_div(amount_2, (lp_token_supply as u64), reserve_2);
                 math64::min(token_1_liquidity, token_2_liquidity)
             };
         assert!(liquidity_token_amount > 0, EINSUFFICIENT_LIQUIDITY_MINTED);

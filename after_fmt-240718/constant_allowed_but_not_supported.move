@@ -4,7 +4,8 @@ module M {
     const Y: u64 = 0;
     const Z: u64 = 0;
     const C: u64 = {
-        move X;copy Y;
+        move X;
+        copy Y;
         Z;
         0
     };

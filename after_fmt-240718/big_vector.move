@@ -48,7 +48,8 @@ module post_mint_reveal_nft::big_vector {
     public fun borrow<T>(v: &BigVector<T>, i: u64): &T {
         assert!(i < length(v), error::invalid_argument(EINDEX_OUT_OF_BOUNDS));
         vector::borrow(
-            table_with_length::borrow(&v.buckets, i / v.bucket_size), i % v.bucket_size
+            table_with_length::borrow(&v.buckets, i / v.bucket_size),
+            i % v.bucket_size,
         )
     }
 
@@ -155,7 +156,8 @@ module post_mint_reveal_nft::big_vector {
     /// for v.
     public fun swap<T>(v: &mut BigVector<T>, i: u64, j: u64) {
         assert!(
-            i < length(v) && j < length(v), error::invalid_argument(EINDEX_OUT_OF_BOUNDS)
+            i < length(v) && j < length(v),
+            error::invalid_argument(EINDEX_OUT_OF_BOUNDS),
         );
         let i_bucket_index = i / v.bucket_size;
         let j_bucket_index = j / v.bucket_size;

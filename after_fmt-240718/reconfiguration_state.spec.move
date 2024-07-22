@@ -2,9 +2,8 @@ spec aptos_framework::reconfiguration_state {
 
     spec module {
         use aptos_framework::chain_status;
-        invariant [suspendable] chain_status::is_operating() ==> exists<State>(
-            @aptos_framework
-        );
+        invariant [suspendable] chain_status::is_operating() ==>
+            exists<State>(@aptos_framework);
     }
 
     spec initialize(fx: &signer) {
@@ -71,17 +70,21 @@ spec aptos_framework::reconfiguration_state {
         let post post_state = global<State>(@aptos_framework);
         ensures (
             exists<State>(@aptos_framework)
-                && copyable_any::type_name(pre_state.variant).bytes == b"0x1::reconfiguration_state::StateInactive"
+                && copyable_any::type_name(pre_state.variant).bytes
+                    == b"0x1::reconfiguration_state::StateInactive"
         ) ==>
-            copyable_any::type_name(post_state.variant).bytes == b"0x1::reconfiguration_state::StateActive";
+            copyable_any::type_name(post_state.variant).bytes
+                == b"0x1::reconfiguration_state::StateActive";
         ensures (
             exists<State>(@aptos_framework)
-                && copyable_any::type_name(pre_state.variant).bytes == b"0x1::reconfiguration_state::StateInactive"
+                && copyable_any::type_name(pre_state.variant).bytes
+                    == b"0x1::reconfiguration_state::StateInactive"
         ) ==>
             post_state.variant == state;
         ensures (
             exists<State>(@aptos_framework)
-                && copyable_any::type_name(pre_state.variant).bytes == b"0x1::reconfiguration_state::StateInactive"
+                && copyable_any::type_name(pre_state.variant).bytes
+                    == b"0x1::reconfiguration_state::StateInactive"
         ) ==>
             from_bcs::deserializable<StateActive>(post_state.variant.data);
     }
@@ -98,7 +101,8 @@ spec aptos_framework::reconfiguration_state {
 
     spec schema StartTimeSecsRequirement {
         requires exists<State>(@aptos_framework);
-        requires copyable_any::type_name(global<State>(@aptos_framework).variant).bytes == b"0x1::reconfiguration_state::StateActive";
+        requires copyable_any::type_name(global<State>(@aptos_framework).variant).bytes
+            == b"0x1::reconfiguration_state::StateActive";
         include UnpackRequiresStateActive { x: global<State>(@aptos_framework).variant };
     }
 
@@ -112,8 +116,8 @@ spec aptos_framework::reconfiguration_state {
 
     spec schema StartTimeSecsAbortsIf {
         aborts_if !exists<State>(@aptos_framework);
-        include copyable_any::type_name(global<State>(@aptos_framework).variant).bytes == b"0x1::reconfiguration_state::StateActive" ==>
-
+        include copyable_any::type_name(global<State>(@aptos_framework).variant).bytes
+            == b"0x1::reconfiguration_state::StateActive" ==>
             copyable_any::UnpackAbortsIf<StateActive> {
                 x: global<State>(@aptos_framework).variant
             };

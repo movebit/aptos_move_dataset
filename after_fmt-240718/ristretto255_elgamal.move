@@ -48,8 +48,7 @@ module aptos_std::ristretto255_elgamal {
     public fun new_pubkey_from_bytes(bytes: vector<u8>): Option<CompressedPubkey> {
         let point = ristretto255::new_compressed_point_from_bytes(bytes);
         if (std::option::is_some(&mut point)) {
-            let pk =
-                CompressedPubkey { point: std::option::extract(&mut point) };
+            let pk = CompressedPubkey { point: std::option::extract(&mut point) };
             std::option::some(pk)
         } else {
             std::option::none<CompressedPubkey>()

@@ -143,10 +143,14 @@ module std::vector {
         if (i >= len) abort EINDEX_OUT_OF_BOUNDS;
 
         len = len - 1;
-        while (i < len) swap(v, i, {
+        while (i < len) swap(
+            v,
+            i,
+            {
                 i = i + 1;
                 i
-            });
+            },
+        );
         pop_back(v)
     }
 
@@ -229,7 +233,7 @@ module std::vector {
             v,
             |elem| {
                 if (p(&elem)) push_back(&mut result, elem);
-            }
+            },
         );
         result
     }

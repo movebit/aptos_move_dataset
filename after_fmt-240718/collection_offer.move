@@ -106,13 +106,20 @@ module collection_offer {
         expiration_time: u64,
     ): Object<CollectionOffer> {
         let offer_signer =
-            init_offer(purchaser, fee_schedule, item_price, amount, expiration_time);
+            init_offer(
+                purchaser,
+                fee_schedule,
+                item_price,
+                amount,
+                expiration_time,
+            );
         init_coin_holder<CoinType>(
-            purchaser, &offer_signer, fee_schedule, item_price * amount
+            purchaser,
+            &offer_signer,
+            fee_schedule,
+            item_price * amount,
         );
-        move_to(
-            &offer_signer, CollectionOfferTokenV1 { creator_address, collection_name }
-        );
+        move_to(&offer_signer, CollectionOfferTokenV1 { creator_address, collection_name });
 
         let collection_offer_addr = signer::address_of(&offer_signer);
         events::emit_collection_offer_placed(
@@ -155,9 +162,18 @@ module collection_offer {
         expiration_time: u64,
     ): Object<CollectionOffer> {
         let offer_signer =
-            init_offer(purchaser, fee_schedule, item_price, amount, expiration_time);
+            init_offer(
+                purchaser,
+                fee_schedule,
+                item_price,
+                amount,
+                expiration_time,
+            );
         init_coin_holder<CoinType>(
-            purchaser, &offer_signer, fee_schedule, item_price * amount
+            purchaser,
+            &offer_signer,
+            fee_schedule,
+            item_price * amount,
         );
         move_to(&offer_signer, CollectionOfferTokenV2 { collection });
 
@@ -228,18 +244,16 @@ module collection_offer {
             object::is_owner(collection_offer, signer::address_of(purchaser)),
             error::permission_denied(ENOT_OWNER),
         );
-        let collection_offer_obj = borrow_global_mut<CollectionOffer>(
-            collection_offer_addr
-        );
+        let collection_offer_obj =
+            borrow_global_mut<CollectionOffer>(collection_offer_addr);
         let collection_metadata =
             if (exists<CollectionOfferTokenV2>(collection_offer_addr)) {
                 events::collection_metadata_for_tokenv2(
                     borrow_global<CollectionOfferTokenV2>(collection_offer_addr).collection,
                 )
             } else {
-                let offer_info = borrow_global<CollectionOfferTokenV1>(
-                    collection_offer_addr
-                );
+                let offer_info =
+                    borrow_global<CollectionOfferTokenV1>(collection_offer_addr);
                 events::collection_metadata_for_tokenv1(
                     offer_info.creator_address,
                     offer_info.collection_name,
@@ -280,9 +294,8 @@ module collection_offer {
             exists<CollectionOfferTokenV1>(collection_offer_addr),
             error::not_found(ENO_TOKEN_OFFER),
         );
-        let collection_offer_tokenv1_offer = borrow_global_mut<CollectionOfferTokenV1>(
-            collection_offer_addr
-        );
+        let collection_offer_tokenv1_offer =
+            borrow_global_mut<CollectionOfferTokenV1>(collection_offer_addr);
 
         // Move the token to its destination
 
@@ -302,9 +315,8 @@ module collection_offer {
                 tokenv1::direct_deposit_with_opt_in(recipient, token);
                 option::none()
             } else {
-                let container = listing::create_tokenv1_container_with_token(
-                    seller, token
-                );
+                let container =
+                    listing::create_tokenv1_container_with_token(seller, token);
                 object::transfer(seller, container, recipient);
                 option::some(container)
             };
@@ -336,9 +348,8 @@ module collection_offer {
             exists<CollectionOfferTokenV2>(collection_offer_addr),
             error::not_found(ENO_TOKEN_OFFER),
         );
-        let collection_offer_token_v2 = borrow_global_mut<CollectionOfferTokenV2>(
-            collection_offer_addr
-        );
+        let collection_offer_token_v2 =
+            borrow_global_mut<CollectionOfferTokenV2>(collection_offer_addr);
 
         // Move the token to its destination
 
@@ -390,9 +401,8 @@ module collection_offer {
             exists<CollectionOffer>(collection_offer_addr),
             error::not_found(ENO_COLLECTION_OFFER),
         );
-        let collection_offer_obj = borrow_global_mut<CollectionOffer>(
-            collection_offer_addr
-        );
+        let collection_offer_obj =
+            borrow_global_mut<CollectionOffer>(collection_offer_addr);
         assert!(
             timestamp::now_seconds() < collection_offer_obj.expiration_time,
             error::invalid_state(EEXPIRED),
@@ -478,9 +488,7 @@ module collection_offer {
     }
 
     #[view]
-    public fun expiration_time(
-        collection_offer: Object<CollectionOffer>,
-    ): u64 acquires CollectionOffer {
+    public fun expiration_time(collection_offer: Object<CollectionOffer>,): u64 acquires CollectionOffer {
         borrow_collection_offer(collection_offer).expiration_time
     }
 
@@ -556,9 +564,13 @@ module collection_offer_tests {
         seller: &signer,
         purchaser: &signer,
     ) {
-        let (marketplace_addr, seller_addr, purchaser_addr) = test_utils::setup(
-            aptos_framework, marketplace, seller, purchaser
-        );
+        let (marketplace_addr, seller_addr, purchaser_addr) =
+            test_utils::setup(
+                aptos_framework,
+                marketplace,
+                seller,
+                purchaser,
+            );
         let (collection, token) = test_utils::mint_tokenv2_with_collection(seller);
         assert!(object::is_owner(token, seller_addr), 0);
         let collection_offer =
@@ -605,12 +617,15 @@ module collection_offer_tests {
         seller: &signer,
         purchaser: &signer,
     ) {
-        let (marketplace_addr, seller_addr, purchaser_addr) = test_utils::setup(
-            aptos_framework, marketplace, seller, purchaser
-        );
-        let (collection, token) = test_utils::mint_tokenv2_with_collection_royalty(
-            seller, 1, 1
-        );
+        let (marketplace_addr, seller_addr, purchaser_addr) =
+            test_utils::setup(
+                aptos_framework,
+                marketplace,
+                seller,
+                purchaser,
+            );
+        let (collection, token) =
+            test_utils::mint_tokenv2_with_collection_royalty(seller, 1, 1);
         assert!(object::is_owner(token, seller_addr), 0);
         let collection_offer =
             collection_offer::init_for_tokenv2<AptosCoin>(
@@ -650,18 +665,21 @@ module collection_offer_tests {
         seller: &signer,
         purchaser: &signer,
     ) {
-        let (marketplace_addr, seller_addr, purchaser_addr) = test_utils::setup(
-            aptos_framework, marketplace, seller, purchaser
-        );
+        let (marketplace_addr, seller_addr, purchaser_addr) =
+            test_utils::setup(
+                aptos_framework,
+                marketplace,
+                seller,
+                purchaser,
+            );
         tokenv1::opt_in_direct_transfer(purchaser, true);
         tokenv1::opt_in_direct_transfer(seller, true);
 
         let token_id = test_utils::mint_tokenv1(seller);
         assert!(tokenv1::balance_of(seller_addr, token_id) == 1, 0);
 
-        let (creator_addr, collection_name, token_name, property_version) = tokenv1::get_token_id_fields(
-            &token_id
-        );
+        let (creator_addr, collection_name, token_name, property_version) =
+            tokenv1::get_token_id_fields(&token_id);
 
         let collection_offer =
             collection_offer::init_for_tokenv1<AptosCoin>(
@@ -705,16 +723,19 @@ module collection_offer_tests {
         seller: &signer,
         purchaser: &signer,
     ) {
-        let (_marketplace_addr, seller_addr, purchaser_addr) = test_utils::setup(
-            aptos_framework, marketplace, seller, purchaser
-        );
+        let (_marketplace_addr, seller_addr, purchaser_addr) =
+            test_utils::setup(
+                aptos_framework,
+                marketplace,
+                seller,
+                purchaser,
+            );
 
         let token_id = test_utils::mint_tokenv1(seller);
         assert!(tokenv1::balance_of(seller_addr, token_id) == 1, 0);
 
-        let (creator_addr, collection_name, token_name, property_version) = tokenv1::get_token_id_fields(
-            &token_id
-        );
+        let (creator_addr, collection_name, token_name, property_version) =
+            tokenv1::get_token_id_fields(&token_id);
 
         let collection_offer =
             collection_offer::init_for_tokenv1<AptosCoin>(
@@ -771,9 +792,8 @@ module collection_offer_tests {
     ) {
         test_utils::setup(aptos_framework, marketplace, seller, purchaser);
         let token_id = test_utils::mint_tokenv1(seller);
-        let (creator_addr, collection_name, token_name, property_version) = tokenv1::get_token_id_fields(
-            &token_id
-        );
+        let (creator_addr, collection_name, token_name, property_version) =
+            tokenv1::get_token_id_fields(&token_id);
 
         let collection_offer =
             collection_offer::init_for_tokenv1<AptosCoin>(
@@ -881,9 +901,13 @@ module collection_offer_tests {
         seller: &signer,
         purchaser: &signer,
     ) {
-        let (_marketplace_addr, _seller_addr, purchaser_addr) = test_utils::setup(
-            aptos_framework, marketplace, seller, purchaser
-        );
+        let (_marketplace_addr, _seller_addr, purchaser_addr) =
+            test_utils::setup(
+                aptos_framework,
+                marketplace,
+                seller,
+                purchaser,
+            );
 
         tokenv1::create_collection(
             purchaser,
@@ -906,9 +930,8 @@ module collection_offer_tests {
             );
 
         let token_id = test_utils::mint_tokenv1(seller);
-        let (_creator_addr, _collection_name, token_name, property_version) = tokenv1::get_token_id_fields(
-            &token_id
-        );
+        let (_creator_addr, _collection_name, token_name, property_version) =
+            tokenv1::get_token_id_fields(&token_id);
         collection_offer::sell_tokenv1<AptosCoin>(
             marketplace,
             collection_offer,

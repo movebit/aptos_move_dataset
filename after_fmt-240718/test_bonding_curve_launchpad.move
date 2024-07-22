@@ -195,7 +195,10 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         bonding_curve_creator: &signer
     ) {
         test_e2e_bonding_curve_creation(
-            aptos_framework, swap_dex_signer, bcl_owner_signer, bonding_curve_creator
+            aptos_framework,
+            swap_dex_signer,
+            bcl_owner_signer,
+            bonding_curve_creator,
         );
         let user_address = signer::address_of(bonding_curve_creator);
         let name = string::utf8(b"SheepyCoin");
@@ -235,7 +238,10 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         bonding_curve_creator: &signer
     ) {
         test_e2e_bonding_curve_creation(
-            aptos_framework, swap_dex_signer, bcl_owner_signer, bonding_curve_creator
+            aptos_framework,
+            swap_dex_signer,
+            bcl_owner_signer,
+            bonding_curve_creator,
         );
         let grad_apt: u64 = 6_000 * math64::pow(10, (8 as u64));
         let name = string::utf8(b"SheepyCoin");
@@ -264,12 +270,16 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         bonding_curve_creator: &signer
     ) {
         test_e2e_graduation(
-            aptos_framework, swap_dex_signer, bcl_owner_signer, bonding_curve_creator
+            aptos_framework,
+            swap_dex_signer,
+            bcl_owner_signer,
+            bonding_curve_creator,
         );
-        let fa_obj_metadata = bonding_curve_launchpad::get_metadata(
-            string::utf8(b"SheepyCoin"),
-            string::utf8(b"SHEEP"),
-        );
+        let fa_obj_metadata =
+            bonding_curve_launchpad::get_metadata(
+                string::utf8(b"SheepyCoin"),
+                string::utf8(b"SHEEP"),
+            );
         primary_fungible_store::transfer(
             bonding_curve_creator, fa_obj_metadata, @0xcafe, 100
         );
@@ -317,7 +327,10 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         bonding_curve_creator: &signer
     ) {
         test_e2e_graduation(
-            aptos_framework, swap_dex_signer, bcl_owner_signer, bonding_curve_creator
+            aptos_framework,
+            swap_dex_signer,
+            bcl_owner_signer,
+            bonding_curve_creator,
         );
         bonding_curve_launchpad::swap(
             bonding_curve_creator,
@@ -337,7 +350,10 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         bonding_curve_creator: &signer
     ) {
         test_e2e_graduation(
-            aptos_framework, swap_dex_signer, bcl_owner_signer, bonding_curve_creator
+            aptos_framework,
+            swap_dex_signer,
+            bcl_owner_signer,
+            bonding_curve_creator,
         );
         bonding_curve_launchpad::swap(
             bonding_curve_creator,
@@ -400,7 +416,10 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         bonding_curve_creator: &signer
     ) {
         test_e2e_bonding_curve_creation(
-            aptos_framework, swap_dex_signer, bcl_owner_signer, bonding_curve_creator
+            aptos_framework,
+            swap_dex_signer,
+            bcl_owner_signer,
+            bonding_curve_creator,
         );
         bonding_curve_launchpad::swap(
             bonding_curve_creator,
@@ -420,7 +439,10 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         bonding_curve_creator: &signer
     ) {
         test_e2e_bonding_curve_creation(
-            aptos_framework, swap_dex_signer, bcl_owner_signer, bonding_curve_creator
+            aptos_framework,
+            swap_dex_signer,
+            bcl_owner_signer,
+            bonding_curve_creator,
         );
         bonding_curve_launchpad::swap(
             bonding_curve_creator,
@@ -440,7 +462,10 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         bonding_curve_creator: &signer
     ) {
         test_e2e_bonding_curve_creation(
-            aptos_framework, swap_dex_signer, bcl_owner_signer, bonding_curve_creator
+            aptos_framework,
+            swap_dex_signer,
+            bcl_owner_signer,
+            bonding_curve_creator,
         );
         bonding_curve_launchpad::swap(
             bonding_curve_creator,

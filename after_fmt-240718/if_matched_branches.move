@@ -10,8 +10,8 @@ module 0x8675309::M {
         if (cond) false else false;
         R {} = if (cond) R {}
         else R {};
-        if (cond) &0 else&1;
-        if (cond)&mut 0 else&mut 1;
+        if (cond) &0 else &1;
+        if (cond)&mut 0 else &mut 1;
     }
 
     fun t2(cond: bool) {

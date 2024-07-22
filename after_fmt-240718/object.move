@@ -493,9 +493,7 @@ module aptos_framework::object {
             error::permission_denied(ENOT_OBJECT_OWNER),
         );
         if (std::features::module_event_migration_enabled()) {
-            event::emit(
-                Transfer { object: ref.self, from: object.owner, to, },
-            );
+            event::emit(Transfer { object: ref.self, from: object.owner, to, });
         };
         event::emit_event(
             &mut object.transfer_events,
@@ -541,9 +539,7 @@ module aptos_framework::object {
         let object_core = borrow_global_mut<ObjectCore>(object);
         if (object_core.owner != to) {
             if (std::features::module_event_migration_enabled()) {
-                event::emit(
-                    Transfer { object, from: object_core.owner, to, },
-                );
+                event::emit(Transfer { object, from: object_core.owner, to, });
             };
             event::emit_event(
                 &mut object_core.transfer_events,
@@ -606,7 +602,8 @@ module aptos_framework::object {
     public entry fun burn<T: key>(owner: &signer, object: Object<T>) acquires ObjectCore {
         let original_owner = signer::address_of(owner);
         assert!(
-            is_owner(object, original_owner), error::permission_denied(ENOT_OBJECT_OWNER)
+            is_owner(object, original_owner),
+            error::permission_denied(ENOT_OBJECT_OWNER),
         );
         let object_addr = object.inner;
         move_to(&create_signer(object_addr), TombStone { original_owner });
@@ -619,12 +616,12 @@ module aptos_framework::object {
     ) acquires TombStone, ObjectCore {
         let object_addr = object.inner;
         assert!(
-            exists<TombStone>(object_addr), error::invalid_argument(EOBJECT_NOT_BURNT)
+            exists<TombStone>(object_addr),
+            error::invalid_argument(EOBJECT_NOT_BURNT),
         );
 
-        let TombStone { original_owner: original_owner_addr } = move_from<TombStone>(
-            object_addr
-        );
+        let TombStone { original_owner: original_owner_addr } =
+            move_from<TombStone>(object_addr);
         assert!(
             original_owner_addr == signer::address_of(original_owner),
             error::permission_denied(ENOT_OBJECT_OWNER),
@@ -837,8 +834,7 @@ module aptos_framework::object {
         std::vector::push_back(&mut bytes, 0);
         std::vector::push_back(&mut bytes, 0);
         std::vector::push_back(&mut bytes, DERIVE_AUID_ADDRESS_SCHEME);
-        let auid2 =
-            aptos_framework::from_bcs::to_address(std::hash::sha3_256(bytes));
+        let auid2 = aptos_framework::from_bcs::to_address(std::hash::sha3_256(bytes));
         assert!(auid1 == auid2, 0);
     }
 

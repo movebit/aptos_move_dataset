@@ -135,7 +135,8 @@ module CoreFramework::DiemConfig {
     /// reconfiguration event.
     fun emit_genesis_reconfiguration_event() acquires Configuration {
         assert!(
-            exists<Configuration>(@CoreResources), errors::not_published(ECONFIGURATION)
+            exists<Configuration>(@CoreResources),
+            errors::not_published(ECONFIGURATION),
         );
         let config_ref = borrow_global_mut<Configuration>(@CoreResources);
         assert!(

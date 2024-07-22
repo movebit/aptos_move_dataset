@@ -15,7 +15,8 @@ module std::compareTests {
             0,
         );
         assert!(
-            compare::cmp_bcs_bytes(&bcs::to_bytes(&1u8), &bcs::to_bytes(&1u8)) == EQUAL, 0
+            compare::cmp_bcs_bytes(&bcs::to_bytes(&1u8), &bcs::to_bytes(&1u8)) == EQUAL,
+            0,
         );
         assert!(
             compare::cmp_bcs_bytes(&bcs::to_bytes(&1u16), &bcs::to_bytes(&1u16)) == EQUAL,
@@ -26,7 +27,8 @@ module std::compareTests {
             0,
         );
         assert!(
-            compare::cmp_bcs_bytes(&bcs::to_bytes(&1), &bcs::to_bytes(&1)) == EQUAL, 0
+            compare::cmp_bcs_bytes(&bcs::to_bytes(&1), &bcs::to_bytes(&1)) == EQUAL,
+            0,
         );
         assert!(
             compare::cmp_bcs_bytes(&bcs::to_bytes(&1u128), &bcs::to_bytes(&1u128)) == EQUAL,
@@ -54,7 +56,8 @@ module std::compareTests {
             0,
         );
         assert!(
-            compare::cmp_bcs_bytes(&bcs::to_bytes(&1u8), &bcs::to_bytes(&0u8)) != EQUAL, 0
+            compare::cmp_bcs_bytes(&bcs::to_bytes(&1u8), &bcs::to_bytes(&0u8)) != EQUAL,
+            0,
         );
         assert!(
             compare::cmp_bcs_bytes(&bcs::to_bytes(&1u16), &bcs::to_bytes(&0u16)) != EQUAL,
@@ -65,7 +68,8 @@ module std::compareTests {
             0,
         );
         assert!(
-            compare::cmp_bcs_bytes(&bcs::to_bytes(&1), &bcs::to_bytes(&0)) != EQUAL, 0
+            compare::cmp_bcs_bytes(&bcs::to_bytes(&1), &bcs::to_bytes(&0)) != EQUAL,
+            0,
         );
         assert!(
             compare::cmp_bcs_bytes(&bcs::to_bytes(&1u128), &bcs::to_bytes(&0u128)) != EQUAL,
@@ -106,7 +110,8 @@ module std::compareTests {
             0,
         );
         assert!(
-            compare::cmp_bcs_bytes(&bcs::to_bytes(&0), &bcs::to_bytes(&1)) == LESS_THAN, 0
+            compare::cmp_bcs_bytes(&bcs::to_bytes(&0), &bcs::to_bytes(&1)) == LESS_THAN,
+            0,
         );
         assert!(
             compare::cmp_bcs_bytes(&bcs::to_bytes(&0u128), &bcs::to_bytes(&1u128))

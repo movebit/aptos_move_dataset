@@ -109,7 +109,8 @@ module defi::locked_coins {
         );
         let locks = borrow_global<Locks<CoinType>>(sponsor);
         assert!(
-            table::contains(&locks.locks, recipient), error::not_found(ELOCK_NOT_FOUND)
+            table::contains(&locks.locks, recipient),
+            error::not_found(ELOCK_NOT_FOUND),
         );
         coin::value(&table::borrow(&locks.locks, recipient).coins)
     }
@@ -126,7 +127,8 @@ module defi::locked_coins {
         );
         let locks = borrow_global<Locks<CoinType>>(sponsor);
         assert!(
-            table::contains(&locks.locks, recipient), error::not_found(ELOCK_NOT_FOUND)
+            table::contains(&locks.locks, recipient),
+            error::not_found(ELOCK_NOT_FOUND),
         );
         table::borrow(&locks.locks, recipient).unlock_time_secs
     }
@@ -220,7 +222,9 @@ module defi::locked_coins {
             error::already_exists(ELOCK_ALREADY_EXISTS),
         );
         table::add(
-            &mut locks.locks, recipient, Lock<CoinType> { coins, unlock_time_secs }
+            &mut locks.locks,
+            recipient,
+            Lock<CoinType> { coins, unlock_time_secs },
         );
         locks.total_locks = locks.total_locks + 1;
     }
@@ -242,9 +246,8 @@ module defi::locked_coins {
 
         // Delete the lock entry both to keep records clean and keep storage usage minimal.
         // This would be reverted if validations fail later (transaction atomicity).
-        let Lock { coins, unlock_time_secs } = table::remove(
-            &mut locks.locks, recipient_address
-        );
+        let Lock { coins, unlock_time_secs } =
+            table::remove(&mut locks.locks, recipient_address);
         locks.total_locks = locks.total_locks - 1;
         let now_secs = timestamp::now_seconds();
         assert!(
@@ -294,7 +297,8 @@ module defi::locked_coins {
         );
         let locks = borrow_global_mut<Locks<CoinType>>(sponsor_address);
         assert!(
-            table::contains(&locks.locks, recipient), error::not_found(ELOCK_NOT_FOUND)
+            table::contains(&locks.locks, recipient),
+            error::not_found(ELOCK_NOT_FOUND),
         );
 
         let lock = table::borrow_mut(&mut locks.locks, recipient);
@@ -340,20 +344,18 @@ module defi::locked_coins {
         );
         let locks = borrow_global_mut<Locks<CoinType>>(sponsor_address);
         assert!(
-            table::contains(&locks.locks, recipient), error::not_found(ELOCK_NOT_FOUND)
+            table::contains(&locks.locks, recipient),
+            error::not_found(ELOCK_NOT_FOUND),
         );
 
         // Remove the lock and deposit coins backed into the sponsor account.
-        let Lock { coins, unlock_time_secs: _ } = table::remove(
-            &mut locks.locks, recipient
-        );
+        let Lock { coins, unlock_time_secs: _ } =
+            table::remove(&mut locks.locks, recipient);
         locks.total_locks = locks.total_locks - 1;
         let amount = coin::value(&coins);
         coin::deposit(locks.withdrawal_address, coins);
 
-        event::emit(
-            CancelLockup { sponsor: sponsor_address, recipient, amount },
-        );
+        event::emit(CancelLockup { sponsor: sponsor_address, recipient, amount });
     }
 
     #[test_only]
@@ -465,7 +467,10 @@ module defi::locked_coins {
 
     #[test(aptos_framework = @0x1, sponsor = @0x123, recipient_1 = @0x234, recipient_2 = @0x345)]
     public entry fun test_sponsor_can_batch_update_lockup(
-        aptos_framework: &signer, sponsor: &signer, recipient_1: &signer, recipient_2: &signer
+        aptos_framework: &signer,
+        sponsor: &signer,
+        recipient_1: &signer,
+        recipient_2: &signer
     ) acquires Locks {
         let burn_cap = setup(aptos_framework, sponsor);
         let sponsor_addr = signer::address_of(sponsor);

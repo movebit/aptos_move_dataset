@@ -20,7 +20,8 @@ module 0x42::VerifySort {
                     // Invariant depends on whether i was just incremented or not
                     // v[i] is still in process, but previous indices are the minimum
                     // elements of the vector (they've already been compared with everything)
-                    invariant i > 0 ==> (forall k in i..vlen: v[i - 1] <= v[k]);
+                    invariant i > 0 ==>
+                        (forall k in i..vlen: v[i - 1] <= v[k]);
                     // v[i] has been swapped with everything up to v[j]
                     invariant forall k in i + 1..j: v[i] <= v[k];
                     // j stays in bounds until loop exit

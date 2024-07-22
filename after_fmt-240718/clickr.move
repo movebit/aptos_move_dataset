@@ -129,7 +129,8 @@ module clickr::clickr {
 
         let config = borrow_global<Config>(@clickr);
         assert!(
-            config.end_time > timestamp::now_seconds() && !config.is_paused, INACTIVE_GAME
+            config.end_time > timestamp::now_seconds() && !config.is_paused,
+            INACTIVE_GAME,
         );
         claim(user);
         let current_game = borrow_global_mut<CurrentGame>(@clickr);

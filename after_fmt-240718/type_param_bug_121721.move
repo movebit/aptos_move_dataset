@@ -107,9 +107,7 @@ module 0x2::Bug7 {
     }
 
     /// A constructor for BallotID
-    public fun new_ballot_id(
-        counter: u64, proposer: address,
-    ): BallotID {
+    public fun new_ballot_id(counter: u64, proposer: address,): BallotID {
         BallotID { counter, proposer, }
     }
 

@@ -6,13 +6,16 @@ module 0xc0ffee::m {
 
     public fun test(): bool {
         let x = 1;
-        and({
+        and(
+            {
                 x = x - 1;
                 x == 0
-            }, {
+            },
+            {
                 x = x + 3;
                 x == 3
-            }) && {
+            },
+        ) && {
             x = x * 2;
             x == 6
         }

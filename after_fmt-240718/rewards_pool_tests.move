@@ -216,12 +216,10 @@ module rewards_pool::rewards_pool_tests {
         expected_amounts: vector<u64>,
     ) {
         let claimer_addr = signer::address_of(claimer);
-        let (non_zero_reward_tokens, claimable_rewards) = rewards_pool::claimable_rewards(
-            claimer_addr, pool, epoch
-        );
-        let claimable_map = simple_map::new_from(
-            non_zero_reward_tokens, claimable_rewards
-        );
+        let (non_zero_reward_tokens, claimable_rewards) =
+            rewards_pool::claimable_rewards(claimer_addr, pool, epoch);
+        let claimable_map =
+            simple_map::new_from(non_zero_reward_tokens, claimable_rewards);
         let rewards = rewards_pool::claim_rewards(claimer, pool, epoch);
         vector::zip(
             rewards,

@@ -56,7 +56,8 @@ module 0x42::FunMacros {
     spec reduce {
         ensures result == spec_sum(v, len(v)); // succeeds
         // Below we use a premise for the failure case to constraint model size.
-        ensures len(v) <= 4 ==> result == spec_sum(v, len(v)) + 1; // fails
+        ensures len(v) <= 4 ==>
+            result == spec_sum(v, len(v)) + 1; // fails
     }
 
     spec fun spec_sum(v: vector<u64>, end: num): num {

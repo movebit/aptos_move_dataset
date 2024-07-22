@@ -120,7 +120,9 @@ module aptos_std::aptos_hash {
     fun sha2_512_test(fx: signer) {
         // We need to enable the feature in order for the native call to be allowed.
         features::change_feature_flags_for_testing(
-            &fx, vector[features::get_sha_512_and_ripemd_160_feature()], vector[]
+            &fx,
+            vector[features::get_sha_512_and_ripemd_160_feature()],
+            vector[],
         );
 
         let inputs = vector[b"testing", b"",];
@@ -146,7 +148,9 @@ module aptos_std::aptos_hash {
     fun sha3_512_test(fx: signer) {
         // We need to enable the feature in order for the native call to be allowed.
         features::change_feature_flags_for_testing(
-            &fx, vector[features::get_sha_512_and_ripemd_160_feature()], vector[]
+            &fx,
+            vector[features::get_sha_512_and_ripemd_160_feature()],
+            vector[],
         );
         let inputs = vector[b"testing", b"",];
 
@@ -171,7 +175,9 @@ module aptos_std::aptos_hash {
     fun ripemd160_test(fx: signer) {
         // We need to enable the feature in order for the native call to be allowed.
         features::change_feature_flags_for_testing(
-            &fx, vector[features::get_sha_512_and_ripemd_160_feature()], vector[]
+            &fx,
+            vector[features::get_sha_512_and_ripemd_160_feature()],
+            vector[],
         );
         let inputs = vector[b"testing", b"",];
 
@@ -197,7 +203,9 @@ module aptos_std::aptos_hash {
     fun blake2b_256_aborts(fx: signer) {
         // We disable the feature to make sure the `blake2b_256` call aborts
         features::change_feature_flags_for_testing(
-            &fx, vector[], vector[features::get_blake2b_256_feature()]
+            &fx,
+            vector[],
+            vector[features::get_blake2b_256_feature()],
         );
 
         blake2b_256(b"This will abort");
@@ -207,7 +215,9 @@ module aptos_std::aptos_hash {
     fun blake2b_256_test(fx: signer) {
         // We need to enable the feature in order for the native call to be allowed.
         features::change_feature_flags_for_testing(
-            &fx, vector[features::get_blake2b_256_feature()], vector[]
+            &fx,
+            vector[features::get_blake2b_256_feature()],
+            vector[],
         );
         let inputs = vector[
             b"",

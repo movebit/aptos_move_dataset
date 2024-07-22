@@ -117,9 +117,8 @@ module resource_account::simple_defi {
     ) acquires ModuleData {
         use aptos_framework::aptos_coin;
 
-        let (aptos_coin_burn_cap, aptos_coin_mint_cap) = aptos_coin::initialize_for_test(
-            &framework
-        );
+        let (aptos_coin_burn_cap, aptos_coin_mint_cap) =
+            aptos_coin::initialize_for_test(&framework);
         set_up_test(&origin_account, &resource_account);
 
         // exchange from 5 aptos coins to 5 chloe's coins & assert the results are expected

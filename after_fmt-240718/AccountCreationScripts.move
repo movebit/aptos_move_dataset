@@ -131,8 +131,6 @@ module ExperimentalFramework::AccountCreationScripts {
         new_account_address: address,
         auth_key_prefix: vector<u8>,
     ) {
-        ExperimentalAccount::create_account(
-            new_account_address, auth_key_prefix
-        );
+        ExperimentalAccount::create_account(new_account_address, auth_key_prefix);
     }
 }

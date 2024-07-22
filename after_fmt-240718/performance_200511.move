@@ -47,7 +47,9 @@ module 0x42::Test {
     spec fresh_guid {
         aborts_if counter.counter + 1 > max_u64();
         ensures eq_append(
-            result, bcs::serialize(old(counter.counter)), bcs::serialize(sender)
+            result,
+            bcs::serialize(old(counter.counter)),
+            bcs::serialize(sender),
         );
     }
 
@@ -60,7 +62,9 @@ module 0x42::Test {
     spec new_event_handle_impl {
         aborts_if counter.counter + 1 > max_u64();
         ensures eq_append(
-            result.guid, bcs::serialize(old(counter.counter)), bcs::serialize(sender)
+            result.guid,
+            bcs::serialize(old(counter.counter)),
+            bcs::serialize(sender),
         );
         ensures result.counter == 0;
     }
