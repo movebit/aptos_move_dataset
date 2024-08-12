@@ -264,7 +264,7 @@ module aptos_framework::coin {
     /// Get the paired fungible asset metadata object of a coin type. If not exist, return option::none().
     public fun paired_metadata<CoinType>(): Option<Object<Metadata>> acquires CoinConversionMap {
         if (exists<CoinConversionMap>(@aptos_framework)
-                && features::coin_to_fungible_asset_migration_feature_enabled()) {
+            && features::coin_to_fungible_asset_migration_feature_enabled()) {
             let map =
                 &borrow_global<CoinConversionMap>(@aptos_framework).coin_to_fungible_asset_map;
             let type = type_info::type_of<CoinType>();
@@ -700,10 +700,10 @@ module aptos_framework::coin {
         } else {
             let metadata = paired_metadata<CoinType>();
             if (option::is_some(&metadata)
-                    && primary_fungible_store::primary_store_exists(
-                        account_addr,
-                        option::destroy_some(metadata),
-                    ))
+                && primary_fungible_store::primary_store_exists(
+                    account_addr,
+                    option::destroy_some(metadata),
+                ))
             (coin_balance, amount - coin_balance)
             else abort error::invalid_argument(EINSUFFICIENT_BALANCE)
         }
@@ -965,10 +965,10 @@ module aptos_framework::coin {
         } else {
             let metadata = paired_metadata<CoinType>();
             if (option::is_some(&metadata)
-                    && migrated_primary_fungible_store_exists(
-                        account_addr,
-                        option::destroy_some(metadata),
-                    )) {
+                && migrated_primary_fungible_store_exists(
+                    account_addr,
+                    option::destroy_some(metadata),
+                )) {
                 primary_fungible_store::deposit(
                     account_addr, coin_to_fungible_asset(coin)
                 );
@@ -1004,10 +1004,10 @@ module aptos_framework::coin {
         } else {
             let metadata = paired_metadata<CoinType>();
             if (option::is_some(&metadata)
-                    && migrated_primary_fungible_store_exists(
-                        account_addr,
-                        option::destroy_some(metadata),
-                    )) {
+                && migrated_primary_fungible_store_exists(
+                    account_addr,
+                    option::destroy_some(metadata),
+                )) {
                 let fa = coin_to_fungible_asset(coin);
                 let metadata = fungible_asset::asset_metadata(&fa);
                 let store = primary_fungible_store::primary_store(account_addr, metadata);

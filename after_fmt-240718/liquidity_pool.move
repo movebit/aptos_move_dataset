@@ -186,7 +186,8 @@ module publisher_address::liquidity_pool {
         let pool_data = liquidity_pool_data(&pool);
         vector[
             fungible_asset::store_metadata(pool_data.token_store_1),
-            fungible_asset::store_metadata(pool_data.token_store_2),]
+            fungible_asset::store_metadata(pool_data.token_store_2),
+        ]
     }
 
     // #[view]

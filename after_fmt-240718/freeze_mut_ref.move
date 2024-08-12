@@ -27,18 +27,18 @@ module 0x42::freeze_mut_ref {
         let f = {
             x = x + 1;
             &mut ({
-                    x = x + 1;
-                    s
-                }).f
+                x = x + 1;
+                s
+            }).f
         };
         let y = &mut 2;
         let z: &u64;
 
         *({
-                *f = 0;
-                z = y;
-                f
-            }) = 2;
+            *f = 0;
+            z = y;
+            f
+        }) = 2;
         (*z, *f, x)
     }
 

@@ -312,7 +312,8 @@ module 0x42::TestSome {
     spec fun get_ballot<Proposal>(ballot_address: address, ballot_id: BallotID): Ballot<Proposal> {
         let ballots = global<Ballots<Proposal>>(ballot_address).ballots;
         global<Ballots<Proposal>>(ballot_address).ballots[
-            choose min i in 0..len(ballots) where ballots[i].ballot_id == ballot_id]
+            choose min i in 0..len(ballots) where ballots[i].ballot_id == ballot_id
+        ]
     }
 
     spec create_ballot {

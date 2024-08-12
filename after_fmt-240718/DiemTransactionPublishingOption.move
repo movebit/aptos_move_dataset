@@ -199,13 +199,15 @@ module DiemFramework::DiemTransactionPublishingOption {
             Roles::has_diem_root_role(account)
                 || (
                     !transactions_halted()
-                    && (
-                        vector::is_empty(hash)
-                        || (
-                            vector::is_empty(publish_option.script_allow_list)
-                            || contains(publish_option.script_allow_list, hash)
+                        && (
+                            vector::is_empty(hash)
+                                || (
+                                    vector::is_empty(publish_option.script_allow_list)
+                                        || contains(
+                                            publish_option.script_allow_list, hash
+                                        )
+                                )
                         )
-                    )
                 )
         }
 

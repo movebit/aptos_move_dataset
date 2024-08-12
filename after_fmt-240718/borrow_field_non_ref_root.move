@@ -7,8 +7,8 @@ module 0x8675309::M {
         (&s.f: &u64);
         (&mut s.f: &mut u64);
         (&(if (cond) S { f: 0 }
-                else S { f: 1 }).f: &u64);
+        else S { f: 1 }).f: &u64);
         (&mut (if (cond) S { f: 0 }
-                else S { f: 1 }).f: &mut u64);
+        else S { f: 1 }).f: &mut u64);
     }
 }

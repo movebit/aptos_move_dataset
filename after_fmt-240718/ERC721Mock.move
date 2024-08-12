@@ -317,8 +317,8 @@ module Evm::ERC721 {
         let owner = ownerOf(tokenId);
         return (
             spender == owner
-            || getApproved(tokenId) == spender
-            || isApprovedForAll(owner, spender)
+                || getApproved(tokenId) == spender
+                || isApprovedForAll(owner, spender)
         )
     }
 

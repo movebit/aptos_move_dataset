@@ -77,7 +77,7 @@ module post_mint_reveal_nft::whitelist {
                 &whitelist_mint_config.whitelist_configs, i
             );
             if (whitelist_stage.whitelist_minting_start_time <= now
-                    && now < whitelist_stage.whitelist_minting_end_time) {
+                && now < whitelist_stage.whitelist_minting_end_time) {
                 let user_is_eligible_for_current_whitelisted_minting =
                     bucket_table::contains(
                         &whitelist_stage.whitelisted_address, &minter_address

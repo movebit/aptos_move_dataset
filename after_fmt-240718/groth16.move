@@ -153,13 +153,15 @@ module groth16_example::groth16 {
                 &mut deserialize<G1, FormatG1Compr>(
                     &x"96ec80d6b1050bbfc209f727678acce8788c05475771daffdd444ad8786c7a40195d859850fe2e72be3054e9fb8ce805",
                 ),
-            ),];
+            ),
+        ];
         let public_inputs: vector<Element<Fr>> = vector[
             std::option::extract(
                 &mut deserialize<Fr, FormatFrLsb>(
                     &x"0ee291cfc951388c3c7f7c85ff2dfd42bbc66a6b4acaef9a5a51ce955125a74f",
                 ),
-            ),];
+            ),
+        ];
         let proof_a =
             std::option::extract(
                 &mut deserialize<G1, FormatG1Compr>(
@@ -228,13 +230,15 @@ module groth16_example::groth16 {
                 &mut deserialize<G1, FormatG1Compr>(
                     &x"96ec80d6b1050bbfc209f727678acce8788c05475771daffdd444ad8786c7a40195d859850fe2e72be3054e9fb8ce805",
                 ),
-            ),];
+            ),
+        ];
         let public_inputs: vector<Element<Fr>> = vector[
             std::option::extract(
                 &mut deserialize<Fr, FormatFrLsb>(
                     &x"0ee291cfc951388c3c7f7c85ff2dfd42bbc66a6b4acaef9a5a51ce955125a74f",
                 ),
-            ),];
+            ),
+        ];
         let proof_a =
             std::option::extract(
                 &mut deserialize<G1, FormatG1Compr>(
@@ -302,13 +306,15 @@ module groth16_example::groth16 {
                 &mut deserialize<G1, FormatG1Compr>(
                     &x"96ec80d6b1050bbfc209f727678acce8788c05475771daffdd444ad8786c7a40195d859850fe2e72be3054e9fb8ce805",
                 ),
-            ),];
+            ),
+        ];
         let public_inputs: vector<Element<Fr>> = vector[
             std::option::extract(
                 &mut deserialize<Fr, FormatFrLsb>(
                     &x"0ee291cfc951388c3c7f7c85ff2dfd42bbc66a6b4acaef9a5a51ce955125a74f",
                 ),
-            ),];
+            ),
+        ];
         let proof_a =
             std::option::extract(
                 &mut deserialize<G1, FormatG1Compr>(

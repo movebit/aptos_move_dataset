@@ -125,8 +125,8 @@ module 0xABCD::vector_picture {
         let color = vector::borrow(&mut palette.vec, index);
         assert!(
             color.r != 255
-            || color.g != 255
-            || color.b != 255,
+                || color.g != 255
+                || color.b != 255,
             error::invalid_argument(E_MAX_COLOR),
         );
     }

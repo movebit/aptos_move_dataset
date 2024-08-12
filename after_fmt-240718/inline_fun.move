@@ -6,16 +6,16 @@ module 0x42::Test {
     ) {
         let i = 0;
         while ({
-                spec {
-                    // TODO: this will cause a no-such-function error as `predicate`
-                    // is inlined away in the implementation. We are aware of this
-                    // issue and is working on a fix by bridging more information
-                    // from inlined functions into the spec.
-                    invariant forall k in 0..i: !predicate(v[k]);
-                    // TODO: complete the set of loop invariants
-                };
-                (i < vector::length(v))
-            }) {
+            spec {
+                // TODO: this will cause a no-such-function error as `predicate`
+                // is inlined away in the implementation. We are aware of this
+                // issue and is working on a fix by bridging more information
+                // from inlined functions into the spec.
+                invariant forall k in 0..i: !predicate(v[k]);
+                // TODO: complete the set of loop invariants
+            };
+            (i < vector::length(v))
+        }) {
             if (predicate(vector::borrow(v, i))) {
                 vector::swap_remove(v, i);
             } else {

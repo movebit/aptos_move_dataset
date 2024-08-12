@@ -1963,13 +1963,13 @@ module DiemFramework::DiemAccount {
         // Check validity of the secondary signers' addresses and public keys
         let i = 0;
         while ({
-                spec {
-                    invariant forall j in 0..i: exists_at(secondary_signer_addresses[j]);
-                    invariant forall j in 0..i: secondary_signer_public_key_hashes[j]
-                        == global<DiemAccount>(secondary_signer_addresses[j]).authentication_key;
-                };
-                (i < num_secondary_signers)
-            }) {
+            spec {
+                invariant forall j in 0..i: exists_at(secondary_signer_addresses[j]);
+                invariant forall j in 0..i: secondary_signer_public_key_hashes[j]
+                    == global<DiemAccount>(secondary_signer_addresses[j]).authentication_key;
+            };
+            (i < num_secondary_signers)
+        }) {
             // Check that all secondary signers have accounts.
             let secondary_address = *vector::borrow(&secondary_signer_addresses, i);
             assert!(
@@ -2575,7 +2575,7 @@ module DiemFramework::DiemAccount {
         /// The absence of KeyRotationCap is preserved.
         ensures forall addr: address: old(
             !exists<DiemAccount>(addr)
-            || !spec_has_key_rotation_cap(addr),
+                || !spec_has_key_rotation_cap(addr),
         ) ==>
             (!exists<DiemAccount>(addr)
                 || !spec_has_key_rotation_cap(addr));
@@ -2609,11 +2609,11 @@ module DiemFramework::DiemAccount {
         /// The absence of WithdrawCap is preserved.
         ensures forall addr: address: old(
             !exists<DiemAccount>(addr)
-            || option::is_none(global<DiemAccount>(addr).withdraw_capability),
+                || option::is_none(global<DiemAccount>(addr).withdraw_capability),
         ) ==>
             (
                 !exists<DiemAccount>(addr)
-                || option::is_none(global<DiemAccount>(addr).withdraw_capability)
+                    || option::is_none(global<DiemAccount>(addr).withdraw_capability)
             );
     }
 

@@ -450,8 +450,8 @@ module post_mint_reveal_nft::minting {
         );
         assert!(
             vector::length(&token_uris) == vector::length(&property_keys)
-            && vector::length(&property_keys) == vector::length(&property_values)
-            && vector::length(&property_values) == vector::length(&property_types),
+                && vector::length(&property_keys) == vector::length(&property_values)
+                && vector::length(&property_values) == vector::length(&property_types),
             error::invalid_argument(EVECTOR_LENGTH_UNMATCHED),
         );
         let collection_config =
@@ -534,8 +534,8 @@ module post_mint_reveal_nft::minting {
                 // first time that this claimer mints. We will add the claimer's address and remaining amount of mints
                 // to the public_minting_addresses table.
                 if (!bucket_table::contains(
-                        &public_mint_config.public_minting_addresses, &claimer_addr
-                    )) {
+                    &public_mint_config.public_minting_addresses, &claimer_addr
+                )) {
                     bucket_table::add(
                         &mut public_mint_config.public_minting_addresses,
                         claimer_addr,
@@ -818,7 +818,15 @@ module post_mint_reveal_nft::minting {
         );
     }
 
-    #[test(admin_account = @0xcafe, wl_nft_claimer = @0x123, public_nft_claimer = @0x234, treasury_account = @0x345, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            admin_account = @0xcafe,
+            wl_nft_claimer = @0x123,
+            public_nft_claimer = @0x234,
+            treasury_account = @0x345,
+            aptos_framework = @aptos_framework
+        )
+    ]
     public entry fun test_happy_path(
         admin_account: signer,
         wl_nft_claimer: signer,
@@ -954,7 +962,15 @@ module post_mint_reveal_nft::minting {
         );
     }
 
-    #[test(admin_account = @0xcafe, wl_nft_claimer = @0x123, public_nft_claimer = @0x234, treasury_account = @0x345, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            admin_account = @0xcafe,
+            wl_nft_claimer = @0x123,
+            public_nft_claimer = @0x234,
+            treasury_account = @0x345,
+            aptos_framework = @aptos_framework
+        )
+    ]
     #[expected_failure(abort_code = 0x10005, location = Self)]
     public entry fun test_adding_token_uris_exceeds_collection_maximum(
         admin_account: signer,
@@ -980,7 +996,15 @@ module post_mint_reveal_nft::minting {
         set_up_token_uris(&admin_account);
     }
 
-    #[test(admin_account = @0xcafe, wl_nft_claimer = @0x123, public_nft_claimer = @0x234, treasury_account = @0x345, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            admin_account = @0xcafe,
+            wl_nft_claimer = @0x123,
+            public_nft_claimer = @0x234,
+            treasury_account = @0x345,
+            aptos_framework = @aptos_framework
+        )
+    ]
     #[expected_failure(abort_code = 0x5000c, location = Self)]
     public entry fun test_exchange_before_minting_ends(
         admin_account: signer,
@@ -1026,7 +1050,15 @@ module post_mint_reveal_nft::minting {
         exchange(&wl_nft_claimer, utf8(b"source token base name: 1"));
     }
 
-    #[test(admin_account = @0xcafe, wl_nft_claimer = @0x123, public_nft_claimer = @0x234, treasury_account = @0x345, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            admin_account = @0xcafe,
+            wl_nft_claimer = @0x123,
+            public_nft_claimer = @0x234,
+            treasury_account = @0x345,
+            aptos_framework = @aptos_framework
+        )
+    ]
     #[expected_failure(abort_code = 0x50001, location = Self)]
     public entry fun invalid_set_treasury_address(
         admin_account: signer,
@@ -1047,7 +1079,15 @@ module post_mint_reveal_nft::minting {
         set_treasury(&treasury_account, signer::address_of(&treasury_account));
     }
 
-    #[test(admin_account = @0xcafe, wl_nft_claimer = @0x123, public_nft_claimer = @0x234, treasury_account = @0x345, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            admin_account = @0xcafe,
+            wl_nft_claimer = @0x123,
+            public_nft_claimer = @0x234,
+            treasury_account = @0x345,
+            aptos_framework = @aptos_framework
+        )
+    ]
     #[expected_failure(abort_code = 0x10002, location = Self)]
     public entry fun invalid_set_minting_time_and_price(
         admin_account: signer,
@@ -1069,7 +1109,15 @@ module post_mint_reveal_nft::minting {
         set_up_whitelist_stage(&admin_account, 50, 200, 5, 0);
     }
 
-    #[test(admin_account = @0xcafe, wl_nft_claimer = @0x123, public_nft_claimer = @0x234, treasury_account = @0x345, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            admin_account = @0xcafe,
+            wl_nft_claimer = @0x123,
+            public_nft_claimer = @0x234,
+            treasury_account = @0x345,
+            aptos_framework = @aptos_framework
+        )
+    ]
     #[expected_failure(abort_code = 0x50009, location = Self)]
     public entry fun test_mint_before_set_up(
         admin_account: signer,
@@ -1090,7 +1138,15 @@ module post_mint_reveal_nft::minting {
         mint_source_certificate(&wl_nft_claimer, 2);
     }
 
-    #[test(admin_account = @0xcafe, wl_nft_claimer = @0x123, public_nft_claimer = @0x234, treasury_account = @0x345, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            admin_account = @0xcafe,
+            wl_nft_claimer = @0x123,
+            public_nft_claimer = @0x234,
+            treasury_account = @0x345,
+            aptos_framework = @aptos_framework
+        )
+    ]
     #[expected_failure(abort_code = 0x10004, location = post_mint_reveal_nft::whitelist)]
     public entry fun test_amount_exceeds_mint_allowed_whitelisted(
         admin_account: signer,
@@ -1118,7 +1174,15 @@ module post_mint_reveal_nft::minting {
         mint_source_certificate(&wl_nft_claimer, 3);
     }
 
-    #[test(admin_account = @0xcafe, wl_nft_claimer = @0x123, public_nft_claimer = @0x234, treasury_account = @0x345, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            admin_account = @0xcafe,
+            wl_nft_claimer = @0x123,
+            public_nft_claimer = @0x234,
+            treasury_account = @0x345,
+            aptos_framework = @aptos_framework
+        )
+    ]
     #[expected_failure(abort_code = 0x1000a, location = Self)]
     public entry fun test_amount_exceeds_mint_allowed_public(
         admin_account: signer,
@@ -1148,7 +1212,15 @@ module post_mint_reveal_nft::minting {
         mint_source_certificate(&public_nft_claimer, 4);
     }
 
-    #[test(admin_account = @0xcafe, wl_nft_claimer = @0x123, public_nft_claimer = @0x234, treasury_account = @0x345, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            admin_account = @0xcafe,
+            wl_nft_claimer = @0x123,
+            public_nft_claimer = @0x234,
+            treasury_account = @0x345,
+            aptos_framework = @aptos_framework
+        )
+    ]
     #[expected_failure(abort_code = 0x50007, location = Self)]
     public entry fun test_minting_source_certificate_exceeds_collection_maximum(
         admin_account: signer,
@@ -1180,7 +1252,15 @@ module post_mint_reveal_nft::minting {
         mint_source_certificate(&public_nft_claimer, 2);
     }
 
-    #[test(admin_account = @0xcafe, wl_nft_claimer = @0x123, public_nft_claimer = @0x234, treasury_account = @0x345, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            admin_account = @0xcafe,
+            wl_nft_claimer = @0x123,
+            public_nft_claimer = @0x234,
+            treasury_account = @0x345,
+            aptos_framework = @aptos_framework
+        )
+    ]
     #[expected_failure(abort_code = 0x50006, location = Self)]
     public entry fun test_account_not_on_whitelist(
         admin_account: signer,
@@ -1207,7 +1287,15 @@ module post_mint_reveal_nft::minting {
         mint_source_certificate(&public_nft_claimer, 2);
     }
 
-    #[test(admin_account = @0xcafe, wl_nft_claimer = @0x123, public_nft_claimer = @0x234, treasury_account = @0x345, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            admin_account = @0xcafe,
+            wl_nft_claimer = @0x123,
+            public_nft_claimer = @0x234,
+            treasury_account = @0x345,
+            aptos_framework = @aptos_framework
+        )
+    ]
     public entry fun test_update_public_minting_time(
         admin_account: signer,
         wl_nft_claimer: signer,
@@ -1234,7 +1322,15 @@ module post_mint_reveal_nft::minting {
         assert!(public_minting_config.public_mint_price == 50, 5);
     }
 
-    #[test(admin_account = @0xcafe, wl_nft_claimer = @0x123, public_nft_claimer = @0x234, treasury_account = @0x345, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            admin_account = @0xcafe,
+            wl_nft_claimer = @0x123,
+            public_nft_claimer = @0x234,
+            treasury_account = @0x345,
+            aptos_framework = @aptos_framework
+        )
+    ]
     #[expected_failure(abort_code = 0x10005, location = post_mint_reveal_nft::whitelist)]
     public entry fun invalid_add_to_whitelist(
         admin_account: signer,
@@ -1260,7 +1356,15 @@ module post_mint_reveal_nft::minting {
         add_to_whitelist(&admin_account, wl_addresses, 2, 0);
     }
 
-    #[test(admin_account = @0xcafe, wl_nft_claimer = @0x123, public_nft_claimer = @0x234, treasury_account = @0x345, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            admin_account = @0xcafe,
+            wl_nft_claimer = @0x123,
+            public_nft_claimer = @0x234,
+            treasury_account = @0x345,
+            aptos_framework = @aptos_framework
+        )
+    ]
     #[expected_failure(abort_code = 0x50007, location = Self)]
     public entry fun test_all_tokens_minted(
         admin_account: signer,
@@ -1292,7 +1396,15 @@ module post_mint_reveal_nft::minting {
         mint_source_certificate(&public_nft_claimer, 2);
     }
 
-    #[test(admin_account = @0xcafe, wl_nft_claimer = @0x123, public_nft_claimer = @0x234, treasury_account = @0x345, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            admin_account = @0xcafe,
+            wl_nft_claimer = @0x123,
+            public_nft_claimer = @0x234,
+            treasury_account = @0x345,
+            aptos_framework = @aptos_framework
+        )
+    ]
     #[expected_failure(abort_code = 0x10004, location = Self)]
     public entry fun test_invalid_add_token_uri(
         admin_account: signer,
@@ -1335,7 +1447,15 @@ module post_mint_reveal_nft::minting {
         );
     }
 
-    #[test(admin_account = @0xcafe, wl_nft_claimer = @0x123, public_nft_claimer = @0x234, treasury_account = @0x345, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            admin_account = @0xcafe,
+            wl_nft_claimer = @0x123,
+            public_nft_claimer = @0x234,
+            treasury_account = @0x345,
+            aptos_framework = @aptos_framework
+        )
+    ]
     public entry fun test_acquire_signer(
         admin_account: signer,
         wl_nft_claimer: signer,
@@ -1360,7 +1480,15 @@ module post_mint_reveal_nft::minting {
         );
     }
 
-    #[test(admin_account = @0xcafe, wl_nft_claimer = @0x123, public_nft_claimer = @0x234, treasury_account = @0x345, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            admin_account = @0xcafe,
+            wl_nft_claimer = @0x123,
+            public_nft_claimer = @0x234,
+            treasury_account = @0x345,
+            aptos_framework = @aptos_framework
+        )
+    ]
     #[expected_failure(abort_code = 0x1000d, location = Self)]
     public entry fun test_duplicate_token_uris(
         admin_account: signer,
@@ -1418,7 +1546,15 @@ module post_mint_reveal_nft::minting {
         add_to_whitelist(&admin_account, wl_addresses_stage_2, 1, 1);
     }
 
-    #[test(admin_account = @0xcafe, wl_nft_claimer = @0x123, wl_nft_claimer2 = @0x234, treasury_account = @0x345, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            admin_account = @0xcafe,
+            wl_nft_claimer = @0x123,
+            wl_nft_claimer2 = @0x234,
+            treasury_account = @0x345,
+            aptos_framework = @aptos_framework
+        )
+    ]
     public entry fun test_multi_stage_whitelist_happy_path(
         admin_account: signer,
         wl_nft_claimer: signer,
@@ -1473,7 +1609,15 @@ module post_mint_reveal_nft::minting {
         assert!(coin::balance<AptosCoin>(signer::address_of(&wl_nft_claimer2)) == 94, 4);
     }
 
-    #[test(admin_account = @0xcafe, wl_nft_claimer = @0x123, wl_nft_claimer2 = @0x234, treasury_account = @0x345, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            admin_account = @0xcafe,
+            wl_nft_claimer = @0x123,
+            wl_nft_claimer2 = @0x234,
+            treasury_account = @0x345,
+            aptos_framework = @aptos_framework
+        )
+    ]
     #[expected_failure(abort_code = 0x50006, location = Self)]
     public entry fun test_multi_stage_whitelist_account_not_on_whitelist(
         admin_account: signer,
@@ -1493,7 +1637,15 @@ module post_mint_reveal_nft::minting {
         mint_source_certificate(&wl_nft_claimer2, 2);
     }
 
-    #[test(admin_account = @0xcafe, wl_nft_claimer = @0x123, wl_nft_claimer2 = @0x234, treasury_account = @0x345, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            admin_account = @0xcafe,
+            wl_nft_claimer = @0x123,
+            wl_nft_claimer2 = @0x234,
+            treasury_account = @0x345,
+            aptos_framework = @aptos_framework
+        )
+    ]
     #[expected_failure(abort_code = 0x10004, location = post_mint_reveal_nft::whitelist)]
     public entry fun test_multi_stage_whitelist_mint_amount_exceeds(
         admin_account: signer,

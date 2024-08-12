@@ -115,12 +115,12 @@ module DiemFramework::RecoveryAddress {
         let i = 0;
         let len = vector::length(caps);
         while ({
-                spec {
-                    invariant i <= len;
-                    invariant forall j in 0..i: caps[j].account_address != to_recover;
-                };
-                (i < len)
-            }) {
+            spec {
+                invariant i <= len;
+                invariant forall j in 0..i: caps[j].account_address != to_recover;
+            };
+            (i < len)
+        }) {
             let cap = vector::borrow(caps, i);
             if (DiemAccount::key_rotation_capability_address(cap) == &to_recover) {
                 DiemAccount::rotate_authentication_key(cap, new_key);

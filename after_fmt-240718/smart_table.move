@@ -267,8 +267,9 @@ module aptos_std::smart_table {
         let keys = vector[];
         if (num_keys_to_get == 0)
             return (
-                keys, option::some(starting_bucket_index),
-                option::some(starting_vector_index)
+                keys, option::some(starting_bucket_index), option::some(
+                    starting_vector_index
+                )
             );
         for (bucket_index in starting_bucket_index..num_buckets) {
             bucket_ref = table_with_length::borrow(buckets_ref, bucket_index);
@@ -739,7 +740,7 @@ module aptos_std::smart_table {
             );
             vector::append(&mut keys, returned_keys);
             if (starting_bucket_index_r == option::none()
-                    || starting_vector_index_r == option::none())
+                || starting_vector_index_r == option::none())
             break;
             starting_bucket_index = option::destroy_some(starting_bucket_index_r);
             starting_vector_index = option::destroy_some(starting_vector_index_r);

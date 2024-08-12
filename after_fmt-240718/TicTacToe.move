@@ -241,8 +241,8 @@ module tic_tac_toe::ttt {
             let r1 = vector::borrow(&game.board.vec, WIDTH_AND_HEIGHT * row + 1);
             let r2 = vector::borrow(&game.board.vec, WIDTH_AND_HEIGHT * row + 2);
             if ((r0 == r1
-                    && r1 == r2
-                    && *r2 == PLAYER_X_TYPE)
+                && r1 == r2
+                && *r2 == PLAYER_X_TYPE)
                 || (r0 == r1
                     && r1 == r2
                     && *r2 == PLAYER_O_TYPE)) {
@@ -259,8 +259,8 @@ module tic_tac_toe::ttt {
             let c1 = vector::borrow(&game.board.vec, WIDTH_AND_HEIGHT * 1 + col);
             let c2 = vector::borrow(&game.board.vec, WIDTH_AND_HEIGHT * 2 + col);
             if ((c0 == c1
-                    && c1 == c2
-                    && *c2 == PLAYER_X_TYPE)
+                && c1 == c2
+                && *c2 == PLAYER_X_TYPE)
                 || (c0 == c1
                     && c1 == c2
                     && *c2 == PLAYER_O_TYPE)) {
@@ -275,8 +275,8 @@ module tic_tac_toe::ttt {
         let e11 = vector::borrow(&game.board.vec, WIDTH_AND_HEIGHT * 1 + 1);
         let e22 = vector::borrow(&game.board.vec, WIDTH_AND_HEIGHT * 2 + 2);
         if ((e00 == e11
-                && e11 == e22
-                && *e22 == PLAYER_X_TYPE)
+            && e11 == e22
+            && *e22 == PLAYER_X_TYPE)
             || (e00 == e11
                 && e11 == e22
                 && *e22 == PLAYER_O_TYPE)) {
@@ -286,8 +286,8 @@ module tic_tac_toe::ttt {
         let e02 = vector::borrow(&game.board.vec, WIDTH_AND_HEIGHT * 0 + 2);
         let e20 = vector::borrow(&game.board.vec, WIDTH_AND_HEIGHT * 2 + 0);
         if ((e02 == e11
-                && e11 == e20
-                && *e20 == PLAYER_X_TYPE)
+            && e11 == e20
+            && *e20 == PLAYER_X_TYPE)
             || (e02 == e11
                 && e11 == e20
                 && *e20 == PLAYER_O_TYPE)) {

@@ -1154,13 +1154,14 @@ module dao_platform::nft_dao {
             string::utf8(b"description"),
             vector<String>[string::utf8(b"transfer_fund")],
             vector<vector<String>>[vector<String>[string::utf8(b"dst"), string::utf8(
-                        b"amount"
-                    )]],
+                b"amount"
+            )]],
             vector<vector<vector<u8>>>[
-                vector<vector<u8>>[bcs::to_bytes(&@0xaf), bcs::to_bytes(&(45 as u64))]],
+                vector<vector<u8>>[bcs::to_bytes(&@0xaf), bcs::to_bytes(&(45 as u64))]
+            ],
             vector<vector<String>>[vector<String>[string::utf8(b"address"), string::utf8(
-                        b"u64"
-                    )]],
+                b"u64"
+            )]],
             21,
             vector<String>[string::utf8(b"Token")],
             vector<u64>[0],
@@ -1643,39 +1644,48 @@ module dao_platform::nft_dao {
                     string::utf8(b"collection"),
                     string::utf8(b"token_name"),
                     string::utf8(b"property_version"),
-                    string::utf8(b"dst")],
+                    string::utf8(b"dst")
+                ],
                 vector<String>[
                     string::utf8(b"creator"),
                     string::utf8(b"collection"),
                     string::utf8(b"token_name"),
                     string::utf8(b"property_version"),
-                    string::utf8(b"dst")]],
+                    string::utf8(b"dst")
+                ]
+            ],
             vector<vector<vector<u8>>>[
                 vector<vector<u8>>[
                     bcs::to_bytes(&creator_addr),
                     bcs::to_bytes(&b"Hello, World"),
                     bcs::to_bytes(&b"artist4"),
                     bcs::to_bytes(&(0 as u64)),
-                    bcs::to_bytes(&voter_addr)],
+                    bcs::to_bytes(&voter_addr)
+                ],
                 vector<vector<u8>>[
                     bcs::to_bytes(&creator_addr),
                     bcs::to_bytes(&b"Hello, World"),
                     bcs::to_bytes(&b"artist5"),
                     bcs::to_bytes(&(0 as u64)),
-                    bcs::to_bytes(&voter_addr)],],
+                    bcs::to_bytes(&voter_addr)
+                ],
+            ],
             vector<vector<String>>[
                 vector<String>[
                     string::utf8(b"address"),
                     string::utf8(b"0x1::string::String"),
                     string::utf8(b"0x1::string::String"),
                     string::utf8(b"u64"),
-                    string::utf8(b"address")],
+                    string::utf8(b"address")
+                ],
                 vector<String>[
                     string::utf8(b"address"),
                     string::utf8(b"0x1::string::String"),
                     string::utf8(b"0x1::string::String"),
                     string::utf8(b"u64"),
-                    string::utf8(b"address")],],
+                    string::utf8(b"address")
+                ],
+            ],
             1,
             vector<String>[string::utf8(b"Token")],
             vector<u64>[0],

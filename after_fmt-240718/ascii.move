@@ -58,12 +58,12 @@ module std::ascii {
         let len = vector::length(&bytes);
         let i = 0;
         while ({
-                spec {
-                    invariant i <= len;
-                    invariant forall j in 0..i: is_valid_char(bytes[j]);
-                };
-                i < len
-            }) {
+            spec {
+                invariant i <= len;
+                invariant forall j in 0..i: is_valid_char(bytes[j]);
+            };
+            i < len
+        }) {
             let possible_byte = *vector::borrow(&bytes, i);
             if (!is_valid_char(possible_byte)) return option::none();
             i = i + 1;
@@ -81,12 +81,12 @@ module std::ascii {
         let len = vector::length(&string.bytes);
         let i = 0;
         while ({
-                spec {
-                    invariant i <= len;
-                    invariant forall j in 0..i: is_printable_char(string.bytes[j]);
-                };
-                i < len
-            }) {
+            spec {
+                invariant i <= len;
+                invariant forall j in 0..i: is_printable_char(string.bytes[j]);
+            };
+            i < len
+        }) {
             let byte = *vector::borrow(&string.bytes, i);
             if (!is_printable_char(byte)) return false;
             i = i + 1;

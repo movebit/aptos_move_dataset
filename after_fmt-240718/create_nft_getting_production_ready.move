@@ -360,7 +360,16 @@ module mint_nft::create_nft_getting_production_ready {
         create_account_for_test(signer::address_of(nft_receiver));
     }
 
-    #[test(origin_account = @0xcafe, resource_account = @0xc3bb8488ab1a5815a9d543d7e41b0e0df46a7396f89b22821f07a4362f75ddc5, nft_receiver = @0x123, nft_receiver2 = @0x234, aptos_framework = @aptos_framework)]
+    #[
+        test(
+            origin_account = @0xcafe,
+            resource_account =
+            @0xc3bb8488ab1a5815a9d543d7e41b0e0df46a7396f89b22821f07a4362f75ddc5,
+            nft_receiver = @0x123,
+            nft_receiver2 = @0x234,
+            aptos_framework = @aptos_framework
+        )
+    ]
     public entry fun test_happy_path(
         origin_account: signer,
         resource_account: signer,
@@ -433,8 +442,20 @@ module mint_nft::create_nft_getting_production_ready {
         token::deposit_token(&nft_receiver2, new_token2);
     }
 
-    #[test(origin_account = @0xcafe, resource_account = @0xc3bb8488ab1a5815a9d543d7e41b0e0df46a7396f89b22821f07a4362f75ddc5, nft_receiver = @0x123, aptos_framework = @aptos_framework)]
-    #[expected_failure(abort_code = 0x50002, location = mint_nft::create_nft_getting_production_ready)]
+    #[
+        test(
+            origin_account = @0xcafe,
+            resource_account =
+            @0xc3bb8488ab1a5815a9d543d7e41b0e0df46a7396f89b22821f07a4362f75ddc5,
+            nft_receiver = @0x123,
+            aptos_framework = @aptos_framework
+        )
+    ]
+    #[
+        expected_failure(
+            abort_code = 0x50002, location = mint_nft::create_nft_getting_production_ready
+        )
+    ]
     public entry fun test_minting_expired(
         origin_account: signer,
         resource_account: signer,
@@ -460,8 +481,21 @@ module mint_nft::create_nft_getting_production_ready {
         mint_event_ticket(&nft_receiver, ed25519::signature_to_bytes(&sig));
     }
 
-    #[test(origin_account = @0xcafe, resource_account = @0xc3bb8488ab1a5815a9d543d7e41b0e0df46a7396f89b22821f07a4362f75ddc5, admin = @admin_addr, nft_receiver = @0x123, aptos_framework = @aptos_framework)]
-    #[expected_failure(abort_code = 0x50002, location = mint_nft::create_nft_getting_production_ready)]
+    #[
+        test(
+            origin_account = @0xcafe,
+            resource_account =
+            @0xc3bb8488ab1a5815a9d543d7e41b0e0df46a7396f89b22821f07a4362f75ddc5,
+            admin = @admin_addr,
+            nft_receiver = @0x123,
+            aptos_framework = @aptos_framework
+        )
+    ]
+    #[
+        expected_failure(
+            abort_code = 0x50002, location = mint_nft::create_nft_getting_production_ready
+        )
+    ]
     public entry fun test_update_expiration_time(
         origin_account: signer,
         resource_account: signer,
@@ -492,8 +526,21 @@ module mint_nft::create_nft_getting_production_ready {
         mint_event_ticket(&nft_receiver, ed25519::signature_to_bytes(&sig));
     }
 
-    #[test(origin_account = @0xcafe, resource_account = @0xc3bb8488ab1a5815a9d543d7e41b0e0df46a7396f89b22821f07a4362f75ddc5, admin = @admin_addr, nft_receiver = @0x123, aptos_framework = @aptos_framework)]
-    #[expected_failure(abort_code = 0x50003, location = mint_nft::create_nft_getting_production_ready)]
+    #[
+        test(
+            origin_account = @0xcafe,
+            resource_account =
+            @0xc3bb8488ab1a5815a9d543d7e41b0e0df46a7396f89b22821f07a4362f75ddc5,
+            admin = @admin_addr,
+            nft_receiver = @0x123,
+            aptos_framework = @aptos_framework
+        )
+    ]
+    #[
+        expected_failure(
+            abort_code = 0x50003, location = mint_nft::create_nft_getting_production_ready
+        )
+    ]
     public entry fun test_update_minting_enabled(
         origin_account: signer,
         resource_account: signer,
@@ -524,8 +571,20 @@ module mint_nft::create_nft_getting_production_ready {
         mint_event_ticket(&nft_receiver, ed25519::signature_to_bytes(&sig));
     }
 
-    #[test(origin_account = @0xcafe, resource_account = @0xc3bb8488ab1a5815a9d543d7e41b0e0df46a7396f89b22821f07a4362f75ddc5, nft_receiver = @0x123, aptos_framework = @aptos_framework)]
-    #[expected_failure(abort_code = 0x10006, location = mint_nft::create_nft_getting_production_ready)]
+    #[
+        test(
+            origin_account = @0xcafe,
+            resource_account =
+            @0xc3bb8488ab1a5815a9d543d7e41b0e0df46a7396f89b22821f07a4362f75ddc5,
+            nft_receiver = @0x123,
+            aptos_framework = @aptos_framework
+        )
+    ]
+    #[
+        expected_failure(
+            abort_code = 0x10006, location = mint_nft::create_nft_getting_production_ready
+        )
+    ]
     public entry fun test_invalid_signature(
         origin_account: signer,
         resource_account: signer,

@@ -1630,7 +1630,8 @@ module aptos_framework::multisig_account {
             framework_signer,
             vector[
                 features::get_multisig_accounts_feature(),
-                features::get_multisig_v2_enhancement_feature()],
+                features::get_multisig_v2_enhancement_feature()
+            ],
             vector[],
         );
         timestamp::set_time_has_started_for_testing(framework_signer);
@@ -1682,7 +1683,8 @@ module aptos_framework::multisig_account {
                 == vector[
                     get_transaction(multisig_account, 1),
                     get_transaction(multisig_account, 2),
-                    get_transaction(multisig_account, 3),],
+                    get_transaction(multisig_account, 3),
+                ],
             0,
         );
 
@@ -1701,7 +1703,8 @@ module aptos_framework::multisig_account {
             get_pending_transactions(multisig_account)
                 == vector[
                     get_transaction(multisig_account, 2),
-                    get_transaction(multisig_account, 3),],
+                    get_transaction(multisig_account, 3),
+                ],
             0,
         );
 
@@ -1751,7 +1754,8 @@ module aptos_framework::multisig_account {
             get_pending_transactions(multisig_account)
                 == vector[
                     get_transaction(multisig_account, 1),
-                    get_transaction(multisig_account, 2),],
+                    get_transaction(multisig_account, 2),
+                ],
             0,
         );
 
@@ -1836,7 +1840,8 @@ module aptos_framework::multisig_account {
                 // Duplicate owner 2 addresses.
                 address_of(owner_2),
                 address_of(owner_3),
-                address_of(owner_2),],
+                address_of(owner_2),
+            ],
             2,
             vector[],
             vector[],
@@ -1866,7 +1871,8 @@ module aptos_framework::multisig_account {
                 // Duplicate owner 1 addresses.
                 address_of(owner_1),
                 address_of(owner_2),
-                address_of(owner_3),],
+                address_of(owner_3),
+            ],
             2,
             vector[],
             vector[],

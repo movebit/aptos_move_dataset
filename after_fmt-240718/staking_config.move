@@ -258,8 +258,8 @@ module aptos_framework::staking_config {
             error::invalid_argument(EINVALID_LAST_REWARDS_RATE_PERIOD_START),
         );
         if (current_time_in_secs
-                - staking_rewards_config.last_rewards_rate_period_start_in_secs
-                < staking_rewards_config.rewards_rate_period_in_secs) {
+            - staking_rewards_config.last_rewards_rate_period_start_in_secs
+            < staking_rewards_config.rewards_rate_period_in_secs) {
             return *staking_rewards_config
         };
         // Rewards rate decrease rate cannot be greater than 100%. Otherwise rewards rate will be negative.

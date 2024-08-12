@@ -330,8 +330,8 @@ module Evm::ERC721Tradable {
         let owner = ownerOf(tokenId);
         return (
             spender == owner
-            || getApproved(tokenId) == spender
-            || isApprovedForAll(owner, spender)
+                || getApproved(tokenId) == spender
+                || isApprovedForAll(owner, spender)
         )
     }
 

@@ -661,8 +661,8 @@ spec aptos_framework::vesting {
         aborts_if !exists<stake::ValidatorSet>(@aptos_framework);
         let validator_set = global<stake::ValidatorSet>(@aptos_framework);
         let inactive_state = !stake::spec_contains(
-                validator_set.pending_active, pool_address_1
-            )
+            validator_set.pending_active, pool_address_1
+        )
             && !stake::spec_contains(validator_set.active_validators, pool_address_1)
             && !stake::spec_contains(validator_set.pending_inactive, pool_address_1);
         let inactive_1 = stake_pool_1.inactive.value;

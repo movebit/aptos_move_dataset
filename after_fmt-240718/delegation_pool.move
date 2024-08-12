@@ -916,7 +916,7 @@ module aptos_framework::delegation_pool {
 
         // All delegation pool enable partial governance voting by default once the feature flag is enabled.
         if (features::partial_governance_voting_enabled()
-                && features::delegation_pool_partial_governance_voting_enabled()) {
+            && features::delegation_pool_partial_governance_voting_enabled()) {
             enable_partial_governance_voting(pool_address);
         }
     }
@@ -1842,12 +1842,12 @@ module aptos_framework::delegation_pool {
             pending_withdrawal_exists(pool, delegator_address);
         // exit if no withdrawal or (it is pending and cannot withdraw pending_inactive stake from stake pool)
         if (!(
-                withdrawal_exists
+            withdrawal_exists
                 && (
                     withdrawal_olc.index < pool.observed_lockup_cycle.index
                         || can_withdraw_pending_inactive(pool_address)
                 )
-            )) { return };
+        )) { return };
 
         if (withdrawal_olc.index == pool.observed_lockup_cycle.index) {
             amount = coins_to_redeem_to_ensure_min_stake(
@@ -2078,7 +2078,7 @@ module aptos_framework::delegation_pool {
         let pool_address = get_pool_address(pool);
         // Only redeem shares from the pending_inactive pool at `lockup_cycle` == current OLC.
         if (partial_governance_voting_enabled(pool_address)
-                && lockup_cycle.index == pool.observed_lockup_cycle.index) {
+            && lockup_cycle.index == pool.observed_lockup_cycle.index) {
             update_governanace_records_for_redeem_pending_inactive_shares(
                 pool,
                 pool_address,
@@ -2101,7 +2101,7 @@ module aptos_framework::delegation_pool {
         };
         // destroy inactive shares pool of past OLC if all its stake has been withdrawn
         if (lockup_cycle.index < pool.observed_lockup_cycle.index
-                && total_coins(inactive_shares) == 0) {
+            && total_coins(inactive_shares) == 0) {
             pool_u64::destroy_empty(
                 table::remove(&mut pool.inactive_shares, lockup_cycle)
             );
@@ -2524,7 +2524,8 @@ module aptos_framework::delegation_pool {
                 DELEGATION_POOLS,
                 MODULE_EVENT,
                 OPERATOR_BENEFICIARY_CHANGE,
-                COMMISSION_CHANGE_DELEGATION_POOL],
+                COMMISSION_CHANGE_DELEGATION_POOL
+            ],
             vector[],
         );
     }
@@ -2701,7 +2702,14 @@ module aptos_framework::delegation_pool {
         stake::assert_stake_pool(pool_address, 0, 0, 0, 0);
     }
 
-    #[test(aptos_framework = @aptos_framework, validator = @0x123, delegator1 = @0x010, delegator2 = @0x020)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            validator = @0x123,
+            delegator1 = @0x010,
+            delegator2 = @0x020
+        )
+    ]
     public entry fun test_add_stake_fee(
         aptos_framework: &signer,
         validator: &signer,
@@ -3401,7 +3409,14 @@ module aptos_framework::delegation_pool {
         assert!(coin::balance<AptosCoin>(validator_address) == balance + 1000000000, 0);
     }
 
-    #[test(aptos_framework = @aptos_framework, validator = @0x123, delegator1 = @0x010, delegator2 = @0x020)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            validator = @0x123,
+            delegator1 = @0x010,
+            delegator2 = @0x020
+        )
+    ]
     public entry fun test_total_coins_inactive(
         aptos_framework: &signer,
         validator: &signer,
@@ -4094,7 +4109,14 @@ module aptos_framework::delegation_pool {
         assert_delegation(validator_address, pool_address, 68926429037, 21020200996, 0);
     }
 
-    #[test(aptos_framework = @aptos_framework, validator = @0x123, delegator1 = @0x010, delegator2 = @0x020)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            validator = @0x123,
+            delegator1 = @0x010,
+            delegator2 = @0x020
+        )
+    ]
     public entry fun test_out_of_order_redeem(
         aptos_framework: &signer,
         validator: &signer,
@@ -4232,7 +4254,14 @@ module aptos_framework::delegation_pool {
         assert_pending_withdrawal(delegator1_address, pool_address, false, 0, false, 0);
     }
 
-    #[test(aptos_framework = @aptos_framework, validator = @0x123, delegator1 = @0x010, delegator2 = @0x020)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            validator = @0x123,
+            delegator1 = @0x010,
+            delegator2 = @0x020
+        )
+    ]
     public entry fun test_operator_fee(
         aptos_framework: &signer,
         validator: &signer,
@@ -4391,7 +4420,14 @@ module aptos_framework::delegation_pool {
         );
     }
 
-    #[test(aptos_framework = @aptos_framework, old_operator = @0x123, delegator = @0x010, new_operator = @0x020)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            old_operator = @0x123,
+            delegator = @0x010,
+            new_operator = @0x020
+        )
+    ]
     public entry fun test_change_operator(
         aptos_framework: &signer,
         old_operator: &signer,
@@ -4458,7 +4494,15 @@ module aptos_framework::delegation_pool {
         assert_delegation(new_operator_address, pool_address, 26050290, 0, 26050290);
     }
 
-    #[test(aptos_framework = @aptos_framework, operator1 = @0x123, delegator = @0x010, beneficiary = @0x020, operator2 = @0x030)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            operator1 = @0x123,
+            delegator = @0x010,
+            beneficiary = @0x020,
+            operator2 = @0x030
+        )
+    ]
     public entry fun test_set_beneficiary_for_operator(
         aptos_framework: &signer,
         operator1: &signer,
@@ -4652,7 +4696,14 @@ module aptos_framework::delegation_pool {
         update_commission_percentage(operator, 2255);
     }
 
-    #[test(aptos_framework = @aptos_framework, validator = @0x123, delegator1 = @0x010, delegator2 = @0x020)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            validator = @0x123,
+            delegator1 = @0x010,
+            delegator2 = @0x020
+        )
+    ]
     public entry fun test_min_stake_is_preserved(
         aptos_framework: &signer,
         validator: &signer,
@@ -4782,7 +4833,8 @@ module aptos_framework::delegation_pool {
             aptos_framework,
             vector[
                 features::get_partial_governance_voting(),
-                features::get_delegation_pool_partial_governance_voting()],
+                features::get_delegation_pool_partial_governance_voting()
+            ],
             vector[],
         );
         initialize_test_validator(validator, 100 * ONE_APT, true, false);
@@ -4830,7 +4882,8 @@ module aptos_framework::delegation_pool {
             aptos_framework,
             vector[
                 features::get_partial_governance_voting(),
-                features::get_delegation_pool_partial_governance_voting()],
+                features::get_delegation_pool_partial_governance_voting()
+            ],
             vector[],
         );
         initialize_test_validator(validator, 100 * ONE_APT, true, false);
@@ -4860,7 +4913,16 @@ module aptos_framework::delegation_pool {
         );
     }
 
-    #[test(aptos_framework = @aptos_framework, validator = @0x123, delegator1 = @0x010, delegator2 = @0x020, voter1 = @0x030, voter2 = @0x040)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            validator = @0x123,
+            delegator1 = @0x010,
+            delegator2 = @0x020,
+            voter1 = @0x030,
+            voter2 = @0x040
+        )
+    ]
     public entry fun test_voting_power_change(
         aptos_framework: &signer,
         validator: &signer,
@@ -4881,7 +4943,8 @@ module aptos_framework::delegation_pool {
             aptos_framework,
             vector[
                 features::get_partial_governance_voting(),
-                features::get_delegation_pool_partial_governance_voting()],
+                features::get_delegation_pool_partial_governance_voting()
+            ],
             vector[],
         );
 
@@ -5260,7 +5323,14 @@ module aptos_framework::delegation_pool {
         );
     }
 
-    #[test(aptos_framework = @aptos_framework, validator = @0x123, delegator1 = @0x010, voter1 = @0x030)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            validator = @0x123,
+            delegator1 = @0x010,
+            voter1 = @0x030
+        )
+    ]
     public entry fun test_voting_power_change_for_existing_delegation_pool(
         aptos_framework: &signer,
         validator: &signer,
@@ -5298,7 +5368,8 @@ module aptos_framework::delegation_pool {
             aptos_framework,
             vector[
                 features::get_partial_governance_voting(),
-                features::get_delegation_pool_partial_governance_voting()],
+                features::get_delegation_pool_partial_governance_voting()
+            ],
             vector[],
         );
         // Voter doens't change until enabling partial governance voting on this delegation pool.
@@ -5352,7 +5423,16 @@ module aptos_framework::delegation_pool {
         );
     }
 
-    #[test(aptos_framework = @aptos_framework, validator = @0x123, delegator1 = @0x010, delegator2 = @0x020, voter1 = @0x030, voter2 = @0x040)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            validator = @0x123,
+            delegator1 = @0x010,
+            delegator2 = @0x020,
+            voter1 = @0x030,
+            voter2 = @0x040
+        )
+    ]
     public entry fun test_voting_power_change_for_rewards(
         aptos_framework: &signer,
         validator: &signer,
@@ -5382,7 +5462,8 @@ module aptos_framework::delegation_pool {
             aptos_framework,
             vector[
                 features::get_partial_governance_voting(),
-                features::get_delegation_pool_partial_governance_voting()],
+                features::get_delegation_pool_partial_governance_voting()
+            ],
             vector[],
         );
 
@@ -5524,7 +5605,16 @@ module aptos_framework::delegation_pool {
         );
     }
 
-    #[test(aptos_framework = @aptos_framework, validator = @0x123, delegator1 = @0x010, delegator2 = @0x020, voter1 = @0x030, voter2 = @0x040)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            validator = @0x123,
+            delegator1 = @0x010,
+            delegator2 = @0x020,
+            voter1 = @0x030,
+            voter2 = @0x040
+        )
+    ]
     public entry fun test_voting_power_change_already_voted_before_partial(
         aptos_framework: &signer,
         validator: &signer,
@@ -5572,7 +5662,8 @@ module aptos_framework::delegation_pool {
             aptos_framework,
             vector[
                 features::get_partial_governance_voting(),
-                features::get_delegation_pool_partial_governance_voting()],
+                features::get_delegation_pool_partial_governance_voting()
+            ],
             vector[],
         );
         // Voter doens't change until enabling partial governance voting on this delegation pool.
@@ -5669,7 +5760,14 @@ module aptos_framework::delegation_pool {
         );
     }
 
-    #[test(aptos_framework = @aptos_framework, validator = @0x123, delegator1 = @0x010, voter1 = @0x030)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            validator = @0x123,
+            delegator1 = @0x010,
+            voter1 = @0x030
+        )
+    ]
     #[expected_failure(abort_code = 0x10010, location = Self)]
     public entry fun test_vote_should_failed_if_already_voted_before_enable_partial_voting_flag(
         aptos_framework: &signer,
@@ -5698,7 +5796,8 @@ module aptos_framework::delegation_pool {
             aptos_framework,
             vector[
                 features::get_partial_governance_voting(),
-                features::get_delegation_pool_partial_governance_voting()],
+                features::get_delegation_pool_partial_governance_voting()
+            ],
             vector[],
         );
         // Enable partial governance voting on this delegation pool.
@@ -5707,7 +5806,14 @@ module aptos_framework::delegation_pool {
         vote(delegator1, pool_address, proposal1_id, 10 * ONE_APT, true);
     }
 
-    #[test(aptos_framework = @aptos_framework, validator = @0x123, delegator1 = @0x010, voter1 = @0x030)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            validator = @0x123,
+            delegator1 = @0x010,
+            voter1 = @0x030
+        )
+    ]
     #[expected_failure(abort_code = 0x10011, location = Self)]
     public entry fun test_vote_should_failed_if_already_voted_before_enable_partial_voting_on_pool(
         aptos_framework: &signer,
@@ -5734,7 +5840,8 @@ module aptos_framework::delegation_pool {
             aptos_framework,
             vector[
                 features::get_partial_governance_voting(),
-                features::get_delegation_pool_partial_governance_voting()],
+                features::get_delegation_pool_partial_governance_voting()
+            ],
             vector[],
         );
 
@@ -5767,7 +5874,14 @@ module aptos_framework::delegation_pool {
         vote(delegator1, pool_address, proposal1_id, 10 * ONE_APT, true);
     }
 
-    #[test(aptos_framework = @aptos_framework, validator = @0x123, delegator1 = @0x010, voter1 = @0x030)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            validator = @0x123,
+            delegator1 = @0x010,
+            voter1 = @0x030
+        )
+    ]
     public entry fun test_delegate_voting_power_should_pass_even_if_no_stake(
         aptos_framework: &signer,
         validator: &signer,
@@ -5786,7 +5900,15 @@ module aptos_framework::delegation_pool {
         delegate_voting_power(delegator1, pool_address, signer::address_of(voter1));
     }
 
-    #[test(aptos_framework = @aptos_framework, validator = @0x123, delegator = @0x010, voter1 = @0x020, voter2 = @0x030)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            validator = @0x123,
+            delegator = @0x010,
+            voter1 = @0x020,
+            voter2 = @0x030
+        )
+    ]
     public entry fun test_delegate_voting_power_applies_next_lockup(
         aptos_framework: &signer,
         validator: &signer,
@@ -5800,7 +5922,8 @@ module aptos_framework::delegation_pool {
             aptos_framework,
             vector[
                 features::get_partial_governance_voting(),
-                features::get_delegation_pool_partial_governance_voting()],
+                features::get_delegation_pool_partial_governance_voting()
+            ],
             vector[],
         );
 
@@ -5924,7 +6047,16 @@ module aptos_framework::delegation_pool {
         );
     }
 
-    #[test(aptos_framework = @aptos_framework, validator = @0x123, validator_min_consensus = @0x234, delegator = @0x010, voter1 = @0x020, voter2 = @0x030)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            validator = @0x123,
+            validator_min_consensus = @0x234,
+            delegator = @0x010,
+            voter1 = @0x020,
+            voter2 = @0x030
+        )
+    ]
     public entry fun test_delegate_voting_power_from_inactive_validator(
         aptos_framework: &signer,
         validator: &signer,
@@ -5939,7 +6071,8 @@ module aptos_framework::delegation_pool {
             aptos_framework,
             vector[
                 features::get_partial_governance_voting(),
-                features::get_delegation_pool_partial_governance_voting()],
+                features::get_delegation_pool_partial_governance_voting()
+            ],
             vector[],
         );
 
@@ -6116,7 +6249,14 @@ module aptos_framework::delegation_pool {
         evict_delegator(validator, signer::address_of(delegator_1));
     }
 
-    #[test(aptos_framework = @aptos_framework, validator = @0x123, delegator_1 = @0x010, delegator_2 = @0x020)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            validator = @0x123,
+            delegator_1 = @0x010,
+            delegator_2 = @0x020
+        )
+    ]
     public entry fun test_allowlist_operations_only_e2e(
         aptos_framework: &signer,
         validator: &signer,
@@ -6160,8 +6300,8 @@ module aptos_framework::delegation_pool {
         allowlist = &get_delegators_allowlist(pool_address);
         assert!(
             vector::length(allowlist) == 2
-            && vector::contains(allowlist, &delegator_1_address)
-            && vector::contains(allowlist, &delegator_2_address),
+                && vector::contains(allowlist, &delegator_1_address)
+                && vector::contains(allowlist, &delegator_2_address),
             0,
         );
 
@@ -6362,7 +6502,14 @@ module aptos_framework::delegation_pool {
         assert_delegation(delegator_1_address, pool_address, 0, 0, 4999999999);
     }
 
-    #[test(aptos_framework = @aptos_framework, validator = @0x123, delegator_1 = @0x010, delegator_2 = @0x020)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            validator = @0x123,
+            delegator_1 = @0x010,
+            delegator_2 = @0x020
+        )
+    ]
     public entry fun test_delegation_pool_allowlisting_e2e(
         aptos_framework: &signer,
         validator: &signer,
@@ -6574,7 +6721,8 @@ module aptos_framework::delegation_pool {
                 aptos_framework,
                 vector[
                     features::get_partial_governance_voting(),
-                    features::get_delegation_pool_partial_governance_voting()],
+                    features::get_delegation_pool_partial_governance_voting()
+                ],
                 vector[],
             );
             enable_partial_governance_voting(pool_address);

@@ -66,7 +66,7 @@ module publisher_address::liquidity_pool_wrapper {
 
         let tokens =
             if (primary_fungible_store::balance(signer::address_of(user), from_token)
-                    >= amount_in) {
+                >= amount_in) {
                 primary_fungible_store::withdraw(user, from_token, amount_in)
             } else {
                 fungible_asset::mint(from_mint, amount_in)

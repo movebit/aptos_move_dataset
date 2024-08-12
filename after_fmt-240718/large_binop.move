@@ -1,7 +1,7 @@
 script {
     fun main() {
         (true
-                && true)
+            && true)
             && (!false)
             || (1 << 7 == 128)
                 && (128 >> 7 == 1)
@@ -15,7 +15,7 @@ script {
                 && (x"42" == x"42")
             || (b"hello" != b"bye")
                 && (true
-                        && true)
+                    && true)
                 && (!false)
             || (1 << 7 == 128)
                 && (128 >> 7 == 1)
@@ -29,7 +29,7 @@ script {
                 && (x"42" == x"42")
             || (b"hello" != b"bye")
                 && (true
-                        && true)
+                    && true)
                 && (!false)
             || (1 << 7 == 128)
                 && (128 >> 7 == 1)
@@ -43,7 +43,7 @@ script {
                 && (x"42" == x"42")
             || (b"hello" != b"bye")
                 && (true
-                        && true)
+                    && true)
                 && (!false)
             || (1 << 7 == 128)
                 && (128 >> 7 == 1)
@@ -57,7 +57,7 @@ script {
                 && (x"42" == x"42")
             || (b"hello" != b"bye")
                 && (true
-                        && true)
+                    && true)
                 && (!false)
             || (1 << 7 == 128)
                 && (128 >> 7 == 1)
@@ -71,7 +71,7 @@ script {
                 && (x"42" == x"42")
             || (b"hello" != b"bye")
                 && (true
-                        && true)
+                    && true)
                 && (!false)
             || (1 << 7 == 128)
                 && (128 >> 7 == 1)
@@ -85,7 +85,7 @@ script {
                 && (x"42" == x"42")
             || (b"hello" != b"bye")
                 && (true
-                        && true)
+                    && true)
                 && (!false)
             || (1 << 7 == 128)
                 && (128 >> 7 == 1)
@@ -99,7 +99,7 @@ script {
                 && (x"42" == x"42")
             || (b"hello" != b"bye")
                 && (true
-                        && true)
+                    && true)
                 && (!false)
             || (1 << 7 == 128)
                 && (128 >> 7 == 1)
@@ -113,7 +113,7 @@ script {
                 && (x"42" == x"42")
             || (b"hello" != b"bye")
                 && (true
-                        && true)
+                    && true)
                 && (!false)
             || (1 << 7 == 128)
                 && (128 >> 7 == 1)
@@ -127,7 +127,7 @@ script {
                 && (x"42" == x"42")
             || (b"hello" != b"bye")
                 && (true
-                        && true)
+                    && true)
                 && (!false)
             || (1 << 7 == 128)
                 && (128 >> 7 == 1)

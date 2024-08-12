@@ -70,30 +70,30 @@ spec aptos_framework::transaction_validation {
         let transaction_sender = signer::address_of(sender);
 
         aborts_if (
-                !features::spec_is_enabled(features::SPONSORED_AUTOMATIC_ACCOUNT_CREATION)
+            !features::spec_is_enabled(features::SPONSORED_AUTOMATIC_ACCOUNT_CREATION)
                 || account::exists_at(transaction_sender)
                 || transaction_sender == gas_payer
                 || txn_sequence_number > 0
-            )
+        )
             && (
                 !(
                     txn_sequence_number
                         >= global<Account>(transaction_sender).sequence_number
                 )
-                || !(
-                    txn_authentication_key
-                        == global<Account>(transaction_sender).authentication_key
-                )
-                || !account::exists_at(transaction_sender)
-                || !(
-                    txn_sequence_number
-                        == global<Account>(transaction_sender).sequence_number
-                )
+                    || !(
+                        txn_authentication_key
+                            == global<Account>(transaction_sender).authentication_key
+                    )
+                    || !account::exists_at(transaction_sender)
+                    || !(
+                        txn_sequence_number
+                            == global<Account>(transaction_sender).sequence_number
+                    )
             );
 
         aborts_if features::spec_is_enabled(
-                features::SPONSORED_AUTOMATIC_ACCOUNT_CREATION
-            )
+            features::SPONSORED_AUTOMATIC_ACCOUNT_CREATION
+        )
             && transaction_sender != gas_payer
             && txn_sequence_number == 0
             && !account::exists_at(transaction_sender)

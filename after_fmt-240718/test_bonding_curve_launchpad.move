@@ -45,7 +45,12 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
 
     //---------------------------Unit Tests---------------------------
     #[test(deployer = @bonding_curve_launchpad)]
-    #[expected_failure(abort_code = liquidity_pairs::ELIQUIDITY_PAIR_DOES_NOT_EXIST, location = liquidity_pairs)]
+    #[
+        expected_failure(
+            abort_code = liquidity_pairs::ELIQUIDITY_PAIR_DOES_NOT_EXIST,
+            location = liquidity_pairs
+        )
+    ]
     public fun test_nonexistant_is_frozen(deployer: &signer) {
         account::create_account_for_test(@0x1);
         liquidity_pairs::initialize_for_test(deployer);
@@ -67,7 +72,14 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
     }
 
     //---------------------------E2E Tests---------------------------
-    #[test(aptos_framework = @0x1, swap_dex_signer = @0xcafe, bcl_owner_signer = @bonding_curve_launchpad, bonding_curve_creator = @0x803)]
+    #[
+        test(
+            aptos_framework = @0x1,
+            swap_dex_signer = @0xcafe,
+            bcl_owner_signer = @bonding_curve_launchpad,
+            bonding_curve_creator = @0x803
+        )
+    ]
     fun test_e2e_bonding_curve_creation(
         aptos_framework: &signer,
         swap_dex_signer: &signer,
@@ -105,7 +117,14 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         );
     }
 
-    #[test(aptos_framework = @0x1, swap_dex_signer = @0xcafe, bcl_owner_signer = @bonding_curve_launchpad, bonding_curve_creator = @0x803)]
+    #[
+        test(
+            aptos_framework = @0x1,
+            swap_dex_signer = @0xcafe,
+            bcl_owner_signer = @bonding_curve_launchpad,
+            bonding_curve_creator = @0x803
+        )
+    ]
     fun test_e2e_bonding_curve_creation_with_initial_liquidity(
         aptos_framework: &signer,
         swap_dex_signer: &signer,
@@ -143,7 +162,14 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         );
     }
 
-    #[test(aptos_framework = @0x1, swap_dex_signer = @0xcafe, bcl_owner_signer = @bonding_curve_launchpad, bonding_curve_creator = @0x803)]
+    #[
+        test(
+            aptos_framework = @0x1,
+            swap_dex_signer = @0xcafe,
+            bcl_owner_signer = @bonding_curve_launchpad,
+            bonding_curve_creator = @0x803
+        )
+    ]
     fun test_e2e_bonding_curve_creation_multiple(
         aptos_framework: &signer,
         swap_dex_signer: &signer,
@@ -187,7 +213,14 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         );
     }
 
-    #[test(aptos_framework = @0x1, swap_dex_signer = @0xcafe, bcl_owner_signer = @bonding_curve_launchpad, bonding_curve_creator = @0x803)]
+    #[
+        test(
+            aptos_framework = @0x1,
+            swap_dex_signer = @0xcafe,
+            bcl_owner_signer = @bonding_curve_launchpad,
+            bonding_curve_creator = @0x803
+        )
+    ]
     fun test_e2e_directional_swaps(
         aptos_framework: &signer,
         swap_dex_signer: &signer,
@@ -230,7 +263,14 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         );
     }
 
-    #[test(aptos_framework = @0x1, swap_dex_signer = @0xcafe, bcl_owner_signer = @bonding_curve_launchpad, bonding_curve_creator = @0x803)]
+    #[
+        test(
+            aptos_framework = @0x1,
+            swap_dex_signer = @0xcafe,
+            bcl_owner_signer = @bonding_curve_launchpad,
+            bonding_curve_creator = @0x803
+        )
+    ]
     fun test_e2e_graduation(
         aptos_framework: &signer,
         swap_dex_signer: &signer,
@@ -286,8 +326,20 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
     }
 
     // ----E2E EXPECTED FAILING-----
-    #[test(aptos_framework = @0x1, swap_dex_signer = @0xcafe, bcl_owner_signer = @bonding_curve_launchpad, bonding_curve_creator = @0x803)]
-    #[expected_failure(abort_code = bonding_curve_launchpad::bonding_curve_launchpad::EFA_EXISTS_ALREADY, location = bonding_curve_launchpad)]
+    #[
+        test(
+            aptos_framework = @0x1,
+            swap_dex_signer = @0xcafe,
+            bcl_owner_signer = @bonding_curve_launchpad,
+            bonding_curve_creator = @0x803
+        )
+    ]
+    #[
+        expected_failure(
+            abort_code = bonding_curve_launchpad::bonding_curve_launchpad::EFA_EXISTS_ALREADY,
+            location = bonding_curve_launchpad
+        )
+    ]
     fun test_e2e_failing_duplicate_FA(
         aptos_framework: &signer,
         swap_dex_signer: &signer,
@@ -318,8 +370,19 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         );
     }
 
-    #[test(aptos_framework = @0x1, swap_dex_signer = @0xcafe, bcl_owner_signer = @bonding_curve_launchpad, bonding_curve_creator = @0x803)]
-    #[expected_failure(abort_code = liquidity_pairs::ELIQUIDITY_PAIR_DISABLED, location = liquidity_pairs)]
+    #[
+        test(
+            aptos_framework = @0x1,
+            swap_dex_signer = @0xcafe,
+            bcl_owner_signer = @bonding_curve_launchpad,
+            bonding_curve_creator = @0x803
+        )
+    ]
+    #[
+        expected_failure(
+            abort_code = liquidity_pairs::ELIQUIDITY_PAIR_DISABLED, location = liquidity_pairs
+        )
+    ]
     fun test_e2e_failing_apt_swap_after_graduation(
         aptos_framework: &signer,
         swap_dex_signer: &signer,
@@ -341,8 +404,19 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         ); // APT -> FA
     }
 
-    #[test(aptos_framework = @0x1, swap_dex_signer = @0xcafe, bcl_owner_signer = @bonding_curve_launchpad, bonding_curve_creator = @0x803)]
-    #[expected_failure(abort_code = liquidity_pairs::ELIQUIDITY_PAIR_DISABLED, location = liquidity_pairs)]
+    #[
+        test(
+            aptos_framework = @0x1,
+            swap_dex_signer = @0xcafe,
+            bcl_owner_signer = @bonding_curve_launchpad,
+            bonding_curve_creator = @0x803
+        )
+    ]
+    #[
+        expected_failure(
+            abort_code = liquidity_pairs::ELIQUIDITY_PAIR_DISABLED, location = liquidity_pairs
+        )
+    ]
     fun test_e2e_failing_fa_swap_after_graduation(
         aptos_framework: &signer,
         swap_dex_signer: &signer,
@@ -364,7 +438,14 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         ); // FA -> APT
     }
 
-    #[test(aptos_framework = @0x1, swap_dex_signer = @0xcafe, bcl_owner_signer = @bonding_curve_launchpad, bonding_curve_creator = @0x803)]
+    #[
+        test(
+            aptos_framework = @0x1,
+            swap_dex_signer = @0xcafe,
+            bcl_owner_signer = @bonding_curve_launchpad,
+            bonding_curve_creator = @0x803
+        )
+    ]
     #[expected_failure(abort_code = 393218, location = aptos_framework::object)]
     fun test_e2e_failing_swap_of_nonexistant_fa(
         aptos_framework: &signer,
@@ -383,8 +464,20 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         );
     }
 
-    #[test(aptos_framework = @0x1, swap_dex_signer = @0xcafe, bcl_owner_signer = @bonding_curve_launchpad, bonding_curve_creator = @0x803)]
-    #[expected_failure(abort_code = bonding_curve_launchpad::bonding_curve_launchpad::EFA_FROZEN, location = bonding_curve_launchpad)]
+    #[
+        test(
+            aptos_framework = @0x1,
+            swap_dex_signer = @0xcafe,
+            bcl_owner_signer = @bonding_curve_launchpad,
+            bonding_curve_creator = @0x803
+        )
+    ]
+    #[
+        expected_failure(
+            abort_code = bonding_curve_launchpad::bonding_curve_launchpad::EFA_FROZEN,
+            location = bonding_curve_launchpad
+        )
+    ]
     fun test_e2e_failing_transfer_of_frozen_fa(
         aptos_framework: &signer,
         swap_dex_signer: &signer,
@@ -407,8 +500,20 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         );
     }
 
-    #[test(aptos_framework = @0x1, swap_dex_signer = @0xcafe, bcl_owner_signer = @bonding_curve_launchpad, bonding_curve_creator = @0x803)]
-    #[expected_failure(abort_code = bonding_curve_launchpad::bonding_curve_launchpad::ELIQUIDITY_PAIR_SWAP_AMOUNTIN_INVALID, location = bonding_curve_launchpad)]
+    #[
+        test(
+            aptos_framework = @0x1,
+            swap_dex_signer = @0xcafe,
+            bcl_owner_signer = @bonding_curve_launchpad,
+            bonding_curve_creator = @0x803
+        )
+    ]
+    #[
+        expected_failure(
+            abort_code = bonding_curve_launchpad::bonding_curve_launchpad::ELIQUIDITY_PAIR_SWAP_AMOUNTIN_INVALID,
+            location = bonding_curve_launchpad
+        )
+    ]
     fun test_e2e_failing_swap_of_zero_input_apt(
         aptos_framework: &signer,
         swap_dex_signer: &signer,
@@ -430,8 +535,20 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         ); // APT -> FA
     }
 
-    #[test(aptos_framework = @0x1, swap_dex_signer = @0xcafe, bcl_owner_signer = @bonding_curve_launchpad, bonding_curve_creator = @0x803)]
-    #[expected_failure(abort_code = bonding_curve_launchpad::bonding_curve_launchpad::ELIQUIDITY_PAIR_SWAP_AMOUNTIN_INVALID, location = bonding_curve_launchpad)]
+    #[
+        test(
+            aptos_framework = @0x1,
+            swap_dex_signer = @0xcafe,
+            bcl_owner_signer = @bonding_curve_launchpad,
+            bonding_curve_creator = @0x803
+        )
+    ]
+    #[
+        expected_failure(
+            abort_code = bonding_curve_launchpad::bonding_curve_launchpad::ELIQUIDITY_PAIR_SWAP_AMOUNTIN_INVALID,
+            location = bonding_curve_launchpad
+        )
+    ]
     fun test_e2e_failing_swap_of_zero_input_fa(
         aptos_framework: &signer,
         swap_dex_signer: &signer,
@@ -453,8 +570,20 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         ); // Swap afer graduation, guaranteed to fail. FA -> APT
     }
 
-    #[test(aptos_framework = @0x1, swap_dex_signer = @0xcafe, bcl_owner_signer = @bonding_curve_launchpad, bonding_curve_creator = @0x803)]
-    #[expected_failure(abort_code = liquidity_pairs::EFA_PRIMARY_STORE_DOES_NOT_EXIST, location = liquidity_pairs)]
+    #[
+        test(
+            aptos_framework = @0x1,
+            swap_dex_signer = @0xcafe,
+            bcl_owner_signer = @bonding_curve_launchpad,
+            bonding_curve_creator = @0x803
+        )
+    ]
+    #[
+        expected_failure(
+            abort_code = liquidity_pairs::EFA_PRIMARY_STORE_DOES_NOT_EXIST,
+            location = liquidity_pairs
+        )
+    ]
     fun test_e2e_failing_swap_of_user_without_fa(
         aptos_framework: &signer,
         swap_dex_signer: &signer,

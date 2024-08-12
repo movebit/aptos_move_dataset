@@ -504,7 +504,8 @@ module DiemFramework::DualAttestation {
         metadata: vector<u8>,
         metadata_signature: vector<u8>
     ) acquires Credential, Limit {
-        if (!vector::is_empty(&metadata_signature)
+        if (
+            !vector::is_empty(&metadata_signature)
                 || // allow opt-in dual attestation
                 dual_attestation_required<Currency>(payer, payee, value)) {
             assert_signature_is_valid(payer, payee, metadata_signature, metadata, value)

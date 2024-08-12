@@ -145,20 +145,20 @@ spec aptos_framework::aptos_account {
         aborts_if exists i in 0..len(recipients): !account::exists_at(recipients[i])
             && (
                 recipients[i] == @vm_reserved
-                || recipients[i] == @aptos_framework
-                || recipients[i] == @aptos_token
+                    || recipients[i] == @aptos_framework
+                    || recipients[i] == @aptos_token
             );
         ensures forall i in 0..len(recipients): (
-                !account::exists_at(recipients[i]) ==>
+            !account::exists_at(recipients[i]) ==>
                 !length_judgment(recipients[i])
-            )
+        )
             && (
                 !account::exists_at(recipients[i]) ==>
-                (
-                    recipients[i] != @vm_reserved
-                    && recipients[i] != @aptos_framework
-                    && recipients[i] != @aptos_token
-                )
+                    (
+                        recipients[i] != @vm_reserved
+                            && recipients[i] != @aptos_framework
+                            && recipients[i] != @aptos_token
+                    )
             );
 
         // coin::withdraw properties
@@ -218,20 +218,20 @@ spec aptos_framework::aptos_account {
         aborts_if exists i in 0..len(recipients): !account::exists_at(recipients[i])
             && (
                 recipients[i] == @vm_reserved
-                || recipients[i] == @aptos_framework
-                || recipients[i] == @aptos_token
+                    || recipients[i] == @aptos_framework
+                    || recipients[i] == @aptos_token
             );
         ensures forall i in 0..len(recipients): (
-                !account::exists_at(recipients[i]) ==>
+            !account::exists_at(recipients[i]) ==>
                 !length_judgment(recipients[i])
-            )
+        )
             && (
                 !account::exists_at(recipients[i]) ==>
-                (
-                    recipients[i] != @vm_reserved
-                    && recipients[i] != @aptos_framework
-                    && recipients[i] != @aptos_token
-                )
+                    (
+                        recipients[i] != @vm_reserved
+                            && recipients[i] != @aptos_framework
+                            && recipients[i] != @aptos_token
+                    )
             );
 
         // coin::withdraw properties

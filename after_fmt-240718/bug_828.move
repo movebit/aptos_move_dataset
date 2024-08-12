@@ -6,11 +6,11 @@ module 0x42::test {
             assert old_i == 50;
         };
         while ({
-                spec {
-                    invariant old_i <= i && i <= 100;
-                };
-                i < 100
-            }) {
+            spec {
+                invariant old_i <= i && i <= 100;
+            };
+            i < 100
+        }) {
             spec {
                 // fail to prove before the fix
                 assert old_i == 50;

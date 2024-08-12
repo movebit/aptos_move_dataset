@@ -688,7 +688,9 @@ module listing_tests {
         assert!(coin::balance<AptosCoin>(purchaser_addr) == 9500, 0);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     fun test_fixed_price_high_royalty(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -724,7 +726,9 @@ module listing_tests {
         assert!(coin::balance<AptosCoin>(purchaser_addr) == 9500, 0);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     fun test_fixed_price_end(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -748,7 +752,9 @@ module listing_tests {
         assert!(object::owner(token) == seller_addr, 0);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     fun test_auction_purchase(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -789,7 +795,9 @@ module listing_tests {
         assert!(coin::balance<AptosCoin>(purchaser_addr) == 9500, 0);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     fun test_auction_bid_then_purchase(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -837,7 +845,9 @@ module listing_tests {
         assert!(coin::balance<AptosCoin>(purchaser_addr) == 9498, 0);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     fun test_auction_bidding(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -880,7 +890,9 @@ module listing_tests {
         assert!(coin::balance<AptosCoin>(seller_addr) == 10146, 0);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     fun test_ended_auction_no_bid(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -907,7 +919,9 @@ module listing_tests {
         assert!(coin::balance<AptosCoin>(seller_addr) == 9999, 0);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x30002, location = marketplace::listing)]
     fun test_not_started_fixed_price(
         aptos_framework: &signer,
@@ -931,7 +945,9 @@ module listing_tests {
         coin_listing::purchase<AptosCoin>(purchaser, listing);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x30002, location = marketplace::listing)]
     fun test_not_started_auction(
         aptos_framework: &signer,
@@ -959,7 +975,9 @@ module listing_tests {
         coin_listing::bid<AptosCoin>(purchaser, listing, 1000);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x30005, location = marketplace::coin_listing)]
     fun test_ended_auction_bid(
         aptos_framework: &signer,
@@ -974,7 +992,9 @@ module listing_tests {
         coin_listing::bid<AptosCoin>(purchaser, listing, 1000);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x30005, location = marketplace::coin_listing)]
     fun test_ended_auction_purchase(
         aptos_framework: &signer,
@@ -989,7 +1009,9 @@ module listing_tests {
         coin_listing::purchase<AptosCoin>(purchaser, listing);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x10006, location = aptos_framework::coin)]
     fun test_not_enough_coin_fixed_price(
         aptos_framework: &signer,
@@ -1013,7 +1035,9 @@ module listing_tests {
         coin_listing::purchase<AptosCoin>(purchaser, listing);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x10006, location = aptos_framework::coin)]
     fun test_not_enough_coin_auction_bid(
         aptos_framework: &signer,
@@ -1027,7 +1051,9 @@ module listing_tests {
         coin_listing::bid<AptosCoin>(purchaser, listing, 100000);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x10003, location = marketplace::coin_listing)]
     fun test_bid_too_low(
         aptos_framework: &signer,
@@ -1042,7 +1068,9 @@ module listing_tests {
         coin_listing::bid<AptosCoin>(purchaser, listing, 125);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x10006, location = aptos_framework::coin)]
     fun test_not_enough_coin_auction_purchase(
         aptos_framework: &signer,
@@ -1070,7 +1098,9 @@ module listing_tests {
         coin_listing::purchase<AptosCoin>(purchaser, listing);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x60001, location = marketplace::coin_listing)]
     fun test_auction_view_on_fixed_price(
         aptos_framework: &signer,
@@ -1084,7 +1114,9 @@ module listing_tests {
         coin_listing::auction_end_time<AptosCoin>(listing);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x10002, location = marketplace::coin_listing)]
     fun test_purchase_on_auction_without_buy_it_now(
         aptos_framework: &signer,
@@ -1112,7 +1144,9 @@ module listing_tests {
         coin_listing::purchase<AptosCoin>(purchaser, listing);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x50006, location = marketplace::coin_listing)]
     fun test_bad_fixed_price_end(
         aptos_framework: &signer,
@@ -1174,7 +1208,9 @@ module listing_tests {
 
     // TokenV1
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     fun test_fixed_price_for_token_v1(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -1196,7 +1232,9 @@ module listing_tests {
         assert!(tokenv1::balance_of(purchaser_addr, token_id) == 1, 0);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     fun test_fixed_price_for_token_v1_high_royalty(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -1221,7 +1259,9 @@ module listing_tests {
         // TODO balance checks
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     fun test_fixed_price_for_token_v1_bad_royalty(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -1247,7 +1287,9 @@ module listing_tests {
         // TODO balance checks
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     fun test_auction_purchase_for_tokenv1(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -1269,7 +1311,9 @@ module listing_tests {
         assert!(tokenv1::balance_of(purchaser_addr, token_id) == 1, 0);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     fun test_auction_purchase_for_tokenv1_without_direct_transfer(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -1290,7 +1334,9 @@ module listing_tests {
         assert!(tokenv1::balance_of(purchaser_addr, token_id) == 1, 0);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     fun test_auction_win_for_tokenv1_without_direct_transfer_and_non_winner_completer(
         aptos_framework: &signer,
         marketplace: &signer,

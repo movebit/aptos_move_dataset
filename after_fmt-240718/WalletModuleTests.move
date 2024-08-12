@@ -35,8 +35,8 @@ module DiemFramework::ApprovalGroup {
         hash: vector<u8>,
     ): bool {
         (copy pk == *&group.pk1
-                || copy pk == *&group.pk2
-                || copy pk == *&group.pk3)
+            || copy pk == *&group.pk2
+            || copy pk == *&group.pk3)
             && Signature::ed25519_verify(sig, pk, hash)
     }
 
@@ -191,7 +191,13 @@ module DiemFramework::WalletModuleTests {
     use DiemFramework::ColdWallet;
 
     // private-key: 2f2bbeb071948c4ca586b0fa0f3663520fc3053056e79955059520d626117cdb
-    #[test(dr = @DiemRoot, tc = @TreasuryCompliance, account = @0xc2422587142d78bdf5a8068b8f9a2859)]
+    #[
+        test(
+            dr = @DiemRoot,
+            tc = @TreasuryCompliance,
+            account = @0xc2422587142d78bdf5a8068b8f9a2859
+        )
+    ]
     fun wallet_module_test(dr: signer, tc: signer, account: signer) {
         Genesis::setup(&dr, &tc);
         DiemAccount::create_parent_vasp_account<XUS>(

@@ -10,7 +10,7 @@ module 0x42::test {
 
     spec f1 {
         invariant forall i in 0..len(pool), j in 0..len(pool): (pool[i] == pool[j]) ==> (i ==
-             j);
+         j);
 
         ensures forall a: address where a != addr: old(contains(pool, a)) ==> contains(
             pool, a
@@ -34,7 +34,7 @@ module 0x42::test {
 
         invariant forall addr: address: (
             table::spec_contains(pool.shares, addr) <==>
-            contains(pool.holders, addr)
+                contains(pool.holders, addr)
         );
 
         pragma verify = false; // timeout with the default array theory

@@ -132,7 +132,14 @@ module veiled_coin::veiled_coin_tests {
     // Tests
     //
 
-    #[test(veiled_coin = @veiled_coin, aptos_fx = @aptos_framework, sender = @0xc0ffee, recipient = @0x1337)]
+    #[
+        test(
+            veiled_coin = @veiled_coin,
+            aptos_fx = @aptos_framework,
+            sender = @0xc0ffee,
+            recipient = @0x1337
+        )
+    ]
     fun veil_test(
         veiled_coin: signer,
         aptos_fx: signer,
@@ -366,7 +373,14 @@ module veiled_coin::veiled_coin_tests {
         assert!(remaining_public_balance == veiled_coin::cast_u32_to_u64_amount(400), 3);
     }
 
-    #[test(veiled_coin = @veiled_coin, aptos_fx = @aptos_framework, sender = @0xc0ffee, recipient = @0x1337)]
+    #[
+        test(
+            veiled_coin = @veiled_coin,
+            aptos_fx = @aptos_framework,
+            sender = @0xc0ffee,
+            recipient = @0x1337
+        )
+    ]
     fun basic_viability_test(
         veiled_coin: signer,
         aptos_fx: signer,

@@ -819,7 +819,14 @@ module aptos_framework::delegation_pool_integration_tests {
         mint_and_add_stake(validator_1, 51 * ONE_APT);
     }
 
-    #[test(aptos_framework = @0x1, validator_1 = @0x123, validator_2 = @0x234, validator_3 = @0x345)]
+    #[
+        test(
+            aptos_framework = @0x1,
+            validator_1 = @0x123,
+            validator_2 = @0x234,
+            validator_3 = @0x345
+        )
+    ]
     public entry fun test_multiple_validators_join_and_leave(
         aptos_framework: &signer,
         validator_1: &signer,
@@ -1036,7 +1043,16 @@ module aptos_framework::delegation_pool_integration_tests {
         stake::leave_validator_set(validator, validator_address);
     }
 
-    #[test(aptos_framework = @aptos_framework, validator_1 = @aptos_framework, validator_2 = @0x2, validator_3 = @0x3, validator_4 = @0x4, validator_5 = @0x5)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            validator_1 = @aptos_framework,
+            validator_2 = @0x2,
+            validator_3 = @0x3,
+            validator_4 = @0x4,
+            validator_5 = @0x5
+        )
+    ]
     public entry fun test_staking_validator_index(
         aptos_framework: &signer,
         validator_1: &signer,

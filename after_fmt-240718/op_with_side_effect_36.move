@@ -6,12 +6,12 @@ module 0xc0ffee::m {
         let y;
         let z;
         (x, y, z) = (a, {
-                a = a + 1;
-                a
-            }, {
-                a = a + 1;
-                a
-            });
+            a = a + 1;
+            a
+        }, {
+            a = a + 1;
+            a
+        });
         x + y + z
     }
 }

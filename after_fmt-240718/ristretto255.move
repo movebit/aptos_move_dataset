@@ -981,14 +981,16 @@ module aptos_std::ristretto255 {
             new_scalar_from_sha2_512(b"2"),
             new_scalar_from_sha2_512(b"3"),
             new_scalar_from_sha2_512(b"4"),
-            new_scalar_from_sha2_512(b"5"),];
+            new_scalar_from_sha2_512(b"5"),
+        ];
 
         let points = vector[
             new_point_from_sha2_512(b"1"),
             new_point_from_sha2_512(b"2"),
             new_point_from_sha2_512(b"3"),
             new_point_from_sha2_512(b"4"),
-            new_point_from_sha2_512(b"5"),];
+            new_point_from_sha2_512(b"5"),
+        ];
 
         let expected =
             std::option::extract(
@@ -1092,7 +1094,8 @@ module aptos_std::ristretto255 {
         // Non-canonical because high bit is set
         let non_canonical_highbit = vector[
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 128];
+            0, 0, 0, 0, 0, 128
+        ];
         let non_canonical_highbit_hex =
             x"0000000000000000000000000000000000000000000000000000000000000080";
         assert!(non_canonical_highbit == non_canonical_highbit_hex, 1);
@@ -1173,7 +1176,8 @@ module aptos_std::ristretto255 {
 
         let expected: vector<u8> = vector[
             21, 88, 208, 252, 63, 122, 210, 152, 154, 38, 15, 23, 16, 167, 80, 150, 192,
-            221, 77, 226, 62, 25, 224, 148, 239, 48, 176, 10, 185, 69, 168, 11];
+            221, 77, 226, 62, 25, 224, 148, 239, 48, 176, 10, 185, 69, 168, 11
+        ];
 
         assert!(s.data == expected, 1)
     }

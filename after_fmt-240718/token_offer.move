@@ -524,7 +524,9 @@ module token_offer_tests {
     use marketplace::test_utils;
     use std::option;
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     fun test_token_v2(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -566,7 +568,9 @@ module token_offer_tests {
         assert!(object::is_owner(token, purchaser_addr), 0);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     fun test_token_v1_direct_deposit(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -615,7 +619,9 @@ module token_offer_tests {
         assert!(!token_offer::exists_at(token_offer), 0);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     fun test_token_v1_indirect(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -660,7 +666,9 @@ module token_offer_tests {
         assert!(!token_offer::exists_at(token_offer), 0);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x50003, location = marketplace::token_offer)]
     fun test_token_v2_has_none(
         aptos_framework: &signer,
@@ -681,7 +689,9 @@ module token_offer_tests {
         token_offer::sell_tokenv2<AptosCoin>(marketplace, token_offer);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x10005, location = aptos_token::token)]
     fun test_token_v1_has_none(
         aptos_framework: &signer,
@@ -714,7 +724,9 @@ module token_offer_tests {
         );
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x30006, location = marketplace::token_offer)]
     fun test_token_v2_expired(
         aptos_framework: &signer,
@@ -736,7 +748,9 @@ module token_offer_tests {
         token_offer::sell_tokenv2<AptosCoin>(seller, token_offer);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x60001, location = marketplace::token_offer)]
     fun test_token_v2_exhausted(
         aptos_framework: &signer,
@@ -758,7 +772,9 @@ module token_offer_tests {
         token_offer::sell_tokenv2<AptosCoin>(purchaser, token_offer);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x50003, location = marketplace::token_offer)]
     fun test_token_v2_other_token(
         aptos_framework: &signer,
@@ -781,7 +797,9 @@ module token_offer_tests {
         token_offer::sell_tokenv2<AptosCoin>(marketplace, token_offer);
     }
 
-    #[test(aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333)]
+    #[test(
+        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x10005, location = aptos_token::token)]
     fun test_token_v1_other_token(
         aptos_framework: &signer,

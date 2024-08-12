@@ -142,11 +142,10 @@ module DiemFramework::CRSN {
 
         // Don't accept if it's outside of the window
         if ((sequence_nonce < crsn.min_nonce)
-                || (
-                    (sequence_nonce as u128)
-                        >= (crsn.min_nonce as u128)
-                            + (bit_vector::length(&crsn.slots) as u128)
-                )) { false }
+            || (
+                (sequence_nonce as u128)
+                    >= (crsn.min_nonce as u128) + (bit_vector::length(&crsn.slots) as u128)
+            )) { false }
         else {
             // scaled nonce is the index in the window
             let scaled_nonce = sequence_nonce - crsn.min_nonce;
@@ -179,7 +178,7 @@ module DiemFramework::CRSN {
     spec fun spec_check(addr: address, sequence_nonce: u64): bool {
         let crsn = global<CRSN>(addr);
         if ((sequence_nonce < crsn.min_nonce)
-                || (sequence_nonce >= crsn.min_nonce + bit_vector::length(crsn.slots))) {
+            || (sequence_nonce >= crsn.min_nonce + bit_vector::length(crsn.slots))) {
             false
         } else {
             let scaled_nonce = sequence_nonce - crsn.min_nonce;

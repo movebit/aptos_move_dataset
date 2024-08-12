@@ -21,8 +21,8 @@ module M {
 
     fun t2() {
         foo(loop {
-                break
-            })
+            break
+        })
     }
 
     fun foo(x: u64) {}

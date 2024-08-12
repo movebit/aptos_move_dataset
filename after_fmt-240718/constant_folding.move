@@ -32,10 +32,11 @@ module 0xcafe::MyModule {
             false,
             // ?
             !((true
-                    && false)
+                && false)
                 || (false
                     || true)
-                && true) || true];
+                    && true) || true
+        ];
         let xbool2 = vector[
             true, true, true, true, true, true, true, // 7 true
             false, false, false, false, false, false, false, // 7 false
@@ -48,7 +49,8 @@ module 0xcafe::MyModule {
             false, // false
             true, // true
             false, // false
-            true];
+            true
+        ];
         assert!(
             vector::length(&xbool) == vector::length(&xbool2),
             vector::length(&xbool) - vector::length(&xbool),
@@ -100,7 +102,8 @@ module 0xcafe::MyModule {
                 (340282366920938463463374607431768211455340282366920938463463374607: u256) ^(
                     340282366920938463463374607431768211455: u256
                 ) as u256
-            ), 0];
+            ), 0
+        ];
         let xnum2 = vector<u256>[
             128, // 1 << 7
             9223372036854775808, // 1 << 63,
@@ -158,7 +161,7 @@ module 0xcafe::MyModule {
             ();
             ();
             (true
-                    && true)
+                && true)
                 && (!false)
                 && (1 << 7 == 128)
                 && (128 >> 7 == 1)

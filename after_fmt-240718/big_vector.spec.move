@@ -26,17 +26,17 @@ spec aptos_std::big_vector {
         invariant spec_table_len(buckets) == (end_index + bucket_size - 1) / bucket_size;
         // ensure bucket lengths add up to `end_index`
         invariant (spec_table_len(buckets) == 0
-                && end_index == 0)
+            && end_index == 0)
             || (
                 spec_table_len(buckets) != 0
-                && ((spec_table_len(buckets) - 1) * bucket_size)
-                    + (
-                        len(
-                            table_with_length::spec_get(
-                                buckets, spec_table_len(buckets) - 1
-                            ),
-                        )
-                    ) == end_index
+                    && ((spec_table_len(buckets) - 1) * bucket_size)
+                        + (
+                            len(
+                                table_with_length::spec_get(
+                                    buckets, spec_table_len(buckets) - 1
+                                ),
+                            )
+                        ) == end_index
             );
         // ensures that no out-of-bound buckets exist
         invariant forall i: u64 where i >= spec_table_len(buckets): {

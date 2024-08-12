@@ -106,9 +106,9 @@ module message_board::MessageBoardTests {
     use message_board::acl_based_mb;
 
     const HELLO_WORLD: vector<u8> = vector<u8>[150, 145, 154, 154, 157, 040, 167, 157, 162,
-        154, 144];
+    154, 144];
     const BOB_IS_HERE: vector<u8> = vector<u8>[142, 157, 142, 040, 151, 163, 040, 150, 145,
-        162, 145];
+    162, 145];
 
     #[test]
     public entry fun test_init_messageboard() {

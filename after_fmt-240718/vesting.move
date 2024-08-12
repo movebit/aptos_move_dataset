@@ -507,7 +507,7 @@ module aptos_framework::vesting {
             shareholders,
             |shareholder| {
                 if (shareholder_or_beneficiary
-                        == get_beneficiary(vesting_contract, *shareholder)) {
+                    == get_beneficiary(vesting_contract, *shareholder)) {
                     result = *shareholder;
                     true
                 } else { false }
@@ -723,7 +723,7 @@ module aptos_framework::vesting {
         let vesting_contract = borrow_global_mut<VestingContract>(contract_address);
         // Short-circuit if vesting hasn't started yet.
         if (vesting_contract.vesting_schedule.start_timestamp_secs
-                > timestamp::now_seconds()) { return };
+            > timestamp::now_seconds()) { return };
 
         // Check if the next vested period has already passed. If not, short-circuit since there's nothing to vest.
         let vesting_schedule = &mut vesting_contract.vesting_schedule;
@@ -1423,7 +1423,15 @@ module aptos_framework::vesting {
         )
     }
 
-    #[test(aptos_framework = @0x1, admin = @0x123, shareholder_1 = @0x234, shareholder_2 = @0x345, withdrawal = @111)]
+    #[
+        test(
+            aptos_framework = @0x1,
+            admin = @0x123,
+            shareholder_1 = @0x234,
+            shareholder_2 = @0x345,
+            withdrawal = @111
+        )
+    ]
     public entry fun test_end_to_end(
         aptos_framework: &signer,
         admin: &signer,
@@ -1447,7 +1455,8 @@ module aptos_framework::vesting {
                 admin_address,
                 withdrawal_address,
                 shareholder_1_address,
-                shareholder_2_address],
+                shareholder_2_address
+            ],
         );
         let contract_address =
             setup_vesting_contract(
@@ -2013,7 +2022,16 @@ module aptos_framework::vesting {
         assert!(coin::balance<AptosCoin>(operator_address) == expected_commission, 1);
     }
 
-    #[test(aptos_framework = @0x1, admin = @0x123, shareholder = @0x234, operator1 = @0x345, beneficiary = @0x456, operator2 = @0x567)]
+    #[
+        test(
+            aptos_framework = @0x1,
+            admin = @0x123,
+            shareholder = @0x234,
+            operator1 = @0x345,
+            beneficiary = @0x456,
+            operator2 = @0x567
+        )
+    ]
     public entry fun test_set_beneficiary_for_operator(
         aptos_framework: &signer,
         admin: &signer,
@@ -2033,7 +2051,8 @@ module aptos_framework::vesting {
                 admin_address,
                 shareholder_address,
                 operator_address1,
-                beneficiary_address],
+                beneficiary_address
+            ],
         );
         let contract_address =
             setup_vesting_contract(

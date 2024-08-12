@@ -142,8 +142,8 @@ module 0x1::aggregator_v2_test {
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         assert!(
             use_type == USE_RESOURCE_TYPE
-            || use_type == USE_TABLE_TYPE
-            || use_type == USE_RESOURCE_GROUP_TYPE,
+                || use_type == USE_TABLE_TYPE
+                || use_type == USE_RESOURCE_GROUP_TYPE,
             EINVALID_ARG,
         );
 
@@ -188,8 +188,8 @@ module 0x1::aggregator_v2_test {
     ): R acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         assert!(
             use_type == USE_RESOURCE_TYPE
-            || use_type == USE_TABLE_TYPE
-            || use_type == USE_RESOURCE_GROUP_TYPE,
+                || use_type == USE_TABLE_TYPE
+                || use_type == USE_RESOURCE_GROUP_TYPE,
             EINVALID_ARG,
         );
         let vector_data =
@@ -227,8 +227,8 @@ module 0x1::aggregator_v2_test {
     ): R acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         assert!(
             use_type == USE_RESOURCE_TYPE
-            || use_type == USE_TABLE_TYPE
-            || use_type == USE_RESOURCE_GROUP_TYPE,
+                || use_type == USE_TABLE_TYPE
+                || use_type == USE_RESOURCE_GROUP_TYPE,
             EINVALID_ARG,
         );
         let vector_data =

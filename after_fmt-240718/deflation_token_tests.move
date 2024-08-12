@@ -57,7 +57,11 @@ module 0xcafe::deflation_token_tests {
     }
 
     #[test(creator = @0xcafe, aaron = @0xface)]
-    #[expected_failure(abort_code = 0x70002, location = aptos_framework::dispatchable_fungible_asset)]
+    #[
+        expected_failure(
+            abort_code = 0x70002, location = aptos_framework::dispatchable_fungible_asset
+        )
+    ]
     fun test_deflation_assert_min_deposit(
         creator: &signer, aaron: &signer,
     ) {

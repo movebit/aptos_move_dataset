@@ -40,9 +40,7 @@ script {
         false || false;
         true;
         false;
-        !((true && false)
-            || (false || true)
-            && true) || true;
+        !((true && false) || (false || true) && true) || true;
         1 << 7;
         1 << 63;
         (1: u128) << 127;

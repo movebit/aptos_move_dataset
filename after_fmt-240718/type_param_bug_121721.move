@@ -136,7 +136,8 @@ module 0x2::Bug7 {
     spec fun get_ballot<Proposal>(ballot_address: address, ballot_id: BallotID): Ballot {
         let ballots = global<Ballots<Proposal>>(ballot_address).ballots;
         get_ballots<Proposal>(ballot_address)[
-            choose min i in 0..len(ballots) where ballots[i].ballot_id == ballot_id]
+            choose min i in 0..len(ballots) where ballots[i].ballot_id == ballot_id
+        ]
     }
 
     // Lower-level invariants

@@ -45,15 +45,13 @@ module TestFeatures {
         ensures result
             == (
                 exists<Features>(@std) // this one does not verify
-                && (
-                    (
+                    && ((
                         (feature / 8) < len(global<Features>(@std).features)
-                        && spec_contains(
-                            global<Features>(@std).features,
-                            feature,
-                        )
-                    )
-                )
+                            && spec_contains(
+                                global<Features>(@std).features,
+                                feature,
+                            )
+                    ))
             );
     }
 
@@ -65,17 +63,17 @@ module TestFeatures {
         let byte_index = feature / 8;
         let bit_mask = 1 << ((feature % 8) as u8);
         while ({
-                spec {
-                    invariant n == len(features);
-                    invariant n >= old_n;
-                    invariant byte_index < old_n ==> len(features) == old_n;
-                    invariant byte_index >= old_n ==>
-                        len(features) <= byte_index + 1;
-                    invariant forall i in 0..old_n: features[i] == old_features[i];
-                    invariant forall i in old_n..n: (features[i] as u8) == (0 as u8);
-                };
-                vector::length(features) <= byte_index
-            }) {
+            spec {
+                invariant n == len(features);
+                invariant n >= old_n;
+                invariant byte_index < old_n ==> len(features) == old_n;
+                invariant byte_index >= old_n ==>
+                    len(features) <= byte_index + 1;
+                invariant forall i in 0..old_n: features[i] == old_features[i];
+                invariant forall i in old_n..n: (features[i] as u8) == (0 as u8);
+            };
+            vector::length(features) <= byte_index
+        }) {
             vector::push_back(features, 0);
             n = n + 1;
         };
@@ -145,13 +143,13 @@ module TestFeatures {
         let i = 0;
         let n = vector::length(&disable);
         while ({
-                spec {
-                    invariant i <= n;
-                    invariant forall j in 0..i: disable[j] / 8 < len(features)
-                        && !spec_contains(features, disable[j]);
-                };
-                i < n
-            }) {
+            spec {
+                invariant i <= n;
+                invariant forall j in 0..i: disable[j] / 8 < len(features)
+                    && !spec_contains(features, disable[j]);
+            };
+            i < n
+        }) {
             set(features, *vector::borrow(&disable, i), false);
             spec {
                 assert(
@@ -177,13 +175,13 @@ module TestFeatures {
         let i = 0;
         let n = vector::length(&enable);
         while ({
-                spec {
-                    invariant i <= n;
-                    invariant forall j in 0..i: enable[j] / 8 < len(features)
-                        && spec_contains(features, enable[j]);
-                };
-                i < n
-            }) {
+            spec {
+                invariant i <= n;
+                invariant forall j in 0..i: enable[j] / 8 < len(features)
+                    && spec_contains(features, enable[j]);
+            };
+            i < n
+        }) {
             set(features, *vector::borrow(&enable, i), true);
             spec {
                 assert(enable[i] / 8 < len(features) && spec_contains(features, enable[i]));

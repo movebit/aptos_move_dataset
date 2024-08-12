@@ -44,7 +44,11 @@ module Evm::ERC1155Mock {
     // Evm::IERC1155Receiver
     // ---------------------
 
-    #[external(sig = b"onERC1155Received(address,address,uint256,uint256,bytes) returns (bytes4)")]
+    #[
+        external(
+            sig = b"onERC1155Received(address,address,uint256,uint256,bytes) returns (bytes4)"
+        )
+    ]
     public native fun IERC1155Receiver_try_call_onERC1155Received(
         contract: address,
         operator: address,
@@ -54,7 +58,11 @@ module Evm::ERC1155Mock {
         bytes: vector<u8>
     ): ExternalResult<vector<u8>>;
 
-    #[external(sig = b"onERC1155BatchReceived(address,address,uint256[],uint256[],bytes) returns (bytes4)")]
+    #[
+        external(
+            sig = b"onERC1155BatchReceived(address,address,uint256[],uint256[],bytes) returns (bytes4)"
+        )
+    ]
     public native fun IERC1155Receiver_try_call_onERC1155BatchReceived(
         contract: address,
         operator: address,

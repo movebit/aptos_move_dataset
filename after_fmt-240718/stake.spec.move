@@ -88,10 +88,10 @@ spec aptos_framework::stake {
         (
             old(global<StakePool>(a).pending_inactive)
                 == global<StakePool>(a).pending_inactive
-            && old(global<StakePool>(a).pending_active)
-                == global<StakePool>(a).pending_active
-            && old(global<StakePool>(a).inactive) == global<StakePool>(a).inactive
-            && old(global<StakePool>(a).active) == global<StakePool>(a).active
+                && old(global<StakePool>(a).pending_active)
+                    == global<StakePool>(a).pending_active
+                && old(global<StakePool>(a).inactive) == global<StakePool>(a).inactive
+                && old(global<StakePool>(a).active) == global<StakePool>(a).active
         );
     }
 
@@ -205,11 +205,11 @@ spec aptos_framework::stake {
         let post p_validator_set = global<ValidatorSet>(@aptos_framework);
         aborts_if signer::address_of(operator) != stake_pool.operator_address;
         aborts_if option::spec_is_some(
-                spec_find_validator(validator_set.active_validators, pool_address)
-            )
+            spec_find_validator(validator_set.active_validators, pool_address)
+        )
             || option::spec_is_some(
-                    spec_find_validator(validator_set.pending_inactive, pool_address)
-                )
+                spec_find_validator(validator_set.pending_inactive, pool_address)
+            )
             || option::spec_is_some(
                 spec_find_validator(validator_set.pending_active, pool_address)
             );
@@ -264,11 +264,11 @@ spec aptos_framework::stake {
 
         let validator_set = global<ValidatorSet>(@aptos_framework);
         let bool_find_validator = !option::spec_is_some(
-                spec_find_validator(validator_set.active_validators, pool_address)
-            )
+            spec_find_validator(validator_set.active_validators, pool_address)
+        )
             && !option::spec_is_some(
-                    spec_find_validator(validator_set.pending_inactive, pool_address)
-                )
+                spec_find_validator(validator_set.pending_inactive, pool_address)
+            )
             && !option::spec_is_some(
                 spec_find_validator(validator_set.pending_active, pool_address)
             );
@@ -284,9 +284,9 @@ spec aptos_framework::stake {
             && stake_pool.inactive.value + stake_pool.pending_inactive.value
                 < new_withdraw_amount_1;
         aborts_if !(
-                bool_find_validator
+            bool_find_validator
                 && exists<timestamp::CurrentTimeMicroseconds>(@aptos_framework)
-            )
+        )
             && new_withdraw_amount_2 > 0
             && stake_pool.inactive.value < new_withdraw_amount_2;
         aborts_if !exists<coin::CoinStore<AptosCoin>>(addr);
@@ -300,9 +300,9 @@ spec aptos_framework::stake {
             && exists<coin::CoinStore<AptosCoin>>(addr) ==>
             coin_store.coin.value + new_withdraw_amount_1 == p_coin_store.coin.value;
         ensures !(
-                bool_find_validator
+            bool_find_validator
                 && exists<timestamp::CurrentTimeMicroseconds>(@aptos_framework)
-            )
+        )
             && exists<account::Account>(addr)
             && exists<coin::CoinStore<AptosCoin>>(addr) ==>
             coin_store.coin.value + new_withdraw_amount_2 == p_coin_store.coin.value;
@@ -581,7 +581,7 @@ spec aptos_framework::stake {
         ensures post_stake_pool.pending_active.value == 0;
         // the amount stored in the stake pool should not changed after the update
         ensures if (features::spec_is_enabled(features::COLLECT_AND_DISTRIBUTE_GAS_FEES)
-                && table::spec_contains(fees_table, pool_address)) {
+            && table::spec_contains(fees_table, pool_address)) {
             !table::spec_contains(post_fees_table, pool_address)
                 && post_active_value
                     == stake_pool.active.value + rewards_amount_1
@@ -793,8 +793,8 @@ spec aptos_framework::stake {
         ensures result == VALIDATOR_STATUS_INACTIVE ==>
             (
                 !spec_contains(validator_set.pending_active, pool_address)
-                && !spec_contains(validator_set.active_validators, pool_address)
-                && !spec_contains(validator_set.pending_inactive, pool_address)
+                    && !spec_contains(validator_set.active_validators, pool_address)
+                    && !spec_contains(validator_set.pending_inactive, pool_address)
             );
     }
 

@@ -143,7 +143,7 @@ module 0x1::NFTGallery {
         let from_token_idx = option::extract(&mut index_opt);
 
         if (NFT::is_data_inlined(vector::borrow(gallery, from_token_idx))
-                || NFT::get_balance(vector::borrow(gallery, from_token_idx)) == amount) {
+            || NFT::get_balance(vector::borrow(gallery, from_token_idx)) == amount) {
             // Move the token from one gallery to another
             let token = vector::remove(gallery, from_token_idx);
             add_to_gallery<TokenType>(to, token)

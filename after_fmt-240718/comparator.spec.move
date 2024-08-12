@@ -49,20 +49,20 @@ spec aptos_std::comparator {
             (
                 (
                     exists i: u64 where i < left_length: (i < right_length)
-                    && (left[i] < right[i])
-                    && (forall j: u64 where j < i: left[j] == right[j])
+                        && (left[i] < right[i])
+                        && (forall j: u64 where j < i: left[j] == right[j])
                 )
-                || (left_length < right_length)
+                    || (left_length < right_length)
             );
 
         ensures (result.inner == GREATER) ==>
             (
                 (
                     exists i: u64 where i < left_length: (i < right_length)
-                    && (left[i] > right[i])
-                    && (forall j: u64 where j < i: left[j] == right[j])
+                        && (left[i] > right[i])
+                        && (forall j: u64 where j < i: left[j] == right[j])
                 )
-                || (left_length > right_length)
+                    || (left_length > right_length)
             );
 
         ensures [abstract] result == spec_compare_u8_vector(left, right);

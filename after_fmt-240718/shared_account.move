@@ -133,7 +133,14 @@ module shared_account::SharedAccount {
         borrow_global<SharedAccountEvent>(user_addr).resource_addr
     }
 
-    #[test(user = @0x1111, test_user1 = @0x1112, test_user2 = @0x1113, core_framework = @aptos_framework)]
+    #[
+        test(
+            user = @0x1111,
+            test_user1 = @0x1112,
+            test_user2 = @0x1113,
+            core_framework = @aptos_framework
+        )
+    ]
     public entry fun test_disperse(
         user: signer, test_user1: signer, test_user2: signer, core_framework: signer
     ) acquires SharedAccount, SharedAccountEvent {

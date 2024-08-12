@@ -129,7 +129,8 @@ module DiemFramework::AccountAdministrationScripts {
         include RecoveryAddress::AddRotationCapabilityAbortsIf { to_recover: rotation_cap };
 
         ensures RecoveryAddress::spec_get_rotation_caps(recovery_address)[
-            len(RecoveryAddress::spec_get_rotation_caps(recovery_address)) - 1] == rotation_cap;
+            len(RecoveryAddress::spec_get_rotation_caps(recovery_address)) - 1
+        ] == rotation_cap;
 
         aborts_with [check] errors::INVALID_STATE, errors::NOT_PUBLISHED, errors::LIMIT_EXCEEDED, errors::INVALID_ARGUMENT;
     }

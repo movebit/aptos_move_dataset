@@ -326,8 +326,8 @@ module aptos_framework::voting {
             // If the proposal is a single-step proposal, we check if the metadata passed by the client has the IS_MULTI_STEP_PROPOSAL_IN_EXECUTION_KEY key.
             // If they have the key, we will remove it, because a single-step proposal that doesn't need this key.
         } else if (simple_map::contains_key(
-                &mut metadata, &is_multi_step_in_execution_key
-            )) {
+            &mut metadata, &is_multi_step_in_execution_key
+        )) {
             simple_map::remove(&mut metadata, &is_multi_step_in_execution_key);
         };
 
@@ -658,7 +658,7 @@ module aptos_framework::voting {
             let early_resolution_threshold =
                 *option::borrow(&proposal.early_resolution_vote_threshold);
             if (proposal.yes_votes >= early_resolution_threshold
-                    || proposal.no_votes >= early_resolution_threshold) {
+                || proposal.no_votes >= early_resolution_threshold) {
                 return true
             };
         };

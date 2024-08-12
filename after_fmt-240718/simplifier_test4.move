@@ -11,10 +11,10 @@ module 0x8675309::M {
         let f = {
             x = x + 1;
             &mut ({
-                    x = x + 1;
-                    z;
-                    s
-                }).f
+                x = x + 1;
+                z;
+                s
+            }).f
         };
         if (z == 1) {
             x = x + 1;
@@ -22,9 +22,9 @@ module 0x8675309::M {
                 freeze(s),
                 {
                     *({
-                            x = x + 1;
-                            f
-                        }) = 0;
+                        x = x + 1;
+                        f
+                    }) = 0;
                     1
                 },
             )
@@ -38,8 +38,8 @@ module 0x8675309::M {
 
     fun t1(s: &mut S) {
         bar(&mut s.f, {
-                s.f = 0;
-                1
-            })
+            s.f = 0;
+            1
+        })
     }
 }

@@ -33,12 +33,12 @@ module 0xc0ffee::m {
 
     fun swap6(x: u64, y: u64): (u64, u64) {
         (x, y) = ({
-                y = y + 1;
-                y
-            }, {
-                x = x + 1;
-                x
-            });
+            y = y + 1;
+            y
+        }, {
+            x = x + 1;
+            x
+        });
         (x, y)
     }
 
@@ -66,9 +66,9 @@ module 0xc0ffee::m {
     fun swap10(x: u64): (u64, u64) {
         let y;
         (x, y) = ({
-                let x = 88;
-                x
-            }, x);
+            let x = 88;
+            x
+        }, x);
         (x, y)
     }
 
@@ -76,9 +76,9 @@ module 0xc0ffee::m {
         let x = 53;
         let y;
         (x, y) = ({
-                let x = 83;
-                x
-            }, x);
+            let x = 83;
+            x
+        }, x);
         (x, y)
     }
 

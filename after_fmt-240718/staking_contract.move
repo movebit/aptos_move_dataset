@@ -117,7 +117,9 @@ module aptos_framework::staking_contract {
         new_commission_percentage: u64,
     }
 
-    #[resource_group_member(group = aptos_framework::staking_contract::StakingGroupContainer)]
+    #[resource_group_member(
+        group = aptos_framework::staking_contract::StakingGroupContainer
+    )]
     struct StakingGroupUpdateCommissionEvent has key {
         update_commission_events: EventHandle<UpdateCommissionEvent>,
     }
@@ -607,8 +609,8 @@ module aptos_framework::staking_contract {
         let account_addr = signer::address_of(account);
         assert!(
             account_addr == staker
-            || account_addr == operator
-            || account_addr == beneficiary_for_operator(operator),
+                || account_addr == operator
+                || account_addr == beneficiary_for_operator(operator),
             error::unauthenticated(ENOT_STAKER_OR_OPERATOR_OR_BENEFICIARY),
         );
         assert_staking_contract_exists(staker, operator);
@@ -1490,7 +1492,9 @@ module aptos_framework::staking_contract {
         assert!(origin_lockup_expiration < stake::get_lockup_secs(pool_address), 0);
     }
 
-    #[test(aptos_framework = @0x1, staker = @0x123, operator_1 = @0x234, operator_2 = @0x345)]
+    #[test(
+        aptos_framework = @0x1, staker = @0x123, operator_1 = @0x234, operator_2 = @0x345
+    )]
     public entry fun test_staker_can_switch_operator(
         aptos_framework: &signer,
         staker: &signer,
@@ -1600,7 +1604,9 @@ module aptos_framework::staking_contract {
         );
     }
 
-    #[test(aptos_framework = @0x1, staker = @0x123, operator_1 = @0x234, operator_2 = @0x345)]
+    #[test(
+        aptos_framework = @0x1, staker = @0x123, operator_1 = @0x234, operator_2 = @0x345
+    )]
     public entry fun test_staker_can_switch_operator_with_same_commission(
         aptos_framework: &signer,
         staker: &signer,
@@ -1622,7 +1628,15 @@ module aptos_framework::staking_contract {
         assert!(commission_percentage(staker_address, operator_2_address) == 10, 2);
     }
 
-    #[test(aptos_framework = @0x1, staker = @0x123, operator1 = @0x234, beneficiary = @0x345, operator2 = @0x456)]
+    #[
+        test(
+            aptos_framework = @0x1,
+            staker = @0x123,
+            operator1 = @0x234,
+            beneficiary = @0x345,
+            operator2 = @0x456
+        )
+    ]
     public entry fun test_operator_can_set_beneficiary(
         aptos_framework: &signer,
         staker: &signer,
@@ -1961,7 +1975,12 @@ module aptos_framework::staking_contract {
         );
     }
 
-    #[test(staker = @0xe256f4f4e2986cada739e339895cf5585082ff247464cab8ec56eea726bd2263, operator = @0x9f0a211d218b082987408f1e393afe1ba0c202c6d280f081399788d3360c7f09)]
+    #[
+        test(
+            staker = @0xe256f4f4e2986cada739e339895cf5585082ff247464cab8ec56eea726bd2263,
+            operator = @0x9f0a211d218b082987408f1e393afe1ba0c202c6d280f081399788d3360c7f09
+        )
+    ]
     public entry fun test_get_expected_stake_pool_address(
         staker: address, operator: address
     ) {

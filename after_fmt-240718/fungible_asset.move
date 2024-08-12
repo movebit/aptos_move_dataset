@@ -528,8 +528,8 @@ module aptos_framework::fungible_asset {
         if (store_exists_inline(store_addr)) {
             let store_balance = borrow_store_resource(&store).balance;
             if (store_balance == 0 && concurrent_fungible_balance_exists_inline(
-                    store_addr
-                )) {
+                store_addr
+            )) {
                 let balance_resource =
                     borrow_global<ConcurrentFungibleBalance>(store_addr);
                 aggregator_v2::read(&balance_resource.balance)
@@ -553,8 +553,8 @@ module aptos_framework::fungible_asset {
         if (store_exists_inline(store_addr)) {
             let store_balance = borrow_global<FungibleStore>(store_addr).balance;
             if (store_balance == 0 && concurrent_fungible_balance_exists_inline(
-                    store_addr
-                )) {
+                store_addr
+            )) {
                 let balance_resource =
                     borrow_global<ConcurrentFungibleBalance>(store_addr);
                 aggregator_v2::is_at_least(&balance_resource.balance, amount)
@@ -597,7 +597,7 @@ module aptos_framework::fungible_asset {
         let metadata_addr = object::object_address(&metadata);
         // Short circuit on APT for better perf
         if (metadata_addr != @aptos_fungible_asset
-                && exists<DispatchFunctionStore>(metadata_addr)) {
+            && exists<DispatchFunctionStore>(metadata_addr)) {
             option::is_some(
                 &borrow_global<DispatchFunctionStore>(metadata_addr).deposit_function
             )
@@ -618,7 +618,7 @@ module aptos_framework::fungible_asset {
         let metadata_addr = object::object_address(&metadata);
         // Short circuit on APT for better perf
         if (metadata_addr != @aptos_fungible_asset
-                && exists<DispatchFunctionStore>(metadata_addr)) {
+            && exists<DispatchFunctionStore>(metadata_addr)) {
             option::is_some(
                 &borrow_global<DispatchFunctionStore>(metadata_addr).withdraw_function
             )
@@ -955,8 +955,8 @@ module aptos_framework::fungible_asset {
         let metadata = store.metadata;
         if (amount != 0) {
             if (store.balance == 0 && concurrent_fungible_balance_exists_inline(
-                    store_addr
-                )) {
+                store_addr
+            )) {
                 let balance_resource =
                     borrow_global_mut<ConcurrentFungibleBalance>(store_addr);
                 assert!(

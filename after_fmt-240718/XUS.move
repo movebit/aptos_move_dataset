@@ -104,9 +104,9 @@ module DiemFramework::XUS {
         /// signed by the owner of MintCapability<XUS>.
         invariant update[suspendable](
             old(Diem::spec_is_currency<XUS>())
-            && Diem::spec_is_currency<XUS>()
-            && old(Diem::spec_currency_info<XUS>().total_value)
-                < Diem::spec_currency_info<XUS>().total_value
+                && Diem::spec_is_currency<XUS>()
+                && old(Diem::spec_currency_info<XUS>().total_value)
+                    < Diem::spec_currency_info<XUS>().total_value
         ) ==>
             Diem::spec_signed_by_mint_capability_owner<XUS>();
 
@@ -137,16 +137,16 @@ module DiemFramework::XUS {
         /// transaction should be signed by the owner of BurnCapability<XUS>.
         invariant update[suspendable](
             old(Diem::spec_is_currency<XUS>())
-            && Diem::spec_is_currency<XUS>()
-            && old(Diem::spec_currency_info<XUS>().total_value)
-                > Diem::spec_currency_info<XUS>().total_value
+                && Diem::spec_is_currency<XUS>()
+                && old(Diem::spec_currency_info<XUS>().total_value)
+                    > Diem::spec_currency_info<XUS>().total_value
         ) ==>
             Diem::spec_signed_by_burn_capability_owner<XUS>();
         invariant update[suspendable](
             old(Diem::spec_is_currency<XUS>())
-            && Diem::spec_is_currency<XUS>()
-            && old(Diem::spec_currency_info<XUS>().preburn_value)
-                > Diem::spec_currency_info<XUS>().preburn_value
+                && Diem::spec_is_currency<XUS>()
+                && old(Diem::spec_currency_info<XUS>().preburn_value)
+                    > Diem::spec_currency_info<XUS>().preburn_value
         ) ==>
             Diem::spec_signed_by_burn_capability_owner<XUS>();
 
@@ -179,13 +179,13 @@ module DiemFramework::XUS {
         /// signed by the owner of PreburnQueue<XUS> or Preburn<XUS>.
         invariant update[suspendable](
             old(Diem::spec_is_currency<XUS>())
-            && Diem::spec_is_currency<XUS>()
-            && old(Diem::spec_currency_info<XUS>().preburn_value)
-                < Diem::spec_currency_info<XUS>().preburn_value
+                && Diem::spec_is_currency<XUS>()
+                && old(Diem::spec_currency_info<XUS>().preburn_value)
+                    < Diem::spec_currency_info<XUS>().preburn_value
         ) ==>
             (
                 Diem::spec_signed_by_preburn_queue_owner<XUS>()
-                || Diem::spec_signed_by_preburn_owner<XUS>()
+                    || Diem::spec_signed_by_preburn_owner<XUS>()
             );
 
         /// PreburnQueue<XUS> is not transferrable [[J4]][PERMISSION].

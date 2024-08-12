@@ -21,12 +21,12 @@ module std::bit_vector {
         let counter = 0;
         let bit_field = vector::empty();
         while ({
-                spec {
-                    invariant counter <= length;
-                    invariant len(bit_field) == counter;
-                };
-                (counter < length)
-            }) {
+            spec {
+                invariant counter <= length;
+                invariant len(bit_field) == counter;
+            };
+            (counter < length)
+        }) {
             vector::push_back(&mut bit_field, false);
             counter = counter + 1;
         };

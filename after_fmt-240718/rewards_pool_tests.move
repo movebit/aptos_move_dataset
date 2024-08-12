@@ -192,7 +192,8 @@ module rewards_pool::rewards_pool_tests {
             pool,
             vector[
                 fungible_asset::extract(rewards_1, amount_1),
-                fungible_asset::extract(rewards_2, amount_2)],
+                fungible_asset::extract(rewards_2, amount_2)
+            ],
             epoch::now() - 1,
         );
     }

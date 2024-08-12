@@ -13,14 +13,14 @@ module 0x42::VerifyLoopsWithMemoryOps {
         };
         let i = 0;
         while ({
-                spec {
-                    invariant length == len(a);
-                    invariant length == len(b);
-                    invariant i <= length;
-                    invariant forall n in 0..i: a[n] == b[n];
-                };
-                (i < length)
-            }) {
+            spec {
+                invariant length == len(a);
+                invariant length == len(b);
+                invariant i <= length;
+                invariant forall n in 0..i: a[n] == b[n];
+            };
+            (i < length)
+        }) {
             let x = vector::borrow_mut(a, i);
             let y = vector::borrow_mut(b, i);
             loop {

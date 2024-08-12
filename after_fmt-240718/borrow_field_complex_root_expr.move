@@ -10,8 +10,8 @@ module 0x8675309::M {
         (&(if (cond) s_mut else s_mut).f: &u64);
         (&mut (if (cond) s_mut else s_mut).f: &mut u64);
         (&{
-                let s = S { f: 0 };
-                &s
-            }.f: &u64);
+            let s = S { f: 0 };
+            &s
+        }.f: &u64);
     }
 }

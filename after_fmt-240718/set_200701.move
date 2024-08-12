@@ -5,15 +5,15 @@ module 0x42::TestSet {
     public fun remove_everything(v: &mut vector<u64>) {
         let i = vector::length(v);
         while ({
-                spec {
-                    // The following doesn't work
-                    // assert 0 <= i && i <= len(v);
-                    // The following works
-                    assert i == len(v);
-                    assert is_set(v);
-                };
-                (i > 0)
-            }) {
+            spec {
+                // The following doesn't work
+                // assert 0 <= i && i <= len(v);
+                // The following works
+                assert i == len(v);
+                assert is_set(v);
+            };
+            (i > 0)
+        }) {
             i = i - 1;
             _ = vector::swap_remove(v, i);
         }

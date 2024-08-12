@@ -7,9 +7,9 @@ module 0xc0ffee::m {
     public fun test1(): u64 {
         let a = 1;
         foo(a, {
-                a = a + 1;
-                a
-            })
+            a = a + 1;
+            a
+        })
     }
 
     fun bar(x: &u64, y: &u64): u64 {
@@ -21,9 +21,9 @@ module 0xc0ffee::m {
         let b = 10;
         let c = &a;
         bar(c, {
-                c = &b;
-                c
-            })
+            c = &b;
+            c
+        })
     }
 
     public fun main(): u64 {
@@ -33,9 +33,9 @@ module 0xc0ffee::m {
 
     public fun g(a: u64): u64 {
         test3(a, {
-                a = a + 1;
-                a
-            })
+            a = a + 1;
+            a
+        })
     }
 
     public fun test3(a: u64, b: u64): u64 {

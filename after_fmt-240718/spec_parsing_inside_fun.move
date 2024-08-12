@@ -7,11 +7,11 @@ module 0x8675309::M {
 
         // loop invariant is written in a spec block inside the loop condition
         while ({
-                spec {
-                    assert x < 42;
-                };
-                n < 64
-            }) {
+            spec {
+                assert x < 42;
+            };
+            n < 64
+        }) {
             spec {
                 assert x > 42;
                 assert 0 < x;

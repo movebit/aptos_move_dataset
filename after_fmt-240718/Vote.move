@@ -339,17 +339,17 @@ module ExperimentalFramework::Vote {
         let i = 0;
         let removed_ballots = vector::empty();
         while ({
-                spec {
-                    invariant unique_ballots(ballots);
-                    invariant no_expired_ballots(
-                        ballots, DiemTimestamp::spec_now_seconds(), i
-                    );
-                    invariant vector_subset(ballots, old(ballot_data).ballots);
-                    invariant i <= len(ballots);
-                    invariant 0 <= i;
-                };
-                i < vector::length(ballots)
-            }) {
+            spec {
+                invariant unique_ballots(ballots);
+                invariant no_expired_ballots(
+                    ballots, DiemTimestamp::spec_now_seconds(), i
+                );
+                invariant vector_subset(ballots, old(ballot_data).ballots);
+                invariant i <= len(ballots);
+                invariant 0 <= i;
+            };
+            i < vector::length(ballots)
+        }) {
             let ballot = vector::borrow(ballots, i);
             if (ballot.expiration_timestamp_secs < DiemTimestamp::now_seconds()) {
                 let ballot_id = *(&ballot.ballot_id);
@@ -376,11 +376,11 @@ module ExperimentalFramework::Vote {
         let i = 0;
         let len = vector::length(ballots);
         while ({
-                spec {
-                    invariant ballot_id_does_not_exist<Proposal>(ballot_id, ballots, i);
-                };
-                i < len
-            }) {
+            spec {
+                invariant ballot_id_does_not_exist<Proposal>(ballot_id, ballots, i);
+            };
+            i < len
+        }) {
             if (&vector::borrow(ballots, i).ballot_id == &ballot_id) {
                 vector::swap_remove(ballots, i);
                 event::emit_event<RemoveBallotEvent>(
@@ -467,7 +467,8 @@ module ExperimentalFramework::Vote {
     spec fun get_ballot<Proposal>(ballot_address: address, ballot_id: BallotID): Ballot<Proposal> {
         let ballots = global<Ballots<Proposal>>(ballot_address).ballots;
         get_ballots<Proposal>(ballot_address)[
-            choose min i in 0..len(ballots) where ballots[i].ballot_id == ballot_id]
+            choose min i in 0..len(ballots) where ballots[i].ballot_id == ballot_id
+        ]
     }
 
     /// Tests whether ballot_id is represented in the ballots vector. Returns false if there is no

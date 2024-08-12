@@ -411,12 +411,12 @@ module aptos_framework::stake {
         if (option::is_some(&find_validator(&validator_set.pending_active, pool_address))) {
             VALIDATOR_STATUS_PENDING_ACTIVE
         } else if (option::is_some(
-                &find_validator(&validator_set.active_validators, pool_address)
-            )) {
+            &find_validator(&validator_set.active_validators, pool_address)
+        )) {
             VALIDATOR_STATUS_ACTIVE
         } else if (option::is_some(
-                &find_validator(&validator_set.pending_inactive, pool_address)
-            )) {
+            &find_validator(&validator_set.pending_inactive, pool_address)
+        )) {
             VALIDATOR_STATUS_PENDING_INACTIVE
         } else {
             VALIDATOR_STATUS_INACTIVE
@@ -431,7 +431,7 @@ module aptos_framework::stake {
         let validator_state = get_validator_state(pool_address);
         // Both active and pending inactive validators can still vote in the current epoch.
         if (validator_state == VALIDATOR_STATUS_ACTIVE
-                || validator_state == VALIDATOR_STATUS_PENDING_INACTIVE) {
+            || validator_state == VALIDATOR_STATUS_PENDING_INACTIVE) {
             let active_stake =
                 coin::value(&borrow_global<StakePool>(pool_address).active);
             let pending_inactive_stake =
@@ -542,17 +542,17 @@ module aptos_framework::stake {
         let i = 0;
         // Remove each validator from the validator set.
         while ({
-                spec {
-                    invariant i <= len_validators;
-                    invariant spec_validators_are_initialized(active_validators);
-                    invariant spec_validator_indices_are_valid(active_validators);
-                    invariant spec_validators_are_initialized(pending_inactive);
-                    invariant spec_validator_indices_are_valid(pending_inactive);
-                    invariant ghost_active_num + ghost_pending_inactive_num
-                        == len(active_validators) + len(pending_inactive);
-                };
-                i < len_validators
-            }) {
+            spec {
+                invariant i <= len_validators;
+                invariant spec_validators_are_initialized(active_validators);
+                invariant spec_validator_indices_are_valid(active_validators);
+                invariant spec_validators_are_initialized(pending_inactive);
+                invariant spec_validator_indices_are_valid(pending_inactive);
+                invariant ghost_active_num + ghost_pending_inactive_num
+                    == len(active_validators) + len(pending_inactive);
+            };
+            i < len_validators
+        }) {
             let validator = *vector::borrow(validators, i);
             let validator_index = find_validator(active_validators, validator);
             if (option::is_some(&validator_index)) {
@@ -785,10 +785,10 @@ module aptos_framework::stake {
         let validator_set = borrow_global_mut<ValidatorSet>(@aptos_framework);
         // Search directly rather using get_validator_state to save on unnecessary loops.
         if (option::is_some(
-                &find_validator(&validator_set.active_validators, pool_address)
-            ) || option::is_some(
-                &find_validator(&validator_set.pending_active, pool_address)
-            )) {
+            &find_validator(&validator_set.active_validators, pool_address)
+        ) || option::is_some(
+            &find_validator(&validator_set.pending_active, pool_address)
+        )) {
             update_voting_power_increase(amount);
         };
 
@@ -1125,7 +1125,7 @@ module aptos_framework::stake {
         // the stake is fully unlocked (the current lockup cycle has not expired yet).
         // This can leave their stake stuck in pending_inactive even after the current lockup cycle expires.
         if (get_validator_state(pool_address) == VALIDATOR_STATUS_INACTIVE
-                && timestamp::now_seconds() >= stake_pool.locked_until_secs) {
+            && timestamp::now_seconds() >= stake_pool.locked_until_secs) {
             let pending_inactive_stake =
                 coin::extract_all(&mut stake_pool.pending_inactive);
             coin::merge(&mut stake_pool.inactive, pending_inactive_stake);
@@ -1264,23 +1264,22 @@ module aptos_framework::stake {
         let f = 0;
         let f_len = vector::length(&failed_proposer_indices);
         while ({
-                spec {
-                    invariant len(validator_perf.validators) == validator_len;
-                    invariant (
-                        option::spec_is_some(ghost_proposer_idx)
-                            && option::spec_borrow(ghost_proposer_idx) < validator_len
-                    ) ==>
-                        (
-                            validator_perf.validators[option::spec_borrow(
-                                    ghost_proposer_idx
-                                )].successful_proposals
-                                == ghost_valid_perf.validators[option::spec_borrow(
-                                        ghost_proposer_idx
-                                    )].successful_proposals + 1
-                        );
-                };
-                f < f_len
-            }) {
+            spec {
+                invariant len(validator_perf.validators) == validator_len;
+                invariant (
+                    option::spec_is_some(ghost_proposer_idx)
+                        && option::spec_borrow(ghost_proposer_idx) < validator_len
+                ) ==>
+                    (
+                        validator_perf.validators[option::spec_borrow(ghost_proposer_idx)]
+                        .successful_proposals
+                            == ghost_valid_perf.validators[option::spec_borrow(
+                                ghost_proposer_idx
+                            )].successful_proposals + 1
+                    );
+            };
+            f < f_len
+        }) {
             let validator_index = *vector::borrow(&failed_proposer_indices, f);
             if (validator_index < validator_len) {
                 let validator = vector::borrow_mut(
@@ -1344,12 +1343,12 @@ module aptos_framework::stake {
         let total_voting_power = 0;
         let i = 0;
         while ({
-                spec {
-                    invariant spec_validators_are_initialized(next_epoch_validators);
-                    invariant i <= vlen;
-                };
-                i < vlen
-            }) {
+            spec {
+                invariant spec_validators_are_initialized(next_epoch_validators);
+                invariant i <= vlen;
+            };
+            i < vlen
+        }) {
             let old_validator_info = vector::borrow_mut(
                 &mut validator_set.active_validators, i
             );
@@ -1382,23 +1381,21 @@ module aptos_framework::stake {
         let vlen = vector::length(&validator_set.active_validators);
         let validator_index = 0;
         while ({
-                spec {
-                    invariant spec_validators_are_initialized(
-                        validator_set.active_validators
-                    );
-                    invariant len(validator_set.pending_active) == 0;
-                    invariant len(validator_set.pending_inactive) == 0;
-                    invariant 0 <= validator_index && validator_index <= vlen;
-                    invariant vlen == len(validator_set.active_validators);
-                    invariant forall i in 0..validator_index: global<ValidatorConfig>(
-                        validator_set.active_validators[i].addr
-                    ).validator_index < validator_index;
-                    invariant forall i in 0..validator_index: validator_set.active_validators[i]
-                        .config.validator_index < validator_index;
-                    invariant len(validator_perf.validators) == validator_index;
-                };
-                validator_index < vlen
-            }) {
+            spec {
+                invariant spec_validators_are_initialized(validator_set.active_validators);
+                invariant len(validator_set.pending_active) == 0;
+                invariant len(validator_set.pending_inactive) == 0;
+                invariant 0 <= validator_index && validator_index <= vlen;
+                invariant vlen == len(validator_set.active_validators);
+                invariant forall i in 0..validator_index: global<ValidatorConfig>(
+                    validator_set.active_validators[i].addr
+                ).validator_index < validator_index;
+                invariant forall i in 0..validator_index: validator_set.active_validators[i]
+                    .config.validator_index < validator_index;
+                invariant len(validator_perf.validators) == validator_index;
+            };
+            validator_index < vlen
+        }) {
             let validator_info = vector::borrow_mut(
                 &mut validator_set.active_validators, validator_index
             );
@@ -1468,17 +1465,17 @@ module aptos_framework::stake {
         };
         let num_candidates = num_cur_actives + num_cur_pending_actives;
         while ({
-                spec {
-                    invariant candidate_idx <= num_candidates;
-                    invariant spec_validators_are_initialized(new_active_validators);
-                    invariant len(new_active_validators) == num_new_actives;
-                    invariant forall i in 0..len(new_active_validators): new_active_validators[i]
-                        .config.validator_index == i;
-                    invariant num_new_actives <= candidate_idx;
-                    invariant spec_validators_are_initialized(new_active_validators);
-                };
-                candidate_idx < num_candidates
-            }) {
+            spec {
+                invariant candidate_idx <= num_candidates;
+                invariant spec_validators_are_initialized(new_active_validators);
+                invariant len(new_active_validators) == num_new_actives;
+                invariant forall i in 0..len(new_active_validators): new_active_validators[i]
+                    .config.validator_index == i;
+                invariant num_new_actives <= candidate_idx;
+                invariant spec_validators_are_initialized(new_active_validators);
+            };
+            candidate_idx < num_candidates
+        }) {
             let candidate_in_current_validator_set = candidate_idx < num_cur_actives;
             let candidate =
                 if (candidate_idx < num_cur_actives) {
@@ -1587,17 +1584,17 @@ module aptos_framework::stake {
         // Pre-fill the return value with dummy values.
         let idx = 0;
         while ({
-                spec {
-                    invariant idx
-                        <= len(validator_set.active_validators)
-                            + len(validator_set.pending_inactive);
-                    invariant len(validator_consensus_infos) == idx;
-                    invariant len(validator_consensus_infos)
-                        <= len(validator_set.active_validators)
-                            + len(validator_set.pending_inactive);
-                };
-                idx < total
-            }) {
+            spec {
+                invariant idx
+                    <= len(validator_set.active_validators)
+                        + len(validator_set.pending_inactive);
+                invariant len(validator_consensus_infos) == idx;
+                invariant len(validator_consensus_infos)
+                    <= len(validator_set.active_validators)
+                        + len(validator_set.pending_inactive);
+            };
+            idx < total
+        }) {
             vector::push_back(
                 &mut validator_consensus_infos, validator_consensus_info::default()
             );
@@ -1833,11 +1830,11 @@ module aptos_framework::stake {
         let i = 0;
         let len = vector::length(v);
         while ({
-                spec {
-                    invariant !(exists j in 0..i: v[j].addr == addr);
-                };
-                i < len
-            }) {
+            spec {
+                invariant !(exists j in 0..i: v[j].addr == addr);
+            };
+            i < len
+        }) {
             if (vector::borrow(v, i).addr == addr) {
                 return option::some(i)
             };
@@ -2805,7 +2802,14 @@ module aptos_framework::stake {
         mint_and_add_stake(validator_1, 51);
     }
 
-    #[test(aptos_framework = @0x1, validator_1 = @0x123, validator_2 = @0x234, validator_3 = @0x345)]
+    #[
+        test(
+            aptos_framework = @0x1,
+            validator_1 = @0x123,
+            validator_2 = @0x234,
+            validator_3 = @0x345
+        )
+    ]
     public entry fun test_multiple_validators_join_and_leave(
         aptos_framework: &signer,
         validator_1: &signer,
@@ -3034,7 +3038,16 @@ module aptos_framework::stake {
         leave_validator_set(validator, validator_address);
     }
 
-    #[test(aptos_framework = @aptos_framework, validator_1 = @aptos_framework, validator_2 = @0x2, validator_3 = @0x3, validator_4 = @0x4, validator_5 = @0x5)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            validator_1 = @aptos_framework,
+            validator_2 = @0x2,
+            validator_3 = @0x3,
+            validator_4 = @0x4,
+            validator_5 = @0x5
+        )
+    ]
     fun test_validator_consensus_infos_from_validator_set(
         aptos_framework: &signer,
         validator_1: &signer,
@@ -3124,7 +3137,16 @@ module aptos_framework::stake {
         assert!(vci_vec_0 == vci_vec_4, 14);
     }
 
-    #[test(aptos_framework = @aptos_framework, validator_1 = @aptos_framework, validator_2 = @0x2, validator_3 = @0x3, validator_4 = @0x4, validator_5 = @0x5)]
+    #[
+        test(
+            aptos_framework = @aptos_framework,
+            validator_1 = @aptos_framework,
+            validator_2 = @0x2,
+            validator_3 = @0x3,
+            validator_4 = @0x4,
+            validator_5 = @0x5
+        )
+    ]
     public entry fun test_staking_validator_index(
         aptos_framework: &signer,
         validator_1: &signer,
@@ -3591,7 +3613,14 @@ module aptos_framework::stake {
     #[test_only]
     const COLLECT_AND_DISTRIBUTE_GAS_FEES: u64 = 6;
 
-    #[test(aptos_framework = @0x1, validator_1 = @0x123, validator_2 = @0x234, validator_3 = @0x345)]
+    #[
+        test(
+            aptos_framework = @0x1,
+            validator_1 = @0x123,
+            validator_2 = @0x234,
+            validator_3 = @0x345
+        )
+    ]
     fun test_distribute_validator_fees(
         aptos_framework: &signer,
         validator_1: &signer,

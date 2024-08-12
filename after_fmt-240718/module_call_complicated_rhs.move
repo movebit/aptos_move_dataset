@@ -26,42 +26,42 @@ module 0x8675309::M {
     fun t2() {
         foo({});
         foo({
-                let _x = 0;
-            });
+            let _x = 0;
+        });
 
         let x = 0;
         bar({ x });
         bar({
-                let x = 0;
-                x
-            });
+            let x = 0;
+            x
+        });
 
         let a = @0x0;
         baz({ (a, x) });
         baz({
-                let a = false;
-                (a, x)
-            });
+            let a = false;
+            (a, x)
+        });
     }
 
     fun t3() {
         foo({});
         foo({
-                let _x = 0;
-            });
+            let _x = 0;
+        });
 
         let x = 0;
         bar({ x });
         bar({
-                let x = 0;
-                x
-            });
+            let x = 0;
+            x
+        });
 
         let a = @0x0;
         baz({ (a, x) });
         baz({
-                let a = false;
-                (a, x)
-            });
+            let a = false;
+            (a, x)
+        });
     }
 }

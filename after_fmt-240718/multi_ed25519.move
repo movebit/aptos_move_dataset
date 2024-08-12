@@ -143,8 +143,8 @@ module aptos_std::multi_ed25519 {
         : Option<ValidatedPublicKey> {
         // Note that `public_key_validate_internal` will check that `vector::length(&bytes) / INDIVIDUAL_PUBLIC_KEY_NUM_BYTES <= MAX_NUMBER_OF_PUBLIC_KEYS`.
         if (vector::length(&bytes) % INDIVIDUAL_PUBLIC_KEY_NUM_BYTES == THRESHOLD_SIZE_BYTES && public_key_validate_internal(
-                bytes
-            )) {
+            bytes
+        )) {
             option::some(ValidatedPublicKey { bytes })
         } else {
             option::none<ValidatedPublicKey>()
@@ -423,7 +423,8 @@ module aptos_std::multi_ed25519 {
         );
         let torsion_point_with_threshold_1 = vector<u8>[
             1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 1,];
+            0, 0, 0, 0, 0, 0, 1,
+        ];
 
         assert!(
             option::extract(&mut check_and_get_threshold(torsion_point_with_threshold_1))
