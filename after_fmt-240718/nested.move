@@ -12,6 +12,6 @@ module 0xcafe::m {
 
     /// A tests which nests things
     fun nested(x: u64, c: u64): u64 {
-        map1(x, |y|(map2((y - c as u8), |y| y + (c as u8)) as u64))
+        map1(x, |y| (map2((y - c as u8), |y| y + (c as u8)) as u64))
     }
 }
