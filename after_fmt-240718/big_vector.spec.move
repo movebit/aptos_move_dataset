@@ -12,9 +12,8 @@ spec aptos_std::big_vector {
         // ensure all buckets except last has `bucket_size`
         invariant spec_table_len(buckets) == 0
             || (
-                forall i in 0..spec_table_len(buckets) - 1: len(
-                    table_with_length::spec_get(buckets, i)
-                ) == bucket_size
+                forall i in 0..spec_table_len(buckets) - 1:
+                    len(table_with_length::spec_get(buckets, i)) == bucket_size
             );
         // ensure last bucket doesn't have more than `bucket_size` elements
         invariant spec_table_len(buckets) == 0
@@ -39,13 +38,11 @@ spec aptos_std::big_vector {
                         ) == end_index
             );
         // ensures that no out-of-bound buckets exist
-        invariant forall i: u64 where i >= spec_table_len(buckets): {
-            !spec_table_contains(buckets, i)
-        };
+        invariant forall i: u64 where i >= spec_table_len(buckets):
+            { !spec_table_contains(buckets, i) };
         // ensures that all buckets exist
-        invariant forall i: u64 where i < spec_table_len(buckets): {
-            spec_table_contains(buckets, i)
-        };
+        invariant forall i: u64 where i < spec_table_len(buckets):
+            { spec_table_contains(buckets, i) };
         // ensures that the last bucket is non-empty
         invariant spec_table_len(buckets) == 0
             || (len(table_with_length::spec_get(buckets, spec_table_len(buckets) - 1)) > 0);
@@ -118,8 +115,8 @@ spec aptos_std::big_vector {
         ensures length(v) == length(old(v));
         ensures spec_at(v, i) == spec_at(old(v), j);
         ensures spec_at(v, j) == spec_at(old(v), i);
-        ensures forall idx in 0..length(v) where idx != i && idx != j: spec_at(v, idx)
-            == spec_at(old(v), idx);
+        ensures forall idx in 0..length(v) where idx != i && idx != j:
+            spec_at(v, idx) == spec_at(old(v), idx);
     }
 
     spec append<T: store>(lhs: &mut BigVector<T>, other: BigVector<T>) {

@@ -150,8 +150,9 @@ module 0x2::Bug7 {
         let ballots = get_ballots<Proposal>(proposer_address);
         exists<Ballots<Proposal>>(proposer_address) ==>
             (
-                forall i in 0..len(ballots): ballots[i].ballot_id.counter
-                    < global<BallotCounter>(proposer_address).counter
+                forall i in 0..len(ballots):
+                    ballots[i].ballot_id.counter
+                        < global<BallotCounter>(proposer_address).counter
             )
     }
 
@@ -164,8 +165,7 @@ module 0x2::Bug7 {
 
         /// counter values in ballots are all less than the value of the BallotCounter
         /// See note on spec fun existing_ballots_have_small_counters
-        invariant<Proposal> forall addr: address: existing_ballots_have_small_counters<Proposal>(
-            addr
-        );
+        invariant<Proposal> forall addr: address:
+            existing_ballots_have_small_counters<Proposal>(addr);
     }
 }

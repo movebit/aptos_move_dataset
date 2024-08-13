@@ -26,8 +26,7 @@ module 0x2::InvRelevance {
     spec module {
         invariant forall a: address where exists<R<bool>>(a): global<R<bool>>(a).t;
 
-        invariant [suspendable] forall a: address where exists<R<u64>>(a): global<R<u64>>(
-            a
-        ).t == 0;
+        invariant [suspendable] forall a: address where exists<R<u64>>(a):
+            global<R<u64>>(a).t == 0;
     }
 }

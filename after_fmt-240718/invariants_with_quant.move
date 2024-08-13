@@ -22,9 +22,10 @@ module 0x42::TestQuantInvariant {
             && i < len(result)
             && j >= 0
             && j < len(result): i == j;
-        ensures forall i in 0..len(result) { result[i] }: {
-            let i = result[i];
-            i > 0
-        };
+        ensures forall i in 0..len(result) { result[i] }:
+            {
+                let i = result[i];
+                i > 0
+            };
     }
 }

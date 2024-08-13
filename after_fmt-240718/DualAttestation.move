@@ -173,8 +173,8 @@ module DiemFramework::DualAttestation {
 
         ensures global<Credential>(sender).base_url == new_url;
         /// The sender can only rotate its own base url [[H17]][PERMISSION].
-        ensures forall addr1: address where addr1 != sender: global<Credential>(addr1).base_url ==
-             old(global<Credential>(addr1).base_url);
+        ensures forall addr1: address where addr1 != sender:
+            global<Credential>(addr1).base_url == old(global<Credential>(addr1).base_url);
     }
 
     spec schema RotateBaseUrlEmits {
@@ -236,8 +236,9 @@ module DiemFramework::DualAttestation {
         let sender = signer::address_of(account);
         ensures global<Credential>(sender).compliance_public_key == new_key;
         /// The sender only rotates its own compliance_public_key [[H17]][PERMISSION].
-        ensures forall addr1: address where addr1 != sender: global<Credential>(addr1).compliance_public_key ==
-             old(global<Credential>(addr1).compliance_public_key);
+        ensures forall addr1: address where addr1 != sender:
+            global<Credential>(addr1).compliance_public_key
+                == old(global<Credential>(addr1).compliance_public_key);
     }
 
     spec schema RotateCompliancePublicKeyEmits {
@@ -621,31 +622,33 @@ module DiemFramework::DualAttestation {
     /// # Access Control
     spec module {
         /// Only TreasuryCompliance can change the limit [[H6]][PERMISSION].
-        invariant update forall a: address where old(exists<Limit>(@DiemRoot)): spec_get_cur_microdiem_limit()
-            != old(spec_get_cur_microdiem_limit()) ==>
-            Roles::spec_signed_by_treasury_compliance_role();
+        invariant update forall a: address where old(exists<Limit>(@DiemRoot)):
+            spec_get_cur_microdiem_limit() != old(spec_get_cur_microdiem_limit()) ==>
+                Roles::spec_signed_by_treasury_compliance_role();
 
         /// The permission "RotateDualAttestationInfo(addr)" is only granted to ParentVASP or DD [[H17]][PERMISSION].
         /// "Credential" resources are only published under ParentVASP or DD accounts.
-        invariant forall addr1: address: spec_has_credential(addr1) ==>
-            (
-                Roles::spec_has_parent_VASP_role_addr(addr1)
-                    || Roles::spec_has_designated_dealer_role_addr(addr1)
-            );
+        invariant forall addr1: address:
+            spec_has_credential(addr1) ==>
+                (
+                    Roles::spec_has_parent_VASP_role_addr(addr1)
+                        || Roles::spec_has_designated_dealer_role_addr(addr1)
+                );
 
         /// Only the one who owns Credential can rotate the dual attenstation info [[H17]][PERMISSION].
-        invariant update forall a: address where old(spec_has_credential(a)): global<
-            Credential>(a).compliance_public_key
-            != old(global<Credential>(a).compliance_public_key) ==>
-            signer::is_txn_signer_addr(a);
+        invariant update forall a: address where old(spec_has_credential(a)):
+            global<Credential>(a).compliance_public_key
+                != old(global<Credential>(a).compliance_public_key) ==>
+                signer::is_txn_signer_addr(a);
 
-        invariant update forall a: address where old(spec_has_credential(a)): global<
-            Credential>(a).base_url != old(global<Credential>(a).base_url) ==>
-            signer::is_txn_signer_addr(a);
+        invariant update forall a: address where old(spec_has_credential(a)):
+            global<Credential>(a).base_url != old(global<Credential>(a).base_url) ==>
+                signer::is_txn_signer_addr(a);
 
         /// The permission "RotateDualAttestationInfo(addr)" is not transferred [[J17]][PERMISSION].
         /// resource struct `Credential` is persistent.
-        invariant<CoinType> update forall a: address: old(spec_has_credential(a)) ==>
-            spec_has_credential(a);
+        invariant<CoinType> update forall a: address:
+            old(spec_has_credential(a)) ==>
+                spec_has_credential(a);
     }
 }

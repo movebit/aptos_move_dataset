@@ -352,14 +352,14 @@ module ValidatorAdministrationScripts {
         // v_info.config is the old config (if it exists) and the Config with args from set_config is
         // the new config
         let is_validator_info_updated = (
-            exists v_info in DiemSystem::spec_get_validators(): v_info.addr
-                == validator_account
-                && v_info.config
-                    != ValidatorConfig::Config {
-                        consensus_pubkey,
-                        validator_network_addresses,
-                        fullnode_network_addresses,
-                    }
+            exists v_info in DiemSystem::spec_get_validators():
+                v_info.addr == validator_account
+                    && v_info.config
+                        != ValidatorConfig::Config {
+                            consensus_pubkey,
+                            validator_network_addresses,
+                            fullnode_network_addresses,
+                        }
         );
         include is_validator_info_updated ==>
             DiemConfig::ReconfigureAbortsIf;

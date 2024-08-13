@@ -9,10 +9,9 @@ module 0x42::TestGlobalVars {
     spec module {
         global sum_table: Table<address, u64>;
         global sum_of_T2: u64 = 0;
-        invariant [suspendable] forall addr: address: table::spec_contains(
-            sum_table, addr
-        ) ==>
-            (table::spec_get(sum_table, addr) == global<T>(addr).i);
+        invariant [suspendable] forall addr: address:
+            table::spec_contains(sum_table, addr) ==>
+                (table::spec_get(sum_table, addr) == global<T>(addr).i);
     }
 
     struct T has key {

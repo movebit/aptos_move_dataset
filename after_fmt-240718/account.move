@@ -41,11 +41,11 @@ module 0x42::Account {
         global<Account>(acc).balance
     }
 
-    invariant forall acc: address where exists<Account>(acc): bal(acc)
-        >= AccountLimits::min_balance();
+    invariant forall acc: address where exists<Account>(acc):
+        bal(acc) >= AccountLimits::min_balance();
 
-    invariant update forall acc: address where exists<Account>(acc): old(bal(acc))
-        - bal(acc) <= AccountLimits::max_decrease();
+    invariant update forall acc: address where exists<Account>(acc):
+        old(bal(acc)) - bal(acc) <= AccountLimits::max_decrease();
 
     use 0x42::Errors;
     use 0x42::Limits;

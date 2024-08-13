@@ -126,9 +126,8 @@ module std::offer {
     spec schema NoOfferCreated<Offered> {
         /// Says no offer is created for any address. Later, it is applied to all functions
         /// except `create`
-        ensures forall addr: address where !old(exists<Offer<Offered>>(addr)): !exists<Offer<Offered>>(
-            addr
-        );
+        ensures forall addr: address where !old(exists<Offer<Offered>>(addr)):
+            !exists<Offer<Offered>>(addr);
     }
 
     spec module {
@@ -140,10 +139,11 @@ module std::offer {
 
     spec schema NoOfferRemoved<Offered> {
         /// Says no offer is removed for any address. Applied below to everything except `redeem`
-        ensures forall addr: address where old(exists<Offer<Offered>>(addr)): (
-            exists<Offer<Offered>>(addr)
-                && global<Offer<Offered>>(addr) == old(global<Offer<Offered>>(addr))
-        );
+        ensures forall addr: address where old(exists<Offer<Offered>>(addr)):
+            (
+                exists<Offer<Offered>>(addr)
+                    && global<Offer<Offered>>(addr) == old(global<Offer<Offered>>(addr))
+            );
     }
 
     spec module {

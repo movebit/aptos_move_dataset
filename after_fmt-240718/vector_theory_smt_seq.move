@@ -9,12 +9,11 @@ module 0x42::test {
     }
 
     spec f1 {
-        invariant forall i in 0..len(pool), j in 0..len(pool): (pool[i] == pool[j]) ==> (i ==
-         j);
+        invariant forall i in 0..len(pool), j in 0..len(pool):
+            (pool[i] == pool[j]) ==> (i == j);
 
-        ensures forall a: address where a != addr: old(contains(pool, a)) ==> contains(
-            pool, a
-        );
+        ensures forall a: address where a != addr:
+            old(contains(pool, a)) ==> contains(pool, a);
     }
 
     struct Pool {
@@ -29,12 +28,11 @@ module 0x42::test {
     }
 
     spec f2 {
-        invariant forall i in 0..len(pool.holders), j in 0..len(pool.holders): pool.holders[i] ==
-             pool.holders[j] ==> i == j;
+        invariant forall i in 0..len(pool.holders), j in 0..len(pool.holders):
+            pool.holders[i] == pool.holders[j] ==> i == j;
 
-        invariant forall addr: address: (
-            table::spec_contains(pool.shares, addr) <==>
-                contains(pool.holders, addr)
-        );
+        invariant forall addr: address:
+            (table::spec_contains(pool.shares, addr) <==>
+                contains(pool.holders, addr));
     }
 }

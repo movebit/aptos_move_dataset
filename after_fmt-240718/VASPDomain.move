@@ -18,8 +18,8 @@ module DiemFramework::VASPDomain {
         /// All `VASPDomain`s stored in the `VASPDomains` resource are no more than 63 characters long.
         invariant forall i in 0..len(domains): len(domains[i].domain) <= DOMAIN_LENGTH;
         /// The list of `VASPDomain`s are a set
-        invariant forall i in 0..len(domains): forall j in i + 1..len(domains): domains[i]
-            != domains[j];
+        invariant forall i in 0..len(domains):
+            forall j in i + 1..len(domains): domains[i] != domains[j];
     }
 
     /// Struct to store the limit on-chain

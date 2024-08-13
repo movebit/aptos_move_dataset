@@ -27,9 +27,9 @@ module TestFeatures {
         pragma bv = b"0";
         pragma opaque;
         aborts_if false;
-        ensures result == (
-            (feature / 8) < len(features) && spec_contains(features, feature)
-        );
+        ensures result == ((feature / 8) < len(features) && spec_contains(
+            features, feature
+        ));
     }
 
     fun is_enabled(feature: u64): bool acquires Features {
@@ -45,13 +45,11 @@ module TestFeatures {
         ensures result
             == (
                 exists<Features>(@std) // this one does not verify
-                    && ((
-                        (feature / 8) < len(global<Features>(@std).features)
-                            && spec_contains(
-                                global<Features>(@std).features,
-                                feature,
-                            )
-                    ))
+                    && (((feature / 8) < len(global<Features>(@std).features)
+                        && spec_contains(
+                            global<Features>(@std).features,
+                            feature,
+                        )))
             );
     }
 
@@ -124,10 +122,8 @@ module TestFeatures {
     }
 
     spec fun spec_compute_feature_flag(features: vector<u8>, feature: u64): u8 {
-        (
-            (int2bv((((1 as u8) << ((feature % (8 as u64)) as u64)) as u8)) as u8)
-                & features[feature / 8] as u8
-        )
+        ((int2bv((((1 as u8) << ((feature % (8 as u64)) as u64)) as u8)) as u8)
+            & features[feature / 8] as u8)
     }
 
     spec fun spec_contains(features: vector<u8>, feature: u64): bool {
@@ -145,8 +141,8 @@ module TestFeatures {
         while ({
             spec {
                 invariant i <= n;
-                invariant forall j in 0..i: disable[j] / 8 < len(features)
-                    && !spec_contains(features, disable[j]);
+                invariant forall j in 0..i:
+                    disable[j] / 8 < len(features) && !spec_contains(features, disable[j]);
             };
             i < n
         }) {
@@ -165,9 +161,8 @@ module TestFeatures {
         pragma timeout = 120;
         modifies global<Features>(@std);
         let post features = global<Features>(@std).features;
-        ensures forall i in 0..len(disable): (
-            disable[i] / 8 < len(features) && !spec_contains(features, disable[i])
-        );
+        ensures forall i in 0..len(disable):
+            (disable[i] / 8 < len(features) && !spec_contains(features, disable[i]));
     }
 
     public fun enable_feature_flags(enable: vector<u64>) acquires Features {
@@ -177,8 +172,8 @@ module TestFeatures {
         while ({
             spec {
                 invariant i <= n;
-                invariant forall j in 0..i: enable[j] / 8 < len(features)
-                    && spec_contains(features, enable[j]);
+                invariant forall j in 0..i:
+                    enable[j] / 8 < len(features) && spec_contains(features, enable[j]);
             };
             i < n
         }) {
@@ -195,9 +190,8 @@ module TestFeatures {
         pragma timeout = 120;
         modifies global<Features>(@std);
         let post features = global<Features>(@std).features;
-        ensures forall i in 0..len(enable): (
-            enable[i] / 8 < len(features) && spec_contains(features, enable[i])
-        );
+        ensures forall i in 0..len(enable):
+            (enable[i] / 8 < len(features) && spec_contains(features, enable[i]));
     }
 }
 }

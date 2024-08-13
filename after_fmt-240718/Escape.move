@@ -34,8 +34,10 @@ module Escape {
     //
     // In comparision, an `OutdoorThing` can escape because that the
     // `new_outdoor_thing` function returns an object of the `OutdoorThing` type
-    invariant forall addr: address where exists<Wrapper<IndoorThing>>(addr): addr == @0x123;
+    invariant forall addr: address where exists<Wrapper<IndoorThing>>(addr):
+        addr == @0x123;
 
-    invariant forall addr: address where exists<Wrapper<OutdoorThing>>(addr): addr == @0x123;
+    invariant forall addr: address where exists<Wrapper<OutdoorThing>>(addr):
+        addr == @0x123;
 }
 }

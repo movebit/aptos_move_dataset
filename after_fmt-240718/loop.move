@@ -31,7 +31,8 @@ module 0x42::VerifySort {
                     && (forall k in 0..vlen: iperm[k] >= 0
                         && iperm[k] < vlen)
                     && (
-                        forall k in 0..vlen, l in 0..vlen: k != l ==> iperm[k] != iperm[l]
+                        forall k in 0..vlen, l in 0..vlen:
+                            k != l ==> iperm[k] != iperm[l]
                     );
             };
             (i < vlen - 1)
@@ -60,10 +61,11 @@ module 0x42::VerifySort {
     spec verify_sort {
         aborts_if false;
         ensures forall i in 0..len(v) - 1: v[i] <= v[i + 1];
-        ensures exists perm: vector<u64> : len(perm) == len(v)
-            && (forall k in 0..len(v): old(v)[perm[k]] == v[k])
-            && (forall k in 0..len(v): perm[k] >= 0
-                && perm[k] < len(v))
-            && (forall k in 0..len(v), l in 0..len(v): k != l ==> perm[k] != perm[l]);
+        ensures exists perm: vector<u64> :
+            len(perm) == len(v)
+                && (forall k in 0..len(v): old(v)[perm[k]] == v[k])
+                && (forall k in 0..len(v): perm[k] >= 0
+                    && perm[k] < len(v))
+                && (forall k in 0..len(v), l in 0..len(v): k != l ==> perm[k] != perm[l]);
     }
 }

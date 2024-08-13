@@ -699,10 +699,8 @@ module aptos_framework::delegation_pool {
                     * (MAX_FEE - operator_commission_percentage(pool_address));
                 rewards_rate_denominator = rewards_rate_denominator * MAX_FEE;
                 (
-                    (
-                        ((amount as u128) * (rewards_rate as u128))
-                            / ((rewards_rate as u128) + (rewards_rate_denominator as u128))
-                    ) as u64
+                    (((amount as u128) * (rewards_rate as u128))
+                        / ((rewards_rate as u128) + (rewards_rate_denominator as u128))) as u64
                 )
             } else { 0 }
         } else { 0 }

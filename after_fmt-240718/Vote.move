@@ -595,8 +595,9 @@ module ExperimentalFramework::Vote {
         let ballots = get_ballots<Proposal>(proposer_address);
         exists<Ballots<Proposal>>(proposer_address) ==>
             (
-                forall i in 0..len(ballots): ballots[i].ballot_id.counter
-                    < global<BallotCounter>(proposer_address).counter
+                forall i in 0..len(ballots):
+                    ballots[i].ballot_id.counter
+                        < global<BallotCounter>(proposer_address).counter
             )
     }
 
@@ -606,15 +607,14 @@ module ExperimentalFramework::Vote {
     /// that every BallotID is in one of the legal states.
     spec fun no_winning_ballots_in_vector<Proposal>(proposer_address: address): bool {
         let ballots = get_ballots<Proposal>(proposer_address);
-        forall i in 0..len(ballots): ballots[i].total_weighted_votes_received
-            < ballots[i].num_votes_required
+        forall i in 0..len(ballots):
+            ballots[i].total_weighted_votes_received < ballots[i].num_votes_required
     }
 
     spec module {
         /// ballots in vector all have the proposer address in their ballot IDs.
-        invariant<Proposal>[suspendable] forall proposer_address: address: ballot_ids_have_correct_ballot_address<Proposal>(
-            proposer_address
-        );
+        invariant<Proposal>[suspendable] forall proposer_address: address:
+            ballot_ids_have_correct_ballot_address<Proposal>(proposer_address);
 
         // / counter values in ballots are all less than the value of the BallotCounter
         // / See note on spec fun existing_ballots_have_small_counters
@@ -626,17 +626,15 @@ module ExperimentalFramework::Vote {
         invariant<Proposal>(
             forall addr: address: existing_ballots_have_small_counters<Proposal>(addr)
         ) && (
-            forall ballot_addr: address: ballot_counter_initialized_first<Proposal>(
-                ballot_addr
-            )
+            forall ballot_addr: address:
+                ballot_counter_initialized_first<Proposal>(ballot_addr)
         );
 
         /// Every ballot in the vector has total_weighted_votes_received < num_votes_required
         /// So the ballot will eventually be removed either by accumulating enough votes or by expiring
         /// and being garbage-collected
-        invariant<Proposal> forall addr: address: no_winning_ballots_in_vector<Proposal>(
-            addr
-        );
+        invariant<Proposal> forall addr: address:
+            no_winning_ballots_in_vector<Proposal>(addr);
     }
 
     /// There are no duplicate Ballot IDs in the Ballots<Proposer>.ballots vector

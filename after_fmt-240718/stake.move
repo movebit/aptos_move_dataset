@@ -1387,11 +1387,12 @@ module aptos_framework::stake {
                 invariant len(validator_set.pending_inactive) == 0;
                 invariant 0 <= validator_index && validator_index <= vlen;
                 invariant vlen == len(validator_set.active_validators);
-                invariant forall i in 0..validator_index: global<ValidatorConfig>(
-                    validator_set.active_validators[i].addr
-                ).validator_index < validator_index;
-                invariant forall i in 0..validator_index: validator_set.active_validators[i]
-                    .config.validator_index < validator_index;
+                invariant forall i in 0..validator_index:
+                    global<ValidatorConfig>(validator_set.active_validators[i].addr).validator_index
+                        < validator_index;
+                invariant forall i in 0..validator_index:
+                    validator_set.active_validators[i].config.validator_index
+                        < validator_index;
                 invariant len(validator_perf.validators) == validator_index;
             };
             validator_index < vlen
@@ -1469,8 +1470,8 @@ module aptos_framework::stake {
                 invariant candidate_idx <= num_candidates;
                 invariant spec_validators_are_initialized(new_active_validators);
                 invariant len(new_active_validators) == num_new_actives;
-                invariant forall i in 0..len(new_active_validators): new_active_validators[i]
-                    .config.validator_index == i;
+                invariant forall i in 0..len(new_active_validators):
+                    new_active_validators[i].config.validator_index == i;
                 invariant num_new_actives <= candidate_idx;
                 invariant spec_validators_are_initialized(new_active_validators);
             };

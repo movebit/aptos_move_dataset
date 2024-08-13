@@ -237,8 +237,7 @@ module DiemFramework::DesignatedDealer {
 
     spec module {
         /// resource struct Dealer persists after publication
-        invariant update forall addr: address where old(exists<Dealer>(addr)): exists<Dealer>(
-            addr
-        );
+        invariant update forall addr: address where old(exists<Dealer>(addr)):
+            exists<Dealer>(addr);
     }
 }

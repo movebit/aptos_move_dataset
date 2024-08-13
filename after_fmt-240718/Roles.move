@@ -422,9 +422,9 @@ module DiemFramework::Roles {
 
     /// Once an account at an address is granted a role it will remain an account role for all time.
     spec module {
-        invariant update forall addr: address where old(exists<RoleId>(addr)): exists<RoleId>(
-            addr
-        ) && old(global<RoleId>(addr).role_id) == global<RoleId>(addr).role_id;
+        invariant update forall addr: address where old(exists<RoleId>(addr)):
+            exists<RoleId>(addr)
+                && old(global<RoleId>(addr).role_id) == global<RoleId>(addr).role_id;
     }
 
     /// # Access Control
@@ -473,8 +473,8 @@ module DiemFramework::Roles {
 
         /// The DiemRoot role is globally unique [[B1]][ROLE], and is published at DIEM_ROOT_ADDRESS [[C1]][ROLE].
         /// In other words, a `RoleId` with `DIEM_ROOT_ROLE_ID` uniquely exists at `DIEM_ROOT_ADDRESS`.
-        invariant forall addr: address where spec_has_diem_root_role_addr(addr): addr
-            == @DiemRoot;
+        invariant forall addr: address where spec_has_diem_root_role_addr(addr):
+            addr == @DiemRoot;
         invariant [suspendable] DiemTimestamp::is_operating() ==>
             spec_has_diem_root_role_addr(@DiemRoot);
 
@@ -488,9 +488,8 @@ module DiemFramework::Roles {
         // TODO: These specs really just repeat what's in spec_can_hold_balance_addr. It's nice to
         // be able to link to DIP-2, but can we do that with less verbose specs?
         /// DiemRoot cannot have balances [[D1]][ROLE].
-        invariant forall addr: address where spec_has_diem_root_role_addr(addr): !spec_can_hold_balance_addr(
-            addr
-        );
+        invariant forall addr: address where spec_has_diem_root_role_addr(addr):
+            !spec_can_hold_balance_addr(addr);
 
         /// TreasuryCompliance cannot have balances [[D2]][ROLE].
         invariant forall addr: address where spec_has_treasury_compliance_role_addr(addr): !spec_can_hold_balance_addr(
@@ -498,9 +497,8 @@ module DiemFramework::Roles {
         );
 
         /// Validator cannot have balances [[D3]][ROLE].
-        invariant forall addr: address where spec_has_validator_role_addr(addr): !spec_can_hold_balance_addr(
-            addr
-        );
+        invariant forall addr: address where spec_has_validator_role_addr(addr):
+            !spec_can_hold_balance_addr(addr);
 
         /// ValidatorOperator cannot have balances [[D4]][ROLE].
         invariant forall addr: address where spec_has_validator_operator_role_addr(addr): !spec_can_hold_balance_addr(
@@ -508,19 +506,16 @@ module DiemFramework::Roles {
         );
 
         /// DesignatedDealer have balances [[D5]][ROLE].
-        invariant forall addr: address where spec_has_designated_dealer_role_addr(addr): spec_can_hold_balance_addr(
-            addr
-        );
+        invariant forall addr: address where spec_has_designated_dealer_role_addr(addr):
+            spec_can_hold_balance_addr(addr);
 
         /// ParentVASP have balances [[D6]][ROLE].
-        invariant forall addr: address where spec_has_parent_VASP_role_addr(addr): spec_can_hold_balance_addr(
-            addr
-        );
+        invariant forall addr: address where spec_has_parent_VASP_role_addr(addr):
+            spec_can_hold_balance_addr(addr);
 
         /// ChildVASP have balances [[D7]][ROLE].
-        invariant forall addr: address where spec_has_child_VASP_role_addr(addr): spec_can_hold_balance_addr(
-            addr
-        );
+        invariant forall addr: address where spec_has_child_VASP_role_addr(addr):
+            spec_can_hold_balance_addr(addr);
     }
 
     /// # Helper Functions and Schemas
@@ -569,21 +564,21 @@ module DiemFramework::Roles {
         }
 
         fun spec_signed_by_treasury_compliance_role(): bool {
-            exists a: address: signer::is_txn_signer_addr(a)
-                && spec_has_treasury_compliance_role_addr(a)
+            exists a: address:
+                signer::is_txn_signer_addr(a) && spec_has_treasury_compliance_role_addr(a)
         }
 
         fun spec_signed_by_diem_root_role(): bool {
-            exists a: address: signer::is_txn_signer_addr(a)
-                && spec_has_diem_root_role_addr(a)
+            exists a: address:
+                signer::is_txn_signer_addr(a) && spec_has_diem_root_role_addr(a)
         }
     }
 
     spec schema ThisRoleIsNotNewlyPublished {
         this: u64;
         ensures forall addr: address where exists<RoleId>(addr)
-            && global<RoleId>(addr).role_id == this: old(exists<RoleId>(addr))
-            && old(global<RoleId>(addr).role_id) == this;
+            && global<RoleId>(addr).role_id == this:
+            old(exists<RoleId>(addr)) && old(global<RoleId>(addr).role_id) == this;
     }
 
     spec schema AbortsIfNotDiemRoot {

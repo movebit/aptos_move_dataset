@@ -439,23 +439,24 @@ module aptos_framework::storage_gas {
         let i = 0;
         while ({
             spec {
-                invariant forall j in 0..i: {
-                    let cur = if (j == 0) {
-                        Point { x: 0, y: 0 }
-                    } else {
-                        points[j - 1]
-                    };
-                    let next =
-                        if (j == len) {
-                            Point {
-                                x: BASIS_POINT_DENOMINATION,
-                                y: BASIS_POINT_DENOMINATION
-                            }
+                invariant forall j in 0..i:
+                    {
+                        let cur = if (j == 0) {
+                            Point { x: 0, y: 0 }
                         } else {
-                            points[j]
+                            points[j - 1]
                         };
-                    cur.x < next.x && cur.y <= next.y
-                };
+                        let next =
+                            if (j == len) {
+                                Point {
+                                    x: BASIS_POINT_DENOMINATION,
+                                    y: BASIS_POINT_DENOMINATION
+                                }
+                            } else {
+                                points[j]
+                            };
+                        cur.x < next.x && cur.y <= next.y
+                    };
             };
             i <= len
         }) {

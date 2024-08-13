@@ -272,10 +272,12 @@ module aptos_framework::transaction_validation {
         while ({
             spec {
                 invariant i <= num_secondary_signers;
-                invariant forall j in 0..i: account::exists_at(
-                    secondary_signer_addresses[j]
-                ) && secondary_signer_public_key_hashes[j]
-                    == account::get_authentication_key(secondary_signer_addresses[j]);
+                invariant forall j in 0..i:
+                    account::exists_at(secondary_signer_addresses[j])
+                        && secondary_signer_public_key_hashes[j]
+                            == account::get_authentication_key(
+                                secondary_signer_addresses[j]
+                            );
             };
             (i < num_secondary_signers)
         }) {

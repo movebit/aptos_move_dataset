@@ -218,17 +218,19 @@ module DiemFramework::AccountFreezing {
             spec_account_is_not_frozen(@TreasuryCompliance);
 
         /// resource struct FreezingBit persists
-        invariant update forall addr: address where old(exists<FreezingBit>(addr)): exists<
-            FreezingBit>(addr);
+        invariant update forall addr: address where old(exists<FreezingBit>(addr)):
+            exists<FreezingBit>(addr);
 
         /// resource struct FreezeEventsHolder is there forever after initialization
         invariant [suspendable] DiemTimestamp::is_operating() ==>
             exists<FreezeEventsHolder>(@DiemRoot);
 
         /// Only TreasuryCompliance can change the freezing bits of accounts [[H7]][PERMISSION].
-        invariant update forall addr: address where old(exists<FreezingBit>(addr)): global<
-            FreezingBit>(addr).is_frozen != old(global<FreezingBit>(addr).is_frozen) ==>
-            Roles::spec_signed_by_treasury_compliance_role();
+        invariant update forall addr: address where old(exists<FreezingBit>(addr)):
+            global<FreezingBit>(addr).is_frozen != old(
+                global<FreezingBit>(addr).is_frozen
+            ) ==>
+                Roles::spec_signed_by_treasury_compliance_role();
     }
 
     /// # Helper Functions

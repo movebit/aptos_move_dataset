@@ -220,41 +220,43 @@ module DiemFramework::RecoveryAddress {
 
     spec module {
         /// A RecoveryAddress has its own `KeyRotationCapability`.
-        invariant forall addr: address where spec_is_recovery_address(addr): (
-            len(spec_get_rotation_caps(addr)) > 0
-                && spec_get_rotation_caps(addr)[0].account_address == addr
-        );
+        invariant forall addr: address where spec_is_recovery_address(addr):
+            (
+                len(spec_get_rotation_caps(addr)) > 0
+                    && spec_get_rotation_caps(addr)[0].account_address == addr
+            );
     }
 
     /// # Persistence of Resource
 
     spec module {
-        invariant update forall addr: address: old(spec_is_recovery_address(addr)) ==>
-            spec_is_recovery_address(addr);
+        invariant update forall addr: address:
+            old(spec_is_recovery_address(addr)) ==>
+                spec_is_recovery_address(addr);
     }
 
     /// # Persistence of KeyRotationCapability
 
     spec module {
         /// `RecoveryAddress` persists
-        invariant update forall addr: address where old(exists<RecoveryAddress>(addr)): exists<
-            RecoveryAddress>(addr);
+        invariant update forall addr: address where old(exists<RecoveryAddress>(addr)):
+            exists<RecoveryAddress>(addr);
 
         /// If `recovery_addr` holds the `KeyRotationCapability` of `to_recovery_addr`
         /// in the previous state, then it continues to hold the capability after the update.
         invariant update forall recovery_addr: address, to_recovery_addr: address where old(
             spec_is_recovery_address(recovery_addr)
-        ): old(spec_holds_key_rotation_cap_for(recovery_addr, to_recovery_addr)) ==>
-            spec_holds_key_rotation_cap_for(recovery_addr, to_recovery_addr);
+        ):
+            old(spec_holds_key_rotation_cap_for(recovery_addr, to_recovery_addr)) ==>
+                spec_holds_key_rotation_cap_for(recovery_addr, to_recovery_addr);
     }
 
     /// # Consistency Between Resources and Roles
 
     spec module {
         /// Only VASPs can hold `RecoverAddress` resources.
-        invariant forall addr: address where spec_is_recovery_address(addr): VASP::is_vasp(
-            addr
-        );
+        invariant forall addr: address where spec_is_recovery_address(addr):
+            VASP::is_vasp(addr);
     }
 
     /// # Helper Functions

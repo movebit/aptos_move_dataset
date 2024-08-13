@@ -28,8 +28,7 @@ module 0x42::TestFriend {
         /// Function f and g both violate this invariant on their own.
         /// However, since they can only be called from h's context, the following
         /// invariant can't be violated and the prover verifies with no errors.
-        invariant [suspendable] forall addr: address where exists<R>(addr): global<R>(
-            addr
-        ).x == 42;
+        invariant [suspendable] forall addr: address where exists<R>(addr):
+            global<R>(addr).x == 42;
     }
 }

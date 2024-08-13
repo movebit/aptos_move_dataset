@@ -108,8 +108,8 @@ spec aptos_framework::vesting {
         pragma aborts_if_is_strict;
         // property 2: The vesting pool should not exceed a maximum of 30 shareholders.
         /// [high-level-spec-2]
-        invariant forall a: address where exists<VestingContract>(a): global<
-            VestingContract>(a).grant_pool.shareholders_limit <= MAXIMUM_SHAREHOLDERS;
+        invariant forall a: address where exists<VestingContract>(a):
+            global<VestingContract>(a).grant_pool.shareholders_limit <= MAXIMUM_SHAREHOLDERS;
     }
 
     spec stake_pool_address(vesting_contract_address: address): address {
@@ -338,14 +338,15 @@ spec aptos_framework::vesting {
     spec schema PreconditionAbortsIf {
         contract_addresses: vector<address>;
 
-        requires forall i in 0..len(contract_addresses): simple_map::spec_get(
-            global<staking_contract::Store>(contract_addresses[i]).staking_contracts,
-            global<VestingContract>(contract_addresses[i]).staking.operator,
-        ).commission_percentage >= 0
-            && simple_map::spec_get(
+        requires forall i in 0..len(contract_addresses):
+            simple_map::spec_get(
                 global<staking_contract::Store>(contract_addresses[i]).staking_contracts,
                 global<VestingContract>(contract_addresses[i]).staking.operator,
-            ).commission_percentage <= 100;
+            ).commission_percentage >= 0
+                && simple_map::spec_get(
+                    global<staking_contract::Store>(contract_addresses[i]).staking_contracts,
+                    global<VestingContract>(contract_addresses[i]).staking.operator,
+                ).commission_percentage <= 100;
     }
 
     spec distribute(contract_address: address) {

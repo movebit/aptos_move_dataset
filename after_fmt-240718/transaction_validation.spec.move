@@ -155,16 +155,16 @@ spec aptos_framework::transaction_validation {
         // If any account does not exist, or public key hash does not match, abort.
         // property 2: All secondary signer addresses are verified to be authentic through a validation process.
         /// [high-level-req-2]
-        aborts_if exists i in 0..num_secondary_signers: !account::exists_at(
-            secondary_signer_addresses[i]
-        ) || secondary_signer_public_key_hashes[i]
-            != account::get_authentication_key(secondary_signer_addresses[i]);
+        aborts_if exists i in 0..num_secondary_signers:
+            !account::exists_at(secondary_signer_addresses[i])
+                || secondary_signer_public_key_hashes[i]
+                    != account::get_authentication_key(secondary_signer_addresses[i]);
 
         // By the end, all secondary signers account should exist and public key hash should match.
-        ensures forall i in 0..num_secondary_signers: account::exists_at(
-            secondary_signer_addresses[i]
-        ) && secondary_signer_public_key_hashes[i]
-            == account::get_authentication_key(secondary_signer_addresses[i]);
+        ensures forall i in 0..num_secondary_signers:
+            account::exists_at(secondary_signer_addresses[i])
+                && secondary_signer_public_key_hashes[i]
+                    == account::get_authentication_key(secondary_signer_addresses[i]);
     }
 
     spec multi_agent_common_prologue(

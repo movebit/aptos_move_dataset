@@ -250,9 +250,8 @@ module DiemFramework::VASP {
 
     /// # Existence of Parents
     spec module {
-        invariant forall child_addr: address where is_child(child_addr): is_parent(
-            global<ChildVASP>(child_addr).parent_vasp_addr
-        );
+        invariant forall child_addr: address where is_child(child_addr):
+            is_parent(global<ChildVASP>(child_addr).parent_vasp_addr);
     }
 
     /// # Creation of Child VASPs
@@ -274,16 +273,15 @@ module DiemFramework::VASP {
     }
 
     spec schema NumChildrenRemainsSame {
-        ensures forall parent: address where old(is_parent(parent)): spec_num_children(
-            parent
-        ) == old(spec_num_children(parent));
+        ensures forall parent: address where old(is_parent(parent)):
+            spec_num_children(parent) == old(spec_num_children(parent));
     }
 
     /// # Immutability of Parent Address
 
     spec module {
         /// The parent address stored at ChildVASP resource never changes.
-        invariant update forall a: address where old(is_child(a)): spec_parent_address(a)
-            == old(spec_parent_address(a));
+        invariant update forall a: address where old(is_child(a)):
+            spec_parent_address(a) == old(spec_parent_address(a));
     }
 }

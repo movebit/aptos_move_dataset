@@ -21,6 +21,6 @@ module 0x1::M1 {
         pragma disable_invariants_in_body;
     }
 
-    invariant [suspendable] forall addr: address: exists<R>(addr) ==> global<R>(addr).v >
-        0;
+    invariant [suspendable] forall addr: address:
+        exists<R>(addr) ==> global<R>(addr).v > 0;
 }

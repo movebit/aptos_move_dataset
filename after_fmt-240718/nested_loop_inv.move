@@ -33,9 +33,10 @@ module 0x42::nested_loop {
     }
 
     spec assert_no_duplicate {
-        aborts_if exists i: u64, j: u64: i < len(v)
-            && j < len(v)
-            && i != j
-            && v[i] == v[j];
+        aborts_if exists i: u64, j: u64:
+            i < len(v)
+                && j < len(v)
+                && i != j
+                && v[i] == v[j];
     }
 }

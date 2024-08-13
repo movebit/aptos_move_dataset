@@ -7,8 +7,9 @@ spec aptos_std::pool_u64_unbound {
     // -----------------------
 
     spec Pool {
-        invariant forall addr: address: table::spec_contains(shares, addr) ==>
-            (table::spec_get(shares, addr) > 0);
+        invariant forall addr: address:
+            table::spec_contains(shares, addr) ==>
+                (table::spec_get(shares, addr) > 0);
     }
 
     spec fun spec_contains(pool: Pool, shareholder: address): bool {
@@ -172,10 +173,8 @@ spec aptos_std::pool_u64_unbound {
         aborts_if spec_shares(pool, shareholder_1) < shares_to_transfer;
         ensures shareholder_1 == shareholder_2 ==>
             spec_shares(old(pool), shareholder_1) == spec_shares(pool, shareholder_1);
-        ensures (
-            (shareholder_1 != shareholder_2)
-                && (spec_shares(old(pool), shareholder_1) == shares_to_transfer)
-        ) ==>
+        ensures ((shareholder_1 != shareholder_2)
+            && (spec_shares(old(pool), shareholder_1) == shares_to_transfer)) ==>
             !spec_contains(pool, shareholder_1);
         ensures (shareholder_1 != shareholder_2 && shares_to_transfer > 0) ==>
             (spec_contains(pool, shareholder_2));
@@ -198,10 +197,8 @@ spec aptos_std::pool_u64_unbound {
                     && spec_shares(pool, shareholder_2)
                         == spec_shares(old(pool), shareholder_2) + shares_to_transfer
             );
-        ensures (
-            (shareholder_1 != shareholder_2)
-                && (spec_shares(old(pool), shareholder_1) > shares_to_transfer)
-        ) ==>
+        ensures ((shareholder_1 != shareholder_2)
+            && (spec_shares(old(pool), shareholder_1) > shares_to_transfer)) ==>
             (
                 spec_contains(pool, shareholder_1)
                     && (

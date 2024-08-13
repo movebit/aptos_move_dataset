@@ -83,23 +83,24 @@ spec aptos_framework::stake {
     }
 
     spec schema StakePoolNotChangeDuringReconfig {
-        ensures forall a: address where old(exists<StakePool>(a)): reconfiguration_state::spec_is_in_progress() ==>
-
-        (
-            old(global<StakePool>(a).pending_inactive)
-                == global<StakePool>(a).pending_inactive
-                && old(global<StakePool>(a).pending_active)
-                    == global<StakePool>(a).pending_active
-                && old(global<StakePool>(a).inactive) == global<StakePool>(a).inactive
-                && old(global<StakePool>(a).active) == global<StakePool>(a).active
-        );
+        ensures forall a: address where old(exists<StakePool>(a)):
+            reconfiguration_state::spec_is_in_progress() ==>
+                (
+                    old(global<StakePool>(a).pending_inactive)
+                        == global<StakePool>(a).pending_inactive
+                        && old(global<StakePool>(a).pending_active)
+                            == global<StakePool>(a).pending_active
+                        && old(global<StakePool>(a).inactive)
+                            == global<StakePool>(a).inactive
+                        && old(global<StakePool>(a).active) == global<StakePool>(a).active
+                );
     }
 
     spec schema ValidatorOwnerNoChange {
         /// [high-level-req-2]
-        ensures forall addr: address where old(exists<OwnerCapability>(addr)): old(
-            global<OwnerCapability>(addr)
-        ).pool_address == global<OwnerCapability>(addr).pool_address;
+        ensures forall addr: address where old(exists<OwnerCapability>(addr)):
+            old(global<OwnerCapability>(addr)).pool_address
+                == global<OwnerCapability>(addr).pool_address;
     }
 
     // property 3: The total staked value in the stake pool should be constant (excluding adding and withdrawing operations).
@@ -714,10 +715,8 @@ spec aptos_framework::stake {
         ensures [concrete](rewards_rate_denominator * num_total_proposals > 0) ==>
             {
                 let amount =
-                    (
-                        (stake_amount * rewards_rate * num_successful_proposals)
-                            / (rewards_rate_denominator * num_total_proposals)
-                    );
+                    ((stake_amount * rewards_rate * num_successful_proposals)
+                        / (rewards_rate_denominator * num_total_proposals));
                 result == amount
             };
         aborts_if false;
@@ -755,9 +754,10 @@ spec aptos_framework::stake {
         ensures (forall i in 0..old(len(v1)): v1[i] == old(v1[i]));
         // The suffix of the new `v1` is the same as the reverse of the old `v2`.
         ensures (
-            forall i in old(len(v1))..len(v1): v1[i] == old(
-                v2[len(v2) - (i - len(v1)) - 1]
-            )
+            forall i in old(len(v1))..len(v1):
+                v1[i] == old(
+                    v2[len(v2) - (i - len(v1)) - 1]
+                )
         );
     }
 
@@ -983,13 +983,14 @@ spec aptos_framework::stake {
 
     // A predicate that all given validators have been initialized.
     spec fun spec_validators_are_initialized(validators: vector<ValidatorInfo>): bool {
-        forall i in 0..len(validators): spec_has_stake_pool(validators[i].addr)
-            && spec_has_validator_config(validators[i].addr)
+        forall i in 0..len(validators):
+            spec_has_stake_pool(validators[i].addr)
+                && spec_has_validator_config(validators[i].addr)
     }
 
     spec fun spec_validators_are_initialized_addrs(addrs: vector<address>): bool {
-        forall i in 0..len(addrs): spec_has_stake_pool(addrs[i])
-            && spec_has_validator_config(addrs[i])
+        forall i in 0..len(addrs):
+            spec_has_stake_pool(addrs[i]) && spec_has_validator_config(addrs[i])
     }
 
     // A predicate that the validator index of each given validator in-range.
@@ -1004,14 +1005,15 @@ spec aptos_framework::stake {
     spec fun spec_validator_indices_are_valid_addr(
         validators: vector<ValidatorInfo>, upper_bound: u64
     ): bool {
-        forall i in 0..len(validators): global<ValidatorConfig>(validators[i].addr).validator_index
-            < upper_bound
+        forall i in 0..len(validators):
+            global<ValidatorConfig>(validators[i].addr).validator_index < upper_bound
     }
 
     spec fun spec_validator_indices_are_valid_config(
         validators: vector<ValidatorInfo>, upper_bound: u64
     ): bool {
-        forall i in 0..len(validators): validators[i].config.validator_index < upper_bound
+        forall i in 0..len(validators):
+            validators[i].config.validator_index < upper_bound
     }
 
     spec fun spec_validator_indices_active_pending_inactive(validator_set: ValidatorSet): bool {

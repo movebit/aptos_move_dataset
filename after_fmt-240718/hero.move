@@ -258,8 +258,9 @@ module hero::hero {
     ): (Object<Hero>, &Hero) {
         let token_address = token::create_token_address(creator, collection, name);
         (
-            object::address_to_object<Hero>(token_address),
-            borrow_global<Hero>(token_address)
+            object::address_to_object<Hero>(token_address), borrow_global<Hero>(
+                token_address
+            )
         )
     }
 
