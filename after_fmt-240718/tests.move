@@ -359,8 +359,8 @@ module bcs_stream::tests {
         let data = x"01020304050607081112131415161718";
         let stream = bcs_stream::new(data);
         assert!(
-            bcs_stream::deserialize_u128(&mut stream) ==
-            0x18171615141312110807060504030201,
+            bcs_stream::deserialize_u128(&mut stream)
+                == 0x18171615141312110807060504030201,
             0,
         );
     }

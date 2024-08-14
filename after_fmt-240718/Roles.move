@@ -565,7 +565,8 @@ module DiemFramework::Roles {
 
         fun spec_signed_by_treasury_compliance_role(): bool {
             exists a: address:
-                signer::is_txn_signer_addr(a) && spec_has_treasury_compliance_role_addr(a)
+                signer::is_txn_signer_addr(a)
+                    && spec_has_treasury_compliance_role_addr(a)
         }
 
         fun spec_signed_by_diem_root_role(): bool {
@@ -622,7 +623,8 @@ module DiemFramework::Roles {
         let addr = signer::address_of(account);
         aborts_if !exists<RoleId>(addr) with errors::NOT_PUBLISHED;
         let role_id = global<RoleId>(addr).role_id;
-        aborts_if role_id != PARENT_VASP_ROLE_ID && role_id != DESIGNATED_DEALER_ROLE_ID with errors::REQUIRES_ROLE;
+        aborts_if role_id != PARENT_VASP_ROLE_ID
+            && role_id != DESIGNATED_DEALER_ROLE_ID with errors::REQUIRES_ROLE;
     }
 
     spec schema AbortsIfNotParentVaspOrChildVasp {

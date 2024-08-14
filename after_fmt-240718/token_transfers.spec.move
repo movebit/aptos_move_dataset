@@ -64,9 +64,8 @@ spec aptos_token::token_transfers {
         let a = table::spec_contains(pending_claims, token_offer_id);
         let dst_token = table::spec_get(pending_claims, token_offer_id);
 
-        aborts_if dst_token.amount + spce_get(
-            signer::address_of(sender), token_id, amount
-        ) > MAX_U64;
+        aborts_if dst_token.amount
+            + spce_get(signer::address_of(sender), token_id, amount) > MAX_U64;
     }
 
     /// Get the amount from sender token

@@ -86,7 +86,8 @@ module aptos_std::type_info {
         assert!(account_address(&type_info) == @aptos_std, 0);
         assert!(module_name(&type_info) == b"table", 1);
         assert!(
-            struct_name(&type_info) == b"Table<0x1::string::String, 0x1::string::String>",
+            struct_name(&type_info)
+                == b"Table<0x1::string::String, 0x1::string::String>",
             2,
         );
     }

@@ -447,8 +447,8 @@ module ValidatorAdministrationScripts {
         // next is due to abort in get_human_name
         include ValidatorConfig::AbortsIfNoValidatorConfig { addr: account_addr };
         // TODO: use an error code from Errors.move instead of 0.
-        aborts_if ValidatorOperatorConfig::get_human_name(operator_account) != operator_name with
-            0;
+        aborts_if ValidatorOperatorConfig::get_human_name(operator_account)
+            != operator_name with 0;
         include ValidatorConfig::SetOperatorAbortsIf {
             validator_account: account,
             operator_addr: operator_account
@@ -543,8 +543,8 @@ module ValidatorAdministrationScripts {
         // next is due to abort in get_human_name
         include ValidatorConfig::AbortsIfNoValidatorConfig { addr: account_addr };
         // TODO: use an error code from Errors.move instead of 0.
-        aborts_if ValidatorOperatorConfig::get_human_name(operator_account) != operator_name with
-            0;
+        aborts_if ValidatorOperatorConfig::get_human_name(operator_account)
+            != operator_name with 0;
         include ValidatorConfig::SetOperatorAbortsIf {
             validator_account: account,
             operator_addr: operator_account

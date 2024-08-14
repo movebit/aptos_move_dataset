@@ -323,7 +323,8 @@ spec aptos_framework::transaction_validation {
         let aggr_lim = aggregator::spec_get_limit(aggr);
 
         /// [high-level-req-3]
-        aborts_if collect_fee_enabled && !exists<CollectedFeesPerBlock>(@aptos_framework);
+        aborts_if collect_fee_enabled
+            && !exists<CollectedFeesPerBlock>(@aptos_framework);
         aborts_if collect_fee_enabled
             && transaction_fee_amount > 0
             && aggr_val + transaction_fee_amount > aggr_lim;
@@ -345,7 +346,8 @@ spec aptos_framework::transaction_validation {
             post_apt_supply
         );
 
-        aborts_if amount_to_burn > 0 && !exists<AptosCoinCapabilities>(@aptos_framework);
+        aborts_if amount_to_burn > 0
+            && !exists<AptosCoinCapabilities>(@aptos_framework);
         aborts_if amount_to_burn > 0 && !exists<CoinInfo<AptosCoin>>(apt_addr);
         aborts_if amount_to_burn > 0
             && total_supply_enabled
@@ -363,13 +365,15 @@ spec aptos_framework::transaction_validation {
         let post post_total_supply = coin::supply<AptosCoin>;
 
         aborts_if amount_to_mint > 0 && !exists<CoinStore<AptosCoin>>(addr);
-        aborts_if amount_to_mint > 0 && !exists<AptosCoinMintCapability>(@aptos_framework);
+        aborts_if amount_to_mint > 0
+            && !exists<AptosCoinMintCapability>(@aptos_framework);
         aborts_if amount_to_mint > 0 && total_supply + amount_to_mint > MAX_U128;
         ensures amount_to_mint > 0 ==>
             post_total_supply == total_supply + amount_to_mint;
 
         let aptos_addr = type_info::type_of<AptosCoin>().account_address;
-        aborts_if (amount_to_mint != 0) && !exists<coin::CoinInfo<AptosCoin>>(aptos_addr);
+        aborts_if (amount_to_mint != 0)
+            && !exists<coin::CoinInfo<AptosCoin>>(aptos_addr);
         include coin::CoinAddAbortsIf<AptosCoin> { amount: amount_to_mint };
     }
 

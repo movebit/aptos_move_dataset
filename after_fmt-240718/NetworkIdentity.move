@@ -241,7 +241,8 @@ module DiemFramework::NetworkIdentity {
                 invariant forall j in 0..len(members), k in 0..len(members):
                     members[j] == members[k] ==> j == k;
                 // the left-split of the current set is exactly the same as the original set
-                invariant forall j in 0..len(old(members)): members[j] == old(members)[j];
+                invariant forall j in 0..len(old(members)): members[j]
+                    == old(members)[j];
                 // all elements in the right-split of the current set is from the `to_add` vector
                 invariant forall j in len(old(members))..len(members):
                     contains(to_add[0..i], members[j]);
@@ -290,7 +291,8 @@ module DiemFramework::NetworkIdentity {
         // everything in the old set must remain in the updated set
         ensures forall e in old_members: contains(new_members, e);
         // everything in the updated set must come from either the old set or the `to_add` vector
-        ensures forall e in new_members: (contains(old_members, e) || contains(to_add, e));
+        ensures forall e in new_members: (contains(old_members, e)
+            || contains(to_add, e));
     }
 
     /// Remove all elements that appear in `to_remove` from `members`.

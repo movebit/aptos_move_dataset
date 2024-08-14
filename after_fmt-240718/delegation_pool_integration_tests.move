@@ -410,7 +410,8 @@ module aptos_framework::delegation_pool_integration_tests {
         initialize_test_validator(&pk, &pop, validator, 100 * ONE_APT, true, false);
         let validator_address = dp::get_owned_pool_address(signer::address_of(validator));
         assert!(
-            stake::get_validator_state(validator_address) == VALIDATOR_STATUS_PENDING_ACTIVE,
+            stake::get_validator_state(validator_address)
+                == VALIDATOR_STATUS_PENDING_ACTIVE,
             0,
         );
 

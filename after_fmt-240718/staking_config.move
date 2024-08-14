@@ -389,7 +389,8 @@ module aptos_framework::staking_config {
     ) acquires StakingConfig {
         system_addresses::assert_aptos_framework(aptos_framework);
         assert!(
-            new_voting_power_increase_limit > 0 && new_voting_power_increase_limit <= 50,
+            new_voting_power_increase_limit > 0
+                && new_voting_power_increase_limit <= 50,
             error::invalid_argument(EINVALID_VOTING_POWER_INCREASE_LIMIT),
         );
 

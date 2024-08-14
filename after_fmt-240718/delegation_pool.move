@@ -660,7 +660,8 @@ module aptos_framework::delegation_pool {
             get_pending_withdrawal(pool_address, delegator_address);
         // report non-active stakes accordingly to the state of the pending withdrawal
         let (inactive, pending_inactive) =
-            if (withdrawal_inactive) (withdrawal_stake, 0) else (0, withdrawal_stake);
+            if (withdrawal_inactive) (withdrawal_stake, 0)
+            else (0, withdrawal_stake);
 
         // should also include commission rewards in case of the operator account
         // operator rewards are actually used to buy shares which is introducing
@@ -1932,7 +1933,8 @@ module aptos_framework::delegation_pool {
     ) acquires GovernanceRecords {
         let (withdrawal_exists, withdrawal_olc) =
             pending_withdrawal_exists(pool, delegator_address);
-        if (withdrawal_exists && withdrawal_olc.index < pool.observed_lockup_cycle.index) {
+        if (withdrawal_exists
+            && withdrawal_olc.index < pool.observed_lockup_cycle.index) {
             withdraw_internal(pool, delegator_address, MAX_U64);
         }
     }
@@ -2200,7 +2202,8 @@ module aptos_framework::delegation_pool {
 
         // update total coins accumulated by `active` + `pending_active` shares
         // redeemed `add_stake` fees are restored and distributed to the rest of the pool as rewards
-        pool_u64::update_total_coins(&mut pool.active_shares, active - commission_active);
+        pool_u64::update_total_coins(&mut pool.active_shares, active
+            - commission_active);
         // update total coins accumulated by `pending_inactive` shares at current observed lockup cycle
         pool_u64::update_total_coins(
             pending_inactive_shares_pool_mut(pool),
@@ -4970,13 +4973,13 @@ module aptos_framework::delegation_pool {
         add_stake(delegator2, pool_address, 90 * ONE_APT);
         // By default, the voter of a delegator is itself.
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter1_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter1_address)
+                == 0,
             1,
         );
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter2_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter2_address)
+                == 0,
             1,
         );
         assert!(
@@ -4995,13 +4998,13 @@ module aptos_framework::delegation_pool {
         end_aptos_epoch();
         // Reward rate is 0. No reward so no voting power change.
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter1_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter1_address)
+                == 0,
             1,
         );
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter2_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter2_address)
+                == 0,
             1,
         );
         assert!(
@@ -5021,13 +5024,13 @@ module aptos_framework::delegation_pool {
         // change now.
         delegate_voting_power(delegator1, pool_address, voter1_address);
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter1_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter1_address)
+                == 0,
             1,
         );
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter2_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter2_address)
+                == 0,
             1,
         );
         assert!(
@@ -5046,13 +5049,13 @@ module aptos_framework::delegation_pool {
         // 1 epoch passed but the lockup cycle hasn't ended. No voting power change.
         end_aptos_epoch();
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter1_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter1_address)
+                == 0,
             1,
         );
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter2_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter2_address)
+                == 0,
             1,
         );
         assert!(
@@ -5077,8 +5080,8 @@ module aptos_framework::delegation_pool {
             1,
         );
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter2_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter2_address)
+                == 0,
             1,
         );
         assert!(
@@ -5103,8 +5106,8 @@ module aptos_framework::delegation_pool {
             1,
         );
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter2_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter2_address)
+                == 0,
             1,
         );
         assert!(
@@ -5134,8 +5137,8 @@ module aptos_framework::delegation_pool {
             1,
         );
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter2_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter2_address)
+                == 0,
             1,
         );
         assert!(
@@ -5162,8 +5165,8 @@ module aptos_framework::delegation_pool {
             1,
         );
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter2_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter2_address)
+                == 0,
             1,
         );
         assert!(
@@ -5272,8 +5275,8 @@ module aptos_framework::delegation_pool {
         // Withdrawl inactive shares will not change voting power.
         withdraw(delegator1, pool_address, 45 * ONE_APT);
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter1_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter1_address)
+                == 0,
             1,
         );
         assert!(
@@ -5298,8 +5301,8 @@ module aptos_framework::delegation_pool {
         stake::mint(voter2, 110 * ONE_APT);
         add_stake(voter2, pool_address, 10 * ONE_APT);
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter1_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter1_address)
+                == 0,
             1,
         );
         assert!(
@@ -5379,8 +5382,8 @@ module aptos_framework::delegation_pool {
 
         // By default, the voter of a delegator is itself.
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter1_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter1_address)
+                == 0,
             1,
         );
         assert!(
@@ -5394,8 +5397,8 @@ module aptos_framework::delegation_pool {
         // It takes 1 cycle to take effect. No immediate change.
         delegate_voting_power(delegator1, pool_address, voter1_address);
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter1_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter1_address)
+                == 0,
             1,
         );
         assert!(
@@ -5495,13 +5498,13 @@ module aptos_framework::delegation_pool {
             1,
         );
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter1_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter1_address)
+                == 0,
             1,
         );
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter2_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter2_address)
+                == 0,
             1,
         );
         assert!(
@@ -5525,13 +5528,13 @@ module aptos_framework::delegation_pool {
             1,
         );
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter1_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter1_address)
+                == 0,
             1,
         );
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter2_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter2_address)
+                == 0,
             1,
         );
         assert!(
@@ -5585,8 +5588,8 @@ module aptos_framework::delegation_pool {
             1,
         );
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter2_address) ==
-            0,
+            calculate_and_update_voter_total_voting_power(pool_address, voter2_address)
+                == 0,
             1,
         );
         assert!(

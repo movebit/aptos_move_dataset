@@ -43,9 +43,8 @@ spec aptos_std::capability {
     spec schema AcquireSchema<Feature> {
         addr: address;
         root_addr: address;
-        aborts_if spec_has_delegate_cap<Feature>(addr) && !spec_has_cap<Feature>(
-            root_addr
-        );
+        aborts_if spec_has_delegate_cap<Feature>(addr)
+            && !spec_has_cap<Feature>(root_addr);
         aborts_if spec_has_delegate_cap<Feature>(addr)
             && !vector::spec_contains(spec_delegates<Feature>(root_addr), addr);
         aborts_if !spec_has_delegate_cap<Feature>(addr) && !spec_has_cap<Feature>(addr);

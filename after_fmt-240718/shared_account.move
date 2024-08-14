@@ -95,7 +95,8 @@ module shared_account::SharedAccount {
             |shared_record| {
                 let shared_record: &Share = shared_record;
                 let current_amount =
-                    shared_record.num_shares * total_balance / shared_account.total_shares;
+                    shared_record.num_shares * total_balance
+                        / shared_account.total_shares;
                 coin::transfer<CoinType>(
                     &resource_signer, shared_record.share_holder, current_amount
                 );

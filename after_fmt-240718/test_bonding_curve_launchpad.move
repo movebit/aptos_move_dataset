@@ -242,11 +242,13 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
             bonding_curve_creator, name, symbol, false, 100_000_000
         );
         assert!(
-            coin::balance<AptosCoin>(user_address) == starting_apt_balance - 100_000_000,
+            coin::balance<AptosCoin>(user_address) == starting_apt_balance
+                - 100_000_000,
             EUSER_APT_BALANCE_INCORRECT,
         );
         assert!(
-            bonding_curve_launchpad::get_balance(name, symbol, user_address) == 1_602_794,
+            bonding_curve_launchpad::get_balance(name, symbol, user_address)
+                == 1_602_794,
             ELIQUIDITY_PAIR_SWAP_AMOUNTOUT_INCORRECT,
         );
         // FA -> APT
@@ -380,7 +382,8 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
     ]
     #[
         expected_failure(
-            abort_code = liquidity_pairs::ELIQUIDITY_PAIR_DISABLED, location = liquidity_pairs
+            abort_code = liquidity_pairs::ELIQUIDITY_PAIR_DISABLED,
+            location = liquidity_pairs
         )
     ]
     fun test_e2e_failing_apt_swap_after_graduation(
@@ -414,7 +417,8 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
     ]
     #[
         expected_failure(
-            abort_code = liquidity_pairs::ELIQUIDITY_PAIR_DISABLED, location = liquidity_pairs
+            abort_code = liquidity_pairs::ELIQUIDITY_PAIR_DISABLED,
+            location = liquidity_pairs
         )
     ]
     fun test_e2e_failing_fa_swap_after_graduation(

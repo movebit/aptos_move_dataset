@@ -116,7 +116,8 @@ module DiemFramework::VASP {
     spec schema PublishChildVASPEnsures {
         parent_addr: address;
         child_addr: address;
-        ensures spec_num_children(parent_addr) == old(spec_num_children(parent_addr)) + 1;
+        ensures spec_num_children(parent_addr)
+            == old(spec_num_children(parent_addr)) + 1;
         ensures is_child(child_addr);
         ensures spec_parent_address(child_addr) == parent_addr;
     }

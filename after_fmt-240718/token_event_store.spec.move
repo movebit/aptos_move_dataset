@@ -20,8 +20,8 @@ spec aptos_token::token_event_store {
         aborts_if !exists<TokenEventStoreV1>(addr) && !exists<Account>(addr);
         aborts_if !exists<TokenEventStoreV1>(addr)
             && account.guid_creation_num + 9 >= account::MAX_GUID_CREATION_NUM;
-        aborts_if !exists<TokenEventStoreV1>(addr) && account.guid_creation_num + 9
-            > MAX_U64;
+        aborts_if !exists<TokenEventStoreV1>(addr)
+            && account.guid_creation_num + 9 > MAX_U64;
     }
 
     spec schema TokenEventStoreAbortsIf {

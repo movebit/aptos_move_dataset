@@ -145,7 +145,8 @@ module OneToOneMarket {
             let pool = borrow_global<Pool<Out>>(pool_owner);
             Token::value(&pool.coin)
         };
-        if (max_output < available_output) max_output else available_output
+        if (max_output < available_output) max_output
+        else available_output
 
     }
 
@@ -186,7 +187,8 @@ module OneToOneMarket {
         if (!exists<DepositRecord<In, Out>>(sender)) return 0;
 
         let record = &borrow_global<DepositRecord<In, Out>>(sender).record;
-        if (Map::contains_key(record, &pool_owner)) *Map::get(record, &pool_owner) else 0
+        if (Map::contains_key(record, &pool_owner)) *Map::get(record, &pool_owner)
+        else 0
     }
 
     fun borrowed_amount<In: copy + drop + store, Out: copy + drop + store>(
@@ -196,7 +198,8 @@ module OneToOneMarket {
         if (!exists<BorrowRecord<In, Out>>(sender)) return 0;
 
         let record = &borrow_global<BorrowRecord<In, Out>>(sender).record;
-        if (Map::contains_key(record, &pool_owner)) *Map::get(record, &pool_owner) else 0
+        if (Map::contains_key(record, &pool_owner)) *Map::get(record, &pool_owner)
+        else 0
     }
 }
 }

@@ -290,9 +290,8 @@ module aptos_framework::transaction_validation {
             let signer_public_key_hash =
                 *vector::borrow(&secondary_signer_public_key_hashes, i);
             assert!(
-                signer_public_key_hash == account::get_authentication_key(
-                    secondary_address
-                ),
+                signer_public_key_hash
+                    == account::get_authentication_key(secondary_address),
                 error::invalid_argument(PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY),
             );
             i = i + 1;
@@ -330,9 +329,8 @@ module aptos_framework::transaction_validation {
             secondary_signer_addresses, secondary_signer_public_key_hashes
         );
         assert!(
-            fee_payer_public_key_hash == account::get_authentication_key(
-                fee_payer_address
-            ),
+            fee_payer_public_key_hash
+                == account::get_authentication_key(fee_payer_address),
             error::invalid_argument(PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY),
         );
     }

@@ -26,7 +26,8 @@ spec aptos_std::aptos_hash {
         /// `spec_blake2b_256_internal` is an injective function.
         fun spec_blake2b_256_internal(bytes: vector<u8>): vector<u8>;
         axiom forall b1: vector<u8> , b2: vector<u8> :
-            (spec_blake2b_256_internal(b1) == spec_blake2b_256_internal(b2) ==> b1 == b2);
+            (spec_blake2b_256_internal(b1) == spec_blake2b_256_internal(b2) ==> b1
+                == b2);
     }
 
     spec sip_hash(bytes: vector<u8>): u64 {

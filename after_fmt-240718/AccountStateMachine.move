@@ -121,7 +121,8 @@ module Test::AccountStateMachine {
     fun find_xfer(this: &Account, xfer_id: u64): u64 {
         let pending = &this.pending;
         let i = 0;
-        while (i < vector::length(pending) && vector::borrow(pending, i).xfer_id != xfer_id) {
+        while (i < vector::length(pending)
+            && vector::borrow(pending, i).xfer_id != xfer_id) {
             i = i + 1;
         };
         assert!(i < vector::length(pending), 3);

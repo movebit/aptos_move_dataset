@@ -2011,7 +2011,8 @@ module aptos_framework::coin {
             initialize_and_register_fake_money(account, 1, true);
 
         assert!(
-            fungible_asset::name(ensure_paired_metadata<FakeMoney>()) == name<FakeMoney>(),
+            fungible_asset::name(ensure_paired_metadata<FakeMoney>())
+                == name<FakeMoney>(),
             0,
         );
         assert!(
@@ -2216,18 +2217,16 @@ module aptos_framework::coin {
         assert!(supply<FakeMoney>() == option::some(150), 0);
         assert!(coin_supply<FakeMoney>() == option::some(100), 0);
         assert!(
-            fungible_asset::supply(ensure_paired_metadata<FakeMoney>()) == option::some(
-                50
-            ),
+            fungible_asset::supply(ensure_paired_metadata<FakeMoney>())
+                == option::some(50),
             0,
         );
         let fa_from_coin = coin_to_fungible_asset(coin);
         assert!(supply<FakeMoney>() == option::some(150), 0);
         assert!(coin_supply<FakeMoney>() == option::some(0), 0);
         assert!(
-            fungible_asset::supply(ensure_paired_metadata<FakeMoney>()) == option::some(
-                150
-            ),
+            fungible_asset::supply(ensure_paired_metadata<FakeMoney>())
+                == option::some(150),
             0,
         );
 
@@ -2235,9 +2234,8 @@ module aptos_framework::coin {
         assert!(supply<FakeMoney>() == option::some(150), 0);
         assert!(coin_supply<FakeMoney>() == option::some(50), 0);
         assert!(
-            fungible_asset::supply(ensure_paired_metadata<FakeMoney>()) == option::some(
-                100
-            ),
+            fungible_asset::supply(ensure_paired_metadata<FakeMoney>())
+                == option::some(100),
             0,
         );
         burn(coin_from_fa, &burn_cap);

@@ -1224,7 +1224,8 @@ module aptos_framework::staking_contract {
 
         // Operator claims 10% of rewards so far as commissions.
         let expected_commission_1 =
-            (new_balance - last_recorded_principal(staker_address, operator_address)) / 10;
+            (new_balance - last_recorded_principal(staker_address, operator_address))
+                / 10;
         new_balance = new_balance - expected_commission_1;
         request_commission(operator, staker_address, operator_address);
         stake::assert_stake_pool(pool_address, new_balance, 0, 0, expected_commission_1);
@@ -1267,7 +1268,8 @@ module aptos_framework::staking_contract {
 
         // Second round of commission request/withdrawal.
         let expected_commission_2 =
-            (new_balance - last_recorded_principal(staker_address, operator_address)) / 10;
+            (new_balance - last_recorded_principal(staker_address, operator_address))
+                / 10;
         new_balance = new_balance - expected_commission_2;
         request_commission(operator, staker_address, operator_address);
         assert_distribution(
@@ -1294,7 +1296,8 @@ module aptos_framework::staking_contract {
 
         // Staker withdraws all stake, which should also request commission distribution.
         let unpaid_commission =
-            (new_balance - last_recorded_principal(staker_address, operator_address)) / 10;
+            (new_balance - last_recorded_principal(staker_address, operator_address))
+                / 10;
         unlock_stake(staker, operator_address, new_balance);
         stake::assert_stake_pool(pool_address, 0, 0, 0, new_balance);
         assert_distribution(
@@ -1317,8 +1320,10 @@ module aptos_framework::staking_contract {
         // Operator should still earn 10% commission on the rewards on top of the staker's withdrawn_amount.
         let commission_on_withdrawn_amount =
             (with_rewards(withdrawn_amount) - withdrawn_amount) / 10;
-        unpaid_commission = with_rewards(unpaid_commission) + commission_on_withdrawn_amount;
-        withdrawn_amount = with_rewards(withdrawn_amount) - commission_on_withdrawn_amount;
+        unpaid_commission = with_rewards(unpaid_commission)
+            + commission_on_withdrawn_amount;
+        withdrawn_amount = with_rewards(withdrawn_amount)
+            - commission_on_withdrawn_amount;
         stake::assert_stake_pool(pool_address, 0, with_rewards(new_balance), 0, 0);
         assert!(stake::get_validator_state(pool_address) == VALIDATOR_STATUS_INACTIVE, 0);
 
@@ -1357,7 +1362,8 @@ module aptos_framework::staking_contract {
 
         // Operator tries to request commission multiple times. But their distribution shouldn't change.
         let expected_commission =
-            (new_balance - last_recorded_principal(staker_address, operator_address)) / 10;
+            (new_balance - last_recorded_principal(staker_address, operator_address))
+                / 10;
         request_commission(operator, staker_address, operator_address);
         assert_distribution(
             staker_address,
@@ -1557,8 +1563,8 @@ module aptos_framework::staking_contract {
         // Verify that when commissions are withdrawn, previous pending distribution to operator 1 also happens.
         // Then new commission of 20% is paid to operator 2.
         let commission_for_operator_2 =
-            (new_balance - last_recorded_principal(staker_address, operator_2_address)) /
-                5;
+            (new_balance - last_recorded_principal(staker_address, operator_2_address))
+                / 5;
         new_balance = new_balance - commission_for_operator_2;
         request_commission(operator_2, staker_address, operator_2_address);
         assert_distribution(
@@ -1659,7 +1665,8 @@ module aptos_framework::staking_contract {
         let pool_address = stake_pool_address(staker_address, operator1_address);
         stake::assert_stake_pool(pool_address, INITIAL_BALANCE, 0, 0, 0);
         assert!(
-            last_recorded_principal(staker_address, operator1_address) == INITIAL_BALANCE,
+            last_recorded_principal(staker_address, operator1_address)
+                == INITIAL_BALANCE,
             0,
         );
         assert!(stake::get_operator(pool_address) == operator1_address, 0);
@@ -1681,8 +1688,8 @@ module aptos_framework::staking_contract {
 
         // Operator claims 10% of rewards so far as commissions.
         let expected_commission_1 =
-            (new_balance - last_recorded_principal(staker_address, operator1_address)) /
-                10;
+            (new_balance - last_recorded_principal(staker_address, operator1_address))
+                / 10;
         new_balance = new_balance - expected_commission_1;
         request_commission(operator1, staker_address, operator1_address);
         stake::assert_stake_pool(pool_address, new_balance, 0, 0, expected_commission_1);
@@ -1909,8 +1916,8 @@ module aptos_framework::staking_contract {
         let commission_on_withdrawn_stake =
             (with_rewards(withdrawn_stake) - withdrawn_stake) / 10;
         let commission_on_new_balance = (with_rewards(new_balance) - new_balance) / 10;
-        unpaid_commission = with_rewards(unpaid_commission) + commission_on_withdrawn_stake
-            + commission_on_new_balance;
+        unpaid_commission = with_rewards(unpaid_commission)
+            + commission_on_withdrawn_stake + commission_on_new_balance;
         new_balance = with_rewards(new_balance) - commission_on_new_balance;
         let new_withdrawn_stake = new_balance / 4;
         unlock_stake(staker, operator_address, new_withdrawn_stake);

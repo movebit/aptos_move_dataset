@@ -75,7 +75,8 @@ spec aptos_framework::staking_contract {
     spec stake_pool_address(staker: address, operator: address): address {
         include ContractExistsAbortsIf;
         let staking_contracts = global<Store>(staker).staking_contracts;
-        ensures result == simple_map::spec_get(staking_contracts, operator).pool_address;
+        ensures result
+            == simple_map::spec_get(staking_contracts, operator).pool_address;
 
     }
 
@@ -362,7 +363,8 @@ spec aptos_framework::staking_contract {
         let pool_address = staking_contract.pool_address;
         let stake_pool = borrow_global<stake::StakePool>(pool_address);
         aborts_if !exists<stake::StakePool>(pool_address);
-        aborts_if stake_pool.inactive.value + stake_pool.pending_inactive.value > MAX_U64;
+        aborts_if stake_pool.inactive.value + stake_pool.pending_inactive.value
+            > MAX_U64;
         aborts_if !exists<stake::StakePool>(staking_contract.owner_cap.pool_address);
     }
 
@@ -518,7 +520,8 @@ spec aptos_framework::staking_contract {
         aborts_if active + pending_active > MAX_U64;
         // TODO: These function causes the timeout
         aborts_if total_active_stake < staking_contract.principal;
-        aborts_if accumulated_rewards * staking_contract.commission_percentage > MAX_U64;
+        aborts_if accumulated_rewards * staking_contract.commission_percentage
+            > MAX_U64;
     }
 
     spec schema IncreaseLockupWithCapAbortsIf {
@@ -621,7 +624,8 @@ spec aptos_framework::staking_contract {
         // postconditions account::create_resource_account()
         let acc = global<account::Account>(resource_addr);
         aborts_if exists<account::Account>(resource_addr)
-            && (len(acc.signer_capability_offer.for.vec) != 0 || acc.sequence_number != 0);
+            && (len(acc.signer_capability_offer.for.vec) != 0
+                || acc.sequence_number != 0);
         aborts_if !exists<account::Account>(resource_addr)
             && len(bcs::to_bytes(resource_addr)) != 32;
         aborts_if len(account::ZERO_AUTH_KEY) != 32;

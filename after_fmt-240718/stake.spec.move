@@ -92,7 +92,8 @@ spec aptos_framework::stake {
                             == global<StakePool>(a).pending_active
                         && old(global<StakePool>(a).inactive)
                             == global<StakePool>(a).inactive
-                        && old(global<StakePool>(a).active) == global<StakePool>(a).active
+                        && old(global<StakePool>(a).active)
+                            == global<StakePool>(a).active
                 );
     }
 
@@ -234,8 +235,10 @@ spec aptos_framework::stake {
             staking_config::get_voting_power_increase_limit(config) as u128
         );
 
-        aborts_if (validator_set.total_joining_power + (voting_power as u128)) > MAX_U128;
-        aborts_if validator_set.total_voting_power * voting_power_increase_limit > MAX_U128;
+        aborts_if (validator_set.total_joining_power + (voting_power as u128))
+            > MAX_U128;
+        aborts_if validator_set.total_voting_power * voting_power_increase_limit
+            > MAX_U128;
         aborts_if validator_set.total_voting_power > 0
             && (validator_set.total_joining_power + (voting_power as u128)) * 100
                 > validator_set.total_voting_power * voting_power_increase_limit;
@@ -276,7 +279,8 @@ spec aptos_framework::stake {
         aborts_if bool_find_validator
             && !exists<timestamp::CurrentTimeMicroseconds>(@aptos_framework);
         let new_withdraw_amount_1 = min(
-            withdraw_amount, stake_pool.inactive.value + stake_pool.pending_inactive.value
+            withdraw_amount,
+            stake_pool.inactive.value + stake_pool.pending_inactive.value,
         );
         let new_withdraw_amount_2 = min(withdraw_amount, stake_pool.inactive.value);
         aborts_if bool_find_validator
@@ -351,10 +355,10 @@ spec aptos_framework::stake {
                 <= option::spec_borrow(spec_find_validator(pending_active, pool_address));
         let post p_validator_set = global<ValidatorSet>(@aptos_framework);
         let validator_stake = (get_next_epoch_voting_power(stake_pool) as u128);
-        ensures validator_find_bool && validator_set.total_joining_power > validator_stake ==>
-
-        p_validator_set.total_joining_power
-            == validator_set.total_joining_power - validator_stake;
+        ensures validator_find_bool
+            && validator_set.total_joining_power > validator_stake ==>
+            p_validator_set.total_joining_power
+                == validator_set.total_joining_power - validator_stake;
         ensures !validator_find_bool ==>
             !option::spec_is_some(
                 spec_find_validator(p_validator_set.pending_active, pool_address)
@@ -872,7 +876,8 @@ spec aptos_framework::stake {
                 > MAX_U128;
         aborts_if pre_validator_set.total_voting_power > 0
             && pre_validator_set.total_joining_power + increase_amount
-                > pre_validator_set.total_voting_power * voting_power_increase_limit / 100;
+                > pre_validator_set.total_voting_power * voting_power_increase_limit
+                    / 100;
         // Correctly modified total_joining_power and the value of total_voting_power is legal.
         ensures validator_set.total_voting_power > 0 ==>
             validator_set.total_joining_power
@@ -907,7 +912,8 @@ spec aptos_framework::stake {
         invariant len(validator_set.pending_inactive) == 0
             || spec_validator_indices_are_valid_config(
                 validator_set.pending_inactive,
-                len(validator_set.active_validators) + len(validator_set.pending_inactive),
+                len(validator_set.active_validators)
+                    + len(validator_set.pending_inactive),
             );
     }
 
@@ -938,7 +944,8 @@ spec aptos_framework::stake {
                 == validator_set.total_joining_power + amount;
         aborts_if update_voting_power_increase
             && validator_set.total_voting_power > 0
-            && validator_set.total_voting_power * voting_power_increase_limit > MAX_U128;
+            && validator_set.total_voting_power * voting_power_increase_limit
+                > MAX_U128;
         aborts_if update_voting_power_increase
             && validator_set.total_voting_power > 0
             && validator_set.total_joining_power + amount

@@ -44,7 +44,8 @@ module 0x2::NativeFunctions {
         assert!(to_string(u256_from_u128(42)) == b"42", 103);
         assert!(to_string(u256_from_u128(7008)) == b"7008", 104);
         assert!(
-            to_string(u256_from_words(1, 2)) == b"340282366920938463463374607431768211458",
+            to_string(u256_from_words(1, 2))
+                == b"340282366920938463463374607431768211458",
             105,
         );
     }

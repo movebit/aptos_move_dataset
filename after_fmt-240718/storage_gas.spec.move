@@ -155,7 +155,8 @@ spec aptos_framework::storage_gas {
         requires max_usage > 0;
         requires max_usage <= MAX_U64 / BASIS_POINT_DENOMINATION;
         aborts_if false;
-        ensures [abstract] result == spec_calculate_gas(max_usage, current_usage, curve);
+        ensures [abstract] result
+            == spec_calculate_gas(max_usage, current_usage, curve);
     }
 
     spec interpolate(
@@ -198,6 +199,7 @@ spec aptos_framework::storage_gas {
         aborts_if exists i in 0..len(points) - 1:
             (points[i].x >= points[i + 1].x || points[i].y > points[i + 1].y);
         aborts_if len(points) > 0 && points[0].x == 0;
-        aborts_if len(points) > 0 && points[len(points) - 1].x == BASIS_POINT_DENOMINATION;
+        aborts_if len(points) > 0
+            && points[len(points) - 1].x == BASIS_POINT_DENOMINATION;
     }
 }

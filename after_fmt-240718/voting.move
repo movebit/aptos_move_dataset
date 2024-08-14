@@ -697,7 +697,8 @@ module aptos_framework::voting {
             let yes_votes = proposal.yes_votes;
             let no_votes = proposal.no_votes;
 
-            if (yes_votes > no_votes && yes_votes + no_votes >= proposal.min_vote_threshold) {
+            if (yes_votes > no_votes
+                && yes_votes + no_votes >= proposal.min_vote_threshold) {
                 PROPOSAL_STATE_SUCCEEDED
             } else {
                 PROPOSAL_STATE_FAILED

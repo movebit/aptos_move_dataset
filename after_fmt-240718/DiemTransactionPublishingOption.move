@@ -214,7 +214,8 @@ module DiemFramework::DiemTransactionPublishingOption {
         fun spec_is_module_allowed(account: signer): bool {
             let publish_option =
                 DiemConfig::spec_get_config<DiemTransactionPublishingOption>();
-            publish_option.module_publishing_allowed || Roles::has_diem_root_role(account)
+            publish_option.module_publishing_allowed
+                || Roles::has_diem_root_role(account)
         }
     }
 }

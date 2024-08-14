@@ -339,7 +339,8 @@ module aptos_framework::code {
                                         >= pack.upgrade_policy.policy,
                                     error::invalid_argument(EDEP_WEAKER_POLICY),
                                 );
-                                if (dep_pack.upgrade_policy == upgrade_policy_arbitrary()) {
+                                if (dep_pack.upgrade_policy
+                                    == upgrade_policy_arbitrary()) {
                                     assert!(
                                         dep.account == publish_address,
                                         error::invalid_argument(

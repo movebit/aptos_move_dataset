@@ -97,7 +97,9 @@ module aptos_std::fixed_point64_tests {
         assert!(not_three == 2, 0);
 
         // Try again with a fraction slightly larger than 1/3.
-        let f = fixed_point64::create_from_raw_value(fixed_point64::get_raw_value(f) + 1);
+        let f = fixed_point64::create_from_raw_value(
+            fixed_point64::get_raw_value(f) + 1
+        );
         let three = fixed_point64::multiply_u128(9, f);
         assert!(three == 3, 1);
     }

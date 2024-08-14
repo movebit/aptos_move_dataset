@@ -210,7 +210,8 @@ module DiemFramework::RecoveryAddress {
         to_recover: KeyRotationCapability;
         recovery_address: address;
         let post num_rotation_caps = len(spec_get_rotation_caps(recovery_address));
-        ensures spec_get_rotation_caps(recovery_address)[num_rotation_caps - 1] == to_recover;
+        ensures spec_get_rotation_caps(recovery_address)[num_rotation_caps - 1]
+            == to_recover;
     }
 
     // ****************** SPECIFICATIONS *******************
@@ -275,9 +276,9 @@ module DiemFramework::RecoveryAddress {
         /// Returns true if `recovery_address` holds the
         /// `KeyRotationCapability` for `addr`.
         fun spec_holds_key_rotation_cap_for(recovery_address: address, addr: address): bool {
-            exists i: u64 where 0 <= i && i < len(
-                spec_get_rotation_caps(recovery_address)
-            ): spec_get_rotation_caps(recovery_address)[i].account_address == addr
+            exists i: u64 where 0 <= i
+                && i < len(spec_get_rotation_caps(recovery_address)):
+                spec_get_rotation_caps(recovery_address)[i].account_address == addr
         }
     }
 }

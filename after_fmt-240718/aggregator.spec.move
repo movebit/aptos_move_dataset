@@ -28,7 +28,8 @@ spec aptos_framework::aggregator {
 
     spec add(aggregator: &mut Aggregator, value: u128) {
         pragma opaque;
-        aborts_if spec_aggregator_get_val(aggregator) + value > spec_get_limit(aggregator);
+        aborts_if spec_aggregator_get_val(aggregator) + value
+            > spec_get_limit(aggregator);
         /// [high-level-req-2]
         aborts_if spec_aggregator_get_val(aggregator) + value > MAX_U128;
         ensures spec_get_limit(aggregator) == spec_get_limit(old(aggregator));

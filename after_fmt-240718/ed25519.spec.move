@@ -36,7 +36,8 @@ spec aptos_std::ed25519 {
     spec public_key_bytes_to_authentication_key(pk_bytes: vector<u8>): vector<u8> {
         pragma opaque;
         aborts_if false;
-        ensures [abstract] result == spec_public_key_bytes_to_authentication_key(pk_bytes);
+        ensures [abstract] result
+            == spec_public_key_bytes_to_authentication_key(pk_bytes);
     }
 
     // ----------------

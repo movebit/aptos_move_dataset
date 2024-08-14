@@ -935,13 +935,13 @@ module post_mint_reveal_nft::minting {
                 0,
             );
         assert!(
-            token::balance_of(signer::address_of(&wl_nft_claimer), exchanged_token_id1) ==
-            1,
+            token::balance_of(signer::address_of(&wl_nft_claimer), exchanged_token_id1)
+                == 1,
             3,
         );
         assert!(
-            token::balance_of(signer::address_of(&wl_nft_claimer), exchanged_token_id2) ==
-            1,
+            token::balance_of(signer::address_of(&wl_nft_claimer), exchanged_token_id2)
+                == 1,
             4,
         );
         assert!(
@@ -1475,7 +1475,8 @@ module post_mint_reveal_nft::minting {
         let resource_signer = acquire_resource_signer(&admin_account);
         let source_token = borrow_global<SourceToken>(@post_mint_reveal_nft);
         assert!(
-            signer::address_of(&resource_signer) == source_token.source_collection_creator,
+            signer::address_of(&resource_signer)
+                == source_token.source_collection_creator,
             0,
         );
     }

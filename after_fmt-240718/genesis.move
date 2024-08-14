@@ -157,7 +157,8 @@ module ExperimentalFramework::Genesis {
             };
             // assign the operator to its validator
             assert!(
-                ValidatorOperatorConfig::get_human_name(operator_address) == operator_name,
+                ValidatorOperatorConfig::get_human_name(operator_address)
+                    == operator_name,
                 0,
             );
             ValidatorConfig::set_operator(owner, operator_address);

@@ -174,7 +174,8 @@ module DiemFramework::DualAttestation {
         ensures global<Credential>(sender).base_url == new_url;
         /// The sender can only rotate its own base url [[H17]][PERMISSION].
         ensures forall addr1: address where addr1 != sender:
-            global<Credential>(addr1).base_url == old(global<Credential>(addr1).base_url);
+            global<Credential>(addr1).base_url
+                == old(global<Credential>(addr1).base_url);
     }
 
     spec schema RotateBaseUrlEmits {
@@ -361,9 +362,8 @@ module DiemFramework::DualAttestation {
     spec dual_attestation_required {
         pragma opaque;
         include DualAttestationRequiredAbortsIf<Token>;
-        ensures result == spec_dual_attestation_required<Token>(
-            payer, payee, deposit_value
-        );
+        ensures result
+            == spec_dual_attestation_required<Token>(payer, payee, deposit_value);
     }
 
     spec schema DualAttestationRequiredAbortsIf<Token> {
@@ -543,9 +543,8 @@ module DiemFramework::DualAttestation {
         CoreAddresses::assert_diem_root(dr_account); // operational constraint.
         assert!(!exists<Limit>(@DiemRoot), errors::already_published(ELIMIT));
         let initial_limit =
-            (INITIAL_DUAL_ATTESTATION_LIMIT as u128) * (
-                Diem::scaling_factor<XDX>() as u128
-            );
+            (INITIAL_DUAL_ATTESTATION_LIMIT as u128)
+                * (Diem::scaling_factor<XDX>() as u128);
         assert!(initial_limit <= MAX_U64, errors::limit_exceeded(ELIMIT));
         move_to(
             dr_account,

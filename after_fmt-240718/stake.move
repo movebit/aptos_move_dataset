@@ -475,7 +475,8 @@ module aptos_framework::stake {
             validator_performances, validator_index
         );
         (
-            validator_performance.successful_proposals, validator_performance.failed_proposals
+            validator_performance.successful_proposals,
+            validator_performance.failed_proposals
         )
     }
 
@@ -1361,7 +1362,8 @@ module aptos_framework::stake {
             // A validator needs at least the min stake required to join the validator set.
             if (new_validator_info.voting_power >= minimum_stake) {
                 spec {
-                    assume total_voting_power + new_validator_info.voting_power <= MAX_U128;
+                    assume total_voting_power + new_validator_info.voting_power
+                        <= MAX_U128;
                 };
                 total_voting_power = total_voting_power
                     + (new_validator_info.voting_power as u128);
@@ -1427,7 +1429,8 @@ module aptos_framework::stake {
                 spec {
                     assume now_secs + recurring_lockup_duration_secs <= MAX_U64;
                 };
-                stake_pool.locked_until_secs = now_secs + recurring_lockup_duration_secs;
+                stake_pool.locked_until_secs = now_secs
+                    + recurring_lockup_duration_secs;
             };
 
             validator_index = validator_index + 1;
@@ -1483,7 +1486,8 @@ module aptos_framework::stake {
                     vector::borrow(&cur_validator_set.active_validators, candidate_idx)
                 } else {
                     vector::borrow(
-                        &cur_validator_set.pending_active, candidate_idx - num_cur_actives
+                        &cur_validator_set.pending_active,
+                        candidate_idx - num_cur_actives,
                     )
                 };
             let stake_pool = borrow_global<StakePool>(candidate.addr);
@@ -1501,8 +1505,8 @@ module aptos_framework::stake {
                         &validator_perf.validators, candidate.config.validator_index
                     );
                     spec {
-                        assume cur_perf.successful_proposals + cur_perf.failed_proposals
-                            <= MAX_U64;
+                        assume cur_perf.successful_proposals
+                            + cur_perf.failed_proposals <= MAX_U64;
                     };
                     calculate_rewards_amount(
                         cur_active,
@@ -1526,9 +1530,10 @@ module aptos_framework::stake {
             let lockup_expired =
                 get_reconfig_start_time_secs() >= stake_pool.locked_until_secs;
             spec {
-                assume cur_active + cur_pending_active + cur_reward + cur_fee <= MAX_U64;
-                assume cur_active + cur_pending_inactive + cur_pending_active + cur_reward
-                    + cur_fee <= MAX_U64;
+                assume cur_active + cur_pending_active + cur_reward + cur_fee
+                    <= MAX_U64;
+                assume cur_active + cur_pending_inactive + cur_pending_active
+                    + cur_reward + cur_fee <= MAX_U64;
             };
             let new_voting_power =
                 cur_active
@@ -1607,7 +1612,8 @@ module aptos_framework::stake {
                     + len(validator_set.pending_inactive);
             assert spec_validator_indices_are_valid_config(
                 validator_set.active_validators,
-                len(validator_set.active_validators) + len(validator_set.pending_inactive)
+                len(validator_set.active_validators)
+                    + len(validator_set.pending_inactive)
             );
         };
 
@@ -1701,7 +1707,8 @@ module aptos_framework::stake {
                 + cur_validator_perf.failed_proposals <= MAX_U64;
         };
         let num_total_proposals =
-            cur_validator_perf.successful_proposals + cur_validator_perf.failed_proposals;
+            cur_validator_perf.successful_proposals
+                + cur_validator_perf.failed_proposals;
         let (rewards_rate, rewards_rate_denominator) =
             staking_config::get_reward_rate(staking_config);
         let rewards_active =
@@ -1857,7 +1864,8 @@ module aptos_framework::stake {
         let value_active = coin::value(&stake_pool.active);
         let value_pending_inactive = coin::value(&stake_pool.pending_inactive);
         spec {
-            assume value_pending_active + value_active + value_pending_inactive <= MAX_U64;
+            assume value_pending_active + value_active + value_pending_inactive
+                <= MAX_U64;
         };
         value_pending_active + value_active + value_pending_inactive
     }
@@ -1875,8 +1883,8 @@ module aptos_framework::stake {
         if (validator_set.total_voting_power > 0) {
             assert!(
                 validator_set.total_joining_power
-                    <= validator_set.total_voting_power * voting_power_increase_limit /
-                    100,
+                    <= validator_set.total_voting_power * voting_power_increase_limit
+                        / 100,
                 error::invalid_argument(EVOTING_POWER_INCREASE_EXCEEDS_LIMIT),
             );
         }
@@ -2866,7 +2874,8 @@ module aptos_framework::stake {
         join_validator_set(validator_3, validator_3_address);
         // Validator 2 is not effectively removed until next epoch.
         assert!(
-            get_validator_state(validator_2_address) == VALIDATOR_STATUS_PENDING_INACTIVE,
+            get_validator_state(validator_2_address)
+                == VALIDATOR_STATUS_PENDING_INACTIVE,
             6,
         );
         assert!(
@@ -3497,7 +3506,8 @@ module aptos_framework::stake {
             0,
         );
         assert!(
-            get_validator_state(validator_to_remove) == VALIDATOR_STATUS_PENDING_INACTIVE,
+            get_validator_state(validator_to_remove)
+                == VALIDATOR_STATUS_PENDING_INACTIVE,
             1,
         );
     }

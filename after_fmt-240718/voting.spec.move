@@ -51,7 +51,8 @@ spec aptos_framework::voting {
         // Creation of 4 new event handles changes the account's `guid_creation_num`
         aborts_if !exists<account::Account>(addr);
         let register_account = global<account::Account>(addr);
-        aborts_if register_account.guid_creation_num + 4 >= account::MAX_GUID_CREATION_NUM;
+        aborts_if register_account.guid_creation_num + 4
+            >= account::MAX_GUID_CREATION_NUM;
         aborts_if register_account.guid_creation_num + 4 > MAX_U64;
         // `type_info::type_of()` may abort if the type parameter is not a struct
         aborts_if !type_info::spec_is_struct<ProposalType>();
@@ -202,7 +203,8 @@ spec aptos_framework::voting {
         };
         let timestamp_secs_bytes = std::bcs::serialize(timestamp::spec_now_seconds());
         let key = std::string::spec_utf8(RESOLVABLE_TIME_METADATA_KEY);
-        ensures simple_map::spec_get(post_proposal.metadata, key) == timestamp_secs_bytes;
+        ensures simple_map::spec_get(post_proposal.metadata, key)
+            == timestamp_secs_bytes;
     }
 
     spec is_proposal_resolvable<ProposalType: store>(
@@ -229,7 +231,8 @@ spec aptos_framework::voting {
         aborts_if voting_closed
             && (
                 proposal.yes_votes <= proposal.no_votes
-                    || proposal.yes_votes + proposal.no_votes < proposal.min_vote_threshold
+                    || proposal.yes_votes + proposal.no_votes
+                        < proposal.min_vote_threshold
             );
         // Resolvable_time Properties
         aborts_if !voting_closed;
@@ -381,9 +384,8 @@ spec aptos_framework::voting {
     ): bool {
         let voting_forum = global<VotingForum<ProposalType>>(voting_forum_address);
         let proposal = table::spec_get(voting_forum.proposals, proposal_id);
-        spec_can_be_resolved_early<ProposalType>(proposal) || is_voting_period_over(
-            proposal
-        )
+        spec_can_be_resolved_early<ProposalType>(proposal)
+            || is_voting_period_over(proposal)
     }
 
     spec can_be_resolved_early<ProposalType: store>(proposal: &Proposal<ProposalType>): bool {
@@ -412,7 +414,8 @@ spec aptos_framework::voting {
         let proposal_vote_cond =
             (
                 proposal.yes_votes > proposal.no_votes
-                    && proposal.yes_votes + proposal.no_votes >= proposal.min_vote_threshold
+                    && proposal.yes_votes + proposal.no_votes
+                        >= proposal.min_vote_threshold
             );
         if (voting_closed && proposal_vote_cond) {
             PROPOSAL_STATE_SUCCEEDED

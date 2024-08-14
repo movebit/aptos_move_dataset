@@ -27,16 +27,16 @@ module TestFeatures {
         pragma bv = b"0";
         pragma opaque;
         aborts_if false;
-        ensures result == ((feature / 8) < len(features) && spec_contains(
-            features, feature
-        ));
+        ensures result
+            == ((feature / 8) < len(features) && spec_contains(features, feature));
     }
 
     fun is_enabled(feature: u64): bool acquires Features {
-        exists<Features>(@std) && contains(
-            &borrow_global<Features>(@std).features,
-            feature,
-        )
+        exists<Features>(@std)
+            && contains(
+                &borrow_global<Features>(@std).features,
+                feature,
+            )
     }
 
     spec is_enabled {
@@ -76,7 +76,8 @@ module TestFeatures {
             n = n + 1;
         };
         let entry = vector::borrow_mut(features, byte_index);
-        if (include) *entry = *entry | bit_mask else *entry = *entry & (0xff ^ bit_mask)
+        if (include) *entry = *entry | bit_mask
+        else *entry = *entry & (0xff ^ bit_mask)
     }
 
     spec set {
@@ -142,14 +143,16 @@ module TestFeatures {
             spec {
                 invariant i <= n;
                 invariant forall j in 0..i:
-                    disable[j] / 8 < len(features) && !spec_contains(features, disable[j]);
+                    disable[j] / 8 < len(features)
+                        && !spec_contains(features, disable[j]);
             };
             i < n
         }) {
             set(features, *vector::borrow(&disable, i), false);
             spec {
                 assert(
-                    disable[i] / 8 < len(features) && !spec_contains(features, disable[i])
+                    disable[i] / 8 < len(features)
+                        && !spec_contains(features, disable[i])
                 );
             };
             i = i + 1;
@@ -179,7 +182,8 @@ module TestFeatures {
         }) {
             set(features, *vector::borrow(&enable, i), true);
             spec {
-                assert(enable[i] / 8 < len(features) && spec_contains(features, enable[i]));
+                assert(enable[i] / 8 < len(features)
+                    && spec_contains(features, enable[i]));
             };
             i = i + 1;
         };

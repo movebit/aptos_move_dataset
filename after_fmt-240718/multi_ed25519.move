@@ -142,9 +142,8 @@ module aptos_std::multi_ed25519 {
     public fun new_validated_public_key_from_bytes(bytes: vector<u8>)
         : Option<ValidatedPublicKey> {
         // Note that `public_key_validate_internal` will check that `vector::length(&bytes) / INDIVIDUAL_PUBLIC_KEY_NUM_BYTES <= MAX_NUMBER_OF_PUBLIC_KEYS`.
-        if (vector::length(&bytes) % INDIVIDUAL_PUBLIC_KEY_NUM_BYTES == THRESHOLD_SIZE_BYTES && public_key_validate_internal(
-            bytes
-        )) {
+        if (vector::length(&bytes) % INDIVIDUAL_PUBLIC_KEY_NUM_BYTES
+            == THRESHOLD_SIZE_BYTES && public_key_validate_internal(bytes)) {
             option::some(ValidatedPublicKey { bytes })
         } else {
             option::none<ValidatedPublicKey>()
@@ -168,7 +167,8 @@ module aptos_std::multi_ed25519 {
     /// Parses the input bytes as a purported MultiEd25519 multi-signature.
     public fun new_signature_from_bytes(bytes: vector<u8>): Signature {
         assert!(
-            vector::length(&bytes) % INDIVIDUAL_SIGNATURE_NUM_BYTES == BITMAP_NUM_OF_BYTES,
+            vector::length(&bytes) % INDIVIDUAL_SIGNATURE_NUM_BYTES
+                == BITMAP_NUM_OF_BYTES,
             error::invalid_argument(E_WRONG_SIGNATURE_SIZE),
         );
         Signature { bytes }
@@ -460,7 +460,8 @@ module aptos_std::multi_ed25519 {
 
             let upk = public_key_into_unvalidated(pk);
             assert!(
-                option::extract(&mut unvalidated_public_key_threshold(&upk)) == threshold,
+                option::extract(&mut unvalidated_public_key_threshold(&upk))
+                    == threshold,
                 4,
             );
             assert!(unvalidated_public_key_num_sub_pks(&upk) == group_size, 5);

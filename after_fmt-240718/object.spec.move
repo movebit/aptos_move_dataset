@@ -139,7 +139,8 @@ spec aptos_framework::object {
         pragma opaque;
         pragma aborts_if_is_strict = false;
         aborts_if [abstract] false;
-        ensures [abstract] result == spec_create_guid_object_address(source, creation_num);
+        ensures [abstract] result
+            == spec_create_guid_object_address(source, creation_num);
     }
 
     spec object_address<T: key>(object: &Object<T>): address {
@@ -317,7 +318,8 @@ spec aptos_framework::object {
         aborts_if exists<ObjectCore>(object);
         ensures exists<ObjectCore>(object);
         // property 6: Object addresses must not overlap with other addresses in different domains.
-        ensures global<ObjectCore>(object).guid_creation_num == INIT_GUID_CREATION_NUM + 1;
+        ensures global<ObjectCore>(object).guid_creation_num
+            == INIT_GUID_CREATION_NUM + 1;
         ensures result == ConstructorRef { self: object, can_delete };
     }
 

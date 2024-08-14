@@ -79,7 +79,8 @@ spec aptos_std::multi_ed25519 {
     spec public_key_bytes_to_authentication_key(pk_bytes: vector<u8>): vector<u8> {
         pragma opaque;
         aborts_if false;
-        ensures [abstract] result == spec_public_key_bytes_to_authentication_key(pk_bytes);
+        ensures [abstract] result
+            == spec_public_key_bytes_to_authentication_key(pk_bytes);
     }
 
     // ----------------
@@ -89,9 +90,8 @@ spec aptos_std::multi_ed25519 {
     spec public_key_validate_internal(bytes: vector<u8>): bool {
         pragma opaque;
         aborts_if false;
-        ensures (len(bytes) / INDIVIDUAL_PUBLIC_KEY_NUM_BYTES > MAX_NUMBER_OF_PUBLIC_KEYS) ==>
-
-        (result == false);
+        ensures (len(bytes) / INDIVIDUAL_PUBLIC_KEY_NUM_BYTES
+            > MAX_NUMBER_OF_PUBLIC_KEYS) ==> (result == false);
         ensures result == spec_public_key_validate_internal(bytes);
     }
 

@@ -749,7 +749,8 @@ module aptos_framework::vesting {
         let vested_amount = fixed_point32::multiply_u64(total_grant, vesting_fraction);
         // Cap vested amount by the remaining grant amount so we don't try to distribute more than what's remaining.
         vested_amount = min(vested_amount, vesting_contract.remaining_grant);
-        vesting_contract.remaining_grant = vesting_contract.remaining_grant - vested_amount;
+        vesting_contract.remaining_grant = vesting_contract.remaining_grant
+            - vested_amount;
         vesting_schedule.last_vested_period = next_period_to_vest;
         unlock_stake(vesting_contract, vested_amount);
 
@@ -1467,8 +1468,8 @@ module aptos_framework::vesting {
                 0,
             );
         assert!(
-            vector::length(&borrow_global<AdminStore>(admin_address).vesting_contracts) ==
-            1,
+            vector::length(&borrow_global<AdminStore>(admin_address).vesting_contracts)
+                == 1,
             0,
         );
         let stake_pool_address = stake_pool_address(contract_address);
@@ -1478,7 +1479,8 @@ module aptos_framework::vesting {
         let (_sk, pk, pop) = stake::generate_identity();
         stake::join_validator_set_for_test(&pk, &pop, admin, stake_pool_address, false);
         assert!(
-            stake::get_validator_state(stake_pool_address) == VALIDATOR_STATUS_PENDING_ACTIVE,
+            stake::get_validator_state(stake_pool_address)
+                == VALIDATOR_STATUS_PENDING_ACTIVE,
             1,
         );
         unlock_rewards(contract_address);
@@ -1613,7 +1615,8 @@ module aptos_framework::vesting {
         let previous_bal = coin::balance<AptosCoin>(withdrawal_address);
         admin_withdraw(admin, contract_address);
         assert!(
-            coin::balance<AptosCoin>(withdrawal_address) == previous_bal + withdrawn_amount,
+            coin::balance<AptosCoin>(withdrawal_address)
+                == previous_bal + withdrawn_amount,
             0,
         );
     }
@@ -2009,7 +2012,8 @@ module aptos_framework::vesting {
         // Request commission again.
         staking_contract::request_commission(operator, contract_address, operator_address);
         // The commission is calculated using the current commission percentage which is 20%.
-        expected_commission = with_rewards(expected_commission) + (accumulated_rewards / 5);
+        expected_commission = with_rewards(expected_commission)
+            + (accumulated_rewards / 5);
 
         // Unlocks the commission.
         stake::fast_forward_to_unlock(stake_pool_address);

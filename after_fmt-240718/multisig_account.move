@@ -397,7 +397,8 @@ module aptos_framework::multisig_account {
         multisig_account: address, provided_payload: vector<u8>
     ): vector<u8> acquires MultisigAccount {
         let multisig_account_resource = borrow_global<MultisigAccount>(multisig_account);
-        let sequence_number = multisig_account_resource.last_executed_sequence_number + 1;
+        let sequence_number = multisig_account_resource.last_executed_sequence_number
+            + 1;
         let transaction =
             table::borrow(&multisig_account_resource.transactions, sequence_number);
 
@@ -1297,7 +1298,8 @@ module aptos_framework::multisig_account {
     fun remove_executed_transaction(
         multisig_account_resource: &mut MultisigAccount
     ): (u64, u64) {
-        let sequence_number = multisig_account_resource.last_executed_sequence_number + 1;
+        let sequence_number = multisig_account_resource.last_executed_sequence_number
+            + 1;
         let transaction =
             table::remove(&mut multisig_account_resource.transactions, sequence_number);
         multisig_account_resource.last_executed_sequence_number = sequence_number;
@@ -2629,7 +2631,8 @@ module aptos_framework::multisig_account {
     fun vote_all_transactions(
         owner: &signer, multisig_account: address, approved: bool
     ) acquires MultisigAccount {
-        let starting_sequence_number = last_resolved_sequence_number(multisig_account) + 1;
+        let starting_sequence_number = last_resolved_sequence_number(multisig_account)
+            + 1;
         let final_sequence_number = next_sequence_number(multisig_account) - 1;
         vote_transactions(
             owner,

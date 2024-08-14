@@ -369,7 +369,8 @@ module aptos_framework::fungible_asset {
 
         // Cannot register hook for APT.
         assert!(
-            object::address_from_constructor_ref(constructor_ref) != @aptos_fungible_asset,
+            object::address_from_constructor_ref(constructor_ref)
+                != @aptos_fungible_asset,
             error::permission_denied(EAPT_NOT_DISPATCHABLE),
         );
         assert!(
@@ -527,9 +528,8 @@ module aptos_framework::fungible_asset {
         let store_addr = object::object_address(&store);
         if (store_exists_inline(store_addr)) {
             let store_balance = borrow_store_resource(&store).balance;
-            if (store_balance == 0 && concurrent_fungible_balance_exists_inline(
-                store_addr
-            )) {
+            if (store_balance == 0
+                && concurrent_fungible_balance_exists_inline(store_addr)) {
                 let balance_resource =
                     borrow_global<ConcurrentFungibleBalance>(store_addr);
                 aggregator_v2::read(&balance_resource.balance)
@@ -552,9 +552,8 @@ module aptos_framework::fungible_asset {
     ): bool acquires FungibleStore, ConcurrentFungibleBalance {
         if (store_exists_inline(store_addr)) {
             let store_balance = borrow_global<FungibleStore>(store_addr).balance;
-            if (store_balance == 0 && concurrent_fungible_balance_exists_inline(
-                store_addr
-            )) {
+            if (store_balance == 0
+                && concurrent_fungible_balance_exists_inline(store_addr)) {
                 let balance_resource =
                     borrow_global<ConcurrentFungibleBalance>(store_addr);
                 aggregator_v2::is_at_least(&balance_resource.balance, amount)
@@ -572,7 +571,8 @@ module aptos_framework::fungible_asset {
     /// If the store has not been created, we default to returning false so deposits can be sent to it.
     public fun is_frozen<T: key>(store: Object<T>): bool acquires FungibleStore {
         let store_addr = object::object_address(&store);
-        store_exists_inline(store_addr) && borrow_global<FungibleStore>(store_addr).frozen
+        store_exists_inline(store_addr)
+            && borrow_global<FungibleStore>(store_addr).frozen
     }
 
     #[view]
@@ -954,9 +954,8 @@ module aptos_framework::fungible_asset {
         let store = borrow_global_mut<FungibleStore>(store_addr);
         let metadata = store.metadata;
         if (amount != 0) {
-            if (store.balance == 0 && concurrent_fungible_balance_exists_inline(
-                store_addr
-            )) {
+            if (store.balance == 0
+                && concurrent_fungible_balance_exists_inline(store_addr)) {
                 let balance_resource =
                     borrow_global_mut<ConcurrentFungibleBalance>(store_addr);
                 assert!(

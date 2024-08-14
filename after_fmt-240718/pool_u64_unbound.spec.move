@@ -38,9 +38,8 @@ spec aptos_std::pool_u64_unbound {
         aborts_if pool.total_coins > 0
             && pool.total_shares > 0
             && (shares * total_coins) / pool.total_shares > MAX_U64;
-        ensures result == spec_shares_to_amount_with_total_coins(
-            pool, shares, total_coins
-        );
+        ensures result
+            == spec_shares_to_amount_with_total_coins(pool, shares, total_coins);
     }
 
     spec buy_in(pool: &mut Pool, shareholder: address, coins_amount: u64): u128 {
@@ -126,9 +125,8 @@ spec aptos_std::pool_u64_unbound {
         aborts_if pool.total_coins > 0
             && pool.total_shares > 0
             && (shares * total_coins) / pool.total_shares > MAX_U64;
-        ensures result == spec_shares_to_amount_with_total_coins(
-            pool, shares, total_coins
-        );
+        ensures result
+            == spec_shares_to_amount_with_total_coins(pool, shares, total_coins);
     }
 
     spec fun spec_shares_to_amount_with_total_coins(pool: Pool, shares: u128, total_coins: u64): u64 {
@@ -203,7 +201,8 @@ spec aptos_std::pool_u64_unbound {
                 spec_contains(pool, shareholder_1)
                     && (
                         spec_shares(pool, shareholder_1)
-                            == spec_shares(old(pool), shareholder_1) - shares_to_transfer
+                            == spec_shares(old(pool), shareholder_1)
+                                - shares_to_transfer
                     )
             );
     }

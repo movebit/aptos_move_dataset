@@ -109,7 +109,8 @@ spec aptos_framework::vesting {
         // property 2: The vesting pool should not exceed a maximum of 30 shareholders.
         /// [high-level-spec-2]
         invariant forall a: address where exists<VestingContract>(a):
-            global<VestingContract>(a).grant_pool.shareholders_limit <= MAXIMUM_SHAREHOLDERS;
+            global<VestingContract>(a).grant_pool.shareholders_limit
+                <= MAXIMUM_SHAREHOLDERS;
     }
 
     spec stake_pool_address(vesting_contract_address: address): address {
@@ -193,7 +194,8 @@ spec aptos_framework::vesting {
         aborts_if !exists<stake::StakePool>(pool_address);
         aborts_if active + pending_active > MAX_U64;
         aborts_if total_active_stake < staking_contract.principal;
-        aborts_if accumulated_rewards * staking_contract.commission_percentage > MAX_U64;
+        aborts_if accumulated_rewards * staking_contract.commission_percentage
+            > MAX_U64;
         // This two item both contribute to the timeout
         aborts_if (vesting_contract.remaining_grant + commission_amount)
             > total_active_stake;
@@ -551,8 +553,8 @@ spec aptos_framework::vesting {
         aborts_if len(account::ZERO_AUTH_KEY) != 32;
         aborts_if admin_store.nonce + 1 > MAX_U64;
         let ea = account::exists_at(resource_addr);
-        include if (ea) account::CreateResourceAccountAbortsIf else
-            account::CreateAccountAbortsIf { addr: resource_addr };
+        include if (ea) account::CreateResourceAccountAbortsIf
+        else account::CreateAccountAbortsIf { addr: resource_addr };
 
         let acc = global<account::Account>(resource_addr);
         let post post_acc = global<account::Account>(resource_addr);

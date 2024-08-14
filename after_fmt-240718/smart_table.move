@@ -267,9 +267,9 @@ module aptos_std::smart_table {
         let keys = vector[];
         if (num_keys_to_get == 0)
             return (
-                keys, option::some(starting_bucket_index), option::some(
-                    starting_vector_index
-                )
+                keys,
+                option::some(starting_bucket_index),
+                option::some(starting_vector_index)
             );
         for (bucket_index in starting_bucket_index..num_buckets) {
             bucket_ref = table_with_length::borrow(buckets_ref, bucket_index);
@@ -312,7 +312,8 @@ module aptos_std::smart_table {
             old_bucket,
             |e| {
                 let entry: &Entry<K, V> = e; // Explicit type to satisfy compiler
-                bucket_index(table.level, table.num_buckets, entry.hash) != new_bucket_index
+                bucket_index(table.level, table.num_buckets, entry.hash)
+                    != new_bucket_index
             },
         );
         let new_bucket = vector::trim_reverse(old_bucket, p);

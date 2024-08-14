@@ -12,8 +12,8 @@ script {
         let apy = 5;
         // Need to represent reward rate fraction as 2 numbers - numerator and denominator.
         let reward_rate_denominator = 1000000000;
-        let reward_rate_numerator = apy * reward_rate_denominator / num_epochs_in_a_year
-            / 100;
+        let reward_rate_numerator = apy * reward_rate_denominator
+            / num_epochs_in_a_year / 100;
         staking_config::update_rewards_rate(
             &framework_signer, reward_rate_numerator, reward_rate_denominator
         );

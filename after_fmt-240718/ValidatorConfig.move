@@ -133,7 +133,8 @@ module CoreFramework::ValidatorConfig {
         fullnode_network_addresses: vector<u8>,
     ) acquires ValidatorConfig {
         assert!(
-            signer::address_of(validator_operator_account) == get_operator(validator_addr),
+            signer::address_of(validator_operator_account)
+                == get_operator(validator_addr),
             errors::invalid_argument(EINVALID_TRANSACTION_SENDER),
         );
         assert!(

@@ -819,7 +819,8 @@ module listing_tests {
         coin_listing::bid<AptosCoin>(seller, listing, 100);
         assert!(coin_listing::current_amount<AptosCoin>(listing) == option::some(100), 0);
         assert!(
-            coin_listing::current_bidder<AptosCoin>(listing) == option::some(seller_addr),
+            coin_listing::current_bidder<AptosCoin>(listing)
+                == option::some(seller_addr),
             0,
         );
         assert!(coin::balance<AptosCoin>(marketplace_addr) == 3, 0);
@@ -829,9 +830,8 @@ module listing_tests {
         coin_listing::bid<AptosCoin>(purchaser, listing, 150);
         assert!(coin_listing::current_amount<AptosCoin>(listing) == option::some(150), 0);
         assert!(
-            coin_listing::current_bidder<AptosCoin>(listing) == option::some(
-                purchaser_addr
-            ),
+            coin_listing::current_bidder<AptosCoin>(listing)
+                == option::some(purchaser_addr),
             0,
         );
         assert!(coin::balance<AptosCoin>(marketplace_addr) == 5, 0);

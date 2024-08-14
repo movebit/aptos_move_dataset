@@ -175,8 +175,8 @@ spec aptos_framework::resource_account {
         aborts_if get && !exists<account::Account>(source_addr);
         aborts_if exists<Container>(source_addr)
             && simple_map::spec_contains_key(container.store, resource_addr);
-        aborts_if get && len(global<account::Account>(source_addr).authentication_key) !=
-            32;
+        aborts_if get
+            && len(global<account::Account>(source_addr).authentication_key) != 32;
         aborts_if !get && len(optional_auth_key) != 32;
 
         ensures simple_map::spec_contains_key(

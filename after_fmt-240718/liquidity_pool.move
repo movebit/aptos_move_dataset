@@ -333,13 +333,15 @@ module publisher_address::liquidity_pool {
                 // User's swapping token 1 for token 2.
                 fungible_asset::deposit(store_1, from);
                 fungible_asset::deposit(pool_data.fees_store_1, fees);
-                fees_accounting.total_fees_1 = fees_accounting.total_fees_1 + fees_amount;
+                fees_accounting.total_fees_1 = fees_accounting.total_fees_1
+                    + fees_amount;
                 fungible_asset::withdraw(publisher, store_2, amount_out)
             } else {
                 // User's swapping token 2 for token 1.
                 fungible_asset::deposit(store_2, from);
                 fungible_asset::deposit(pool_data.fees_store_2, fees);
-                fees_accounting.total_fees_2 = fees_accounting.total_fees_2 + fees_amount;
+                fees_accounting.total_fees_2 = fees_accounting.total_fees_2
+                    + fees_amount;
                 fungible_asset::withdraw(publisher, store_1, amount_out)
             };
 

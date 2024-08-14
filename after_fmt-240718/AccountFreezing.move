@@ -227,9 +227,8 @@ module DiemFramework::AccountFreezing {
 
         /// Only TreasuryCompliance can change the freezing bits of accounts [[H7]][PERMISSION].
         invariant update forall addr: address where old(exists<FreezingBit>(addr)):
-            global<FreezingBit>(addr).is_frozen != old(
-                global<FreezingBit>(addr).is_frozen
-            ) ==>
+            global<FreezingBit>(addr).is_frozen
+                != old(global<FreezingBit>(addr).is_frozen) ==>
                 Roles::spec_signed_by_treasury_compliance_role();
     }
 

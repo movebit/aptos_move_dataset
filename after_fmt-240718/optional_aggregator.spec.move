@@ -96,9 +96,10 @@ spec aptos_framework::optional_aggregator {
         ensures !is_parallelizable(optional_aggregator) ==>
             result == option::borrow(optional_aggregator.integer).value;
         ensures is_parallelizable(optional_aggregator) ==>
-            result == aggregator::spec_read(
-                option::borrow(optional_aggregator.aggregator)
-            );
+            result
+                == aggregator::spec_read(
+                    option::borrow(optional_aggregator.aggregator)
+                );
     }
 
     spec add(optional_aggregator: &mut OptionalAggregator, value: u128) {

@@ -121,7 +121,8 @@ spec aptos_framework::reconfiguration {
 
     spec last_reconfiguration_time {
         aborts_if !exists<Configuration>(@aptos_framework);
-        ensures result == global<Configuration>(@aptos_framework).last_reconfiguration_time;
+        ensures result
+            == global<Configuration>(@aptos_framework).last_reconfiguration_time;
     }
 
     spec reconfigure {

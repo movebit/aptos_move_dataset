@@ -55,9 +55,8 @@ spec aptos_std::pool_u64 {
         aborts_if pool.total_coins > 0
             && pool.total_shares > 0
             && (shares * total_coins) / pool.total_shares > MAX_U64;
-        ensures result == spec_shares_to_amount_with_total_coins(
-            pool, shares, total_coins
-        );
+        ensures result
+            == spec_shares_to_amount_with_total_coins(pool, shares, total_coins);
     }
 
     spec buy_in(pool: &mut Pool, shareholder: address, coins_amount: u64): u64 {
@@ -116,7 +115,8 @@ spec aptos_std::pool_u64 {
                     old(pool.shares), shareholder, current_shares + new_shares
                 );
         ensures (!key_exists && new_shares > 0) ==>
-            pool.shares == simple_map::spec_set(old(pool.shares), shareholder, new_shares);
+            pool.shares
+                == simple_map::spec_set(old(pool.shares), shareholder, new_shares);
         ensures (!key_exists && new_shares > 0) ==>
             vector::eq_push_back(pool.shareholders, old(pool.shareholders), shareholder);
     }
@@ -148,9 +148,8 @@ spec aptos_std::pool_u64 {
         aborts_if pool.total_coins > 0
             && pool.total_shares > 0
             && (shares * total_coins) / pool.total_shares > MAX_U64;
-        ensures result == spec_shares_to_amount_with_total_coins(
-            pool, shares, total_coins
-        );
+        ensures result
+            == spec_shares_to_amount_with_total_coins(pool, shares, total_coins);
     }
 
     spec fun spec_shares_to_amount_with_total_coins(pool: Pool, shares: u64, total_coins: u64): u64 {
@@ -198,7 +197,8 @@ spec aptos_std::pool_u64 {
         aborts_if spec_shares(pool, shareholder) < num_shares;
 
         include DeductSharesEnsures;
-        let remaining_shares = simple_map::spec_get(pool.shares, shareholder) - num_shares;
+        let remaining_shares = simple_map::spec_get(pool.shares, shareholder)
+            - num_shares;
         ensures remaining_shares > 0 ==>
             result == simple_map::spec_get(pool.shares, shareholder);
         ensures remaining_shares == 0 ==> result == 0;
@@ -208,7 +208,8 @@ spec aptos_std::pool_u64 {
         pool: Pool;
         shareholder: address;
         num_shares: u64;
-        let remaining_shares = simple_map::spec_get(pool.shares, shareholder) - num_shares;
+        let remaining_shares = simple_map::spec_get(pool.shares, shareholder)
+            - num_shares;
         ensures remaining_shares > 0 ==>
             simple_map::spec_get(pool.shares, shareholder) == remaining_shares;
         ensures remaining_shares == 0 ==>

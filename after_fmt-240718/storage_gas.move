@@ -486,7 +486,8 @@ module aptos_framework::storage_gas {
         else current_usage;
         let points = &curve.points;
         let num_points = vector::length(points);
-        let current_usage_bps = capped_current_usage * BASIS_POINT_DENOMINATION / max_usage;
+        let current_usage_bps = capped_current_usage * BASIS_POINT_DENOMINATION
+            / max_usage;
 
         // Check the corner case that current_usage_bps drops before the first point.
         let (left, right) =

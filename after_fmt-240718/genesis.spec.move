@@ -142,7 +142,8 @@ spec aptos_framework::genesis {
         pragma delegate_invariants_to_caller;
         // property 4: An initial set of validators should exist before the end of genesis.
         /// [high-level-req-4]
-        requires len(global<stake::ValidatorSet>(@aptos_framework).active_validators) >= 1;
+        requires len(global<stake::ValidatorSet>(@aptos_framework).active_validators)
+            >= 1;
         // property 5: The end of genesis should be marked on chain.
         /// [high-level-req-5]
         let addr = std::signer::address_of(aptos_framework);

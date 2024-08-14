@@ -140,7 +140,8 @@ spec aptos_token::token {
         aborts_if !exists<TokenStore>(addr) && !exists<account::Account>(addr);
         aborts_if !exists<TokenStore>(addr)
             && account_addr.guid_creation_num + 4 >= account::MAX_GUID_CREATION_NUM;
-        aborts_if !exists<TokenStore>(addr) && account_addr.guid_creation_num + 4 > MAX_U64;
+        aborts_if !exists<TokenStore>(addr)
+            && account_addr.guid_creation_num + 4 > MAX_U64;
         aborts_if !exists<token_event_store::TokenEventStoreV1>(addr)
             && account_addr.guid_creation_num + 9 > account::MAX_GUID_CREATION_NUM;
         aborts_if !exists<token_event_store::TokenEventStoreV1>(addr)
@@ -487,7 +488,8 @@ spec aptos_token::token {
         aborts_if !exists<TokenStore>(addr) && !exists<account::Account>(addr);
         aborts_if !exists<TokenStore>(addr)
             && account_addr.guid_creation_num + 4 >= account::MAX_GUID_CREATION_NUM;
-        aborts_if !exists<TokenStore>(addr) && account_addr.guid_creation_num + 4 > MAX_U64;
+        aborts_if !exists<TokenStore>(addr)
+            && account_addr.guid_creation_num + 4 > MAX_U64;
     }
 
     spec merge(dst_token: &mut Token, source_token: Token) {
@@ -756,7 +758,8 @@ spec aptos_token::token {
         let token_data = table::spec_get(all_token_data, token_data_id);
         aborts_if token_data_id.creator != addr;
         aborts_if !table::spec_contains(all_token_data, token_data_id);
-        aborts_if token_data.maximum > 0 && token_data.supply + amount > token_data.maximum;
+        aborts_if token_data.maximum > 0
+            && token_data.supply + amount > token_data.maximum;
         aborts_if !exists<Collections>(creator_addr);
         aborts_if amount <= 0;
         include InitializeTokenStore;
@@ -783,7 +786,8 @@ spec aptos_token::token {
         aborts_if !opt_in_transfer;
         aborts_if token_data_id.creator != addr;
         aborts_if !table::spec_contains(all_token_data, token_data_id);
-        aborts_if token_data.maximum > 0 && token_data.supply + amount > token_data.maximum;
+        aborts_if token_data.maximum > 0
+            && token_data.supply + amount > token_data.maximum;
         aborts_if amount <= 0;
         aborts_if !exists<Collections>(creator_addr);
 

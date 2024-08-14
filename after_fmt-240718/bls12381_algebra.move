@@ -284,7 +284,8 @@ module aptos_std::bls12381_algebra {
         // Negation.
         let val_minus_7 = neg(&val_7);
         assert!(
-            FQ12_VAL_7_NEG_SERIALIZED == serialize<Fq12, FormatFq12LscLsb>(&val_minus_7),
+            FQ12_VAL_7_NEG_SERIALIZED
+                == serialize<Fq12, FormatFq12LscLsb>(&val_minus_7),
             1,
         );
 
@@ -350,7 +351,8 @@ module aptos_std::bls12381_algebra {
 
         // Serialization/deserialization.
         assert!(
-            G1_GENERATOR_SERIALIZED_UNCOMP == serialize<G1, FormatG1Uncompr>(&generator),
+            G1_GENERATOR_SERIALIZED_UNCOMP
+                == serialize<G1, FormatG1Uncompr>(&generator),
             1,
         );
         assert!(
@@ -389,7 +391,8 @@ module aptos_std::bls12381_algebra {
         );
 
         assert!(
-            G1_INF_SERIALIZED_UNCOMP == serialize<G1, FormatG1Uncompr>(&point_at_infinity),
+            G1_INF_SERIALIZED_UNCOMP
+                == serialize<G1, FormatG1Uncompr>(&point_at_infinity),
             1,
         );
         assert!(
@@ -609,7 +612,8 @@ module aptos_std::bls12381_algebra {
             1,
         );
         assert!(
-            G2_GENERATOR_SERIALIZED_UNCOMP == serialize<G2, FormatG2Uncompr>(&generator),
+            G2_GENERATOR_SERIALIZED_UNCOMP
+                == serialize<G2, FormatG2Uncompr>(&generator),
             1,
         );
         let generator_from_uncomp =
@@ -623,7 +627,8 @@ module aptos_std::bls12381_algebra {
         assert!(eq(&generator, &generator_from_comp), 1);
         assert!(eq(&generator, &generator_from_uncomp), 1);
         assert!(
-            G2_INF_SERIALIZED_UNCOMP == serialize<G2, FormatG2Uncompr>(&point_at_infinity),
+            G2_INF_SERIALIZED_UNCOMP
+                == serialize<G2, FormatG2Uncompr>(&point_at_infinity),
             1,
         );
         assert!(
@@ -870,7 +875,8 @@ module aptos_std::bls12381_algebra {
         let element_7g_calc = scalar_mul(&generator, &scalar_7);
         assert!(eq(&element_7g_calc, &element_7g_from_deser), 1);
         assert!(
-            GT_GENERATOR_MUL_BY_7_SERIALIZED == serialize<Gt, FormatGt>(&element_7g_calc),
+            GT_GENERATOR_MUL_BY_7_SERIALIZED
+                == serialize<Gt, FormatGt>(&element_7g_calc),
             1,
         );
 

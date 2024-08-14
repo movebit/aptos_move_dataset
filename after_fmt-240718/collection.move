@@ -763,15 +763,15 @@ module aptos_token_objects::collection {
             );
         assert!(count(collection) == option::some(1), 0);
         assert!(
-            event::counter(&borrow_global<FixedSupply>(collection_address).mint_events) ==
-            1,
+            event::counter(&borrow_global<FixedSupply>(collection_address).mint_events)
+                == 1,
             0,
         );
         decrement_supply(&collection, creator_address, option::some(cid), creator_address);
         assert!(count(collection) == option::some(0), 0);
         assert!(
-            event::counter(&borrow_global<FixedSupply>(collection_address).burn_events) ==
-            1,
+            event::counter(&borrow_global<FixedSupply>(collection_address).burn_events)
+                == 1,
             0,
         );
     }

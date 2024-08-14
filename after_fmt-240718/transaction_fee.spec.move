@@ -321,9 +321,8 @@ spec aptos_framework::transaction_fee {
         aborts_if exists<AptosFABurnCapabilities>(addr);
         aborts_if exists<AptosCoinCapabilities>(addr);
 
-        ensures exists<AptosFABurnCapabilities>(addr) || exists<AptosCoinCapabilities>(
-            addr
-        );
+        ensures exists<AptosFABurnCapabilities>(addr)
+            || exists<AptosCoinCapabilities>(addr);
     }
 
     /// Ensure caller is admin.

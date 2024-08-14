@@ -174,7 +174,8 @@ module 0x42::VerifyVector {
                 invariant len(v) + len(o) == len(old(v)) + len(other);
                 invariant forall k in 0..len(old(v)): v[k] == old(v)[k];
                 invariant forall k in 0..len(o): o[k] == other[len(other) - 1 - k];
-                invariant forall k in len(old(v))..len(v): v[k] == other[k - len(old(v))];
+                invariant forall k in len(old(v))..len(v): v[k]
+                    == other[k - len(old(v))];
             };
             !vector::is_empty(o)
         }) { vector::push_back(v, vector::pop_back(o)) };

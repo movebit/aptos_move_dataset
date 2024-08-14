@@ -166,7 +166,8 @@ spec aptos_framework::aptos_account {
             !exists<coin::CoinStore<AptosCoin>>(account_addr_source);
         aborts_if exists i in 0..len(recipients): coin_store_source.frozen;
         aborts_if exists i in 0..len(recipients):
-            global<coin::CoinStore<AptosCoin>>(account_addr_source).coin.value < amounts[i];
+            global<coin::CoinStore<AptosCoin>>(account_addr_source).coin.value
+                < amounts[i];
 
         // deposit properties
         aborts_if exists i in 0..len(recipients):
@@ -182,7 +183,8 @@ spec aptos_framework::aptos_account {
         aborts_if exists i in 0..len(recipients):
             account::exists_at(recipients[i])
                 && !exists<coin::CoinStore<AptosCoin>>(recipients[i])
-                && global<account::Account>(recipients[i]).guid_creation_num + 2 > MAX_U64;
+                && global<account::Account>(recipients[i]).guid_creation_num + 2
+                    > MAX_U64;
     }
 
     spec can_receive_direct_coin_transfers(account: address): bool {
@@ -239,7 +241,8 @@ spec aptos_framework::aptos_account {
             !exists<coin::CoinStore<CoinType>>(account_addr_source);
         aborts_if exists i in 0..len(recipients): coin_store_source.frozen;
         aborts_if exists i in 0..len(recipients):
-            global<coin::CoinStore<CoinType>>(account_addr_source).coin.value < amounts[i];
+            global<coin::CoinStore<CoinType>>(account_addr_source).coin.value
+                < amounts[i];
 
         // deposit properties
         aborts_if exists i in 0..len(recipients):
@@ -255,7 +258,8 @@ spec aptos_framework::aptos_account {
         aborts_if exists i in 0..len(recipients):
             account::exists_at(recipients[i])
                 && !exists<coin::CoinStore<CoinType>>(recipients[i])
-                && global<account::Account>(recipients[i]).guid_creation_num + 2 > MAX_U64;
+                && global<account::Account>(recipients[i]).guid_creation_num + 2
+                    > MAX_U64;
 
         // register_coin properties
         aborts_if exists i in 0..len(recipients):

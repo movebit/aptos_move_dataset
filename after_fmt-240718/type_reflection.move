@@ -44,9 +44,11 @@ module 0x42::test {
 
     fun test_type_info_concrete(): type_info::TypeInfo {
         spec {
-            assert type_info::type_of<MyTable<address, u128>>().account_address == @0x42;
+            assert type_info::type_of<MyTable<address, u128>>().account_address
+                == @0x42;
             assert type_info::type_of<MyTable<address, u128>>().module_name == b"test";
-            assert type_info::type_of<MyTable<address, u128>>().struct_name == b"MyTable";
+            assert type_info::type_of<MyTable<address, u128>>().struct_name
+                == b"MyTable";
         };
         type_info::type_of<MyTable<vector<bool>, address>>()
     }

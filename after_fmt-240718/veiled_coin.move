@@ -246,7 +246,8 @@ module veiled_coin::veiled_coin {
         );
 
         assert!(
-            NUM_LEAST_SIGNIFICANT_BITS_REMOVED + NUM_MOST_SIGNIFICANT_BITS_REMOVED == 32,
+            NUM_LEAST_SIGNIFICANT_BITS_REMOVED + NUM_MOST_SIGNIFICANT_BITS_REMOVED
+                == 32,
             error::internal(EU64_COIN_AMOUNT_CLAMPING_IS_INCORRECT),
         );
 

@@ -16,6 +16,7 @@ module 0x8675309::M {
 
     fun t2(cond: bool) {
         if (cond) (0, false) else (1, true);
-        (_, _, _, R {}) = if (cond) (0, 0x0, &0, R {}) else (1, 0x1, &1, R {});
+        (_, _, _, R {}) = if (cond) (0, 0x0, &0, R {})
+        else (1, 0x1, &1, R {});
     }
 }

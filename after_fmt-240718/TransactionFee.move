@@ -129,8 +129,8 @@ module DiemFramework::TransactionFee {
 
         include DiemTimestamp::AbortsIfNotOperating;
         aborts_if !is_coin_initialized<CoinType>() with errors::NOT_PUBLISHED;
-        include if (XDX::spec_is_xdx<CoinType>()) BurnFeesXDX else
-            BurnFeesNotXDX<CoinType>;
+        include if (XDX::spec_is_xdx<CoinType>()) BurnFeesXDX
+        else BurnFeesNotXDX<CoinType>;
 
         /// The correct amount of fees is burnt and subtracted from market cap.
         ensures Diem::spec_market_cap<CoinType>()

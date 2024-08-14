@@ -140,7 +140,8 @@ spec aptos_framework::staking_config {
         let addr = signer::address_of(aptos_framework);
         /// [high-level-req-1.2]
         aborts_if addr != @aptos_framework;
-        aborts_if last_rewards_rate_period_start_in_secs > timestamp::spec_now_seconds();
+        aborts_if last_rewards_rate_period_start_in_secs
+            > timestamp::spec_now_seconds();
         include StakingRewardsConfigValidationAbortsIf;
         aborts_if exists<StakingRewardsConfig>(addr);
         ensures exists<StakingRewardsConfig>(addr);
@@ -347,7 +348,8 @@ spec aptos_framework::staking_config {
         requires fixed_point64::spec_less_or_equal(min_rewards_rate, rewards_rate);
         requires rewards_rate_period_in_secs > 0;
         /// [high-level-req-4]
-        requires last_rewards_rate_period_start_in_secs <= timestamp::spec_now_seconds();
+        requires last_rewards_rate_period_start_in_secs
+            <= timestamp::spec_now_seconds();
         requires fixed_point64::spec_ceil(rewards_rate_decrease_rate) <= 1;
     }
 }

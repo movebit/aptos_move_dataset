@@ -464,7 +464,7 @@ module veiled_coin::veiled_coin_tests {
         let new_balance_comm =
             pedersen::new_commitment_for_bulletproof(&new_balance_val, &new_balance_rand);
         println(
-            b"Computed commitments to the amount to transfer and the sender's updated balance"
+            b"Computed commitments to the amount to transfer and the sender's updated balance",
         );
 
         // Prove that the two encryptions of `v` are to the same value

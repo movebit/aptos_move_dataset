@@ -66,7 +66,8 @@ spec aptos_framework::aptos_governance {
         aborts_if exists<voting::VotingForum<GovernanceProposal>>(addr);
         aborts_if !exists<account::Account>(addr);
         aborts_if register_account.guid_creation_num + 7 > MAX_U64;
-        aborts_if register_account.guid_creation_num + 7 >= account::MAX_GUID_CREATION_NUM;
+        aborts_if register_account.guid_creation_num + 7
+            >= account::MAX_GUID_CREATION_NUM;
         aborts_if !type_info::spec_is_struct<GovernanceProposal>();
 
         include InitializeAbortIf;
@@ -125,7 +126,8 @@ spec aptos_framework::aptos_governance {
 
         ensures new_governance_config.voting_duration_secs == voting_duration_secs;
         ensures new_governance_config.min_voting_threshold == min_voting_threshold;
-        ensures new_governance_config.required_proposer_stake == required_proposer_stake;
+        ensures new_governance_config.required_proposer_stake
+            == required_proposer_stake;
     }
 
     /// Signer address must be @aptos_framework.
@@ -232,7 +234,8 @@ spec aptos_framework::aptos_governance {
         let stake_pool_res = global<stake::StakePool>(stake_pool);
         // Three results of get_voting_power(stake_pool)
         let stake_balance_0 = stake_pool_res.active.value
-            + stake_pool_res.pending_active.value + stake_pool_res.pending_inactive.value;
+            + stake_pool_res.pending_active.value
+            + stake_pool_res.pending_inactive.value;
         let stake_balance_1 = stake_pool_res.active.value
             + stake_pool_res.pending_inactive.value;
         let stake_balance_2 = 0;
@@ -240,7 +243,8 @@ spec aptos_framework::aptos_governance {
         let required_proposer_stake = governance_config.required_proposer_stake;
         /// [high-level-req-2]
         // Comparison of the three results of get_voting_power(stake_pool) and required_proposer_stake
-        aborts_if allow_validator_set_change && stake_balance_0 < required_proposer_stake;
+        aborts_if allow_validator_set_change
+            && stake_balance_0 < required_proposer_stake;
         aborts_if !allow_validator_set_change
             && stake::spec_is_current_epoch_validator(stake_pool)
             && stake_balance_1 < required_proposer_stake;
@@ -462,7 +466,8 @@ spec aptos_framework::aptos_governance {
         let is_voting_closed_0 = is_voting_period_over || can_be_resolved_early_0;
         let proposal_state_successed_0 = is_voting_closed_0
             && new_proposal_yes_votes_0 > proposal.no_votes
-            && new_proposal_yes_votes_0 + proposal.no_votes >= proposal.min_vote_threshold;
+            && new_proposal_yes_votes_0 + proposal.no_votes
+                >= proposal.min_vote_threshold;
         let new_proposal_no_votes_0 = proposal.no_votes + real_voting_power;
         let can_be_resolved_early_1 = option::spec_is_some(
             proposal.early_resolution_vote_threshold
@@ -473,7 +478,8 @@ spec aptos_framework::aptos_governance {
         let is_voting_closed_1 = is_voting_period_over || can_be_resolved_early_1;
         let proposal_state_successed_1 = is_voting_closed_1
             && proposal.yes_votes > new_proposal_no_votes_0
-            && proposal.yes_votes + new_proposal_no_votes_0 >= proposal.min_vote_threshold;
+            && proposal.yes_votes + new_proposal_no_votes_0
+                >= proposal.min_vote_threshold;
         let new_proposal_yes_votes_1 = proposal.yes_votes + real_voting_power;
         let can_be_resolved_early_2 = option::spec_is_some(
             proposal.early_resolution_vote_threshold
@@ -484,7 +490,8 @@ spec aptos_framework::aptos_governance {
         let is_voting_closed_2 = is_voting_period_over || can_be_resolved_early_2;
         let proposal_state_successed_2 = is_voting_closed_2
             && new_proposal_yes_votes_1 > proposal.no_votes
-            && new_proposal_yes_votes_1 + proposal.no_votes >= proposal.min_vote_threshold;
+            && new_proposal_yes_votes_1 + proposal.no_votes
+                >= proposal.min_vote_threshold;
         let new_proposal_no_votes_1 = proposal.no_votes + real_voting_power;
         let can_be_resolved_early_3 = option::spec_is_some(
             proposal.early_resolution_vote_threshold
@@ -495,7 +502,8 @@ spec aptos_framework::aptos_governance {
         let is_voting_closed_3 = is_voting_period_over || can_be_resolved_early_3;
         let proposal_state_successed_3 = is_voting_closed_3
             && proposal.yes_votes > new_proposal_no_votes_1
-            && proposal.yes_votes + new_proposal_no_votes_1 >= proposal.min_vote_threshold;
+            && proposal.yes_votes + new_proposal_no_votes_1
+                >= proposal.min_vote_threshold;
         // post state
         let post can_be_resolved_early = option::spec_is_some(
             proposal.early_resolution_vote_threshold
@@ -580,7 +588,8 @@ spec aptos_framework::aptos_governance {
         )
             && (
                 proposal.yes_votes <= proposal.no_votes
-                    || proposal.yes_votes + proposal.no_votes < proposal.min_vote_threshold
+                    || proposal.yes_votes + proposal.no_votes
+                        < proposal.min_vote_threshold
             );
 
         let post post_approved_hashes = global<ApprovedExecutionHashes>(@aptos_framework);
@@ -702,7 +711,8 @@ spec aptos_framework::aptos_governance {
         ensures !allow_validator_set_change ==>
             if (stake::spec_is_current_epoch_validator(pool_address)) {
                 result
-                    == stake_pool_res.active.value + stake_pool_res.pending_inactive.value
+                    == stake_pool_res.active.value
+                        + stake_pool_res.pending_inactive.value
             } else {
                 result == 0
             };
@@ -909,9 +919,8 @@ spec aptos_framework::aptos_governance {
             post_proposal.is_resolved == true
                 && post_proposal.resolution_time_secs == timestamp::spec_now_seconds()
                 && if (is_multi_step) {
-                    is_multi_step_proposal_in_execution_value == std::bcs::serialize(
-                        false
-                    )
+                    is_multi_step_proposal_in_execution_value
+                        == std::bcs::serialize(false)
                 } else {
                     simple_map::spec_contains_key(
                         proposal.metadata, multi_step_in_execution_key
@@ -928,7 +937,8 @@ spec aptos_framework::aptos_governance {
         ensures next_execution_hash_is_empty ==>
             !simple_map::spec_contains_key(post_approved_hashes, proposal_id);
         ensures !next_execution_hash_is_empty ==>
-            simple_map::spec_get(post_approved_hashes, proposal_id) == next_execution_hash;
+            simple_map::spec_get(post_approved_hashes, proposal_id)
+                == next_execution_hash;
 
         // verify get_signer
         include GetSignerAbortsIf;
@@ -964,7 +974,8 @@ spec aptos_framework::aptos_governance {
         aborts_if voting_closed
             && (
                 proposal.yes_votes <= proposal.no_votes
-                    || proposal.yes_votes + proposal.no_votes < proposal.min_vote_threshold
+                    || proposal.yes_votes + proposal.no_votes
+                        < proposal.min_vote_threshold
             );
         // If Voting Pending
         aborts_if !voting_closed;
