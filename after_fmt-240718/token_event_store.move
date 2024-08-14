@@ -20,7 +20,7 @@ module aptos_token::token_event_store {
         creator_addr: address,
         collection_name: String,
         old_description: String,
-        new_description: String,
+        new_description: String
     }
 
     #[event]
@@ -29,7 +29,7 @@ module aptos_token::token_event_store {
         creator_addr: address,
         collection_name: String,
         old_description: String,
-        new_description: String,
+        new_description: String
     }
 
     /// Event emitted when collection uri is mutated
@@ -37,7 +37,7 @@ module aptos_token::token_event_store {
         creator_addr: address,
         collection_name: String,
         old_uri: String,
-        new_uri: String,
+        new_uri: String
     }
 
     #[event]
@@ -46,7 +46,7 @@ module aptos_token::token_event_store {
         creator_addr: address,
         collection_name: String,
         old_uri: String,
-        new_uri: String,
+        new_uri: String
     }
 
     /// Event emitted when the collection maximum is mutated
@@ -54,7 +54,7 @@ module aptos_token::token_event_store {
         creator_addr: address,
         collection_name: String,
         old_maximum: u64,
-        new_maximum: u64,
+        new_maximum: u64
     }
 
     #[event]
@@ -63,7 +63,7 @@ module aptos_token::token_event_store {
         creator_addr: address,
         collection_name: String,
         old_maximum: u64,
-        new_maximum: u64,
+        new_maximum: u64
     }
 
     //
@@ -94,7 +94,7 @@ module aptos_token::token_event_store {
         collection: String,
         token: String,
         old_uri: String,
-        new_uri: String,
+        new_uri: String
     }
 
     #[event]
@@ -104,7 +104,7 @@ module aptos_token::token_event_store {
         collection: String,
         token: String,
         old_uri: String,
-        new_uri: String,
+        new_uri: String
     }
 
     /// Event emitted when mutating the default the token properties stored at tokendata
@@ -115,7 +115,7 @@ module aptos_token::token_event_store {
         keys: vector<String>,
         /// we allow upsert so the old values might be none
         old_values: vector<Option<PropertyValue>>,
-        new_values: vector<PropertyValue>,
+        new_values: vector<PropertyValue>
     }
 
     #[event]
@@ -127,7 +127,7 @@ module aptos_token::token_event_store {
         keys: vector<String>,
         /// we allow upsert so the old values might be none
         old_values: vector<Option<PropertyValue>>,
-        new_values: vector<PropertyValue>,
+        new_values: vector<PropertyValue>
     }
 
     /// Event emitted when the tokendata description is mutated
@@ -136,7 +136,7 @@ module aptos_token::token_event_store {
         collection: String,
         token: String,
         old_description: String,
-        new_description: String,
+        new_description: String
     }
 
     #[event]
@@ -146,7 +146,7 @@ module aptos_token::token_event_store {
         collection: String,
         token: String,
         old_description: String,
-        new_description: String,
+        new_description: String
     }
 
     /// Event emitted when the token royalty is mutated
@@ -159,7 +159,7 @@ module aptos_token::token_event_store {
         old_royalty_payee_addr: address,
         new_royalty_numerator: u64,
         new_royalty_denominator: u64,
-        new_royalty_payee_addr: address,
+        new_royalty_payee_addr: address
     }
 
     #[event]
@@ -173,7 +173,7 @@ module aptos_token::token_event_store {
         old_royalty_payee_addr: address,
         new_royalty_numerator: u64,
         new_royalty_denominator: u64,
-        new_royalty_payee_addr: address,
+        new_royalty_payee_addr: address
     }
 
     /// Event emitted when the token maximum is mutated
@@ -182,7 +182,7 @@ module aptos_token::token_event_store {
         collection: String,
         token: String,
         old_maximum: u64,
-        new_maximum: u64,
+        new_maximum: u64
     }
 
     #[event]
@@ -192,7 +192,7 @@ module aptos_token::token_event_store {
         collection: String,
         token: String,
         old_maximum: u64,
-        new_maximum: u64,
+        new_maximum: u64
     }
 
     struct TokenEventStoreV1 has key {
@@ -209,7 +209,7 @@ module aptos_token::token_event_store {
         royalty_mutate_events: EventHandle<RoyaltyMutateEvent>,
         maximum_mutate_events: EventHandle<MaxiumMutateEvent>,
         /// This is for adding new events in future
-        extension: Option<Any>,
+        extension: Option<Any>
     }
 
     fun initialize_token_event_store(acct: &signer) {
@@ -235,21 +235,24 @@ module aptos_token::token_event_store {
                     maximum_mutate_events: account::new_event_handle<MaxiumMutateEvent>(
                         acct
                     ),
-                    extension: option::none<Any>(),
-                },
+                    extension: option::none<Any>()
+                }
             );
         };
     }
 
     /// Emit the collection uri mutation event
     public(friend) fun emit_collection_uri_mutate_event(
-        creator: &signer, collection: String, old_uri: String, new_uri: String
+        creator: &signer,
+        collection: String,
+        old_uri: String,
+        new_uri: String
     ) acquires TokenEventStoreV1 {
         let event = CollectionUriMutateEvent {
             creator_addr: signer::address_of(creator),
             collection_name: collection,
             old_uri,
-            new_uri,
+            new_uri
         };
         initialize_token_event_store(creator);
         let token_event_store =
@@ -260,13 +263,13 @@ module aptos_token::token_event_store {
                     creator_addr: signer::address_of(creator),
                     collection_name: collection,
                     old_uri,
-                    new_uri,
-                },
+                    new_uri
+                }
             );
         };
         event::emit_event<CollectionUriMutateEvent>(
             &mut token_event_store.collection_uri_mutate_events,
-            event,
+            event
         );
     }
 
@@ -281,7 +284,7 @@ module aptos_token::token_event_store {
             creator_addr: signer::address_of(creator),
             collection_name: collection,
             old_description,
-            new_description,
+            new_description
         };
         initialize_token_event_store(creator);
         let token_event_store =
@@ -292,25 +295,28 @@ module aptos_token::token_event_store {
                     creator_addr: signer::address_of(creator),
                     collection_name: collection,
                     old_description,
-                    new_description,
-                },
+                    new_description
+                }
             );
         };
         event::emit_event<CollectionDescriptionMutateEvent>(
             &mut token_event_store.collection_description_mutate_events,
-            event,
+            event
         );
     }
 
     /// Emit the collection maximum mutation event
     public(friend) fun emit_collection_maximum_mutate_event(
-        creator: &signer, collection: String, old_maximum: u64, new_maximum: u64
+        creator: &signer,
+        collection: String,
+        old_maximum: u64,
+        new_maximum: u64
     ) acquires TokenEventStoreV1 {
         let event = CollectionMaxiumMutateEvent {
             creator_addr: signer::address_of(creator),
             collection_name: collection,
             old_maximum,
-            new_maximum,
+            new_maximum
         };
         initialize_token_event_store(creator);
         let token_event_store =
@@ -321,13 +327,13 @@ module aptos_token::token_event_store {
                     creator_addr: signer::address_of(creator),
                     collection_name: collection,
                     old_maximum,
-                    new_maximum,
-                },
+                    new_maximum
+                }
             );
         };
         event::emit_event<CollectionMaxiumMutateEvent>(
             &mut token_event_store.collection_maximum_mutate_events,
-            event,
+            event
         );
     }
 
@@ -335,18 +341,18 @@ module aptos_token::token_event_store {
     public(friend) fun emit_token_opt_in_event(
         account: &signer, opt_in: bool
     ) acquires TokenEventStoreV1 {
-        let opt_in_event = OptInTransferEvent { opt_in, };
+        let opt_in_event = OptInTransferEvent { opt_in };
         initialize_token_event_store(account);
         let token_event_store =
             borrow_global_mut<TokenEventStoreV1>(signer::address_of(account));
         if (std::features::module_event_migration_enabled()) {
             event::emit(
-                OptInTransfer { account_address: signer::address_of(account), opt_in, },
+                OptInTransfer { account_address: signer::address_of(account), opt_in }
             );
         };
         event::emit_event<OptInTransferEvent>(
             &mut token_event_store.opt_in_events,
-            opt_in_event,
+            opt_in_event
         );
     }
 
@@ -356,7 +362,7 @@ module aptos_token::token_event_store {
         collection: String,
         token: String,
         old_uri: String,
-        new_uri: String,
+        new_uri: String
     ) acquires TokenEventStoreV1 {
         let creator_addr = signer::address_of(creator);
 
@@ -365,19 +371,19 @@ module aptos_token::token_event_store {
             collection,
             token,
             old_uri,
-            new_uri,
+            new_uri
         };
 
         initialize_token_event_store(creator);
         let token_event_store = borrow_global_mut<TokenEventStoreV1>(creator_addr);
         if (std::features::module_event_migration_enabled()) {
             event::emit(
-                UriMutation { creator: creator_addr, collection, token, old_uri, new_uri, },
+                UriMutation { creator: creator_addr, collection, token, old_uri, new_uri }
             );
         };
         event::emit_event<UriMutationEvent>(
             &mut token_event_store.uri_mutate_events,
-            event,
+            event
         );
     }
 
@@ -388,7 +394,7 @@ module aptos_token::token_event_store {
         token: String,
         keys: vector<String>,
         old_values: vector<Option<PropertyValue>>,
-        new_values: vector<PropertyValue>,
+        new_values: vector<PropertyValue>
     ) acquires TokenEventStoreV1 {
         let creator_addr = signer::address_of(creator);
 
@@ -398,7 +404,7 @@ module aptos_token::token_event_store {
             token,
             keys,
             old_values,
-            new_values,
+            new_values
         };
 
         initialize_token_event_store(creator);
@@ -411,13 +417,13 @@ module aptos_token::token_event_store {
                     token,
                     keys,
                     old_values,
-                    new_values,
-                },
+                    new_values
+                }
             );
         };
         event::emit_event<DefaultPropertyMutateEvent>(
             &mut token_event_store.default_property_mutate_events,
-            event,
+            event
         );
     }
 
@@ -427,7 +433,7 @@ module aptos_token::token_event_store {
         collection: String,
         token: String,
         old_description: String,
-        new_description: String,
+        new_description: String
     ) acquires TokenEventStoreV1 {
         let creator_addr = signer::address_of(creator);
 
@@ -436,7 +442,7 @@ module aptos_token::token_event_store {
             collection,
             token,
             old_description,
-            new_description,
+            new_description
         };
 
         initialize_token_event_store(creator);
@@ -448,13 +454,13 @@ module aptos_token::token_event_store {
                     collection,
                     token,
                     old_description,
-                    new_description,
-                },
+                    new_description
+                }
             );
         };
         event::emit_event<DescriptionMutateEvent>(
             &mut token_event_store.description_mutate_events,
-            event,
+            event
         );
     }
 
@@ -468,7 +474,7 @@ module aptos_token::token_event_store {
         old_royalty_payee_addr: address,
         new_royalty_numerator: u64,
         new_royalty_denominator: u64,
-        new_royalty_payee_addr: address,
+        new_royalty_payee_addr: address
     ) acquires TokenEventStoreV1 {
         let creator_addr = signer::address_of(creator);
         let event = RoyaltyMutateEvent {
@@ -480,7 +486,7 @@ module aptos_token::token_event_store {
             old_royalty_payee_addr,
             new_royalty_numerator,
             new_royalty_denominator,
-            new_royalty_payee_addr,
+            new_royalty_payee_addr
         };
 
         initialize_token_event_store(creator);
@@ -496,13 +502,13 @@ module aptos_token::token_event_store {
                     old_royalty_payee_addr,
                     new_royalty_numerator,
                     new_royalty_denominator,
-                    new_royalty_payee_addr,
-                },
+                    new_royalty_payee_addr
+                }
             );
         };
         event::emit_event<RoyaltyMutateEvent>(
             &mut token_event_store.royalty_mutate_events,
-            event,
+            event
         );
     }
 
@@ -512,7 +518,7 @@ module aptos_token::token_event_store {
         collection: String,
         token: String,
         old_maximum: u64,
-        new_maximum: u64,
+        new_maximum: u64
     ) acquires TokenEventStoreV1 {
         let creator_addr = signer::address_of(creator);
 
@@ -521,7 +527,7 @@ module aptos_token::token_event_store {
             collection,
             token,
             old_maximum,
-            new_maximum,
+            new_maximum
         };
 
         initialize_token_event_store(creator);
@@ -533,13 +539,13 @@ module aptos_token::token_event_store {
                     collection,
                     token,
                     old_maximum,
-                    new_maximum,
-                },
+                    new_maximum
+                }
             );
         };
         event::emit_event<MaxiumMutateEvent>(
             &mut token_event_store.maximum_mutate_events,
-            event,
+            event
         );
     }
 }

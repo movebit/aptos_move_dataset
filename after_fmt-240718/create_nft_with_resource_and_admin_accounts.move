@@ -123,7 +123,7 @@ module mint_nft::create_nft_with_resource_and_admin_accounts {
         signer_cap: SignerCapability,
         token_data_id: TokenDataId,
         expiration_timestamp: u64,
-        minting_enabled: bool,
+        minting_enabled: bool
     }
 
     /// Action not authorized because the signer is not the admin of this module
@@ -154,7 +154,7 @@ module mint_nft::create_nft_with_resource_and_admin_accounts {
             description,
             collection_uri,
             maximum_supply,
-            mutate_setting,
+            mutate_setting
         );
 
         // Create a token data id to specify the token to be minted.
@@ -172,7 +172,7 @@ module mint_nft::create_nft_with_resource_and_admin_accounts {
                 // This variable sets if we want to allow mutation for token maximum, uri, royalty, description, and properties.
                 // Here we enable mutation for properties by setting the last boolean in the vector to true.
                 token::create_token_mutability_config(
-                    &vector<bool>[false, false, false, false, true],
+                    &vector<bool>[false, false, false, false, true]
                 ),
                 // We can use property maps to record attributes related to the token.
                 // In this example, we are using it to record the receiver's address.
@@ -180,7 +180,7 @@ module mint_nft::create_nft_with_resource_and_admin_accounts {
                 // when a user successfully mints a token in the `mint_event_ticket()` function.
                 vector<String>[string::utf8(b"given_to")],
                 vector<vector<u8>>[b""],
-                vector<String>[string::utf8(b"address")],
+                vector<String>[string::utf8(b"address")]
             );
 
         // store the token data id within the module, so we can refer to it later
@@ -195,8 +195,8 @@ module mint_nft::create_nft_with_resource_and_admin_accounts {
                 signer_cap: resource_signer_cap,
                 token_data_id,
                 minting_enabled: false,
-                expiration_timestamp: 10000000000,
-            },
+                expiration_timestamp: 10000000000
+            }
         );
     }
 
@@ -211,7 +211,7 @@ module mint_nft::create_nft_with_resource_and_admin_accounts {
         // Check the config of this module to see if we enable minting tokens from this collection
         assert!(
             timestamp::now_seconds() < module_data.expiration_timestamp,
-            error::permission_denied(ECOLLECTION_EXPIRED),
+            error::permission_denied(ECOLLECTION_EXPIRED)
         );
         assert!(module_data.minting_enabled, error::permission_denied(EMINTING_DISABLED));
 
@@ -236,7 +236,7 @@ module mint_nft::create_nft_with_resource_and_admin_accounts {
             1,
             vector::empty<String>(),
             vector::empty<vector<u8>>(),
-            vector::empty<String>(),
+            vector::empty<String>()
         );
     }
 

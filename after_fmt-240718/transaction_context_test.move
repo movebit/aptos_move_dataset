@@ -23,7 +23,7 @@ module admin::transaction_context_test {
         function_name: String,
         type_arg_names: vector<String>,
         args: vector<vector<u8>>,
-        multisig_address: address,
+        multisig_address: address
     }
 
     /// Called when the module is first deployed at address `signer`, which is supposed to be @admin (= 0x1).
@@ -44,8 +44,8 @@ module admin::transaction_context_test {
                 function_name: string::utf8(x""),
                 args: vector[],
                 type_arg_names: vector[],
-                multisig_address: @0x0,
-            },
+                multisig_address: @0x0
+            }
         );
     }
 
@@ -116,7 +116,7 @@ module admin::transaction_context_test {
                         type_info::type_name<T2>(),
                         type_info::type_name<T3>()
                     ],
-                13,
+                13
             );
         }
     }

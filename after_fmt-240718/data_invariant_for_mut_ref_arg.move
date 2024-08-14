@@ -2,7 +2,7 @@ module 0x42::struct_invariant_mut_ref_param {
     use std::vector;
 
     struct S {
-        v: vector<u64>,
+        v: vector<u64>
     }
 
     spec S {
@@ -64,7 +64,7 @@ module 0x42::struct_invariant_mut_ref_param {
 
     struct A {
         v1: vector<u64>,
-        v2: vector<u64>,
+        v2: vector<u64>
     }
 
     spec A {

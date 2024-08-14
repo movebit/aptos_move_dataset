@@ -29,7 +29,7 @@ module aptos_std::bls12381 {
 
     #[test_only]
     struct SecretKey has copy, drop {
-        bytes: vector<u8>,
+        bytes: vector<u8>
     }
 
     /// A *validated* public key that:
@@ -185,7 +185,7 @@ module aptos_std::bls12381 {
     public fun aggr_or_multi_signature_from_bytes(bytes: vector<u8>): AggrOrMultiSignature {
         assert!(
             std::vector::length(&bytes) == SIGNATURE_SIZE,
-            std::error::invalid_argument(EWRONG_SIZE),
+            std::error::invalid_argument(EWRONG_SIZE)
         );
 
         AggrOrMultiSignature { bytes }
@@ -202,7 +202,7 @@ module aptos_std::bls12381 {
     public fun verify_aggregate_signature(
         aggr_sig: &AggrOrMultiSignature,
         public_keys: vector<PublicKeyWithPoP>,
-        messages: vector<vector<u8>>,
+        messages: vector<vector<u8>>
     ): bool {
         verify_aggregate_signature_internal(aggr_sig.bytes, public_keys, messages)
     }
@@ -273,7 +273,7 @@ module aptos_std::bls12381 {
         let message_count = std::vector::length(messages);
         assert!(
             signing_key_count == message_count,
-            invalid_argument(E_NUM_SIGNERS_MUST_EQ_NUM_MESSAGES),
+            invalid_argument(E_NUM_SIGNERS_MUST_EQ_NUM_MESSAGES)
         );
         let sigs = vector[];
         let i: u64 = 0;
@@ -281,7 +281,7 @@ module aptos_std::bls12381 {
             let sig =
                 sign_arbitrary_bytes(
                     std::vector::borrow(signing_keys, i),
-                    *std::vector::borrow(messages, i),
+                    *std::vector::borrow(messages, i)
                 );
             std::vector::push_back(&mut sigs, sig);
             i = i + 1;
@@ -397,7 +397,7 @@ module aptos_std::bls12381 {
     native fun verify_aggregate_signature_internal(
         aggsig: vector<u8>,
         public_keys: vector<PublicKeyWithPoP>,
-        messages: vector<vector<u8>>,
+        messages: vector<vector<u8>>
     ): bool;
 
     /// CRYPTOGRAPHY WARNING: This function assumes verified proofs-of-possesion (PoP) for the public keys used in
@@ -484,26 +484,26 @@ module aptos_std::bls12381 {
         assert!(
             option::is_none(
                 &public_key_from_bytes(
-                    x"ae3cd9403b69c20a0d455fd860e977fe6ee7140a7f091f26c860f2caccd3e0a7a7365798ac10df776675b3a67db8faa0",
-                ),
+                    x"ae3cd9403b69c20a0d455fd860e977fe6ee7140a7f091f26c860f2caccd3e0a7a7365798ac10df776675b3a67db8faa0"
+                )
             ),
-            1,
+            1
         );
         assert!(
             option::is_none(
                 &public_key_from_bytes(
-                    x"928d4862a40439a67fd76a9c7560e2ff159e770dcf688ff7b2dd165792541c88ee76c82eb77dd6e9e72c89cbf1a56a68",
-                ),
+                    x"928d4862a40439a67fd76a9c7560e2ff159e770dcf688ff7b2dd165792541c88ee76c82eb77dd6e9e72c89cbf1a56a68"
+                )
             ),
-            1,
+            1
         );
         assert!(
             option::is_some(
                 &public_key_from_bytes(
-                    x"b3e4921277221e01ed71284be5e3045292b26c7f465a6fcdba53ee47edd39ec5160da3b229a73c75671024dcb36de091",
-                ),
+                    x"b3e4921277221e01ed71284be5e3045292b26c7f465a6fcdba53ee47edd39ec5160da3b229a73c75671024dcb36de091"
+                )
             ),
-            1,
+            1
         );
     }
 
@@ -534,7 +534,7 @@ module aptos_std::bls12381 {
             },
             PublicKeyWithPoP {
                 bytes: x"a4cd352daad3a0651c1998dfbaa7a748e08d248a54347544bfedd51a197e016bb6008e9b8e45a744e1a030cc3b27d2da"
-            },
+            }
         ];
 
         // agg_pks[i] = \sum_{j <= i}  pk[j]
@@ -553,7 +553,7 @@ module aptos_std::bls12381 {
             },
             AggrPublicKeysWithPoP {
                 bytes: x"b53df1cfee2168f59e5792e710bf22928dc0553e6531dae5c7656c0a66fc12cb82fbb04863938c953dc901a5a79cc0f3"
-            },
+            }
         ];
 
         let i = 0;
@@ -590,20 +590,20 @@ module aptos_std::bls12381 {
         // Signatures of each signer i
         let sigs = vector[
             signature_from_bytes(
-                x"a55ac2d64b4c1d141b15d876d3e54ad1eea07ee488e8287cce7cdf3eec551458ab5795ab196f8c112590346f7bc7c97e0053cd5be0f9bd74b93a87cd44458e98d125d6d5c6950ea5e62666beb34422ead79121f8cb0815dae41a986688d03eaf",
+                x"a55ac2d64b4c1d141b15d876d3e54ad1eea07ee488e8287cce7cdf3eec551458ab5795ab196f8c112590346f7bc7c97e0053cd5be0f9bd74b93a87cd44458e98d125d6d5c6950ea5e62666beb34422ead79121f8cb0815dae41a986688d03eaf"
             ),
             signature_from_bytes(
-                x"90a639a44491191c46379a843266c293de3a46197714ead2ad3886233dd5c2b608b6437fa32fbf9d218b20f1cbfa7970182663beb9c148e2e9412b148e16abf283ffa51b8a536c0e55d61b2e5c849edc49f636c0ef07cb99f125cbcf602e22bb",
+                x"90a639a44491191c46379a843266c293de3a46197714ead2ad3886233dd5c2b608b6437fa32fbf9d218b20f1cbfa7970182663beb9c148e2e9412b148e16abf283ffa51b8a536c0e55d61b2e5c849edc49f636c0ef07cb99f125cbcf602e22bb"
             ),
             signature_from_bytes(
-                x"9527d81aa15863ef3a3bf96bea6d58157d5063a93a6d0eb9d8b4f4bbda3b31142ec4586cb519da2cd7600941283d1bad061b5439703fd584295b44037a969876962ae1897dcc7cadf909d06faae213c4fef8e015dfb33ec109af02ab0c3f6833",
+                x"9527d81aa15863ef3a3bf96bea6d58157d5063a93a6d0eb9d8b4f4bbda3b31142ec4586cb519da2cd7600941283d1bad061b5439703fd584295b44037a969876962ae1897dcc7cadf909d06faae213c4fef8e015dfb33ec109af02ab0c3f6833"
             ),
             signature_from_bytes(
-                x"a54d264f5cab9654b1744232c4650c42b29adf2b19bd00bbdaf4a4d792ee4dfd40a1fe1b067f298bcfd8ae4fdc8250660a2848bd4a80d96585afccec5c6cfa617033dd7913c9acfdf98a72467e8a5155d4cad589a72d6665be7cb410aebc0068",
+                x"a54d264f5cab9654b1744232c4650c42b29adf2b19bd00bbdaf4a4d792ee4dfd40a1fe1b067f298bcfd8ae4fdc8250660a2848bd4a80d96585afccec5c6cfa617033dd7913c9acfdf98a72467e8a5155d4cad589a72d6665be7cb410aebc0068"
             ),
             signature_from_bytes(
-                x"8d22876bdf73e6ad36ed98546018f6258cd47e45904b87c071e774a6ef4b07cac323258cb920b2fe2b07cca1f2b24bcb0a3194ec76f32edb92391ed2c39e1ada8919f8ea755c5e39873d33ff3a8f4fba21b1261c1ddb9d1688c2b40b77e355d1",
-            ),
+                x"8d22876bdf73e6ad36ed98546018f6258cd47e45904b87c071e774a6ef4b07cac323258cb920b2fe2b07cca1f2b24bcb0a3194ec76f32edb92391ed2c39e1ada8919f8ea755c5e39873d33ff3a8f4fba21b1261c1ddb9d1688c2b40b77e355d1"
+            )
         ];
 
         // multisigs[i] is a signature on "Hello, Aptoverse!" from signers 1 through i (inclusive)
@@ -622,7 +622,7 @@ module aptos_std::bls12381 {
             },
             AggrOrMultiSignature {
                 bytes: x"8284e4e3983f29cb45020c3e2d89066df2eae533a01cb6ca2c4d466b5e02dd22467f59640aa120db2b9cc49e931415c3097e3d54ff977fd9067b5bc6cfa1c885d9d8821aef20c028999a1d97e783ae049d8fa3d0bbac36ce4ca8e10e551d3461"
-            },
+            }
         ];
 
         let i = 0;
@@ -664,7 +664,7 @@ module aptos_std::bls12381 {
             },
             PublicKeyWithPoP {
                 bytes: x"a4cd352daad3a0651c1998dfbaa7a748e08d248a54347544bfedd51a197e016bb6008e9b8e45a744e1a030cc3b27d2da"
-            },
+            }
         ];
 
         // agg_pks[i] = \sum_{j <= i}  pk[j]
@@ -683,7 +683,7 @@ module aptos_std::bls12381 {
             },
             AggrPublicKeysWithPoP {
                 bytes: x"b53df1cfee2168f59e5792e710bf22928dc0553e6531dae5c7656c0a66fc12cb82fbb04863938c953dc901a5a79cc0f3"
-            },
+            }
         ];
 
         // multisigs[i] is a signature on "Hello, Aptoverse!" under agg_pks[i]
@@ -702,7 +702,7 @@ module aptos_std::bls12381 {
             },
             AggrOrMultiSignature {
                 bytes: x"b627b2cfd8ae59dcf5e58cc6c230ae369985fd096e1bc3be38da5deafcbed7d939f07cccc75383539940c56c6b6453db193f563f5b6e4fe54915afd9e1baea40a297fa7eda74abbdcd4cc5c667d6db3b9bd265782f7693798894400f2beb4637"
-            },
+            }
         ];
 
         let i = 0;
@@ -718,9 +718,9 @@ module aptos_std::bls12381 {
                 verify_multisignature(
                     std::vector::borrow(&multisigs, i),
                     &apk,
-                    b"Hello, Aptoverse!",
+                    b"Hello, Aptoverse!"
                 ),
-                1,
+                1
             );
 
             i = i + 1;
@@ -754,13 +754,13 @@ module aptos_std::bls12381 {
                 !verify_multisignature(
                     &maul_aggr_or_multi_signature(&multisig), &aggr_pk, msg
                 ),
-                1,
+                1
             );
             assert!(
                 !verify_multisignature(
                     &multisig, &maul_aggregated_public_key(&aggr_pk), msg
                 ),
-                1,
+                1
             );
             assert!(!verify_multisignature(&multisig, &aggr_pk, maul_bytes(&msg)), 1);
 
@@ -779,7 +779,7 @@ module aptos_std::bls12381 {
             assert!(
                 aggr_or_multi_signature_to_bytes(&aggregated_signature)
                     == aggr_or_multi_signature_to_bytes(&multisig),
-                1,
+                1
             );
 
             signer_count = signer_count + 1;
@@ -792,40 +792,40 @@ module aptos_std::bls12381 {
             aggr_or_multi_signature_to_bytes(
                 &aggr_or_multi_signature_from_bytes(RANDOM_SIGNATURE)
             ) == RANDOM_SIGNATURE,
-            1,
+            1
         );
 
         // First, make sure verification returns None when no inputs are given or |pks| != |msgs|
         assert!(
             verify_aggregate_signature(&get_random_aggsig(), vector[], vector[]) == false,
-            1,
+            1
         );
 
         assert!(
             verify_aggregate_signature(
                 &get_random_aggsig(),
                 vector[get_random_pk_with_pop()],
-                vector[],
+                vector[]
             ) == false,
-            1,
+            1
         );
 
         assert!(
             verify_aggregate_signature(
                 &get_random_aggsig(),
                 vector[],
-                vector[x"ab"],
+                vector[x"ab"]
             ) == false,
-            1,
+            1
         );
 
         assert!(
             verify_aggregate_signature(
                 &get_random_aggsig(),
                 vector[get_random_pk_with_pop()],
-                vector[x"cd", x"ef"],
+                vector[x"cd", x"ef"]
             ) == false,
-            1,
+            1
         );
 
         assert!(
@@ -834,11 +834,11 @@ module aptos_std::bls12381 {
                 vector[
                     get_random_pk_with_pop(),
                     get_random_pk_with_pop(),
-                    get_random_pk_with_pop(),
+                    get_random_pk_with_pop()
                 ],
-                vector[x"cd", x"ef"],
+                vector[x"cd", x"ef"]
             ) == false,
-            1,
+            1
         );
 
         // Second, try some test-cases generated by running the following command in `crates/aptos-crypto`:
@@ -850,7 +850,7 @@ module aptos_std::bls12381 {
             x"48656c6c6f2c204170746f73203221",
             x"48656c6c6f2c204170746f73203321",
             x"48656c6c6f2c204170746f73203421",
-            x"48656c6c6f2c204170746f73203521",
+            x"48656c6c6f2c204170746f73203521"
         ];
 
         // Public key of signer i
@@ -869,7 +869,7 @@ module aptos_std::bls12381 {
             },
             PublicKeyWithPoP {
                 bytes: x"a79e3d0e9d04587a3b27d05efe5717da05fd93485dc47978c866dc70a01695c2efd247d1dd843a011a4b6b24079d7384"
-            },
+            }
         ];
 
         // aggsigs[i] = \sum_{j <= i}  sigs[j], where sigs[j] is a signature on msgs[j] under pks[j]
@@ -888,7 +888,7 @@ module aptos_std::bls12381 {
             },
             AggrOrMultiSignature {
                 bytes: x"a44d967935fbe63a763ce2dd2b16981f967ecd31e20d3266eef5517530cdc233c8a18273b6d9fd7f61dd39178826e3f115df4e7b304f2de17373a95ea0c9a14293dcfd6f0ef416e06fa23f6a3c850d638e4d8f97ab4562ef55d49a96a50baa13"
-            },
+            }
         ];
 
         let i = 0;
@@ -951,15 +951,15 @@ module aptos_std::bls12381 {
                 !verify_aggregate_signature(
                     &maul_aggr_or_multi_signature(&aggrsig), public_keys, messages
                 ),
-                1,
+                1
             );
             assert!(
                 !verify_aggregate_signature(&aggrsig, mauled_public_keys, messages),
-                1,
+                1
             );
             assert!(
                 !verify_aggregate_signature(&aggrsig, public_keys, mauled_messages),
-                1,
+                1
             );
 
             // Also test signature aggregation.
@@ -976,7 +976,7 @@ module aptos_std::bls12381 {
             assert!(
                 aggr_or_multi_signature_to_bytes(&aggrsig_another)
                     == aggr_or_multi_signature_to_bytes(&aggrsig),
-                1,
+                1
             );
 
             signer_count = signer_count + 1;
@@ -997,32 +997,32 @@ module aptos_std::bls12381 {
         let ok =
             verify_normal_signature(
                 &signature_from_bytes(
-                    x"b01ce4632e94d8c611736e96aa2ad8e0528a02f927a81a92db8047b002a8c71dc2d6bfb94729d0973790c10b6ece446817e4b7543afd7ca9a17c75de301ae835d66231c26a003f11ae26802b98d90869a9e73788c38739f7ac9d52659e1f7cf7",
+                    x"b01ce4632e94d8c611736e96aa2ad8e0528a02f927a81a92db8047b002a8c71dc2d6bfb94729d0973790c10b6ece446817e4b7543afd7ca9a17c75de301ae835d66231c26a003f11ae26802b98d90869a9e73788c38739f7ac9d52659e1f7cf7"
                 ),
                 &option::extract(
                     &mut public_key_from_bytes(
-                        x"94209a296b739577cb076d3bfb1ca8ee936f29b69b7dae436118c4dd1cc26fd43dcd16249476a006b8b949bf022a7858",
-                    ),
+                        x"94209a296b739577cb076d3bfb1ca8ee936f29b69b7dae436118c4dd1cc26fd43dcd16249476a006b8b949bf022a7858"
+                    )
                 ),
-                message,
+                message
             );
         assert!(ok == true, 1);
 
         let pk =
             option::extract(
                 &mut public_key_from_bytes(
-                    x"94209a296b739577cb076d3bfb1ca8ee936f29b69b7dae436118c4dd1cc26fd43dcd16249476a006b8b949bf022a7858",
-                ),
+                    x"94209a296b739577cb076d3bfb1ca8ee936f29b69b7dae436118c4dd1cc26fd43dcd16249476a006b8b949bf022a7858"
+                )
             );
         let pk_with_pop = PublicKeyWithPoP { bytes: pk.bytes };
 
         let ok =
             verify_signature_share(
                 &signature_from_bytes(
-                    x"b01ce4632e94d8c611736e96aa2ad8e0528a02f927a81a92db8047b002a8c71dc2d6bfb94729d0973790c10b6ece446817e4b7543afd7ca9a17c75de301ae835d66231c26a003f11ae26802b98d90869a9e73788c38739f7ac9d52659e1f7cf7",
+                    x"b01ce4632e94d8c611736e96aa2ad8e0528a02f927a81a92db8047b002a8c71dc2d6bfb94729d0973790c10b6ece446817e4b7543afd7ca9a17c75de301ae835d66231c26a003f11ae26802b98d90869a9e73788c38739f7ac9d52659e1f7cf7"
                 ),
                 &pk_with_pop,
-                message,
+                message
             );
         assert!(ok == true, 1);
 
@@ -1036,14 +1036,14 @@ module aptos_std::bls12381 {
             },
             Signature {
                 bytes: x"b01ce4632e94d8c611736e96aa2ad8e0528a02f927a81a92db8047b002a8c71dc2d6bfb94729d0973790c10b6ece446817e4b7543afd7ca9a17c75de301ae835d66231c26a003f11ae26802b98d90869a9e73788c38739f7ac9d52659e1f7cf7"
-            },
+            }
         ];
         let pks = vector[
             x"94209a296b739577cb076d3bfb1ca8ee936f29b69b7dae436118c4dd1cc26fd43dcd16249476a006b8b949bf022a7858",
             x"ae4851bb9e7782027437ed0e2c026dd63b77a972ddf4bd9f72bcc218e327986568317e3aa9f679c697a2cb7cebf992f3",
-            x"82ed7bb5528303a2e306775040a7309e0bd597b70d9949d8c6198a01a7be0b00079320ebfeaf7bbd5bfe86809940d252",
+            x"82ed7bb5528303a2e306775040a7309e0bd597b70d9949d8c6198a01a7be0b00079320ebfeaf7bbd5bfe86809940d252"
         ];
-        let messages = vector[b"Hello Aptos!", b"Hello Aptos!", b"Bello Aptos!",];
+        let messages = vector[b"Hello Aptos!", b"Hello Aptos!", b"Bello Aptos!"];
 
         let i = 0;
         while (i < std::vector::length(&pks)) {
@@ -1053,19 +1053,14 @@ module aptos_std::bls12381 {
 
             let pk = option::extract(&mut public_key_from_bytes(pk));
 
-            let notok = verify_normal_signature(
-                sig,
-                &pk,
-                msg,
-            );
+            let notok = verify_normal_signature(sig, &pk, msg);
             assert!(notok == false, 1);
 
-            let notok =
-                verify_signature_share(
-                    sig,
-                    &PublicKeyWithPoP { bytes: pk.bytes },
-                    msg,
-                );
+            let notok = verify_signature_share(
+                sig,
+                &PublicKeyWithPoP { bytes: pk.bytes },
+                msg
+            );
             assert!(notok == false, 1);
 
             i = i + 1;
@@ -1086,7 +1081,10 @@ module aptos_std::bls12381 {
 
         assert!(verify_signature_share(&sig, &pkpop, msg), 1);
         assert!(!verify_signature_share(&maul_signature(&sig), &pkpop, msg), 1);
-        assert!(!verify_signature_share(&sig, &maul_public_key_with_pop(&pkpop), msg), 1);
+        assert!(
+            !verify_signature_share(&sig, &maul_public_key_with_pop(&pkpop), msg),
+            1
+        );
         assert!(!verify_signature_share(&sig, &pkpop, maul_bytes(&msg)), 1);
     }
 
@@ -1101,25 +1099,25 @@ module aptos_std::bls12381 {
             x"8843843c76d167c02842a214c21277bad0bfd83da467cb5cf2d3ee67b2dcc7221b9fafa6d430400164012580e0c34d27",
             x"a23b524d4308d46e43ee8cbbf57f3e1c20c47061ad9c3f915212334ea6532451dd5c01d3d3ada6bea10fe180b2c3b450",
             x"a2aaa3eae1df3fc36365491afa1da5181acbb03801afd1430f04bb3b3eb18036f8b756b3508e4caee04beff50d455d1c",
-            x"84985b7e983dbdaddfca1f0b7dad9660bb39fff660e329acec15f69ac48c75dfa5d2df9f0dc320e4e7b7658166e0ac1c",
+            x"84985b7e983dbdaddfca1f0b7dad9660bb39fff660e329acec15f69ac48c75dfa5d2df9f0dc320e4e7b7658166e0ac1c"
         ];
 
         let pops = vector[
             proof_of_possession_from_bytes(
-                x"ab42afff92510034bf1232a37a0d31bc8abfc17e7ead9170d2d100f6cf6c75ccdcfedbd31699a112b4464a06fd636f3f190595863677d660b4c5d922268ace421f9e86e3a054946ee34ce29e1f88c1a10f27587cf5ec528d65ba7c0dc4863364",
+                x"ab42afff92510034bf1232a37a0d31bc8abfc17e7ead9170d2d100f6cf6c75ccdcfedbd31699a112b4464a06fd636f3f190595863677d660b4c5d922268ace421f9e86e3a054946ee34ce29e1f88c1a10f27587cf5ec528d65ba7c0dc4863364"
             ),
             proof_of_possession_from_bytes(
-                x"a6da5f2bc17df70ce664cff3e3a3e09d17162e47e652032b9fedc0c772fd5a533583242cba12095602e422e579c5284b1735009332dbdd23430bbcf61cc506ae37e41ff9a1fc78f0bc0d99b6bc7bf74c8f567dfb59079a035842bdc5fa3a0464",
+                x"a6da5f2bc17df70ce664cff3e3a3e09d17162e47e652032b9fedc0c772fd5a533583242cba12095602e422e579c5284b1735009332dbdd23430bbcf61cc506ae37e41ff9a1fc78f0bc0d99b6bc7bf74c8f567dfb59079a035842bdc5fa3a0464"
             ),
             proof_of_possession_from_bytes(
-                x"b8eef236595e2eab34d3c1abdab65971f5cfa1988c731ef62bd63c9a9ad3dfc9259f4f183bfffbc8375a38ba62e1c41a11173209705996ce889859bcbb3ddd7faa3c4ea3d8778f30a9ff814fdcfea1fb163d745c54dfb4dcc5a8cee092ee0070",
+                x"b8eef236595e2eab34d3c1abdab65971f5cfa1988c731ef62bd63c9a9ad3dfc9259f4f183bfffbc8375a38ba62e1c41a11173209705996ce889859bcbb3ddd7faa3c4ea3d8778f30a9ff814fdcfea1fb163d745c54dfb4dcc5a8cee092ee0070"
             ),
             proof_of_possession_from_bytes(
-                x"a03a12fab68ad59d85c15dd1528560eff2c89250070ad0654ba260fda4334da179811d2ecdaca57693f80e9ce977d62011e3b1ee7bb4f7e0eb9b349468dd758f10fc35d54e0d0b8536ca713a77a301944392a5c192b6adf2a79ae2b38912dc98",
+                x"a03a12fab68ad59d85c15dd1528560eff2c89250070ad0654ba260fda4334da179811d2ecdaca57693f80e9ce977d62011e3b1ee7bb4f7e0eb9b349468dd758f10fc35d54e0d0b8536ca713a77a301944392a5c192b6adf2a79ae2b38912dc98"
             ),
             proof_of_possession_from_bytes(
-                x"8899b294f3c066e6dfb59bc0843265a1ccd6afc8f0f38a074d45ded8799c39d25ee0376cd6d6153b0d4d2ff8655e578b140254f1287b9e9df4e2aecc5b049d8556a4ab07f574df68e46348fd78e5298b7913377cf5bb3cf4796bfc755902bfdd",
-            ),
+                x"8899b294f3c066e6dfb59bc0843265a1ccd6afc8f0f38a074d45ded8799c39d25ee0376cd6d6153b0d4d2ff8655e578b140254f1287b9e9df4e2aecc5b049d8556a4ab07f574df68e46348fd78e5298b7913377cf5bb3cf4796bfc755902bfdd"
+            )
         ];
 
         assert!(std::vector::length(&pks) == std::vector::length(&pops), 1);
@@ -1129,7 +1127,7 @@ module aptos_std::bls12381 {
             let opt_pk =
                 public_key_from_bytes_with_pop(
                     *std::vector::borrow(&pks, i),
-                    std::vector::borrow(&pops, i),
+                    std::vector::borrow(&pops, i)
                 );
             assert!(option::is_some(&opt_pk), 1);
 
@@ -1141,8 +1139,8 @@ module aptos_std::bls12381 {
             public_key_from_bytes_with_pop(
                 x"a08864c91ae7a9998b3f5ee71f447840864e56d79838e4785ff5126c51480198df3d972e1e0348c6da80d396983e42d7",
                 &proof_of_possession_from_bytes(
-                    x"ab42afff92510034bf1232a37a0d31bc8abfc17e7ead9170d2d100f6cf6c75ccdcfedbd31699a112b4464a06fd636f3f190595863677d660b4c5d922268ace421f9e86e3a054946ee34ce29e1f88c1a10f27587cf5ec528d65ba7c0dc4863364",
-                ),
+                    x"ab42afff92510034bf1232a37a0d31bc8abfc17e7ead9170d2d100f6cf6c75ccdcfedbd31699a112b4464a06fd636f3f190595863677d660b4c5d922268ace421f9e86e3a054946ee34ce29e1f88c1a10f27587cf5ec528d65ba7c0dc4863364"
+                )
             );
         assert!(option::is_none(&opt_pk), 1);
 
@@ -1151,8 +1149,8 @@ module aptos_std::bls12381 {
             public_key_from_bytes_with_pop(
                 x"808864c91ae7a9998b3f5ee71f447840864e56d79838e4785ff5126c51480198df3d972e1e0348c6da80d396983e42d7",
                 &proof_of_possession_from_bytes(
-                    x"bb42afff92510034bf1232a37a0d31bc8abfc17e7ead9170d2d100f6cf6c75ccdcfedbd31699a112b4464a06fd636f3f190595863677d660b4c5d922268ace421f9e86e3a054946ee34ce29e1f88c1a10f27587cf5ec528d65ba7c0dc4863364",
-                ),
+                    x"bb42afff92510034bf1232a37a0d31bc8abfc17e7ead9170d2d100f6cf6c75ccdcfedbd31699a112b4464a06fd636f3f190595863677d660b4c5d922268ace421f9e86e3a054946ee34ce29e1f88c1a10f27587cf5ec528d65ba7c0dc4863364"
+                )
             );
         assert!(option::is_none(&opt_pk), 1);
     }
@@ -1165,13 +1163,13 @@ module aptos_std::bls12381 {
         assert!(option::is_some(&public_key_from_bytes_with_pop(pk_bytes, &pop)), 1);
         assert!(
             option::is_none(
-                &public_key_from_bytes_with_pop(pk_bytes, &maul_proof_of_possession(&pop)),
+                &public_key_from_bytes_with_pop(pk_bytes, &maul_proof_of_possession(&pop))
             ),
-            1,
+            1
         );
         assert!(
             option::is_none(&public_key_from_bytes_with_pop(maul_bytes(&pk_bytes), &pop)),
-            1,
+            1
         );
     }
 }

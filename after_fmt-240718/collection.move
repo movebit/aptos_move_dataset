@@ -69,18 +69,18 @@ module aptos_token_objects::collection {
         /// storage; the URL length will likely need a maximum any suggestions?
         uri: String,
         /// Emitted upon any mutation of the collection.
-        mutation_events: event::EventHandle<MutationEvent>,
+        mutation_events: event::EventHandle<MutationEvent>
     }
 
     /// This enables mutating description and URI by higher level services.
     struct MutatorRef has drop, store {
-        self: address,
+        self: address
     }
 
     /// Contains the mutated fields name. This makes the life of indexers easier, so that they can
     /// directly understand the behavior in a writeset.
     struct MutationEvent has drop, store {
-        mutated_field_name: String,
+        mutated_field_name: String
     }
 
     #[event]
@@ -90,7 +90,7 @@ module aptos_token_objects::collection {
         mutated_field_name: String,
         collection: Object<Collection>,
         old_value: String,
-        new_value: String,
+        new_value: String
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
@@ -104,7 +104,7 @@ module aptos_token_objects::collection {
         /// Emitted upon burning a Token.
         burn_events: event::EventHandle<BurnEvent>,
         /// Emitted upon minting an Token.
-        mint_events: event::EventHandle<MintEvent>,
+        mint_events: event::EventHandle<MintEvent>
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
@@ -115,7 +115,7 @@ module aptos_token_objects::collection {
         /// Emitted upon burning a Token.
         burn_events: event::EventHandle<BurnEvent>,
         /// Emitted upon minting an Token.
-        mint_events: event::EventHandle<MintEvent>,
+        mint_events: event::EventHandle<MintEvent>
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
@@ -124,17 +124,17 @@ module aptos_token_objects::collection {
     struct ConcurrentSupply has key {
         /// Total minted - total burned
         current_supply: Aggregator<u64>,
-        total_minted: Aggregator<u64>,
+        total_minted: Aggregator<u64>
     }
 
     struct BurnEvent has drop, store {
         index: u64,
-        token: address,
+        token: address
     }
 
     struct MintEvent has drop, store {
         index: u64,
-        token: address,
+        token: address
     }
 
     #[event]
@@ -142,14 +142,14 @@ module aptos_token_objects::collection {
         collection: address,
         index: u64,
         token: address,
-        previous_owner: address,
+        previous_owner: address
     }
 
     #[event]
     struct Mint has drop, store {
         collection: address,
         index: AggregatorSnapshot<u64>,
-        token: address,
+        token: address
     }
 
     // DEPRECATED, NEVER USED
@@ -158,7 +158,7 @@ module aptos_token_objects::collection {
     struct ConcurrentBurnEvent has drop, store {
         collection_addr: address,
         index: u64,
-        token: address,
+        token: address
     }
 
     // DEPRECATED, NEVER USED
@@ -167,14 +167,14 @@ module aptos_token_objects::collection {
     struct ConcurrentMintEvent has drop, store {
         collection_addr: address,
         index: AggregatorSnapshot<u64>,
-        token: address,
+        token: address
     }
 
     #[event]
     struct SetMaxSupply has drop, store {
         collection: Object<Collection>,
         old_max_supply: u64,
-        new_max_supply: u64,
+        new_max_supply: u64
     }
 
     /// Creates a fixed-sized collection, or a collection that supports a fixed amount of tokens.
@@ -188,7 +188,7 @@ module aptos_token_objects::collection {
         max_supply: u64,
         name: String,
         royalty: Option<Royalty>,
-        uri: String,
+        uri: String
     ): ConstructorRef {
         assert!(max_supply != 0, error::invalid_argument(EMAX_SUPPLY_CANNOT_BE_ZERO));
         let collection_seed = create_collection_seed(&name);
@@ -196,7 +196,7 @@ module aptos_token_objects::collection {
 
         let supply = ConcurrentSupply {
             current_supply: aggregator_v2::create_aggregator(max_supply),
-            total_minted: aggregator_v2::create_unbounded_aggregator(),
+            total_minted: aggregator_v2::create_unbounded_aggregator()
         };
 
         create_collection_internal(
@@ -206,7 +206,7 @@ module aptos_token_objects::collection {
             name,
             royalty,
             uri,
-            option::some(supply),
+            option::some(supply)
         )
     }
 
@@ -217,14 +217,14 @@ module aptos_token_objects::collection {
         description: String,
         name: String,
         royalty: Option<Royalty>,
-        uri: String,
+        uri: String
     ): ConstructorRef {
         let collection_seed = create_collection_seed(&name);
         let constructor_ref = object::create_named_object(creator, collection_seed);
 
         let supply = ConcurrentSupply {
             current_supply: aggregator_v2::create_unbounded_aggregator(),
-            total_minted: aggregator_v2::create_unbounded_aggregator(),
+            total_minted: aggregator_v2::create_unbounded_aggregator()
         };
 
         create_collection_internal(
@@ -234,7 +234,7 @@ module aptos_token_objects::collection {
             name,
             royalty,
             uri,
-            option::some(supply),
+            option::some(supply)
         )
     }
 
@@ -246,7 +246,7 @@ module aptos_token_objects::collection {
         description: String,
         name: String,
         royalty: Option<Royalty>,
-        uri: String,
+        uri: String
     ): ConstructorRef {
         let collection_seed = create_collection_seed(&name);
         let constructor_ref = object::create_named_object(creator, collection_seed);
@@ -258,7 +258,7 @@ module aptos_token_objects::collection {
             name,
             royalty,
             uri,
-            option::none(),
+            option::none()
         )
     }
 
@@ -269,19 +269,19 @@ module aptos_token_objects::collection {
         name: String,
         royalty: Option<Royalty>,
         uri: String,
-        supply: Option<Supply>,
+        supply: Option<Supply>
     ): ConstructorRef {
         assert!(
             string::length(&name) <= MAX_COLLECTION_NAME_LENGTH,
-            error::out_of_range(ECOLLECTION_NAME_TOO_LONG),
+            error::out_of_range(ECOLLECTION_NAME_TOO_LONG)
         );
         assert!(
             string::length(&uri) <= MAX_URI_LENGTH,
-            error::out_of_range(EURI_TOO_LONG),
+            error::out_of_range(EURI_TOO_LONG)
         );
         assert!(
             string::length(&description) <= MAX_DESCRIPTION_LENGTH,
-            error::out_of_range(EDESCRIPTION_TOO_LONG),
+            error::out_of_range(EDESCRIPTION_TOO_LONG)
         );
 
         let object_signer = object::generate_signer(&constructor_ref);
@@ -291,7 +291,7 @@ module aptos_token_objects::collection {
             description,
             name,
             uri,
-            mutation_events: object::new_event_handle(&object_signer),
+            mutation_events: object::new_event_handle(&object_signer)
         };
         move_to(&object_signer, collection);
 
@@ -320,29 +320,29 @@ module aptos_token_objects::collection {
     public fun create_collection_seed(name: &String): vector<u8> {
         assert!(
             string::length(name) <= MAX_COLLECTION_NAME_LENGTH,
-            error::out_of_range(ECOLLECTION_NAME_TOO_LONG),
+            error::out_of_range(ECOLLECTION_NAME_TOO_LONG)
         );
         *string::bytes(name)
     }
 
     /// Called by token on mint to increment supply if there's an appropriate Supply struct.
     public(friend) fun increment_supply(
-        collection: &Object<Collection>, token: address,
+        collection: &Object<Collection>, token: address
     ): Option<AggregatorSnapshot<u64>> acquires FixedSupply, UnlimitedSupply, ConcurrentSupply {
         let collection_addr = object::object_address(collection);
         if (exists<ConcurrentSupply>(collection_addr)) {
             let supply = borrow_global_mut<ConcurrentSupply>(collection_addr);
             assert!(
                 aggregator_v2::try_add(&mut supply.current_supply, 1),
-                error::out_of_range(ECOLLECTION_SUPPLY_EXCEEDED),
+                error::out_of_range(ECOLLECTION_SUPPLY_EXCEEDED)
             );
             aggregator_v2::add(&mut supply.total_minted, 1);
             event::emit(
                 Mint {
                     collection: collection_addr,
                     index: aggregator_v2::snapshot(&supply.total_minted),
-                    token,
-                },
+                    token
+                }
             );
             option::some(aggregator_v2::snapshot(&supply.total_minted))
         } else if (exists<FixedSupply>(collection_addr)) {
@@ -351,20 +351,20 @@ module aptos_token_objects::collection {
             supply.total_minted = supply.total_minted + 1;
             assert!(
                 supply.current_supply <= supply.max_supply,
-                error::out_of_range(ECOLLECTION_SUPPLY_EXCEEDED),
+                error::out_of_range(ECOLLECTION_SUPPLY_EXCEEDED)
             );
             if (std::features::module_event_migration_enabled()) {
                 event::emit(
                     Mint {
                         collection: collection_addr,
                         index: aggregator_v2::create_snapshot(supply.total_minted),
-                        token,
-                    },
+                        token
+                    }
                 );
             };
             event::emit_event(
                 &mut supply.mint_events,
-                MintEvent { index: supply.total_minted, token, },
+                MintEvent { index: supply.total_minted, token }
             );
             option::some(aggregator_v2::create_snapshot<u64>(supply.total_minted))
         } else if (exists<UnlimitedSupply>(collection_addr)) {
@@ -376,13 +376,13 @@ module aptos_token_objects::collection {
                     Mint {
                         collection: collection_addr,
                         index: aggregator_v2::create_snapshot(supply.total_minted),
-                        token,
-                    },
+                        token
+                    }
                 );
             };
             event::emit_event(
                 &mut supply.mint_events,
-                MintEvent { index: supply.total_minted, token, },
+                MintEvent { index: supply.total_minted, token }
             );
             option::some(aggregator_v2::create_snapshot<u64>(supply.total_minted))
         } else {
@@ -395,7 +395,7 @@ module aptos_token_objects::collection {
         collection: &Object<Collection>,
         token: address,
         index: Option<u64>,
-        previous_owner: address,
+        previous_owner: address
     ) acquires FixedSupply, UnlimitedSupply, ConcurrentSupply {
         let collection_addr = object::object_address(collection);
         if (exists<ConcurrentSupply>(collection_addr)) {
@@ -407,8 +407,8 @@ module aptos_token_objects::collection {
                     collection: collection_addr,
                     index: *option::borrow(&index),
                     token,
-                    previous_owner,
-                },
+                    previous_owner
+                }
             );
         } else if (exists<FixedSupply>(collection_addr)) {
             let supply = borrow_global_mut<FixedSupply>(collection_addr);
@@ -419,13 +419,13 @@ module aptos_token_objects::collection {
                         collection: collection_addr,
                         index: *option::borrow(&index),
                         token,
-                        previous_owner,
-                    },
+                        previous_owner
+                    }
                 );
             };
             event::emit_event(
                 &mut supply.burn_events,
-                BurnEvent { index: *option::borrow(&index), token, },
+                BurnEvent { index: *option::borrow(&index), token }
             );
         } else if (exists<UnlimitedSupply>(collection_addr)) {
             let supply = borrow_global_mut<UnlimitedSupply>(collection_addr);
@@ -436,13 +436,13 @@ module aptos_token_objects::collection {
                         collection: collection_addr,
                         index: *option::borrow(&index),
                         token,
-                        previous_owner,
-                    },
+                        previous_owner
+                    }
                 );
             };
             event::emit_event(
                 &mut supply.burn_events,
-                BurnEvent { index: *option::borrow(&index), token, },
+                BurnEvent { index: *option::borrow(&index), token }
             );
         }
     }
@@ -453,7 +453,7 @@ module aptos_token_objects::collection {
         MutatorRef { self: object::object_address(&object) }
     }
 
-    public fun upgrade_to_concurrent(ref: &ExtendRef,) acquires FixedSupply, UnlimitedSupply {
+    public fun upgrade_to_concurrent(ref: &ExtendRef) acquires FixedSupply, UnlimitedSupply {
         let metadata_object_address = object::address_from_extend_ref(ref);
         let metadata_object_signer = object::generate_signer_for_extending(ref);
 
@@ -464,12 +464,12 @@ module aptos_token_objects::collection {
                     max_supply,
                     total_minted,
                     burn_events,
-                    mint_events,
+                    mint_events
                 } = move_from<FixedSupply>(metadata_object_address);
 
                 let supply = ConcurrentSupply {
                     current_supply: aggregator_v2::create_aggregator(max_supply),
-                    total_minted: aggregator_v2::create_unbounded_aggregator(),
+                    total_minted: aggregator_v2::create_unbounded_aggregator()
                 };
                 (supply, current_supply, total_minted, burn_events, mint_events)
             } else if (exists<UnlimitedSupply>(metadata_object_address)) {
@@ -477,12 +477,12 @@ module aptos_token_objects::collection {
                     current_supply,
                     total_minted,
                     burn_events,
-                    mint_events,
+                    mint_events
                 } = move_from<UnlimitedSupply>(metadata_object_address);
 
                 let supply = ConcurrentSupply {
                     current_supply: aggregator_v2::create_unbounded_aggregator(),
-                    total_minted: aggregator_v2::create_unbounded_aggregator(),
+                    total_minted: aggregator_v2::create_unbounded_aggregator()
                 };
                 (supply, current_supply, total_minted, burn_events, mint_events)
             } else {
@@ -504,7 +504,7 @@ module aptos_token_objects::collection {
     inline fun check_collection_exists(addr: address) {
         assert!(
             exists<Collection>(addr),
-            error::not_found(ECOLLECTION_DOES_NOT_EXIST),
+            error::not_found(ECOLLECTION_DOES_NOT_EXIST)
         );
     }
 
@@ -573,7 +573,7 @@ module aptos_token_objects::collection {
     public fun set_name(mutator_ref: &MutatorRef, name: String) acquires Collection {
         assert!(
             string::length(&name) <= MAX_COLLECTION_NAME_LENGTH,
-            error::out_of_range(ECOLLECTION_NAME_TOO_LONG),
+            error::out_of_range(ECOLLECTION_NAME_TOO_LONG)
         );
         let collection = borrow_mut(mutator_ref);
         event::emit(
@@ -581,8 +581,8 @@ module aptos_token_objects::collection {
                 mutated_field_name: string::utf8(b"name"),
                 collection: object::address_to_object(mutator_ref.self),
                 old_value: collection.name,
-                new_value: name,
-            },
+                new_value: name
+            }
         );
         collection.name = name;
     }
@@ -592,7 +592,7 @@ module aptos_token_objects::collection {
     ) acquires Collection {
         assert!(
             string::length(&description) <= MAX_DESCRIPTION_LENGTH,
-            error::out_of_range(EDESCRIPTION_TOO_LONG),
+            error::out_of_range(EDESCRIPTION_TOO_LONG)
         );
         let collection = borrow_mut(mutator_ref);
         if (std::features::module_event_migration_enabled()) {
@@ -601,21 +601,21 @@ module aptos_token_objects::collection {
                     mutated_field_name: string::utf8(b"description"),
                     collection: object::address_to_object(mutator_ref.self),
                     old_value: collection.description,
-                    new_value: description,
-                },
+                    new_value: description
+                }
             );
         };
         collection.description = description;
         event::emit_event(
             &mut collection.mutation_events,
-            MutationEvent { mutated_field_name: string::utf8(b"description") },
+            MutationEvent { mutated_field_name: string::utf8(b"description") }
         );
     }
 
     public fun set_uri(mutator_ref: &MutatorRef, uri: String) acquires Collection {
         assert!(
             string::length(&uri) <= MAX_URI_LENGTH,
-            error::out_of_range(EURI_TOO_LONG),
+            error::out_of_range(EURI_TOO_LONG)
         );
         let collection = borrow_mut(mutator_ref);
         if (std::features::module_event_migration_enabled()) {
@@ -624,14 +624,14 @@ module aptos_token_objects::collection {
                     mutated_field_name: string::utf8(b"uri"),
                     collection: object::address_to_object(mutator_ref.self),
                     old_value: collection.uri,
-                    new_value: uri,
-                },
+                    new_value: uri
+                }
             );
         };
         collection.uri = uri;
         event::emit_event(
             &mut collection.mutation_events,
-            MutationEvent { mutated_field_name: string::utf8(b"uri") },
+            MutationEvent { mutated_field_name: string::utf8(b"uri") }
         );
     }
 
@@ -645,7 +645,7 @@ module aptos_token_objects::collection {
             let current_supply = aggregator_v2::read(&supply.current_supply);
             assert!(
                 max_supply >= current_supply,
-                error::out_of_range(EINVALID_MAX_SUPPLY),
+                error::out_of_range(EINVALID_MAX_SUPPLY)
             );
             old_max_supply = aggregator_v2::max_value(&supply.current_supply);
             supply.current_supply = aggregator_v2::create_aggregator(max_supply);
@@ -654,7 +654,7 @@ module aptos_token_objects::collection {
             let supply = borrow_global_mut<FixedSupply>(collection_address);
             assert!(
                 max_supply >= supply.current_supply,
-                error::out_of_range(EINVALID_MAX_SUPPLY),
+                error::out_of_range(EINVALID_MAX_SUPPLY)
             );
             old_max_supply = supply.max_supply;
             supply.max_supply = max_supply;
@@ -670,11 +670,11 @@ module aptos_token_objects::collection {
     // Tests
 
     #[test_only]
-    fun downgrade_from_concurrent_for_test(ref: &ExtendRef,) acquires ConcurrentSupply {
+    fun downgrade_from_concurrent_for_test(ref: &ExtendRef) acquires ConcurrentSupply {
         let metadata_object_address = object::address_from_extend_ref(ref);
         let metadata_object_signer = object::generate_signer_for_extending(ref);
 
-        let ConcurrentSupply { current_supply, total_minted, } =
+        let ConcurrentSupply { current_supply, total_minted } =
             move_from<ConcurrentSupply>(metadata_object_address);
 
         if (aggregator_v2::max_value(&current_supply) == MAX_U64) {
@@ -684,8 +684,8 @@ module aptos_token_objects::collection {
                     current_supply: aggregator_v2::read(&current_supply),
                     total_minted: aggregator_v2::read(&total_minted),
                     burn_events: object::new_event_handle(&metadata_object_signer),
-                    mint_events: object::new_event_handle(&metadata_object_signer),
-                },
+                    mint_events: object::new_event_handle(&metadata_object_signer)
+                }
             );
         } else {
             move_to(
@@ -695,8 +695,8 @@ module aptos_token_objects::collection {
                     max_supply: aggregator_v2::max_value(&current_supply),
                     total_minted: aggregator_v2::read(&total_minted),
                     burn_events: object::new_event_handle(&metadata_object_signer),
-                    mint_events: object::new_event_handle(&metadata_object_signer),
-                },
+                    mint_events: object::new_event_handle(&metadata_object_signer)
+                }
             );
         }
     }
@@ -711,7 +711,7 @@ module aptos_token_objects::collection {
                 string::utf8(b""),
                 name,
                 option::none(),
-                string::utf8(b""),
+                string::utf8(b"")
             );
         downgrade_from_concurrent_for_test(&object::generate_extend_ref(&constructor_ref));
 
@@ -727,7 +727,7 @@ module aptos_token_objects::collection {
             event::counter(
                 &borrow_global<UnlimitedSupply>(collection_address).mint_events
             ) == 1,
-            0,
+            0
         );
         decrement_supply(&collection, creator_address, option::some(cid), creator_address);
         assert!(count(collection) == option::some(0), 0);
@@ -735,7 +735,7 @@ module aptos_token_objects::collection {
             event::counter(
                 &borrow_global<UnlimitedSupply>(collection_address).burn_events
             ) == 1,
-            0,
+            0
         );
     }
 
@@ -750,7 +750,7 @@ module aptos_token_objects::collection {
                 1,
                 name,
                 option::none(),
-                string::utf8(b""),
+                string::utf8(b"")
             );
         downgrade_from_concurrent_for_test(&object::generate_extend_ref(&constructor_ref));
 
@@ -765,14 +765,14 @@ module aptos_token_objects::collection {
         assert!(
             event::counter(&borrow_global<FixedSupply>(collection_address).mint_events)
                 == 1,
-            0,
+            0
         );
         decrement_supply(&collection, creator_address, option::some(cid), creator_address);
         assert!(count(collection) == option::some(0), 0);
         assert!(
             event::counter(&borrow_global<FixedSupply>(collection_address).burn_events)
                 == 1,
-            0,
+            0
         );
     }
 
@@ -786,7 +786,7 @@ module aptos_token_objects::collection {
             1,
             name,
             option::none(),
-            string::utf8(b""),
+            string::utf8(b"")
         );
         let collection_address = create_collection_address(&creator_address, &name);
         let collection = object::address_to_object<Collection>(collection_address);
@@ -796,8 +796,8 @@ module aptos_token_objects::collection {
             &Mint {
                 collection: collection_address,
                 index: aggregator_v2::create_snapshot(0),
-                token: creator_address,
-            },
+                token: creator_address
+            }
         );
         assert!(cid == option::some(aggregator_v2::create_snapshot(1)), 1);
         assert!(count(collection) == option::some(1), 0);
@@ -807,8 +807,8 @@ module aptos_token_objects::collection {
                 collection: collection_address,
                 index: 1,
                 token: creator_address,
-                previous_owner: creator_address,
-            },
+                previous_owner: creator_address
+            }
         );
         assert!(count(collection) == option::some(0), 0);
     }
@@ -843,7 +843,7 @@ module aptos_token_objects::collection {
         let mutator_ref = generate_mutator_ref(&constructor_ref);
         let collection =
             object::address_to_object<Collection>(
-                create_collection_address(&signer::address_of(creator), &collection_name),
+                create_collection_address(&signer::address_of(creator), &collection_name)
             );
         let new_collection_name = string::utf8(b"new collection name");
         assert!(new_collection_name != name(collection), 0);
@@ -854,8 +854,8 @@ module aptos_token_objects::collection {
                 mutated_field_name: string::utf8(b"name"),
                 collection,
                 old_value: collection_name,
-                new_value: new_collection_name,
-            },
+                new_value: new_collection_name
+            }
         );
     }
 
@@ -865,7 +865,7 @@ module aptos_token_objects::collection {
         let constructor_ref = create_collection_helper(creator, collection_name);
         let collection =
             object::address_to_object<Collection>(
-                create_collection_address(&signer::address_of(creator), &collection_name),
+                create_collection_address(&signer::address_of(creator), &collection_name)
             );
         let mutator_ref = generate_mutator_ref(&constructor_ref);
         let description = string::utf8(b"no fail");
@@ -881,7 +881,7 @@ module aptos_token_objects::collection {
         let mutator_ref = generate_mutator_ref(&constructor_ref);
         let collection =
             object::address_to_object<Collection>(
-                create_collection_address(&signer::address_of(creator), &collection_name),
+                create_collection_address(&signer::address_of(creator), &collection_name)
             );
         let uri = string::utf8(b"no fail");
         assert!(uri != uri(collection), 0);
@@ -909,14 +909,14 @@ module aptos_token_objects::collection {
             &SetMaxSupply {
                 collection: object::address_to_object<Collection>(collection_address),
                 old_max_supply: max_supply,
-                new_max_supply,
-            },
+                new_max_supply
+            }
         );
     }
 
     #[test(creator = @0x123)]
     entry fun test_set_max_supply_same_as_current_supply_fixed(
-        creator: &signer,
+        creator: &signer
     ) acquires ConcurrentSupply, FixedSupply, UnlimitedSupply {
         let collection_name = string::utf8(b"collection name");
         let max_supply = 10;
@@ -941,15 +941,15 @@ module aptos_token_objects::collection {
         let supply = borrow_global<ConcurrentSupply>(collection_address);
         assert!(
             aggregator_v2::max_value(&supply.current_supply) == current_supply,
-            EINVALID_MAX_SUPPLY,
+            EINVALID_MAX_SUPPLY
         );
 
         event::was_event_emitted<SetMaxSupply>(
             &SetMaxSupply {
                 collection: object::address_to_object<Collection>(collection_address),
                 old_max_supply: current_supply,
-                new_max_supply: current_supply,
-            },
+                new_max_supply: current_supply
+            }
         );
     }
 
@@ -1017,7 +1017,7 @@ module aptos_token_objects::collection {
             string::utf8(b"collection description"),
             name,
             option::none(),
-            string::utf8(b"collection uri"),
+            string::utf8(b"collection uri")
         )
     }
 
@@ -1031,7 +1031,7 @@ module aptos_token_objects::collection {
             max_supply,
             name,
             option::none(),
-            string::utf8(b"uri"),
+            string::utf8(b"uri")
         )
     }
 

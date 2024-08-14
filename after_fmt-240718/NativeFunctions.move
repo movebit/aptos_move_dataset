@@ -46,7 +46,7 @@ module 0x2::NativeFunctions {
         assert!(
             to_string(u256_from_words(1, 2))
                 == b"340282366920938463463374607431768211458",
-            105,
+            105
         );
     }
 

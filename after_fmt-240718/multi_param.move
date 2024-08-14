@@ -29,7 +29,7 @@ module 0x42::Test {
             |elem| {
                 let elem: &mut Elem<K, V> = elem; // Checks whether scoping is fine
                 result = result + f(&elem.k, &mut elem.v);
-            },
+            }
         );
         result
     }
@@ -37,7 +37,7 @@ module 0x42::Test {
     public fun test() {
         assert!(
             elem_for_each_ref(&mut vector[Elem { k: 1, v: 2 }], |x, y| *x + *y) == 3,
-            0,
+            0
         )
     }
 }

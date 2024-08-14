@@ -58,13 +58,13 @@ module ambassador::ambassador {
         /// Used to mutate properties
         property_mutator_ref: property_map::MutatorRef,
         /// the base URI of the token
-        base_uri: String,
+        base_uri: String
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
     /// The ambassador level
     struct AmbassadorLevel has key {
-        ambassador_level: u64,
+        ambassador_level: u64
     }
 
     #[event]
@@ -72,7 +72,7 @@ module ambassador::ambassador {
     struct LevelUpdate has drop, store {
         token: Object<AmbassadorToken>,
         old_level: u64,
-        new_level: u64,
+        new_level: u64
     }
 
     /// Initializes the module, creating the ambassador collection. The creator of the module is the creator of the
@@ -125,7 +125,7 @@ module ambassador::ambassador {
             description,
             name,
             option::none(),
-            uri,
+            uri
         );
     }
 
@@ -136,7 +136,7 @@ module ambassador::ambassador {
         description: String,
         name: String,
         base_uri: String,
-        soul_bound_to: address,
+        soul_bound_to: address
     ) {
         mint_ambassador_token_impl(
             creator,
@@ -144,7 +144,7 @@ module ambassador::ambassador {
             name,
             base_uri,
             soul_bound_to,
-            false,
+            false
         );
     }
 
@@ -155,7 +155,7 @@ module ambassador::ambassador {
         description: String,
         name: String,
         base_uri: String,
-        soul_bound_to: address,
+        soul_bound_to: address
     ) {
         mint_ambassador_token_impl(
             creator, description, name, base_uri, soul_bound_to, true
@@ -169,7 +169,7 @@ module ambassador::ambassador {
         user: &signer,
         creator: &signer,
         description: String,
-        uri: String,
+        uri: String
     ) {
         let user_addr = signer::address_of(user);
         mint_ambassador_token(
@@ -177,7 +177,7 @@ module ambassador::ambassador {
             description,
             to_string<address>(&user_addr),
             uri,
-            user_addr,
+            user_addr
         );
     }
 
@@ -188,7 +188,7 @@ module ambassador::ambassador {
         creator: &signer,
         description: String,
         name: String,
-        uri: String,
+        uri: String
     ) {
         mint_numbered_ambassador_token(
             creator, description, name, uri, signer::address_of(user)
@@ -203,7 +203,7 @@ module ambassador::ambassador {
         name: String,
         base_uri: String,
         soul_bound_to: address,
-        numbered: bool,
+        numbered: bool
     ) {
         // The collection name is used to locate the collection object and to create a new token object.
         let collection = string::utf8(COLLECTION_NAME);
@@ -220,7 +220,7 @@ module ambassador::ambassador {
                     name,
                     string::utf8(b""),
                     option::none(),
-                    uri,
+                    uri
                 )
             } else {
                 token::create_named_token(
@@ -229,7 +229,7 @@ module ambassador::ambassador {
                     description,
                     name,
                     option::none(),
-                    uri,
+                    uri
                 )
             };
 
@@ -257,7 +257,7 @@ module ambassador::ambassador {
         property_map::add_typed(
             &property_mutator_ref,
             string::utf8(b"Rank"),
-            string::utf8(RANK_BRONZE),
+            string::utf8(RANK_BRONZE)
         );
 
         // Publishes the AmbassadorToken resource with the refs.
@@ -295,7 +295,7 @@ module ambassador::ambassador {
             token::create_token_address(
                 &signer::address_of(creator),
                 &collection_name,
-                &to_string<address>(&signer::address_of(user)),
+                &to_string<address>(&signer::address_of(user))
             );
         let token = object::address_to_object<AmbassadorToken>(token_address);
         burn(creator, token);
@@ -316,8 +316,8 @@ module ambassador::ambassador {
             LevelUpdate {
                 token,
                 old_level: ambassador_level.ambassador_level,
-                new_level: new_ambassador_level,
-            },
+                new_level: new_ambassador_level
+            }
         );
         // Updates the ambassador level.
         ambassador_level.ambassador_level = new_ambassador_level;
@@ -347,7 +347,7 @@ module ambassador::ambassador {
         property_map::update_typed(
             property_mutator_ref,
             &string::utf8(b"Rank"),
-            string::utf8(new_rank),
+            string::utf8(new_rank)
         );
         // Updates the token URI based on the new rank.
         let uri = ambassador_token.base_uri;
@@ -363,11 +363,11 @@ module ambassador::ambassador {
         let token_address = object::object_address(token);
         assert!(
             exists<T>(token_address),
-            error::not_found(ETOKEN_DOES_NOT_EXIST),
+            error::not_found(ETOKEN_DOES_NOT_EXIST)
         );
         assert!(
             token::creator(*token) == signer::address_of(creator),
-            error::permission_denied(ENOT_CREATOR),
+            error::permission_denied(ENOT_CREATOR)
         );
     }
 
@@ -391,14 +391,14 @@ module ambassador::ambassador {
             token_description,
             token_name,
             token_uri,
-            user1_addr,
+            user1_addr
         );
         let collection_name = string::utf8(COLLECTION_NAME);
         let token_address =
             token::create_token_address(
                 &signer::address_of(creator),
                 &collection_name,
-                &token_name,
+                &token_name
             );
         let token = object::address_to_object<AmbassadorToken>(token_address);
         // Asserts that the owner of the token is User1.
@@ -444,7 +444,7 @@ module ambassador::ambassador {
             user1,
             creator,
             token_description,
-            token_uri,
+            token_uri
         );
         burn_named_by_user(user1, creator);
     }

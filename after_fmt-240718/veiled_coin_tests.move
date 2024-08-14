@@ -50,7 +50,7 @@ module veiled_coin::veiled_coin_tests {
         sender: &signer,
         recipient: &signer,
         sender_amount: u32,
-        recipient_amount: u32,
+        recipient_amount: u32
     ) {
         // Assumption is that framework address is different than recipient and sender addresses
         assert!(signer::address_of(&aptos_fx) != signer::address_of(sender), 1);
@@ -62,7 +62,7 @@ module veiled_coin::veiled_coin_tests {
         features::change_feature_flags_for_testing(
             &aptos_fx,
             vector[features::get_bulletproofs_feature()],
-            vector[],
+            vector[]
         );
         println(b"Enabled feature flags.");
 
@@ -79,7 +79,7 @@ module veiled_coin::veiled_coin_tests {
         coin::create_fake_money(
             &aptos_fx,
             sender,
-            veiled_coin::cast_u32_to_u64_amount(sender_amount + recipient_amount),
+            veiled_coin::cast_u32_to_u64_amount(sender_amount + recipient_amount)
         );
         println(b"Created fake money inside @aptos_framework");
 
@@ -87,7 +87,7 @@ module veiled_coin::veiled_coin_tests {
         coin::transfer<coin::FakeMoney>(
             &aptos_fx,
             signer::address_of(sender),
-            veiled_coin::cast_u32_to_u64_amount(sender_amount),
+            veiled_coin::cast_u32_to_u64_amount(sender_amount)
         );
         println(b"Transferred some fake money to the sender.");
 
@@ -96,7 +96,7 @@ module veiled_coin::veiled_coin_tests {
         coin::transfer<coin::FakeMoney>(
             &aptos_fx,
             signer::address_of(recipient),
-            veiled_coin::cast_u32_to_u64_amount(recipient_amount),
+            veiled_coin::cast_u32_to_u64_amount(recipient_amount)
         );
         println(b"Transferred some fake money to the recipient.");
 
@@ -105,8 +105,8 @@ module veiled_coin::veiled_coin_tests {
         println(b"Sender balance (as u32):");
         print(
             &veiled_coin::clamp_u64_to_u32_amount(
-                coin::balance<coin::FakeMoney>(signer::address_of(sender)),
-            ),
+                coin::balance<coin::FakeMoney>(signer::address_of(sender))
+            )
         );
         if (signer::address_of(recipient) != signer::address_of(sender)) {
             println(b"Recipient balance (as u64):");
@@ -114,8 +114,8 @@ module veiled_coin::veiled_coin_tests {
             println(b"Sender balance (as u32):");
             print(
                 &veiled_coin::clamp_u64_to_u32_amount(
-                    coin::balance<coin::FakeMoney>(signer::address_of(recipient)),
-                ),
+                    coin::balance<coin::FakeMoney>(signer::address_of(recipient))
+                )
             );
         } else {
             println(b"(Recipient equals sender)");
@@ -159,7 +159,7 @@ module veiled_coin::veiled_coin_tests {
             &sender,
             &recipient,
             500u32,
-            500u32,
+            500u32
         );
 
         // Register a veiled balance at the `recipient`'s account
@@ -179,16 +179,16 @@ module veiled_coin::veiled_coin_tests {
         assert!(
             coin::balance<coin::FakeMoney>(signer::address_of(&sender))
                 == veiled_coin::cast_u32_to_u64_amount(350u32),
-            1,
+            1
         );
         assert!(
             veiled_coin::verify_opened_balance<coin::FakeMoney>(
                 signer::address_of(&recipient),
                 150u32,
                 &ristretto255::scalar_zero(),
-                &recipient_pk,
+                &recipient_pk
             ),
-            1,
+            1
         );
 
         // Register a veiled balance at the `sender`'s account
@@ -208,7 +208,7 @@ module veiled_coin::veiled_coin_tests {
                 &recipient_new_balance,
                 &ristretto255::scalar_zero(),
                 veiled_coin::get_max_bits_in_veiled_coin_value(),
-                veiled_coin::get_veiled_coin_bulletproofs_dst(),
+                veiled_coin::get_veiled_coin_bulletproofs_dst()
             );
         let new_balance_range_proof_bytes =
             bulletproofs::range_proof_to_bytes(&new_balance_range_proof);
@@ -233,7 +233,7 @@ module veiled_coin::veiled_coin_tests {
                 &new_balance_comm,
                 &recipient_new_balance,
                 &recipient_amount_unveiled,
-                &ristretto255::scalar_zero(),
+                &ristretto255::scalar_zero()
             );
         let sigma_proof_bytes = serialize_withdrawal_subproof(&sigma_proof);
 
@@ -244,7 +244,7 @@ module veiled_coin::veiled_coin_tests {
             50u32,
             new_balance_comm_bytes,
             new_balance_range_proof_bytes,
-            sigma_proof_bytes,
+            sigma_proof_bytes
         );
 
         // Check that the sender now has 350 + 50 = 400 public coins
@@ -257,17 +257,15 @@ module veiled_coin::veiled_coin_tests {
                 signer::address_of(&recipient),
                 100u32,
                 &ristretto255::scalar_zero(),
-                &recipient_pk,
+                &recipient_pk
             ),
-            1,
+            1
         );
     }
 
     #[test(veiled_coin = @veiled_coin, aptos_fx = @aptos_framework, sender = @0x1337)]
     fun unveil_test(
-        veiled_coin: signer,
-        aptos_fx: signer,
-        sender: signer,
+        veiled_coin: signer, aptos_fx: signer, sender: signer
     ) {
         println(b"Starting unveil_test()...");
         println(b"@veiled_coin:");
@@ -300,7 +298,7 @@ module veiled_coin::veiled_coin_tests {
         assert!(
             veiled_coin::total_veiled_coins<coin::FakeMoney>()
                 == veiled_coin::cast_u32_to_u64_amount(150),
-            1,
+            1
         );
 
         // The `unveil` function uses randomness zero for the ElGamal encryption of the amount
@@ -314,7 +312,7 @@ module veiled_coin::veiled_coin_tests {
                 &sender_new_balance,
                 &zero_randomness,
                 veiled_coin::get_max_bits_in_veiled_coin_value(),
-                veiled_coin::get_veiled_coin_bulletproofs_dst(),
+                veiled_coin::get_veiled_coin_bulletproofs_dst()
             );
 
         let curr_balance_ct =
@@ -335,7 +333,7 @@ module veiled_coin::veiled_coin_tests {
                 &new_balance_comm,
                 &sender_new_balance,
                 &sender_amount_unveiled,
-                &zero_randomness,
+                &zero_randomness
             );
         let sigma_proof_bytes = serialize_withdrawal_subproof(&sigma_proof);
 
@@ -346,7 +344,7 @@ module veiled_coin::veiled_coin_tests {
             50,
             new_balance_comm_bytes,
             bulletproofs::range_proof_to_bytes(&new_balance_range_proof),
-            sigma_proof_bytes,
+            sigma_proof_bytes
         );
 
         println(b"Remaining veiled coins, after `unveil` call:");
@@ -355,7 +353,7 @@ module veiled_coin::veiled_coin_tests {
         assert!(
             veiled_coin::total_veiled_coins<coin::FakeMoney>()
                 == veiled_coin::cast_u32_to_u64_amount(100),
-            1,
+            1
         );
 
         assert!(
@@ -363,9 +361,9 @@ module veiled_coin::veiled_coin_tests {
                 signer::address_of(&sender),
                 100,
                 &zero_randomness,
-                &sender_pk,
+                &sender_pk
             ),
-            2,
+            2
         );
 
         let remaining_public_balance =
@@ -403,7 +401,7 @@ module veiled_coin::veiled_coin_tests {
         let total_veiled_coins = veiled_coin::cast_u32_to_u64_amount(150);
         assert!(
             veiled_coin::total_veiled_coins<coin::FakeMoney>() == total_veiled_coins,
-            1,
+            1
         );
 
         // Transfer `v = 50` of these veiled coins to the recipient
@@ -428,7 +426,7 @@ module veiled_coin::veiled_coin_tests {
                 &new_balance_val,
                 &new_balance_rand,
                 veiled_coin::get_max_bits_in_veiled_coin_value(),
-                veiled_coin::get_veiled_coin_bulletproofs_dst(),
+                veiled_coin::get_veiled_coin_bulletproofs_dst()
             );
         println(b"Computed range proof over the `sender`'s new balance");
 
@@ -440,7 +438,7 @@ module veiled_coin::veiled_coin_tests {
                 &amount_val,
                 &amount_rand,
                 veiled_coin::get_max_bits_in_veiled_coin_value(),
-                veiled_coin::get_veiled_coin_bulletproofs_dst(),
+                veiled_coin::get_veiled_coin_bulletproofs_dst()
             );
         println(b"Computed range proof over the transferred amount");
 
@@ -464,7 +462,7 @@ module veiled_coin::veiled_coin_tests {
         let new_balance_comm =
             pedersen::new_commitment_for_bulletproof(&new_balance_val, &new_balance_rand);
         println(
-            b"Computed commitments to the amount to transfer and the sender's updated balance",
+            b"Computed commitments to the amount to transfer and the sender's updated balance"
         );
 
         // Prove that the two encryptions of `v` are to the same value
@@ -481,7 +479,7 @@ module veiled_coin::veiled_coin_tests {
                 &amount_rand,
                 &amount_val,
                 &new_balance_rand,
-                &new_balance_val,
+                &new_balance_val
             );
         let sigma_proof_bytes = sigma_protos::serialize_transfer_subproof(&sigma_proof);
         println(b"Created sigma protocol proof");
@@ -492,18 +490,18 @@ module veiled_coin::veiled_coin_tests {
                 signer::address_of(&sender),
                 150,
                 &ristretto255::scalar_zero(),
-                &sender_pk,
+                &sender_pk
             ),
-            1,
+            1
         );
         assert!(
             veiled_coin::verify_opened_balance<coin::FakeMoney>(
                 signer::address_of(&recipient),
                 0,
                 &ristretto255::scalar_zero(),
-                &recipient_pk,
+                &recipient_pk
             ),
-            1,
+            1
         );
 
         // Execute the veiled transaction: no one will be able to tell 50 coins are being transferred.
@@ -516,7 +514,7 @@ module veiled_coin::veiled_coin_tests {
             pedersen::commitment_to_bytes(&amount_comm),
             bulletproofs::range_proof_to_bytes(&new_balance_range_proof),
             bulletproofs::range_proof_to_bytes(&amount_val_range_proof),
-            sigma_proof_bytes,
+            sigma_proof_bytes
         );
         println(b"Transferred veiled coins");
 
@@ -528,23 +526,23 @@ module veiled_coin::veiled_coin_tests {
                 signer::address_of(&sender),
                 100,
                 &balance_rand,
-                &sender_pk,
+                &sender_pk
             ),
-            1,
+            1
         );
         assert!(
             veiled_coin::verify_opened_balance<coin::FakeMoney>(
                 signer::address_of(&recipient),
                 50,
                 &amount_rand,
-                &recipient_pk,
+                &recipient_pk
             ),
-            1,
+            1
         );
 
         assert!(
             veiled_coin::total_veiled_coins<coin::FakeMoney>() == total_veiled_coins,
-            1,
+            1
         );
 
         // Drain the whole remaining balance of the sender
@@ -559,7 +557,7 @@ module veiled_coin::veiled_coin_tests {
                 &new_new_balance_val,
                 &fresh_new_balance_rand,
                 veiled_coin::get_max_bits_in_veiled_coin_value(),
-                veiled_coin::get_veiled_coin_bulletproofs_dst(),
+                veiled_coin::get_veiled_coin_bulletproofs_dst()
             );
 
         // Compute a pedersen commitment over the same values the range proof is done over to gurantee a binding commitment
@@ -582,7 +580,7 @@ module veiled_coin::veiled_coin_tests {
                 &new_new_balance_comm,
                 &new_new_balance_val,
                 &new_amount_val,
-                &fresh_new_balance_rand,
+                &fresh_new_balance_rand
             );
         let sigma_proof_bytes = serialize_withdrawal_subproof(&sigma_proof);
 
@@ -592,14 +590,14 @@ module veiled_coin::veiled_coin_tests {
             100,
             new_new_balance_comm_bytes,
             bulletproofs::range_proof_to_bytes(&new_new_balance_range_proof),
-            sigma_proof_bytes,
+            sigma_proof_bytes
         );
         println(b"Unveiled all 100 coins from the `sender`'s veiled balance");
 
         let total_veiled_coins = veiled_coin::cast_u32_to_u64_amount(50);
         assert!(
             veiled_coin::total_veiled_coins<coin::FakeMoney>() == total_veiled_coins,
-            1,
+            1
         );
 
         // Sanity check veiled balances
@@ -608,18 +606,18 @@ module veiled_coin::veiled_coin_tests {
                 signer::address_of(&sender),
                 0,
                 &balance_rand,
-                &sender_pk,
+                &sender_pk
             ),
-            1,
+            1
         );
         assert!(
             veiled_coin::verify_opened_balance<coin::FakeMoney>(
                 signer::address_of(&recipient),
                 50,
                 &amount_rand,
-                &recipient_pk,
+                &recipient_pk
             ),
-            1,
+            1
         );
     }
 }

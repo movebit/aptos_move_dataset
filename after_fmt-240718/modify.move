@@ -15,7 +15,7 @@ module 0xcafe::m {
             |y| {
                 x = 2;
                 y + c
-            },
+            }
         )
     }
 
@@ -25,7 +25,7 @@ module 0xcafe::m {
             |y| {
                 let r = &mut c;
                 y + *r
-            },
+            }
         )
     }
 
@@ -36,7 +36,7 @@ module 0xcafe::m {
             |y| {
                 z = 2;
                 y + c
-            },
+            }
         )
     }
 
@@ -47,7 +47,7 @@ module 0xcafe::m {
             |y| {
                 let r = &mut z;
                 y + *r
-            },
+            }
         )
     }
 
@@ -58,7 +58,7 @@ module 0xcafe::m {
             |y| {
                 let r = &z;
                 y + *r
-            },
+            }
         )
     }
 }

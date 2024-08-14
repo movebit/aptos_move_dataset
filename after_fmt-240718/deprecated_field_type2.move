@@ -7,7 +7,7 @@ module 0x42::event {
         /// Total number of events emitted to this event stream.
         counter: u64,
         /// A globally unique ID for this event stream.
-        guid: u64,
+        guid: u64
     }
 }
 
@@ -27,6 +27,6 @@ module 0x41::coin {
         coin: Coin<CoinType>,
         frozen: bool,
         deposit_events: EventHandle<DepositEvent>,
-        withdraw_events: EventHandle<WithdrawEvent>,
+        withdraw_events: EventHandle<WithdrawEvent>
     }
 }

@@ -10,7 +10,7 @@ module 0x42::m {
             |key| {
                 let t: vector<u8> = key;
                 (vector::length<u8>(&t) + 2)
-            },
+            }
         );
         let _y: vector<u64> = vector::map<u64, u64>(
             *vector::borrow(&VALUES, 0), |v| { (v + 3u64) }

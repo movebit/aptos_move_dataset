@@ -15,7 +15,7 @@ module large_packages::large_packages {
 
     struct StagingArea has drop, key {
         metadata_serialized: vector<u8>,
-        code: vector<vector<u8>>,
+        code: vector<vector<u8>>
     }
 
     public entry fun stage_code(
@@ -23,11 +23,11 @@ module large_packages::large_packages {
         metadata_serialized: vector<u8>,
         code_indices: vector<u16>,
         code_chunks: vector<vector<u8>>,
-        publish: bool,
+        publish: bool
     ) acquires StagingArea {
         assert!(
             vector::length(&code_indices) == vector::length(&code_chunks),
-            error::invalid_argument(ECODE_MISMATCH),
+            error::invalid_argument(ECODE_MISMATCH)
         );
 
         let owner_address = signer::address_of(owner);
@@ -35,7 +35,7 @@ module large_packages::large_packages {
         if (!exists<StagingArea>(owner_address)) {
             move_to(
                 owner,
-                StagingArea { metadata_serialized: vector::empty(), code: vector::empty(), },
+                StagingArea { metadata_serialized: vector::empty(), code: vector::empty() }
             );
         };
 
@@ -66,7 +66,7 @@ module large_packages::large_packages {
 
     /// Publish code from staging area.
     public entry fun publish_staged_code(
-        publisher: &signer, staging_area_address: address,
+        publisher: &signer, staging_area_address: address
     ) acquires StagingArea {
         let staging_area = borrow_global_mut<StagingArea>(staging_area_address);
         code::publish_package_txn(

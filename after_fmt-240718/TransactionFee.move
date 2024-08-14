@@ -12,7 +12,7 @@ module DiemFramework::TransactionFee {
     /// fiat `CoinType` that can be collected as a transaction fee.
     struct TransactionFee<phantom CoinType> has key {
         balance: Diem<CoinType>,
-        preburn: Preburn<CoinType>,
+        preburn: Preburn<CoinType>
     }
 
     /// A `TransactionFee` resource is not in the required state
@@ -20,7 +20,7 @@ module DiemFramework::TransactionFee {
 
     /// Called in genesis. Sets up the needed resources to collect transaction fees from the
     /// `TransactionFee` resource with the TreasuryCompliance account.
-    public fun initialize(tc_account: &signer,) {
+    public fun initialize(tc_account: &signer) {
         DiemTimestamp::assert_genesis();
         Roles::assert_treasury_compliance(tc_account);
         // accept fees in all the currencies
@@ -56,14 +56,14 @@ module DiemFramework::TransactionFee {
         Diem::assert_is_currency<CoinType>();
         assert!(
             !is_coin_initialized<CoinType>(),
-            errors::already_published(ETRANSACTION_FEE),
+            errors::already_published(ETRANSACTION_FEE)
         );
         move_to(
             tc_account,
             TransactionFee<CoinType> {
                 balance: Diem::zero(),
                 preburn: Diem::create_preburn(tc_account)
-            },
+            }
         )
     }
 
@@ -98,7 +98,7 @@ module DiemFramework::TransactionFee {
     /// Preburns the transaction fees collected in the `CoinType` currency.
     /// If the `CoinType` is XDX, it unpacks the coin and preburns the
     /// underlying fiat.
-    public fun burn_fees<CoinType>(tc_account: &signer,) acquires TransactionFee {
+    public fun burn_fees<CoinType>(tc_account: &signer) acquires TransactionFee {
         DiemTimestamp::assert_operating();
         Roles::assert_treasury_compliance(tc_account);
         assert!(is_coin_initialized<CoinType>(), errors::not_published(ETRANSACTION_FEE));
@@ -116,7 +116,7 @@ module DiemFramework::TransactionFee {
                 coin,
                 &mut fees.preburn,
                 @TreasuryCompliance,
-                &burn_cap,
+                &burn_cap
             );
             Diem::publish_burn_capability(tc_account, burn_cap);
         }

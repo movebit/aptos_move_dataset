@@ -6,7 +6,7 @@ module M {
     struct F {
         f: 0x2::X::S,
         g: X::S,
-        h: X2::S,
+        h: X2::S
     }
 
     fun foo(_x: 0x2::X::S, _y: X::S, _z: X2::S): (0x2::X::S, X::S, X2::S) {

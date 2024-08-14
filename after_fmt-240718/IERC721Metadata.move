@@ -38,9 +38,9 @@ module Evm::IERC721Metadata {
         bytes_xor(
             bytes_xor(
                 selector_name(),
-                selector_symbol(),
+                selector_symbol()
             ),
-            selector_tokenURI(),
+            selector_tokenURI()
         )
     }
 }

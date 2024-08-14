@@ -10,7 +10,7 @@ module deploy_address::number {
         u64: u64,
         u128: u128,
         u256: u256,
-        vec_u256: vector<u256>,
+        vec_u256: vector<u256>
     }
 
     //<:!:resource
@@ -48,7 +48,7 @@ module deploy_address::number {
         if (!exists<NumberHolder>(account_addr)) {
             move_to(
                 &account,
-                NumberHolder { u8, u16, u32, u64, u128, u256, vec_u256, },
+                NumberHolder { u8, u16, u32, u64, u128, u256, vec_u256 }
             )
         } else {
             let old_holder = borrow_global_mut<NumberHolder>(account_addr);

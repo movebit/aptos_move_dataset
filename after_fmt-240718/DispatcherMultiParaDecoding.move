@@ -27,7 +27,10 @@ module 0x2::M {
         )
     ]
     fun test_u8_array_uint64_u8_array_uint64(
-        v_1: vector<u8>, idx_1: u64, v_2: vector<u8>, idx_2: u64
+        v_1: vector<u8>,
+        idx_1: u64,
+        v_2: vector<u8>,
+        idx_2: u64
     ): u8 {
         *vector::borrow(&v_1, idx_1) + *vector::borrow(&v_2, idx_2)
     }

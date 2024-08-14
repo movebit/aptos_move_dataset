@@ -106,7 +106,7 @@ module aptos_std::math_fixed64 {
         assert_approx_the_same(
             (fixed_point64::get_raw_value(result) as u256),
             26087635650665564424,
-            16,
+            16
         );
     }
 

@@ -17,7 +17,7 @@ module 0x42::Test {
         // Total number of events emitted to this event stream.
         counter: u64,
         // A globally unique ID for this event stream.
-        guid: vector<u8>,
+        guid: vector<u8>
     }
 
     struct Event1 has copy, drop, store {}
@@ -26,12 +26,12 @@ module 0x42::Test {
 
     struct T has key {
         received_events: EventHandle<Event1>,
-        sent_events: EventHandle<Event2>,
+        sent_events: EventHandle<Event2>
     }
 
     struct EventHandleGenerator has copy, drop, store {
         // A monotonically increasing counter
-        counter: u64,
+        counter: u64
     }
 
     fun fresh_guid(counter: &mut EventHandleGenerator, sender: address): vector<u8> {
@@ -49,7 +49,7 @@ module 0x42::Test {
         ensures eq_append(
             result,
             bcs::serialize(old(counter.counter)),
-            bcs::serialize(sender),
+            bcs::serialize(sender)
         );
     }
 
@@ -64,7 +64,7 @@ module 0x42::Test {
         ensures eq_append(
             result.guid,
             bcs::serialize(old(counter.counter)),
-            bcs::serialize(sender),
+            bcs::serialize(sender)
         );
         ensures result.counter == 0;
     }
@@ -84,7 +84,7 @@ module 0x42::Test {
                     &mut generator, fresh_address
                 ),
                 sent_events: new_event_handle_impl<Event2>(&mut generator, fresh_address)
-            },
+            }
         );
 
         authentication_key
@@ -105,12 +105,12 @@ module 0x42::Test {
         ensures eq_append(
             global<T>(signer::address_of(sender)).received_events.guid,
             bcs::serialize(2),
-            bcs::serialize(fresh_address),
+            bcs::serialize(fresh_address)
         );
         ensures eq_append(
             global<T>(signer::address_of(sender)).sent_events.guid,
             bcs::serialize(3),
-            bcs::serialize(fresh_address),
+            bcs::serialize(fresh_address)
         );
 
         // Correct version of the above ensures:

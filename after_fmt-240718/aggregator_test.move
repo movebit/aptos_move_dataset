@@ -11,7 +11,7 @@ module 0x1::aggregator_test {
     /// Resource to store aggregators. Each aggregator is associated with a
     /// determinictic integer value, for testing purposes.
     struct AggregatorStore has key, store {
-        aggregators: Table<u64, Aggregator>,
+        aggregators: Table<u64, Aggregator>
     }
 
     /// Initializes a fake resource which holds aggregators.

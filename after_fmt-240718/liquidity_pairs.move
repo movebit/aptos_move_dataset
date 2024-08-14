@@ -77,7 +77,7 @@ module bonding_curve_launchpad::liquidity_pairs {
         is_frozen: bool,
         fa_reserves: u128,
         apt_reserves: u128,
-        fa_store: Object<FungibleStore>,
+        fa_store: Object<FungibleStore>
     }
 
     //---------------------------Init---------------------------
@@ -134,7 +134,7 @@ module bonding_curve_launchpad::liquidity_pairs {
         vector::append(&mut fa_key_seed, *string::bytes(&symbol));
         object::create_object_address(
             &object::address_from_extend_ref(&pairs.signer_extender),
-            fa_key_seed,
+            fa_key_seed
         )
     }
 
@@ -194,14 +194,14 @@ module bonding_curve_launchpad::liquidity_pairs {
                 fa_reserves: fa_initial_liquidity,
                 apt_reserves: INITIAL_VIRTUAL_APT_LIQUIDITY,
                 fa_store
-            },
+            }
         );
         event::emit(
             LiquidityPairCreated {
                 fa_object_metadata,
                 initial_fa_reserves: fa_initial_liquidity,
                 initial_apt_reserves: INITIAL_VIRTUAL_APT_LIQUIDITY
-            },
+            }
         );
         // Optional initial swap given to the creator of the FA.
         if (apt_amount_in > 0) {
@@ -211,7 +211,7 @@ module bonding_curve_launchpad::liquidity_pairs {
                 transfer_ref,
                 swapper,
                 fa_object_metadata,
-                apt_amount_in,
+                apt_amount_in
             );
         };
     }
@@ -236,7 +236,7 @@ module bonding_curve_launchpad::liquidity_pairs {
                 liquidity_pair.fa_reserves,
                 liquidity_pair.apt_reserves,
                 true,
-                amount_in,
+                amount_in
             );
         // Verify the swapper holds the FA.
         let swapper_address = signer::address_of(swapper_account);
@@ -252,13 +252,13 @@ module bonding_curve_launchpad::liquidity_pairs {
         let from_swapper_store =
             primary_fungible_store::ensure_primary_store_exists(
                 swapper_address,
-                fungible_asset::transfer_ref_metadata(transfer_ref),
+                fungible_asset::transfer_ref_metadata(transfer_ref)
             );
         fungible_asset::transfer_with_ref(
             transfer_ref,
             from_swapper_store,
             liquidity_pair.fa_store,
-            fa_given,
+            fa_given
         );
         aptos_account::transfer(&liquidity_pair_signer, swapper_address, apt_gained);
         // Record state changes to the liquidity pair's reserves, and emit changes as events.
@@ -272,14 +272,14 @@ module bonding_curve_launchpad::liquidity_pairs {
                 former_apt_reserves,
                 new_fa_reserves: fa_updated_reserves,
                 new_apt_reserves: apt_updated_reserves
-            },
+            }
         );
         event::emit(
             LiquidityPairSwap {
                 is_fa_else_apt: false,
                 gained: (apt_gained as u128),
                 swapper_address
-            },
+            }
         );
     }
 
@@ -303,7 +303,7 @@ module bonding_curve_launchpad::liquidity_pairs {
                 liquidity_pair.fa_reserves,
                 liquidity_pair.apt_reserves,
                 false,
-                amount_in,
+                amount_in
             );
         // Perform the swap.
         // Swapper sends APT to the liquidity pair object. The liquidity pair object sends FA to the swapper, in return.
@@ -314,14 +314,14 @@ module bonding_curve_launchpad::liquidity_pairs {
         let to_swapper_store =
             primary_fungible_store::ensure_primary_store_exists(
                 swapper_address,
-                fungible_asset::transfer_ref_metadata(transfer_ref),
+                fungible_asset::transfer_ref_metadata(transfer_ref)
             );
         aptos_account::transfer(swapper_account, liquidity_pair_address, apt_given);
         fungible_asset::transfer_with_ref(
             transfer_ref,
             liquidity_pair.fa_store,
             to_swapper_store,
-            fa_gained,
+            fa_gained
         );
         // Record state changes to the liquidity pair's reserves, and emit changes as events.
         let former_fa_reserves = liquidity_pair.fa_reserves;
@@ -334,14 +334,14 @@ module bonding_curve_launchpad::liquidity_pairs {
                 former_apt_reserves,
                 new_fa_reserves: fa_updated_reserves,
                 new_apt_reserves: apt_updated_reserves
-            },
+            }
         );
         event::emit(
             LiquidityPairSwap {
                 is_fa_else_apt: true,
                 gained: (fa_gained as u128),
                 swapper_address
-            },
+            }
         );
         // Check for graduation requirements. The APT reserves must be above the pre-defined
         // threshold to allow for graduation.
@@ -351,7 +351,7 @@ module bonding_curve_launchpad::liquidity_pairs {
                 fa_object_metadata,
                 transfer_ref,
                 apt_updated_reserves,
-                fa_updated_reserves,
+                fa_updated_reserves
             );
         }
     }
@@ -384,7 +384,7 @@ module bonding_curve_launchpad::liquidity_pairs {
             ((apt_updated_reserves - (apt_updated_reserves / 10)) as u64),
             ((fa_updated_reserves - (fa_updated_reserves / 10)) as u64),
             0,
-            0,
+            0
         );
         // Send liquidity provider tokens to dead address.
         let apt_coin_wrapped = coin_wrapper::get_wrapper<AptosCoin>();
@@ -395,7 +395,7 @@ module bonding_curve_launchpad::liquidity_pairs {
             &liquidity_pair_signer,
             liquidity_obj,
             @0xdead,
-            primary_fungible_store::balance(liquidity_pair_address, liquidity_obj),
+            primary_fungible_store::balance(liquidity_pair_address, liquidity_obj)
         );
         // Emit event informing all that the liquidity pair has graduated and which DEX it graduated to.
         event::emit(LiquidityPairGraduated { fa_object_metadata, dex_address: @swap });
@@ -413,7 +413,7 @@ module bonding_curve_launchpad::liquidity_pairs {
         amount_1_desired: u64,
         amount_2_desired: u64,
         amount_1_min: u64,
-        amount_2_min: u64,
+        amount_2_min: u64
     ) {
         // Wrap APT into a FA. Then, determine the optimal amounts for providing liquidity to the given FA - APT pair.
         let token_1 = coin_wrapper::get_wrapper<CoinType>();
@@ -425,7 +425,7 @@ module bonding_curve_launchpad::liquidity_pairs {
                 amount_1_desired,
                 amount_2_desired,
                 amount_1_min,
-                amount_2_min,
+                amount_2_min
             );
         // Retrieve the APT and FA from the liquidity provider.
         // `transfer_ref` is used to avoid circular dependency during graduation. A normal transfer would require
@@ -436,7 +436,7 @@ module bonding_curve_launchpad::liquidity_pairs {
             fungible_asset::withdraw_with_ref(
                 transfer_ref,
                 fa_store,
-                optimal_amount_2,
+                optimal_amount_2
             );
         // Place the APT and FA into the liquidity pair.
         router::add_liquidity_coin<CoinType>(lp, optimal_1, optimal_2, is_stable);

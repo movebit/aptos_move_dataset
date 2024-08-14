@@ -10,7 +10,7 @@ module DiemFramework::XUS {
     struct XUS {}
 
     /// Registers the `XUS` cointype. This can only be called from genesis.
-    public fun initialize(dr_account: &signer, tc_account: &signer,) {
+    public fun initialize(dr_account: &signer, tc_account: &signer) {
         DiemTimestamp::assert_genesis();
         Roles::assert_treasury_compliance(tc_account);
         Roles::assert_diem_root(dr_account);
@@ -20,7 +20,7 @@ module DiemFramework::XUS {
             fixed_point32::create_from_rational(1, 1), // exchange rate to XDX
             1000000, // scaling_factor = 10^6
             100, // fractional_part = 10^2
-            b"XUS",
+            b"XUS"
         );
         AccountLimits::publish_unrestricted_limits<XUS>(dr_account);
     }
@@ -29,7 +29,7 @@ module DiemFramework::XUS {
         use DiemFramework::Roles;
         include Diem::RegisterSCSCurrencyAbortsIf<XUS> {
             currency_code: b"XUS",
-            scaling_factor: 1000000,
+            scaling_factor: 1000000
         };
         include AccountLimits::PublishUnrestrictedLimitsAbortsIf<XUS> {
             publish_account: dr_account

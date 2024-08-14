@@ -6,7 +6,7 @@ module 0x42::M {
     }
 
     struct R {
-        s: S,
+        s: S
     }
 
     spec S {

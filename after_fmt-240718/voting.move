@@ -120,7 +120,7 @@ module aptos_framework::voting {
         /// Whether the proposal has been resolved.
         is_resolved: bool,
         /// Resolution timestamp if the proposal has been resolved. 0 otherwise.
-        resolution_time_secs: u64,
+        resolution_time_secs: u64
     }
 
     struct VotingForum<ProposalType: store> has key {
@@ -129,14 +129,14 @@ module aptos_framework::voting {
         proposals: Table<u64, Proposal<ProposalType>>,
         events: VotingEvents,
         /// Unique identifier for a proposal. This allows for 2 * 10**19 proposals.
-        next_proposal_id: u64,
+        next_proposal_id: u64
     }
 
     struct VotingEvents has store {
         create_proposal_events: EventHandle<CreateProposalEvent>,
         register_forum_events: EventHandle<RegisterForumEvent>,
         resolve_proposal_events: EventHandle<ResolveProposal>,
-        vote_events: EventHandle<VoteEvent>,
+        vote_events: EventHandle<VoteEvent>
     }
 
     #[event]
@@ -146,19 +146,19 @@ module aptos_framework::voting {
         execution_hash: vector<u8>,
         expiration_secs: u64,
         metadata: SimpleMap<String, vector<u8>>,
-        min_vote_threshold: u128,
+        min_vote_threshold: u128
     }
 
     #[event]
     struct RegisterForum has drop, store {
         hosting_account: address,
-        proposal_type_info: TypeInfo,
+        proposal_type_info: TypeInfo
     }
 
     #[event]
     struct Vote has drop, store {
         proposal_id: u64,
-        num_votes: u64,
+        num_votes: u64
     }
 
     #[event]
@@ -175,24 +175,24 @@ module aptos_framework::voting {
         execution_hash: vector<u8>,
         expiration_secs: u64,
         metadata: SimpleMap<String, vector<u8>>,
-        min_vote_threshold: u128,
+        min_vote_threshold: u128
     }
 
     struct RegisterForumEvent has drop, store {
         hosting_account: address,
-        proposal_type_info: TypeInfo,
+        proposal_type_info: TypeInfo
     }
 
     struct VoteEvent has drop, store {
         proposal_id: u64,
-        num_votes: u64,
+        num_votes: u64
     }
 
     public fun register<ProposalType: store>(account: &signer) {
         let addr = signer::address_of(account);
         assert!(
             !exists<VotingForum<ProposalType>>(addr),
-            error::already_exists(EVOTING_FORUM_ALREADY_REGISTERED),
+            error::already_exists(EVOTING_FORUM_ALREADY_REGISTERED)
         );
 
         let voting_forum = VotingForum<ProposalType> {
@@ -208,7 +208,7 @@ module aptos_framework::voting {
                 resolve_proposal_events: account::new_event_handle<ResolveProposal>(
                     account
                 ),
-                vote_events: account::new_event_handle<VoteEvent>(account),
+                vote_events: account::new_event_handle<VoteEvent>(account)
             }
         };
 
@@ -216,16 +216,16 @@ module aptos_framework::voting {
             event::emit(
                 RegisterForum {
                     hosting_account: addr,
-                    proposal_type_info: type_info::type_of<ProposalType>(),
-                },
+                    proposal_type_info: type_info::type_of<ProposalType>()
+                }
             );
         };
         event::emit_event<RegisterForumEvent>(
             &mut voting_forum.events.register_forum_events,
             RegisterForumEvent {
                 hosting_account: addr,
-                proposal_type_info: type_info::type_of<ProposalType>(),
-            },
+                proposal_type_info: type_info::type_of<ProposalType>()
+            }
         );
 
         move_to(account, voting_forum);
@@ -251,7 +251,7 @@ module aptos_framework::voting {
         min_vote_threshold: u128,
         expiration_secs: u64,
         early_resolution_vote_threshold: Option<u128>,
-        metadata: SimpleMap<String, vector<u8>>,
+        metadata: SimpleMap<String, vector<u8>>
     ): u64 acquires VotingForum {
         create_proposal_v2(
             proposer,
@@ -262,7 +262,7 @@ module aptos_framework::voting {
             expiration_secs,
             early_resolution_vote_threshold,
             metadata,
-            false,
+            false
         )
     }
 
@@ -288,18 +288,18 @@ module aptos_framework::voting {
         expiration_secs: u64,
         early_resolution_vote_threshold: Option<u128>,
         metadata: SimpleMap<String, vector<u8>>,
-        is_multi_step_proposal: bool,
+        is_multi_step_proposal: bool
     ): u64 acquires VotingForum {
         if (option::is_some(&early_resolution_vote_threshold)) {
             assert!(
                 min_vote_threshold <= *option::borrow(&early_resolution_vote_threshold),
-                error::invalid_argument(EINVALID_MIN_VOTE_THRESHOLD),
+                error::invalid_argument(EINVALID_MIN_VOTE_THRESHOLD)
             );
         };
         // Make sure the execution script's hash is not empty.
         assert!(
             vector::length(&execution_hash) > 0,
-            error::invalid_argument(EPROPOSAL_EMPTY_EXECUTION_HASH),
+            error::invalid_argument(EPROPOSAL_EMPTY_EXECUTION_HASH)
         );
 
         let voting_forum =
@@ -311,7 +311,7 @@ module aptos_framework::voting {
         simple_map::add(
             &mut metadata,
             utf8(IS_MULTI_STEP_PROPOSAL_KEY),
-            to_bytes(&is_multi_step_proposal),
+            to_bytes(&is_multi_step_proposal)
         );
 
         let is_multi_step_in_execution_key =
@@ -346,8 +346,8 @@ module aptos_framework::voting {
                 yes_votes: 0,
                 no_votes: 0,
                 is_resolved: false,
-                resolution_time_secs: 0,
-            },
+                resolution_time_secs: 0
+            }
         );
 
         if (std::features::module_event_migration_enabled()) {
@@ -358,8 +358,8 @@ module aptos_framework::voting {
                     execution_hash,
                     expiration_secs,
                     metadata,
-                    min_vote_threshold,
-                },
+                    min_vote_threshold
+                }
             );
         };
         event::emit_event<CreateProposalEvent>(
@@ -370,8 +370,8 @@ module aptos_framework::voting {
                 execution_hash,
                 expiration_secs,
                 metadata,
-                min_vote_threshold,
-            },
+                min_vote_threshold
+            }
         );
 
         proposal_id
@@ -390,7 +390,7 @@ module aptos_framework::voting {
         voting_forum_address: address,
         proposal_id: u64,
         num_votes: u64,
-        should_pass: bool,
+        should_pass: bool
     ) acquires VotingForum {
         let voting_forum =
             borrow_global_mut<VotingForum<ProposalType>>(voting_forum_address);
@@ -402,7 +402,7 @@ module aptos_framework::voting {
         // appropriate.
         assert!(
             !is_voting_period_over(proposal),
-            error::invalid_state(EPROPOSAL_VOTING_ALREADY_ENDED),
+            error::invalid_state(EPROPOSAL_VOTING_ALREADY_ENDED)
         );
         assert!(!proposal.is_resolved, error::invalid_state(EPROPOSAL_ALREADY_RESOLVED));
         // Assert this proposal is single-step, or if the proposal is multi-step, it is not in execution yet.
@@ -412,7 +412,7 @@ module aptos_framework::voting {
             ) || *simple_map::borrow(
                 &proposal.metadata, &utf8(IS_MULTI_STEP_PROPOSAL_IN_EXECUTION_KEY)
             ) == to_bytes(&false),
-            error::invalid_state(EMULTI_STEP_PROPOSAL_IN_EXECUTION),
+            error::invalid_state(EMULTI_STEP_PROPOSAL_IN_EXECUTION)
         );
 
         if (should_pass) {
@@ -435,19 +435,19 @@ module aptos_framework::voting {
         };
         event::emit_event<VoteEvent>(
             &mut voting_forum.events.vote_events,
-            VoteEvent { proposal_id, num_votes },
+            VoteEvent { proposal_id, num_votes }
         );
     }
 
     /// Common checks on if a proposal is resolvable, regardless if the proposal is single-step or multi-step.
     fun is_proposal_resolvable<ProposalType: store>(
-        voting_forum_address: address, proposal_id: u64,
+        voting_forum_address: address, proposal_id: u64
     ) acquires VotingForum {
         let proposal_state =
             get_proposal_state<ProposalType>(voting_forum_address, proposal_id);
         assert!(
             proposal_state == PROPOSAL_STATE_SUCCEEDED,
-            error::invalid_state(EPROPOSAL_CANNOT_BE_RESOLVED),
+            error::invalid_state(EPROPOSAL_CANNOT_BE_RESOLVED)
         );
 
         let voting_forum =
@@ -461,16 +461,16 @@ module aptos_framework::voting {
             to_u64(
                 *simple_map::borrow(
                     &proposal.metadata, &utf8(RESOLVABLE_TIME_METADATA_KEY)
-                ),
+                )
             );
         assert!(
             timestamp::now_seconds() > resolvable_time,
-            error::invalid_state(ERESOLUTION_CANNOT_BE_ATOMIC),
+            error::invalid_state(ERESOLUTION_CANNOT_BE_ATOMIC)
         );
 
         assert!(
             transaction_context::get_script_hash() == proposal.execution_hash,
-            error::invalid_argument(EPROPOSAL_EXECUTION_HASH_NOT_MATCHING),
+            error::invalid_argument(EPROPOSAL_EXECUTION_HASH_NOT_MATCHING)
         );
     }
 
@@ -480,7 +480,7 @@ module aptos_framework::voting {
     /// @param voting_forum_address The address of the forum where the proposals are stored.
     /// @param proposal_id The proposal id.
     public fun resolve<ProposalType: store>(
-        voting_forum_address: address, proposal_id: u64,
+        voting_forum_address: address, proposal_id: u64
     ): ProposalType acquires VotingForum {
         is_proposal_resolvable<ProposalType>(voting_forum_address, proposal_id);
 
@@ -501,7 +501,7 @@ module aptos_framework::voting {
                 !is_multi_step_proposal,
                 error::permission_denied(
                     EMULTI_STEP_PROPOSAL_CANNOT_USE_SINGLE_STEP_RESOLVE_FUNCTION
-                ),
+                )
             );
         };
 
@@ -515,8 +515,8 @@ module aptos_framework::voting {
                     proposal_id,
                     yes_votes: proposal.yes_votes,
                     no_votes: proposal.no_votes,
-                    resolved_early,
-                },
+                    resolved_early
+                }
             );
         };
         event::emit_event<ResolveProposal>(
@@ -525,8 +525,8 @@ module aptos_framework::voting {
                 proposal_id,
                 yes_votes: proposal.yes_votes,
                 no_votes: proposal.no_votes,
-                resolved_early,
-            },
+                resolved_early
+            }
         );
 
         option::extract(&mut proposal.execution_content)
@@ -541,9 +541,7 @@ module aptos_framework::voting {
     /// @param proposal_id The proposal id.
     /// @param next_execution_hash The next execution hash if the given proposal is multi-step.
     public fun resolve_proposal_v2<ProposalType: store>(
-        voting_forum_address: address,
-        proposal_id: u64,
-        next_execution_hash: vector<u8>,
+        voting_forum_address: address, proposal_id: u64, next_execution_hash: vector<u8>
     ) acquires VotingForum {
         is_proposal_resolvable<ProposalType>(voting_forum_address, proposal_id);
 
@@ -557,7 +555,7 @@ module aptos_framework::voting {
             let is_multi_step_proposal_in_execution_value =
                 simple_map::borrow_mut(
                     &mut proposal.metadata,
-                    &multi_step_in_execution_key,
+                    &multi_step_in_execution_key
                 );
             *is_multi_step_proposal_in_execution_value = to_bytes(&true);
         };
@@ -573,7 +571,7 @@ module aptos_framework::voting {
         // Assert that if this proposal is single-step, the `next_execution_hash` parameter is empty.
         assert!(
             is_multi_step || next_execution_hash_is_empty,
-            error::invalid_argument(ESINGLE_STEP_PROPOSAL_CANNOT_HAVE_NEXT_EXECUTION_HASH),
+            error::invalid_argument(ESINGLE_STEP_PROPOSAL_CANNOT_HAVE_NEXT_EXECUTION_HASH)
         );
 
         // If the `next_execution_hash` parameter is empty, it means that either
@@ -589,7 +587,7 @@ module aptos_framework::voting {
                 let is_multi_step_proposal_in_execution_value =
                     simple_map::borrow_mut(
                         &mut proposal.metadata,
-                        &multi_step_in_execution_key,
+                        &multi_step_in_execution_key
                     );
                 *is_multi_step_proposal_in_execution_value = to_bytes(&false);
             };
@@ -609,8 +607,8 @@ module aptos_framework::voting {
                     proposal_id,
                     yes_votes: proposal.yes_votes,
                     no_votes: proposal.no_votes,
-                    resolved_early,
-                },
+                    resolved_early
+                }
             );
         };
         event::emit_event(
@@ -619,8 +617,8 @@ module aptos_framework::voting {
                 proposal_id,
                 yes_votes: proposal.yes_votes,
                 no_votes: proposal.no_votes,
-                resolved_early,
-            },
+                resolved_early
+            }
         );
 
     }
@@ -628,7 +626,7 @@ module aptos_framework::voting {
     #[view]
     /// Return the next unassigned proposal id
     public fun next_proposal_id<ProposalType: store>(
-        voting_forum_address: address,
+        voting_forum_address: address
     ): u64 acquires VotingForum {
         let voting_forum = borrow_global<VotingForum<ProposalType>>(voting_forum_address);
         voting_forum.next_proposal_id
@@ -667,7 +665,7 @@ module aptos_framework::voting {
 
     #[view]
     public fun get_proposal_metadata<ProposalType: store>(
-        voting_forum_address: address, proposal_id: u64,
+        voting_forum_address: address, proposal_id: u64
     ): SimpleMap<String, vector<u8>> acquires VotingForum {
         let proposal = get_proposal<ProposalType>(voting_forum_address, proposal_id);
         proposal.metadata
@@ -675,9 +673,7 @@ module aptos_framework::voting {
 
     #[view]
     public fun get_proposal_metadata_value<ProposalType: store>(
-        voting_forum_address: address,
-        proposal_id: u64,
-        metadata_key: String,
+        voting_forum_address: address, proposal_id: u64, metadata_key: String
     ): vector<u8> acquires VotingForum {
         let proposal = get_proposal<ProposalType>(voting_forum_address, proposal_id);
         *simple_map::borrow(&proposal.metadata, &metadata_key)
@@ -690,7 +686,7 @@ module aptos_framework::voting {
     /// @param proposal_id The proposal id.
     /// @return Proposal state as an enum value.
     public fun get_proposal_state<ProposalType: store>(
-        voting_forum_address: address, proposal_id: u64,
+        voting_forum_address: address, proposal_id: u64
     ): u64 acquires VotingForum {
         if (is_voting_closed<ProposalType>(voting_forum_address, proposal_id)) {
             let proposal = get_proposal<ProposalType>(voting_forum_address, proposal_id);
@@ -711,7 +707,7 @@ module aptos_framework::voting {
     #[view]
     /// Return the proposal's creation time.
     public fun get_proposal_creation_secs<ProposalType: store>(
-        voting_forum_address: address, proposal_id: u64,
+        voting_forum_address: address, proposal_id: u64
     ): u64 acquires VotingForum {
         let proposal = get_proposal<ProposalType>(voting_forum_address, proposal_id);
         proposal.creation_time_secs
@@ -720,7 +716,7 @@ module aptos_framework::voting {
     #[view]
     /// Return the proposal's expiration time.
     public fun get_proposal_expiration_secs<ProposalType: store>(
-        voting_forum_address: address, proposal_id: u64,
+        voting_forum_address: address, proposal_id: u64
     ): u64 acquires VotingForum {
         let proposal = get_proposal<ProposalType>(voting_forum_address, proposal_id);
         proposal.expiration_secs
@@ -729,7 +725,7 @@ module aptos_framework::voting {
     #[view]
     /// Return the proposal's execution hash.
     public fun get_execution_hash<ProposalType: store>(
-        voting_forum_address: address, proposal_id: u64,
+        voting_forum_address: address, proposal_id: u64
     ): vector<u8> acquires VotingForum {
         let proposal = get_proposal<ProposalType>(voting_forum_address, proposal_id);
         proposal.execution_hash
@@ -738,7 +734,7 @@ module aptos_framework::voting {
     #[view]
     /// Return the proposal's minimum vote threshold
     public fun get_min_vote_threshold<ProposalType: store>(
-        voting_forum_address: address, proposal_id: u64,
+        voting_forum_address: address, proposal_id: u64
     ): u128 acquires VotingForum {
         let proposal = get_proposal<ProposalType>(voting_forum_address, proposal_id);
         proposal.min_vote_threshold
@@ -747,7 +743,7 @@ module aptos_framework::voting {
     #[view]
     /// Return the proposal's early resolution minimum vote threshold (optionally set)
     public fun get_early_resolution_vote_threshold<ProposalType: store>(
-        voting_forum_address: address, proposal_id: u64,
+        voting_forum_address: address, proposal_id: u64
     ): Option<u128> acquires VotingForum {
         let proposal = get_proposal<ProposalType>(voting_forum_address, proposal_id);
         proposal.early_resolution_vote_threshold
@@ -756,7 +752,7 @@ module aptos_framework::voting {
     #[view]
     /// Return the proposal's current vote count (yes_votes, no_votes)
     public fun get_votes<ProposalType: store>(
-        voting_forum_address: address, proposal_id: u64,
+        voting_forum_address: address, proposal_id: u64
     ): (u128, u128) acquires VotingForum {
         let proposal = get_proposal<ProposalType>(voting_forum_address, proposal_id);
         (proposal.yes_votes, proposal.no_votes)
@@ -765,7 +761,7 @@ module aptos_framework::voting {
     #[view]
     /// Return true if the governance proposal has already been resolved.
     public fun is_resolved<ProposalType: store>(
-        voting_forum_address: address, proposal_id: u64,
+        voting_forum_address: address, proposal_id: u64
     ): bool acquires VotingForum {
         let proposal = get_proposal<ProposalType>(voting_forum_address, proposal_id);
         proposal.is_resolved
@@ -773,7 +769,7 @@ module aptos_framework::voting {
 
     #[view]
     public fun get_resolution_time_secs<ProposalType: store>(
-        voting_forum_address: address, proposal_id: u64,
+        voting_forum_address: address, proposal_id: u64
     ): u64 acquires VotingForum {
         let proposal = get_proposal<ProposalType>(voting_forum_address, proposal_id);
         proposal.resolution_time_secs
@@ -782,7 +778,7 @@ module aptos_framework::voting {
     #[view]
     /// Return true if the multi-step governance proposal is in execution.
     public fun is_multi_step_proposal_in_execution<ProposalType: store>(
-        voting_forum_address: address, proposal_id: u64,
+        voting_forum_address: address, proposal_id: u64
     ): bool acquires VotingForum {
         let voting_forum = borrow_global<VotingForum<ProposalType>>(voting_forum_address);
         let proposal = table::borrow(&voting_forum.proposals, proposal_id);
@@ -790,7 +786,7 @@ module aptos_framework::voting {
             utf8(IS_MULTI_STEP_PROPOSAL_IN_EXECUTION_KEY);
         assert!(
             simple_map::contains_key(&proposal.metadata, &is_multi_step_in_execution_key),
-            error::invalid_argument(EPROPOSAL_IS_SINGLE_STEP),
+            error::invalid_argument(EPROPOSAL_IS_SINGLE_STEP)
         );
         from_bcs::to_bool(
             *simple_map::borrow(&proposal.metadata, &is_multi_step_in_execution_key)
@@ -805,7 +801,7 @@ module aptos_framework::voting {
     }
 
     inline fun get_proposal<ProposalType: store>(
-        voting_forum_address: address, proposal_id: u64,
+        voting_forum_address: address, proposal_id: u64
     ): &Proposal<ProposalType> acquires VotingForum {
         let voting_forum = borrow_global<VotingForum<ProposalType>>(voting_forum_address);
         table::borrow(&voting_forum.proposals, proposal_id)
@@ -821,7 +817,7 @@ module aptos_framework::voting {
     public fun create_test_proposal_generic(
         governance: &signer,
         early_resolution_threshold: Option<u128>,
-        use_generic_create_proposal_function: bool,
+        use_generic_create_proposal_function: bool
     ): u64 acquires VotingForum {
         // Register voting forum and create a proposal.
         register<TestProposal>(governance);
@@ -843,7 +839,7 @@ module aptos_framework::voting {
                 timestamp::now_seconds() + VOTING_DURATION_SECS,
                 early_resolution_threshold,
                 metadata,
-                use_generic_create_proposal_function,
+                use_generic_create_proposal_function
             )
         } else {
             create_proposal<TestProposal>(
@@ -854,7 +850,7 @@ module aptos_framework::voting {
                 10,
                 timestamp::now_seconds() + VOTING_DURATION_SECS,
                 early_resolution_threshold,
-                metadata,
+                metadata
             )
         }
     }
@@ -877,7 +873,7 @@ module aptos_framework::voting {
                 resolve_proposal_v2<TestProposal>(
                     voting_forum_address,
                     proposal_id,
-                    vector::empty<u8>(),
+                    vector::empty<u8>()
                 );
             };
         } else {
@@ -888,7 +884,7 @@ module aptos_framework::voting {
 
     #[test_only]
     public fun create_test_proposal(
-        governance: &signer, early_resolution_threshold: Option<u128>,
+        governance: &signer, early_resolution_threshold: Option<u128>
     ): u64 acquires VotingForum {
         create_test_proposal_generic(governance, early_resolution_threshold, false)
     }
@@ -914,7 +910,7 @@ module aptos_framework::voting {
                 100000,
                 option::none<u128>(),
                 simple_map::create<String, vector<u8>>(),
-                is_multi_step,
+                is_multi_step
             );
         } else {
             create_proposal<TestProposal>(
@@ -925,7 +921,7 @@ module aptos_framework::voting {
                 10,
                 100000,
                 option::none<u128>(),
-                simple_map::create<String, vector<u8>>(),
+                simple_map::create<String, vector<u8>>()
             );
         };
     }
@@ -963,12 +959,12 @@ module aptos_framework::voting {
             create_test_proposal_generic(
                 governance,
                 option::none<u128>(),
-                use_create_multi_step,
+                use_create_multi_step
             );
         assert!(
             get_proposal_state<TestProposal>(governance_address, proposal_id)
                 == PROPOSAL_STATE_PENDING,
-            0,
+            0
         );
 
         // Vote.
@@ -981,7 +977,7 @@ module aptos_framework::voting {
         assert!(
             get_proposal_state<TestProposal>(governance_address, proposal_id)
                 == PROPOSAL_STATE_SUCCEEDED,
-            1,
+            1
         );
 
         // This if statement is specifically for the test `test_voting_passed_single_step_can_use_generic_function()`.
@@ -991,14 +987,14 @@ module aptos_framework::voting {
             resolve_proposal_v2<TestProposal>(
                 governance_address,
                 proposal_id,
-                vector::empty<u8>(),
+                vector::empty<u8>()
             );
         } else {
             resolve_proposal_for_test<TestProposal>(
                 governance_address,
                 proposal_id,
                 use_resolve_multi_step,
-                true,
+                true
             );
         };
         let voting_forum = borrow_global<VotingForum<TestProposal>>(governance_address);
@@ -1048,12 +1044,12 @@ module aptos_framework::voting {
             create_test_proposal_generic(
                 governance,
                 option::none<u128>(),
-                is_multi_step,
+                is_multi_step
             );
         assert!(
             get_proposal_state<TestProposal>(governance_address, proposal_id)
                 == PROPOSAL_STATE_PENDING,
-            0,
+            0
         );
 
         // Vote.
@@ -1066,7 +1062,7 @@ module aptos_framework::voting {
         assert!(
             get_proposal_state<TestProposal>(governance_address, proposal_id)
                 == PROPOSAL_STATE_SUCCEEDED,
-            1,
+            1
         );
         resolve_proposal_for_test<TestProposal>(
             governance_address, proposal_id, is_multi_step, true
@@ -1107,14 +1103,14 @@ module aptos_framework::voting {
         assert!(
             get_proposal_state<TestProposal>(governance_address, proposal_id)
                 == PROPOSAL_STATE_PENDING,
-            0,
+            0
         );
 
         // Assert that IS_MULTI_STEP_PROPOSAL_IN_EXECUTION_KEY has value `false` in proposal.metadata.
         if (is_multi_step) {
             assert!(
                 !is_multi_step_proposal_in_execution<TestProposal>(governance_address, 0),
-                1,
+                1
             );
         };
 
@@ -1129,26 +1125,26 @@ module aptos_framework::voting {
         assert!(
             get_proposal_state<TestProposal>(governance_address, proposal_id)
                 == PROPOSAL_STATE_SUCCEEDED,
-            2,
+            2
         );
 
         if (is_multi_step) {
             // Assert that IS_MULTI_STEP_PROPOSAL_IN_EXECUTION_KEY still has value `false` in proposal.metadata before execution.
             assert!(
                 !is_multi_step_proposal_in_execution<TestProposal>(governance_address, 0),
-                3,
+                3
             );
             resolve_proposal_for_test<TestProposal>(
                 governance_address,
                 proposal_id,
                 is_multi_step,
-                false,
+                false
             );
 
             // Assert that the multi-step proposal is in execution but not resolved yet.
             assert!(
                 is_multi_step_proposal_in_execution<TestProposal>(governance_address, 0),
-                4,
+                4
             );
             let voting_forum =
                 borrow_global_mut<VotingForum<TestProposal>>(governance_address);
@@ -1167,7 +1163,7 @@ module aptos_framework::voting {
         if (is_multi_step) {
             assert!(
                 !is_multi_step_proposal_in_execution<TestProposal>(governance_address, 0),
-                7,
+                7
             );
         };
     }
@@ -1241,7 +1237,7 @@ module aptos_framework::voting {
             create_test_proposal_generic(
                 governance,
                 option::none<u128>(),
-                is_multi_step,
+                is_multi_step
             );
 
         // Vote.
@@ -1255,7 +1251,7 @@ module aptos_framework::voting {
         assert!(
             get_proposal_state<TestProposal>(governance_address, proposal_id)
                 == PROPOSAL_STATE_FAILED,
-            1,
+            1
         );
         resolve_proposal_for_test<TestProposal>(
             governance_address, proposal_id, is_multi_step, true
@@ -1311,7 +1307,7 @@ module aptos_framework::voting {
         assert!(
             get_proposal_state<TestProposal>(governance_address, proposal_id)
                 == PROPOSAL_STATE_PENDING,
-            0,
+            0
         );
 
         // Vote.
@@ -1323,7 +1319,7 @@ module aptos_framework::voting {
         assert!(
             get_proposal_state<TestProposal>(governance_address, proposal_id)
                 == PROPOSAL_STATE_SUCCEEDED,
-            1,
+            1
         );
         resolve_proposal_for_test<TestProposal>(
             governance_address, proposal_id, true, false
@@ -1356,7 +1352,7 @@ module aptos_framework::voting {
         assert!(
             get_proposal_state<TestProposal>(governance_address, proposal_id)
                 == PROPOSAL_STATE_FAILED,
-            1,
+            1
         );
         resolve_proposal_for_test<TestProposal>(
             governance_address, proposal_id, is_multi_step, true
@@ -1381,9 +1377,7 @@ module aptos_framework::voting {
 
     #[test_only]
     public entry fun test_cannot_set_min_threshold_higher_than_early_resolution_generic(
-        aptos_framework: &signer,
-        governance: &signer,
-        is_multi_step: bool,
+        aptos_framework: &signer, governance: &signer, is_multi_step: bool
     ) acquires VotingForum {
         account::create_account_for_test(@aptos_framework);
         timestamp::set_time_has_started_for_testing(aptos_framework);
@@ -1395,7 +1389,7 @@ module aptos_framework::voting {
     #[test(aptos_framework = @aptos_framework, governance = @0x123)]
     #[expected_failure(abort_code = 0x10007, location = Self)]
     public entry fun test_cannot_set_min_threshold_higher_than_early_resolution(
-        aptos_framework: &signer, governance: &signer,
+        aptos_framework: &signer, governance: &signer
     ) acquires VotingForum {
         test_cannot_set_min_threshold_higher_than_early_resolution_generic(
             aptos_framework, governance, false
@@ -1405,7 +1399,7 @@ module aptos_framework::voting {
     #[test(aptos_framework = @aptos_framework, governance = @0x123)]
     #[expected_failure(abort_code = 0x10007, location = Self)]
     public entry fun test_cannot_set_min_threshold_higher_than_early_resolution_multi_step(
-        aptos_framework: &signer, governance: &signer,
+        aptos_framework: &signer, governance: &signer
     ) acquires VotingForum {
         test_cannot_set_min_threshold_higher_than_early_resolution_generic(
             aptos_framework, governance, true
@@ -1427,7 +1421,7 @@ module aptos_framework::voting {
         assert!(
             get_proposal_state<TestProposal>(governance_address, proposal_id)
                 == PROPOSAL_STATE_PENDING,
-            0,
+            0
         );
 
         // Vote.
@@ -1440,7 +1434,7 @@ module aptos_framework::voting {
         assert!(
             get_proposal_state<TestProposal>(governance_address, proposal_id)
                 == PROPOSAL_STATE_SUCCEEDED,
-            1,
+            1
         );
 
         resolve_proposal_v2<TestProposal>(governance_address, proposal_id, vector[10u8]);

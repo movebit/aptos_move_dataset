@@ -49,11 +49,11 @@ module 0xcafe::MyModule {
         ];
         assert!(
             vector::length(&xbool) == vector::length(&xbool2),
-            vector::length(&xbool) - vector::length(&xbool),
+            vector::length(&xbool) - vector::length(&xbool)
         );
         assert!(
             vector::length(&xbool) == vector::length(&xbool2),
-            vector::length(&xbool2) - vector::length(&xbool),
+            vector::length(&xbool2) - vector::length(&xbool)
         );
         for (i in 0..vector::length(&xbool)) {
             assert!(vector::borrow(&xbool, i) == vector::borrow(&xbool2, i), i);

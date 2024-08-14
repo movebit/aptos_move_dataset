@@ -54,7 +54,7 @@ module raffle::raffle_test {
         u1: signer,
         u2: signer,
         u3: signer,
-        u4: signer,
+        u4: signer
     ) {
         enable_cryptography_algebra_natives(&fx);
         randomness::initialize_for_testing(&fx);
@@ -91,7 +91,7 @@ module raffle::raffle_test {
                 assert!(
                     coin::balance<AptosCoin>(player)
                         == raffle::get_ticket_price() * num_players,
-                    1,
+                    1
                 );
             } else {
                 assert!(coin::balance<AptosCoin>(player) == 0, 1);
@@ -107,7 +107,7 @@ module raffle::raffle_test {
 
     #[test_only]
     fun test_raffle_with_randomness(
-        u1: &signer, u2: &signer, u3: &signer, u4: &signer,
+        u1: &signer, u2: &signer, u3: &signer, u4: &signer
     ): address {
         //
         // Each user sends a TXN to buy their ticket

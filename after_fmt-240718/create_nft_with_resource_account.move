@@ -84,7 +84,7 @@ module mint_nft::create_nft_with_resource_account {
     struct ModuleData has key {
         // Storing the signer capability here, so the module can programmatically sign for transactions
         signer_cap: SignerCapability,
-        token_data_id: TokenDataId,
+        token_data_id: TokenDataId
     }
 
     /// `init_module` is automatically called when publishing the module.
@@ -108,7 +108,7 @@ module mint_nft::create_nft_with_resource_account {
             description,
             collection_uri,
             maximum_supply,
-            mutate_setting,
+            mutate_setting
         );
 
         // Create a token data id to specify the token to be minted.
@@ -126,7 +126,7 @@ module mint_nft::create_nft_with_resource_account {
                 // This variable sets if we want to allow mutation for token maximum, uri, royalty, description, and properties.
                 // Here we enable mutation for properties by setting the last boolean in the vector to true.
                 token::create_token_mutability_config(
-                    &vector<bool>[false, false, false, false, true],
+                    &vector<bool>[false, false, false, false, true]
                 ),
                 // We can use property maps to record attributes related to the token.
                 // In this example, we are using it to record the receiver's address.
@@ -134,7 +134,7 @@ module mint_nft::create_nft_with_resource_account {
                 // when a user successfully mints a token in the `mint_event_ticket()` function.
                 vector<String>[string::utf8(b"given_to")],
                 vector<vector<u8>>[b""],
-                vector<String>[string::utf8(b"address")],
+                vector<String>[string::utf8(b"address")]
             );
 
         // Retrieve the resource signer's signer capability and store it within the `ModuleData`.
@@ -150,7 +150,7 @@ module mint_nft::create_nft_with_resource_account {
         // sign for transactions in the `mint_event_ticket()` function.
         move_to(
             resource_signer,
-            ModuleData { signer_cap: resource_signer_cap, token_data_id, },
+            ModuleData { signer_cap: resource_signer_cap, token_data_id }
         );
     }
 
@@ -185,7 +185,7 @@ module mint_nft::create_nft_with_resource_account {
             1,
             vector::empty<String>(),
             vector::empty<vector<u8>>(),
-            vector::empty<String>(),
+            vector::empty<String>()
         );
     }
 }

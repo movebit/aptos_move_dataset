@@ -14,7 +14,7 @@ script {
         bytes: vector<u8>,
         utf8_string: String,
         u8_vec: vector<u8>,
-        address_solo: address,
+        address_solo: address
     ) {
         let bool_vec = vector::map_ref(&u8_vec, |e_ref| *e_ref > u8_solo);
         let addr_vec_vec = vector[vector[address_solo]];
@@ -24,7 +24,7 @@ script {
             bytes,
             utf8_string,
             bool_vec,
-            addr_vec_vec,
+            addr_vec_vec
         );
     }
 }

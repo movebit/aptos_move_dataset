@@ -19,7 +19,7 @@ spec aptos_std::secp256k1 {
         ensures result == sig.bytes;
     }
 
-    spec ecdsa_recover(message: vector<u8>, recovery_id: u8, signature: &ECDSASignature,): Option<
+    spec ecdsa_recover(message: vector<u8>, recovery_id: u8, signature: &ECDSASignature): Option<
         ECDSARawPublicKey> {
         aborts_if ecdsa_recover_internal_abort_condition(
             message, recovery_id, signature.bytes

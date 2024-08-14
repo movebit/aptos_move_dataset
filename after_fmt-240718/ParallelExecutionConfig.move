@@ -24,25 +24,25 @@ module CoreFramework::ParallelExecutionConfig {
     }
 
     /// Enable parallel execution functionality of DiemVM by setting the read_write_set analysis result.
-    public fun initialize_parallel_execution<T>(account: &signer,) {
+    public fun initialize_parallel_execution<T>(account: &signer) {
         DiemTimestamp::assert_genesis();
         SystemAddresses::assert_core_resource(account);
 
         assert!(
             !exists<ParallelExecutionConfigChainMarker<T>>(@CoreResources),
-            errors::already_published(ECHAIN_MARKER),
+            errors::already_published(ECHAIN_MARKER)
         );
 
         assert!(
             !exists<ParallelExecutionConfig>(@CoreResources),
-            errors::already_published(ECONFIG),
+            errors::already_published(ECONFIG)
         );
 
         move_to(account, ParallelExecutionConfigChainMarker<T> {});
 
         move_to(
             account,
-            ParallelExecutionConfig { read_write_analysis_result: option::none(), },
+            ParallelExecutionConfig { read_write_analysis_result: option::none() }
         );
     }
 
@@ -52,7 +52,7 @@ module CoreFramework::ParallelExecutionConfig {
         DiemTimestamp::assert_operating();
         assert!(
             exists<ParallelExecutionConfigChainMarker<T>>(@CoreResources),
-            errors::not_published(ECHAIN_MARKER),
+            errors::not_published(ECHAIN_MARKER)
         );
         let result_ref =
             &mut borrow_global_mut<ParallelExecutionConfig>(@CoreResources).read_write_analysis_result;
@@ -64,7 +64,7 @@ module CoreFramework::ParallelExecutionConfig {
         DiemTimestamp::assert_operating();
         assert!(
             exists<ParallelExecutionConfigChainMarker<T>>(@CoreResources),
-            errors::not_published(ECHAIN_MARKER),
+            errors::not_published(ECHAIN_MARKER)
         );
         let result_ref =
             &mut borrow_global_mut<ParallelExecutionConfig>(@CoreResources).read_write_analysis_result;

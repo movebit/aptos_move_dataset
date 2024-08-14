@@ -4,11 +4,11 @@ module 0x42::table_option {
 
     struct MultisigAccount has key {
         transactions: table::Table<u64, MultisigTransaction>,
-        last_executed_sequence_number: u64,
+        last_executed_sequence_number: u64
     }
 
     struct MultisigTransaction has copy, drop, store {
-        payload: Option<vector<u8>>,
+        payload: Option<vector<u8>>
     }
 
     public fun get_next_transaction_payload(

@@ -28,7 +28,7 @@ module 0x42::M {
     }
 
     struct S2 {
-        a: S1<HasAbilities<NoAbilities, u64>>,
+        a: S1<HasAbilities<NoAbilities, u64>>
     }
 
     struct S3<T1: drop, T2: copy, T3: store, T4: key> {

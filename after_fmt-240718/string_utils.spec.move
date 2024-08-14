@@ -54,7 +54,7 @@ spec aptos_std::string_utils {
                 type_tag,
                 canonicalize,
                 single_line,
-                include_int_types,
+                include_int_types
             );
     }
 

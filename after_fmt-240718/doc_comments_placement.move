@@ -12,7 +12,7 @@ module 0x42::M {
     /// This is T
     struct T {
         /// This is a field of T.
-        f: Option<u64>,
+        f: Option<u64>
         /// There can be no doc comment after last field.
     }
 

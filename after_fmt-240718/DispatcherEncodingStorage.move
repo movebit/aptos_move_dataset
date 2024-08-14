@@ -10,7 +10,7 @@ module 0x2::M {
 
     struct State has drop, key {
         s1: vector<u8>,
-        s2: vector<U256>,
+        s2: vector<U256>
     }
 
     #[callable(sig = b"test_string() returns (string)")]

@@ -27,7 +27,7 @@ module 0x42::test {
             mathtest::mul_div(
                 mathtest3::mul_div3(1, 1, 1),
                 mathtest::mul_div(1, 1, 1),
-                mathtest2::mul_div2(1, 1, 1),
+                mathtest2::mul_div2(1, 1, 1)
             );
         assert!(a == 1, 0);
     }

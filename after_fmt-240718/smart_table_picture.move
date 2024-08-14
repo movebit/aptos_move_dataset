@@ -11,23 +11,23 @@ module 0xABCD::smart_table_picture {
     const E_INDEX_OUT_OF_BOUNDS: u64 = 1;
 
     struct AllPalettes has key {
-        all: vector<address>,
+        all: vector<address>
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
     struct Palette has key {
-        pixels: SmartTable<u32, u8>,
+        pixels: SmartTable<u32, u8>
     }
 
     fun init_module(publisher: &signer) {
         move_to<AllPalettes>(
             publisher,
-            AllPalettes { all: vector::empty(), },
+            AllPalettes { all: vector::empty() }
         );
     }
 
     /// Create a new Palette
-    public entry fun create(caller: &signer,) acquires AllPalettes {
+    public entry fun create(caller: &signer) acquires AllPalettes {
         let caller_addr = signer::address_of(caller);
 
         let palette = Palette { pixels: smart_table::new() };
@@ -47,13 +47,13 @@ module 0xABCD::smart_table_picture {
 
             move_to<AllPalettes>(
                 caller,
-                AllPalettes { all: vec, },
+                AllPalettes { all: vec }
             );
         } else {
             let all_palettes = borrow_global_mut<AllPalettes>(caller_addr);
             vector::push_back(
                 &mut all_palettes.all,
-                object::address_from_constructor_ref(&constructor_ref),
+                object::address_from_constructor_ref(&constructor_ref)
             );
         }
     }
@@ -63,7 +63,7 @@ module 0xABCD::smart_table_picture {
         palette_addr: address,
         palette_index: u64,
         indices: vector<u64>,
-        colors: vector<u8>,
+        colors: vector<u8>
     ) acquires Palette, AllPalettes {
         let all_palettes = borrow_global<AllPalettes>(palette_addr);
         let palette_addr = vector::borrow(&all_palettes.all, palette_index);
@@ -72,7 +72,7 @@ module 0xABCD::smart_table_picture {
 
         assert!(
             vector::length(&indices) == vector::length(&colors),
-            E_INDEX_OUT_OF_BOUNDS,
+            E_INDEX_OUT_OF_BOUNDS
         );
 
         let i = 0;

@@ -37,7 +37,7 @@ module 0x42::simple_recursion {
 
     struct X {
         f: Y,
-        g: Y,
+        g: Y
     }
 
     struct Y {

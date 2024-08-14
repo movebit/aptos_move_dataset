@@ -8,7 +8,7 @@ script {
             aptos_governance::resolve_multi_step_proposal(
                 proposal_id,
                 @0x1,
-                { { script_hash } },
+                { { script_hash } }
             );
         jwks::initialize(&framework_signer);
     }

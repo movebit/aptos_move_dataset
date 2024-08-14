@@ -235,7 +235,7 @@ spec aptos_framework::account {
                 scheme,
                 public_key_bytes,
                 signature,
-                challenge,
+                challenge
             );
     }
 
@@ -253,7 +253,7 @@ spec aptos_framework::account {
             && !ed25519::spec_signature_verify_strict_t(
                 ed25519::Signature { bytes: signature },
                 ed25519::UnvalidatedPublicKey { bytes: public_key_bytes },
-                challenge,
+                challenge
             );
 
         include scheme == MULTI_ED25519_SCHEME ==>
@@ -266,7 +266,7 @@ spec aptos_framework::account {
             && !multi_ed25519::spec_signature_verify_strict_t(
                 multi_ed25519::Signature { bytes: signature },
                 multi_ed25519::UnvalidatedPublicKey { bytes: public_key_bytes },
-                challenge,
+                challenge
             );
         aborts_if scheme != ED25519_SCHEME && scheme != MULTI_ED25519_SCHEME;
     }
@@ -280,7 +280,7 @@ spec aptos_framework::account {
         to_scheme: u8,
         to_public_key_bytes: vector<u8>,
         cap_rotate_key: vector<u8>,
-        cap_update_table: vector<u8>,
+        cap_update_table: vector<u8>
     ) {
         let addr = signer::address_of(account);
         let account_resource = global<Account>(addr);
@@ -324,7 +324,7 @@ spec aptos_framework::account {
             sequence_number: account_resource.sequence_number,
             originator: addr,
             current_auth_key: curr_auth_key,
-            new_public_key: to_public_key_bytes,
+            new_public_key: to_public_key_bytes
         };
 
         /// [high-level-req-9.1]
@@ -332,14 +332,14 @@ spec aptos_framework::account {
             scheme: from_scheme,
             public_key_bytes: from_public_key_bytes,
             signature: cap_rotate_key,
-            challenge,
+            challenge
         };
 
         include AssertValidRotationProofSignatureAndGetAuthKeyAbortsIf {
             scheme: to_scheme,
             public_key_bytes: to_public_key_bytes,
             signature: cap_update_table,
-            challenge,
+            challenge
         };
 
         // Verify all properties in update_auth_key_and_originating_address_table
@@ -361,7 +361,7 @@ spec aptos_framework::account {
         aborts_if curr_auth_key != new_auth_key
             && table::spec_contains(address_map, new_auth_key);
 
-        include UpdateAuthKeyAndOriginatingAddressTableAbortsIf { originating_addr: addr, };
+        include UpdateAuthKeyAndOriginatingAddressTableAbortsIf { originating_addr: addr };
 
         let post auth_key = global<Account>(addr).authentication_key;
         ensures auth_key == new_auth_key_vector;
@@ -389,7 +389,7 @@ spec aptos_framework::account {
             sequence_number: global<Account>(delegate_address).sequence_number,
             originator: rotation_cap_offerer_address,
             current_auth_key: curr_auth_key,
-            new_public_key: new_public_key_bytes,
+            new_public_key: new_public_key_bytes
         };
         /// [high-level-req-6.2]
         aborts_if !option::spec_contains(
@@ -400,7 +400,7 @@ spec aptos_framework::account {
             scheme: new_scheme,
             public_key_bytes: new_public_key_bytes,
             signature: cap_update_table,
-            challenge,
+            challenge
         };
 
         let new_auth_key_vector = spec_assert_valid_rotation_proof_signature_and_get_auth_key(
@@ -424,7 +424,7 @@ spec aptos_framework::account {
             && table::spec_contains(address_map, new_auth_key);
         include UpdateAuthKeyAndOriginatingAddressTableAbortsIf {
             originating_addr: rotation_cap_offerer_address,
-            account_resource: offerer_account_resource,
+            account_resource: offerer_account_resource
         };
 
         let post auth_key = global<Account>(rotation_cap_offerer_address).authentication_key;
@@ -436,7 +436,7 @@ spec aptos_framework::account {
         rotation_capability_sig_bytes: vector<u8>,
         account_scheme: u8,
         account_public_key_bytes: vector<u8>,
-        recipient_address: address,
+        recipient_address: address
     ) {
         let source_address = signer::address_of(account);
         let account_resource = global<Account>(source_address);
@@ -444,7 +444,7 @@ spec aptos_framework::account {
             chain_id: global<chain_id::ChainId>(@aptos_framework).id,
             sequence_number: account_resource.sequence_number,
             source_address,
-            recipient_address,
+            recipient_address
         };
 
         aborts_if !exists<chain_id::ChainId>(@aptos_framework);
@@ -469,7 +469,7 @@ spec aptos_framework::account {
             && !ed25519::spec_signature_verify_strict_t(
                 ed25519::Signature { bytes: rotation_capability_sig_bytes },
                 ed25519::UnvalidatedPublicKey { bytes: account_public_key_bytes },
-                proof_challenge,
+                proof_challenge
             );
 
         include account_scheme == MULTI_ED25519_SCHEME ==>
@@ -492,7 +492,7 @@ spec aptos_framework::account {
             && !multi_ed25519::spec_signature_verify_strict_t(
                 multi_ed25519::Signature { bytes: rotation_capability_sig_bytes },
                 multi_ed25519::UnvalidatedPublicKey { bytes: account_public_key_bytes },
-                proof_challenge,
+                proof_challenge
             );
 
         /// [high-level-req-5.2]
@@ -519,7 +519,7 @@ spec aptos_framework::account {
         let proof_challenge = SignerCapabilityOfferProofChallengeV2 {
             sequence_number: account_resource.sequence_number,
             source_address,
-            recipient_address,
+            recipient_address
         };
 
         aborts_if !exists<Account>(recipient_address);
@@ -543,7 +543,7 @@ spec aptos_framework::account {
             && !ed25519::spec_signature_verify_strict_t(
                 ed25519::Signature { bytes: signer_capability_sig_bytes },
                 ed25519::UnvalidatedPublicKey { bytes: account_public_key_bytes },
-                proof_challenge,
+                proof_challenge
             );
 
         include account_scheme == MULTI_ED25519_SCHEME ==>
@@ -566,7 +566,7 @@ spec aptos_framework::account {
             && !multi_ed25519::spec_signature_verify_strict_t(
                 multi_ed25519::Signature { bytes: signer_capability_sig_bytes },
                 multi_ed25519::UnvalidatedPublicKey { bytes: account_public_key_bytes },
-                proof_challenge,
+                proof_challenge
             );
 
         /// [high-level-req-5.3]
@@ -650,7 +650,7 @@ spec aptos_framework::account {
     /// The value of signer_capability_offer.for of Account resource under the signer is offerer_address.
     spec create_authorized_signer(account: &signer, offerer_address: address): signer {
         /// [high-level-req-8]
-        include AccountContainsAddr { account, address: offerer_address, };
+        include AccountContainsAddr { account, address: offerer_address };
         modifies global<Account>(offerer_address);
         ensures exists<Account>(offerer_address);
         ensures signer::address_of(result) == offerer_address;
@@ -723,7 +723,7 @@ spec aptos_framework::account {
     /// The guid_creation_num of the ccount resource is up to MAX_U64.
     spec create_guid(account_signer: &signer): guid::GUID {
         let addr = signer::address_of(account_signer);
-        include NewEventHandleAbortsIf { account: account_signer, };
+        include NewEventHandleAbortsIf { account: account_signer };
         modifies global<Account>(addr);
         /// [high-level-req-11]
         ensures global<Account>(addr).guid_creation_num
@@ -766,7 +766,7 @@ spec aptos_framework::account {
     spec update_auth_key_and_originating_address_table(
         originating_addr: address,
         account_resource: &mut Account,
-        new_auth_key_vector: vector<u8>,
+        new_auth_key_vector: vector<u8>
     ) {
         modifies global<OriginatingAddress>(@aptos_framework);
         include UpdateAuthKeyAndOriginatingAddressTableAbortsIf;
@@ -791,7 +791,7 @@ spec aptos_framework::account {
 
         ensures table::spec_contains(
             global<OriginatingAddress>(@aptos_framework).address_map,
-            from_bcs::deserialize<address>(new_auth_key_vector),
+            from_bcs::deserialize<address>(new_auth_key_vector)
         );
     }
 
@@ -800,7 +800,7 @@ spec aptos_framework::account {
         account_scheme: u8,
         account_public_key: vector<u8>,
         signed_message_bytes: vector<u8>,
-        message: T,
+        message: T
     ) {
         pragma aborts_if_is_partial;
 

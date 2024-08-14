@@ -102,7 +102,7 @@ module aptos_std::math_fixed {
         assert_approx_the_same(
             (fixed_point32::get_raw_value(result) as u128),
             6074001000,
-            9,
+            9
         );
     }
 

@@ -110,7 +110,7 @@ spec aptos_framework::storage_gas {
         aborts_if target_usage > MAX_U64 / BASIS_POINT_DENOMINATION;
         /// [high-level-req-4]
         ensures result
-            == UsageGasConfig { target_usage, read_curve, create_curve, write_curve, };
+            == UsageGasConfig { target_usage, read_curve, create_curve, write_curve };
     }
 
     spec new_storage_gas_config(item_config: UsageGasConfig, byte_config: UsageGasConfig): StorageGasConfig {

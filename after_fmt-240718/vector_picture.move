@@ -14,24 +14,24 @@ module 0xABCD::vector_picture {
     const E_MAX_COLOR: u64 = 3;
 
     struct AllPalettes has key {
-        all: vector<address>,
+        all: vector<address>
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
     struct Palette has key {
-        vec: vector<Color>,
+        vec: vector<Color>
     }
 
     struct Color has copy, drop, store {
         r: u8,
         g: u8,
-        b: u8,
+        b: u8
     }
 
     fun init_module(publisher: &signer) {
         move_to<AllPalettes>(
             publisher,
-            AllPalettes { all: vector::empty(), },
+            AllPalettes { all: vector::empty() }
         );
     }
 
@@ -39,12 +39,12 @@ module 0xABCD::vector_picture {
     public entry fun create(
         caller: &signer,
         // Length of the vector to create.
-        length: u64,
+        length: u64
     ) acquires AllPalettes {
         let caller_addr = signer::address_of(caller);
 
         // Just a dummy color.
-        let color = Color { r: 124, g: 213, b: 37, };
+        let color = Color { r: 124, g: 213, b: 37 };
 
         // Build vec and palette.
         let vec = vector::empty();
@@ -70,13 +70,13 @@ module 0xABCD::vector_picture {
 
             move_to<AllPalettes>(
                 caller,
-                AllPalettes { all: vec, },
+                AllPalettes { all: vec }
             );
         } else {
             let all_palettes = borrow_global_mut<AllPalettes>(caller_addr);
             vector::push_back(
                 &mut all_palettes.all,
-                object::address_from_constructor_ref(&constructor_ref),
+                object::address_from_constructor_ref(&constructor_ref)
             );
         }
     }
@@ -88,7 +88,7 @@ module 0xABCD::vector_picture {
         index: u64,
         r: u8,
         g: u8,
-        b: u8,
+        b: u8
     ) acquires Palette, AllPalettes {
         let all_palettes = borrow_global<AllPalettes>(palette_addr);
         let palette_addr = vector::borrow(&all_palettes.all, palette_index);
@@ -98,7 +98,7 @@ module 0xABCD::vector_picture {
         // Confirm the index is not out of bounds.
         assert!(
             index < vector::length(&palette.vec),
-            error::invalid_argument(E_INDEX_OUT_OF_BOUNDS),
+            error::invalid_argument(E_INDEX_OUT_OF_BOUNDS)
         );
 
         // Write the pixel.
@@ -107,9 +107,7 @@ module 0xABCD::vector_picture {
     }
 
     public entry fun check(
-        palette_addr: address,
-        palette_index: u64,
-        index: u64,
+        palette_addr: address, palette_index: u64, index: u64
     ) acquires Palette, AllPalettes {
         let all_palettes = borrow_global<AllPalettes>(palette_addr);
         let palette_addr = vector::borrow(&all_palettes.all, palette_index);
@@ -119,13 +117,13 @@ module 0xABCD::vector_picture {
         // Confirm the index is not out of bounds.
         assert!(
             index < vector::length(&palette.vec),
-            error::invalid_argument(E_INDEX_OUT_OF_BOUNDS),
+            error::invalid_argument(E_INDEX_OUT_OF_BOUNDS)
         );
 
         let color = vector::borrow(&mut palette.vec, index);
         assert!(
             color.r != 255 || color.g != 255 || color.b != 255,
-            error::invalid_argument(E_MAX_COLOR),
+            error::invalid_argument(E_MAX_COLOR)
         );
     }
 }

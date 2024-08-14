@@ -10,7 +10,7 @@ module CoreFramework::DiemVersion {
     struct VersionChainMarker<phantom T> has key {}
 
     struct DiemVersion has key, copy, drop, store {
-        major: u64,
+        major: u64
     }
 
     /// Error with chain marker
@@ -28,18 +28,18 @@ module CoreFramework::DiemVersion {
 
         assert!(
             !exists<VersionChainMarker<T>>(@CoreResources),
-            errors::already_published(ECHAIN_MARKER),
+            errors::already_published(ECHAIN_MARKER)
         );
 
         assert!(
             !exists<DiemVersion>(@CoreResources),
-            errors::already_published(ECONFIG),
+            errors::already_published(ECONFIG)
         );
 
         move_to(account, VersionChainMarker<T> {});
         move_to(
             account,
-            DiemVersion { major: initial_version },
+            DiemVersion { major: initial_version }
         );
     }
 
@@ -47,14 +47,14 @@ module CoreFramework::DiemVersion {
     public fun set<T>(major: u64, _cap: &Cap<T>) acquires DiemVersion {
         assert!(
             exists<VersionChainMarker<T>>(@CoreResources),
-            errors::not_published(ECHAIN_MARKER),
+            errors::not_published(ECHAIN_MARKER)
         );
         assert!(exists<DiemVersion>(@CoreResources), errors::not_published(ECONFIG));
         let old_major = *&borrow_global<DiemVersion>(@CoreResources).major;
 
         assert!(
             old_major < major,
-            errors::invalid_argument(EINVALID_MAJOR_VERSION_NUMBER),
+            errors::invalid_argument(EINVALID_MAJOR_VERSION_NUMBER)
         );
 
         let config = borrow_global_mut<DiemVersion>(@CoreResources);

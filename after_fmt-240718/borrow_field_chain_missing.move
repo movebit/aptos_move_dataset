@@ -8,7 +8,7 @@ module 0x8675309::M {
     }
 
     struct X3 {
-        f: u64,
+        f: u64
     }
 
     fun t0(x1: &X1, x1_mut: &mut X1) {

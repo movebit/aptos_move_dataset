@@ -37,12 +37,12 @@ module DiemFramework::DualAttestation {
         /// every time this `compliance_public_key` is rotated.
         compliance_key_rotation_events: EventHandle<ComplianceKeyRotationEvent>,
         /// Event handle for `base_url` rotation events. Emitted every time this `base_url` is rotated.
-        base_url_rotation_events: EventHandle<BaseUrlRotationEvent>,
+        base_url_rotation_events: EventHandle<BaseUrlRotationEvent>
     }
 
     /// Struct to store the limit on-chain
     struct Limit has key {
-        micro_xdx_limit: u64,
+        micro_xdx_limit: u64
     }
 
     /// The message sent whenever the compliance public key for a `DualAttestation` resource is rotated.
@@ -50,7 +50,7 @@ module DiemFramework::DualAttestation {
         /// The new `compliance_public_key` that is being used for dual attestation checking.
         new_compliance_public_key: vector<u8>,
         /// The time at which the `compliance_public_key` was rotated
-        time_rotated_seconds: u64,
+        time_rotated_seconds: u64
     }
 
     /// The message sent whenever the base url for a `DualAttestation` resource is rotated.
@@ -58,7 +58,7 @@ module DiemFramework::DualAttestation {
         /// The new `base_url` that is being used for dual attestation checking
         new_base_url: vector<u8>,
         /// The time at which the `base_url` was rotated
-        time_rotated_seconds: u64,
+        time_rotated_seconds: u64
     }
 
     const MAX_U64: u128 = 18446744073709551615;
@@ -92,15 +92,13 @@ module DiemFramework::DualAttestation {
     /// the `created` account must send a transaction that invokes `rotate_base_url` and
     /// `rotate_compliance_public_key` to set these fields to a valid URL/public key.
     public(friend) fun publish_credential(
-        created: &signer,
-        creator: &signer,
-        human_name: vector<u8>,
+        created: &signer, creator: &signer, human_name: vector<u8>
     ) {
         Roles::assert_parent_vasp_or_designated_dealer(created);
         Roles::assert_treasury_compliance(creator);
         assert!(
             !exists<Credential>(signer::address_of(created)),
-            errors::already_published(ECREDENTIAL),
+            errors::already_published(ECREDENTIAL)
         );
         move_to(
             created,
@@ -114,8 +112,8 @@ module DiemFramework::DualAttestation {
                     ComplianceKeyRotationEvent>(created),
                 base_url_rotation_events: event::new_event_handle<BaseUrlRotationEvent>(
                     created
-                ),
-            },
+                )
+            }
         )
     }
 
@@ -140,8 +138,8 @@ module DiemFramework::DualAttestation {
             &mut credential.base_url_rotation_events,
             BaseUrlRotationEvent {
                 new_base_url: new_url,
-                time_rotated_seconds: DiemTimestamp::now_seconds(),
-            },
+                time_rotated_seconds: DiemTimestamp::now_seconds()
+            }
         );
     }
 
@@ -185,20 +183,20 @@ module DiemFramework::DualAttestation {
         let handle = global<Credential>(sender).base_url_rotation_events;
         let msg = BaseUrlRotationEvent {
             new_base_url: new_url,
-            time_rotated_seconds: DiemTimestamp::spec_now_seconds(),
+            time_rotated_seconds: DiemTimestamp::spec_now_seconds()
         };
         emits msg to handle;
     }
 
     /// Rotate the compliance public key for `account` to `new_key`.
     public fun rotate_compliance_public_key(
-        account: &signer, new_key: vector<u8>,
+        account: &signer, new_key: vector<u8>
     ) acquires Credential {
         let addr = signer::address_of(account);
         assert!(exists<Credential>(addr), errors::not_published(ECREDENTIAL));
         assert!(
             Signature::ed25519_validate_pubkey(copy new_key),
-            errors::invalid_argument(EINVALID_PUBLIC_KEY),
+            errors::invalid_argument(EINVALID_PUBLIC_KEY)
         );
         let credential = borrow_global_mut<Credential>(addr);
         credential.compliance_public_key = copy new_key;
@@ -206,8 +204,8 @@ module DiemFramework::DualAttestation {
             &mut credential.compliance_key_rotation_events,
             ComplianceKeyRotationEvent {
                 new_compliance_public_key: new_key,
-                time_rotated_seconds: DiemTimestamp::now_seconds(),
-            },
+                time_rotated_seconds: DiemTimestamp::now_seconds()
+            }
         );
 
     }
@@ -249,7 +247,7 @@ module DiemFramework::DualAttestation {
         let handle = global<Credential>(sender).compliance_key_rotation_events;
         let msg = ComplianceKeyRotationEvent {
             new_compliance_public_key: new_key,
-            time_rotated_seconds: DiemTimestamp::spec_now_seconds(),
+            time_rotated_seconds: DiemTimestamp::spec_now_seconds()
         };
         emits msg to handle;
     }
@@ -428,25 +426,25 @@ module DiemFramework::DualAttestation {
         // sanity check of signature validity
         assert!(
             vector::length(&metadata_signature) == 64,
-            errors::invalid_argument(EMALFORMED_METADATA_SIGNATURE),
+            errors::invalid_argument(EMALFORMED_METADATA_SIGNATURE)
         );
         // sanity check of payee compliance key validity
         let payee_compliance_key = compliance_public_key(credential_address(payee));
         assert!(
             !vector::is_empty(&payee_compliance_key),
-            errors::invalid_state(EPAYEE_COMPLIANCE_KEY_NOT_SET),
+            errors::invalid_state(EPAYEE_COMPLIANCE_KEY_NOT_SET)
         );
         // sanity check of payee base URL validity
         let payee_base_url = base_url(credential_address(payee));
         assert!(
             !vector::is_empty(&payee_base_url),
-            errors::invalid_state(EPAYEE_BASE_URL_NOT_SET),
+            errors::invalid_state(EPAYEE_BASE_URL_NOT_SET)
         );
         // cryptographic check of signature validity
         let message = dual_attestation_message(payer, metadata, deposit_value);
         assert!(
             Signature::ed25519_verify(metadata_signature, payee_compliance_key, message),
-            errors::invalid_argument(EINVALID_METADATA_SIGNATURE),
+            errors::invalid_argument(EINVALID_METADATA_SIGNATURE)
         );
     }
 
@@ -486,7 +484,7 @@ module DiemFramework::DualAttestation {
             && Signature::ed25519_verify(
                 metadata_signature,
                 payee_compliance_key,
-                spec_dual_attestation_message(payer, metadata, deposit_value),
+                spec_dual_attestation_message(payer, metadata, deposit_value)
             )
     }
 
@@ -548,7 +546,7 @@ module DiemFramework::DualAttestation {
         assert!(initial_limit <= MAX_U64, errors::limit_exceeded(ELIMIT));
         move_to(
             dr_account,
-            Limit { micro_xdx_limit: (initial_limit as u64) },
+            Limit { micro_xdx_limit: (initial_limit as u64) }
         )
     }
 

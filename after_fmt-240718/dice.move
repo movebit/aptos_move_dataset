@@ -4,7 +4,7 @@ module module_owner::dice {
     use aptos_framework::randomness;
 
     struct DiceRollHistory has key {
-        rolls: vector<u64>,
+        rolls: vector<u64>
     }
 
     #[lint::allow_unsafe_randomness]

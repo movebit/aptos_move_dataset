@@ -268,7 +268,7 @@ module aptos_std::math64 {
             assert_approx_the_same(
                 (fixed_point32::get_raw_value(res) as u128),
                 expected,
-                8,
+                8
             );
             idx = idx + 1;
         };

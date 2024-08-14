@@ -10,7 +10,7 @@ module CoreFramework::DiemBlock {
         /// Height of the current block
         height: u64,
         /// Handle where events with the time of new blocks are emitted
-        new_block_events: event::EventHandle<Self::NewBlockEvent>,
+        new_block_events: event::EventHandle<Self::NewBlockEvent>
     }
 
     struct NewBlockEvent has drop, store {
@@ -19,7 +19,7 @@ module CoreFramework::DiemBlock {
         previous_block_votes: vector<address>,
 
         /// On-chain time during  he block at the given height
-        time_microseconds: u64,
+        time_microseconds: u64
     }
 
     /// The `BlockMetadata` resource is in an invalid state
@@ -39,8 +39,8 @@ module CoreFramework::DiemBlock {
             account,
             BlockMetadata {
                 height: 0,
-                new_block_events: event::new_event_handle<Self::NewBlockEvent>(account),
-            },
+                new_block_events: event::new_event_handle<Self::NewBlockEvent>(account)
+            }
         );
     }
 
@@ -65,7 +65,7 @@ module CoreFramework::DiemBlock {
         // Authorization
         assert!(
             proposer == @VMReserved || DiemSystem::is_validator(proposer),
-            errors::requires_address(EVM_OR_VALIDATOR),
+            errors::requires_address(EVM_OR_VALIDATOR)
         );
 
         let block_metadata_ref = borrow_global_mut<BlockMetadata>(@CoreResources);
@@ -77,8 +77,8 @@ module CoreFramework::DiemBlock {
                 round,
                 proposer,
                 previous_block_votes,
-                time_microseconds: timestamp,
-            },
+                time_microseconds: timestamp
+            }
         );
     }
 

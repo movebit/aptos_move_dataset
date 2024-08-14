@@ -36,7 +36,7 @@ spec aptos_framework::aggregator {
         ensures aggregator
             == spec_aggregator_set_val(
                 old(aggregator),
-                spec_aggregator_get_val(old(aggregator)) + value,
+                spec_aggregator_get_val(old(aggregator)) + value
             );
     }
 
@@ -47,7 +47,7 @@ spec aptos_framework::aggregator {
         ensures aggregator
             == spec_aggregator_set_val(
                 old(aggregator),
-                spec_aggregator_get_val(old(aggregator)) - value,
+                spec_aggregator_get_val(old(aggregator)) - value
             );
     }
 

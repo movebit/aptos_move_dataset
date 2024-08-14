@@ -39,12 +39,12 @@ script {
         assert!(
             340282366920938463463374607431768211455u128
                 == 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFu128,
-            42,
+            42
         );
         assert!(
             340282366920938463463374607431768211455u128
                 == 0x0FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFu128,
-            42,
+            42
         );
 
         assert!(15u128 == 0xFu128, 42);
@@ -56,12 +56,12 @@ script {
         assert!(
             340282366920938463463374607431768211455u128
                 == 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFu128,
-            42,
+            42
         );
         assert!(
             340282366920938463463374607431768211455u128
                 == 0x0FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFu128,
-            42,
+            42
         );
 
         assert!(15u256 == 0xFu256, 42);
@@ -73,28 +73,28 @@ script {
         assert!(
             340282366920938463463374607431768211455u256
                 == 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFu256,
-            42,
+            42
         );
         assert!(
 
 
             115792089237316195423570985008687907853269984665640564039457584007913129639935u256 ==
              0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFu256,
-            42,
+            42
         );
         assert!(
 
 
             115792089237316195423570985008687907853269984665640564039457584007913129639935u256 ==
              0x0FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFu256,
-            42,
+            42
         );
         assert!(
 
 
             115792089237316195423570985008687907853269984665640564039457584007913129639935u256 ==
              0x00FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFu256,
-            42,
+            42
         );
     }
 }

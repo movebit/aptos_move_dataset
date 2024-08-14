@@ -126,21 +126,21 @@ module Evm::ERC721Tradable {
     struct Transfer {
         from: address,
         to: address,
-        tokenId: U256,
+        tokenId: U256
     }
 
     #[event]
     struct Approval {
         owner: address,
         approved: address,
-        tokenId: U256,
+        tokenId: U256
     }
 
     #[event]
     struct ApprovalForAll {
         owner: address,
         operator: address,
-        approved: bool,
+        approved: bool
     }
 
     /// Represents the state of this contract. This is located at `borrow_global<State>(self())`.
@@ -153,7 +153,7 @@ module Evm::ERC721Tradable {
         operatorApprovals: Table<address, Table<address, bool>>,
         baseURI: vector<u8>,
         currentTokenID: U256,
-        proxyRegistryAddress: address,
+        proxyRegistryAddress: address
     }
 
     #[create(sig = b"constructor(string,string,address,string)")]
@@ -177,7 +177,7 @@ module Evm::ERC721Tradable {
                 baseURI,
                 currentTokenID: U256::zero(),
                 proxyRegistryAddress
-            },
+            }
         );
         mintTo(sender()); // Minting with tokenId = 1.
         mintTo(sender()); // Minting with tokenId = 2.
@@ -232,7 +232,10 @@ module Evm::ERC721Tradable {
     // Overloading `safeTransferFrom`
     /// Transfers the ownership of an NFT from one address to another address.
     public fun safeTransferFrom_with_data(
-        from: address, to: address, tokenId: U256, data: vector<u8>
+        from: address,
+        to: address,
+        tokenId: U256,
+        data: vector<u8>
     ) acquires State {
         transferFrom(from, to, tokenId);
         doSafeTransferAcceptanceCheck(from, to, tokenId, data);
@@ -251,7 +254,7 @@ module Evm::ERC721Tradable {
     public fun transferFrom(from: address, to: address, tokenId: U256) acquires State {
         require(
             isApprovedOrOwner(sender(), tokenId),
-            b"ERC721: transfer caller is not owner nor approved",
+            b"ERC721: transfer caller is not owner nor approved"
         );
 
         require(ownerOf(tokenId) == from, b"ERC721: transfer from incorrect owner");
@@ -281,7 +284,7 @@ module Evm::ERC721Tradable {
         require(approved != owner, b"ERC721: approval to current owner");
         require(
             (sender() == owner) || isApprovedForAll(owner, sender()),
-            b"ERC721: approve caller is not owner nor approved for all",
+            b"ERC721: approve caller is not owner nor approved for all"
         );
         approve_(approved, tokenId);
     }
@@ -358,7 +361,7 @@ module Evm::ERC721Tradable {
             Table::insert(
                 &mut s.operatorApprovals,
                 &owner,
-                Table::empty<address, bool>(),
+                Table::empty<address, bool>()
             )
         };
         let approvals = Table::borrow_mut(&mut s.operatorApprovals, &owner);
@@ -373,7 +376,10 @@ module Evm::ERC721Tradable {
 
     /// Helper function for the acceptance check.
     fun doSafeTransferAcceptanceCheck(
-        from: address, to: address, tokenId: U256, data: vector<u8>
+        from: address,
+        to: address,
+        tokenId: U256,
+        data: vector<u8>
     ) {
         if (isContract(to)) {
             let result =
@@ -394,7 +400,7 @@ module Evm::ERC721Tradable {
                 let expected = IERC721Receiver_selector_onERC721Received();
                 require(
                     retval == expected,
-                    b"ERC721: transfer to non ERC721Receiver implementer",
+                    b"ERC721: transfer to non ERC721Receiver implementer"
                 );
             } else {
                 abort_with(b"other");

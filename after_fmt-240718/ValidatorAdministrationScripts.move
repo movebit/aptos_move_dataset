@@ -140,14 +140,14 @@ module ValidatorAdministrationScripts {
         validator_account: address,
         consensus_pubkey: vector<u8>,
         validator_network_addresses: vector<u8>,
-        fullnode_network_addresses: vector<u8>,
+        fullnode_network_addresses: vector<u8>
     ) {
         ValidatorConfig::set_config(
             &validator_operator_account,
             validator_account,
             consensus_pubkey,
             validator_network_addresses,
-            fullnode_network_addresses,
+            fullnode_network_addresses
         );
     }
 
@@ -303,14 +303,14 @@ module ValidatorAdministrationScripts {
         validator_account: address,
         consensus_pubkey: vector<u8>,
         validator_network_addresses: vector<u8>,
-        fullnode_network_addresses: vector<u8>,
+        fullnode_network_addresses: vector<u8>
     ) {
         ValidatorConfig::set_config(
             &validator_operator_account,
             validator_account,
             consensus_pubkey,
             validator_network_addresses,
-            fullnode_network_addresses,
+            fullnode_network_addresses
         );
         DiemSystem::update_config_and_reconfigure(
             &validator_operator_account, validator_account
@@ -340,7 +340,7 @@ module ValidatorAdministrationScripts {
             == ValidatorConfig::Config {
                 consensus_pubkey,
                 validator_network_addresses,
-                fullnode_network_addresses,
+                fullnode_network_addresses
             };
 
         include ValidatorConfig::SetConfigAbortsIf { validator_addr: validator_account };
@@ -358,7 +358,7 @@ module ValidatorAdministrationScripts {
                         != ValidatorConfig::Config {
                             consensus_pubkey,
                             validator_network_addresses,
-                            fullnode_network_addresses,
+                            fullnode_network_addresses
                         }
         );
         include is_validator_info_updated ==>

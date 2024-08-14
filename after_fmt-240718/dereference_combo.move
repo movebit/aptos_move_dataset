@@ -12,7 +12,7 @@ module 0x8675309::M {
         r
     }
 
-    fun t0(cond: bool, s: &mut S, other: &S,) {
+    fun t0(cond: bool, s: &mut S, other: &S) {
         let f;
         if (cond) f = &s.f else f = &other.f;
         *s;

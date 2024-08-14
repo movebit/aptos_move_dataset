@@ -12,7 +12,7 @@ module aptos_framework::version {
     friend aptos_framework::reconfiguration_with_dkg;
 
     struct Version has drop, key, store {
-        major: u64,
+        major: u64
     }
 
     struct SetVersionCapability has key {}
@@ -43,7 +43,7 @@ module aptos_framework::version {
     public entry fun set_version(account: &signer, major: u64) acquires Version {
         assert!(
             exists<SetVersionCapability>(signer::address_of(account)),
-            error::permission_denied(ENOT_AUTHORIZED),
+            error::permission_denied(ENOT_AUTHORIZED)
         );
         chain_status::assert_genesis();
 
@@ -64,7 +64,7 @@ module aptos_framework::version {
     public entry fun set_for_next_epoch(account: &signer, major: u64) acquires Version {
         assert!(
             exists<SetVersionCapability>(signer::address_of(account)),
-            error::permission_denied(ENOT_AUTHORIZED),
+            error::permission_denied(ENOT_AUTHORIZED)
         );
         let old_major = borrow_global<Version>(@aptos_framework).major;
         assert!(old_major < major, error::invalid_argument(EINVALID_MAJOR_VERSION_NUMBER));
@@ -101,7 +101,7 @@ module aptos_framework::version {
 
     #[test(aptos_framework = @aptos_framework, core_resources = @core_resources)]
     public entry fun test_set_version_core_resources(
-        aptos_framework: signer, core_resources: signer,
+        aptos_framework: signer, core_resources: signer
     ) acquires Version {
         initialize(&aptos_framework, 1);
         assert!(borrow_global<Version>(@aptos_framework).major == 1, 0);
@@ -113,7 +113,7 @@ module aptos_framework::version {
     #[test(aptos_framework = @aptos_framework, random_account = @0x123)]
     #[expected_failure(abort_code = 327682, location = Self)]
     public entry fun test_set_version_unauthorized_should_fail(
-        aptos_framework: signer, random_account: signer,
+        aptos_framework: signer, random_account: signer
     ) acquires Version {
         initialize(&aptos_framework, 1);
         set_version(&random_account, 2);

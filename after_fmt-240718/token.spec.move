@@ -12,7 +12,7 @@ spec aptos_token::token {
         description: String,
         uri: String,
         maximum: u64,
-        mutate_setting: vector<bool>,
+        mutate_setting: vector<bool>
     ) {
         // TODO: `create_collection` cannot cover all aborts.
         pragma aborts_if_is_partial;
@@ -66,14 +66,14 @@ spec aptos_token::token {
         token_data_address: address,
         collection: String,
         name: String,
-        amount: u64,
+        amount: u64
     ) {
         //TODO: Complex abort condition in mint_token.
         pragma aborts_if_is_partial;
         let token_data_id = spec_create_token_data_id(
             token_data_address,
             collection,
-            name,
+            name
         );
         let addr = signer::address_of(account);
         let creator_addr = token_data_id.creator;
@@ -101,7 +101,7 @@ spec aptos_token::token {
         amount: u64,
         keys: vector<String>,
         values: vector<vector<u8>>,
-        types: vector<String>,
+        types: vector<String>
     ) {
         //TODO: Abort condition is complex in mutate_one_token function.
         pragma aborts_if_is_partial;
@@ -121,7 +121,7 @@ spec aptos_token::token {
         collection: String,
         name: String,
         property_version: u64,
-        amount: u64,
+        amount: u64
     ) {
         // TODO: Unknown error message in direct_transfer function.
         pragma aborts_if_is_partial;
@@ -157,7 +157,7 @@ spec aptos_token::token {
         token_name: String,
         token_property_version: u64,
         to: address,
-        amount: u64,
+        amount: u64
     ) {
         //TODO: Abort condition is complex because of transfer function.
         pragma aborts_if_is_partial;
@@ -174,7 +174,7 @@ spec aptos_token::token {
         collection: String,
         name: String,
         property_version: u64,
-        amount: u64,
+        amount: u64
     ) {
         use aptos_std::simple_map;
         //TODO: Abort condition is complex because of the read_bool in the property_map module.
@@ -187,14 +187,14 @@ spec aptos_token::token {
         let collections = borrow_global_mut<Collections>(creator_address);
         let token_data = table::spec_get(
             collections.token_data,
-            token_id.token_data_id,
+            token_id.token_data_id
         );
         aborts_if amount <= 0;
         aborts_if !exists<Collections>(creator_addr);
         aborts_if !table::spec_contains(collections.token_data, token_id.token_data_id);
         aborts_if !simple_map::spec_contains_key(
             token_data.default_properties.map,
-            std::string::spec_utf8(BURNABLE_BY_CREATOR),
+            std::string::spec_utf8(BURNABLE_BY_CREATOR)
         );
     }
 
@@ -217,7 +217,7 @@ spec aptos_token::token {
         let collections = borrow_global_mut<Collections>(creator_addr);
         let token_data = table::spec_get(
             collections.token_data,
-            token_id.token_data_id,
+            token_id.token_data_id
         );
         include CreateTokenDataIdAbortsIf { creator: creators_address };
         aborts_if amount <= 0;
@@ -231,7 +231,7 @@ spec aptos_token::token {
     }
 
     spec fun spec_create_token_id_raw(
-        creator: address, collection: String, name: String, property_version: u64,
+        creator: address, collection: String, name: String, property_version: u64
     ): TokenId {
         let token_data_id = TokenDataId { creator, collection, name };
         TokenId { token_data_id, property_version }
@@ -245,7 +245,7 @@ spec aptos_token::token {
         let account = global<account::Account>(addr);
         let collection_data = table::spec_get(
             global<Collections>(addr).collection_data,
-            collection_name,
+            collection_name
         );
         include AssertCollectionExistsAbortsIf {
             creator_address: addr,
@@ -266,7 +266,7 @@ spec aptos_token::token {
         let account = global<account::Account>(addr);
         let collection_data = table::spec_get(
             global<Collections>(addr).collection_data,
-            collection_name,
+            collection_name
         );
         aborts_if len(uri.bytes) > MAX_URI_LENGTH;
         include AssertCollectionExistsAbortsIf {
@@ -290,7 +290,7 @@ spec aptos_token::token {
         let account = global<account::Account>(addr);
         let collection_data = table::spec_get(
             global<Collections>(addr).collection_data,
-            collection_name,
+            collection_name
         );
         include AssertCollectionExistsAbortsIf {
             creator_address: addr,
@@ -388,7 +388,7 @@ spec aptos_token::token {
         token_data_id: TokenDataId,
         keys: vector<String>,
         values: vector<vector<u8>>,
-        types: vector<String>,
+        types: vector<String>
     ) {
         // TODO: Can't handle abort in loop.
         pragma aborts_if_is_partial;
@@ -409,7 +409,7 @@ spec aptos_token::token {
         token_id: TokenId,
         keys: vector<String>,
         values: vector<vector<u8>>,
-        types: vector<String>,
+        types: vector<String>
     ): TokenId {
         use aptos_std::simple_map;
         //TODO: Abort condition is complex because of the read_bool funtion in the property_map module.
@@ -424,7 +424,7 @@ spec aptos_token::token {
         aborts_if !token_data.mutability_config.properties
             && !simple_map::spec_contains_key(
                 token_data.default_properties.map,
-                std::string::spec_utf8(TOKEN_PROPERTY_MUTABLE),
+                std::string::spec_utf8(TOKEN_PROPERTY_MUTABLE)
             );
     }
 
@@ -470,7 +470,7 @@ spec aptos_token::token {
     /// Cannot withdraw 0 tokens.
     /// Make sure the account has sufficient tokens to withdraw.
     spec direct_transfer(
-        sender: &signer, receiver: &signer, token_id: TokenId, amount: u64,
+        sender: &signer, receiver: &signer, token_id: TokenId, amount: u64
     ) {
         //TODO: Unable to get thef value of token.
         pragma verify = false;
@@ -504,7 +504,7 @@ spec aptos_token::token {
     }
 
     spec transfer(
-        from: &signer, id: TokenId, to: address, amount: u64,
+        from: &signer, id: TokenId, to: address, amount: u64
     ) {
         let opt_in_transfer = global<TokenStore>(to).direct_transfer;
         let account_addr = signer::address_of(from);
@@ -514,7 +514,7 @@ spec aptos_token::token {
         include WithdrawWithEventInternalAbortsIf;
     }
 
-    spec withdraw_with_capability(withdraw_proof: WithdrawCapability,): Token {
+    spec withdraw_with_capability(withdraw_proof: WithdrawCapability): Token {
         let now_seconds = global<timestamp::CurrentTimeMicroseconds>(@aptos_framework).microseconds;
         aborts_if !exists<timestamp::CurrentTimeMicroseconds>(@aptos_framework);
         aborts_if now_seconds / timestamp::MICRO_CONVERSION_FACTOR
@@ -527,7 +527,7 @@ spec aptos_token::token {
     }
 
     spec partial_withdraw_with_capability(
-        withdraw_proof: WithdrawCapability, withdraw_amount: u64,
+        withdraw_proof: WithdrawCapability, withdraw_amount: u64
     ): (Token, Option<WithdrawCapability>) {
         let now_seconds = global<timestamp::CurrentTimeMicroseconds>(@aptos_framework).microseconds;
         aborts_if !exists<timestamp::CurrentTimeMicroseconds>(@aptos_framework);
@@ -543,7 +543,7 @@ spec aptos_token::token {
 
     /// Cannot withdraw 0 tokens.
     /// Make sure the account has sufficient tokens to withdraw.
-    spec withdraw_token(account: &signer, id: TokenId, amount: u64,): Token {
+    spec withdraw_token(account: &signer, id: TokenId, amount: u64): Token {
         let account_addr = signer::address_of(account);
         include WithdrawWithEventInternalAbortsIf;
     }
@@ -652,7 +652,7 @@ spec aptos_token::token {
         aborts_if length != len(property_types);
     }
 
-    spec fun spec_create_token_data_id(creator: address, collection: String, name: String,): TokenDataId {
+    spec fun spec_create_token_data_id(creator: address, collection: String, name: String): TokenDataId {
         TokenDataId { creator, collection, name }
     }
 
@@ -733,7 +733,7 @@ spec aptos_token::token {
     /// The creator of the TokenDataId is signer.
     /// The token_data_id should exist in the creator's collections..
     /// The sum of supply and the amount of mint Token is less than maximum.
-    spec mint_token(account: &signer, token_data_id: TokenDataId, amount: u64,): TokenId {
+    spec mint_token(account: &signer, token_data_id: TokenDataId, amount: u64): TokenId {
         //TODO: Cannot get the value of Token for deposit_token function.
         // pragma aborts_if_is_partial;
         pragma verify = false;
@@ -775,7 +775,7 @@ spec aptos_token::token {
     }
 
     spec mint_token_to(
-        account: &signer, receiver: address, token_data_id: TokenDataId, amount: u64,
+        account: &signer, receiver: address, token_data_id: TokenDataId, amount: u64
     ) {
         let addr = signer::address_of(account);
         let opt_in_transfer = global<TokenStore>(receiver).direct_transfer;
@@ -796,13 +796,13 @@ spec aptos_token::token {
         include DirectDepositAbortsIf {
             account_addr: receiver,
             token_id: token_id,
-            token_amount: amount,
+            token_amount: amount
         };
     }
 
     /// The length of collection should less than MAX_COLLECTION_NAME_LENGTH
     /// The length of name should less than MAX_NFT_NAME_LENGTH
-    spec create_token_data_id(creator: address, collection: String, name: String,): TokenDataId {
+    spec create_token_data_id(creator: address, collection: String, name: String): TokenDataId {
         include CreateTokenDataIdAbortsIf;
     }
 
@@ -817,7 +817,7 @@ spec aptos_token::token {
     /// The length of collection should less than MAX_COLLECTION_NAME_LENGTH
     /// The length of name should less than MAX_NFT_NAME_LENGTH
     spec create_token_id_raw(
-        creator: address, collection: String, name: String, property_version: u64,
+        creator: address, collection: String, name: String, property_version: u64
     ): TokenId {
         include CreateTokenDataIdAbortsIf;
     }
@@ -888,7 +888,7 @@ spec aptos_token::token {
         aborts_if !table::spec_contains(all_collection_data, collection_name);
     }
 
-    spec withdraw_with_event_internal(account_addr: address, id: TokenId, amount: u64,): Token {
+    spec withdraw_with_event_internal(account_addr: address, id: TokenId, amount: u64): Token {
         include WithdrawWithEventInternalAbortsIf;
     }
 
@@ -908,7 +908,7 @@ spec aptos_token::token {
         token_id: TokenId,
         keys: vector<String>,
         values: vector<vector<u8>>,
-        types: vector<String>,
+        types: vector<String>
     ) {
         //TODO: Abort in `property_map::update_property_map` loop cannot be handled
         pragma aborts_if_is_partial;

@@ -18,7 +18,7 @@ module 0xcafe::m {
             |S { x }, _y| {
                 let y = x;
                 x + y
-            },
+            }
         )
     }
 }

@@ -187,7 +187,7 @@ spec aptos_framework::block {
     /// The caller is @aptos_framework.
     /// The new_epoch_interval must be greater than 0.
     /// The BlockResource existed under the @aptos_framework.
-    spec update_epoch_interval_microsecs(aptos_framework: &signer, new_epoch_interval: u64,) {
+    spec update_epoch_interval_microsecs(aptos_framework: &signer, new_epoch_interval: u64) {
         /// [high-level-req-3.1]
         include UpdateEpochIntervalMicrosecs;
     }

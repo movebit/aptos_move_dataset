@@ -6,7 +6,7 @@ module hello_blockchain::message {
 
     //:!:>resource
     struct MessageHolder has key {
-        message: string::String,
+        message: string::String
     }
 
     //<:!:resource
@@ -15,7 +15,7 @@ module hello_blockchain::message {
     struct MessageChange has drop, store {
         account: address,
         from_message: string::String,
-        to_message: string::String,
+        to_message: string::String
     }
 
     /// There is no message present
@@ -30,7 +30,7 @@ module hello_blockchain::message {
     public entry fun set_message(account: signer, message: string::String) acquires MessageHolder {
         let account_addr = signer::address_of(&account);
         if (!exists<MessageHolder>(account_addr)) {
-            move_to(&account, MessageHolder { message, })
+            move_to(&account, MessageHolder { message })
         } else {
             let old_message_holder = borrow_global_mut<MessageHolder>(account_addr);
             let from_message = old_message_holder.message;
@@ -38,8 +38,8 @@ module hello_blockchain::message {
                 MessageChange {
                     account: account_addr,
                     from_message,
-                    to_message: copy message,
-                },
+                    to_message: copy message
+                }
             );
             old_message_holder.message = message;
         }
@@ -53,7 +53,7 @@ module hello_blockchain::message {
 
         assert!(
             get_message(addr) == string::utf8(b"Hello, Blockchain"),
-            ENO_MESSAGE,
+            ENO_MESSAGE
         );
     }
 }

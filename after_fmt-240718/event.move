@@ -26,14 +26,14 @@ module std::event {
         /// Total number of events emitted to this event stream.
         counter: u64,
         /// A globally unique ID for this event stream.
-        guid: GUIDWrapper,
+        guid: GUIDWrapper
     }
 
     /// Deprecated. Only kept around so Diem clients know how to deserialize existing EventHandleGenerator's
     struct EventHandleGenerator has key {
         // A monotonically increasing counter
         counter: u64,
-        addr: address,
+        addr: address
     }
 
     /// Use EventHandleGenerator to generate a unique event handle for `sig`

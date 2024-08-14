@@ -9,7 +9,7 @@ module DiemFramework::NetworkIdentity {
 
     /// Holder for all `NetworkIdentity` in an account
     struct NetworkIdentity has key {
-        identities: vector<vector<u8>>,
+        identities: vector<vector<u8>>
     }
 
     spec NetworkIdentity {
@@ -28,7 +28,7 @@ module DiemFramework::NetworkIdentity {
         /// The new identities
         identities: vector<vector<u8>>,
         /// The time at which the `identities` was rotated
-        time_rotated_seconds: u64,
+        time_rotated_seconds: u64
     }
 
     const MAX_ADDR_IDENTITIES: u64 = 100;
@@ -50,11 +50,11 @@ module DiemFramework::NetworkIdentity {
         Roles::assert_treasury_compliance(tc_account);
         assert!(
             !exists<NetworkIdentityEventHandle>(signer::address_of(tc_account)),
-            errors::already_published(ENETWORK_ID_EVENT_HANDLE_INVALID),
+            errors::already_published(ENETWORK_ID_EVENT_HANDLE_INVALID)
         );
         let event_handle = NetworkIdentityEventHandle {
             identity_change_events: event::new_event_handle<
-                NetworkIdentityChangeNotification>(tc_account),
+                NetworkIdentityChangeNotification>(tc_account)
         };
         move_to(tc_account, event_handle);
     }
@@ -78,7 +78,7 @@ module DiemFramework::NetworkIdentity {
     public fun get(account_addr: address): vector<vector<u8>> acquires NetworkIdentity {
         assert!(
             exists<NetworkIdentity>(account_addr),
-            errors::not_published(ENETWORK_ID_DOESNT_EXIST),
+            errors::not_published(ENETWORK_ID_DOESNT_EXIST)
         );
         *&borrow_global<NetworkIdentity>(account_addr).identities
     }
@@ -94,7 +94,7 @@ module DiemFramework::NetworkIdentity {
     ) acquires NetworkIdentity, NetworkIdentityEventHandle {
         assert!(
             tc_network_identity_event_handle_exists(),
-            errors::not_published(ENETWORK_ID_EVENT_HANDLE_INVALID),
+            errors::not_published(ENETWORK_ID_EVENT_HANDLE_INVALID)
         );
         let num_to_add = vector::length(&to_add);
         assert!(num_to_add > 0, errors::invalid_argument(ENETWORK_ID_NO_INPUT));
@@ -108,7 +108,7 @@ module DiemFramework::NetworkIdentity {
 
         assert!(
             vector::length(identities) + num_to_add <= MAX_ADDR_IDENTITIES,
-            errors::limit_exceeded(ENETWORK_ID_LIMIT_EXCEEDED),
+            errors::limit_exceeded(ENETWORK_ID_LIMIT_EXCEEDED)
         );
 
         let has_change = add_members_internal(identities, &to_add);
@@ -118,8 +118,8 @@ module DiemFramework::NetworkIdentity {
                 NetworkIdentityChangeNotification {
                     account: account_addr,
                     identities: *&identity.identities,
-                    time_rotated_seconds: DiemTimestamp::now_seconds(),
-                },
+                    time_rotated_seconds: DiemTimestamp::now_seconds()
+                }
             );
         }
     }
@@ -136,7 +136,7 @@ module DiemFramework::NetworkIdentity {
         let post msg = NetworkIdentityChangeNotification {
             account: account_addr,
             identities: global<NetworkIdentity>(account_addr).identities,
-            time_rotated_seconds: DiemTimestamp::spec_now_seconds(),
+            time_rotated_seconds: DiemTimestamp::spec_now_seconds()
         };
 
         aborts_if !tc_network_identity_event_handle_exists() with errors::NOT_PUBLISHED;
@@ -147,7 +147,7 @@ module DiemFramework::NetworkIdentity {
             DiemTimestamp::AbortsIfNotOperating;
         include AddMembersInternalEnsures<vector<u8>> {
             old_members: prior_identities,
-            new_members: global<NetworkIdentity>(account_addr).identities,
+            new_members: global<NetworkIdentity>(account_addr).identities
         };
         modifies global<NetworkIdentity>(account_addr);
         emits msg to handle if has_change;
@@ -159,19 +159,19 @@ module DiemFramework::NetworkIdentity {
     ) acquires NetworkIdentity, NetworkIdentityEventHandle {
         assert!(
             tc_network_identity_event_handle_exists(),
-            errors::not_published(ENETWORK_ID_EVENT_HANDLE_INVALID),
+            errors::not_published(ENETWORK_ID_EVENT_HANDLE_INVALID)
         );
         let num_to_remove = vector::length(&to_remove);
         assert!(num_to_remove > 0, errors::invalid_argument(ENETWORK_ID_NO_INPUT));
         assert!(
             num_to_remove <= MAX_ADDR_IDENTITIES,
-            errors::limit_exceeded(ENETWORK_ID_LIMIT_EXCEEDED),
+            errors::limit_exceeded(ENETWORK_ID_LIMIT_EXCEEDED)
         );
 
         let account_addr = signer::address_of(account);
         assert!(
             exists<NetworkIdentity>(account_addr),
-            errors::not_published(ENETWORK_ID_DOESNT_EXIST),
+            errors::not_published(ENETWORK_ID_DOESNT_EXIST)
         );
 
         let identity = borrow_global_mut<NetworkIdentity>(account_addr);
@@ -184,8 +184,8 @@ module DiemFramework::NetworkIdentity {
                 NetworkIdentityChangeNotification {
                     account: account_addr,
                     identities: *&identity.identities,
-                    time_rotated_seconds: DiemTimestamp::now_seconds(),
-                },
+                    time_rotated_seconds: DiemTimestamp::now_seconds()
+                }
             );
         };
     }
@@ -199,7 +199,7 @@ module DiemFramework::NetworkIdentity {
         let post msg = NetworkIdentityChangeNotification {
             account: account_addr,
             identities: global<NetworkIdentity>(account_addr).identities,
-            time_rotated_seconds: DiemTimestamp::spec_now_seconds(),
+            time_rotated_seconds: DiemTimestamp::spec_now_seconds()
         };
 
         aborts_if !tc_network_identity_event_handle_exists() with errors::NOT_PUBLISHED;
@@ -210,7 +210,7 @@ module DiemFramework::NetworkIdentity {
             DiemTimestamp::AbortsIfNotOperating;
         include RemoveMembersInternalEnsures<vector<u8>> {
             old_members: prior_identities,
-            new_members: global<NetworkIdentity>(account_addr).identities,
+            new_members: global<NetworkIdentity>(account_addr).identities
         };
         modifies global<NetworkIdentity>(account_addr);
         emits msg to handle if has_change;
@@ -226,7 +226,7 @@ module DiemFramework::NetworkIdentity {
     /// insertion. The `to_add` argument, on the other hand, does not guarantee
     /// to be a set and hence can have duplicated elements.
     fun add_members_internal<T: copy>(
-        members: &mut vector<T>, to_add: &vector<T>,
+        members: &mut vector<T>, to_add: &vector<T>
     ): bool {
         let num_to_add = vector::length(to_add);
         let num_existing = vector::length(members);
@@ -274,7 +274,7 @@ module DiemFramework::NetworkIdentity {
         aborts_if false;
         include AddMembersInternalEnsures<T> {
             old_members: old(members),
-            new_members: members,
+            new_members: members
         };
         // ensures that the `members` argument is and remains a set
         include UniqueMembers<T>;
@@ -302,7 +302,7 @@ module DiemFramework::NetworkIdentity {
     /// removal. The `to_remove` argument, on the other hand, does not guarantee
     /// to be a set and hence can have duplicated elements.
     fun remove_members_internal<T: drop>(
-        members: &mut vector<T>, to_remove: &vector<T>,
+        members: &mut vector<T>, to_remove: &vector<T>
     ): bool {
         let num_existing = vector::length(members);
         let num_to_remove = vector::length(to_remove);
@@ -357,7 +357,7 @@ module DiemFramework::NetworkIdentity {
         aborts_if false;
         include RemoveMembersInternalEnsures<T> {
             old_members: old(members),
-            new_members: members,
+            new_members: members
         };
         // ensures that the `members` argument is and remains a set
         include UniqueMembers<T>;

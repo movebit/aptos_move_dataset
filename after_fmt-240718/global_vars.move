@@ -15,7 +15,7 @@ module 0x42::TestGlobalVars {
     }
 
     struct T has key {
-        i: u64,
+        i: u64
     }
 
     public fun init(s: &signer) {
@@ -82,7 +82,7 @@ module 0x42::TestGlobalVars {
     // Counting (opaque)
 
     struct T2 has key {
-        i: u64,
+        i: u64
     }
 
     public fun initT2(s: &signer) {

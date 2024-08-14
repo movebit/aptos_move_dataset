@@ -183,7 +183,7 @@ spec aptos_framework::multisig_account {
         ensures result == global<MultisigAccount>(multisig_account).owners;
     }
 
-    spec get_transaction(multisig_account: address, sequence_number: u64,): MultisigTransaction {
+    spec get_transaction(multisig_account: address, sequence_number: u64): MultisigTransaction {
         let multisig_account_resource = global<MultisigAccount>(multisig_account);
         aborts_if !exists<MultisigAccount>(multisig_account);
         aborts_if sequence_number == 0

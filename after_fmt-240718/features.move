@@ -654,13 +654,13 @@ module std::features {
 
     /// The enabled features, represented by a bitset stored on chain.
     struct Features has key {
-        features: vector<u8>,
+        features: vector<u8>
     }
 
     /// This resource holds the feature vec updates received in the current epoch.
     /// On epoch change, the updates take effect and this buffer is cleared.
     struct PendingFeatures has key {
-        features: vector<u8>,
+        features: vector<u8>
     }
 
     /// Deprecated to prevent validator set changes during DKG.
@@ -680,7 +680,7 @@ module std::features {
     ) acquires Features {
         assert!(
             signer::address_of(framework) == @std,
-            error::permission_denied(EFRAMEWORK_SIGNER_NEEDED),
+            error::permission_denied(EFRAMEWORK_SIGNER_NEEDED)
         );
         if (!exists<Features>(@std)) {
             move_to<Features>(framework, Features { features: vector[] })
@@ -690,13 +690,13 @@ module std::features {
             &enable,
             |feature| {
                 set(features, *feature, true);
-            },
+            }
         );
         vector::for_each_ref(
             &disable,
             |feature| {
                 set(features, *feature, false);
-            },
+            }
         );
     }
 
@@ -706,7 +706,7 @@ module std::features {
     ) acquires PendingFeatures, Features {
         assert!(
             signer::address_of(framework) == @std,
-            error::permission_denied(EFRAMEWORK_SIGNER_NEEDED),
+            error::permission_denied(EFRAMEWORK_SIGNER_NEEDED)
         );
 
         // Figure out the baseline feature vec that the diff will be applied to.
@@ -750,7 +750,7 @@ module std::features {
         exists<Features>(@std)
             && contains(
                 &borrow_global<Features>(@std).features,
-                feature,
+                feature
             )
     }
 
@@ -779,13 +779,13 @@ module std::features {
             enable,
             |feature| {
                 set(features, feature, true);
-            },
+            }
         );
         vector::for_each(
             disable,
             |feature| {
                 set(features, feature, false);
-            },
+            }
         );
     }
 

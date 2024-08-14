@@ -29,7 +29,7 @@ module DiemFramework::XDX {
         burn_cap: Diem::BurnCapability<XDX>,
         /// The preburn for `XDX`. This is an administrative field since we
         /// need to alway preburn before we burn.
-        preburn_cap: Diem::Preburn<XDX>,
+        preburn_cap: Diem::Preburn<XDX>
         // TODO: Once the reserve has been determined this resource will
         // contain a ReserveComponent<Currency> for every currency that makes
         // up the reserve.
@@ -45,7 +45,7 @@ module DiemFramework::XDX {
     /// correct address (`@CurrencyInfo`) and have the
     /// correct permissions (`&Capability<RegisterNewCurrency>`). Both of these
     /// restrictions are enforced in the `Diem::register_currency` function, but also enforced here.
-    public fun initialize(dr_account: &signer, tc_account: &signer,) {
+    public fun initialize(dr_account: &signer, tc_account: &signer) {
         DiemTimestamp::assert_genesis();
         // Operational constraint
         CoreAddresses::assert_currency_info(dr_account);
@@ -58,7 +58,7 @@ module DiemFramework::XDX {
                 true, // is_synthetic
                 1000000, // scaling_factor = 10^6
                 1000, // fractional_part = 10^3
-                b"XDX",
+                b"XDX"
             );
         // XDX cannot be minted.
         Diem::update_minting_ability<XDX>(tc_account, false);

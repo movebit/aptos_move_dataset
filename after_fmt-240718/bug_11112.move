@@ -10,7 +10,7 @@ module 0xcafe::vectors {
             |e| {
                 *e = s;
                 s = s + 1
-            },
+            }
         );
         assert!(v == vector[2, 3, 4], 0);
     }

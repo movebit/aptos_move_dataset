@@ -16,7 +16,7 @@ module 0xc0ffee::m {
     }
 
     struct W {
-        inner: u64,
+        inner: u64
     }
 
     fun swap4(a: W, b: W): (W, W) {

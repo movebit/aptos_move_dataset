@@ -1,7 +1,7 @@
 // To fix all verification errors, activate lines with MISSING tag
 module 0x42::Account {
     struct Account has key {
-        balance: u64,
+        balance: u64
     }
 
     fun withdraw(account: address, amount: u64) acquires Account {

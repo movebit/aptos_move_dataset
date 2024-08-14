@@ -10,7 +10,7 @@ module resource_groups_primary::primary {
         group = resource_groups_primary::primary::ResourceGroupContainer
     )]
     struct Primary has drop, key {
-        value: u64,
+        value: u64
     }
 
     public entry fun init(account: &signer, value: u64) {

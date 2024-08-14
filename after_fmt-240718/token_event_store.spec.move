@@ -64,7 +64,7 @@ spec aptos_token::token_event_store {
         collection: String,
         token: String,
         old_uri: String,
-        new_uri: String,
+        new_uri: String
     ) {
         include InitializeTokenEventStoreAbortsIf;
     }
@@ -75,7 +75,7 @@ spec aptos_token::token_event_store {
         token: String,
         keys: vector<String>,
         old_values: vector<Option<PropertyValue>>,
-        new_values: vector<PropertyValue>,
+        new_values: vector<PropertyValue>
     ) {
         include InitializeTokenEventStoreAbortsIf;
     }
@@ -85,7 +85,7 @@ spec aptos_token::token_event_store {
         collection: String,
         token: String,
         old_description: String,
-        new_description: String,
+        new_description: String
     ) {
         include InitializeTokenEventStoreAbortsIf;
     }
@@ -99,7 +99,7 @@ spec aptos_token::token_event_store {
         old_royalty_payee_addr: address,
         new_royalty_numerator: u64,
         new_royalty_denominator: u64,
-        new_royalty_payee_addr: address,
+        new_royalty_payee_addr: address
     ) {
         include InitializeTokenEventStoreAbortsIf;
     }
@@ -109,7 +109,7 @@ spec aptos_token::token_event_store {
         collection: String,
         token: String,
         old_maximum: u64,
-        new_maximum: u64,
+        new_maximum: u64
     ) {
         include InitializeTokenEventStoreAbortsIf;
     }

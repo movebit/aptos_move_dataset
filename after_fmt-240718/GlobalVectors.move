@@ -54,17 +54,17 @@ module 0x2::GlobalVectors {
         assert!(
             *vector::borrow(vector::borrow(&borrow_global<T<vector<u64>>>(@0x42).v, 0), 0)
                 == 10,
-            102,
+            102
         );
         assert!(
             *vector::borrow(vector::borrow(&borrow_global<T<vector<u64>>>(@0x42).v, 1), 0)
                 == 11,
-            102,
+            102
         );
         assert!(
             *vector::borrow(vector::borrow(&borrow_global<T<vector<u64>>>(@0x42).v, 2), 0)
                 == 12,
-            102,
+            102
         );
     }
 

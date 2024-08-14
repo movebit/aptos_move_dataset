@@ -42,7 +42,7 @@ module swap::coin_wrapper {
         // Reference to the metadata object.
         metadata: Object<Metadata>,
         // Used during wrapping to mint the internal fungible assets.
-        mint_ref: MintRef,
+        mint_ref: MintRef
     }
 
     /// The resource stored in the main resource account to track all the fungible asset wrappers.
@@ -56,7 +56,7 @@ module swap::coin_wrapper {
         // corresponding fungible asset wrapper.
         coin_to_fungible_asset: SmartTable<String, FungibleAssetData>,
         // Map from a fungible asset wrapper to the original coin type.
-        fungible_asset_to_coin: SmartTable<Object<Metadata>, String>,
+        fungible_asset_to_coin: SmartTable<Object<Metadata>, String>
     }
 
     /// Create the coin wrapper account to host all the deposited coins.
@@ -68,15 +68,15 @@ module swap::coin_wrapper {
             account::create_resource_account(swap_signer, COIN_WRAPPER_NAME);
         package_manager::add_address(
             string::utf8(COIN_WRAPPER_NAME),
-            signer::address_of(&coin_wrapper_signer),
+            signer::address_of(&coin_wrapper_signer)
         );
         move_to(
             &coin_wrapper_signer,
             WrapperAccount {
                 signer_cap,
                 coin_to_fungible_asset: smart_table::new(),
-                fungible_asset_to_coin: smart_table::new(),
-            },
+                fungible_asset_to_coin: smart_table::new()
+            }
         );
     }
 
@@ -182,7 +182,7 @@ module swap::coin_wrapper {
                 coin::symbol<CoinType>(),
                 coin::decimals<CoinType>(),
                 string::utf8(b""),
-                string::utf8(b""),
+                string::utf8(b"")
             );
 
             let mint_ref = fungible_asset::generate_mint_ref(metadata_constructor_ref);
@@ -192,7 +192,7 @@ module swap::coin_wrapper {
             smart_table::add(
                 coin_to_fungible_asset,
                 coin_type,
-                FungibleAssetData { metadata, mint_ref, burn_ref, },
+                FungibleAssetData { metadata, mint_ref, burn_ref }
             );
             smart_table::add(
                 &mut wrapper_account.fungible_asset_to_coin, metadata, coin_type

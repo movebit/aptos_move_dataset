@@ -17,7 +17,7 @@ module aptos_std::type_info {
     struct TypeInfo has copy, drop, store {
         account_address: address,
         module_name: vector<u8>,
-        struct_name: vector<u8>,
+        struct_name: vector<u8>
     }
 
     //
@@ -88,7 +88,7 @@ module aptos_std::type_info {
         assert!(
             struct_name(&type_info)
                 == b"Table<0x1::string::String, 0x1::string::String>",
-            2,
+            2
         );
     }
 
@@ -98,7 +98,7 @@ module aptos_std::type_info {
         features::change_feature_flags_for_testing(
             &fx,
             vector[features::get_aptos_stdlib_chain_id_feature()],
-            vector[],
+            vector[]
         );
 
         // The testing environment chain ID is 4u8.
@@ -120,7 +120,7 @@ module aptos_std::type_info {
         assert!(
             type_name<vector<vector<TypeInfo>>>()
                 == string::utf8(b"vector<vector<0x1::type_info::TypeInfo>>"),
-            8,
+            8
         );
 
         // struct
@@ -128,9 +128,9 @@ module aptos_std::type_info {
         assert!(
             type_name<Table<TypeInfo, Table<u8, vector<TypeInfo>>>>()
                 == string::utf8(
-                    b"0x1::table::Table<0x1::type_info::TypeInfo, 0x1::table::Table<u8, vector<0x1::type_info::TypeInfo>>>",
+                    b"0x1::table::Table<0x1::type_info::TypeInfo, 0x1::table::Table<u8, vector<0x1::type_info::TypeInfo>>>"
                 ),
-            10,
+            10
         );
     }
 
@@ -337,14 +337,14 @@ module aptos_std::type_info {
         };
         assert!(// Vector base size is still 1 byte.
             size_of_val(&vector_complex) - element_size * i == base_size_1,
-            0,
+            0
         );
         // Add another element, exceeding the cutoff.
         vector::push_back(&mut vector_complex, null_element);
         i = i + 1; // Increment counter.
         assert!(// Vector base size is now 2 bytes.
             size_of_val(&vector_complex) - element_size * i == base_size_2,
-            0,
+            0
         );
         while (i < n_elems_cutoff_2) { // Iterate until second cutoff:
             // Add an element.
@@ -353,14 +353,14 @@ module aptos_std::type_info {
         };
         assert!(// Vector base size is still 2 bytes.
             size_of_val(&vector_complex) - element_size * i == base_size_2,
-            0,
+            0
         );
         // Add another element, exceeding the cutoff.
         vector::push_back(&mut vector_complex, null_element);
         i = i + 1; // Increment counter.
         assert!(// Vector base size is now 3 bytes.
             size_of_val(&vector_complex) - element_size * i == base_size_3,
-            0,
+            0
         );
     }
 }

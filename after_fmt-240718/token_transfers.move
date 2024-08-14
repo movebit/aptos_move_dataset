@@ -19,55 +19,55 @@ module aptos_token::token_transfers {
         pending_claims: Table<TokenOfferId, Token>,
         offer_events: EventHandle<TokenOfferEvent>,
         cancel_offer_events: EventHandle<TokenCancelOfferEvent>,
-        claim_events: EventHandle<TokenClaimEvent>,
+        claim_events: EventHandle<TokenClaimEvent>
     }
 
     #[event]
     struct TokenOfferId has copy, drop, store {
         to_addr: address,
-        token_id: TokenId,
+        token_id: TokenId
     }
 
     #[event]
     struct TokenOffer has drop, store {
         to_address: address,
         token_id: TokenId,
-        amount: u64,
+        amount: u64
     }
 
     #[event]
     struct TokenOfferEvent has drop, store {
         to_address: address,
         token_id: TokenId,
-        amount: u64,
+        amount: u64
     }
 
     #[event]
     struct TokenCancelOfferEvent has drop, store {
         to_address: address,
         token_id: TokenId,
-        amount: u64,
+        amount: u64
     }
 
     #[event]
     struct TokenCancelOffer has drop, store {
         to_address: address,
         token_id: TokenId,
-        amount: u64,
+        amount: u64
     }
 
     #[event]
     struct TokenClaimEvent has drop, store {
         to_address: address,
         token_id: TokenId,
-        amount: u64,
+        amount: u64
     }
 
     #[event]
     struct TokenClaim has drop, store {
         to_address: address,
         token_id: TokenId,
-        amount: u64,
+        amount: u64
     }
 
     fun initialize_token_transfers(account: &signer) {
@@ -79,8 +79,8 @@ module aptos_token::token_transfers {
                 cancel_offer_events: account::new_event_handle<TokenCancelOfferEvent>(
                     account
                 ),
-                claim_events: account::new_event_handle<TokenClaimEvent>(account),
-            },
+                claim_events: account::new_event_handle<TokenClaimEvent>(account)
+            }
         )
     }
 
@@ -95,7 +95,7 @@ module aptos_token::token_transfers {
         collection: String,
         name: String,
         property_version: u64,
-        amount: u64,
+        amount: u64
     ) acquires PendingClaims {
         let token_id =
             token::create_token_id_raw(
@@ -108,7 +108,7 @@ module aptos_token::token_transfers {
         sender: &signer,
         receiver: address,
         token_id: TokenId,
-        amount: u64,
+        amount: u64
     ) acquires PendingClaims {
         let sender_addr = signer::address_of(sender);
         if (!exists<PendingClaims>(sender_addr)) {
@@ -127,11 +127,11 @@ module aptos_token::token_transfers {
         };
 
         if (std::features::module_event_migration_enabled()) {
-            event::emit(TokenOffer { to_address: receiver, token_id, amount, })
+            event::emit(TokenOffer { to_address: receiver, token_id, amount })
         };
         event::emit_event<TokenOfferEvent>(
             &mut borrow_global_mut<PendingClaims>(sender_addr).offer_events,
-            TokenOfferEvent { to_address: receiver, token_id, amount, },
+            TokenOfferEvent { to_address: receiver, token_id, amount }
         );
     }
 
@@ -141,7 +141,7 @@ module aptos_token::token_transfers {
         creator: address,
         collection: String,
         name: String,
-        property_version: u64,
+        property_version: u64
     ) acquires PendingClaims {
         let token_id =
             token::create_token_id_raw(
@@ -151,16 +151,14 @@ module aptos_token::token_transfers {
     }
 
     public fun claim(
-        receiver: &signer,
-        sender: address,
-        token_id: TokenId,
+        receiver: &signer, sender: address, token_id: TokenId
     ) acquires PendingClaims {
         assert!(exists<PendingClaims>(sender), ETOKEN_OFFER_NOT_EXIST);
         let pending_claims = &mut borrow_global_mut<PendingClaims>(sender).pending_claims;
         let token_offer_id = create_token_offer_id(signer::address_of(receiver), token_id);
         assert!(
             table::contains(pending_claims, token_offer_id),
-            error::not_found(ETOKEN_OFFER_NOT_EXIST),
+            error::not_found(ETOKEN_OFFER_NOT_EXIST)
         );
         let tokens = table::remove(pending_claims, token_offer_id);
         let amount = token::get_token_amount(&tokens);
@@ -168,12 +166,12 @@ module aptos_token::token_transfers {
 
         if (std::features::module_event_migration_enabled()) {
             event::emit(
-                TokenClaim { to_address: signer::address_of(receiver), token_id, amount, },
+                TokenClaim { to_address: signer::address_of(receiver), token_id, amount }
             )
         };
         event::emit_event<TokenClaimEvent>(
             &mut borrow_global_mut<PendingClaims>(sender).claim_events,
-            TokenClaimEvent { to_address: signer::address_of(receiver), token_id, amount, },
+            TokenClaimEvent { to_address: signer::address_of(receiver), token_id, amount }
         );
     }
 
@@ -183,7 +181,7 @@ module aptos_token::token_transfers {
         creator: address,
         collection: String,
         name: String,
-        property_version: u64,
+        property_version: u64
     ) acquires PendingClaims {
         let token_id =
             token::create_token_id_raw(
@@ -194,9 +192,7 @@ module aptos_token::token_transfers {
 
     // Extra from our pending_claims and return to gallery
     public fun cancel_offer(
-        sender: &signer,
-        receiver: address,
-        token_id: TokenId,
+        sender: &signer, receiver: address, token_id: TokenId
     ) acquires PendingClaims {
         let sender_addr = signer::address_of(sender);
         let token_offer_id = create_token_offer_id(receiver, token_id);
@@ -208,11 +204,11 @@ module aptos_token::token_transfers {
         token::deposit_token(sender, token);
 
         if (std::features::module_event_migration_enabled()) {
-            event::emit(TokenCancelOffer { to_address: receiver, token_id, amount, })
+            event::emit(TokenCancelOffer { to_address: receiver, token_id, amount })
         };
         event::emit_event<TokenCancelOfferEvent>(
             &mut borrow_global_mut<PendingClaims>(sender_addr).cancel_offer_events,
-            TokenCancelOfferEvent { to_address: receiver, token_id, amount, },
+            TokenCancelOfferEvent { to_address: receiver, token_id, amount }
         );
     }
 
@@ -232,9 +228,7 @@ module aptos_token::token_transfers {
 
     #[test(creator = @0x1, owner0 = @0x2, owner1 = @0x3)]
     public fun test_editions(
-        creator: signer,
-        owner0: signer,
-        owner1: signer,
+        creator: signer, owner0: signer, owner1: signer
     ) acquires PendingClaims {
         let token_id = create_token(&creator, 2);
 
@@ -275,7 +269,7 @@ module aptos_token::token_transfers {
             string::utf8(b"Collection: Hello, World"),
             string::utf8(b"https://aptos.dev"),
             1,
-            collection_mutation_setting,
+            collection_mutation_setting
         );
 
         let token_mutation_setting = vector<bool>[false, false, false, false, true];
@@ -300,13 +294,13 @@ module aptos_token::token_transfers {
             token_mutation_setting,
             default_keys,
             default_vals,
-            default_types,
+            default_types
         );
         token::create_token_id_raw(
             signer::address_of(creator),
             collection_name,
             string::utf8(b"Token: Hello, Token"),
-            0,
+            0
         )
     }
 }

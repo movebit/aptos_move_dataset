@@ -5,7 +5,7 @@ module 0xc0ffee::m {
         b: u64,
         c: u64,
         d: u64,
-        e: u64,
+        e: u64
     }
 
     fun sequential(p: Foo): Foo {
@@ -26,7 +26,7 @@ module 0xc0ffee::m {
                 d: 4,
                 e: 5
             },
-            0,
+            0
         );
     }
 }

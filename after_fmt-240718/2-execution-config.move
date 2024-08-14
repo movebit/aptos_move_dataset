@@ -37,7 +37,7 @@ script {
         let execution_blob: vector<u8> = vector[
             4, 3, 0, 1, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 129, 56, 1, 0, 0, 0, 0, 0, 1, 0,
             0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 1, 1, 0, 0, 192, 0, 0,
-            0, 0, 0, 1, 0, 1,
+            0, 0, 0, 1, 0, 1
         ];
 
         execution_config::set_for_next_epoch(framework_signer, execution_blob);

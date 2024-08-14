@@ -121,7 +121,7 @@ module std::option {
     /// Return the value inside `t` if it holds one
     /// Return `default` if `t` does not hold a value
     public fun get_with_default<Element: copy + drop>(
-        t: &Option<Element>, default: Element,
+        t: &Option<Element>, default: Element
     ): Element {
         let vec_ref = &t.vec;
         if (vector::is_empty(vec_ref)) default else *vector::borrow(vec_ref, 0)

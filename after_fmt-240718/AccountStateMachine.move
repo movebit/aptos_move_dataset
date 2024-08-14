@@ -30,7 +30,7 @@ module Test::AccountStateMachine {
     struct PendingTransfer has drop {
         xfer_id: u64,
         amount: u64,
-        initiated_at: u128,
+        initiated_at: u128
     }
 
     #[init]
@@ -87,7 +87,7 @@ module Test::AccountStateMachine {
         let xfer_id = new_xfer_id(this);
         vector::push_back(
             &mut this.pending,
-            PendingTransfer { xfer_id, amount: v, initiated_at: virtual_time() },
+            PendingTransfer { xfer_id, amount: v, initiated_at: virtual_time() }
         );
         // Call into a special version of deposit which calls us back once done.
         send_xfer_deposit(dest, v, self(), xfer_id);
@@ -102,7 +102,10 @@ module Test::AccountStateMachine {
 
     #[message]
     fun xfer_deposit(
-        this: &mut Account, v: u64, caller: address, xfer_id: u64
+        this: &mut Account,
+        v: u64,
+        caller: address,
+        xfer_id: u64
     ) {
         deposit(this, v);
         send_xfer_finish(caller, xfer_id);

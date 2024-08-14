@@ -18,7 +18,7 @@ module 0x42::test {
 
     struct Pool {
         shares: Table<address, u64>,
-        holders: vector<address>,
+        holders: vector<address>
     }
 
     fun f2(pool: &mut Pool, addr: address) {

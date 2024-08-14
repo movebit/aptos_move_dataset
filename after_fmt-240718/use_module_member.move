@@ -26,7 +26,7 @@ module M {
     }
 
     use 0x1::X::{S as XS, foo};
-    use 0x1::Z::{S as Z, foo as zfoo,};
+    use 0x1::Z::{S as Z, foo as zfoo};
 
     public fun m() {
         foo();

@@ -1,7 +1,7 @@
 module 0x42::M {
 
     struct S has key {
-        x: u64,
+        x: u64
     }
 
     spec S {

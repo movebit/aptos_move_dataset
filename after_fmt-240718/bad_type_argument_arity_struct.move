@@ -8,7 +8,7 @@ module M {
     struct B {
         s1: S,
         s2: S<>,
-        s3: S<bool, u64>,
+        s3: S<bool, u64>
     }
 
     fun foo(

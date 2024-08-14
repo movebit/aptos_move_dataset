@@ -159,7 +159,9 @@ spec aptos_std::pool_u64 {
         }
     }
 
-    spec multiply_then_divide(_pool: &Pool, x: u64, y: u64, z: u64): u64 {
+    spec multiply_then_divide(
+        _pool: &Pool, x: u64, y: u64, z: u64
+    ): u64 {
         aborts_if z == 0;
         aborts_if (x * y) / z > MAX_U64;
         ensures result == (x * y) / z;

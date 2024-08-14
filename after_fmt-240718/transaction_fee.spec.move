@@ -156,7 +156,7 @@ spec aptos_framework::transaction_fee {
                 aggregator::spec_aggregator_get_val(
                     global<CollectedFeesPerBlock>(@aptos_framework).amount.value
                 ) <= optional_aggregator::optional_aggregator_value(
-                    option::spec_borrow(coin::get_coin_supply_opt<AptosCoin>()),
+                    option::spec_borrow(coin::get_coin_supply_opt<AptosCoin>())
                 )
             );
     }
@@ -194,7 +194,7 @@ spec aptos_framework::transaction_fee {
                     table::spec_get(post_fees_table, proposer).value
                         == table::spec_get(
                             fees_table,
-                            proposer,
+                            proposer
                         ).value + fee_to_add
                 } else {
                     table::spec_get(post_fees_table, proposer).value == fee_to_add

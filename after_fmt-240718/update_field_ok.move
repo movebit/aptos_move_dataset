@@ -1,7 +1,7 @@
 module 0x42::update_field_ok {
     struct R {
         x: u64,
-        y: u64,
+        y: u64
     }
 
     fun f(r: &mut R) {

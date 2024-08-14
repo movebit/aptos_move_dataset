@@ -33,7 +33,7 @@ spec aptos_framework::aptos_governance {
     }
 
     spec store_signer_cap(
-        aptos_framework: &signer, signer_address: address, signer_cap: SignerCapability,
+        aptos_framework: &signer, signer_address: address, signer_cap: SignerCapability
     ) {
         aborts_if !system_addresses::is_aptos_framework_address(
             signer::address_of(aptos_framework)
@@ -56,7 +56,7 @@ spec aptos_framework::aptos_governance {
         aptos_framework: &signer,
         min_voting_threshold: u128,
         required_proposer_stake: u64,
-        voting_duration_secs: u64,
+        voting_duration_secs: u64
     ) {
         use aptos_std::type_info::Self;
 
@@ -81,7 +81,7 @@ spec aptos_framework::aptos_governance {
 
     /// Signer address must be @aptos_framework.
     /// Abort if structs have already been created.
-    spec initialize_partial_voting(aptos_framework: &signer,) {
+    spec initialize_partial_voting(aptos_framework: &signer) {
         let addr = signer::address_of(aptos_framework);
         aborts_if addr != @aptos_framework;
         aborts_if exists<VotingRecordsV2>(@aptos_framework);
@@ -113,7 +113,7 @@ spec aptos_framework::aptos_governance {
         aptos_framework: &signer,
         min_voting_threshold: u128,
         required_proposer_stake: u64,
-        voting_duration_secs: u64,
+        voting_duration_secs: u64
     ) {
         let addr = signer::address_of(aptos_framework);
         let governance_config = global<GovernanceConfig>(@aptos_framework);
@@ -132,7 +132,7 @@ spec aptos_framework::aptos_governance {
 
     /// Signer address must be @aptos_framework.
     /// Address @aptos_framework must exist GovernanceConfig and GovernanceEvents.
-    spec toggle_features(aptos_framework: &signer, enable: vector<u64>, disable: vector<u64>,) {
+    spec toggle_features(aptos_framework: &signer, enable: vector<u64>, disable: vector<u64>) {
         use aptos_framework::chain_status;
         use aptos_framework::coin::CoinInfo;
         use aptos_framework::aptos_coin::AptosCoin;
@@ -176,7 +176,7 @@ spec aptos_framework::aptos_governance {
         stake_pool: address,
         execution_hash: vector<u8>,
         metadata_location: vector<u8>,
-        metadata_hash: vector<u8>,
+        metadata_hash: vector<u8>
     ) {
         use aptos_framework::chain_status;
         pragma verify_duration_estimate = 60;
@@ -190,7 +190,7 @@ spec aptos_framework::aptos_governance {
         execution_hash: vector<u8>,
         metadata_location: vector<u8>,
         metadata_hash: vector<u8>,
-        is_multi_step_proposal: bool,
+        is_multi_step_proposal: bool
     ) {
         use aptos_framework::chain_status;
         pragma verify_duration_estimate = 60;
@@ -204,7 +204,7 @@ spec aptos_framework::aptos_governance {
         execution_hash: vector<u8>,
         metadata_location: vector<u8>,
         metadata_hash: vector<u8>,
-        is_multi_step_proposal: bool,
+        is_multi_step_proposal: bool
     ): u64 {
         use aptos_framework::chain_status;
         pragma verify_duration_estimate = 60;
@@ -308,7 +308,7 @@ spec aptos_framework::aptos_governance {
     /// The delegated voter under the resource StakePool of the stake_pool must be the voter address.
     /// Address @aptos_framework must exist VotingRecords and GovernanceProposal.
     spec vote(
-        voter: &signer, stake_pool: address, proposal_id: u64, should_pass: bool,
+        voter: &signer, stake_pool: address, proposal_id: u64, should_pass: bool
     ) {
         use aptos_framework::chain_status;
         pragma verify_duration_estimate = 60;
@@ -326,7 +326,7 @@ spec aptos_framework::aptos_governance {
         stake_pool: address,
         proposal_id: u64,
         voting_power: u64,
-        should_pass: bool,
+        should_pass: bool
     ) {
         use aptos_framework::chain_status;
         pragma verify_duration_estimate = 60;
@@ -344,7 +344,7 @@ spec aptos_framework::aptos_governance {
         stake_pool: address,
         proposal_id: u64,
         voting_power: u64,
-        should_pass: bool,
+        should_pass: bool
     ) {
         use aptos_framework::chain_status;
         pragma verify_duration_estimate = 60;
@@ -371,7 +371,7 @@ spec aptos_framework::aptos_governance {
             spec_proposal_expiration > locked_until
                 || timestamp::spec_now_seconds() > spec_proposal_expiration
         );
-        let record_key = RecordKey { stake_pool, proposal_id, };
+        let record_key = RecordKey { stake_pool, proposal_id };
         let entirely_voted = spec_has_entirely_voted(stake_pool, proposal_id, record_key);
         aborts_if !remain_zero_1_cond && !exists<VotingRecords>(@aptos_framework);
         include !remain_zero_1_cond && !entirely_voted ==>
@@ -750,7 +750,7 @@ spec aptos_framework::aptos_governance {
                 || timestamp::spec_now_seconds() > spec_proposal_expiration
         );
         ensures remain_zero_1_cond ==> result == 0;
-        let record_key = RecordKey { stake_pool, proposal_id, };
+        let record_key = RecordKey { stake_pool, proposal_id };
         let entirely_voted = spec_has_entirely_voted(stake_pool, proposal_id, record_key);
         aborts_if !remain_zero_1_cond && !exists<VotingRecords>(@aptos_framework);
         include !remain_zero_1_cond && !entirely_voted ==>
@@ -785,7 +785,7 @@ spec aptos_framework::aptos_governance {
             );
         let staking_config = global<staking_config::StakingConfig>(@aptos_framework);
         let voting_records_v2 = borrow_global<VotingRecordsV2>(@aptos_framework);
-        let record_key = RecordKey { stake_pool, proposal_id, };
+        let record_key = RecordKey { stake_pool, proposal_id };
         let entirely_voted = spec_has_entirely_voted(stake_pool, proposal_id, record_key);
         let voting_power = spec_get_voting_power(stake_pool, staking_config);
         let used_voting_power =
@@ -862,7 +862,7 @@ spec aptos_framework::aptos_governance {
         aptos_framework: &signer,
         min_voting_threshold: u128,
         required_proposer_stake: u64,
-        voting_duration_secs: u64,
+        voting_duration_secs: u64
     ) {
         pragma verify = false;
     }
@@ -988,12 +988,12 @@ spec aptos_framework::aptos_governance {
         let resolvable_time = aptos_std::from_bcs::deserialize<u64>(
             simple_map::spec_get(
                 proposal.metadata, utf8(voting::RESOLVABLE_TIME_METADATA_KEY)
-            ),
+            )
         );
         aborts_if !aptos_std::from_bcs::deserializable<u64>(
             simple_map::spec_get(
                 proposal.metadata, utf8(voting::RESOLVABLE_TIME_METADATA_KEY)
-            ),
+            )
         );
         aborts_if timestamp::now_seconds() <= resolvable_time;
         aborts_if aptos_framework::transaction_context::spec_get_script_hash()
@@ -1022,7 +1022,7 @@ spec aptos_framework::aptos_governance {
     }
 
     spec batch_vote(
-        voter: &signer, stake_pools: vector<address>, proposal_id: u64, should_pass: bool,
+        voter: &signer, stake_pools: vector<address>, proposal_id: u64, should_pass: bool
     ) {
         // TODO: Temporary mockup. Specify the `for_each` statement.
         pragma verify = false;
@@ -1033,7 +1033,7 @@ spec aptos_framework::aptos_governance {
         stake_pools: vector<address>,
         proposal_id: u64,
         voting_power: u64,
-        should_pass: bool,
+        should_pass: bool
     ) {
         // TODO: Temporary mockup. Specify the `for_each` statement.
         pragma verify = false;

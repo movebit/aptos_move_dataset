@@ -4,7 +4,7 @@ module extensions::type_info {
     struct TypeInfo has copy, drop, store {
         account_address: address,
         module_name: vector<u8>,
-        struct_name: vector<u8>,
+        struct_name: vector<u8>
     }
 
     // these are mocks of the type reflection scheme

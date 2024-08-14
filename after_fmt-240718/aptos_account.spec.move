@@ -321,7 +321,7 @@ spec aptos_framework::aptos_account {
         pragma verify = false;
     }
 
-    spec burn_from_fungible_store(ref: &BurnRef, account: address, amount: u64,) {
+    spec burn_from_fungible_store(ref: &BurnRef, account: address, amount: u64) {
         // TODO: temporary mockup.
         pragma verify = false;
     }

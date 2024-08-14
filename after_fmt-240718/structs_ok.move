@@ -3,7 +3,7 @@ module 0x42::M {
     struct S has drop {
         x: u64,
         y: bool,
-        z: vector<u64>,
+        z: vector<u64>
     }
 
     struct R has drop {
@@ -12,7 +12,7 @@ module 0x42::M {
 
     struct G<T> {
         x: T,
-        y: bool,
+        y: bool
     }
 
     struct T has key {

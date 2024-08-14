@@ -107,7 +107,7 @@ module DiemFramework::AccountAdministrationScripts {
     ) {
         RecoveryAddress::add_rotation_capability(
             DiemAccount::extract_key_rotation_capability(&to_recover_account),
-            recovery_address,
+            recovery_address
         )
     }
 
@@ -347,7 +347,10 @@ module DiemFramework::AccountAdministrationScripts {
     /// * `AccountAdministrationScripts::rotate_authentication_key_with_recovery_address`
 
     public entry fun rotate_authentication_key_with_nonce_admin(
-        dr_account: signer, account: signer, sliding_nonce: u64, new_key: vector<u8>
+        dr_account: signer,
+        account: signer,
+        sliding_nonce: u64,
+        new_key: vector<u8>
     ) {
         SlidingNonce::record_nonce_or_abort(&dr_account, sliding_nonce);
         let key_rotation_capability =

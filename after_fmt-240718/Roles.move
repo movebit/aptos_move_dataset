@@ -57,14 +57,14 @@ module DiemFramework::Roles {
     /// The roleId contains the role id for the account. This is only moved
     /// to an account as a top-level resource, and is otherwise immovable.
     struct RoleId has key {
-        role_id: u64,
+        role_id: u64
     }
 
     // =============
     // Role Granting
 
     /// Publishes diem root role. Granted only in genesis.
-    public(friend) fun grant_diem_root_role(dr_account: &signer,) {
+    public(friend) fun grant_diem_root_role(dr_account: &signer) {
         DiemTimestamp::assert_genesis();
         // Checks actual Diem root because Diem root role is not set
         // until next line of code.
@@ -84,7 +84,7 @@ module DiemFramework::Roles {
 
     /// Publishes treasury compliance role. Granted only in genesis.
     public(friend) fun grant_treasury_compliance_role(
-        treasury_compliance_account: &signer, dr_account: &signer,
+        treasury_compliance_account: &signer, dr_account: &signer
     ) acquires RoleId {
         DiemTimestamp::assert_genesis();
         CoreAddresses::assert_treasury_compliance(treasury_compliance_account);
@@ -108,7 +108,7 @@ module DiemFramework::Roles {
     /// Publishes a DesignatedDealer `RoleId` under `new_account`.
     /// The `creating_account` must be treasury compliance.
     public(friend) fun new_designated_dealer_role(
-        creating_account: &signer, new_account: &signer,
+        creating_account: &signer, new_account: &signer
     ) acquires RoleId {
         assert_treasury_compliance(creating_account);
         grant_role(new_account, DESIGNATED_DEALER_ROLE_ID);
@@ -142,7 +142,7 @@ module DiemFramework::Roles {
     /// Publish a ValidatorOperator `RoleId` under `new_account`.
     /// The `creating_account` must be DiemRoot
     public(friend) fun new_validator_operator_role(
-        creating_account: &signer, new_account: &signer,
+        creating_account: &signer, new_account: &signer
     ) acquires RoleId {
         assert_diem_root(creating_account);
         grant_role(new_account, VALIDATOR_OPERATOR_ROLE_ID);
@@ -159,7 +159,7 @@ module DiemFramework::Roles {
     /// Publish a ParentVASP `RoleId` under `new_account`.
     /// The `creating_account` must be TreasuryCompliance
     public(friend) fun new_parent_vasp_role(
-        creating_account: &signer, new_account: &signer,
+        creating_account: &signer, new_account: &signer
     ) acquires RoleId {
         assert_treasury_compliance(creating_account);
         grant_role(new_account, PARENT_VASP_ROLE_ID);
@@ -176,7 +176,7 @@ module DiemFramework::Roles {
     /// Publish a ChildVASP `RoleId` under `new_account`.
     /// The `creating_account` must be a ParentVASP
     public(friend) fun new_child_vasp_role(
-        creating_account: &signer, new_account: &signer,
+        creating_account: &signer, new_account: &signer
     ) acquires RoleId {
         assert_parent_vasp_role(creating_account);
         grant_role(new_account, CHILD_VASP_ROLE_ID);
@@ -194,7 +194,7 @@ module DiemFramework::Roles {
     fun grant_role(account: &signer, role_id: u64) {
         assert!(
             !exists<RoleId>(signer::address_of(account)),
-            errors::already_published(EROLE_ID),
+            errors::already_published(EROLE_ID)
         );
         move_to(account, RoleId { role_id });
     }
@@ -280,7 +280,7 @@ module DiemFramework::Roles {
         assert!(exists<RoleId>(addr), errors::not_published(EROLE_ID));
         assert!(
             borrow_global<RoleId>(addr).role_id == DIEM_ROOT_ROLE_ID,
-            errors::requires_role(EDIEM_ROOT),
+            errors::requires_role(EDIEM_ROOT)
         );
     }
 
@@ -297,7 +297,7 @@ module DiemFramework::Roles {
         assert!(exists<RoleId>(addr), errors::not_published(EROLE_ID));
         assert!(
             borrow_global<RoleId>(addr).role_id == TREASURY_COMPLIANCE_ROLE_ID,
-            errors::requires_role(ETREASURY_COMPLIANCE),
+            errors::requires_role(ETREASURY_COMPLIANCE)
         )
     }
 
@@ -312,7 +312,7 @@ module DiemFramework::Roles {
         assert!(exists<RoleId>(addr), errors::not_published(EROLE_ID));
         assert!(
             borrow_global<RoleId>(addr).role_id == PARENT_VASP_ROLE_ID,
-            errors::requires_role(EPARENT_VASP),
+            errors::requires_role(EPARENT_VASP)
         )
     }
 
@@ -327,7 +327,7 @@ module DiemFramework::Roles {
         assert!(exists<RoleId>(addr), errors::not_published(EROLE_ID));
         assert!(
             borrow_global<RoleId>(addr).role_id == CHILD_VASP_ROLE_ID,
-            errors::requires_role(ECHILD_VASP),
+            errors::requires_role(ECHILD_VASP)
         )
     }
 
@@ -342,7 +342,7 @@ module DiemFramework::Roles {
         assert!(exists<RoleId>(addr), errors::not_published(EROLE_ID));
         assert!(
             borrow_global<RoleId>(addr).role_id == DESIGNATED_DEALER_ROLE_ID,
-            errors::requires_role(EDESIGNATED_DEALER),
+            errors::requires_role(EDESIGNATED_DEALER)
         )
     }
 
@@ -357,7 +357,7 @@ module DiemFramework::Roles {
         assert!(exists<RoleId>(validator_addr), errors::not_published(EROLE_ID));
         assert!(
             borrow_global<RoleId>(validator_addr).role_id == VALIDATOR_ROLE_ID,
-            errors::requires_role(EVALIDATOR),
+            errors::requires_role(EVALIDATOR)
         )
     }
 
@@ -375,7 +375,7 @@ module DiemFramework::Roles {
         assert!(
             borrow_global<RoleId>(validator_operator_addr).role_id
                 == VALIDATOR_OPERATOR_ROLE_ID,
-            errors::requires_role(EVALIDATOR_OPERATOR),
+            errors::requires_role(EVALIDATOR_OPERATOR)
         )
     }
 
@@ -391,7 +391,7 @@ module DiemFramework::Roles {
         let role_id = borrow_global<RoleId>(addr).role_id;
         assert!(
             role_id == PARENT_VASP_ROLE_ID || role_id == DESIGNATED_DEALER_ROLE_ID,
-            errors::requires_role(EPARENT_VASP_OR_DESIGNATED_DEALER),
+            errors::requires_role(EPARENT_VASP_OR_DESIGNATED_DEALER)
         );
     }
 
@@ -406,7 +406,7 @@ module DiemFramework::Roles {
         let role_id = borrow_global<RoleId>(addr).role_id;
         assert!(
             role_id == PARENT_VASP_ROLE_ID || role_id == CHILD_VASP_ROLE_ID,
-            errors::requires_role(EPARENT_VASP_OR_CHILD_VASP),
+            errors::requires_role(EPARENT_VASP_OR_CHILD_VASP)
         );
     }
 

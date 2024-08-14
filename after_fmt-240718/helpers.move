@@ -26,7 +26,7 @@ module veiled_coin::helpers {
     public fun get_veiled_balance_zero_ciphertext(): elgamal::CompressedCiphertext {
         elgamal::ciphertext_from_compressed_points(
             ristretto255::point_identity_compressed(),
-            ristretto255::point_identity_compressed(),
+            ristretto255::point_identity_compressed()
         )
     }
 

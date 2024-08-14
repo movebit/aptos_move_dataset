@@ -25,7 +25,9 @@ module 0x42::c {
     use 0x42::b;
 
     inline fun foo(
-        f: |a::MyList, b::MyOtherList|, x: a::MyList, y: b::MyOtherList
+        f: |a::MyList, b::MyOtherList|,
+        x: a::MyList,
+        y: b::MyOtherList
     ) {
         f(x, y)
     }

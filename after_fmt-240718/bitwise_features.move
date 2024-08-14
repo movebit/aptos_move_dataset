@@ -8,7 +8,7 @@ module TestFeatures {
 
     /// The enabled features, represented by a bitset stored on chain.
     struct Features has key {
-        features: vector<u8>,
+        features: vector<u8>
     }
 
     spec Features {
@@ -35,7 +35,7 @@ module TestFeatures {
         exists<Features>(@std)
             && contains(
                 &borrow_global<Features>(@std).features,
-                feature,
+                feature
             )
     }
 
@@ -48,7 +48,7 @@ module TestFeatures {
                     && (((feature / 8) < len(global<Features>(@std).features)
                         && spec_contains(
                             global<Features>(@std).features,
-                            feature,
+                            feature
                         )))
             );
     }
@@ -96,7 +96,7 @@ module TestFeatures {
     ) acquires Features {
         assert!(
             signer::address_of(framework) == @std,
-            error::permission_denied(EFRAMEWORK_SIGNER_NEEDED),
+            error::permission_denied(EFRAMEWORK_SIGNER_NEEDED)
         );
         if (!exists<Features>(@std)) {
             move_to<Features>(framework, Features { features: vector[] })

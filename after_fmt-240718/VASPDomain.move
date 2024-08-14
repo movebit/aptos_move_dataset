@@ -11,7 +11,7 @@ module DiemFramework::VASPDomain {
     /// This resource holds an entity's domain names.
     struct VASPDomains has key {
         /// The list of domain names owned by this parent vasp account
-        domains: vector<VASPDomain>,
+        domains: vector<VASPDomain>
     }
 
     spec VASPDomains {
@@ -24,7 +24,7 @@ module DiemFramework::VASPDomain {
 
     /// Struct to store the limit on-chain
     struct VASPDomain has drop, store, copy {
-        domain: vector<u8>, // UTF-8 encoded and 63 characters
+        domain: vector<u8> // UTF-8 encoded and 63 characters
     }
 
     spec VASPDomain {
@@ -35,7 +35,7 @@ module DiemFramework::VASPDomain {
     struct VASPDomainManager has key {
         /// Event handle for `domains` added or removed events. Emitted every time a domain is added
         /// or removed to `domains`
-        vasp_domain_events: EventHandle<VASPDomainEvent>,
+        vasp_domain_events: EventHandle<VASPDomainEvent>
     }
 
     struct VASPDomainEvent has drop, store {
@@ -44,7 +44,7 @@ module DiemFramework::VASPDomain {
         /// VASP Domain string of the account
         domain: VASPDomain,
         /// On-chain account address
-        address: address,
+        address: address
     }
 
     const DOMAIN_LENGTH: u64 = 63;
@@ -66,7 +66,7 @@ module DiemFramework::VASPDomain {
     fun create_vasp_domain(domain: vector<u8>): VASPDomain {
         assert!(
             vector::length(&domain) <= DOMAIN_LENGTH,
-            errors::invalid_argument(EINVALID_VASP_DOMAIN),
+            errors::invalid_argument(EINVALID_VASP_DOMAIN)
         );
         VASPDomain { domain }
     }
@@ -84,13 +84,13 @@ module DiemFramework::VASPDomain {
     /// Publish a `VASPDomains` resource under `created` with an empty `domains`.
     /// Before VASP Domains, the Treasury Compliance account must send
     /// a transaction that invokes `add_vasp_domain` to set the `domains` field with a valid domain
-    public(friend) fun publish_vasp_domains(vasp_account: &signer,) {
+    public(friend) fun publish_vasp_domains(vasp_account: &signer) {
         Roles::assert_parent_vasp_role(vasp_account);
         assert!(
             !exists<VASPDomains>(signer::address_of(vasp_account)),
-            errors::already_published(EVASP_DOMAINS),
+            errors::already_published(EVASP_DOMAINS)
         );
-        move_to(vasp_account, VASPDomains { domains: vector::empty(), })
+        move_to(vasp_account, VASPDomains { domains: vector::empty() })
     }
 
     spec publish_vasp_domains {
@@ -123,17 +123,17 @@ module DiemFramework::VASPDomain {
     /// Publish a `VASPDomainManager` resource under `tc_account` with an empty `vasp_domain_events`.
     /// When Treasury Compliance account sends a transaction that invokes either `add_vasp_domain` or
     /// `remove_vasp_domain`, a `VASPDomainEvent` is emitted and added to `vasp_domain_events`.
-    public(friend) fun publish_vasp_domain_manager(tc_account: &signer,) {
+    public(friend) fun publish_vasp_domain_manager(tc_account: &signer) {
         Roles::assert_treasury_compliance(tc_account);
         assert!(
             !exists<VASPDomainManager>(signer::address_of(tc_account)),
-            errors::already_published(EVASP_DOMAIN_MANAGER),
+            errors::already_published(EVASP_DOMAIN_MANAGER)
         );
         move_to(
             tc_account,
             VASPDomainManager {
-                vasp_domain_events: event::new_event_handle<VASPDomainEvent>(tc_account),
-            },
+                vasp_domain_events: event::new_event_handle<VASPDomainEvent>(tc_account)
+            }
         );
     }
 
@@ -149,15 +149,13 @@ module DiemFramework::VASPDomain {
     /// However, since domains are case insensitive, it is possible by error that two same domains in
     /// different lowercase and uppercase format gets added.
     public fun add_vasp_domain(
-        tc_account: &signer,
-        address: address,
-        domain: vector<u8>,
+        tc_account: &signer, address: address, domain: vector<u8>
     ) acquires VASPDomainManager, VASPDomains {
         Roles::assert_treasury_compliance(tc_account);
         assert!(tc_domain_manager_exists(), errors::not_published(EVASP_DOMAIN_MANAGER));
         assert!(
             exists<VASPDomains>(address),
-            errors::not_published(EVASP_DOMAINS_NOT_PUBLISHED),
+            errors::not_published(EVASP_DOMAINS_NOT_PUBLISHED)
         );
 
         let account_domains = borrow_global_mut<VASPDomains>(address);
@@ -165,14 +163,14 @@ module DiemFramework::VASPDomain {
 
         assert!(
             !vector::contains(&account_domains.domains, &vasp_domain),
-            errors::invalid_argument(EVASP_DOMAIN_ALREADY_EXISTS),
+            errors::invalid_argument(EVASP_DOMAIN_ALREADY_EXISTS)
         );
 
         vector::push_back(&mut account_domains.domains, copy vasp_domain);
 
         event::emit_event(
             &mut borrow_global_mut<VASPDomainManager>(@TreasuryCompliance).vasp_domain_events,
-            VASPDomainEvent { removed: false, domain: vasp_domain, address, },
+            VASPDomainEvent { removed: false, domain: vasp_domain, address }
         );
     }
 
@@ -205,25 +203,19 @@ module DiemFramework::VASPDomain {
         address: address;
         domain: vector<u8>;
         let handle = global<VASPDomainManager>(@TreasuryCompliance).vasp_domain_events;
-        let msg = VASPDomainEvent {
-            removed: false,
-            domain: VASPDomain { domain },
-            address,
-        };
+        let msg = VASPDomainEvent { removed: false, domain: VASPDomain { domain }, address };
         emits msg to handle;
     }
 
     /// Remove a VASPDomain from a parent VASP's VASPDomains resource.
     public fun remove_vasp_domain(
-        tc_account: &signer,
-        address: address,
-        domain: vector<u8>,
+        tc_account: &signer, address: address, domain: vector<u8>
     ) acquires VASPDomainManager, VASPDomains {
         Roles::assert_treasury_compliance(tc_account);
         assert!(tc_domain_manager_exists(), errors::not_published(EVASP_DOMAIN_MANAGER));
         assert!(
             exists<VASPDomains>(address),
-            errors::not_published(EVASP_DOMAINS_NOT_PUBLISHED),
+            errors::not_published(EVASP_DOMAINS_NOT_PUBLISHED)
         );
 
         let account_domains = borrow_global_mut<VASPDomains>(address);
@@ -238,7 +230,7 @@ module DiemFramework::VASPDomain {
 
         event::emit_event(
             &mut borrow_global_mut<VASPDomainManager>(@TreasuryCompliance).vasp_domain_events,
-            VASPDomainEvent { removed: true, domain: vasp_domain, address: address, },
+            VASPDomainEvent { removed: true, domain: vasp_domain, address: address }
         );
     }
 
@@ -272,14 +264,14 @@ module DiemFramework::VASPDomain {
         address: address;
         domain: vector<u8>;
         let handle = global<VASPDomainManager>(@TreasuryCompliance).vasp_domain_events;
-        let msg = VASPDomainEvent { removed: true, domain: VASPDomain { domain }, address, };
+        let msg = VASPDomainEvent { removed: true, domain: VASPDomain { domain }, address };
         emits msg to handle;
     }
 
     public fun has_vasp_domain(addr: address, domain: vector<u8>): bool acquires VASPDomains {
         assert!(
             exists<VASPDomains>(addr),
-            errors::not_published(EVASP_DOMAINS_NOT_PUBLISHED),
+            errors::not_published(EVASP_DOMAINS_NOT_PUBLISHED)
         );
         let account_domains = borrow_global<VASPDomains>(addr);
         let vasp_domain = create_vasp_domain(domain);

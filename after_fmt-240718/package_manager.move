@@ -13,7 +13,7 @@ module swap::package_manager {
         /// Required to obtain the resource account signer.
         signer_cap: SignerCapability,
         /// Track the addresses created by the modules in this package.
-        addresses: SmartTable<String, address>,
+        addresses: SmartTable<String, address>
     }
 
     /// Initialize PermissionConfig to establish control over the resource account.
@@ -23,7 +23,7 @@ module swap::package_manager {
             resource_account::retrieve_resource_account_cap(swap_signer, @deployer);
         move_to(
             swap_signer,
-            PermissionConfig { addresses: smart_table::new<String, address>(), signer_cap, },
+            PermissionConfig { addresses: smart_table::new<String, address>(), signer_cap }
         );
     }
 
@@ -65,8 +65,8 @@ module swap::package_manager {
                 deployer,
                 PermissionConfig {
                     addresses: smart_table::new<String, address>(),
-                    signer_cap: account::create_test_signer_cap(deployer_addr),
-                },
+                    signer_cap: account::create_test_signer_cap(deployer_addr)
+                }
             );
         };
     }

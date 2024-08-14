@@ -1,6 +1,6 @@
 address 0x2 {
 module A {
-    struct S has copy, drop { f1: 0x2::B::S, f2: 0x2::C::S, }
+    struct S has copy, drop { f1: 0x2::B::S, f2: 0x2::C::S }
 
     public fun new(f1: 0x2::B::S, f2: 0x2::C::S): S { Self::S { f1, f2 } }
 
@@ -30,7 +30,7 @@ module A {
 module B {
     struct S has copy, drop {
         f1: u64,
-        f2: u128,
+        f2: u128
     }
 
     public fun new(v1: u64, v2: u128): S {
@@ -44,7 +44,7 @@ module B {
 
     public fun b_and_c(b: &S, c: 0x2::C::S): S {
         let _ = 0x2::C::destroy(c);
-        let another_b = S { f1: 0, f2: b.f2, };
+        let another_b = S { f1: 0, f2: b.f2 };
         another_b
     }
 }
@@ -52,11 +52,11 @@ module B {
 module C {
     struct S has copy, drop {
         f1: address,
-        f2: bool,
+        f2: bool
     }
 
     public fun new(v1: address, v2: bool): S {
-        Self::S { f1: v1, f2: v2, }
+        Self::S { f1: v1, f2: v2 }
     }
 
     public fun destroy(v: S): address {
@@ -76,11 +76,11 @@ module C {
 
 module D {
     struct S has copy, drop {
-        f1: 0x2::B::S,
+        f1: 0x2::B::S
     }
 
     public fun new(): 0x2::D::S {
-        Self::S { f1: 0x2::B::new(20, 100), }
+        Self::S { f1: 0x2::B::new(20, 100) }
     }
 
     public fun entry_d() {
@@ -99,7 +99,7 @@ module D {
 
 module E {
     struct S {
-        f1: u64,
+        f1: u64
     }
 
     public fun new(): 0x2::E::S {
@@ -122,7 +122,7 @@ module E {
 
 module F {
     struct S {
-        f1: u64,
+        f1: u64
     }
 
     public fun new(): 0x2::F::S {
@@ -166,11 +166,11 @@ module G {
 }
 module H {
     struct S<phantom T> {
-        f1: u64,
+        f1: u64
     }
 
     struct F<phantom T> has copy {
-        f1: u64,
+        f1: u64
     }
 }
 }

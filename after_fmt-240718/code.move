@@ -20,7 +20,7 @@ module aptos_framework::code {
     /// The package registry at the given address.
     struct PackageRegistry has key, store, drop {
         /// Packages installed at this address.
-        packages: vector<PackageMetadata>,
+        packages: vector<PackageMetadata>
     }
 
     /// Metadata for a package. All byte blobs are represented as base64-of-gzipped-bytes
@@ -60,7 +60,7 @@ module aptos_framework::code {
         /// Source map, in compressed BCS. Empty if not provided.
         source_map: vector<u8>,
         /// For future extensions.
-        extension: Option<Any>,
+        extension: Option<Any>
     }
 
     /// Describes an upgrade policy
@@ -72,7 +72,7 @@ module aptos_framework::code {
     /// Event emitted when code is published to an address.
     struct PublishPackage has drop, store {
         code_address: address,
-        is_upgrade: bool,
+        is_upgrade: bool
     }
 
     /// Package contains duplicate module names with existing modules publised in other packages on this address
@@ -143,7 +143,7 @@ module aptos_framework::code {
         } else {
             vector::push_back(
                 &mut borrow_global_mut<PackageRegistry>(addr).packages,
-                metadata,
+                metadata
             )
         }
     }
@@ -156,7 +156,7 @@ module aptos_framework::code {
         // Disallow incompatible upgrade mode. Governance can decide later if this should be reconsidered.
         assert!(
             pack.upgrade_policy.policy > upgrade_policy_arbitrary().policy,
-            error::invalid_argument(EINCOMPATIBLE_POLICY_DISABLED),
+            error::invalid_argument(EINCOMPATIBLE_POLICY_DISABLED)
         );
 
         let addr = signer::address_of(owner);
@@ -186,7 +186,7 @@ module aptos_framework::code {
                 } else {
                     check_coexistence(old, &module_names)
                 };
-            },
+            }
         );
 
         // Assign the upgrade counter.
@@ -210,7 +210,7 @@ module aptos_framework::code {
                 module_names,
                 allowed_deps,
                 code,
-                policy.policy,
+                policy.policy
             ) else
         // The new `request_publish_with_allowed_deps` has not yet rolled out, so call downwards
         // compatible code.
@@ -223,11 +223,11 @@ module aptos_framework::code {
         let code_object_addr = object::object_address(&code_object);
         assert!(
             exists<PackageRegistry>(code_object_addr),
-            error::not_found(ECODE_OBJECT_DOES_NOT_EXIST),
+            error::not_found(ECODE_OBJECT_DOES_NOT_EXIST)
         );
         assert!(
             object::is_owner(code_object, signer::address_of(publisher)),
-            error::permission_denied(ENOT_PACKAGE_OWNER),
+            error::permission_denied(ENOT_PACKAGE_OWNER)
         );
 
         let registry = borrow_global_mut<PackageRegistry>(code_object_addr);
@@ -236,7 +236,7 @@ module aptos_framework::code {
             |pack| {
                 let package: &mut PackageMetadata = pack;
                 package.upgrade_policy = upgrade_policy_immutable();
-            },
+            }
         );
     }
 
@@ -248,7 +248,7 @@ module aptos_framework::code {
         publish_package(
             owner,
             util::from_bytes<PackageMetadata>(metadata_serialized),
-            code,
+            code
         )
     }
 
@@ -263,11 +263,11 @@ module aptos_framework::code {
     ) {
         assert!(
             old_pack.upgrade_policy.policy < upgrade_policy_immutable().policy,
-            error::invalid_argument(EUPGRADE_IMMUTABLE),
+            error::invalid_argument(EUPGRADE_IMMUTABLE)
         );
         assert!(
             can_change_upgrade_policy_to(old_pack.upgrade_policy, new_pack.upgrade_policy),
-            error::invalid_argument(EUPGRADE_WEAKER_POLICY),
+            error::invalid_argument(EUPGRADE_WEAKER_POLICY)
         );
         let old_modules = get_module_names(old_pack);
 
@@ -276,9 +276,9 @@ module aptos_framework::code {
             |old_module| {
                 assert!(
                     vector::contains(new_modules, old_module),
-                    EMODULE_MISSING,
+                    EMODULE_MISSING
                 );
-            },
+            }
         );
     }
 
@@ -299,7 +299,7 @@ module aptos_framework::code {
                     );
                     j = j + 1;
                 };
-            },
+            }
         );
     }
 
@@ -317,7 +317,7 @@ module aptos_framework::code {
                 let dep: &PackageDep = dep;
                 assert!(
                     exists<PackageRegistry>(dep.account),
-                    error::not_found(EPACKAGE_DEP_MISSING),
+                    error::not_found(EPACKAGE_DEP_MISSING)
                 );
                 if (is_policy_exempted_address(dep.account)) {
                     // Allow all modules from this address, by using "" as a wildcard in the AllowedDep
@@ -337,7 +337,7 @@ module aptos_framework::code {
                                 assert!(
                                     dep_pack.upgrade_policy.policy
                                         >= pack.upgrade_policy.policy,
-                                    error::invalid_argument(EDEP_WEAKER_POLICY),
+                                    error::invalid_argument(EDEP_WEAKER_POLICY)
                                 );
                                 if (dep_pack.upgrade_policy
                                     == upgrade_policy_arbitrary()) {
@@ -345,7 +345,7 @@ module aptos_framework::code {
                                         dep.account == publish_address,
                                         error::invalid_argument(
                                             EDEP_ARBITRARY_NOT_SAME_ADDRESS
-                                        ),
+                                        )
                                     )
                                 };
                                 // Add allowed deps
@@ -357,17 +357,17 @@ module aptos_framework::code {
                                         .name;
                                     vector::push_back(
                                         &mut allowed_module_deps,
-                                        AllowedDep { account, module_name },
+                                        AllowedDep { account, module_name }
                                     );
                                     k = k + 1;
                                 };
                                 true
                             } else { false }
-                        },
+                        }
                     );
                     assert!(found, error::not_found(EPACKAGE_DEP_MISSING));
                 };
-            },
+            }
         );
         allowed_module_deps
     }
@@ -396,7 +396,7 @@ module aptos_framework::code {
             |pack_module| {
                 let pack_module: &ModuleMetadata = pack_module;
                 vector::push_back(&mut module_names, pack_module.name);
-            },
+            }
         );
         module_names
     }

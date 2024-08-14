@@ -24,15 +24,13 @@ module swap::router {
 
     /////////////////////////////////////////////////// PROTOCOL ///////////////////////////////////////////////////////
     public entry fun create_pool(
-        token_1: Object<Metadata>,
-        token_2: Object<Metadata>,
-        is_stable: bool,
+        token_1: Object<Metadata>, token_2: Object<Metadata>, is_stable: bool
     ) {
         liquidity_pool::create(token_1, token_2, is_stable);
     }
 
     public entry fun create_pool_coin<CoinType>(
-        token_2: Object<Metadata>, is_stable: bool,
+        token_2: Object<Metadata>, is_stable: bool
     ) {
         let token_1 = coin_wrapper::create_fungible_asset<CoinType>();
         create_pool(token_1, token_2, is_stable);
@@ -50,9 +48,7 @@ module swap::router {
     #[view]
     /// Return the expected amount out for a given amount in of tokens to swap via the given liquidity pool.
     public fun get_amount_out(
-        amount_in: u64,
-        from_token: Object<Metadata>,
-        to_token: Object<Metadata>,
+        amount_in: u64, from_token: Object<Metadata>, to_token: Object<Metadata>
     ): (u64, u64) {
         let (found, pool) =
             liquidity_pool::liquidity_pool_address_safe(from_token, to_token, true);
@@ -72,7 +68,7 @@ module swap::router {
         from_token: Object<Metadata>,
         to_token: Object<Metadata>,
         is_stable: bool,
-        recipient: address,
+        recipient: address
     ) {
         let in = primary_fungible_store::withdraw(user, from_token, amount_in);
         let out = swap(in, amount_out_min, to_token, is_stable);
@@ -84,7 +80,7 @@ module swap::router {
         in: FungibleAsset,
         amount_out_min: u64,
         to_token: Object<Metadata>,
-        is_stable: bool,
+        is_stable: bool
     ): FungibleAsset {
         let from_token = fungible_asset::asset_metadata(&in);
         let pool = liquidity_pool::liquidity_pool(from_token, to_token, is_stable);
@@ -102,7 +98,7 @@ module swap::router {
         amount_out_min: u64,
         to_token: Object<Metadata>,
         is_stable: bool,
-        recipient: address,
+        recipient: address
     ) {
         let in = coin::withdraw<FromCoin>(user, amount_in);
         let out = swap_coin_for_asset<FromCoin>(in, amount_out_min, to_token, is_stable);
@@ -115,7 +111,7 @@ module swap::router {
         in: Coin<FromCoin>,
         amount_out_min: u64,
         to_token: Object<Metadata>,
-        is_stable: bool,
+        is_stable: bool
     ): FungibleAsset {
         swap(coin_wrapper::wrap(in), amount_out_min, to_token, is_stable)
     }
@@ -127,7 +123,7 @@ module swap::router {
         amount_out_min: u64,
         from_token: Object<Metadata>,
         is_stable: bool,
-        recipient: address,
+        recipient: address
     ) {
         let in = primary_fungible_store::withdraw(user, from_token, amount_in);
         let out = swap_asset_for_coin<ToCoin>(in, amount_out_min, is_stable);
@@ -136,9 +132,7 @@ module swap::router {
 
     /// Similar to swap_asset_for_coin_entry but returns the coin received for composability with other modules.
     public fun swap_asset_for_coin<ToCoin>(
-        in: FungibleAsset,
-        amount_out_min: u64,
-        is_stable: bool,
+        in: FungibleAsset, amount_out_min: u64, is_stable: bool
     ): Coin<ToCoin> {
         let to_token = coin_wrapper::get_wrapper<ToCoin>();
         let out = swap(in, amount_out_min, to_token, is_stable);
@@ -151,7 +145,7 @@ module swap::router {
         amount_in: u64,
         amount_out_min: u64,
         is_stable: bool,
-        recipient: address,
+        recipient: address
     ) {
         let in = coin::withdraw<FromCoin>(user, amount_in);
         let out = swap_coin_for_coin<FromCoin, ToCoin>(in, amount_out_min, is_stable);
@@ -160,9 +154,7 @@ module swap::router {
 
     /// Similar to swap_coin_for_coin_entry but returns the coin received for composability with other modules.
     public fun swap_coin_for_coin<FromCoin, ToCoin>(
-        in: Coin<FromCoin>,
-        amount_out_min: u64,
-        is_stable: bool,
+        in: Coin<FromCoin>, amount_out_min: u64, is_stable: bool
     ): Coin<ToCoin> {
         let in = coin_wrapper::wrap(in);
         swap_asset_for_coin<ToCoin>(in, amount_out_min, is_stable)
@@ -180,7 +172,7 @@ module swap::router {
         amount_1_desired: u64,
         amount_2_desired: u64,
         amount_1_min: u64,
-        amount_2_min: u64,
+        amount_2_min: u64
     ): (u64, u64, u64) {
         let pool = liquidity_pool::liquidity_pool(token_1, token_2, is_stable);
         let (reserves_1, reserves_2) = liquidity_pool::pool_reserves(pool);
@@ -210,12 +202,12 @@ module swap::router {
                     amount_1 = math128::mul_div(amount_2_desired, reserves_1, reserves_2);
                     assert!(
                         amount_1 <= amount_1_desired && amount_1 >= amount_1_min,
-                        EINSUFFICIENT_OUTPUT_AMOUNT,
+                        EINSUFFICIENT_OUTPUT_AMOUNT
                     );
                 };
                 math128::min(
                     amount_1 * lp_token_total_supply / reserves_1,
-                    amount_2 * lp_token_total_supply / reserves_2,
+                    amount_2 * lp_token_total_supply / reserves_2
                 )
             } else {
                 abort EINFINITY_POOL
@@ -233,7 +225,7 @@ module swap::router {
         amount_1_desired: u64,
         amount_2_desired: u64,
         amount_1_min: u64,
-        amount_2_min: u64,
+        amount_2_min: u64
     ) {
         let (optimal_amount_1, optimal_amount_2, _) =
             optimal_liquidity_amounts(
@@ -243,7 +235,7 @@ module swap::router {
                 amount_1_desired,
                 amount_2_desired,
                 amount_1_min,
-                amount_2_min,
+                amount_2_min
             );
         let optimal_1 = primary_fungible_store::withdraw(lp, token_1, optimal_amount_1);
         let optimal_2 = primary_fungible_store::withdraw(lp, token_2, optimal_amount_2);
@@ -256,7 +248,7 @@ module swap::router {
         lp: &signer,
         token_1: FungibleAsset,
         token_2: FungibleAsset,
-        is_stable: bool,
+        is_stable: bool
     ) {
         liquidity_pool::mint(lp, token_1, token_2, is_stable);
     }
@@ -270,7 +262,7 @@ module swap::router {
         amount_1_desired: u64,
         amount_2_desired: u64,
         amount_1_min: u64,
-        amount_2_min: u64,
+        amount_2_min: u64
     ) {
         let token_1 = coin_wrapper::get_wrapper<CoinType>();
         let (optimal_amount_1, optimal_amount_2, _) =
@@ -281,7 +273,7 @@ module swap::router {
                 amount_1_desired,
                 amount_2_desired,
                 amount_1_min,
-                amount_2_min,
+                amount_2_min
             );
         let optimal_1 = coin_wrapper::wrap(coin::withdraw<CoinType>(lp, optimal_amount_1));
         let optimal_2 = primary_fungible_store::withdraw(lp, token_2, optimal_amount_2);
@@ -294,7 +286,7 @@ module swap::router {
         lp: &signer,
         token_1: Coin<CoinType>,
         token_2: FungibleAsset,
-        is_stable: bool,
+        is_stable: bool
     ) {
         add_liquidity(lp, coin_wrapper::wrap(token_1), token_2, is_stable);
     }
@@ -307,7 +299,7 @@ module swap::router {
         amount_1_desired: u64,
         amount_2_desired: u64,
         amount_1_min: u64,
-        amount_2_min: u64,
+        amount_2_min: u64
     ) {
         let token_1 = coin_wrapper::get_wrapper<CoinType1>();
         let token_2 = coin_wrapper::get_wrapper<CoinType2>();
@@ -319,7 +311,7 @@ module swap::router {
                 amount_1_desired,
                 amount_2_desired,
                 amount_1_min,
-                amount_2_min,
+                amount_2_min
             );
         let optimal_1 =
             coin_wrapper::wrap(coin::withdraw<CoinType1>(lp, optimal_amount_1));
@@ -334,13 +326,13 @@ module swap::router {
         lp: &signer,
         token_1: Coin<CoinType1>,
         token_2: Coin<CoinType2>,
-        is_stable: bool,
+        is_stable: bool
     ) {
         add_liquidity(
             lp,
             coin_wrapper::wrap(token_1),
             coin_wrapper::wrap(token_2),
-            is_stable,
+            is_stable
         );
     }
 
@@ -354,7 +346,7 @@ module swap::router {
         liquidity: u64,
         amount_1_min: u64,
         amount_2_min: u64,
-        recipient: address,
+        recipient: address
     ) {
         let (amount_1, amount_2) =
             remove_liquidity(
@@ -364,7 +356,7 @@ module swap::router {
                 is_stable,
                 liquidity,
                 amount_1_min,
-                amount_2_min,
+                amount_2_min
             );
         primary_fungible_store::deposit(recipient, amount_1);
         primary_fungible_store::deposit(recipient, amount_2);
@@ -378,11 +370,11 @@ module swap::router {
         is_stable: bool,
         liquidity: u64,
         amount_1_min: u64,
-        amount_2_min: u64,
+        amount_2_min: u64
     ): (FungibleAsset, FungibleAsset) {
         assert!(
             !coin_wrapper::is_wrapper(token_1) && !coin_wrapper::is_wrapper(token_2),
-            ENOT_NATIVE_FUNGIBLE_ASSETS,
+            ENOT_NATIVE_FUNGIBLE_ASSETS
         );
         remove_liquidity_internal(
             lp,
@@ -391,7 +383,7 @@ module swap::router {
             is_stable,
             liquidity,
             amount_1_min,
-            amount_2_min,
+            amount_2_min
         )
     }
 
@@ -404,7 +396,7 @@ module swap::router {
         liquidity: u64,
         amount_1_min: u64,
         amount_2_min: u64,
-        recipient: address,
+        recipient: address
     ) {
         let (amount_1, amount_2) =
             remove_liquidity_coin<CoinType>(
@@ -413,7 +405,7 @@ module swap::router {
                 is_stable,
                 liquidity,
                 amount_1_min,
-                amount_2_min,
+                amount_2_min
             );
         aptos_account::deposit_coins<CoinType>(recipient, amount_1);
         primary_fungible_store::deposit(recipient, amount_2);
@@ -426,7 +418,7 @@ module swap::router {
         is_stable: bool,
         liquidity: u64,
         amount_1_min: u64,
-        amount_2_min: u64,
+        amount_2_min: u64
     ): (Coin<CoinType>, FungibleAsset) {
         let token_1 = coin_wrapper::get_wrapper<CoinType>();
         assert!(!coin_wrapper::is_wrapper(token_2), ENOT_NATIVE_FUNGIBLE_ASSETS);
@@ -438,7 +430,7 @@ module swap::router {
                 is_stable,
                 liquidity,
                 amount_1_min,
-                amount_2_min,
+                amount_2_min
             );
         (coin_wrapper::unwrap(amount_1), amount_2)
     }
@@ -451,7 +443,7 @@ module swap::router {
         liquidity: u64,
         amount_1_min: u64,
         amount_2_min: u64,
-        recipient: address,
+        recipient: address
     ) {
         let (amount_1, amount_2) =
             remove_liquidity_both_coins<CoinType1, CoinType2>(
@@ -459,7 +451,7 @@ module swap::router {
                 is_stable,
                 liquidity,
                 amount_1_min,
-                amount_2_min,
+                amount_2_min
             );
         aptos_account::deposit_coins<CoinType1>(recipient, amount_1);
         aptos_account::deposit_coins<CoinType2>(recipient, amount_2);
@@ -471,7 +463,7 @@ module swap::router {
         is_stable: bool,
         liquidity: u64,
         amount_1_min: u64,
-        amount_2_min: u64,
+        amount_2_min: u64
     ): (Coin<CoinType1>, Coin<CoinType2>) {
         let token_1 = coin_wrapper::get_wrapper<CoinType1>();
         let token_2 = coin_wrapper::get_wrapper<CoinType2>();
@@ -483,7 +475,7 @@ module swap::router {
                 is_stable,
                 liquidity,
                 amount_1_min,
-                amount_2_min,
+                amount_2_min
             );
         (coin_wrapper::unwrap(amount_1), coin_wrapper::unwrap(amount_2))
     }
@@ -495,7 +487,7 @@ module swap::router {
         is_stable: bool,
         liquidity: u64,
         amount_1_min: u64,
-        amount_2_min: u64,
+        amount_2_min: u64
     ): (FungibleAsset, FungibleAsset) {
         let (redeemed_1, redeemed_2) =
             liquidity_pool::burn(
@@ -505,7 +497,7 @@ module swap::router {
         let amount_2 = fungible_asset::amount(&redeemed_2);
         assert!(
             amount_1 >= amount_1_min && amount_2 >= amount_2_min,
-            EINSUFFICIENT_OUTPUT_AMOUNT,
+            EINSUFFICIENT_OUTPUT_AMOUNT
         );
         (redeemed_1, redeemed_2)
     }

@@ -56,7 +56,7 @@ module aptos_std::multi_ed25519 {
     //
     #[test_only]
     struct SecretKey has drop {
-        bytes: vector<u8>,
+        bytes: vector<u8>
     }
 
     /// An *unvalidated*, k out of n MultiEd25519 public key. The `bytes` field contains (1) several chunks of
@@ -92,7 +92,7 @@ module aptos_std::multi_ed25519 {
     public fun generate_keys(threshold: u8, n: u8): (SecretKey, ValidatedPublicKey) {
         assert!(
             1 <= threshold && threshold <= n,
-            error::invalid_argument(E_INVALID_THRESHOLD_OR_NUMBER_OF_SIGNERS),
+            error::invalid_argument(E_INVALID_THRESHOLD_OR_NUMBER_OF_SIGNERS)
         );
         let (sk_bytes, pk_bytes) = generate_keys_internal(threshold, n);
         let sk = SecretKey { bytes: sk_bytes };
@@ -108,7 +108,7 @@ module aptos_std::multi_ed25519 {
     #[test_only]
     public fun sign_struct<T: drop>(sk: &SecretKey, data: T): Signature {
         let encoded = ed25519::new_signed_message(data);
-        Signature { bytes: sign_internal(sk.bytes, bcs::to_bytes(&encoded)), }
+        Signature { bytes: sign_internal(sk.bytes, bcs::to_bytes(&encoded)) }
     }
 
     /// Parses the input 32 bytes as an *unvalidated* MultiEd25519 public key.
@@ -127,11 +127,11 @@ module aptos_std::multi_ed25519 {
 
         assert!(
             num_sub_pks <= MAX_NUMBER_OF_PUBLIC_KEYS,
-            error::invalid_argument(E_WRONG_PUBKEY_SIZE),
+            error::invalid_argument(E_WRONG_PUBKEY_SIZE)
         );
         assert!(
             len % INDIVIDUAL_PUBLIC_KEY_NUM_BYTES == THRESHOLD_SIZE_BYTES,
-            error::invalid_argument(E_WRONG_PUBKEY_SIZE),
+            error::invalid_argument(E_WRONG_PUBKEY_SIZE)
         );
         UnvalidatedPublicKey { bytes }
     }
@@ -169,7 +169,7 @@ module aptos_std::multi_ed25519 {
         assert!(
             vector::length(&bytes) % INDIVIDUAL_SIGNATURE_NUM_BYTES
                 == BITMAP_NUM_OF_BYTES,
-            error::invalid_argument(E_WRONG_SIGNATURE_SIZE),
+            error::invalid_argument(E_WRONG_SIGNATURE_SIZE)
         );
         Signature { bytes }
     }
@@ -360,7 +360,7 @@ module aptos_std::multi_ed25519 {
     #[test_only]
     struct TestMessage has copy, drop {
         foo: vector<u8>,
-        bar: u64,
+        bar: u64
     }
 
     #[test_only]
@@ -374,7 +374,7 @@ module aptos_std::multi_ed25519 {
         features::change_feature_flags_for_testing(
             &fx,
             vector[features::multi_ed25519_pk_validate_v2_feature()],
-            vector[],
+            vector[]
         );
         let bytes = vector<u8>[1u8];
         assert!(vector::length(&bytes) == 1, 1);
@@ -396,7 +396,7 @@ module aptos_std::multi_ed25519 {
         features::change_feature_flags_for_testing(
             &fx,
             vector[features::multi_ed25519_pk_validate_v2_feature()],
-            vector[],
+            vector[]
         );
 
         let (_, subpk) = ed25519::generate_keys();
@@ -419,17 +419,17 @@ module aptos_std::multi_ed25519 {
         features::change_feature_flags_for_testing(
             &fx,
             vector[features::multi_ed25519_pk_validate_v2_feature()],
-            vector[],
+            vector[]
         );
         let torsion_point_with_threshold_1 = vector<u8>[
             1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 1,
+            0, 0, 0, 0, 0, 0, 1
         ];
 
         assert!(
             option::extract(&mut check_and_get_threshold(torsion_point_with_threshold_1)) ==
              1,
-            1,
+            1
         );
 
         // Try deserializing a MultiEd25519 `ValidatedPublicKey` with 1 Ed25519 sub-PKs and 1 threshold byte, as it should,
@@ -444,8 +444,8 @@ module aptos_std::multi_ed25519 {
 
     #[test]
     fun test_gen_sign_verify() {
-        let thresholds = vector[1, 1, 2, 2, 3, 15,]; // the thresholds, implicitly encoded in the public keys
-        let party_counts = vector[1, 2, 2, 3, 10, 32,];
+        let thresholds = vector[1, 1, 2, 2, 3, 15]; // the thresholds, implicitly encoded in the public keys
+        let party_counts = vector[1, 2, 2, 3, 10, 32];
         let test_case_count = vector::length(&party_counts);
         let test_case_idx = 0;
 
@@ -462,7 +462,7 @@ module aptos_std::multi_ed25519 {
             assert!(
                 option::extract(&mut unvalidated_public_key_threshold(&upk))
                     == threshold,
-                4,
+                4
             );
             assert!(unvalidated_public_key_num_sub_pks(&upk) == group_size, 5);
 
@@ -470,7 +470,7 @@ module aptos_std::multi_ed25519 {
             let sig1 = sign_arbitrary_bytes(&sk, msg1);
             assert!(signature_verify_strict(&sig1, &upk, msg1), 6);
 
-            let obj2 = TestMessage { foo: b"Hello Move!", bar: 64, };
+            let obj2 = TestMessage { foo: b"Hello Move!", bar: 64 };
             let sig2 = sign_struct(&sk, copy obj2);
             assert!(signature_verify_strict_t(&sig2, &upk, copy obj2), 7);
 
@@ -494,7 +494,7 @@ module aptos_std::multi_ed25519 {
         maul_first_signature(&mut sig1);
         assert!(!signature_verify_strict(&sig1, &upk, msg1), 6);
 
-        let obj2 = TestMessage { foo: b"Hello Move!", bar: 64, };
+        let obj2 = TestMessage { foo: b"Hello Move!", bar: 64 };
         let sig2 = sign_struct(&sk, copy obj2);
         maul_first_signature(&mut sig2);
         assert!(!signature_verify_strict_t(&sig2, &upk, copy obj2), 7);

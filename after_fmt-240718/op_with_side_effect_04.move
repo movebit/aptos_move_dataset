@@ -14,7 +14,7 @@ module 0xc0ffee::m {
             {
                 x = x + 3;
                 x - 3
-            },
+            }
         ) + add(
             {
                 x = x * 2;
@@ -23,7 +23,7 @@ module 0xc0ffee::m {
             {
                 x = x + 1;
                 x
-            },
+            }
         )
     }
 }

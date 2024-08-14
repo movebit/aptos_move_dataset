@@ -51,19 +51,19 @@ module aptos_framework::aggregator_v2 {
     /// Currently supported types for IntElement are u64 and u128.
     struct Aggregator<IntElement> has store, drop {
         value: IntElement,
-        max_value: IntElement,
+        max_value: IntElement
     }
 
     /// Represents a constant value, that was derived from an aggregator at given instant in time.
     /// Unlike read() and storing the value directly, this enables parallel execution of transactions,
     /// while storing snapshot of aggregator state elsewhere.
     struct AggregatorSnapshot<IntElement> has store, drop {
-        value: IntElement,
+        value: IntElement
     }
 
     struct DerivedStringSnapshot has store, drop {
         value: String,
-        padding: vector<u8>,
+        padding: vector<u8>
     }
 
     /// Returns `max_value` exceeding which aggregator overflows.
@@ -156,7 +156,7 @@ module aptos_framework::aggregator_v2 {
     ): bool {
         assert!(
             features::aggregator_v2_is_at_least_api_enabled(),
-            EAGGREGATOR_API_V2_NOT_ENABLED,
+            EAGGREGATOR_API_V2_NOT_ENABLED
         );
         is_at_least_impl(aggregator, min_amount)
     }
@@ -281,7 +281,7 @@ module aptos_framework::aggregator_v2 {
             derive_string_concat(
                 std::string::utf8(b"before"),
                 &snapshot,
-                std::string::utf8(b"after"),
+                std::string::utf8(b"after")
             );
         assert!(read_derived_string(&derived) == std::string::utf8(b"before42after"), 0);
     }

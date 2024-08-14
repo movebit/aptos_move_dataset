@@ -20,7 +20,7 @@ module 0x42::Test {
             {
                 z = z + 1;
                 z
-            },
+            }
         );
         let r2 = g(
             {
@@ -34,7 +34,7 @@ module 0x42::Test {
             {
                 z = z + 1;
                 z
-            },
+            }
         );
         r1 + r2 + 3 * x + 5 * y + 7 * z
     }

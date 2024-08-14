@@ -26,7 +26,7 @@ module M {
     struct Scds<phantom T: copy + drop + store> {}
 
     // tests that a variety of constraint instantiations are all invalid
-    fun t<TnoC: drop + store + key, TnoK: copy + drop + store, T,>() {
+    fun t<TnoC: drop + store + key, TnoK: copy + drop + store, T>() {
         c<TnoC>();
         c<Cup<TnoK>>();
         c<Box<TnoC>>();

@@ -1,6 +1,6 @@
 module 0x42::mono_on_axiom_spec_type {
     struct SetByVec {
-        elems: vector<u8>,
+        elems: vector<u8>
     }
 
     spec SetByVec {
@@ -9,7 +9,7 @@ module 0x42::mono_on_axiom_spec_type {
     }
 
     fun new_set(): SetByVec {
-        SetByVec { elems: std::vector::empty(), }
+        SetByVec { elems: std::vector::empty() }
     }
 
     spec module {

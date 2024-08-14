@@ -8,14 +8,14 @@ module Alice::Module {
     use std::string::{Self, String};
 
     struct ModuleData has key, store {
-        data: vector<String>,
+        data: vector<String>
     }
 
     public entry fun write_large_data(account: &signer) {
         let data: vector<String> = vector::empty();
         let str =
             string::utf8(
-                b"0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+                b"0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
             );
         let cnt: u64 = 1024 * 8;
         while (cnt > 0) {
@@ -23,7 +23,7 @@ module Alice::Module {
             cnt = cnt - 1;
         };
 
-        move_to<ModuleData>(account, ModuleData { data, });
+        move_to<ModuleData>(account, ModuleData { data });
     }
 }
 

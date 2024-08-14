@@ -73,7 +73,7 @@ module message_board::acl_based_mb {
         let board = borrow_global<ACLBasedMB>(board_addr);
         assert!(
             acl::contains(&board.participants, signer::address_of(account)),
-            EACCOUNT_NOT_IN_ACL,
+            EACCOUNT_NOT_IN_ACL
         );
 
         let board = borrow_global_mut<ACLBasedMB>(board_addr);
@@ -92,7 +92,7 @@ module message_board::acl_based_mb {
                 board: board_addr,
                 message,
                 participant: signer::address_of(&account)
-            },
+            }
         );
     }
 }

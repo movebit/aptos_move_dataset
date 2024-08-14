@@ -26,7 +26,7 @@ script {
         _a4: R,
         _a5: Cup<u8>,
         _a6: Cup<T>,
-        _a7: vector<S>,
+        _a7: vector<S>
     ) {
         abort 0
     }

@@ -5,7 +5,7 @@ module defi::reserve {
 
     struct Coin1Info has key {
         total_value: u64,
-        reserve_coin2: ReserveComponent,
+        reserve_coin2: ReserveComponent
     }
 
     spec Coin1Info {
@@ -17,7 +17,7 @@ module defi::reserve {
 
     struct ReserveComponent has store {
         backing_value: u64,
-        backing_ratio: FixedPoint32,
+        backing_ratio: FixedPoint32
     }
 
     // Mint Coin1 by providing Coin2 as backing.

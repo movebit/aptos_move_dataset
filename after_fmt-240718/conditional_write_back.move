@@ -1,15 +1,15 @@
 module 0x42::Test {
     struct S {
         x: u64,
-        y: u64,
+        y: u64
     }
 
     struct T has key {
-        x: u64,
+        x: u64
     }
 
     struct R has key {
-        x: u64,
+        x: u64
     }
 
     public fun diff_field(cond: bool): S {
@@ -84,7 +84,7 @@ module 0x42::Test {
 
     struct V<T: store> has key {
         x: u64,
-        y: T,
+        y: T
     }
 
     public fun diff_resource_generic<A: store, B: store>(

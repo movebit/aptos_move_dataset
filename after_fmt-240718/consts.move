@@ -3,7 +3,7 @@ module 0x42::TestConst {
     struct T {
         x: u64,
         b: bool,
-        a: address,
+        a: address
     }
 
     const INIT_VAL_U64: u64 = 40 + 2;

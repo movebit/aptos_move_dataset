@@ -3,7 +3,7 @@ module 0x42::TestPureFun {
     use std::signer;
     use std::vector;
     struct T has key {
-        x: u64,
+        x: u64
     }
 
     public fun init(dr_account: &signer): bool {

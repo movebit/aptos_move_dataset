@@ -32,7 +32,7 @@ module Alice::game {
                 // debug::print(b"foo"); // INTERNAL TEST ERROR: INTERNAL VM INVARIANT VIOLATION
                 // let field: &mut InnerStruct = field;
                 // field.amount = field.amount + upgrade_amount;
-            },
+            }
         );
     }
 }
@@ -68,7 +68,7 @@ module Alice::game {
                 // debug::print(b"foo"); // INTERNAL TEST ERROR: INTERNAL VM INVARIANT VIOLATION
                 // let field: &mut InnerStruct = field;
                 // field.amount = field.amount + upgrade_amount;
-            },
+            }
         );
     }
 }

@@ -38,7 +38,7 @@ module aptos_token::token_coin_swap {
     /// TokenCoinSwap records a swap ask for swapping token_amount with CoinType with a minimal price per token
     struct TokenCoinSwap<phantom CoinType> has store, drop {
         token_amount: u64,
-        min_price_per_token: u64,
+        min_price_per_token: u64
     }
 
     /// The listing of all tokens for swapping stored at token owner's account
@@ -46,7 +46,7 @@ module aptos_token::token_coin_swap {
         // key is the token id for swapping and value is the min price of target coin type.
         listings: Table<TokenId, TokenCoinSwap<CoinType>>,
         listing_events: EventHandle<TokenListingEvent>,
-        swap_events: EventHandle<TokenSwapEvent>,
+        swap_events: EventHandle<TokenSwapEvent>
     }
 
     /// TokenEscrow holds the tokens that cannot be withdrawn or transferred
@@ -54,12 +54,12 @@ module aptos_token::token_coin_swap {
         token: Token,
         // until the locked time runs out, the owner cannot move the token out of the escrow
         // the default value is 0 meaning the owner can move the coin out anytime
-        locked_until_secs: u64,
+        locked_until_secs: u64
     }
 
     /// TokenStoreEscrow holds a map of token id to their tokenEscrow
     struct TokenStoreEscrow has key {
-        token_escrows: Table<TokenId, TokenEscrow>,
+        token_escrows: Table<TokenId, TokenEscrow>
     }
 
     struct TokenListingEvent has drop, store {
@@ -67,7 +67,7 @@ module aptos_token::token_coin_swap {
         amount: u64,
         min_price: u64,
         locked_until_secs: u64,
-        coin_type_info: TypeInfo,
+        coin_type_info: TypeInfo
     }
 
     struct TokenSwapEvent has drop, store {
@@ -75,7 +75,7 @@ module aptos_token::token_coin_swap {
         token_buyer: address,
         token_amount: u64,
         coin_amount: u64,
-        coin_type_info: TypeInfo,
+        coin_type_info: TypeInfo
     }
 
     public fun does_listing_exist<CoinType>(
@@ -93,7 +93,7 @@ module aptos_token::token_coin_swap {
         _collection: String,
         _name: String,
         _property_version: u64,
-        _token_amount: u64,
+        _token_amount: u64
     ) {
         abort error::invalid_argument(EDEPRECATED_MODULE)
     }
@@ -148,9 +148,7 @@ module aptos_token::token_coin_swap {
 
     /// Cancel token listing for a fixed amount
     public fun cancel_token_listing<CoinType>(
-        _token_owner: &signer,
-        _token_id: TokenId,
-        _token_amount: u64,
+        _token_owner: &signer, _token_id: TokenId, _token_amount: u64
     ) {
         abort error::invalid_argument(EDEPRECATED_MODULE)
     }

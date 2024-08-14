@@ -1,11 +1,11 @@
 module 0x42::m {
 
     struct S {
-        x: u64,
+        x: u64
     }
 
     struct R {
-        y: u16,
+        y: u16
     }
 
     fun assign_direct() {

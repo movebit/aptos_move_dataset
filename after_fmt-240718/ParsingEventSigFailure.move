@@ -6,20 +6,20 @@ module 0x2::M {
     struct Transfer_Err {
         from: address,
         to: address,
-        value: U256,
+        value: U256
     }
 
     #[event(sig = b"Approval(addressindexed ,address,uint256)")]
     struct Approval_Err_1 {
         owner: address,
         spender: address,
-        value: U256,
+        value: U256
     }
 
     #[event(sig = b"Approval(,address,uint256)")]
     struct Approval_Err_2 {
         owner: address,
         spender: address,
-        value: U256,
+        value: U256
     }
 }

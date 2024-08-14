@@ -34,7 +34,7 @@ module message_board::cap_based_mb {
     /// emit an event from board acct showing the new participant with posting capability
     struct MessageCapUpdate has store, drop {
         board: address,
-        participant: address,
+        participant: address
     }
 
     #[event]
@@ -101,7 +101,7 @@ module message_board::cap_based_mb {
                 board: board_addr,
                 message,
                 participant: signer::address_of(account)
-            },
+            }
         );
     }
 
@@ -114,7 +114,7 @@ module message_board::cap_based_mb {
                 board: board_addr,
                 message,
                 participant: signer::address_of(&account)
-            },
+            }
         );
     }
 }

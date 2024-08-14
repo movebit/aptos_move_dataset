@@ -42,7 +42,7 @@ module example_addr::managed_fungible_asset {
     struct ManagingRefs has key {
         mint_ref: Option<MintRef>,
         transfer_ref: Option<TransferRef>,
-        burn_ref: Option<BurnRef>,
+        burn_ref: Option<BurnRef>
     }
 
     /// Initialize metadata object and store the refs specified by `ref_flags`.
@@ -54,11 +54,11 @@ module example_addr::managed_fungible_asset {
         decimals: u8,
         icon_uri: String,
         project_uri: String,
-        ref_flags: vector<bool>,
+        ref_flags: vector<bool>
     ) {
         assert!(
             vector::length(&ref_flags) == 3,
-            error::invalid_argument(ERR_INVALID_REF_FLAGS_LENGTH),
+            error::invalid_argument(ERR_INVALID_REF_FLAGS_LENGTH)
         );
         let supply =
             if (maximum_supply != 0) {
@@ -73,7 +73,7 @@ module example_addr::managed_fungible_asset {
             symbol,
             decimals,
             icon_uri,
-            project_uri,
+            project_uri
         );
 
         // Optionally create mint/burn/transfer refs to allow creator to manage the fungible asset.
@@ -98,7 +98,7 @@ module example_addr::managed_fungible_asset {
         let metadata_object_signer = object::generate_signer(constructor_ref);
         move_to(
             &metadata_object_signer,
-            ManagingRefs { mint_ref, transfer_ref, burn_ref },
+            ManagingRefs { mint_ref, transfer_ref, burn_ref }
         )
     }
 
@@ -111,7 +111,7 @@ module example_addr::managed_fungible_asset {
     ) acquires ManagingRefs {
         let receiver_primary_stores = vector::map(
             to,
-            |addr| primary_fungible_store::ensure_primary_store_exists(addr, asset),
+            |addr| primary_fungible_store::ensure_primary_store_exists(addr, asset)
         );
         mint(admin, asset, receiver_primary_stores, amounts);
     }
@@ -121,12 +121,12 @@ module example_addr::managed_fungible_asset {
         admin: &signer,
         asset: Object<Metadata>,
         stores: vector<Object<FungibleStore>>,
-        amounts: vector<u64>,
+        amounts: vector<u64>
     ) acquires ManagingRefs {
         let length = vector::length(&stores);
         assert!(
             length == vector::length(&amounts),
-            error::invalid_argument(ERR_VECTORS_LENGTH_MISMATCH),
+            error::invalid_argument(ERR_VECTORS_LENGTH_MISMATCH)
         );
         let mint_ref = authorized_borrow_mint_ref(admin, asset);
         let i = 0;
@@ -134,7 +134,7 @@ module example_addr::managed_fungible_asset {
             fungible_asset::mint_to(
                 mint_ref,
                 *vector::borrow(&stores, i),
-                *vector::borrow(&amounts, i),
+                *vector::borrow(&amounts, i)
             );
             i = i + 1;
         }
@@ -151,18 +151,18 @@ module example_addr::managed_fungible_asset {
     ) acquires ManagingRefs {
         let sender_primary_stores = vector::map(
             from,
-            |addr| primary_fungible_store::primary_store(addr, asset),
+            |addr| primary_fungible_store::primary_store(addr, asset)
         );
         let receiver_primary_stores = vector::map(
             to,
-            |addr| primary_fungible_store::ensure_primary_store_exists(addr, asset),
+            |addr| primary_fungible_store::ensure_primary_store_exists(addr, asset)
         );
         transfer(
             admin,
             asset,
             sender_primary_stores,
             receiver_primary_stores,
-            amounts,
+            amounts
         );
     }
 
@@ -172,16 +172,16 @@ module example_addr::managed_fungible_asset {
         asset: Object<Metadata>,
         sender_stores: vector<Object<FungibleStore>>,
         receiver_stores: vector<Object<FungibleStore>>,
-        amounts: vector<u64>,
+        amounts: vector<u64>
     ) acquires ManagingRefs {
         let length = vector::length(&sender_stores);
         assert!(
             length == vector::length(&receiver_stores),
-            error::invalid_argument(ERR_VECTORS_LENGTH_MISMATCH),
+            error::invalid_argument(ERR_VECTORS_LENGTH_MISMATCH)
         );
         assert!(
             length == vector::length(&amounts),
-            error::invalid_argument(ERR_VECTORS_LENGTH_MISMATCH),
+            error::invalid_argument(ERR_VECTORS_LENGTH_MISMATCH)
         );
         let transfer_ref = authorized_borrow_transfer_ref(admin, asset);
         let i = 0;
@@ -190,7 +190,7 @@ module example_addr::managed_fungible_asset {
                 transfer_ref,
                 *vector::borrow(&sender_stores, i),
                 *vector::borrow(&receiver_stores, i),
-                *vector::borrow(&amounts, i),
+                *vector::borrow(&amounts, i)
             );
             i = i + 1;
         }
@@ -205,7 +205,7 @@ module example_addr::managed_fungible_asset {
     ) acquires ManagingRefs {
         let primary_stores = vector::map(
             from,
-            |addr| primary_fungible_store::primary_store(addr, asset),
+            |addr| primary_fungible_store::primary_store(addr, asset)
         );
         burn(admin, asset, primary_stores, amounts);
     }
@@ -220,7 +220,7 @@ module example_addr::managed_fungible_asset {
         let length = vector::length(&stores);
         assert!(
             length == vector::length(&amounts),
-            error::invalid_argument(ERR_VECTORS_LENGTH_MISMATCH),
+            error::invalid_argument(ERR_VECTORS_LENGTH_MISMATCH)
         );
         let burn_ref = authorized_borrow_burn_ref(admin, asset);
         let i = 0;
@@ -228,7 +228,7 @@ module example_addr::managed_fungible_asset {
             fungible_asset::burn_from(
                 burn_ref,
                 *vector::borrow(&stores, i),
-                *vector::borrow(&amounts, i),
+                *vector::borrow(&amounts, i)
             );
             i = i + 1;
         };
@@ -243,7 +243,7 @@ module example_addr::managed_fungible_asset {
     ) acquires ManagingRefs {
         let primary_stores = vector::map(
             accounts,
-            |acct| { primary_fungible_store::ensure_primary_store_exists(acct, asset) },
+            |acct| { primary_fungible_store::ensure_primary_store_exists(acct, asset) }
         );
         set_frozen_status(admin, asset, primary_stores, frozen);
     }
@@ -260,7 +260,7 @@ module example_addr::managed_fungible_asset {
             stores,
             |store| {
                 fungible_asset::set_frozen_flag(transfer_ref, store, frozen);
-            },
+            }
         );
     }
 
@@ -273,7 +273,7 @@ module example_addr::managed_fungible_asset {
     ): FungibleAsset acquires ManagingRefs {
         let primary_stores = vector::map(
             from,
-            |addr| primary_fungible_store::primary_store(addr, asset),
+            |addr| primary_fungible_store::primary_store(addr, asset)
         );
         withdraw(admin, asset, primary_stores, amounts)
     }
@@ -289,7 +289,7 @@ module example_addr::managed_fungible_asset {
         let length = vector::length(&stores);
         assert!(
             length == vector::length(&amounts),
-            error::invalid_argument(ERR_VECTORS_LENGTH_MISMATCH),
+            error::invalid_argument(ERR_VECTORS_LENGTH_MISMATCH)
         );
         let transfer_ref = authorized_borrow_transfer_ref(admin, asset);
         let i = 0;
@@ -299,7 +299,7 @@ module example_addr::managed_fungible_asset {
                 fungible_asset::withdraw_with_ref(
                     transfer_ref,
                     *vector::borrow(&stores, i),
-                    *vector::borrow(&amounts, i),
+                    *vector::borrow(&amounts, i)
                 );
             fungible_asset::merge(&mut sum, fa);
             i = i + 1;
@@ -313,13 +313,13 @@ module example_addr::managed_fungible_asset {
         admin: &signer,
         fa: &mut FungibleAsset,
         from: vector<address>,
-        amounts: vector<u64>,
+        amounts: vector<u64>
     ) acquires ManagingRefs {
         let primary_stores = vector::map(
             from,
             |addr| primary_fungible_store::ensure_primary_store_exists(
                 addr, fungible_asset::asset_metadata(fa)
-            ),
+            )
         );
         deposit(admin, fa, primary_stores, amounts);
     }
@@ -335,7 +335,7 @@ module example_addr::managed_fungible_asset {
         let length = vector::length(&stores);
         assert!(
             length == vector::length(&amounts),
-            error::invalid_argument(ERR_VECTORS_LENGTH_MISMATCH),
+            error::invalid_argument(ERR_VECTORS_LENGTH_MISMATCH)
         );
         let transfer_ref =
             authorized_borrow_transfer_ref(admin, fungible_asset::asset_metadata(fa));
@@ -345,7 +345,7 @@ module example_addr::managed_fungible_asset {
             fungible_asset::deposit_with_ref(
                 transfer_ref,
                 *vector::borrow(&stores, i),
-                split_fa,
+                split_fa
             );
             i = i + 1;
         };
@@ -354,18 +354,18 @@ module example_addr::managed_fungible_asset {
     /// Borrow the immutable reference of the refs of `metadata`.
     /// This validates that the signer is the metadata object's owner.
     inline fun authorized_borrow_refs(
-        owner: &signer, asset: Object<Metadata>,
+        owner: &signer, asset: Object<Metadata>
     ): &ManagingRefs acquires ManagingRefs {
         assert!(
             object::is_owner(asset, signer::address_of(owner)),
-            error::permission_denied(ERR_NOT_OWNER),
+            error::permission_denied(ERR_NOT_OWNER)
         );
         borrow_global<ManagingRefs>(object::object_address(&asset))
     }
 
     /// Check the existence and borrow `MintRef`.
     inline fun authorized_borrow_mint_ref(
-        owner: &signer, asset: Object<Metadata>,
+        owner: &signer, asset: Object<Metadata>
     ): &MintRef acquires ManagingRefs {
         let refs = authorized_borrow_refs(owner, asset);
         assert!(option::is_some(&refs.mint_ref), error::not_found(ERR_MINT_REF));
@@ -374,7 +374,7 @@ module example_addr::managed_fungible_asset {
 
     /// Check the existence and borrow `TransferRef`.
     inline fun authorized_borrow_transfer_ref(
-        owner: &signer, asset: Object<Metadata>,
+        owner: &signer, asset: Object<Metadata>
     ): &TransferRef acquires ManagingRefs {
         let refs = authorized_borrow_refs(owner, asset);
         assert!(option::is_some(&refs.transfer_ref), error::not_found(ERR_TRANSFER_REF));
@@ -383,7 +383,7 @@ module example_addr::managed_fungible_asset {
 
     /// Check the existence and borrow `BurnRef`.
     inline fun authorized_borrow_burn_ref(
-        owner: &signer, asset: Object<Metadata>,
+        owner: &signer, asset: Object<Metadata>
     ): &BurnRef acquires ManagingRefs {
         let refs = authorized_borrow_refs(owner, asset);
         assert!(option::is_some(&refs.mint_ref), error::not_found(ERR_BURN_REF));
@@ -408,13 +408,13 @@ module example_addr::managed_fungible_asset {
             8, /* decimals */
             utf8(b"http://example.com/favicon.ico"), /* icon */
             utf8(b"http://example.com"), /* project */
-            vector[true, true, true],
+            vector[true, true, true]
         );
         object_from_constructor_ref<Metadata>(constructor_ref)
     }
 
     #[test(creator = @example_addr)]
-    fun test_basic_flow(creator: &signer,) acquires ManagingRefs {
+    fun test_basic_flow(creator: &signer) acquires ManagingRefs {
         let metadata = create_test_mfa(creator);
         let creator_address = signer::address_of(creator);
         let aaron_address = @0xface;
@@ -423,7 +423,7 @@ module example_addr::managed_fungible_asset {
             creator,
             metadata,
             vector[creator_address, aaron_address],
-            vector[100, 50],
+            vector[100, 50]
         );
         assert!(primary_fungible_store::balance(creator_address, metadata) == 100, 1);
         assert!(primary_fungible_store::balance(aaron_address, metadata) == 50, 2);
@@ -432,7 +432,7 @@ module example_addr::managed_fungible_asset {
             creator,
             metadata,
             vector[creator_address, aaron_address],
-            true,
+            true
         );
         assert!(primary_fungible_store::is_frozen(creator_address, metadata), 3);
         assert!(primary_fungible_store::is_frozen(aaron_address, metadata), 4);
@@ -442,7 +442,7 @@ module example_addr::managed_fungible_asset {
             metadata,
             vector[creator_address, aaron_address],
             vector[aaron_address, creator_address],
-            vector[10, 5],
+            vector[10, 5]
         );
         assert!(primary_fungible_store::balance(creator_address, metadata) == 95, 5);
         assert!(primary_fungible_store::balance(aaron_address, metadata) == 55, 6);
@@ -451,7 +451,7 @@ module example_addr::managed_fungible_asset {
             creator,
             metadata,
             vector[creator_address, aaron_address],
-            false,
+            false
         );
         assert!(!primary_fungible_store::is_frozen(creator_address, metadata), 7);
         assert!(!primary_fungible_store::is_frozen(aaron_address, metadata), 8);
@@ -461,14 +461,14 @@ module example_addr::managed_fungible_asset {
                 creator,
                 metadata,
                 vector[creator_address, aaron_address],
-                vector[25, 15],
+                vector[25, 15]
             );
         assert!(fungible_asset::amount(&fa) == 40, 9);
         deposit_to_primary_stores(
             creator,
             &mut fa,
             vector[creator_address, aaron_address],
-            vector[30, 10],
+            vector[30, 10]
         );
         fungible_asset::destroy_zero(fa);
 
@@ -476,7 +476,7 @@ module example_addr::managed_fungible_asset {
             creator,
             metadata,
             vector[creator_address, aaron_address],
-            vector[100, 50],
+            vector[100, 50]
         );
         assert!(primary_fungible_store::balance(creator_address, metadata) == 0, 10);
         assert!(primary_fungible_store::balance(aaron_address, metadata) == 0, 11);

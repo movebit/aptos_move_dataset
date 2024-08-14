@@ -11,7 +11,7 @@ module publisher_address::liquidity_pool {
         Metadata,
         BurnRef,
         MintRef,
-        TransferRef,
+        TransferRef
     };
     use aptos_framework::object::{Self, ConstructorRef, Object};
     use aptos_framework::primary_fungible_store;
@@ -54,7 +54,7 @@ module publisher_address::liquidity_pool {
     struct LPTokenRefs has store {
         burn_ref: BurnRef,
         mint_ref: MintRef,
-        transfer_ref: TransferRef,
+        transfer_ref: TransferRef
     }
 
     /// Stored in the protocol's account for configuring liquidity pools.
@@ -62,7 +62,7 @@ module publisher_address::liquidity_pool {
         all_pools: SmartVector<Object<LiquidityPool>>,
         is_paused: bool,
         stable_fee_bps: u64,
-        volatile_fee_bps: u64,
+        volatile_fee_bps: u64
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
@@ -73,7 +73,7 @@ module publisher_address::liquidity_pool {
         fees_store_2: Object<FungibleStore>,
         lp_token_refs: LPTokenRefs,
         swap_fee_bps: u64,
-        is_stable: bool,
+        is_stable: bool
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
@@ -83,7 +83,7 @@ module publisher_address::liquidity_pool {
         total_fees_at_last_claim_1: SmartTable<address, u128>,
         total_fees_at_last_claim_2: SmartTable<address, u128>,
         claimable_1: SmartTable<address, u128>,
-        claimable_2: SmartTable<address, u128>,
+        claimable_2: SmartTable<address, u128>
     }
 
     #[event]
@@ -92,7 +92,7 @@ module publisher_address::liquidity_pool {
         pool: Object<LiquidityPool>,
         token_1: Object<Metadata>,
         token_2: Object<Metadata>,
-        is_stable: bool,
+        is_stable: bool
     }
 
     #[event]
@@ -100,7 +100,7 @@ module publisher_address::liquidity_pool {
     struct Swap has drop, store {
         pool: address,
         from_token: Object<Metadata>,
-        amount_in: u64,
+        amount_in: u64
     }
 
     fun init_module(publisher: &signer) {
@@ -110,8 +110,8 @@ module publisher_address::liquidity_pool {
                 all_pools: smart_vector::new(),
                 is_paused: false,
                 stable_fee_bps: 10, // 0.1%
-                volatile_fee_bps: 20, // 0.2%
-            },
+                volatile_fee_bps: 20 // 0.2%
+            }
         );
     }
 
@@ -135,18 +135,14 @@ module publisher_address::liquidity_pool {
 
     #[view]
     public fun liquidity_pool(
-        token_1: Object<Metadata>,
-        token_2: Object<Metadata>,
-        is_stable: bool,
+        token_1: Object<Metadata>, token_2: Object<Metadata>, is_stable: bool
     ): Object<LiquidityPool> {
         object::address_to_object(liquidity_pool_address(token_1, token_2, is_stable))
     }
 
     #[view]
     public fun liquidity_pool_address_safe(
-        token_1: Object<Metadata>,
-        token_2: Object<Metadata>,
-        is_stable: bool,
+        token_1: Object<Metadata>, token_2: Object<Metadata>, is_stable: bool
     ): (bool, address) {
         let pool_address = liquidity_pool_address(token_1, token_2, is_stable);
         (exists<LiquidityPool>(pool_address), pool_address)
@@ -154,16 +150,14 @@ module publisher_address::liquidity_pool {
 
     #[view]
     public fun liquidity_pool_address(
-        token_1: Object<Metadata>,
-        token_2: Object<Metadata>,
-        is_stable: bool,
+        token_1: Object<Metadata>, token_2: Object<Metadata>, is_stable: bool
     ): address {
         // if (!is_sorted(token_1, token_2)) {
         //     return liquidity_pool_address(token_2, token_1, is_stable)
         // };
         object::create_object_address(
             &@publisher_address,
-            get_pool_seeds(token_1, token_2, is_stable),
+            get_pool_seeds(token_1, token_2, is_stable)
         )
     }
 
@@ -177,7 +171,7 @@ module publisher_address::liquidity_pool {
         let pool_data = liquidity_pool_data(&pool);
         (
             fungible_asset::balance(pool_data.token_store_1),
-            fungible_asset::balance(pool_data.token_store_2),
+            fungible_asset::balance(pool_data.token_store_2)
         )
     }
 
@@ -186,7 +180,7 @@ module publisher_address::liquidity_pool {
         let pool_data = liquidity_pool_data(&pool);
         vector[
             fungible_asset::store_metadata(pool_data.token_store_1),
-            fungible_asset::store_metadata(pool_data.token_store_2),
+            fungible_asset::store_metadata(pool_data.token_store_2)
         ]
     }
 
@@ -217,7 +211,7 @@ module publisher_address::liquidity_pool {
         let fees_accounting = safe_fees_accounting(&pool);
         (
             *smart_table::borrow_with_default(&fees_accounting.claimable_1, lp, &0),
-            *smart_table::borrow_with_default(&fees_accounting.claimable_2, lp, &0),
+            *smart_table::borrow_with_default(&fees_accounting.claimable_2, lp, &0)
         )
     }
 
@@ -226,7 +220,7 @@ module publisher_address::liquidity_pool {
         publisher: &signer,
         token_1: Object<Metadata>,
         token_2: Object<Metadata>,
-        is_stable: bool,
+        is_stable: bool
     ): Object<LiquidityPool> acquires LiquidityPoolConfigs {
         // if (!is_sorted(token_1, token_2)) {
         //     return create(publisher, token_2, token_1, is_stable)
@@ -255,8 +249,8 @@ module publisher_address::liquidity_pool {
                 } else {
                     configs.volatile_fee_bps
                 },
-                is_stable,
-            },
+                is_stable
+            }
         );
         move_to(
             pool_signer,
@@ -266,8 +260,8 @@ module publisher_address::liquidity_pool {
                 total_fees_at_last_claim_1: smart_table::new(),
                 total_fees_at_last_claim_2: smart_table::new(),
                 claimable_1: smart_table::new(),
-                claimable_2: smart_table::new(),
-            },
+                claimable_2: smart_table::new()
+            }
         );
         let pool = object::convert(lp_token);
         smart_vector::push_back(&mut configs.all_pools, pool);
@@ -281,9 +275,7 @@ module publisher_address::liquidity_pool {
     #[view]
     /// Return the amount of tokens received for a swap with the given amount in and the liquidity pool.
     public fun get_amount_out(
-        pool: Object<LiquidityPool>,
-        from: Object<Metadata>,
-        amount_in: u64,
+        pool: Object<LiquidityPool>, from: Object<Metadata>, amount_in: u64
     ): (u64, u64) acquires LiquidityPool {
         let pool_data = liquidity_pool_data(&pool);
         let reserve_1 = (fungible_asset::balance(pool_data.token_store_1) as u256);
@@ -310,9 +302,7 @@ module publisher_address::liquidity_pool {
     /// This is friend-only as the returned fungible assets might be of an internal wrapper type. If this is not the
     /// case, this function can be made public.
     public(friend) fun swap(
-        publisher: &signer,
-        pool: Object<LiquidityPool>,
-        from: FungibleAsset,
+        publisher: &signer, pool: Object<LiquidityPool>, from: FungibleAsset
     ): FungibleAsset acquires FeesAccounting, LiquidityPool, LiquidityPoolConfigs {
         assert!(!safe_liquidity_pool_configs().is_paused, ESWAPS_ARE_PAUSED);
         // Calculate the amount of tokens to return to the user and the amount of fees to extract.
@@ -361,7 +351,7 @@ module publisher_address::liquidity_pool {
         lp: &signer,
         fungible_asset_1: FungibleAsset,
         fungible_asset_2: FungibleAsset,
-        is_stable: bool,
+        is_stable: bool
     ) acquires FeesAccounting, LiquidityPool {
         let token_1 = fungible_asset::metadata_from_asset(&fungible_asset_1);
         let token_2 = fungible_asset::metadata_from_asset(&fungible_asset_2);
@@ -423,7 +413,7 @@ module publisher_address::liquidity_pool {
         from: &signer,
         lp_token: Object<LiquidityPool>,
         to: address,
-        amount: u64,
+        amount: u64
     ) acquires FeesAccounting, LiquidityPool {
         assert!(amount > 0, EZERO_AMOUNT);
         let from_address = signer::address_of(from);
@@ -486,9 +476,7 @@ module publisher_address::liquidity_pool {
     /// This is friend-only as the returned fungible assets might be of an internal wrapper type. If this is not the
     /// case, this function can be made public.
     public(friend) fun claim_fees(
-        publisher: &signer,
-        lp: &signer,
-        pool: Object<LiquidityPool>,
+        publisher: &signer, lp: &signer, pool: Object<LiquidityPool>
     ): (FungibleAsset, FungibleAsset) acquires FeesAccounting, LiquidityPool {
         let lp_address = signer::address_of(lp);
         update_claimable_fees(lp_address, pool);
@@ -532,7 +520,7 @@ module publisher_address::liquidity_pool {
         publisher: &signer,
         token_1: Object<Metadata>,
         token_2: Object<Metadata>,
-        is_stable: bool,
+        is_stable: bool
     ): &ConstructorRef {
         let token_name = lp_token_name(token_1, token_2);
         let seeds = get_pool_seeds(token_1, token_2, is_stable);
@@ -546,7 +534,7 @@ module publisher_address::liquidity_pool {
             string::utf8(b"LP"),
             LP_TOKEN_DECIMALS,
             string::utf8(b""),
-            string::utf8(b""),
+            string::utf8(b"")
         );
         lp_token_constructor_ref
     }
@@ -555,7 +543,7 @@ module publisher_address::liquidity_pool {
         LPTokenRefs {
             burn_ref: fungible_asset::generate_burn_ref(constructor_ref),
             mint_ref: fungible_asset::generate_mint_ref(constructor_ref),
-            transfer_ref: fungible_asset::generate_transfer_ref(constructor_ref),
+            transfer_ref: fungible_asset::generate_transfer_ref(constructor_ref)
         }
     }
 

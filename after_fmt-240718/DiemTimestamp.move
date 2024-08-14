@@ -20,7 +20,7 @@ module CoreFramework::DiemTimestamp {
 
     /// A singleton resource holding the current Unix time in microseconds
     struct CurrentTimeMicroseconds has key {
-        microseconds: u64,
+        microseconds: u64
     }
 
     /// Conversion factor between seconds and microseconds

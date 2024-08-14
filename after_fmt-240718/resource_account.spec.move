@@ -64,7 +64,7 @@ spec aptos_framework::resource_account {
     }
 
     spec create_resource_account(
-        origin: &signer, seed: vector<u8>, optional_auth_key: vector<u8>,
+        origin: &signer, seed: vector<u8>, optional_auth_key: vector<u8>
     ) {
         let source_addr = signer::address_of(origin);
         let resource_addr = account::spec_create_resource_address(source_addr, seed);
@@ -72,7 +72,7 @@ spec aptos_framework::resource_account {
     }
 
     spec create_resource_account_and_fund(
-        origin: &signer, seed: vector<u8>, optional_auth_key: vector<u8>, fund_amount: u64,
+        origin: &signer, seed: vector<u8>, optional_auth_key: vector<u8>, fund_amount: u64
     ) {
         use aptos_framework::aptos_account;
         // TODO(fa_migration)
@@ -99,7 +99,7 @@ spec aptos_framework::resource_account {
         origin: &signer,
         seed: vector<u8>,
         metadata_serialized: vector<u8>,
-        code: vector<vector<u8>>,
+        code: vector<vector<u8>>
     ) {
         pragma verify = false;
         //TODO: Loop in code.spec
@@ -113,7 +113,7 @@ spec aptos_framework::resource_account {
         origin: &signer,
         resource: signer,
         resource_signer_cap: account::SignerCapability,
-        optional_auth_key: vector<u8>,
+        optional_auth_key: vector<u8>
     ) {
         let resource_addr = signer::address_of(resource);
         /// [high-level-req-1]
@@ -185,7 +185,7 @@ spec aptos_framework::resource_account {
         ensures exists<Container>(source_addr);
     }
 
-    spec retrieve_resource_account_cap(resource: &signer, source_addr: address,): account::SignerCapability {
+    spec retrieve_resource_account_cap(resource: &signer, source_addr: address): account::SignerCapability {
         /// [high-level-req-6]
         aborts_if !exists<Container>(source_addr);
         let resource_addr = signer::address_of(resource);
@@ -202,7 +202,7 @@ spec aptos_framework::resource_account {
         ensures exists<Container>(source_addr) ==>
             !simple_map::spec_contains_key(
                 global<Container>(source_addr).store,
-                resource_addr,
+                resource_addr
             );
     }
 }

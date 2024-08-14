@@ -134,7 +134,7 @@ module veiled_coin::sigma_protos {
         x3: RistrettoPoint,
         alpha1: Scalar,
         alpha2: Scalar,
-        alpha3: Scalar,
+        alpha3: Scalar
     }
 
     /// A $\Sigma$-protocol proof used during a veiled transfer. This proof encompasses the $\Sigma$-protocol from
@@ -151,7 +151,7 @@ module veiled_coin::sigma_protos {
         alpha2: Scalar,
         alpha3: Scalar,
         alpha4: Scalar,
-        alpha5: Scalar,
+        alpha5: Scalar
     }
 
     //
@@ -201,7 +201,7 @@ module veiled_coin::sigma_protos {
                 &proof.x4,
                 &proof.x5,
                 &proof.x6,
-                &proof.x7,
+                &proof.x7
             );
 
         let g_alpha2 = ristretto255::basepoint_mul(&proof.alpha2);
@@ -210,7 +210,7 @@ module veiled_coin::sigma_protos {
         ristretto255::point_add_assign(&mut d_acc, &proof.x1);
         assert!(
             ristretto255::point_equals(&d_acc, &g_alpha2),
-            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED),
+            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED)
         );
 
         let g_alpha1 = ristretto255::basepoint_mul(&proof.alpha1);
@@ -221,7 +221,7 @@ module veiled_coin::sigma_protos {
         ristretto255::point_add_assign(&mut y_alpha2, &g_alpha1);
         assert!(
             ristretto255::point_equals(&big_c_acc, &y_alpha2),
-            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED),
+            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED)
         );
 
         // \rho * \bar{C} + X3 =? \alpha_1 * g + \alpha_2 * \bar{y}
@@ -231,7 +231,7 @@ module veiled_coin::sigma_protos {
         ristretto255::point_add_assign(&mut y_bar_alpha2, &g_alpha1);
         assert!(
             ristretto255::point_equals(&big_bar_c_acc, &y_bar_alpha2),
-            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED),
+            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED)
         );
 
         let g_alpha3 = ristretto255::basepoint_mul(&proof.alpha3);
@@ -245,7 +245,7 @@ module veiled_coin::sigma_protos {
         ristretto255::point_add_assign(&mut big_c2_acc, &g_alpha3);
         assert!(
             ristretto255::point_equals(&big_c1_acc, &big_c2_acc),
-            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED),
+            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED)
         );
 
         // \rho * c + X_5 =? \alpha_1 * g + \alpha_2 * h
@@ -256,7 +256,7 @@ module veiled_coin::sigma_protos {
         ristretto255::point_add_assign(&mut h_alpha2_acc, &g_alpha1);
         assert!(
             ristretto255::point_equals(&c_acc, &h_alpha2_acc),
-            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED),
+            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED)
         );
 
         // \rho * \bar{c} + X_6 =? \alpha_3 * g + \alpha_4 * h
@@ -267,7 +267,7 @@ module veiled_coin::sigma_protos {
         ristretto255::point_add_assign(&mut h_alpha4_acc, &g_alpha3);
         assert!(
             ristretto255::point_equals(&bar_c_acc, &h_alpha4_acc),
-            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED),
+            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED)
         );
 
         // \rho * Y + X_7 =? \alpha_5 * G
@@ -277,7 +277,7 @@ module veiled_coin::sigma_protos {
         let g_alpha5 = ristretto255::basepoint_mul(&proof.alpha5);
         assert!(
             ristretto255::point_equals(&y_acc, &g_alpha5),
-            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED),
+            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED)
         );
     }
 
@@ -305,7 +305,7 @@ module veiled_coin::sigma_protos {
                 amount,
                 &proof.x1,
                 &proof.x2,
-                &proof.x3,
+                &proof.x3
             );
 
         let g_alpha1 = ristretto255::basepoint_mul(&proof.alpha1);
@@ -319,7 +319,7 @@ module veiled_coin::sigma_protos {
         ristretto255::point_add_assign(&mut big_c2_acc, &g_alpha1);
         assert!(
             ristretto255::point_equals(&big_c1_acc, &big_c2_acc),
-            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED),
+            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED)
         );
 
         // \rho * c + X_2 =? \alpha_1 * g + \alpha_2 * h
@@ -330,7 +330,7 @@ module veiled_coin::sigma_protos {
         ristretto255::point_add_assign(&mut h_alpha2_acc, &g_alpha1);
         assert!(
             ristretto255::point_equals(&c_acc, &h_alpha2_acc),
-            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED),
+            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED)
         );
 
         // \rho * Y + X_3 =? \alpha_3 * g
@@ -340,7 +340,7 @@ module veiled_coin::sigma_protos {
         let g_alpha3 = ristretto255::basepoint_mul(&proof.alpha3);
         assert!(
             ristretto255::point_equals(&y_acc, &g_alpha3),
-            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED),
+            error::invalid_argument(ESIGMA_PROTOCOL_VERIFY_FAILED)
         );
     }
 
@@ -504,7 +504,7 @@ module veiled_coin::sigma_protos {
                 alpha3,
                 alpha4,
                 alpha5
-            },
+            }
         )
     }
 
@@ -532,41 +532,41 @@ module veiled_coin::sigma_protos {
         vector::append<u8>(&mut bytes, FIAT_SHAMIR_SIGMA_DST);
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::basepoint_compressed()),
+            ristretto255::point_to_bytes(&ristretto255::basepoint_compressed())
         );
         vector::append<u8>(
             &mut bytes,
             ristretto255::point_to_bytes(
                 &ristretto255::point_compress(
                     &pedersen::randomness_base_for_bulletproof()
-                ),
-            ),
+                )
+            )
         );
         vector::append<u8>(&mut bytes, ristretto255::point_to_bytes(&y));
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(c1)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(c1))
         );
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(c2)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(c2))
         );
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(c)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(c))
         );
         vector::append<u8>(&mut bytes, ristretto255::scalar_to_bytes(amount));
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(x1)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x1))
         );
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(x2)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x2))
         );
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(x3)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x3))
         );
 
         ristretto255::new_scalar_from_sha2_512(bytes)
@@ -603,73 +603,73 @@ module veiled_coin::sigma_protos {
         vector::append<u8>(&mut bytes, FIAT_SHAMIR_SIGMA_DST);
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::basepoint_compressed()),
+            ristretto255::point_to_bytes(&ristretto255::basepoint_compressed())
         );
         vector::append<u8>(
             &mut bytes,
             ristretto255::point_to_bytes(
                 &ristretto255::point_compress(
                     &pedersen::randomness_base_for_bulletproof()
-                ),
-            ),
+                )
+            )
         );
         vector::append<u8>(&mut bytes, ristretto255::point_to_bytes(&y));
         vector::append<u8>(&mut bytes, ristretto255::point_to_bytes(&y_prime));
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(big_c)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(big_c))
         );
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(big_c_prime)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(big_c_prime))
         );
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(big_d)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(big_d))
         );
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(c)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(c))
         );
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(c1)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(c1))
         );
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(c2)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(c2))
         );
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(bar_c)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(bar_c))
         );
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(x1)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x1))
         );
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(x2)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x2))
         );
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(x3)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x3))
         );
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(x4)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x4))
         );
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(x5)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x5))
         );
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(x6)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x6))
         );
         vector::append<u8>(
             &mut bytes,
-            ristretto255::point_to_bytes(&ristretto255::point_compress(x7)),
+            ristretto255::point_to_bytes(&ristretto255::point_compress(x7))
         );
 
         ristretto255::new_scalar_from_sha2_512(bytes)
@@ -717,7 +717,7 @@ module veiled_coin::sigma_protos {
                 amount_val,
                 &big_x1,
                 &big_x2,
-                &big_x3,
+                &big_x3
             );
 
         // X3 <- x3 * g
@@ -735,7 +735,7 @@ module veiled_coin::sigma_protos {
         let alpha3 = ristretto255::scalar_mul(&rho, sender_sk);
         ristretto255::scalar_add_assign(&mut alpha3, &x3);
 
-        WithdrawalSubproof { x1: big_x1, x2: big_x2, x3: big_x3, alpha1, alpha2, alpha3, }
+        WithdrawalSubproof { x1: big_x1, x2: big_x2, x3: big_x3, alpha1, alpha2, alpha3 }
     }
 
     #[test_only]
@@ -810,7 +810,7 @@ module veiled_coin::sigma_protos {
                 &big_x4,
                 &big_x5,
                 &big_x6,
-                &big_x7,
+                &big_x7
             );
 
         // alpha_1 <- x1 + rho * v
@@ -845,7 +845,7 @@ module veiled_coin::sigma_protos {
             alpha2,
             alpha3,
             alpha4,
-            alpha5,
+            alpha5
         }
     }
 
@@ -968,7 +968,7 @@ module veiled_coin::sigma_protos {
                 &amount_rand, // encryption randomness for `withdraw_ct` and `deposit_ct`
                 &amount_val, // transferred amount
                 &new_balance_rand, // encryption randomness for updated balance ciphertext
-                &new_balance_val, // sender's balance after the transfer
+                &new_balance_val // sender's balance after the transfer
             );
 
         if (maul_proof) {
@@ -985,7 +985,7 @@ module veiled_coin::sigma_protos {
             &comm_amount,
             &new_balance_comm,
             &curr_balance_ct,
-            &sigma_proof,
+            &sigma_proof
         );
     }
 
@@ -1026,7 +1026,7 @@ module veiled_coin::sigma_protos {
                 &new_balance_comm,
                 &new_balance,
                 &amount_withdrawn,
-                &rand,
+                &rand
             );
 
         if (maul_proof) {
@@ -1040,7 +1040,7 @@ module veiled_coin::sigma_protos {
             &curr_balance_ct,
             &new_balance_comm,
             &amount_withdrawn,
-            &sigma_proof,
+            &sigma_proof
         );
     }
 
@@ -1096,7 +1096,7 @@ module veiled_coin::sigma_protos {
                 &amount_rand,
                 &amount_val,
                 &new_balance_rand,
-                &new_balance_val,
+                &new_balance_val
             );
 
         let sigma_proof_bytes = serialize_transfer_subproof(&sigma_proof);
@@ -1114,23 +1114,23 @@ module veiled_coin::sigma_protos {
         assert!(ristretto255::point_equals(&sigma_proof.x6, &deserialized_proof.x6), 1);
         assert!(
             ristretto255::scalar_equals(&sigma_proof.alpha1, &deserialized_proof.alpha1),
-            1,
+            1
         );
         assert!(
             ristretto255::scalar_equals(&sigma_proof.alpha2, &deserialized_proof.alpha2),
-            1,
+            1
         );
         assert!(
             ristretto255::scalar_equals(&sigma_proof.alpha3, &deserialized_proof.alpha3),
-            1,
+            1
         );
         assert!(
             ristretto255::scalar_equals(&sigma_proof.alpha4, &deserialized_proof.alpha4),
-            1,
+            1
         );
         assert!(
             ristretto255::scalar_equals(&sigma_proof.alpha5, &deserialized_proof.alpha5),
-            1,
+            1
         );
     }
 }

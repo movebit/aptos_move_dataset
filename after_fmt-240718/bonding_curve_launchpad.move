@@ -50,7 +50,7 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
             function_info::new_function_info(
                 account,
                 string::utf8(b"bonding_curve_launchpad"),
-                string::utf8(b"withdraw"),
+                string::utf8(b"withdraw")
             );
         // Since the account signer can't be placed in storage, we'll use an object and it's retrievable signer for any
         // required signer usage. Primarily, when generating new Fungible Assets.
@@ -60,7 +60,7 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
             );
         move_to(
             account,
-            LaunchPad { permissioned_withdraw, fa_generator_extend_ref },
+            LaunchPad { permissioned_withdraw, fa_generator_extend_ref }
         );
     }
 
@@ -136,7 +136,7 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
                 max_supply,
                 decimals,
                 icon_uri,
-                project_uri,
+                project_uri
             );
         let fa_metadata_obj = object::address_to_object(fa_address);
         // `transfer_ref` is required for swapping in `liquidity_pair`. Otherwise, the custom withdraw function would
@@ -151,7 +151,7 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
             fa_metadata_obj,
             apt_amount_in,
             fa_minted,
-            max_supply,
+            max_supply
         );
     }
 
@@ -179,7 +179,7 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
                 transfer_ref,
                 account,
                 fa_metadata_obj,
-                amount_in,
+                amount_in
             );
         } else {
             liquidity_pairs::swap_apt_to_fa(
@@ -188,7 +188,7 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
                 transfer_ref,
                 account,
                 fa_metadata_obj,
-                amount_in,
+                amount_in
             );
         };
     }
@@ -230,7 +230,7 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
             symbol,
             decimals,
             icon_uri,
-            project_uri,
+            project_uri
         );
         let mint_ref = fungible_asset::generate_mint_ref(fa_obj_constructor_ref);
         let transfer_ref = fungible_asset::generate_transfer_ref(fa_obj_constructor_ref);
@@ -240,7 +240,7 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
             fa_obj_constructor_ref,
             option::some(launchpad.permissioned_withdraw),
             option::none(),
-            option::none(),
+            option::none()
         );
         // Store `transfer_ref` for later usage, within the FA's object.
         // `tranfer_ref` will be required to allow the smart contract's modules to ignore the dispatchable
@@ -254,7 +254,7 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
                 decimals,
                 icon_uri,
                 project_uri
-            },
+            }
         );
         (get_fa_obj_address(name, symbol), fa_minted)
     }
@@ -266,7 +266,7 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
             function_info::new_function_info(
                 deployer,
                 string::utf8(b"bonding_curve_launchpad"),
-                string::utf8(b"withdraw"),
+                string::utf8(b"withdraw")
             );
         let fa_generator_extend_ref =
             object::generate_extend_ref(
@@ -274,7 +274,7 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
             );
         move_to(
             deployer,
-            LaunchPad { permissioned_withdraw, fa_generator_extend_ref },
+            LaunchPad { permissioned_withdraw, fa_generator_extend_ref }
         );
     }
 }

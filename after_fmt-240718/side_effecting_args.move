@@ -25,7 +25,7 @@ module 0xdeadbeef::test {
                 x = x + 1;
                 x
             },
-            x,
+            x
         )
     }
 
@@ -40,7 +40,7 @@ module 0xdeadbeef::test {
             {
                 x = x + 1;
                 x
-            },
+            }
         )
     }
 
@@ -58,7 +58,7 @@ module 0xdeadbeef::test {
             {
                 x = x + 1;
                 x
-            },
+            }
         )
     }
 }

@@ -13,7 +13,7 @@ module aptos_framework::consensus_config {
     friend aptos_framework::reconfiguration_with_dkg;
 
     struct ConsensusConfig has drop, key, store {
-        config: vector<u8>,
+        config: vector<u8>
     }
 
     /// The provided on chain config bytes are empty or invalid

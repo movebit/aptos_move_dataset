@@ -11,14 +11,14 @@ module Evm::ERC20 {
     struct Transfer {
         from: address,
         to: address,
-        value: U256,
+        value: U256
     }
 
     #[event]
     struct Approval {
         owner: address,
         spender: address,
-        value: U256,
+        value: U256
     }
 
     #[storage]
@@ -28,7 +28,7 @@ module Evm::ERC20 {
         allowances: Table<address, Table<address, U256>>,
         total_supply: U256,
         name: String,
-        symbol: String,
+        symbol: String
     }
 
     #[create]
@@ -42,8 +42,8 @@ module Evm::ERC20 {
                 balances: Table::empty<address, U256>(),
                 allowances: Table::empty<address, Table<address, U256>>(),
                 name,
-                symbol,
-            },
+                symbol
+            }
         );
         // Minting the initial supply
         mint(sender(), initial_supply);

@@ -12,7 +12,7 @@ script {
             aptos_governance::resolve_multi_step_proposal(
                 proposal_id,
                 @0x1,
-                { { script_hash } },
+                { { script_hash } }
             );
         config_buffer::initialize(&framework); // on-chain config buffer
         dkg::initialize(&framework); // DKG state holder

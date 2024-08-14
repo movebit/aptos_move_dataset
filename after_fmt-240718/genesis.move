@@ -28,7 +28,7 @@ module ExperimentalFramework::Genesis {
         native_schedule: vector<u8>,
         chain_id: u8,
         initial_diem_version: u64,
-        consensus_config: vector<u8>,
+        consensus_config: vector<u8>
     ) {
         initialize_internal(
             &dr_account,
@@ -37,7 +37,7 @@ module ExperimentalFramework::Genesis {
             native_schedule,
             chain_id,
             initial_diem_version,
-            consensus_config,
+            consensus_config
         )
     }
 
@@ -48,7 +48,7 @@ module ExperimentalFramework::Genesis {
         native_schedule: vector<u8>,
         chain_id: u8,
         initial_diem_version: u64,
-        consensus_config: vector<u8>,
+        consensus_config: vector<u8>
     ) {
         ExperimentalAccount::initialize(dr_account, x"00000000000000000000000000000000");
 
@@ -72,7 +72,7 @@ module ExperimentalFramework::Genesis {
         ExperimentalVMConfig::initialize(
             dr_account,
             instruction_schedule,
-            native_schedule,
+            native_schedule
         );
 
         ExperimentalConsensusConfig::set(dr_account, consensus_config);
@@ -104,7 +104,7 @@ module ExperimentalFramework::Genesis {
         operator_names: vector<vector<u8>>,
         operator_auth_keys: vector<vector<u8>>,
         validator_network_addresses: vector<vector<u8>>,
-        full_node_network_addresses: vector<vector<u8>>,
+        full_node_network_addresses: vector<vector<u8>>
     ) {
         let num_owners = vector::length(&owners);
         let num_owner_names = vector::length(&owner_names);
@@ -133,7 +133,7 @@ module ExperimentalFramework::Genesis {
                 &dr_account,
                 owner_address,
                 copy dummy_auth_key_prefix,
-                owner_name,
+                owner_name
             );
 
             let owner_auth_key = *vector::borrow(&owner_auth_keys, i);
@@ -148,7 +148,7 @@ module ExperimentalFramework::Genesis {
                     &dr_account,
                     operator_address,
                     copy dummy_auth_key_prefix,
-                    copy operator_name,
+                    copy operator_name
                 );
                 let operator_auth_key = *vector::borrow(&operator_auth_keys, i);
                 ExperimentalAccount::rotate_authentication_key(
@@ -159,7 +159,7 @@ module ExperimentalFramework::Genesis {
             assert!(
                 ValidatorOperatorConfig::get_human_name(operator_address)
                     == operator_name,
-                0,
+                0
             );
             ValidatorConfig::set_operator(owner, operator_address);
 
@@ -174,7 +174,7 @@ module ExperimentalFramework::Genesis {
                 owner_address,
                 consensus_pubkey,
                 validator_network_address,
-                full_node_network_address,
+                full_node_network_address
             );
 
             // finally, add this validator to the validator set
@@ -193,7 +193,7 @@ module ExperimentalFramework::Genesis {
             x"", // native schedule not needed for unit tests
             4u8, // TESTING chain ID
             0,
-            x"",
+            x""
         )
     }
 

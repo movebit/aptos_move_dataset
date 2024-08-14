@@ -68,7 +68,7 @@ spec aptos_framework::aptos_coin {
     }
 
     // Only callable in tests and testnets. not needed verify.
-    spec mint(account: &signer, dst_addr: address, amount: u64,) {
+    spec mint(account: &signer, dst_addr: address, amount: u64) {
         pragma verify = false;
     }
 

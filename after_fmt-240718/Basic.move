@@ -22,7 +22,7 @@ module 0xcafe::m {
             |x| {
                 let x = c + 1;
                 x
-            } + x,
+            } + x
         )
     }
 }

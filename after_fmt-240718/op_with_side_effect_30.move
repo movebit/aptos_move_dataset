@@ -19,7 +19,7 @@ module 0xc0ffee::m {
             {
                 x = add2(x, 1);
                 x
-            },
+            }
         )
     }
 }

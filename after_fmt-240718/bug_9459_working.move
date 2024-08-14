@@ -10,7 +10,7 @@ module 0x1337::reproduce {
         let space: Option<u8> = option::none();
         assert!(
             option::is_none(&mut space),
-            ESpaceAlreadyMarked,
+            ESpaceAlreadyMarked
         );
     }
 

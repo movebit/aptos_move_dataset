@@ -23,7 +23,10 @@ module Evm::ERC1155Mock {
 
     #[callable(sig = b"mintBatch(address,uint256[],uint256[],bytes)")]
     public fun mintBatch(
-        to: address, ids: vector<U256>, amounts: vector<U256>, data: vector<u8>
+        to: address,
+        ids: vector<U256>,
+        amounts: vector<U256>,
+        data: vector<u8>
     ) acquires State {
         mintBatch_(to, ids, amounts, data);
     }
@@ -119,7 +122,7 @@ module Evm::ERC1155Mock {
         from: address,
         to: address,
         id: U256,
-        value: U256,
+        value: U256
     }
 
     #[event]
@@ -128,20 +131,20 @@ module Evm::ERC1155Mock {
         from: address,
         to: address,
         ids: vector<U256>,
-        values: vector<U256>,
+        values: vector<U256>
     }
 
     #[event]
     struct ApprovalForAll {
         account: address,
         operator: address,
-        approved: bool,
+        approved: bool
     }
 
     #[event]
     struct URI {
         value: vector<u8>,
-        id: U256,
+        id: U256
     }
 
     /// Represents the state of this contract. This is located at `borrow_global<State>(self())`.
@@ -149,7 +152,7 @@ module Evm::ERC1155Mock {
         balances: Table<U256, Table<address, U256>>,
         operatorApprovals: Table<address, Table<address, bool>>,
         uri: vector<u8>,
-        owner: address, // Implements the "ownable" pattern.
+        owner: address // Implements the "ownable" pattern.
     }
 
     #[create(sig = b"constructor(string)")]
@@ -162,8 +165,8 @@ module Evm::ERC1155Mock {
                 balances: Table::empty<U256, Table<address, U256>>(),
                 operatorApprovals: Table::empty<address, Table<address, bool>>(),
                 uri,
-                owner: sender(),
-            },
+                owner: sender()
+            }
         );
     }
 
@@ -188,7 +191,7 @@ module Evm::ERC1155Mock {
     ): vector<U256> acquires State {
         require(
             vector::length(&accounts) == vector::length(&ids),
-            b"ERC1155: accounts and ids length mismatch",
+            b"ERC1155: accounts and ids length mismatch"
         );
         let len = vector::length(&accounts);
         let i = 0;
@@ -198,8 +201,8 @@ module Evm::ERC1155Mock {
                 &mut balances,
                 balanceOf(
                     *vector::borrow(&accounts, i),
-                    *vector::borrow(&ids, i),
-                ),
+                    *vector::borrow(&ids, i)
+                )
             );
             i = i + 1;
         };
@@ -236,13 +239,13 @@ module Evm::ERC1155Mock {
         require(to != @0x0, b"ERC1155: transfer to the zero address");
         require(
             from == sender() || isApprovedForAll(from, sender()),
-            b"ERC1155: caller is not owner nor approved",
+            b"ERC1155: caller is not owner nor approved"
         );
         let s = borrow_global_mut<State>(self());
         let mut_balance_from = mut_balanceOf(s, copy id, from);
         require(
             U256::le(copy amount, *mut_balance_from),
-            b"ERC1155: insufficient balance for transfer",
+            b"ERC1155: insufficient balance for transfer"
         );
         *mut_balance_from = U256::sub(*mut_balance_from, copy amount);
         let mut_balance_to = mut_balanceOf(s, copy id, to);
@@ -250,7 +253,7 @@ module Evm::ERC1155Mock {
         let operator = sender();
 
         emit(
-            TransferSingle { operator, from, to, id: copy id, value: copy amount },
+            TransferSingle { operator, from, to, id: copy id, value: copy amount }
         );
 
         doSafeTransferAcceptanceCheck(operator, from, to, id, amount, data);
@@ -268,11 +271,11 @@ module Evm::ERC1155Mock {
         require(to != @0x0, b"ERC1155: transfer to the zero address");
         require(
             from == sender() || isApprovedForAll(from, sender()),
-            b"ERC1155: transfer caller is not owner nor approved",
+            b"ERC1155: transfer caller is not owner nor approved"
         );
         require(
             vector::length(&amounts) == vector::length(&ids),
-            b"ERC1155: ids and amounts length mismatch",
+            b"ERC1155: ids and amounts length mismatch"
         );
         let len = vector::length(&amounts);
         let i = 0;
@@ -287,7 +290,7 @@ module Evm::ERC1155Mock {
             let mut_balance_from = mut_balanceOf(s, copy id, from);
             require(
                 U256::le(copy amount, *mut_balance_from),
-                b"ERC1155: insufficient balance for transfer",
+                b"ERC1155: insufficient balance for transfer"
             );
             *mut_balance_from = U256::sub(*mut_balance_from, copy amount);
             let mut_balance_to = mut_balanceOf(s, id, to);
@@ -297,7 +300,7 @@ module Evm::ERC1155Mock {
         };
 
         emit(
-            TransferBatch { operator, from, to, ids: copy ids, values: copy amounts },
+            TransferBatch { operator, from, to, ids: copy ids, values: copy amounts }
         );
 
         doSafeBatchTransferAcceptanceCheck(operator, from, to, ids, amounts, data);
@@ -327,18 +330,21 @@ module Evm::ERC1155Mock {
                 to,
                 id: copy id,
                 value: copy amount
-            },
+            }
         );
     }
 
     /// Internal function for mintBatch
     fun mintBatch_(
-        to: address, ids: vector<U256>, amounts: vector<U256>, _data: vector<u8>
+        to: address,
+        ids: vector<U256>,
+        amounts: vector<U256>,
+        _data: vector<u8>
     ) acquires State {
         require(to != @0x0, b"ERC1155: mint to the zero address");
         require(
             vector::length(&amounts) == vector::length(&ids),
-            b"ERC1155: ids and amounts length mismatch",
+            b"ERC1155: ids and amounts length mismatch"
         );
         let len = vector::length(&amounts);
         let i = 0;
@@ -361,7 +367,7 @@ module Evm::ERC1155Mock {
                 to,
                 ids: copy ids,
                 values: copy amounts
-            },
+            }
         );
     }
 
@@ -374,7 +380,7 @@ module Evm::ERC1155Mock {
         );
         *mut_balance_owner = U256::sub(*mut_balance_owner, amount);
         emit(
-            TransferSingle { operator: sender(), from: owner, to: @0x0, id, value: amount },
+            TransferSingle { operator: sender(), from: owner, to: @0x0, id, value: amount }
         );
     }
 
@@ -384,7 +390,7 @@ module Evm::ERC1155Mock {
         require(owner != @0x0, b"ERC1155: burn from the zero address");
         require(
             vector::length(&amounts) == vector::length(&ids),
-            b"ERC1155: ids and amounts length mismatch",
+            b"ERC1155: ids and amounts length mismatch"
         );
         let len = vector::length(&amounts);
         let i = 0;
@@ -396,7 +402,7 @@ module Evm::ERC1155Mock {
             let mut_balance_owner = mut_balanceOf(s, id, owner);
             require(
                 U256::ge(*mut_balance_owner, amount),
-                b"ERC1155: burn amount exceeds balance",
+                b"ERC1155: burn amount exceeds balance"
             );
             *mut_balance_owner = U256::sub(*mut_balance_owner, amount);
 
@@ -409,7 +415,7 @@ module Evm::ERC1155Mock {
                 to: @0x0,
                 ids,
                 values: amounts
-            },
+            }
         );
     }
 
@@ -421,7 +427,7 @@ module Evm::ERC1155Mock {
             Table::insert(
                 &mut s.operatorApprovals,
                 &account,
-                Table::empty<address, bool>(),
+                Table::empty<address, bool>()
             )
         };
         let operatorApproval_account =
@@ -435,7 +441,7 @@ module Evm::ERC1155Mock {
             Table::insert(
                 &mut s.balances,
                 &id,
-                Table::empty<address, U256>(),
+                Table::empty<address, U256>()
             )
         };
         let balances_id = Table::borrow_mut(&mut s.balances, &id);
@@ -459,7 +465,7 @@ module Evm::ERC1155Mock {
                     from,
                     id,
                     amount,
-                    data,
+                    data
                 );
             if (ExternalResult::is_err_reason(&result)) {
                 // abort_with(b"err_reason");
@@ -497,7 +503,7 @@ module Evm::ERC1155Mock {
                     from,
                     ids,
                     amounts,
-                    data,
+                    data
                 );
             if (ExternalResult::is_err_reason(&result)) {
                 // abort_with(b"err_reason");

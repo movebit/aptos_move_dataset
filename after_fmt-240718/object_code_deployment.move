@@ -54,25 +54,25 @@ module aptos_framework::object_code_deployment {
     /// Internal struct, attached to the object, that holds Refs we need to manage the code deployment (i.e. upgrades).
     struct ManagingRefs has key {
         /// We need to keep the extend ref to be able to generate the signer to upgrade existing code.
-        extend_ref: ExtendRef,
+        extend_ref: ExtendRef
     }
 
     #[event]
     /// Event emitted when code is published to an object.
     struct Publish has drop, store {
-        object_address: address,
+        object_address: address
     }
 
     #[event]
     /// Event emitted when code in an existing object is upgraded.
     struct Upgrade has drop, store {
-        object_address: address,
+        object_address: address
     }
 
     #[event]
     /// Event emitted when code in an existing object is made immutable.
     struct Freeze has drop, store {
-        object_address: address,
+        object_address: address
     }
 
     /// Creates a new object with a unique address derived from the publisher address and the object seed.
@@ -80,13 +80,11 @@ module aptos_framework::object_code_deployment {
     /// The caller must provide package metadata describing the package via `metadata_serialized` and
     /// the code to be published via `code`. This contains a vector of modules to be deployed on-chain.
     public entry fun publish(
-        publisher: &signer,
-        metadata_serialized: vector<u8>,
-        code: vector<vector<u8>>,
+        publisher: &signer, metadata_serialized: vector<u8>, code: vector<vector<u8>>
     ) {
         assert!(
             features::is_object_code_deployment_enabled(),
-            error::unavailable(EOBJECT_CODE_DEPLOYMENT_NOT_SUPPORTED),
+            error::unavailable(EOBJECT_CODE_DEPLOYMENT_NOT_SUPPORTED)
         );
 
         let publisher_address = signer::address_of(publisher);
@@ -95,11 +93,11 @@ module aptos_framework::object_code_deployment {
         let code_signer = &object::generate_signer(constructor_ref);
         code::publish_package_txn(code_signer, metadata_serialized, code);
 
-        event::emit(Publish { object_address: signer::address_of(code_signer), });
+        event::emit(Publish { object_address: signer::address_of(code_signer) });
 
         move_to(
             code_signer,
-            ManagingRefs { extend_ref: object::generate_extend_ref(constructor_ref), },
+            ManagingRefs { extend_ref: object::generate_extend_ref(constructor_ref) }
         );
     }
 
@@ -121,25 +119,25 @@ module aptos_framework::object_code_deployment {
         publisher: &signer,
         metadata_serialized: vector<u8>,
         code: vector<vector<u8>>,
-        code_object: Object<PackageRegistry>,
+        code_object: Object<PackageRegistry>
     ) acquires ManagingRefs {
         let publisher_address = signer::address_of(publisher);
         assert!(
             object::is_owner(code_object, publisher_address),
-            error::permission_denied(ENOT_CODE_OBJECT_OWNER),
+            error::permission_denied(ENOT_CODE_OBJECT_OWNER)
         );
 
         let code_object_address = object::object_address(&code_object);
         assert!(
             exists<ManagingRefs>(code_object_address),
-            error::not_found(ECODE_OBJECT_DOES_NOT_EXIST),
+            error::not_found(ECODE_OBJECT_DOES_NOT_EXIST)
         );
 
         let extend_ref = &borrow_global<ManagingRefs>(code_object_address).extend_ref;
         let code_signer = &object::generate_signer_for_extending(extend_ref);
         code::publish_package_txn(code_signer, metadata_serialized, code);
 
-        event::emit(Upgrade { object_address: signer::address_of(code_signer), });
+        event::emit(Upgrade { object_address: signer::address_of(code_signer) });
     }
 
     /// Make an existing upgradable package immutable. Once this is called, the package cannot be made upgradable again.
@@ -150,6 +148,6 @@ module aptos_framework::object_code_deployment {
     ) {
         code::freeze_code_object(publisher, code_object);
 
-        event::emit(Freeze { object_address: object::object_address(&code_object), });
+        event::emit(Freeze { object_address: object::object_address(&code_object) });
     }
 }

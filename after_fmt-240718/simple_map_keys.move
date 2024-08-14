@@ -3,12 +3,12 @@ module 0x42::simple_map {
     use 0x1::vector;
 
     struct SimpleMap<Key, Value> has copy, drop, store {
-        data: vector<Element<Key, Value>>,
+        data: vector<Element<Key, Value>>
     }
 
     struct Element<Key, Value> has copy, drop, store {
         key: Key,
-        value: Value,
+        value: Value
     }
 
     /// Return all keys in the map. This requires keys to be copyable.
@@ -18,7 +18,7 @@ module 0x42::simple_map {
             |e| {
                 let e: &Element<Key, Value> = e;
                 e.key
-            },
+            }
         )
     }
 

@@ -19,7 +19,7 @@ module CoreFramework::ValidatorConfig {
     struct Config has copy, drop, store {
         consensus_pubkey: vector<u8>,
         validator_network_addresses: vector<u8>,
-        fullnode_network_addresses: vector<u8>,
+        fullnode_network_addresses: vector<u8>
     }
 
     struct ValidatorConfig has key {
@@ -27,7 +27,7 @@ module CoreFramework::ValidatorConfig {
         config: Option<Config>,
         operator_account: Option<address>,
         /// The human readable name of this entity. Immutable.
-        human_name: vector<u8>,
+        human_name: vector<u8>
     }
 
     // TODO(valerini): add events here
@@ -49,7 +49,7 @@ module CoreFramework::ValidatorConfig {
 
         assert!(
             !exists<ValidatorConfigChainMarker<T>>(@CoreResources),
-            errors::already_published(ECHAIN_MARKER),
+            errors::already_published(ECHAIN_MARKER)
         );
         move_to(account, ValidatorConfigChainMarker<T> {});
     }
@@ -67,20 +67,20 @@ module CoreFramework::ValidatorConfig {
         DiemTimestamp::assert_operating();
         assert!(
             exists<ValidatorConfigChainMarker<T>>(@CoreResources),
-            errors::not_published(ECHAIN_MARKER),
+            errors::not_published(ECHAIN_MARKER)
         );
 
         assert!(
             !exists<ValidatorConfig>(signer::address_of(validator_account)),
-            errors::already_published(EVALIDATOR_CONFIG),
+            errors::already_published(EVALIDATOR_CONFIG)
         );
         move_to(
             validator_account,
             ValidatorConfig {
                 config: option::none(),
                 operator_account: option::none(),
-                human_name,
-            },
+                human_name
+            }
         );
     }
 
@@ -100,7 +100,7 @@ module CoreFramework::ValidatorConfig {
     ) acquires ValidatorConfig {
         assert!(
             ValidatorOperatorConfig::has_validator_operator_config(operator_addr),
-            errors::invalid_argument(ENOT_A_VALIDATOR_OPERATOR),
+            errors::invalid_argument(ENOT_A_VALIDATOR_OPERATOR)
         );
         let sender = signer::address_of(validator_account);
         assert!(exists_config(sender), errors::not_published(EVALIDATOR_CONFIG));
@@ -130,16 +130,16 @@ module CoreFramework::ValidatorConfig {
         validator_addr: address,
         consensus_pubkey: vector<u8>,
         validator_network_addresses: vector<u8>,
-        fullnode_network_addresses: vector<u8>,
+        fullnode_network_addresses: vector<u8>
     ) acquires ValidatorConfig {
         assert!(
             signer::address_of(validator_operator_account)
                 == get_operator(validator_addr),
-            errors::invalid_argument(EINVALID_TRANSACTION_SENDER),
+            errors::invalid_argument(EINVALID_TRANSACTION_SENDER)
         );
         assert!(
             Signature::ed25519_validate_pubkey(copy consensus_pubkey),
-            errors::invalid_argument(EINVALID_CONSENSUS_KEY),
+            errors::invalid_argument(EINVALID_CONSENSUS_KEY)
         );
         // TODO(valerini): verify the proof of posession for consensus_pubkey
         assert!(exists_config(validator_addr), errors::not_published(EVALIDATOR_CONFIG));
@@ -148,8 +148,8 @@ module CoreFramework::ValidatorConfig {
             Config {
                 consensus_pubkey,
                 validator_network_addresses,
-                fullnode_network_addresses,
-            },
+                fullnode_network_addresses
+            }
         );
     }
 
@@ -193,7 +193,7 @@ module CoreFramework::ValidatorConfig {
         let t_ref = borrow_global<ValidatorConfig>(addr);
         assert!(
             option::is_some(&t_ref.operator_account),
-            errors::invalid_argument(EVALIDATOR_CONFIG),
+            errors::invalid_argument(EVALIDATOR_CONFIG)
         );
         *option::borrow(&t_ref.operator_account)
     }

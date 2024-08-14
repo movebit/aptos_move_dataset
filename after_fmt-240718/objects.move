@@ -12,7 +12,7 @@ module 0x42::objects {
     // in inlining context
 
     struct OwnerRef has drop { // Hot potato -- cannot be stored
-        addr: address, // This should be a SignerCapability, in reality
+        addr: address // This should be a SignerCapability, in reality
     }
 
     public fun make_owner_ref(addr: address): OwnerRef { // for this test only
@@ -36,7 +36,7 @@ module 0x42::objects {
     }
 
     struct WriterRef<phantom T: key> has store, drop {
-        addr: address,
+        addr: address
     }
 
     public fun make_writer_ref<T: key>(addr: address): WriterRef<T> {

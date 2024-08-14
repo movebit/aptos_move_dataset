@@ -10,18 +10,18 @@ module shared_account::SharedAccount {
     // struct Share records the address of the share_holder and their corresponding number of shares
     struct Share has store {
         share_holder: address,
-        num_shares: u64,
+        num_shares: u64
     }
 
     // Resource representing a shared account
     struct SharedAccount has key {
         share_record: vector<Share>,
         total_shares: u64,
-        signer_capability: account::SignerCapability,
+        signer_capability: account::SignerCapability
     }
 
     struct SharedAccountEvent has key {
-        resource_addr: address,
+        resource_addr: address
     }
 
     const EACCOUNT_NOT_FOUND: u64 = 0;
@@ -48,14 +48,14 @@ module shared_account::SharedAccount {
                 // because one of the accounts does not exist
                 assert!(
                     account::exists_at(addr),
-                    error::invalid_argument(EACCOUNT_NOT_FOUND),
+                    error::invalid_argument(EACCOUNT_NOT_FOUND)
                 );
 
                 vector::push_back(
                     &mut share_record, Share { share_holder: addr, num_shares }
                 );
                 total = total + num_shares;
-            },
+            }
         );
 
         let (resource_signer, resource_signer_cap) =
@@ -66,13 +66,13 @@ module shared_account::SharedAccount {
             SharedAccount {
                 share_record,
                 total_shares: total,
-                signer_capability: resource_signer_cap,
-            },
+                signer_capability: resource_signer_cap
+            }
         );
 
         move_to(
             source,
-            SharedAccountEvent { resource_addr: signer::address_of(&resource_signer) },
+            SharedAccountEvent { resource_addr: signer::address_of(&resource_signer) }
         );
     }
 
@@ -80,7 +80,7 @@ module shared_account::SharedAccount {
     public entry fun disperse<CoinType>(resource_addr: address) acquires SharedAccount {
         assert!(
             exists<SharedAccount>(resource_addr),
-            error::invalid_argument(ERESOURCE_DNE),
+            error::invalid_argument(ERESOURCE_DNE)
         );
 
         let total_balance = coin::balance<CoinType>(resource_addr);
@@ -100,7 +100,7 @@ module shared_account::SharedAccount {
                 coin::transfer<CoinType>(
                     &resource_signer, shared_record.share_holder, current_amount
                 );
-            },
+            }
         );
     }
 
@@ -129,7 +129,7 @@ module shared_account::SharedAccount {
 
         assert!(
             exists<SharedAccountEvent>(user_addr),
-            error::not_found(EACCOUNT_NOT_FOUND),
+            error::not_found(EACCOUNT_NOT_FOUND)
         );
         borrow_global<SharedAccountEvent>(user_addr).resource_addr
     }
@@ -143,7 +143,10 @@ module shared_account::SharedAccount {
         )
     ]
     public entry fun test_disperse(
-        user: signer, test_user1: signer, test_user2: signer, core_framework: signer
+        user: signer,
+        test_user1: signer,
+        test_user2: signer,
+        core_framework: signer
     ) acquires SharedAccount, SharedAccountEvent {
         use aptos_framework::aptos_coin::{Self, AptosCoin};
         let user_addr1 = signer::address_of(&test_user1);

@@ -28,31 +28,31 @@ module addr::exceed_limit {
         bug_owners: SimpleMap<TokenId, TokenInfo>,
         tracks_owners: SimpleMap<TokenId, TokenInfo>,
         latest_epoch_update: u64,
-        counter: u256,
+        counter: u256
     }
 
     struct TokenInfo has key, store {
         owner_id: Option<address>,
         token_type: Option<u8>,
         active_session: Option<TokenId>,
-        collected_fee: u256,
+        collected_fee: u256
     }
 
     struct GameSessionBug has key, store {
         bug_owner_id: Option<address>,
         bug_token_id: TokenId,
-        last_track_time_result: u64,
+        last_track_time_result: u64
     }
 
     struct GameBid has key, store {
         amount: u256,
         bug: TokenId,
         timestamp: u64,
-        bidder: Option<address>,
+        bidder: Option<address>
     }
 
     struct TrackGameBid has key, store {
-        game_bids: vector<GameBid>,
+        game_bids: vector<GameBid>
     }
 
     struct EpochPayment has key, store {
@@ -60,7 +60,7 @@ module addr::exceed_limit {
         bug_token_id: Option<TokenId>,
         receiver_type: u8,
         amount: u256,
-        receiver_id: Option<address>,
+        receiver_id: Option<address>
     }
 
     struct GameSession has key, store {
@@ -74,7 +74,7 @@ module addr::exceed_limit {
         game_fees_sum: u256,
         current_winner_bug: Option<GameSessionBug>,
         epoch_payment: vector<EpochPayment>,
-        max_bug_per_session: u64,
+        max_bug_per_session: u64
     }
 
     fun init_module(source_account: &signer) {
@@ -101,8 +101,8 @@ module addr::exceed_limit {
                 bug_owners: simple_map::create(),
                 tracks_owners: simple_map::create(),
                 latest_epoch_update: 0,
-                counter: 0,
-            },
+                counter: 0
+            }
         );
     }
 
@@ -118,7 +118,7 @@ module addr::exceed_limit {
             description,
             collection_uri,
             maximum_supply,
-            mutate_setting,
+            mutate_setting
         );
     }
 }

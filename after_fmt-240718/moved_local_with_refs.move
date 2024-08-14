@@ -2,7 +2,7 @@ module 0x42::MovedLocalWithRefs {
     use std::vector;
 
     struct S has drop {
-        x: u64,
+        x: u64
     }
 
     fun moved_local_in_loop(length: u64, limit: u64): vector<S> {

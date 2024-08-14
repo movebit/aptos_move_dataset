@@ -59,7 +59,7 @@ module 0x1::M {
             assert!(
                 signer::address_of(vector::borrow(&signers, i))
                     == signer::address_of(vector::borrow(&other_signers, i)),
-                i,
+                i
             );
             i = i + 1;
         };

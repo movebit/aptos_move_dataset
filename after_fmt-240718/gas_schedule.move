@@ -24,7 +24,7 @@ module aptos_framework::gas_schedule {
 
     struct GasEntry has store, copy, drop {
         key: String,
-        val: u64,
+        val: u64
     }
 
     struct GasSchedule has key, copy, drop {
@@ -33,7 +33,7 @@ module aptos_framework::gas_schedule {
 
     struct GasScheduleV2 has key, copy, drop, store {
         feature_version: u64,
-        entries: vector<GasEntry>,
+        entries: vector<GasEntry>
     }
 
     /// Only called during genesis.
@@ -43,7 +43,7 @@ module aptos_framework::gas_schedule {
         system_addresses::assert_aptos_framework(aptos_framework);
         assert!(
             !vector::is_empty(&gas_schedule_blob),
-            error::invalid_argument(EINVALID_GAS_SCHEDULE),
+            error::invalid_argument(EINVALID_GAS_SCHEDULE)
         );
 
         // TODO(Gas): check if gas schedule is consistent
@@ -62,7 +62,7 @@ module aptos_framework::gas_schedule {
         system_addresses::assert_aptos_framework(aptos_framework);
         assert!(
             !vector::is_empty(&gas_schedule_blob),
-            error::invalid_argument(EINVALID_GAS_SCHEDULE),
+            error::invalid_argument(EINVALID_GAS_SCHEDULE)
         );
         chain_status::assert_genesis();
 
@@ -71,7 +71,7 @@ module aptos_framework::gas_schedule {
             let new_gas_schedule: GasScheduleV2 = from_bytes(gas_schedule_blob);
             assert!(
                 new_gas_schedule.feature_version >= gas_schedule.feature_version,
-                error::invalid_argument(EINVALID_GAS_FEATURE_VERSION),
+                error::invalid_argument(EINVALID_GAS_FEATURE_VERSION)
             );
             // TODO(Gas): check if gas schedule is consistent
             *gas_schedule = new_gas_schedule;
@@ -102,14 +102,14 @@ module aptos_framework::gas_schedule {
         system_addresses::assert_aptos_framework(aptos_framework);
         assert!(
             !vector::is_empty(&gas_schedule_blob),
-            error::invalid_argument(EINVALID_GAS_SCHEDULE),
+            error::invalid_argument(EINVALID_GAS_SCHEDULE)
         );
         let new_gas_schedule: GasScheduleV2 = from_bytes(gas_schedule_blob);
         if (exists<GasScheduleV2>(@aptos_framework)) {
             let cur_gas_schedule = borrow_global<GasScheduleV2>(@aptos_framework);
             assert!(
                 new_gas_schedule.feature_version >= cur_gas_schedule.feature_version,
-                error::invalid_argument(EINVALID_GAS_FEATURE_VERSION),
+                error::invalid_argument(EINVALID_GAS_FEATURE_VERSION)
             );
         };
         config_buffer::upsert(new_gas_schedule);
@@ -149,11 +149,11 @@ module aptos_framework::gas_schedule {
         fx: signer
     ) acquires GasScheduleV2 {
         // Setup.
-        let old_gas_schedule = GasScheduleV2 { feature_version: 1000, entries: vector[], };
+        let old_gas_schedule = GasScheduleV2 { feature_version: 1000, entries: vector[] };
         move_to(&fx, old_gas_schedule);
 
         // Setting an older version should not work.
-        let new_gas_schedule = GasScheduleV2 { feature_version: 999, entries: vector[], };
+        let new_gas_schedule = GasScheduleV2 { feature_version: 999, entries: vector[] };
         let new_bytes = to_bytes(&new_gas_schedule);
         set_for_next_epoch(&fx, new_bytes);
     }

@@ -22,13 +22,13 @@ module aptos_framework::transaction_context {
         module_name: String,
         function_name: String,
         ty_args_names: vector<String>,
-        args: vector<vector<u8>>,
+        args: vector<vector<u8>>
     }
 
     /// Represents the multisig payload.
     struct MultisigPayload has copy, drop {
         multisig_address: address,
-        entry_function_payload: Option<EntryFunctionPayload>,
+        entry_function_payload: Option<EntryFunctionPayload>
     }
 
     /// Returns the transaction hash of the current transaction.
@@ -76,7 +76,7 @@ module aptos_framework::transaction_context {
     public fun sender(): address {
         assert!(
             features::transaction_context_extension_enabled(),
-            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED),
+            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED)
         );
         sender_internal()
     }
@@ -89,7 +89,7 @@ module aptos_framework::transaction_context {
     public fun secondary_signers(): vector<address> {
         assert!(
             features::transaction_context_extension_enabled(),
-            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED),
+            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED)
         );
         secondary_signers_internal()
     }
@@ -103,7 +103,7 @@ module aptos_framework::transaction_context {
     public fun gas_payer(): address {
         assert!(
             features::transaction_context_extension_enabled(),
-            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED),
+            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED)
         );
         gas_payer_internal()
     }
@@ -115,7 +115,7 @@ module aptos_framework::transaction_context {
     public fun max_gas_amount(): u64 {
         assert!(
             features::transaction_context_extension_enabled(),
-            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED),
+            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED)
         );
         max_gas_amount_internal()
     }
@@ -127,7 +127,7 @@ module aptos_framework::transaction_context {
     public fun gas_unit_price(): u64 {
         assert!(
             features::transaction_context_extension_enabled(),
-            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED),
+            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED)
         );
         gas_unit_price_internal()
     }
@@ -139,7 +139,7 @@ module aptos_framework::transaction_context {
     public fun chain_id(): u8 {
         assert!(
             features::transaction_context_extension_enabled(),
-            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED),
+            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED)
         );
         chain_id_internal()
     }
@@ -151,7 +151,7 @@ module aptos_framework::transaction_context {
     public fun entry_function_payload(): Option<EntryFunctionPayload> {
         assert!(
             features::transaction_context_extension_enabled(),
-            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED),
+            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED)
         );
         entry_function_payload_internal()
     }
@@ -162,7 +162,7 @@ module aptos_framework::transaction_context {
     public fun account_address(payload: &EntryFunctionPayload): address {
         assert!(
             features::transaction_context_extension_enabled(),
-            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED),
+            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED)
         );
         payload.account_address
     }
@@ -171,7 +171,7 @@ module aptos_framework::transaction_context {
     public fun module_name(payload: &EntryFunctionPayload): String {
         assert!(
             features::transaction_context_extension_enabled(),
-            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED),
+            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED)
         );
         payload.module_name
     }
@@ -180,7 +180,7 @@ module aptos_framework::transaction_context {
     public fun function_name(payload: &EntryFunctionPayload): String {
         assert!(
             features::transaction_context_extension_enabled(),
-            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED),
+            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED)
         );
         payload.function_name
     }
@@ -189,7 +189,7 @@ module aptos_framework::transaction_context {
     public fun type_arg_names(payload: &EntryFunctionPayload): vector<String> {
         assert!(
             features::transaction_context_extension_enabled(),
-            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED),
+            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED)
         );
         payload.ty_args_names
     }
@@ -198,7 +198,7 @@ module aptos_framework::transaction_context {
     public fun args(payload: &EntryFunctionPayload): vector<vector<u8>> {
         assert!(
             features::transaction_context_extension_enabled(),
-            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED),
+            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED)
         );
         payload.args
     }
@@ -208,7 +208,7 @@ module aptos_framework::transaction_context {
     public fun multisig_payload(): Option<MultisigPayload> {
         assert!(
             features::transaction_context_extension_enabled(),
-            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED),
+            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED)
         );
         multisig_payload_internal()
     }
@@ -219,7 +219,7 @@ module aptos_framework::transaction_context {
     public fun multisig_address(payload: &MultisigPayload): address {
         assert!(
             features::transaction_context_extension_enabled(),
-            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED),
+            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED)
         );
         payload.multisig_address
     }
@@ -229,7 +229,7 @@ module aptos_framework::transaction_context {
         : Option<EntryFunctionPayload> {
         assert!(
             features::transaction_context_extension_enabled(),
-            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED),
+            error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED)
         );
         payload.entry_function_payload
     }

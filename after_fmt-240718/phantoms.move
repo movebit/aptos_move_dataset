@@ -3,7 +3,7 @@ module 0x42::phantoms {
 
     /// A struct with a phantom parameter. Even if the parameter is not dropable, the struct should still be.
     struct S<phantom T> has drop {
-        addr: address,
+        addr: address
     }
 
     struct T {} // no abilities

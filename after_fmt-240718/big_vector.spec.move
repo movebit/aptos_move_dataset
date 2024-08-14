@@ -33,7 +33,7 @@ spec aptos_std::big_vector {
                             len(
                                 table_with_length::spec_get(
                                     buckets, spec_table_len(buckets) - 1
-                                ),
+                                )
                             )
                         ) == end_index
             );

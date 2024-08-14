@@ -46,7 +46,10 @@ module This::AccountContinuation {
 
     #[cont]
     fun xfer_withdraw(
-        this: &mut Account, _previous: Unit, v: u64, cont: Cont<Unit>
+        this: &mut Account,
+        _previous: Unit,
+        v: u64,
+        cont: Cont<Unit>
     ) {
         withdraw(this, v, cont)
     }

@@ -25,12 +25,12 @@ module aggregator_examples::counter_with_milestone {
     struct MilestoneCounter has key {
         next_milestone: u64,
         milestone_every: u64,
-        count: Aggregator<u64>,
+        count: Aggregator<u64>
     }
 
     #[event]
     struct MilestoneReached has drop, store {
-        milestone: u64,
+        milestone: u64
     }
 
     // Create the global `MilestoneCounter`.
@@ -38,7 +38,7 @@ module aggregator_examples::counter_with_milestone {
     public entry fun create(publisher: &signer, milestone_every: u64) {
         assert!(
             signer::address_of(publisher) == @aggregator_examples,
-            ENOT_AUTHORIZED,
+            ENOT_AUTHORIZED
         );
 
         move_to<MilestoneCounter>(
@@ -46,20 +46,20 @@ module aggregator_examples::counter_with_milestone {
             MilestoneCounter {
                 next_milestone: milestone_every,
                 milestone_every,
-                count: aggregator_v2::create_unbounded_aggregator(),
-            },
+                count: aggregator_v2::create_unbounded_aggregator()
+            }
         );
     }
 
     public entry fun increment_milestone() acquires MilestoneCounter {
         assert!(
             exists<MilestoneCounter>(@aggregator_examples),
-            error::invalid_argument(ERESOURCE_NOT_PRESENT),
+            error::invalid_argument(ERESOURCE_NOT_PRESENT)
         );
         let milestone_counter = borrow_global_mut<MilestoneCounter>(@aggregator_examples);
         assert!(
             aggregator_v2::try_add(&mut milestone_counter.count, 1),
-            ECOUNTER_INCREMENT_FAIL,
+            ECOUNTER_INCREMENT_FAIL
         );
 
         if (aggregator_v2::is_at_least(

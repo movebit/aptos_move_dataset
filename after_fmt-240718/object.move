@@ -104,14 +104,14 @@ module aptos_framework::object {
         /// transfers bypassing the use of a TransferRef.
         allow_ungated_transfer: bool,
         /// Emitted events upon transferring of ownership.
-        transfer_events: event::EventHandle<TransferEvent>,
+        transfer_events: event::EventHandle<TransferEvent>
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
     /// This is added to objects that are burnt (ownership transferred to BURN_ADDRESS).
     struct TombStone has key {
         /// Track the previous owner before the object is burnt so they can reclaim later if so desired.
-        original_owner: address,
+        original_owner: address
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
@@ -127,48 +127,48 @@ module aptos_framework::object {
     /// by any other module than the module that defined T. Similarly, the module that defines T
     /// can remove it from storage at any point in time.
     struct Object<phantom T> has copy, drop, store {
-        inner: address,
+        inner: address
     }
 
     /// This is a one time ability given to the creator to configure the object as necessary
     struct ConstructorRef has drop {
         self: address,
         /// True if the object can be deleted. Named objects are not deletable.
-        can_delete: bool,
+        can_delete: bool
     }
 
     /// Used to remove an object from storage.
     struct DeleteRef has drop, store {
-        self: address,
+        self: address
     }
 
     /// Used to create events or move additional resources into object storage.
     struct ExtendRef has drop, store {
-        self: address,
+        self: address
     }
 
     /// Used to create LinearTransferRef, hence ownership transfer.
     struct TransferRef has drop, store {
-        self: address,
+        self: address
     }
 
     /// Used to perform transfers. This locks transferring ability to a single time use bound to
     /// the current owner.
     struct LinearTransferRef has drop {
         self: address,
-        owner: address,
+        owner: address
     }
 
     /// Used to create derived objects from a given objects.
     struct DeriveRef has drop, store {
-        self: address,
+        self: address
     }
 
     /// Emitted whenever the object's owner field is changed.
     struct TransferEvent has drop, store {
         object: address,
         from: address,
-        to: address,
+        to: address
     }
 
     #[event]
@@ -176,7 +176,7 @@ module aptos_framework::object {
     struct Transfer has drop, store {
         object: address,
         from: address,
-        to: address,
+        to: address
     }
 
     #[view]
@@ -287,7 +287,7 @@ module aptos_framework::object {
 
     /// Create a sticky object at a specific address. Only used by aptos_framework::coin.
     public(friend) fun create_sticky_object_at_address(
-        owner_address: address, object_address: address,
+        owner_address: address, object_address: address
     ): ConstructorRef {
         create_object_internal(owner_address, object_address, false)
     }
@@ -326,9 +326,7 @@ module aptos_framework::object {
     }
 
     fun create_object_internal(
-        creator_address: address,
-        object: address,
-        can_delete: bool,
+        creator_address: address, object: address, can_delete: bool
     ): ConstructorRef {
         assert!(!exists<ObjectCore>(object), error::already_exists(EOBJECT_EXISTS));
 
@@ -342,8 +340,8 @@ module aptos_framework::object {
                 guid_creation_num,
                 owner: creator_address,
                 allow_ungated_transfer: true,
-                transfer_events: event::new_event_handle(transfer_events_guid),
-            },
+                transfer_events: event::new_event_handle(transfer_events_guid)
+            }
         );
         ConstructorRef { self: object, can_delete }
     }
@@ -402,7 +400,7 @@ module aptos_framework::object {
     }
 
     /// Generate a new event handle.
-    public fun new_event_handle<T: drop + store>(object: &signer,): event::EventHandle<T> acquires ObjectCore {
+    public fun new_event_handle<T: drop + store>(object: &signer): event::EventHandle<T> acquires ObjectCore {
         event::new_event_handle(create_guid(object))
     }
 
@@ -425,7 +423,7 @@ module aptos_framework::object {
             guid_creation_num: _,
             owner: _,
             allow_ungated_transfer: _,
-            transfer_events,
+            transfer_events
         } = object_core;
 
         if (exists<Untransferable>(ref.self)) {
@@ -475,7 +473,7 @@ module aptos_framework::object {
     public fun generate_linear_transfer_ref(ref: &TransferRef): LinearTransferRef acquires ObjectCore {
         assert!(!exists<Untransferable>(ref.self), error::permission_denied(ENOT_MOVABLE));
         let owner = owner(Object<ObjectCore> { inner: ref.self });
-        LinearTransferRef { self: ref.self, owner, }
+        LinearTransferRef { self: ref.self, owner }
     }
 
     /// Transfer to the destination address using a LinearTransferRef.
@@ -490,23 +488,21 @@ module aptos_framework::object {
         let object = borrow_global_mut<ObjectCore>(ref.self);
         assert!(
             object.owner == ref.owner,
-            error::permission_denied(ENOT_OBJECT_OWNER),
+            error::permission_denied(ENOT_OBJECT_OWNER)
         );
         if (std::features::module_event_migration_enabled()) {
-            event::emit(Transfer { object: ref.self, from: object.owner, to, });
+            event::emit(Transfer { object: ref.self, from: object.owner, to });
         };
         event::emit_event(
             &mut object.transfer_events,
-            TransferEvent { object: ref.self, from: object.owner, to, },
+            TransferEvent { object: ref.self, from: object.owner, to }
         );
         object.owner = to;
     }
 
     /// Entry function that can be used to transfer, if allow_ungated_transfer is set true.
     public entry fun transfer_call(
-        owner: &signer,
-        object: address,
-        to: address,
+        owner: &signer, object: address, to: address
     ) acquires ObjectCore {
         transfer_raw(owner, object, to)
     }
@@ -514,9 +510,7 @@ module aptos_framework::object {
     /// Transfers ownership of the object (and all associated resources) at the specified address
     /// for Object<T> to the "to" address.
     public entry fun transfer<T: key>(
-        owner: &signer,
-        object: Object<T>,
-        to: address,
+        owner: &signer, object: Object<T>, to: address
     ) acquires ObjectCore {
         transfer_raw(owner, object.inner, to)
     }
@@ -525,11 +519,7 @@ module aptos_framework::object {
     /// allow_ungated_transfer is set true. Note, that this allows the owner of a nested object to
     /// transfer that object, so long as allow_ungated_transfer is enabled at each stage in the
     /// hierarchy.
-    public fun transfer_raw(
-        owner: &signer,
-        object: address,
-        to: address,
-    ) acquires ObjectCore {
+    public fun transfer_raw(owner: &signer, object: address, to: address) acquires ObjectCore {
         let owner_address = signer::address_of(owner);
         verify_ungated_and_descendant(owner_address, object);
         transfer_raw_inner(object, to);
@@ -539,11 +529,11 @@ module aptos_framework::object {
         let object_core = borrow_global_mut<ObjectCore>(object);
         if (object_core.owner != to) {
             if (std::features::module_event_migration_enabled()) {
-                event::emit(Transfer { object, from: object_core.owner, to, });
+                event::emit(Transfer { object, from: object_core.owner, to });
             };
             event::emit_event(
                 &mut object_core.transfer_events,
-                TransferEvent { object, from: object_core.owner, to, },
+                TransferEvent { object, from: object_core.owner, to }
             );
             object_core.owner = to;
         };
@@ -551,9 +541,7 @@ module aptos_framework::object {
 
     /// Transfer the given object to another object. See `transfer` for more information.
     public entry fun transfer_to_object<O: key, T: key>(
-        owner: &signer,
-        object: Object<O>,
-        to: Object<T>,
+        owner: &signer, object: Object<O>, to: Object<T>
     ) acquires ObjectCore {
         transfer(owner, object, to.inner)
     }
@@ -567,13 +555,13 @@ module aptos_framework::object {
         let current_address = destination;
         assert!(
             exists<ObjectCore>(current_address),
-            error::not_found(EOBJECT_DOES_NOT_EXIST),
+            error::not_found(EOBJECT_DOES_NOT_EXIST)
         );
 
         let object = borrow_global<ObjectCore>(current_address);
         assert!(
             object.allow_ungated_transfer,
-            error::permission_denied(ENO_UNGATED_TRANSFERS),
+            error::permission_denied(ENO_UNGATED_TRANSFERS)
         );
 
         let current_address = object.owner;
@@ -585,12 +573,12 @@ module aptos_framework::object {
             // object's owner is not an object. So we return a more sensible error.
             assert!(
                 exists<ObjectCore>(current_address),
-                error::permission_denied(ENOT_OBJECT_OWNER),
+                error::permission_denied(ENOT_OBJECT_OWNER)
             );
             let object = borrow_global<ObjectCore>(current_address);
             assert!(
                 object.allow_ungated_transfer,
-                error::permission_denied(ENO_UNGATED_TRANSFERS),
+                error::permission_denied(ENO_UNGATED_TRANSFERS)
             );
             current_address = object.owner;
         };
@@ -603,7 +591,7 @@ module aptos_framework::object {
         let original_owner = signer::address_of(owner);
         assert!(
             is_owner(object, original_owner),
-            error::permission_denied(ENOT_OBJECT_OWNER),
+            error::permission_denied(ENOT_OBJECT_OWNER)
         );
         let object_addr = object.inner;
         move_to(&create_signer(object_addr), TombStone { original_owner });
@@ -612,19 +600,19 @@ module aptos_framework::object {
 
     /// Allow origin owners to reclaim any objects they previous burnt.
     public entry fun unburn<T: key>(
-        original_owner: &signer, object: Object<T>,
+        original_owner: &signer, object: Object<T>
     ) acquires TombStone, ObjectCore {
         let object_addr = object.inner;
         assert!(
             exists<TombStone>(object_addr),
-            error::invalid_argument(EOBJECT_NOT_BURNT),
+            error::invalid_argument(EOBJECT_NOT_BURNT)
         );
 
         let TombStone { original_owner: original_owner_addr } =
             move_from<TombStone>(object_addr);
         assert!(
             original_owner_addr == signer::address_of(original_owner),
-            error::permission_denied(ENOT_OBJECT_OWNER),
+            error::permission_denied(ENOT_OBJECT_OWNER)
         );
         transfer_raw_inner(object_addr, original_owner_addr);
     }
@@ -634,7 +622,7 @@ module aptos_framework::object {
     public fun ungated_transfer_allowed<T: key>(object: Object<T>): bool acquires ObjectCore {
         assert!(
             exists<ObjectCore>(object.inner),
-            error::not_found(EOBJECT_DOES_NOT_EXIST),
+            error::not_found(EOBJECT_DOES_NOT_EXIST)
         );
         borrow_global<ObjectCore>(object.inner).allow_ungated_transfer
     }
@@ -643,7 +631,7 @@ module aptos_framework::object {
     public fun owner<T: key>(object: Object<T>): address acquires ObjectCore {
         assert!(
             exists<ObjectCore>(object.inner),
-            error::not_found(EOBJECT_DOES_NOT_EXIST),
+            error::not_found(EOBJECT_DOES_NOT_EXIST)
         );
         borrow_global<ObjectCore>(object.inner).owner
     }
@@ -662,7 +650,7 @@ module aptos_framework::object {
 
         assert!(
             exists<ObjectCore>(current_address),
-            error::not_found(EOBJECT_DOES_NOT_EXIST),
+            error::not_found(EOBJECT_DOES_NOT_EXIST)
         );
 
         let object = borrow_global<ObjectCore>(current_address);
@@ -702,14 +690,14 @@ module aptos_framework::object {
 
     #[test_only]
     struct HeroEquipEvent has drop, store {
-        weapon_id: Option<Object<Weapon>>,
+        weapon_id: Option<Object<Weapon>>
     }
 
     #[test_only]
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
     struct Hero has key {
         equip_events: event::EventHandle<HeroEquipEvent>,
-        weapon: Option<Object<Weapon>>,
+        weapon: Option<Object<Weapon>>
     }
 
     #[test_only]
@@ -725,8 +713,8 @@ module aptos_framework::object {
             &hero_signer,
             Hero {
                 weapon: option::none(),
-                equip_events: event::new_event_handle(guid_for_equip_events),
-            },
+                equip_events: event::new_event_handle(guid_for_equip_events)
+            }
         );
 
         let hero = object_from_constructor_ref<Hero>(&hero_constructor_ref);
@@ -744,31 +732,27 @@ module aptos_framework::object {
 
     #[test_only]
     public fun hero_equip(
-        owner: &signer,
-        hero: Object<Hero>,
-        weapon: Object<Weapon>,
+        owner: &signer, hero: Object<Hero>, weapon: Object<Weapon>
     ) acquires Hero, ObjectCore {
         transfer_to_object(owner, weapon, hero);
         let hero_obj = borrow_global_mut<Hero>(object_address(&hero));
         option::fill(&mut hero_obj.weapon, weapon);
         event::emit_event(
             &mut hero_obj.equip_events,
-            HeroEquipEvent { weapon_id: option::some(weapon) },
+            HeroEquipEvent { weapon_id: option::some(weapon) }
         );
     }
 
     #[test_only]
     public fun hero_unequip(
-        owner: &signer,
-        hero: Object<Hero>,
-        weapon: Object<Weapon>,
+        owner: &signer, hero: Object<Hero>, weapon: Object<Weapon>
     ) acquires Hero, ObjectCore {
         transfer(owner, weapon, signer::address_of(owner));
         let hero = borrow_global_mut<Hero>(object_address(&hero));
         option::extract(&mut hero.weapon);
         event::emit_event(
             &mut hero.equip_events,
-            HeroEquipEvent { weapon_id: option::none() },
+            HeroEquipEvent { weapon_id: option::none() }
         );
     }
 

@@ -1,7 +1,7 @@
 module 0x42::TestFriend {
 
     struct R has key {
-        x: u64,
+        x: u64
     }
 
     fun f(account: &signer, val: u64) {

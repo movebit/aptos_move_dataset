@@ -33,7 +33,7 @@ module 0x8675309::M {
 
     struct SomeCoin {
         x: u64,
-        y: u64,
+        y: u64
     }
 
     spec SomeCoin {

@@ -6,14 +6,14 @@ module aptos_std::iterable_table {
     struct IterableValue<K: copy + store + drop, V: store> has store {
         val: V,
         prev: Option<K>,
-        next: Option<K>,
+        next: Option<K>
     }
 
     /// An iterable table implementation based on double linked list.
     struct IterableTable<K: copy + store + drop, V: store> has store {
         inner: TableWithLength<K, IterableValue<K, V>>,
         head: Option<K>,
-        tail: Option<K>,
+        tail: Option<K>
     }
 
     /// Regular table API.
@@ -23,7 +23,7 @@ module aptos_std::iterable_table {
         IterableTable {
             inner: table_with_length::new(),
             head: option::none(),
-            tail: option::none(),
+            tail: option::none()
         }
     }
 
@@ -43,7 +43,7 @@ module aptos_std::iterable_table {
     public fun add<K: copy + store + drop, V: store>(
         table: &mut IterableTable<K, V>, key: K, val: V
     ) {
-        let wrapped_value = IterableValue { val, prev: table.tail, next: option::none(), };
+        let wrapped_value = IterableValue { val, prev: table.tail, next: option::none() };
         table_with_length::add(&mut table.inner, key, wrapped_value);
         if (option::is_some(&table.tail)) {
             let k = option::borrow(&table.tail);
@@ -171,7 +171,8 @@ module aptos_std::iterable_table {
 
     /// Remove all items from v2 and append to v1.
     public fun append<K: copy + store + drop, V: store>(
-        v1: &mut IterableTable<K, V>, v2: &mut IterableTable<K, V>
+        v1: &mut IterableTable<K, V>,
+        v2: &mut IterableTable<K, V>
     ) {
         let key = head_key(v2);
         while (option::is_some(&key)) {

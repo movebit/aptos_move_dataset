@@ -20,7 +20,7 @@ module hello_blockchain::message_tests {
 
         assert!(
             message::get_message(addr) == string::utf8(b"Hello, Blockchain"),
-            0,
+            0
         );
     }
 }

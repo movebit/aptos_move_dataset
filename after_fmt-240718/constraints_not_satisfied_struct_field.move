@@ -6,6 +6,6 @@ module 0x8675309::M {
     struct R {}
 
     struct B {
-        f: CupC<R>,
+        f: CupC<R>
     }
 }

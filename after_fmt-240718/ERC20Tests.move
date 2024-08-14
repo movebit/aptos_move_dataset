@@ -30,7 +30,7 @@ module Evm::ERC20Tests {
         ERC20::create(
             string(vector::empty<u8>()),
             string(vector::empty<u8>()),
-            u256_from_u128(7),
+            u256_from_u128(7)
         );
         ERC20::transfer(Alice, one());
         assert!(ERC20::balanceOf(sender()) == u256_from_u128(6), 106);

@@ -29,7 +29,7 @@ module 0x1::NFTGallery {
             let index_opt =
                 index_of_token<TokenType>(
                     gallery,
-                    &NFT::id<TokenType>(&token),
+                    &NFT::id<TokenType>(&token)
                 );
             if (option::is_some(&index_opt)) {
                 let prev_token_idx = option::extract(&mut index_opt);
@@ -48,8 +48,8 @@ module 0x1::NFTGallery {
         option::is_some(
             &index_of_token(
                 &borrow_global<NFTGallery<TokenType>>(owner).gallery,
-                token_id,
-            ),
+                token_id
+            )
         )
     }
 
@@ -158,7 +158,7 @@ module 0x1::NFTGallery {
             &id,
             account,
             to,
-            amount,
+            amount
         )
     }
 
@@ -167,7 +167,7 @@ module 0x1::NFTGallery {
     ) {
         assert!(
             !exists<NFTGallery<TokenType>>(signer::address_of(account)),
-            EGALLERY_ALREADY_PUBLISHED,
+            EGALLERY_ALREADY_PUBLISHED
         );
         move_to(account, NFTGallery<TokenType> { gallery: vector::empty() });
     }

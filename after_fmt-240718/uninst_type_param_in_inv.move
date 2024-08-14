@@ -1,12 +1,12 @@
 module 0x42::Demo {
     struct S1<T: store> has key, store {
         t: T,
-        v: u8,
+        v: u8
     }
 
     struct S2<T: store> has key, store {
         t: T,
-        v: u8,
+        v: u8
     }
 
     fun f1(addr: address) acquires S1 {

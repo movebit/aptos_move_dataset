@@ -60,7 +60,7 @@ module drand::lottery {
 
         // Signer for the resource accounts storing the coins that can be won
         signer_cap: account::SignerCapability,
-        winner: Option<address>,
+        winner: Option<address>
     }
 
     // Declare the testing module as a friend, so it can call `init_module` below for testing.
@@ -86,8 +86,8 @@ module drand::lottery {
                 tickets: vector::empty<address>(),
                 draw_at: option::none(),
                 signer_cap,
-                winner: option::none(),
-            },
+                winner: option::none()
+            }
         )
     }
 
@@ -112,14 +112,14 @@ module drand::lottery {
         // Make sure the lottery stays open long enough for people to buy tickets.
         assert!(
             end_time_secs >= timestamp::now_seconds() + MINIMUM_LOTTERY_DURATION_SECS,
-            error::out_of_range(E_LOTTERY_IS_NOT_LONG_ENOUGH),
+            error::out_of_range(E_LOTTERY_IS_NOT_LONG_ENOUGH)
         );
 
         // Update the Lottery resource with the (future) lottery drawing time, effectively 'starting' the lottery.
         let lottery = borrow_global_mut<Lottery>(@drand);
         assert!(
             option::is_none(&lottery.draw_at),
-            error::permission_denied(E_LOTTERY_ALREADY_STARTED),
+            error::permission_denied(E_LOTTERY_ALREADY_STARTED)
         );
         lottery.draw_at = option::some(end_time_secs);
 
@@ -136,7 +136,7 @@ module drand::lottery {
         let draw_at = *option::borrow(&lottery.draw_at);
         assert!(
             timestamp::now_seconds() < draw_at,
-            error::out_of_range(E_LOTTERY_HAS_CLOSED),
+            error::out_of_range(E_LOTTERY_HAS_CLOSED)
         );
 
         // Get the address of the resource account that stores the coin bounty
@@ -160,7 +160,7 @@ module drand::lottery {
         let draw_at = *option::borrow(&lottery.draw_at);
         assert!(
             timestamp::now_seconds() >= draw_at,
-            error::out_of_range(E_LOTTERY_DRAW_IS_TOO_EARLY),
+            error::out_of_range(E_LOTTERY_DRAW_IS_TOO_EARLY)
         );
 
         // It could be that no one signed up...
@@ -179,14 +179,14 @@ module drand::lottery {
             drand::verify_and_extract_randomness(drand_signed_bytes, drand_round);
         assert!(
             option::is_some(&randomness),
-            error::permission_denied(E_INCORRECT_RANDOMNESS),
+            error::permission_denied(E_INCORRECT_RANDOMNESS)
         );
 
         // Use the bytes to pick a number at random from 0 to `|lottery.tickets| - 1` and select the winner
         let winner_idx =
             drand::random_number(
                 option::extract(&mut randomness),
-                vector::length(&lottery.tickets),
+                vector::length(&lottery.tickets)
             );
 
         // Pay the winner

@@ -11,7 +11,7 @@ module test_account::cli_args {
         bool_vec: vector<bool>,
         address_vec_vec: vector<vector<address>>,
         type_info_1: TypeInfo,
-        type_info_2: TypeInfo,
+        type_info_2: TypeInfo
     } //<:!:resource
 
     // :!:>setter
@@ -22,7 +22,7 @@ module test_account::cli_args {
         bytes: vector<u8>,
         utf8_string: String,
         bool_vec: vector<bool>,
-        address_vec_vec: vector<vector<address>>,
+        address_vec_vec: vector<vector<address>>
     ) acquires Holder {
         let account_addr = signer::address_of(&account);
         if (exists<Holder>(account_addr)) {
@@ -37,8 +37,8 @@ module test_account::cli_args {
                 bool_vec,
                 address_vec_vec,
                 type_info_1: type_info::type_of<T1>(),
-                type_info_2: type_info::type_of<T2>(),
-            },
+                type_info_2: type_info::type_of<T2>()
+            }
         );
     } //<:!:setter
 

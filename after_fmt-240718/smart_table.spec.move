@@ -48,7 +48,7 @@ spec aptos_std::smart_table {
         pragma verify = false;
     }
 
-    spec to_simple_map<K: store + copy + drop, V: store + copy>(table: &SmartTable<K, V>,): SimpleMap<K, V> {
+    spec to_simple_map<K: store + copy + drop, V: store + copy>(table: &SmartTable<K, V>): SimpleMap<K, V> {
         pragma verify = false;
     }
 
@@ -60,8 +60,8 @@ spec aptos_std::smart_table {
         table_ref: &SmartTable<K, V>,
         starting_bucket_index: u64,
         starting_vector_index: u64,
-        num_keys_to_get: u64,
-    ): (vector<K>, Option<u64>, Option<u64>,) {
+        num_keys_to_get: u64
+    ): (vector<K>, Option<u64>, Option<u64>) {
         pragma verify = false;
     }
 

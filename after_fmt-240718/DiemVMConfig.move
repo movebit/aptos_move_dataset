@@ -20,7 +20,7 @@ module CoreFramework::DiemVMConfig {
     /// The struct to hold config data needed to operate the DiemVM.
     struct DiemVMConfig has key {
         /// Cost of running the VM.
-        gas_schedule: GasSchedule,
+        gas_schedule: GasSchedule
     }
 
     /// The gas schedule keeps two separate schedules for the gas:
@@ -37,7 +37,7 @@ module CoreFramework::DiemVMConfig {
     struct GasSchedule has copy, drop, store {
         instruction_schedule: vector<u8>,
         native_schedule: vector<u8>,
-        gas_constants: GasConstants,
+        gas_constants: GasConstants
     }
 
     struct GasConstants has copy, drop, store {
@@ -73,14 +73,12 @@ module CoreFramework::DiemVMConfig {
         max_price_per_gas_unit: u64,
         max_transaction_size_in_bytes: u64,
         gas_unit_scaling_factor: u64,
-        default_account_size: u64,
+        default_account_size: u64
     }
 
     /// Initialize the table under the diem root account
     public fun initialize<T>(
-        account: &signer,
-        instruction_schedule: vector<u8>,
-        native_schedule: vector<u8>,
+        account: &signer, instruction_schedule: vector<u8>, native_schedule: vector<u8>
     ) {
         DiemTimestamp::assert_genesis();
 
@@ -88,12 +86,12 @@ module CoreFramework::DiemVMConfig {
 
         assert!(
             !exists<VMConfigChainMarker<T>>(@CoreResources),
-            errors::already_published(ECHAIN_MARKER),
+            errors::already_published(ECHAIN_MARKER)
         );
 
         assert!(
             !exists<DiemVMConfig>(@CoreResources),
-            errors::already_published(ECONFIG),
+            errors::already_published(ECONFIG)
         );
 
         move_to(account, VMConfigChainMarker<T> {});
@@ -109,7 +107,7 @@ module CoreFramework::DiemVMConfig {
             max_price_per_gas_unit: 10000,
             max_transaction_size_in_bytes: 4096,
             gas_unit_scaling_factor: 1000,
-            default_account_size: 800,
+            default_account_size: 800
         };
 
         move_to(
@@ -118,9 +116,9 @@ module CoreFramework::DiemVMConfig {
                 gas_schedule: GasSchedule {
                     instruction_schedule,
                     native_schedule,
-                    gas_constants,
+                    gas_constants
                 }
-            },
+            }
         );
     }
 
@@ -142,16 +140,16 @@ module CoreFramework::DiemVMConfig {
 
         assert!(
             exists<VMConfigChainMarker<T>>(@CoreResources),
-            errors::not_published(ECHAIN_MARKER),
+            errors::not_published(ECHAIN_MARKER)
         );
 
         assert!(
             min_price_per_gas_unit <= max_price_per_gas_unit,
-            errors::invalid_argument(EGAS_CONSTANT_INCONSISTENCY),
+            errors::invalid_argument(EGAS_CONSTANT_INCONSISTENCY)
         );
         assert!(
             min_transaction_gas_units <= maximum_number_of_gas_units,
-            errors::invalid_argument(EGAS_CONSTANT_INCONSISTENCY),
+            errors::invalid_argument(EGAS_CONSTANT_INCONSISTENCY)
         );
 
         assert!(exists<DiemVMConfig>(@CoreResources), errors::not_published(ECONFIG));

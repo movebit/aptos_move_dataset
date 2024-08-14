@@ -25,12 +25,12 @@ module bcs_stream::bcs_stream {
         /// Byte buffer containing the serialized data.
         data: vector<u8>,
         /// Cursor indicating the current position in the byte buffer.
-        cur: u64,
+        cur: u64
     }
 
     /// Constructs a new BCSStream instance from the provided byte array.
     public fun new(data: vector<u8>): BCSStream {
-        BCSStream { data, cur: 0, }
+        BCSStream { data, cur: 0 }
     }
 
     /// Deserializes a ULEB128-encoded integer from the stream.
@@ -69,7 +69,7 @@ module bcs_stream::bcs_stream {
     public fun deserialize_bool(stream: &mut BCSStream): bool {
         assert!(
             stream.cur < vector::length(&stream.data),
-            error::out_of_range(EOUT_OF_BYTES),
+            error::out_of_range(EOUT_OF_BYTES)
         );
         let byte = *vector::borrow(&stream.data, stream.cur);
         stream.cur = stream.cur + 1;
@@ -238,7 +238,7 @@ module bcs_stream::bcs_stream {
 
     /// Deserializes a `u256` value from the stream.
     public entry fun deserialize_u256_entry(data: vector<u8>, cursor: u64) {
-        let stream = BCSStream { data: data, cur: cursor, };
+        let stream = BCSStream { data: data, cur: cursor };
         deserialize_u256(&mut stream);
     }
 

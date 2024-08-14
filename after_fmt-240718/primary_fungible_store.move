@@ -33,7 +33,7 @@ module aptos_framework::primary_fungible_store {
     /// stores for users with deterministic addresses so that users can easily deposit/withdraw/transfer fungible
     /// assets.
     struct DeriveRefPod has key {
-        metadata_derive_ref: DeriveRef,
+        metadata_derive_ref: DeriveRef
     }
 
     /// Create a fungible asset with primary store support. When users transfer fungible assets to each other, their
@@ -46,7 +46,7 @@ module aptos_framework::primary_fungible_store {
         symbol: String,
         decimals: u8,
         icon_uri: String,
-        project_uri: String,
+        project_uri: String
     ) {
         fungible_asset::add_fungibility(
             constructor_ref,
@@ -55,20 +55,20 @@ module aptos_framework::primary_fungible_store {
             symbol,
             decimals,
             icon_uri,
-            project_uri,
+            project_uri
         );
         let metadata_obj = &object::generate_signer(constructor_ref);
         move_to(
             metadata_obj,
             DeriveRefPod {
-                metadata_derive_ref: object::generate_derive_ref(constructor_ref),
-            },
+                metadata_derive_ref: object::generate_derive_ref(constructor_ref)
+            }
         );
     }
 
     /// Ensure that the primary store object for the given address exists. If it doesn't, create it.
     public fun ensure_primary_store_exists<T: key>(
-        owner: address, metadata: Object<T>,
+        owner: address, metadata: Object<T>
     ): Object<FungibleStore> acquires DeriveRefPod {
         let store_addr = primary_store_address(owner, metadata);
         if (fungible_asset::store_exists(store_addr)) {
@@ -80,7 +80,7 @@ module aptos_framework::primary_fungible_store {
 
     /// Create a primary store object to hold fungible asset for the given address.
     public fun create_primary_store<T: key>(
-        owner_addr: address, metadata: Object<T>,
+        owner_addr: address, metadata: Object<T>
     ): Object<FungibleStore> acquires DeriveRefPod {
         let metadata_addr = object::object_address(&metadata);
         object::address_to_object<Metadata>(metadata_addr);
@@ -174,7 +174,7 @@ module aptos_framework::primary_fungible_store {
         sender: &signer,
         metadata: Object<T>,
         recipient: address,
-        amount: u64,
+        amount: u64
     ) acquires DeriveRefPod {
         let sender_store =
             ensure_primary_store_exists(signer::address_of(sender), metadata);
@@ -193,7 +193,7 @@ module aptos_framework::primary_fungible_store {
         metadata: Object<T>,
         recipient: address,
         amount: u64,
-        expected: u64,
+        expected: u64
     ) acquires DeriveRefPod {
         let sender_store =
             ensure_primary_store_exists(signer::address_of(sender), metadata);
@@ -205,7 +205,7 @@ module aptos_framework::primary_fungible_store {
             sender_store,
             recipient_store,
             amount,
-            expected,
+            expected
         );
     }
 
@@ -252,7 +252,7 @@ module aptos_framework::primary_fungible_store {
         let from_primary_store =
             ensure_primary_store_exists(
                 owner,
-                fungible_asset::transfer_ref_metadata(transfer_ref),
+                fungible_asset::transfer_ref_metadata(transfer_ref)
             );
         fungible_asset::deposit_with_ref(transfer_ref, from_primary_store, fa);
     }
@@ -274,7 +274,7 @@ module aptos_framework::primary_fungible_store {
             transfer_ref,
             from_primary_store,
             to_primary_store,
-            amount,
+            amount
         );
     }
 
@@ -307,7 +307,7 @@ module aptos_framework::primary_fungible_store {
             string::utf8(b"@T"),
             0,
             string::utf8(b"http://example.com/icon"),
-            string::utf8(b"http://example.com"),
+            string::utf8(b"http://example.com")
         );
         let mint_ref = generate_mint_ref(constructor_ref);
         let burn_ref = generate_burn_ref(constructor_ref);
@@ -334,7 +334,7 @@ module aptos_framework::primary_fungible_store {
     }
 
     #[test(creator = @0xcafe, aaron = @0xface)]
-    fun test_basic_flow(creator: &signer, aaron: &signer,) acquires DeriveRefPod {
+    fun test_basic_flow(creator: &signer, aaron: &signer) acquires DeriveRefPod {
         let (creator_ref, metadata) = create_test_token(creator);
         let (mint_ref, transfer_ref, burn_ref) =
             init_test_metadata_with_primary_store_enabled(&creator_ref);
@@ -361,7 +361,7 @@ module aptos_framework::primary_fungible_store {
 
     #[test(creator = @0xcafe, aaron = @0xface)]
     fun test_basic_flow_with_min_balance(
-        creator: &signer, aaron: &signer,
+        creator: &signer, aaron: &signer
     ) acquires DeriveRefPod {
         let (creator_ref, metadata) = create_test_token(creator);
         let (mint_ref, _transfer_ref, _) =
@@ -379,7 +379,7 @@ module aptos_framework::primary_fungible_store {
     }
 
     #[test(user_1 = @0xcafe, user_2 = @0xface)]
-    fun test_transfer_to_burnt_store(user_1: &signer, user_2: &signer,) acquires DeriveRefPod {
+    fun test_transfer_to_burnt_store(user_1: &signer, user_2: &signer) acquires DeriveRefPod {
         let (creator_ref, metadata) = create_test_token(user_1);
         let (mint_ref, _, _) =
             init_test_metadata_with_primary_store_enabled(&creator_ref);
@@ -401,7 +401,7 @@ module aptos_framework::primary_fungible_store {
     }
 
     #[test(user_1 = @0xcafe, user_2 = @0xface)]
-    fun test_withdraw_from_burnt_store(user_1: &signer, user_2: &signer,) acquires DeriveRefPod {
+    fun test_withdraw_from_burnt_store(user_1: &signer, user_2: &signer) acquires DeriveRefPod {
         let (creator_ref, metadata) = create_test_token(user_1);
         let (mint_ref, _, _) =
             init_test_metadata_with_primary_store_enabled(&creator_ref);

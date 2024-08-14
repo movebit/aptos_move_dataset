@@ -25,7 +25,7 @@ module swap::test_helpers {
             string::utf8(name),
             8,
             string::utf8(b""),
-            string::utf8(b""),
+            string::utf8(b"")
         );
         let mint_ref = &fungible_asset::generate_mint_ref(token_metadata);
         fungible_asset::mint(mint_ref, amount)
@@ -40,7 +40,7 @@ module swap::test_helpers {
                 string::utf8(b"Test"),
                 string::utf8(b"Test"),
                 8,
-                true,
+                true
             );
         let coin = coin::mint<CoinType>(amount, &mint_cap);
         coin::destroy_burn_cap(burn_cap);

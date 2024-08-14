@@ -76,7 +76,7 @@ spec aptos_std::simple_map {
         ensures [abstract] forall k: Key: !spec_contains_key(result, k);
     }
 
-    spec new_from<Key: store, Value: store>(keys: vector<Key>, values: vector<Value>,): SimpleMap<Key, Value> {
+    spec new_from<Key: store, Value: store>(keys: vector<Key>, values: vector<Value>): SimpleMap<Key, Value> {
         pragma intrinsic;
         pragma opaque;
         aborts_if [abstract] false;

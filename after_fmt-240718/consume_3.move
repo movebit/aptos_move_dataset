@@ -9,7 +9,7 @@ module 0xc0ffee::m {
     }
 
     struct W has copy, drop {
-        a: u32,
+        a: u32
     }
 
     fun consume_(_a: W) {}

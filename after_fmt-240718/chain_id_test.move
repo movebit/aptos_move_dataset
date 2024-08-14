@@ -8,7 +8,7 @@ module 0x1::chain_id_test {
     /// the results we are interested in (i.e., the chain ID) inside this (rather-artificial) resource, which we can
     /// read back in our e2e-move-tests/ test.
     struct ChainIdStore has key {
-        id: u8,
+        id: u8
     }
 
     /// Called when the module is first deployed at address `signer`, which is set to 0x1 (according to the `module 0x1::chain_id_test` line above).
@@ -18,7 +18,7 @@ module 0x1::chain_id_test {
         features::change_feature_flags_for_next_epoch(
             sender,
             vector[features::get_aptos_stdlib_chain_id_feature()],
-            vector[],
+            vector[]
         );
         aptos_governance::force_end_epoch(sender);
     }

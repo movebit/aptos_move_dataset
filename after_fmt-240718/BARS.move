@@ -62,7 +62,7 @@ module 0x1::BARSToken {
                 create_bars_token(bars_account, artist_name),
                 content_uri,
                 amount,
-                option::none(),
+                option::none()
             );
         NFTGallery::add_to_gallery(artist, token);
     }
@@ -79,9 +79,14 @@ module 0x1::BARSToken {
     #[test_only]
     const ArtistAddr: address = @0x42;
 
-    #[test(admin = @DiemRoot, bars_account = @BARS, artist = @0x42, collector = @0x43)]
+    #[test(
+        admin = @DiemRoot, bars_account = @BARS, artist = @0x42, collector = @0x43
+    )]
     public entry fun test_bars(
-        admin: signer, bars_account: signer, artist: signer, collector: signer
+        admin: signer,
+        bars_account: signer,
+        artist: signer,
+        collector: signer
     ) {
         NFT::nft_initialize(admin);
 
@@ -94,17 +99,17 @@ module 0x1::BARSToken {
             signer::address_of(&artist),
             b"kanye",
             b"yeezy.com",
-            7,
+            7
         );
 
         assert!(NFTGallery::has_token<BARSToken>(ArtistAddr, &token_id), EMINT_FAILED);
         assert!(
             NFTGallery::get_token_balance<BARSToken>(ArtistAddr, &token_id) == 7,
-            EMINT_FAILED,
+            EMINT_FAILED
         );
         assert!(
             NFTGallery::get_token_supply<BARSToken>(ArtistAddr, &token_id) == 7,
-            EMINT_FAILED,
+            EMINT_FAILED
         );
 
         // Transfer 6 units of the token from creator to user
@@ -113,15 +118,15 @@ module 0x1::BARSToken {
             signer::address_of(&collector), // to
             6, // amount
             ArtistAddr, // token.id.addr
-            0, // token.id.creation_num
+            0 // token.id.creation_num
         );
         assert!(
             NFTGallery::get_token_balance<BARSToken>(ArtistAddr, &token_id) == 1,
-            ETRANSFER_FAILED,
+            ETRANSFER_FAILED
         );
         assert!(
             NFTGallery::get_token_balance<BARSToken>(@0x43, &token_id) == 6,
-            ETRANSFER_FAILED,
+            ETRANSFER_FAILED
         );
     }
 }

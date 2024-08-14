@@ -5,7 +5,10 @@ script {
     // 1. Withdraw the total then distribute the pieces by breaking it up or
     // 2. Transfer for each amount individually
     fun main<CoinType>(
-        sender: &signer, receiver_a: address, receiver_b: address, amount: u64
+        sender: &signer,
+        receiver_a: address,
+        receiver_b: address,
+        amount: u64
     ) {
         let coins = coin::withdraw<CoinType>(sender, amount);
 

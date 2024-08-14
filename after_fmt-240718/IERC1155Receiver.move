@@ -39,7 +39,7 @@ module Evm::IERC1155Receiver {
         bytes4(
             keccak256(
                 b"onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)"
-            ),
+            )
         )
     }
 
@@ -48,7 +48,7 @@ module Evm::IERC1155Receiver {
     public fun interfaceId(): vector<u8> {
         bytes_xor(
             selector_onERC1155Received(),
-            selector_onERC1155BatchReceived(),
+            selector_onERC1155BatchReceived()
         )
     }
 }

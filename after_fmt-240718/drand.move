@@ -81,9 +81,9 @@ module drand::drand {
         assert!(
             eq(
                 &pairing<G1, G2, Gt>(&msg_hash, &pk),
-                &pairing<G1, G2, Gt>(&sig, &one<G2>()),
+                &pairing<G1, G2, Gt>(&sig, &one<G2>())
             ),
-            1,
+            1
         );
         option::some(Randomness { bytes: sha3_256(signature) })
     }
@@ -94,7 +94,7 @@ module drand::drand {
     public fun random_number(randomness: Randomness, max: u64): u64 {
         assert!(
             vector::length(&randomness.bytes) >= 8,
-            error::invalid_argument(E_INCORRECT_RANDOMNESS),
+            error::invalid_argument(E_INCORRECT_RANDOMNESS)
         );
 
         let entropy = sha3_256(randomness.bytes);

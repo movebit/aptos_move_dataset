@@ -12,12 +12,12 @@ module extensions::table {
     /// Type of tables
     struct Table<phantom K: copy + drop, phantom V> has store {
         handle: address,
-        length: u64,
+        length: u64
     }
 
     /// Create a new Table.
     public fun new<K: copy + drop, V: store>(): Table<K, V> {
-        Table { handle: new_table_handle<K, V>(), length: 0, }
+        Table { handle: new_table_handle<K, V>(), length: 0 }
     }
 
     /// Destroy a table. The table must be empty to succeed.

@@ -20,7 +20,7 @@ module M {
         Self as borrow_global_mut,
         Self as exists,
         Self as freeze,
-        Self as assert,
+        Self as assert
     };
 
     fun t(): u64 {

@@ -11,12 +11,12 @@ script {
             aptos_governance::resolve_multi_step_proposal(
                 proposal_id,
                 @0x1,
-                { { script_hash } },
+                { { script_hash } }
             );
         let provider_google =
             jwk_consensus_config::new_oidc_provider(
                 utf8(b"https://accounts.google.com"),
-                utf8(b"https://accounts.google.com/.well-known/openid-configuration"),
+                utf8(b"https://accounts.google.com/.well-known/openid-configuration")
             );
         let config = jwk_consensus_config::new_v1(vector[provider_google]);
         jwk_consensus_config::initialize(&framework, config);

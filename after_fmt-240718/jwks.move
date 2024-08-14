@@ -45,19 +45,19 @@ module aptos_framework::jwks {
 
         /// The ut8-8 encoded OpenID configuration URL of the provider.
         /// E.g., b"https://www.facebook.com/.well-known/openid-configuration/".
-        config_url: vector<u8>,
+        config_url: vector<u8>
     }
 
     /// A list of OIDC providers whose JWKs should be watched by validators. Maintained by governance proposals.
     struct SupportedOIDCProviders has copy, drop, key, store {
-        providers: vector<OIDCProvider>,
+        providers: vector<OIDCProvider>
     }
 
     /// An JWK variant that represents the JWKs which were observed but not yet supported by Aptos.
     /// Observing `UnsupportedJWK`s means the providers adopted a new key type/format, and the system should be updated.
     struct UnsupportedJWK has copy, drop, store {
         id: vector<u8>,
-        payload: vector<u8>,
+        payload: vector<u8>
     }
 
     /// A JWK variant where `kty` is `RSA`.
@@ -66,7 +66,7 @@ module aptos_framework::jwks {
         kty: String,
         alg: String,
         e: String,
-        n: String,
+        n: String
     }
 
     /// A JSON web key.
@@ -75,7 +75,7 @@ module aptos_framework::jwks {
         /// Currently the variant type is one of the following.
         /// - `RSA_JWK`
         /// - `UnsupportedJWK`
-        variant: Any,
+        variant: Any
     }
 
     /// A provider and its `JWK`s.
@@ -90,25 +90,25 @@ module aptos_framework::jwks {
         version: u64,
 
         /// Vector of `JWK`'s sorted by their unique ID (from `get_jwk_id`) in dictionary order.
-        jwks: vector<JWK>,
+        jwks: vector<JWK>
     }
 
     /// Multiple `ProviderJWKs` objects, indexed by issuer and key ID.
     struct AllProvidersJWKs has copy, drop, store {
         /// Vector of `ProviderJWKs` sorted by `ProviderJWKs::issuer` in dictionary order.
-        entries: vector<ProviderJWKs>,
+        entries: vector<ProviderJWKs>
     }
 
     /// The `AllProvidersJWKs` that validators observed and agreed on.
     struct ObservedJWKs has copy, drop, key, store {
-        jwks: AllProvidersJWKs,
+        jwks: AllProvidersJWKs
     }
 
     #[event]
     /// When `ObservedJWKs` is updated, this event is sent to resync the JWK consensus state in all validators.
     struct ObservedJWKsUpdated has drop, store {
         epoch: u64,
-        jwks: AllProvidersJWKs,
+        jwks: AllProvidersJWKs
     }
 
     /// A small edit or patch that is applied to a `AllProvidersJWKs` to obtain `PatchedJWKs`.
@@ -119,7 +119,7 @@ module aptos_framework::jwks {
         /// - `PatchRemoveIssuer`
         /// - `PatchRemoveJWK`
         /// - `PatchUpsertJWK`
-        variant: Any,
+        variant: Any
     }
 
     /// A `Patch` variant to remove all JWKs.
@@ -127,32 +127,32 @@ module aptos_framework::jwks {
 
     /// A `Patch` variant to remove an issuer and all its JWKs.
     struct PatchRemoveIssuer has copy, drop, store {
-        issuer: vector<u8>,
+        issuer: vector<u8>
     }
 
     /// A `Patch` variant to remove a specific JWK of an issuer.
     struct PatchRemoveJWK has copy, drop, store {
         issuer: vector<u8>,
-        jwk_id: vector<u8>,
+        jwk_id: vector<u8>
     }
 
     /// A `Patch` variant to upsert a JWK for an issuer.
     struct PatchUpsertJWK has copy, drop, store {
         issuer: vector<u8>,
-        jwk: JWK,
+        jwk: JWK
     }
 
     /// A sequence of `Patch` objects that are applied *one by one* to the `ObservedJWKs`.
     ///
     /// Maintained by governance proposals.
     struct Patches has key {
-        patches: vector<Patch>,
+        patches: vector<Patch>
     }
 
     /// The result of applying the `Patches` to the `ObservedJWKs`.
     /// This is what applications should consume.
     struct PatchedJWKs has drop, key {
-        jwks: AllProvidersJWKs,
+        jwks: AllProvidersJWKs
     }
 
     //
@@ -276,12 +276,12 @@ module aptos_framework::jwks {
 
     /// Create a `Patch` that removes all entries.
     public fun new_patch_remove_all(): Patch {
-        Patch { variant: copyable_any::pack(PatchRemoveAll {}), }
+        Patch { variant: copyable_any::pack(PatchRemoveAll {}) }
     }
 
     /// Create a `Patch` that removes the entry of a given issuer, if exists.
     public fun new_patch_remove_issuer(issuer: vector<u8>): Patch {
-        Patch { variant: copyable_any::pack(PatchRemoveIssuer { issuer }), }
+        Patch { variant: copyable_any::pack(PatchRemoveIssuer { issuer }) }
     }
 
     /// Create a `Patch` that removes the entry of a given issuer, if exists.
@@ -299,7 +299,7 @@ module aptos_framework::jwks {
     /// Create a `JWK` of variant `RSA_JWK`.
     public fun new_rsa_jwk(kid: String, alg: String, e: String, n: String): JWK {
         JWK {
-            variant: copyable_any::pack(RSA_JWK { kid, kty: utf8(b"RSA"), e, n, alg, }),
+            variant: copyable_any::pack(RSA_JWK { kid, kty: utf8(b"RSA"), e, n, alg })
         }
     }
 
@@ -327,7 +327,7 @@ module aptos_framework::jwks {
             |obj| {
                 let provider: &OIDCProvider = obj;
                 provider.name == name
-            },
+            }
         );
 
         if (name_exists) {
@@ -352,7 +352,7 @@ module aptos_framework::jwks {
             |obj| {
                 let provider_jwks: ProviderJWKs = obj;
                 upsert_provider_jwks(&mut observed_jwks.jwks, provider_jwks);
-            },
+            }
         );
 
         let epoch = reconfiguration::current_epoch();
@@ -386,7 +386,7 @@ module aptos_framework::jwks {
             |obj| {
                 let patch: &Patch = obj;
                 apply_patch(&mut jwks, *patch);
-            },
+            }
         );
         *borrow_global_mut<PatchedJWKs>(@aptos_framework) = PatchedJWKs { jwks };
     }
@@ -400,7 +400,7 @@ module aptos_framework::jwks {
             |obj| {
                 let provider_jwks: &ProviderJWKs = obj;
                 issuer == provider_jwks.issuer
-            },
+            }
         );
 
         if (issuer_found) {
@@ -419,7 +419,7 @@ module aptos_framework::jwks {
             |obj| {
                 let jwk: &JWK = obj;
                 jwk_id == get_jwk_id(jwk)
-            },
+            }
         );
 
         if (jwk_id_found) {
@@ -487,7 +487,7 @@ module aptos_framework::jwks {
             |obj| {
                 let provider_jwk_set: &ProviderJWKs = obj;
                 provider_jwk_set.issuer == issuer
-            },
+            }
         );
 
         let ret =
@@ -539,7 +539,7 @@ module aptos_framework::jwks {
             |obj| {
                 let jwk: &JWK = obj;
                 jwk_id == get_jwk_id(jwk)
-            },
+            }
         );
 
         let ret =
@@ -580,7 +580,7 @@ module aptos_framework::jwks {
                 if (option::is_some(&existing_jwk_set)) {
                     option::extract(&mut existing_jwk_set)
                 } else {
-                    ProviderJWKs { version: 0, issuer: cmd.issuer, jwks: vector[], }
+                    ProviderJWKs { version: 0, issuer: cmd.issuer, jwks: vector[] }
                 };
             upsert_jwk(&mut jwk_set, cmd.jwk);
             upsert_provider_jwks(jwks, jwk_set);
@@ -615,25 +615,25 @@ module aptos_framework::jwks {
         let alice_jwks_v1 = ProviderJWKs {
             issuer: b"alice",
             version: 1,
-            jwks: vector[jwk_0, jwk_1],
+            jwks: vector[jwk_0, jwk_1]
         };
         let bob_jwks_v1 = ProviderJWKs {
             issuer: b"bob",
             version: 1,
-            jwks: vector[jwk_2, jwk_3],
+            jwks: vector[jwk_2, jwk_3]
         };
         upsert_into_observed_jwks(fx, vector[bob_jwks_v1]);
         upsert_into_observed_jwks(fx, vector[alice_jwks_v1]);
-        let expected = AllProvidersJWKs { entries: vector[alice_jwks_v1, bob_jwks_v1,] };
+        let expected = AllProvidersJWKs { entries: vector[alice_jwks_v1, bob_jwks_v1] };
         assert!(expected == borrow_global<ObservedJWKs>(@aptos_framework).jwks, 2);
 
         let alice_jwks_v2 = ProviderJWKs {
             issuer: b"alice",
             version: 2,
-            jwks: vector[jwk_1, jwk_4],
+            jwks: vector[jwk_1, jwk_4]
         };
         upsert_into_observed_jwks(fx, vector[alice_jwks_v2]);
-        let expected = AllProvidersJWKs { entries: vector[alice_jwks_v2, bob_jwks_v1,] };
+        let expected = AllProvidersJWKs { entries: vector[alice_jwks_v2, bob_jwks_v1] };
         assert!(expected == borrow_global<ObservedJWKs>(@aptos_framework).jwks, 3);
 
         remove_issuer_from_observed_jwks(fx, b"alice");
@@ -654,21 +654,21 @@ module aptos_framework::jwks {
                             utf8(b"RS256"), // alg
                             utf8(b"AQAB"), // e
                             utf8(
-                                b"psply8S991RswM0JQJwv51fooFFvZUtYdL8avyKObshyzj7oJuJD8vkf5DKJJF1XOGi6Wv2D-U4b3htgrVXeOjAvaKTYtrQVUG_Txwjebdm2EvBJ4R6UaOULjavcSkb8VzW4l4AmP_yWoidkHq8n6vfHt9alDAONILi7jPDzRC7NvnHQ_x0hkRVh_OAmOJCpkgb0gx9-U8zSBSmowQmvw15AZ1I0buYZSSugY7jwNS2U716oujAiqtRkC7kg4gPouW_SxMleeo8PyRsHpYCfBME66m-P8Zr9Fh1Qgmqg4cWdy_6wUuNc1cbVY_7w1BpHZtZCNeQ56AHUgUFmo2LAQQ",
-                            ), // n
+                                b"psply8S991RswM0JQJwv51fooFFvZUtYdL8avyKObshyzj7oJuJD8vkf5DKJJF1XOGi6Wv2D-U4b3htgrVXeOjAvaKTYtrQVUG_Txwjebdm2EvBJ4R6UaOULjavcSkb8VzW4l4AmP_yWoidkHq8n6vfHt9alDAONILi7jPDzRC7NvnHQ_x0hkRVh_OAmOJCpkgb0gx9-U8zSBSmowQmvw15AZ1I0buYZSSugY7jwNS2U716oujAiqtRkC7kg4gPouW_SxMleeo8PyRsHpYCfBME66m-P8Zr9Fh1Qgmqg4cWdy_6wUuNc1cbVY_7w1BpHZtZCNeQ56AHUgUFmo2LAQQ"
+                            ) // n
                         ),
-                        new_unsupported_jwk(b"key_id_0", b"key_content_0"),
-                    ],
+                        new_unsupported_jwk(b"key_id_0", b"key_content_0")
+                    ]
                 },
                 ProviderJWKs {
                     issuer: b"bob",
                     version: 222,
                     jwks: vector[
                         new_unsupported_jwk(b"key_id_1", b"key_content_1"),
-                        new_unsupported_jwk(b"key_id_2", b"key_content_2"),
-                    ],
-                },
-            ],
+                        new_unsupported_jwk(b"key_id_2", b"key_content_2")
+                    ]
+                }
+            ]
         };
 
         let patch = new_patch_remove_issuer(b"alice");
@@ -682,12 +682,12 @@ module aptos_framework::jwks {
                             version: 222,
                             jwks: vector[
                                 new_unsupported_jwk(b"key_id_1", b"key_content_1"),
-                                new_unsupported_jwk(b"key_id_2", b"key_content_2"),
-                            ],
-                        },
-                    ],
+                                new_unsupported_jwk(b"key_id_2", b"key_content_2")
+                            ]
+                        }
+                    ]
                 },
-            1,
+            1
         );
 
         let patch = new_patch_remove_jwk(b"bob", b"key_id_1");
@@ -701,11 +701,11 @@ module aptos_framework::jwks {
                             version: 222,
                             jwks: vector[new_unsupported_jwk(
                                 b"key_id_2", b"key_content_2"
-                            ),],
-                        },
-                    ],
+                            )]
+                        }
+                    ]
                 },
-            1,
+            1
         );
 
         let patch =
@@ -716,9 +716,9 @@ module aptos_framework::jwks {
                     utf8(b"RS256"), // alg
                     utf8(b"AQAB"), // e
                     utf8(
-                        b"sm72oBH-R2Rqt4hkjp66tz5qCtq42TMnVgZg2Pdm_zs7_-EoFyNs9sD1MKsZAFaBPXBHDiWywyaHhLgwETLN9hlJIZPzGCEtV3mXJFSYG-8L6t3kyKi9X1lUTZzbmNpE0tf-eMW-3gs3VQSBJQOcQnuiANxbSXwS3PFmi173C_5fDSuC1RoYGT6X3JqLc3DWUmBGucuQjPaUF0w6LMqEIy0W_WYbW7HImwANT6dT52T72md0JWZuAKsRRnRr_bvaUX8_e3K8Pb1K_t3dD6WSLvtmEfUnGQgLynVl3aV5sRYC0Hy_IkRgoxl2fd8AaZT1X_rdPexYpx152Pl_CHJ79Q",
-                    ), // n
-                ),
+                        b"sm72oBH-R2Rqt4hkjp66tz5qCtq42TMnVgZg2Pdm_zs7_-EoFyNs9sD1MKsZAFaBPXBHDiWywyaHhLgwETLN9hlJIZPzGCEtV3mXJFSYG-8L6t3kyKi9X1lUTZzbmNpE0tf-eMW-3gs3VQSBJQOcQnuiANxbSXwS3PFmi173C_5fDSuC1RoYGT6X3JqLc3DWUmBGucuQjPaUF0w6LMqEIy0W_WYbW7HImwANT6dT52T72md0JWZuAKsRRnRr_bvaUX8_e3K8Pb1K_t3dD6WSLvtmEfUnGQgLynVl3aV5sRYC0Hy_IkRgoxl2fd8AaZT1X_rdPexYpx152Pl_CHJ79Q"
+                    ) // n
+                )
             );
         apply_patch(&mut jwks, patch);
         let edit =
@@ -745,15 +745,15 @@ module aptos_framework::jwks {
                             version: 0,
                             jwks: vector[
                                 new_unsupported_jwk(b"key_id_0", b"key_content_0b"),
-                                new_unsupported_jwk(b"key_id_3", b"key_content_3"),
-                            ],
+                                new_unsupported_jwk(b"key_id_3", b"key_content_3")
+                            ]
                         },
                         ProviderJWKs {
                             issuer: b"bob",
                             version: 222,
                             jwks: vector[new_unsupported_jwk(
                                 b"key_id_2", b"key_content_2b"
-                            ),],
+                            )]
                         },
                         ProviderJWKs {
                             issuer: b"carl",
@@ -764,14 +764,14 @@ module aptos_framework::jwks {
                                     utf8(b"RS256"), // alg
                                     utf8(b"AQAB"), // e
                                     utf8(
-                                        b"sm72oBH-R2Rqt4hkjp66tz5qCtq42TMnVgZg2Pdm_zs7_-EoFyNs9sD1MKsZAFaBPXBHDiWywyaHhLgwETLN9hlJIZPzGCEtV3mXJFSYG-8L6t3kyKi9X1lUTZzbmNpE0tf-eMW-3gs3VQSBJQOcQnuiANxbSXwS3PFmi173C_5fDSuC1RoYGT6X3JqLc3DWUmBGucuQjPaUF0w6LMqEIy0W_WYbW7HImwANT6dT52T72md0JWZuAKsRRnRr_bvaUX8_e3K8Pb1K_t3dD6WSLvtmEfUnGQgLynVl3aV5sRYC0Hy_IkRgoxl2fd8AaZT1X_rdPexYpx152Pl_CHJ79Q",
-                                    ), // n
+                                        b"sm72oBH-R2Rqt4hkjp66tz5qCtq42TMnVgZg2Pdm_zs7_-EoFyNs9sD1MKsZAFaBPXBHDiWywyaHhLgwETLN9hlJIZPzGCEtV3mXJFSYG-8L6t3kyKi9X1lUTZzbmNpE0tf-eMW-3gs3VQSBJQOcQnuiANxbSXwS3PFmi173C_5fDSuC1RoYGT6X3JqLc3DWUmBGucuQjPaUF0w6LMqEIy0W_WYbW7HImwANT6dT52T72md0JWZuAKsRRnRr_bvaUX8_e3K8Pb1K_t3dD6WSLvtmEfUnGQgLynVl3aV5sRYC0Hy_IkRgoxl2fd8AaZT1X_rdPexYpx152Pl_CHJ79Q"
+                                    ) // n
                                 )
-                            ],
-                        },
-                    ],
+                            ]
+                        }
+                    ]
                 },
-            1,
+            1
         );
 
         let patch = new_patch_remove_all();
@@ -792,19 +792,19 @@ module aptos_framework::jwks {
         upsert_into_observed_jwks(
             &aptos_framework,
             vector[
-                ProviderJWKs { issuer: b"alice", version: 111, jwks: vector[jwk_0, jwk_1], },
-                ProviderJWKs { issuer: b"bob", version: 222, jwks: vector[jwk_2, jwk_3], },
-            ],
+                ProviderJWKs { issuer: b"alice", version: 111, jwks: vector[jwk_0, jwk_1] },
+                ProviderJWKs { issuer: b"bob", version: 222, jwks: vector[jwk_2, jwk_3] }
+            ]
         );
         assert!(jwk_3 == get_patched_jwk(b"bob", b"key_id_3"), 1);
         assert!(option::some(jwk_3) == try_get_patched_jwk(b"bob", b"key_id_3"), 1);
 
         // Ignore all Bob's keys.
-        set_patches(&aptos_framework, vector[new_patch_remove_issuer(b"bob"),]);
+        set_patches(&aptos_framework, vector[new_patch_remove_issuer(b"bob")]);
         assert!(option::none() == try_get_patched_jwk(b"bob", b"key_id_3"), 1);
 
         // Update one of Bob's key..
-        set_patches(&aptos_framework, vector[new_patch_upsert_jwk(b"bob", jwk_3b),]);
+        set_patches(&aptos_framework, vector[new_patch_upsert_jwk(b"bob", jwk_3b)]);
         assert!(jwk_3b == get_patched_jwk(b"bob", b"key_id_3"), 1);
         assert!(option::some(jwk_3b) == try_get_patched_jwk(b"bob", b"key_id_3"), 1);
 
@@ -814,8 +814,8 @@ module aptos_framework::jwks {
             vector[
                 new_patch_remove_all(),
                 new_patch_upsert_jwk(b"alice", jwk_1),
-                new_patch_upsert_jwk(b"bob", jwk_3),
-            ],
+                new_patch_upsert_jwk(b"bob", jwk_3)
+            ]
         );
         assert!(jwk_3 == get_patched_jwk(b"bob", b"key_id_3"), 1);
         assert!(option::some(jwk_3) == try_get_patched_jwk(b"bob", b"key_id_3"), 1);

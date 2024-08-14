@@ -36,7 +36,7 @@ module aptos_std::any {
     public fun unpack<T>(x: Any): T {
         assert!(
             type_info::type_name<T>() == x.type_name,
-            error::invalid_argument(ETYPE_MISMATCH),
+            error::invalid_argument(ETYPE_MISMATCH)
         );
         from_bytes<T>(x.data)
     }

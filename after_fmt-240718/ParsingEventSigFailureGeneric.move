@@ -7,19 +7,19 @@ module 0x2::M {
     struct Transfer {
         from: address,
         to: address,
-        value: U256,
+        value: U256
     }
 
     #[event]
     struct Approval {
         owner: address,
         spender: address,
-        value: U256,
+        value: U256
     }
 
     #[event]
     struct Bar<T1, T2> {
         x: T1,
-        y: vector<T2>,
+        y: vector<T2>
     }
 }

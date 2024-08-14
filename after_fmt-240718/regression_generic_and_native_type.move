@@ -11,17 +11,17 @@ module Diem {
     // A resource representing a fungible token
     struct T<phantom Token> has key, store {
         // The value of the token. May be zero
-        value: u64,
+        value: u64
     }
 
     struct Info<phantom Token> has key {
         total_value: u128,
-        preburn_value: u64,
+        preburn_value: u64
     }
 
     struct Preburn<phantom Token> has key {
         requests: vector<T<Token>>,
-        is_approved: bool,
+        is_approved: bool
     }
 
     spec Preburn {

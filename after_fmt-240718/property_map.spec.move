@@ -157,7 +157,7 @@ spec aptos_token::property_map {
         map: &mut PropertyMap,
         keys: vector<String>,
         values: vector<vector<u8>>,
-        types: vector<String>,
+        types: vector<String>
     ) {
         // TODO: Can't handle abort in loop.
         pragma aborts_if_is_partial;

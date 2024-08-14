@@ -17,7 +17,7 @@ module 0xABCD::fungible_asset_example {
     struct ManagedFungibleAsset has key {
         mint_ref: MintRef,
         transfer_ref: TransferRef,
-        burn_ref: BurnRef,
+        burn_ref: BurnRef
     }
 
     /// Initialize metadata object and store the refs.
@@ -31,7 +31,7 @@ module 0xABCD::fungible_asset_example {
             utf8(ASSET_SYMBOL), /* symbol */
             8, /* decimals */
             utf8(b"http://example.com/favicon.ico"), /* icon */
-            utf8(b"http://example.com"), /* project */
+            utf8(b"http://example.com") /* project */
         );
 
         // Create mint/burn/transfer refs to allow creator to manage the fungible asset.
@@ -41,7 +41,7 @@ module 0xABCD::fungible_asset_example {
         let metadata_object_signer = object::generate_signer(constructor_ref);
         move_to(
             &metadata_object_signer,
-            ManagedFungibleAsset { mint_ref, transfer_ref, burn_ref },
+            ManagedFungibleAsset { mint_ref, transfer_ref, burn_ref }
         )
         // <:!:initialize
     }
@@ -69,7 +69,10 @@ module 0xABCD::fungible_asset_example {
     }
 
     public entry fun transfer(
-        from: &signer, admin_address: address, to: address, amount: u64
+        from: &signer,
+        admin_address: address,
+        to: address,
+        amount: u64
     ) {
         let asset = get_metadata(admin_address);
         let from_address = signer::address_of(from);
@@ -81,11 +84,11 @@ module 0xABCD::fungible_asset_example {
     /// Borrow the immutable reference of the refs of `metadata`.
     /// This validates that the signer is the metadata object's owner.
     inline fun authorized_borrow_refs(
-        owner: &signer, asset: Object<Metadata>,
+        owner: &signer, asset: Object<Metadata>
     ): &ManagedFungibleAsset acquires ManagedFungibleAsset {
         assert!(
             object::is_owner(asset, signer::address_of(owner)),
-            error::permission_denied(ENOT_OWNER),
+            error::permission_denied(ENOT_OWNER)
         );
         borrow_global<ManagedFungibleAsset>(object::object_address(&asset))
     }

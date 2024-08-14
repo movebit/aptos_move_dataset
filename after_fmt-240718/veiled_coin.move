@@ -186,7 +186,7 @@ module veiled_coin::veiled_coin {
     struct VeiledCoinStore<phantom CoinType> has key {
         /// A ElGamal ciphertext of a value $v \in [0, 2^{32})$, an invariant that is enforced throughout the code.
         veiled_balance: elgamal::CompressedCiphertext,
-        pk: elgamal::CompressedPubkey,
+        pk: elgamal::CompressedPubkey
     }
 
     #[event]
@@ -206,14 +206,14 @@ module veiled_coin::veiled_coin {
     /// Holds an `account::SignerCapability` for the resource account created when initializing this module. This
     /// resource account houses a `coin::CoinStore<T>` for every type of coin `T` that is veiled.
     struct VeiledCoinMinter has store, key {
-        signer_cap: account::SignerCapability,
+        signer_cap: account::SignerCapability
     }
 
     /// Main structure representing a coin in an account's custody.
     struct VeiledCoin<phantom CoinType> {
         /// ElGamal ciphertext which encrypts the number of coins $v \in [0, 2^{32})$. This $[0, 2^{32})$ range invariant
         /// is enforced throughout the code via Bulletproof-based ZK range proofs.
-        veiled_amount: elgamal::Ciphertext,
+        veiled_amount: elgamal::Ciphertext
     }
 
     //
@@ -224,13 +224,13 @@ module veiled_coin::veiled_coin {
     struct TransferProof has drop {
         sigma_proof: sigma_protos::TransferSubproof,
         zkrp_new_balance: RangeProof,
-        zkrp_amount: RangeProof,
+        zkrp_amount: RangeProof
     }
 
     /// A cryptographic proof that ensures correctness of a veiled-to-*unveiled* coin transfer.
     struct WithdrawalProof has drop {
         sigma_proof: sigma_protos::WithdrawalSubproof,
-        zkrp_new_balance: RangeProof,
+        zkrp_new_balance: RangeProof
     }
 
     //
@@ -242,13 +242,13 @@ module veiled_coin::veiled_coin {
     fun init_module(deployer: &signer) {
         assert!(
             bulletproofs::get_max_range_bits() >= MAX_BITS_IN_VEILED_COIN_VALUE,
-            error::internal(ERANGE_PROOF_SYSTEM_HAS_INSUFFICIENT_RANGE),
+            error::internal(ERANGE_PROOF_SYSTEM_HAS_INSUFFICIENT_RANGE)
         );
 
         assert!(
             NUM_LEAST_SIGNIFICANT_BITS_REMOVED + NUM_MOST_SIGNIFICANT_BITS_REMOVED
                 == 32,
-            error::internal(EU64_COIN_AMOUNT_CLAMPING_IS_INCORRECT),
+            error::internal(EU64_COIN_AMOUNT_CLAMPING_IS_INCORRECT)
         );
 
         // Create the resource account. This will allow this module to later obtain a `signer` for this account and
@@ -311,14 +311,14 @@ module veiled_coin::veiled_coin {
         let comm_new_balance = pedersen::new_commitment_from_bytes(comm_new_balance);
         assert!(
             std::option::is_some(&comm_new_balance),
-            error::invalid_argument(EDESERIALIZATION_FAILED),
+            error::invalid_argument(EDESERIALIZATION_FAILED)
         );
 
         let sigma_proof =
             sigma_protos::deserialize_withdrawal_subproof(withdraw_subproof);
         assert!(
             std::option::is_some(&sigma_proof),
-            error::invalid_argument(EDESERIALIZATION_FAILED),
+            error::invalid_argument(EDESERIALIZATION_FAILED)
         );
 
         let comm_new_balance = std::option::extract(&mut comm_new_balance);
@@ -326,7 +326,7 @@ module veiled_coin::veiled_coin {
 
         let withdrawal_proof = WithdrawalProof {
             sigma_proof: std::option::extract(&mut sigma_proof),
-            zkrp_new_balance,
+            zkrp_new_balance
         };
 
         // Do the actual work
@@ -335,7 +335,7 @@ module veiled_coin::veiled_coin {
             recipient,
             amount,
             comm_new_balance,
-            withdrawal_proof,
+            withdrawal_proof
         );
     }
 
@@ -353,7 +353,7 @@ module veiled_coin::veiled_coin {
             amount,
             comm_new_balance,
             zkrp_new_balance,
-            withdraw_subproof,
+            withdraw_subproof
         )
     }
 
@@ -387,32 +387,32 @@ module veiled_coin::veiled_coin {
         let veiled_withdraw_amount = elgamal::new_ciphertext_from_bytes(withdraw_ct);
         assert!(
             std::option::is_some(&veiled_withdraw_amount),
-            error::invalid_argument(EDESERIALIZATION_FAILED),
+            error::invalid_argument(EDESERIALIZATION_FAILED)
         );
 
         let veiled_deposit_amount = elgamal::new_ciphertext_from_bytes(deposit_ct);
         assert!(
             std::option::is_some(&veiled_deposit_amount),
-            error::invalid_argument(EDESERIALIZATION_FAILED),
+            error::invalid_argument(EDESERIALIZATION_FAILED)
         );
 
         let comm_new_balance = pedersen::new_commitment_from_bytes(comm_new_balance);
         assert!(
             std::option::is_some(&comm_new_balance),
-            error::invalid_argument(EDESERIALIZATION_FAILED),
+            error::invalid_argument(EDESERIALIZATION_FAILED)
         );
 
         let comm_amount = pedersen::new_commitment_from_bytes(comm_amount);
         assert!(
             std::option::is_some(&comm_amount),
-            error::invalid_argument(EDESERIALIZATION_FAILED),
+            error::invalid_argument(EDESERIALIZATION_FAILED)
         );
 
         let transfer_subproof =
             sigma_protos::deserialize_transfer_subproof(transfer_subproof);
         assert!(
             std::option::is_some(&transfer_subproof),
-            error::invalid_argument(EDESERIALIZATION_FAILED),
+            error::invalid_argument(EDESERIALIZATION_FAILED)
         );
 
         let transfer_proof = TransferProof {
@@ -429,7 +429,7 @@ module veiled_coin::veiled_coin {
             std::option::extract(&mut veiled_deposit_amount),
             std::option::extract(&mut comm_new_balance),
             std::option::extract(&mut comm_amount),
-            &transfer_proof,
+            &transfer_proof
         )
     }
 
@@ -471,7 +471,7 @@ module veiled_coin::veiled_coin {
     public fun veiled_balance<CoinType>(owner: address): elgamal::CompressedCiphertext acquires VeiledCoinStore {
         assert!(
             has_veiled_coin_store<CoinType>(owner),
-            error::not_found(EVEILED_COIN_STORE_NOT_PUBLISHED),
+            error::not_found(EVEILED_COIN_STORE_NOT_PUBLISHED)
         );
 
         borrow_global<VeiledCoinStore<CoinType>>(owner).veiled_balance
@@ -481,7 +481,7 @@ module veiled_coin::veiled_coin {
     public fun encryption_public_key<CoinType>(addr: address): elgamal::CompressedPubkey acquires VeiledCoinStore {
         assert!(
             has_veiled_coin_store<CoinType>(addr),
-            error::not_found(EVEILED_COIN_STORE_NOT_PUBLISHED),
+            error::not_found(EVEILED_COIN_STORE_NOT_PUBLISHED)
         );
 
         borrow_global_mut<VeiledCoinStore<CoinType>>(addr).pk
@@ -520,7 +520,7 @@ module veiled_coin::veiled_coin {
         let account_addr = signer::address_of(user);
         assert!(
             !has_veiled_coin_store<CoinType>(account_addr),
-            error::already_exists(EVEILED_COIN_STORE_ALREADY_PUBLISHED),
+            error::already_exists(EVEILED_COIN_STORE_ALREADY_PUBLISHED)
         );
 
         // Note: There is no way to find an ElGamal SK such that the `(0_G, 0_G)` ciphertext below decrypts to a non-zero
@@ -529,7 +529,7 @@ module veiled_coin::veiled_coin {
 
         let coin_store = VeiledCoinStore<CoinType> {
             veiled_balance: helpers::get_veiled_balance_zero_ciphertext(),
-            pk,
+            pk
         };
         move_to(user, coin_store);
     }
@@ -540,7 +540,7 @@ module veiled_coin::veiled_coin {
     ) acquires VeiledCoinStore {
         assert!(
             has_veiled_coin_store<CoinType>(to_addr),
-            error::not_found(EVEILED_COIN_STORE_NOT_PUBLISHED),
+            error::not_found(EVEILED_COIN_STORE_NOT_PUBLISHED)
         );
 
         let veiled_coin_store = borrow_global_mut<VeiledCoinStore<CoinType>>(to_addr);
@@ -573,7 +573,7 @@ module veiled_coin::veiled_coin {
         let addr = signer::address_of(sender);
         assert!(
             has_veiled_coin_store<CoinType>(addr),
-            error::not_found(EVEILED_COIN_STORE_NOT_PUBLISHED),
+            error::not_found(EVEILED_COIN_STORE_NOT_PUBLISHED)
         );
 
         // Fetch the sender's ElGamal encryption public key
@@ -593,7 +593,7 @@ module veiled_coin::veiled_coin {
             &veiled_balance,
             &comm_new_balance,
             &scalar_amount,
-            &withdrawal_proof.sigma_proof,
+            &withdrawal_proof.sigma_proof
         );
 
         // Verify a ZK range proof on `comm_new_balance` (and thus on the remaining `veiled_balance`)
@@ -601,7 +601,7 @@ module veiled_coin::veiled_coin {
             &comm_new_balance,
             &withdrawal_proof.zkrp_new_balance,
             &std::option::none(),
-            &std::option::none(),
+            &std::option::none()
         );
 
         let veiled_amount = elgamal::new_ciphertext_no_randomness(&scalar_amount);
@@ -619,7 +619,7 @@ module veiled_coin::veiled_coin {
         let c =
             coin::withdraw(
                 &get_resource_account_signer(),
-                cast_u32_to_u64_amount(amount),
+                cast_u32_to_u64_amount(amount)
             );
 
         coin::deposit<CoinType>(recipient, c);
@@ -659,7 +659,7 @@ module veiled_coin::veiled_coin {
             &comm_amount,
             &comm_new_balance,
             &veiled_balance,
-            &transfer_proof.sigma_proof,
+            &transfer_proof.sigma_proof
         );
 
         // Update the account's veiled balance by homomorphically subtracting the veiled amount from the veiled balance.
@@ -670,7 +670,7 @@ module veiled_coin::veiled_coin {
             &comm_new_balance,
             &transfer_proof.zkrp_new_balance,
             &std::option::some(comm_amount),
-            &std::option::some(transfer_proof.zkrp_amount),
+            &std::option::some(transfer_proof.zkrp_amount)
         );
 
         // Update the veiled balance to reflect the veiled withdrawal
@@ -728,9 +728,9 @@ module veiled_coin::veiled_coin {
                 comm_new_balance,
                 zkrp_new_balance,
                 MAX_BITS_IN_VEILED_COIN_VALUE,
-                VEILED_COIN_BULLETPROOFS_DST,
+                VEILED_COIN_BULLETPROOFS_DST
             ),
-            error::out_of_range(ERANGE_PROOF_VERIFICATION_FAILED),
+            error::out_of_range(ERANGE_PROOF_VERIFICATION_FAILED)
         );
 
         // Checks that the transferred amount is in range (when this amount did not originate from a public amount); i.e., range condition (2)
@@ -740,9 +740,9 @@ module veiled_coin::veiled_coin {
                     std::option::borrow(comm_amount),
                     std::option::borrow(zkrp_amount),
                     MAX_BITS_IN_VEILED_COIN_VALUE,
-                    VEILED_COIN_BULLETPROOFS_DST,
+                    VEILED_COIN_BULLETPROOFS_DST
                 ),
-                error::out_of_range(ERANGE_PROOF_VERIFICATION_FAILED),
+                error::out_of_range(ERANGE_PROOF_VERIFICATION_FAILED)
             );
         };
     }
@@ -779,7 +779,7 @@ module veiled_coin::veiled_coin {
         // because the caller should have withdrawn a u32 amount, but enforcing this here anyway).
         assert!(
             cast_u32_to_u64_amount(value_u32) == value_u64,
-            error::internal(EINTERNAL_ERROR),
+            error::internal(EINTERNAL_ERROR)
         );
 
         // Deposit a normal coin into the resource account...
@@ -799,7 +799,10 @@ module veiled_coin::veiled_coin {
     /// Returns true if the balance at address `owner` equals `value`.
     /// Requires the ElGamal encryption randomness `r` and public key `pk` as auxiliary inputs.
     public fun verify_opened_balance<CoinType>(
-        owner: address, value: u32, r: &Scalar, pk: &elgamal::CompressedPubkey
+        owner: address,
+        value: u32,
+        r: &Scalar,
+        pk: &elgamal::CompressedPubkey
     ): bool acquires VeiledCoinStore {
         // compute the expected encrypted balance
         let value = ristretto255::new_scalar_from_u32(value);

@@ -24,7 +24,7 @@ module post_mint_reveal_nft::bucket_table {
     struct Entry<K, V> has store {
         hash: u64,
         key: K,
-        value: V,
+        value: V
     }
 
     struct BucketTable<K, V> has store {
@@ -33,7 +33,7 @@ module post_mint_reveal_nft::bucket_table {
         // number of bits to represent num_buckets
         level: u8,
         // total number of items
-        len: u64,
+        len: u64
     }
 
     /// Create an empty BucketTable with `initial_buckets` buckets.
@@ -41,7 +41,7 @@ module post_mint_reveal_nft::bucket_table {
         assert!(initial_buckets > 0, error::invalid_argument(EZERO_CAPACITY));
         let buckets = table_with_length::new();
         table_with_length::add(&mut buckets, 0, vector::empty());
-        let map = BucketTable { buckets, num_buckets: 1, level: 0, len: 0, };
+        let map = BucketTable { buckets, num_buckets: 1, level: 0, len: 0 };
         split(&mut map, initial_buckets - 1);
         map
     }
@@ -71,7 +71,7 @@ module post_mint_reveal_nft::bucket_table {
             |entry| {
                 let entry: &Entry<K, V> = entry;
                 assert!(&entry.key != &key, error::invalid_argument(EALREADY_EXIST));
-            },
+            }
         );
         vector::push_back(bucket, Entry { hash, key, value });
         map.len = map.len + 1;
@@ -183,7 +183,7 @@ module post_mint_reveal_nft::bucket_table {
             |entry| {
                 let entry: &Entry<K, V> = entry;
                 &entry.key == key
-            },
+            }
         )
     }
 

@@ -26,7 +26,7 @@ module resource_account::simple_defi {
     struct ModuleData has key {
         resource_signer_cap: account::SignerCapability,
         burn_cap: BurnCapability<ChloesCoin>,
-        mint_cap: MintCapability<ChloesCoin>,
+        mint_cap: MintCapability<ChloesCoin>
     }
 
     struct ChloesCoin {
@@ -44,11 +44,11 @@ module resource_account::simple_defi {
                 string::utf8(b"Chloe's Coin"),
                 string::utf8(b"CCOIN"),
                 8,
-                false,
+                false
             );
         move_to(
             account,
-            ModuleData { resource_signer_cap, burn_cap, mint_cap, },
+            ModuleData { resource_signer_cap, burn_cap, mint_cap }
         );
 
         // destroy freeze cap because we aren't using it

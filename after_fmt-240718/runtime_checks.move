@@ -17,15 +17,15 @@ module 0x1::runtime_checks {
     //
 
     struct StructWithAggregator<IntTy: copy + drop> has drop {
-        aggregator: Aggregator<IntTy>,
+        aggregator: Aggregator<IntTy>
     }
 
     struct StructWithAggregatorSnapshot<IntTy: copy + drop> has drop {
-        snapshot: AggregatorSnapshot<IntTy>,
+        snapshot: AggregatorSnapshot<IntTy>
     }
 
     struct StructWithDerivedStringSnapshot has drop {
-        derived_string_snapshot: DerivedStringSnapshot,
+        derived_string_snapshot: DerivedStringSnapshot
     }
 
     fun with_aggregator<IntTy: copy + drop>(): StructWithAggregator<IntTy> {

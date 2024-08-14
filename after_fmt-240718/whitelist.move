@@ -17,7 +17,7 @@ module post_mint_reveal_nft::whitelist {
     /// WhitelistMintConfig stores information about all stages of whitelist.
     /// Most whitelists are one-stage, but we allow multiple stages to be added in case there are multiple rounds of whitelists.
     struct WhitelistMintConfig has key {
-        whitelist_configs: vector<WhitelistStage>,
+        whitelist_configs: vector<WhitelistStage>
     }
 
     /// WhitelistMintConfigSingleStage stores information about one stage of whitelist.
@@ -25,7 +25,7 @@ module post_mint_reveal_nft::whitelist {
         whitelisted_address: BucketTable<address, u64>,
         whitelist_mint_price: u64,
         whitelist_minting_start_time: u64,
-        whitelist_minting_end_time: u64,
+        whitelist_minting_end_time: u64
     }
 
     /// The whitelist start time is not strictly smaller than the whitelist end time.
@@ -97,7 +97,7 @@ module post_mint_reveal_nft::whitelist {
     /// Initializes the WhitelistMintConfig resource.
     public fun init_whitelist_config(admin: &signer) {
         let config =
-            WhitelistMintConfig { whitelist_configs: vector::empty<WhitelistStage>(), };
+            WhitelistMintConfig { whitelist_configs: vector::empty<WhitelistStage>() };
         move_to(admin, config);
     }
 
@@ -112,14 +112,14 @@ module post_mint_reveal_nft::whitelist {
             borrow_global_mut<WhitelistMintConfig>(module_address);
         assert!(
             stage < vector::length(&whitelist_mint_config.whitelist_configs),
-            error::invalid_argument(EINVALID_STAGE),
+            error::invalid_argument(EINVALID_STAGE)
         );
         let whitelist_stage = vector::borrow_mut(
             &mut whitelist_mint_config.whitelist_configs, stage
         );
         assert!(
             bucket_table::contains(&whitelist_stage.whitelisted_address, &minter_address),
-            error::permission_denied(EACCOUNT_NOT_WHITELISTED),
+            error::permission_denied(EACCOUNT_NOT_WHITELISTED)
         );
         let remaining_minting_amount =
             bucket_table::borrow_mut(
@@ -127,7 +127,7 @@ module post_mint_reveal_nft::whitelist {
             );
         assert!(
             *remaining_minting_amount >= user_minting_amount,
-            error::invalid_argument(EEXCEEDS_MINT_LIMIT),
+            error::invalid_argument(EEXCEEDS_MINT_LIMIT)
         );
         *remaining_minting_amount = *remaining_minting_amount - user_minting_amount;
     }
@@ -142,7 +142,7 @@ module post_mint_reveal_nft::whitelist {
     ) acquires WhitelistMintConfig {
         assert!(
             whitelist_start_time < whitelist_end_time,
-            error::invalid_argument(EINVALID_WHITELIST_SETTING),
+            error::invalid_argument(EINVALID_WHITELIST_SETTING)
         );
         if (!whitelist_config_exists(signer::address_of(admin))) {
             init_whitelist_config(admin);
@@ -157,7 +157,7 @@ module post_mint_reveal_nft::whitelist {
                 whitelisted_address: bucket_table::new<address, u64>(4),
                 whitelist_mint_price: whitelist_price,
                 whitelist_minting_start_time: whitelist_start_time,
-                whitelist_minting_end_time: whitelist_end_time,
+                whitelist_minting_end_time: whitelist_end_time
             };
             vector::push_back(&mut config.whitelist_configs, whitelist_stage);
         } else {
@@ -180,7 +180,7 @@ module post_mint_reveal_nft::whitelist {
         let config = borrow_global_mut<WhitelistMintConfig>(signer::address_of(admin));
         assert!(
             whitelist_stage < vector::length(&config.whitelist_configs),
-            error::invalid_argument(EINVALID_STAGE),
+            error::invalid_argument(EINVALID_STAGE)
         );
         let whitelist_stage = vector::borrow_mut(
             &mut config.whitelist_configs, whitelist_stage
@@ -188,7 +188,7 @@ module post_mint_reveal_nft::whitelist {
         let now = timestamp::now_seconds();
         assert!(
             now < whitelist_stage.whitelist_minting_end_time,
-            error::invalid_argument(EINVALID_UPDATE_AFTER_MINTING),
+            error::invalid_argument(EINVALID_UPDATE_AFTER_MINTING)
         );
 
         vector::for_each_ref(
@@ -197,7 +197,7 @@ module post_mint_reveal_nft::whitelist {
                 bucket_table::add(
                     &mut whitelist_stage.whitelisted_address, *wl_address, mint_limit
                 );
-            },
+            }
         );
     }
 }

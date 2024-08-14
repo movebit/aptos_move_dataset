@@ -20,7 +20,7 @@ module CoreFramework::ChainId {
         SystemAddresses::assert_core_resource(account);
         assert!(
             !exists<ChainId>(signer::address_of(account)),
-            errors::already_published(ECHAIN_ID),
+            errors::already_published(ECHAIN_ID)
         );
         move_to(account, ChainId { id })
     }

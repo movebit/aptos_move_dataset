@@ -70,17 +70,17 @@ module 0x42::SmokeTest {
 
     struct A {
         addr: address,
-        val: u64,
+        val: u64
     }
 
     struct B {
         val: u64,
-        a: A,
+        a: A
     }
 
     struct C {
         val: u64,
-        b: B,
+        b: B
     }
 
     fun identity(a: A, b: B, c: C): (A, B, C) {

@@ -264,7 +264,7 @@ module aptos_std::crypto_algebra {
         std::features::change_feature_flags_for_testing(
             fx,
             vector[std::features::get_cryptography_algebra_natives_feature()],
-            vector[],
+            vector[]
         );
     }
 

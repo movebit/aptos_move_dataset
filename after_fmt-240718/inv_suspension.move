@@ -1,6 +1,6 @@
 module 0x2::InvRelevance {
     struct R<T: store> has key, store {
-        t: T,
+        t: T
     }
 
     fun inner<T: store>(s: &signer, t: T) {

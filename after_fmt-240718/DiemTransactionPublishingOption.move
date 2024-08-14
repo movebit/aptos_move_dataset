@@ -26,7 +26,7 @@ module DiemFramework::DiemTransactionPublishingOption {
         /// limitation would be enforced.
         script_allow_list: vector<vector<u8>>,
         /// Anyone can publish new module if this flag is set to true.
-        module_publishing_allowed: bool,
+        module_publishing_allowed: bool
     }
 
     /// If published, halts transactions from all accounts except DiemRoot
@@ -35,14 +35,14 @@ module DiemFramework::DiemTransactionPublishingOption {
     public fun initialize(
         dr_account: &signer,
         script_allow_list: vector<vector<u8>>,
-        module_publishing_allowed: bool,
+        module_publishing_allowed: bool
     ) {
         DiemTimestamp::assert_genesis();
         Roles::assert_diem_root(dr_account);
 
         DiemConfig::publish_new_config(
             dr_account,
-            DiemTransactionPublishingOption { script_allow_list, module_publishing_allowed },
+            DiemTransactionPublishingOption { script_allow_list, module_publishing_allowed }
         );
     }
 
@@ -145,7 +145,7 @@ module DiemFramework::DiemTransactionPublishingOption {
         Roles::assert_diem_root(dr_account);
         assert!(
             !exists<HaltAllTransactions>(signer::address_of(dr_account)),
-            errors::already_published(EHALT_ALL_TRANSACTIONS),
+            errors::already_published(EHALT_ALL_TRANSACTIONS)
         );
         move_to(dr_account, HaltAllTransactions {});
     }
@@ -156,7 +156,7 @@ module DiemFramework::DiemTransactionPublishingOption {
         let dr_address = signer::address_of(dr_account);
         assert!(
             exists<HaltAllTransactions>(dr_address),
-            errors::already_published(EHALT_ALL_TRANSACTIONS),
+            errors::already_published(EHALT_ALL_TRANSACTIONS)
         );
 
         let HaltAllTransactions {} = move_from<HaltAllTransactions>(dr_address);
@@ -183,7 +183,7 @@ module DiemFramework::DiemTransactionPublishingOption {
         ensures old(DiemConfig::spec_is_published<DiemTransactionPublishingOption>()) ==>
             global<DiemConfig<DiemTransactionPublishingOption>>(@DiemRoot)
                 == old(
-                    global<DiemConfig<DiemTransactionPublishingOption>>(@DiemRoot),
+                    global<DiemConfig<DiemTransactionPublishingOption>>(@DiemRoot)
                 );
     }
 

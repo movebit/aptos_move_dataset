@@ -1,7 +1,7 @@
 module 0x42::test {
 
     struct S has key, drop {
-        g: G,
+        g: G
     }
 
     struct G has store, drop {
@@ -34,11 +34,11 @@ module 0x42::test {
     }
 
     struct A has key, drop {
-        b: B,
+        b: B
     }
 
     struct B has store, drop {
-        g: G,
+        g: G
     }
 
     public fun f4(): u64 acquires S {

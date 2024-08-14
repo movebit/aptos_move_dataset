@@ -35,7 +35,7 @@ spec aptos_framework::transaction_validation {
         script_prologue_name: vector<u8>,
         module_prologue_name: vector<u8>,
         multi_agent_prologue_name: vector<u8>,
-        user_epilogue_name: vector<u8>,
+        user_epilogue_name: vector<u8>
     ) {
         use std::signer;
         let addr = signer::address_of(aptos_framework);
@@ -119,7 +119,7 @@ spec aptos_framework::transaction_validation {
         txn_gas_price: u64,
         txn_max_gas_units: u64,
         txn_expiration_time: u64,
-        chain_id: u8,
+        chain_id: u8
     ) {
         // TODO(fa_migration)
         pragma verify = false;
@@ -134,7 +134,7 @@ spec aptos_framework::transaction_validation {
         txn_max_gas_units: u64,
         txn_expiration_time: u64,
         chain_id: u8,
-        _script_hash: vector<u8>,
+        _script_hash: vector<u8>
     ) {
         // TODO(fa_migration)
         pragma verify = false;
@@ -169,11 +169,11 @@ spec aptos_framework::transaction_validation {
 
     spec multi_agent_common_prologue(
         secondary_signer_addresses: vector<address>,
-        secondary_signer_public_key_hashes: vector<vector<u8>>,
+        secondary_signer_public_key_hashes: vector<vector<u8>>
     ) {
         include MultiAgentPrologueCommonAbortsIf {
             secondary_signer_addresses,
-            secondary_signer_public_key_hashes,
+            secondary_signer_public_key_hashes
         };
     }
 
@@ -188,7 +188,7 @@ spec aptos_framework::transaction_validation {
         txn_gas_price: u64,
         txn_max_gas_units: u64,
         txn_expiration_time: u64,
-        chain_id: u8,
+        chain_id: u8
     ) {
         pragma verify_duration_estimate = 120;
         let gas_payer = signer::address_of(sender);
@@ -197,11 +197,11 @@ spec aptos_framework::transaction_validation {
         include PrologueCommonAbortsIf {
             gas_payer,
             txn_sequence_number,
-            txn_authentication_key: txn_sender_public_key,
+            txn_authentication_key: txn_sender_public_key
         };
         include MultiAgentPrologueCommonAbortsIf {
             secondary_signer_addresses,
-            secondary_signer_public_key_hashes,
+            secondary_signer_public_key_hashes
         };
     }
 
@@ -216,7 +216,7 @@ spec aptos_framework::transaction_validation {
         txn_gas_price: u64,
         txn_max_gas_units: u64,
         txn_expiration_time: u64,
-        chain_id: u8,
+        chain_id: u8
     ) {
         pragma verify_duration_estimate = 120;
 
@@ -225,11 +225,11 @@ spec aptos_framework::transaction_validation {
         include PrologueCommonAbortsIf {
             gas_payer,
             txn_sequence_number,
-            txn_authentication_key: txn_sender_public_key,
+            txn_authentication_key: txn_sender_public_key
         };
         include MultiAgentPrologueCommonAbortsIf {
             secondary_signer_addresses,
-            secondary_signer_public_key_hashes,
+            secondary_signer_public_key_hashes
         };
 
         aborts_if !account::exists_at(gas_payer);

@@ -21,7 +21,7 @@ module example_addr::managed_fungible_token {
             1,
             collection_name,
             option::none(),
-            utf8(b"http://aptoslabs.com/collection"),
+            utf8(b"http://aptoslabs.com/collection")
         );
         let constructor_ref =
             &create_named_token(
@@ -30,7 +30,7 @@ module example_addr::managed_fungible_token {
                 utf8(b"test token description"),
                 token_name,
                 option::none(),
-                utf8(b"http://aptoslabs.com/token"),
+                utf8(b"http://aptoslabs.com/token")
             );
 
         managed_fungible_asset::initialize(
@@ -41,7 +41,7 @@ module example_addr::managed_fungible_token {
             0, /* decimals */
             utf8(b"http://example.com/favicon.ico"), /* icon */
             utf8(b"http://example.com"), /* project */
-            vector[true, true, true], /* mint_ref, transfer_ref, burn_ref */
+            vector[true, true, true] /* mint_ref, transfer_ref, burn_ref */
         );
     }
 
@@ -54,7 +54,7 @@ module example_addr::managed_fungible_token {
         let asset_address =
             object::create_object_address(
                 &@example_addr,
-                create_token_seed(&collection_name, &token_name),
+                create_token_seed(&collection_name, &token_name)
             );
         object::address_to_object<Metadata>(asset_address)
     }

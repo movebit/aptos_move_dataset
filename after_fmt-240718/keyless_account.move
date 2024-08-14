@@ -41,7 +41,7 @@ module aptos_framework::keyless_account {
         delta_g2: vector<u8>,
         /// `\forall i \in {0, ..., \ell}, 64-byte serialization of gamma^{-1} * (beta * a_i + alpha * b_i + c_i) * H`, where
         /// `H` is the generator of `G1` and `\ell` is 1 for the ZK relation.
-        gamma_abc_g1: vector<vector<u8>>,
+        gamma_abc_g1: vector<vector<u8>>
     }
 
     #[resource_group_member(group = aptos_framework::keyless_account::Group)]
@@ -64,7 +64,7 @@ module aptos_framework::keyless_account {
         /// The max length of the JWT field name and value (e.g., `"max_age":"18"`) supported in our circuit
         max_extra_field_bytes: u16,
         /// The max length of the base64url-encoded JWT header in bytes supported in our circuit
-        max_jwt_header_b64_bytes: u32,
+        max_jwt_header_b64_bytes: u32
     }
 
     #[test_only]
@@ -84,7 +84,7 @@ module aptos_framework::keyless_account {
         delta_g2: vector<u8>,
         gamma_abc_g1: vector<vector<u8>>
     ): Groth16VerificationKey {
-        Groth16VerificationKey { alpha_g1, beta_g2, gamma_g2, delta_g2, gamma_abc_g1, }
+        Groth16VerificationKey { alpha_g1, beta_g2, gamma_g2, delta_g2, gamma_abc_g1 }
     }
 
     public fun new_configuration(
@@ -105,7 +105,7 @@ module aptos_framework::keyless_account {
             max_commited_epk_bytes,
             max_iss_val_bytes,
             max_extra_field_bytes,
-            max_jwt_header_b64_bytes,
+            max_jwt_header_b64_bytes
         }
     }
 
@@ -116,42 +116,42 @@ module aptos_framework::keyless_account {
             option::is_some(
                 &crypto_algebra::deserialize<bn254_algebra::G1, bn254_algebra::FormatG1Compr>(
                     &vk.alpha_g1
-                ),
+                )
             ),
-            E_INVALID_BN254_G1_SERIALIZATION,
+            E_INVALID_BN254_G1_SERIALIZATION
         );
         assert!(
             option::is_some(
                 &crypto_algebra::deserialize<bn254_algebra::G2, bn254_algebra::FormatG2Compr>(
                     &vk.beta_g2
-                ),
+                )
             ),
-            E_INVALID_BN254_G2_SERIALIZATION,
+            E_INVALID_BN254_G2_SERIALIZATION
         );
         assert!(
             option::is_some(
                 &crypto_algebra::deserialize<bn254_algebra::G2, bn254_algebra::FormatG2Compr>(
                     &vk.gamma_g2
-                ),
+                )
             ),
-            E_INVALID_BN254_G2_SERIALIZATION,
+            E_INVALID_BN254_G2_SERIALIZATION
         );
         assert!(
             option::is_some(
                 &crypto_algebra::deserialize<bn254_algebra::G2, bn254_algebra::FormatG2Compr>(
                     &vk.delta_g2
-                ),
+                )
             ),
-            E_INVALID_BN254_G2_SERIALIZATION,
+            E_INVALID_BN254_G2_SERIALIZATION
         );
         for (i in 0..vector::length(&vk.gamma_abc_g1)) {
             assert!(
                 option::is_some(
                     &crypto_algebra::deserialize<bn254_algebra::G1, bn254_algebra::FormatG1Compr>(
                         vector::borrow(&vk.gamma_abc_g1, i)
-                    ),
+                    )
                 ),
-                E_INVALID_BN254_G1_SERIALIZATION,
+                E_INVALID_BN254_G1_SERIALIZATION
             );
         };
     }
@@ -188,7 +188,7 @@ module aptos_framework::keyless_account {
         if (option::is_some(&pk)) {
             assert!(
                 vector::length(option::borrow(&pk)) == 32,
-                E_TRAINING_WHEELS_PK_WRONG_SIZE,
+                E_TRAINING_WHEELS_PK_WRONG_SIZE
             )
         };
 

@@ -133,8 +133,8 @@ module ExperimentalFramework::MultiTokenBalance {
         option::is_some(
             &index_of_token(
                 &borrow_global<TokenBalance<TokenType>>(owner).gallery,
-                token_id,
-            ),
+                token_id
+            )
         )
     }
 
@@ -248,7 +248,7 @@ module ExperimentalFramework::MultiTokenBalance {
     public fun publish_balance<TokenType: store>(account: &signer) {
         assert!(
             !exists<TokenBalance<TokenType>>(signer::address_of(account)),
-            EBALANCE_ALREADY_PUBLISHED,
+            EBALANCE_ALREADY_PUBLISHED
         );
         move_to(account, TokenBalance<TokenType> { gallery: vector::empty() });
     }

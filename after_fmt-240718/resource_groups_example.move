@@ -12,49 +12,49 @@ module 0xABCD::resource_groups_example {
     #[resource_group_member(group = 0xABCD::resource_groups_example::ExampleGroup)]
     struct ExampleResource0 has key {
         value: u64,
-        name: String,
+        name: String
     }
 
     #[resource_group_member(group = 0xABCD::resource_groups_example::ExampleGroup)]
     struct ExampleResource1 has key {
         value: u64,
-        name: String,
+        name: String
     }
 
     #[resource_group_member(group = 0xABCD::resource_groups_example::ExampleGroup)]
     struct ExampleResource2 has key {
         value: u64,
-        name: String,
+        name: String
     }
 
     #[resource_group_member(group = 0xABCD::resource_groups_example::ExampleGroup)]
     struct ExampleResource3 has key {
         value: u64,
-        name: String,
+        name: String
     }
 
     #[resource_group_member(group = 0xABCD::resource_groups_example::ExampleGroup)]
     struct ExampleResource4 has key {
         value: u64,
-        name: String,
+        name: String
     }
 
     #[resource_group_member(group = 0xABCD::resource_groups_example::ExampleGroup)]
     struct ExampleResource5 has key {
         value: u64,
-        name: String,
+        name: String
     }
 
     #[resource_group_member(group = 0xABCD::resource_groups_example::ExampleGroup)]
     struct ExampleResource6 has key {
         value: u64,
-        name: String,
+        name: String
     }
 
     #[resource_group_member(group = 0xABCD::resource_groups_example::ExampleGroup)]
     struct ExampleResource7 has key {
         value: u64,
-        name: String,
+        name: String
     }
 
     public entry fun set(owner: &signer, index: u64, name: String) acquires ExampleResource0, ExampleResource1, ExampleResource2, ExampleResource3, ExampleResource4, ExampleResource5, ExampleResource6, ExampleResource7 {
@@ -65,7 +65,7 @@ module 0xABCD::resource_groups_example {
                 let resource = borrow_global_mut<ExampleResource0>(owner_address);
                 resource.name = name;
             } else {
-                let resource = ExampleResource0 { value: 0, name, };
+                let resource = ExampleResource0 { value: 0, name };
                 move_to(owner, resource);
             }
         } else if (index == 1) {
@@ -73,7 +73,7 @@ module 0xABCD::resource_groups_example {
                 let resource = borrow_global_mut<ExampleResource1>(owner_address);
                 resource.name = name;
             } else {
-                let resource = ExampleResource1 { value: 0, name, };
+                let resource = ExampleResource1 { value: 0, name };
                 move_to(owner, resource);
             }
         } else if (index == 2) {
@@ -81,7 +81,7 @@ module 0xABCD::resource_groups_example {
                 let resource = borrow_global_mut<ExampleResource2>(owner_address);
                 resource.name = name;
             } else {
-                let resource = ExampleResource2 { value: 0, name, };
+                let resource = ExampleResource2 { value: 0, name };
                 move_to(owner, resource);
             }
         } else if (index == 3) {
@@ -89,7 +89,7 @@ module 0xABCD::resource_groups_example {
                 let resource = borrow_global_mut<ExampleResource3>(owner_address);
                 resource.name = name;
             } else {
-                let resource = ExampleResource3 { value: 0, name, };
+                let resource = ExampleResource3 { value: 0, name };
                 move_to(owner, resource);
             }
         } else if (index == 4) {
@@ -97,7 +97,7 @@ module 0xABCD::resource_groups_example {
                 let resource = borrow_global_mut<ExampleResource4>(owner_address);
                 resource.name = name;
             } else {
-                let resource = ExampleResource4 { value: 0, name, };
+                let resource = ExampleResource4 { value: 0, name };
                 move_to(owner, resource);
             }
         } else if (index == 5) {
@@ -105,7 +105,7 @@ module 0xABCD::resource_groups_example {
                 let resource = borrow_global_mut<ExampleResource5>(owner_address);
                 resource.name = name;
             } else {
-                let resource = ExampleResource5 { value: 0, name, };
+                let resource = ExampleResource5 { value: 0, name };
                 move_to(owner, resource);
             }
         } else if (index == 6) {
@@ -113,7 +113,7 @@ module 0xABCD::resource_groups_example {
                 let resource = borrow_global_mut<ExampleResource6>(owner_address);
                 resource.name = name;
             } else {
-                let resource = ExampleResource6 { value: 0, name, };
+                let resource = ExampleResource6 { value: 0, name };
                 move_to(owner, resource);
             }
         } else if (index == 7) {
@@ -121,7 +121,7 @@ module 0xABCD::resource_groups_example {
                 let resource = borrow_global_mut<ExampleResource7>(owner_address);
                 resource.name = name;
             } else {
-                let resource = ExampleResource7 { value: 0, name, };
+                let resource = ExampleResource7 { value: 0, name };
                 move_to(owner, resource);
             }
         };
@@ -139,7 +139,7 @@ module 0xABCD::resource_groups_example {
             } else {
                 let resource = ExampleResource0 {
                     value: 0,
-                    name: string::utf8(b"init_name"),
+                    name: string::utf8(b"init_name")
                 };
                 move_to(owner, resource);
             }
@@ -152,7 +152,7 @@ module 0xABCD::resource_groups_example {
             } else {
                 let resource = ExampleResource1 {
                     value: 0,
-                    name: string::utf8(b"init_name"),
+                    name: string::utf8(b"init_name")
                 };
                 move_to(owner, resource);
             }
@@ -165,7 +165,7 @@ module 0xABCD::resource_groups_example {
             } else {
                 let resource = ExampleResource2 {
                     value: 0,
-                    name: string::utf8(b"init_name"),
+                    name: string::utf8(b"init_name")
                 };
                 move_to(owner, resource);
             }
@@ -178,7 +178,7 @@ module 0xABCD::resource_groups_example {
             } else {
                 let resource = ExampleResource3 {
                     value: 0,
-                    name: string::utf8(b"init_name"),
+                    name: string::utf8(b"init_name")
                 };
                 move_to(owner, resource);
             }
@@ -191,7 +191,7 @@ module 0xABCD::resource_groups_example {
             } else {
                 let resource = ExampleResource4 {
                     value: 0,
-                    name: string::utf8(b"init_name"),
+                    name: string::utf8(b"init_name")
                 };
                 move_to(owner, resource);
             }
@@ -204,7 +204,7 @@ module 0xABCD::resource_groups_example {
             } else {
                 let resource = ExampleResource5 {
                     value: 0,
-                    name: string::utf8(b"init_name"),
+                    name: string::utf8(b"init_name")
                 };
                 move_to(owner, resource);
             }
@@ -217,7 +217,7 @@ module 0xABCD::resource_groups_example {
             } else {
                 let resource = ExampleResource6 {
                     value: 0,
-                    name: string::utf8(b"init_name"),
+                    name: string::utf8(b"init_name")
                 };
                 move_to(owner, resource);
             }
@@ -230,7 +230,7 @@ module 0xABCD::resource_groups_example {
             } else {
                 let resource = ExampleResource7 {
                     value: 0,
-                    name: string::utf8(b"init_name"),
+                    name: string::utf8(b"init_name")
                 };
                 move_to(owner, resource);
             }
@@ -238,7 +238,10 @@ module 0xABCD::resource_groups_example {
     }
 
     public entry fun set_p(
-        _delegated_signer: &signer, owner: &signer, index: u64, name: String
+        _delegated_signer: &signer,
+        owner: &signer,
+        index: u64,
+        name: String
     ) acquires ExampleResource0, ExampleResource1, ExampleResource2, ExampleResource3, ExampleResource4, ExampleResource5, ExampleResource6, ExampleResource7 {
         set(owner, index, name);
     }
@@ -256,7 +259,10 @@ module 0xABCD::resource_groups_example {
     }
 
     public entry fun set_and_read(
-        owner: &signer, set_index: u64, read_index: u64, name: String
+        owner: &signer,
+        set_index: u64,
+        read_index: u64,
+        name: String
     ) acquires ExampleResource0, ExampleResource1, ExampleResource2, ExampleResource3, ExampleResource4, ExampleResource5, ExampleResource6, ExampleResource7 {
         set(owner, set_index, name);
         read_or_init(owner, read_index);

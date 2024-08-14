@@ -30,14 +30,14 @@ module aptos_framework::block {
         epoch_interval: u64,
         /// Handle where events with the time of new blocks are emitted
         new_block_events: EventHandle<NewBlockEvent>,
-        update_epoch_interval_events: EventHandle<UpdateEpochIntervalEvent>,
+        update_epoch_interval_events: EventHandle<UpdateEpochIntervalEvent>
     }
 
     /// Store new block events as a move resource, internally using a circular buffer.
     struct CommitHistory has key {
         max_capacity: u32,
         next_idx: u32,
-        table: TableWithLength<u32, NewBlockEvent>,
+        table: TableWithLength<u32, NewBlockEvent>
     }
 
     /// Should be in-sync with NewBlockEvent rust struct in new_block.rs
@@ -50,13 +50,13 @@ module aptos_framework::block {
         proposer: address,
         failed_proposer_indices: vector<u64>,
         /// On-chain time during the block at the given height
-        time_microseconds: u64,
+        time_microseconds: u64
     }
 
     /// Event emitted when a proposal is created.
     struct UpdateEpochIntervalEvent has drop, store {
         old_epoch_interval: u64,
-        new_epoch_interval: u64,
+        new_epoch_interval: u64
     }
 
     #[event]
@@ -70,14 +70,14 @@ module aptos_framework::block {
         proposer: address,
         failed_proposer_indices: vector<u64>,
         /// On-chain time during the block at the given height
-        time_microseconds: u64,
+        time_microseconds: u64
     }
 
     #[event]
     /// Event emitted when a proposal is created.
     struct UpdateEpochInterval has drop, store {
         old_epoch_interval: u64,
-        new_epoch_interval: u64,
+        new_epoch_interval: u64
     }
 
     /// The number of new block events does not equal the current block height.
@@ -103,8 +103,8 @@ module aptos_framework::block {
             CommitHistory {
                 max_capacity: 2000,
                 next_idx: 0,
-                table: table_with_length::new(),
-            },
+                table: table_with_length::new()
+            }
         );
 
         move_to<BlockResource>(
@@ -116,8 +116,8 @@ module aptos_framework::block {
                     aptos_framework
                 ),
                 update_epoch_interval_events: account::new_event_handle<
-                    UpdateEpochIntervalEvent>(aptos_framework),
-            },
+                    UpdateEpochIntervalEvent>(aptos_framework)
+            }
         );
     }
 
@@ -126,14 +126,14 @@ module aptos_framework::block {
         assert!(max_capacity > 0, error::invalid_argument(EZERO_MAX_CAPACITY));
         move_to<CommitHistory>(
             fx,
-            CommitHistory { max_capacity, next_idx: 0, table: table_with_length::new(), },
+            CommitHistory { max_capacity, next_idx: 0, table: table_with_length::new() }
         );
     }
 
     /// Update the epoch interval.
     /// Can only be called as part of the Aptos governance proposal process established by the AptosGovernance module.
     public fun update_epoch_interval_microsecs(
-        aptos_framework: &signer, new_epoch_interval: u64,
+        aptos_framework: &signer, new_epoch_interval: u64
     ) acquires BlockResource {
         system_addresses::assert_aptos_framework(aptos_framework);
         assert!(new_epoch_interval > 0, error::invalid_argument(EZERO_EPOCH_INTERVAL));
@@ -147,7 +147,7 @@ module aptos_framework::block {
         };
         event::emit_event<UpdateEpochIntervalEvent>(
             &mut block_resource.update_epoch_interval_events,
-            UpdateEpochIntervalEvent { old_epoch_interval, new_epoch_interval },
+            UpdateEpochIntervalEvent { old_epoch_interval, new_epoch_interval }
         );
     }
 
@@ -173,7 +173,7 @@ module aptos_framework::block {
         // Blocks can only be produced by a valid proposer or by the VM itself for Nil blocks (no user txs).
         assert!(
             proposer == @vm_reserved || stake::is_current_epoch_validator(proposer),
-            error::permission_denied(EINVALID_PROPOSER),
+            error::permission_denied(EINVALID_PROPOSER)
         );
 
         let proposer_index = option::none();
@@ -193,7 +193,7 @@ module aptos_framework::block {
             previous_block_votes_bitvec,
             proposer,
             failed_proposer_indices,
-            time_microseconds: timestamp,
+            time_microseconds: timestamp
         };
         let new_block_event_v2 = NewBlock {
             hash,
@@ -203,13 +203,13 @@ module aptos_framework::block {
             previous_block_votes_bitvec,
             proposer,
             failed_proposer_indices,
-            time_microseconds: timestamp,
+            time_microseconds: timestamp
         };
         emit_new_block_event(
             vm,
             &mut block_metadata_ref.new_block_events,
             new_block_event,
-            new_block_event_v2,
+            new_block_event_v2
         );
 
         if (features::collect_and_distribute_gas_fees()) {
@@ -250,7 +250,7 @@ module aptos_framework::block {
                 proposer,
                 failed_proposer_indices,
                 previous_block_votes_bitvec,
-                timestamp,
+                timestamp
             );
         randomness::on_new_block(&vm, epoch, round, option::none());
         if (timestamp - reconfiguration::last_reconfiguration_time() >= epoch_interval) {
@@ -268,7 +268,7 @@ module aptos_framework::block {
         failed_proposer_indices: vector<u64>,
         previous_block_votes_bitvec: vector<u8>,
         timestamp: u64,
-        randomness_seed: Option<vector<u8>>,
+        randomness_seed: Option<vector<u8>>
     ) acquires BlockResource, CommitHistory {
         let epoch_interval =
             block_prologue_common(
@@ -279,7 +279,7 @@ module aptos_framework::block {
                 proposer,
                 failed_proposer_indices,
                 previous_block_votes_bitvec,
-                timestamp,
+                timestamp
             );
         randomness::on_new_block(&vm, epoch, round, randomness_seed);
 
@@ -320,7 +320,7 @@ module aptos_framework::block {
         );
         assert!(
             event::counter(event_handle) == new_block_event.height,
-            error::invalid_argument(ENUM_NEW_BLOCK_EVENTS_DOES_NOT_MATCH_BLOCK_HEIGHT),
+            error::invalid_argument(ENUM_NEW_BLOCK_EVENTS_DOES_NOT_MATCH_BLOCK_HEIGHT)
         );
         if (std::features::module_event_migration_enabled()) {
             event::emit(new_block_event_v2);
@@ -344,7 +344,7 @@ module aptos_framework::block {
                 previous_block_votes_bitvec: vector::empty(),
                 proposer: @vm_reserved,
                 failed_proposer_indices: vector::empty(),
-                time_microseconds: 0,
+                time_microseconds: 0
             },
             NewBlock {
                 hash: genesis_id,
@@ -354,8 +354,8 @@ module aptos_framework::block {
                 previous_block_votes_bitvec: vector::empty(),
                 proposer: @vm_reserved,
                 failed_proposer_indices: vector::empty(),
-                time_microseconds: 0,
-            },
+                time_microseconds: 0
+            }
         );
     }
 
@@ -379,7 +379,7 @@ module aptos_framework::block {
                 previous_block_votes_bitvec: vector::empty(),
                 proposer: @vm_reserved,
                 failed_proposer_indices: vector::empty(),
-                time_microseconds: timestamp::now_microseconds(),
+                time_microseconds: timestamp::now_microseconds()
             },
             NewBlock {
                 hash: fake_block_hash,
@@ -389,8 +389,8 @@ module aptos_framework::block {
                 previous_block_votes_bitvec: vector::empty(),
                 proposer: @vm_reserved,
                 failed_proposer_indices: vector::empty(),
-                time_microseconds: timestamp::now_microseconds(),
-            },
+                time_microseconds: timestamp::now_microseconds()
+            }
         );
     }
 
@@ -413,7 +413,7 @@ module aptos_framework::block {
     #[test(aptos_framework = @aptos_framework, account = @0x123)]
     #[expected_failure(abort_code = 0x50003, location = aptos_framework::system_addresses)]
     public entry fun test_update_epoch_interval_unauthorized_should_fail(
-        aptos_framework: signer, account: signer,
+        aptos_framework: signer, account: signer
     ) acquires BlockResource {
         account::create_account_for_test(@aptos_framework);
         initialize(&aptos_framework, 1);
