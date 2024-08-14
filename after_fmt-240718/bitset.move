@@ -18,7 +18,7 @@ module 0x42::bitset128 {
 
     public fun remove(s: &mut BitSet128, i: u64) {
         assert!(i < 128, 0);
-        s.s = s.s & (0xffff ^(1 << (i as u8)));
+        s.s = s.s & (0xffff ^ (1 << (i as u8)));
     }
 
     public fun contains(s: &BitSet128, i: u64): bool {

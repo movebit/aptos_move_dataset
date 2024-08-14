@@ -302,7 +302,7 @@ module aptos_std::smart_table {
     fun split_one_bucket<K, V>(table: &mut SmartTable<K, V>) {
         let new_bucket_index = table.num_buckets;
         // the next bucket to split is num_bucket without the most significant bit.
-        let to_split = new_bucket_index ^(1 << table.level);
+        let to_split = new_bucket_index ^ (1 << table.level);
         table.num_buckets = new_bucket_index + 1;
         // if the whole level is splitted once, bump the level.
         if (to_split + 1 == 1 << table.level) {
