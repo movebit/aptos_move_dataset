@@ -2038,7 +2038,8 @@ module aptos_framework::multisig_account {
         assert!(owners(multisig_account) == vector[owner_1_addr], 1);
         add_owners(multisig_signer, vector[owner_2_addr, owner_3_addr]);
         assert!(
-            owners(multisig_account) == vector[owner_1_addr, owner_2_addr, owner_3_addr],
+            owners(multisig_account)
+                == vector[owner_1_addr, owner_2_addr, owner_3_addr],
             2,
         );
     }
@@ -2062,13 +2063,15 @@ module aptos_framework::multisig_account {
         let multisig_account = get_next_multisig_account_address(owner_1_addr);
         let multisig_signer = &create_signer(multisig_account);
         assert!(
-            owners(multisig_account) == vector[owner_2_addr, owner_3_addr, owner_1_addr],
+            owners(multisig_account)
+                == vector[owner_2_addr, owner_3_addr, owner_1_addr],
             0,
         );
         // Removing an empty vector of owners should be no-op.
         remove_owners(multisig_signer, vector[]);
         assert!(
-            owners(multisig_account) == vector[owner_2_addr, owner_3_addr, owner_1_addr],
+            owners(multisig_account)
+                == vector[owner_2_addr, owner_3_addr, owner_1_addr],
             1,
         );
         remove_owners(multisig_signer, vector[owner_2_addr]);
@@ -2100,7 +2103,8 @@ module aptos_framework::multisig_account {
         );
         let multisig_account = get_next_multisig_account_address(owner_1_addr);
         assert!(
-            owners(multisig_account) == vector[owner_2_addr, owner_3_addr, owner_1_addr],
+            owners(multisig_account)
+                == vector[owner_2_addr, owner_3_addr, owner_1_addr],
             0,
         );
         let multisig_signer = &create_signer(multisig_account);

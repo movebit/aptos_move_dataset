@@ -11,8 +11,7 @@ module std::compareTests {
     #[test]
     fun equality_of_simple_types() {
         assert!(
-            compare::cmp_bcs_bytes(&bcs::to_bytes(&true), &bcs::to_bytes(&true))
-                == EQUAL,
+            compare::cmp_bcs_bytes(&bcs::to_bytes(&true), &bcs::to_bytes(&true)) == EQUAL,
             0,
         );
         assert!(

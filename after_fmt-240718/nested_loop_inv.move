@@ -7,9 +7,8 @@ module 0x42::nested_loop {
         while ({
             spec {
                 invariant i <= n - 1;
-                invariant forall x: u64, y: u64 where x < i
-                    && x < y
-                    && y < n: v[x] != v[y];
+                invariant forall x: u64, y: u64 where x < i && x < y && y < n:
+                    v[x] != v[y];
             };
             i < n - 1
         }) {
@@ -34,9 +33,6 @@ module 0x42::nested_loop {
 
     spec assert_no_duplicate {
         aborts_if exists i: u64, j: u64:
-            i < len(v)
-                && j < len(v)
-                && i != j
-                && v[i] == v[j];
+            i < len(v) && j < len(v) && i != j && v[i] == v[j];
     }
 }

@@ -1,8 +1,6 @@
 spec aptos_std::comparator {
     spec Result {
-        invariant inner == EQUAL
-            || inner == SMALLER
-            || inner == GREATER;
+        invariant inner == EQUAL || inner == SMALLER || inner == GREATER;
     }
 
     spec is_equal(result: &Result): bool {

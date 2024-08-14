@@ -242,13 +242,12 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
             bonding_curve_creator, name, symbol, false, 100_000_000
         );
         assert!(
-            coin::balance<AptosCoin>(user_address) == starting_apt_balance
-                - 100_000_000,
+            coin::balance<AptosCoin>(user_address)
+                == starting_apt_balance - 100_000_000,
             EUSER_APT_BALANCE_INCORRECT,
         );
         assert!(
-            bonding_curve_launchpad::get_balance(name, symbol, user_address)
-                == 1_602_794,
+            bonding_curve_launchpad::get_balance(name, symbol, user_address) == 1_602_794,
             ELIQUIDITY_PAIR_SWAP_AMOUNTOUT_INCORRECT,
         );
         // FA -> APT

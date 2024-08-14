@@ -66,6 +66,7 @@ module 0x42::VerifySort {
                 && (forall k in 0..len(v): old(v)[perm[k]] == v[k])
                 && (forall k in 0..len(v): perm[k] >= 0
                     && perm[k] < len(v))
-                && (forall k in 0..len(v), l in 0..len(v): k != l ==> perm[k] != perm[l]);
+                && (forall k in 0..len(v), l in 0..len(v): k != l ==> perm[k]
+                    != perm[l]);
     }
 }

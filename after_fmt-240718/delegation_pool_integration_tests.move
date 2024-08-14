@@ -906,7 +906,8 @@ module aptos_framework::delegation_pool_integration_tests {
         );
         stake::assert_validator_state(validator_1_address, 101 * ONE_APT, 0, 0, 0, 0);
         assert!(
-            stake::get_validator_state(validator_2_address) == VALIDATOR_STATUS_INACTIVE,
+            stake::get_validator_state(validator_2_address)
+                == VALIDATOR_STATUS_INACTIVE,
             9,
         );
         // The validator index of validator 2 stays the same but this doesn't matter as the next time they rejoin the
@@ -922,7 +923,8 @@ module aptos_framework::delegation_pool_integration_tests {
         timestamp::fast_forward_seconds(LOCKUP_CYCLE_SECONDS);
         end_epoch();
         assert!(
-            stake::get_validator_state(validator_1_address) == VALIDATOR_STATUS_INACTIVE,
+            stake::get_validator_state(validator_1_address)
+                == VALIDATOR_STATUS_INACTIVE,
             11,
         );
     }

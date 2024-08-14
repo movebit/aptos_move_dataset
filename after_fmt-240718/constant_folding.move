@@ -31,11 +31,7 @@ module 0xcafe::MyModule {
             // false
             false,
             // ?
-            !((true
-                && false)
-                || (false
-                    || true)
-                    && true) || true
+            !((true && false) || (false || true) && true) || true
         ];
         let xbool2 = vector[
             true, true, true, true, true, true, true, // 7 true

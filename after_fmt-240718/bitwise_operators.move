@@ -12,9 +12,8 @@ module M {
     spec foo {
         pragma bv_ret = b"0";
         ensures result
-            == (((((1 as u64) & (0 as u64)) as u64) | (((1 as u64) & (1 as u64)) as u64) as u64) | (
-                ((1 as u64) ^(2 as u64)) as u64
-            ) as u64);
+            == (((((1 as u64) & (0 as u64)) as u64) | (((1 as u64) & (1 as u64)) as u64) as u64)
+            | (((1 as u64) ^(2 as u64)) as u64) as u64);
     }
 
     struct A<T> has copy, drop {

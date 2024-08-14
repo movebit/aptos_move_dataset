@@ -264,7 +264,8 @@ module aptos_framework::transaction_validation {
     ) {
         let num_secondary_signers = vector::length(&secondary_signer_addresses);
         assert!(
-            vector::length(&secondary_signer_public_key_hashes) == num_secondary_signers,
+            vector::length(&secondary_signer_public_key_hashes)
+                == num_secondary_signers,
             error::invalid_argument(PROLOGUE_ESECONDARY_KEYS_ADDRESSES_COUNT_MISMATCH),
         );
 

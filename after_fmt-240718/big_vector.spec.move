@@ -45,8 +45,7 @@ spec aptos_std::big_vector {
             { spec_table_contains(buckets, i) };
         // ensures that the last bucket is non-empty
         invariant spec_table_len(buckets) == 0
-            || (len(table_with_length::spec_get(buckets, spec_table_len(buckets) - 1))
-                > 0);
+            || (len(table_with_length::spec_get(buckets, spec_table_len(buckets) - 1)) > 0);
     }
 
     // -----------------------

@@ -142,7 +142,8 @@ module std::offer {
         ensures forall addr: address where old(exists<Offer<Offered>>(addr)):
             (
                 exists<Offer<Offered>>(addr)
-                    && global<Offer<Offered>>(addr) == old(global<Offer<Offered>>(addr))
+                    && global<Offer<Offered>>(addr)
+                        == old(global<Offer<Offered>>(addr))
             );
     }
 

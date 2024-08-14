@@ -51,7 +51,8 @@ module defi::reserve {
         ensures global<Coin1Info>(ADMIN).total_value
             == old(global<Coin1Info>(ADMIN).total_value) + amount_to_mint;
         ensures global<Coin1Info>(ADMIN).reserve_coin2.backing_value
-            == old(global<Coin1Info>(ADMIN).reserve_coin2.backing_value) + backing_coin2;
+            == old(global<Coin1Info>(ADMIN).reserve_coin2.backing_value)
+                + backing_coin2;
         ensures backing_coin2 == coin2_amount_to_reserve;
     }
 

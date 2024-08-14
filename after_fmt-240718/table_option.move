@@ -15,8 +15,7 @@ module 0x42::table_option {
         multisig_account: address, provided_payload: vector<u8>
     ): vector<u8> acquires MultisigAccount {
         let multisig_account_resource = borrow_global<MultisigAccount>(multisig_account);
-        let sequence_number = multisig_account_resource.last_executed_sequence_number
-            + 1;
+        let sequence_number = multisig_account_resource.last_executed_sequence_number + 1;
         let transaction =
             table::borrow(&multisig_account_resource.transactions, sequence_number);
 

@@ -235,8 +235,7 @@ spec aptos_framework::stake {
             staking_config::get_voting_power_increase_limit(config) as u128
         );
 
-        aborts_if (validator_set.total_joining_power + (voting_power as u128))
-            > MAX_U128;
+        aborts_if (validator_set.total_joining_power + (voting_power as u128)) > MAX_U128;
         aborts_if validator_set.total_voting_power * voting_power_increase_limit
             > MAX_U128;
         aborts_if validator_set.total_voting_power > 0

@@ -10,10 +10,7 @@ module 0x8675309::M {
         (true) || (true);
         copy x || move x;
         r.f || r.f;
-        true
-            || false
-            || (true
-                || false);
+        true || false || (true || false);
         let R { f: _ } = r;
     }
 }

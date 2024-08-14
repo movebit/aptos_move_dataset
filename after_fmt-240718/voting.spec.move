@@ -254,7 +254,8 @@ spec aptos_framework::voting {
                     std::string::spec_utf8(RESOLVABLE_TIME_METADATA_KEY),
                 ),
             );
-        aborts_if transaction_context::spec_get_script_hash() != proposal.execution_hash;
+        aborts_if transaction_context::spec_get_script_hash()
+            != proposal.execution_hash;
     }
 
     spec resolve<ProposalType: store>(voting_forum_address: address, proposal_id: u64,): ProposalType {

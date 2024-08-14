@@ -797,8 +797,7 @@ module aptos_std::bls12381 {
 
         // First, make sure verification returns None when no inputs are given or |pks| != |msgs|
         assert!(
-            verify_aggregate_signature(&get_random_aggsig(), vector[], vector[])
-                == false,
+            verify_aggregate_signature(&get_random_aggsig(), vector[], vector[]) == false,
             1,
         );
 

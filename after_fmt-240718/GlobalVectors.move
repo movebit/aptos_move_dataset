@@ -52,18 +52,18 @@ module 0x2::GlobalVectors {
         move_to(&sign(@0x42), T { v });
         assert!(vector::length(&borrow_global<T<vector<u64>>>(@0x42).v) == 3, 101);
         assert!(
-            *vector::borrow(vector::borrow(&borrow_global<T<vector<u64>>>(@0x42).v, 0), 0) ==
-             10,
+            *vector::borrow(vector::borrow(&borrow_global<T<vector<u64>>>(@0x42).v, 0), 0)
+                == 10,
             102,
         );
         assert!(
-            *vector::borrow(vector::borrow(&borrow_global<T<vector<u64>>>(@0x42).v, 1), 0) ==
-             11,
+            *vector::borrow(vector::borrow(&borrow_global<T<vector<u64>>>(@0x42).v, 1), 0)
+                == 11,
             102,
         );
         assert!(
-            *vector::borrow(vector::borrow(&borrow_global<T<vector<u64>>>(@0x42).v, 2), 0) ==
-             12,
+            *vector::borrow(vector::borrow(&borrow_global<T<vector<u64>>>(@0x42).v, 2), 0)
+                == 12,
             102,
         );
     }

@@ -36,8 +36,9 @@ module defi::uniswap {
     // This swapping function simplifies the function `coin1_to_coin2_swap_code`.
     public fun coin1_to_coin2_swap_code_simple(coin1_in: u64): u64 acquires Pool {
         let pool = borrow_global_mut<Pool>(PoolAddr);
-        let coin2_out = (997 * coin1_in * pool.coin2)
-            / (1000 * pool.coin1 + 997 * coin1_in);
+        let coin2_out = (997 * coin1_in * pool.coin2) / (
+            1000 * pool.coin1 + 997 * coin1_in
+        );
         pool.coin1 = pool.coin1 + coin1_in;
         pool.coin2 = pool.coin2 - coin2_out;
         coin2_out

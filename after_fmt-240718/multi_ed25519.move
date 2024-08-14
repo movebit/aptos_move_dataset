@@ -427,8 +427,8 @@ module aptos_std::multi_ed25519 {
         ];
 
         assert!(
-            option::extract(&mut check_and_get_threshold(torsion_point_with_threshold_1))
-                == 1,
+            option::extract(&mut check_and_get_threshold(torsion_point_with_threshold_1)) ==
+             1,
             1,
         );
 

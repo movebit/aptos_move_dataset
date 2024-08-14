@@ -1224,8 +1224,7 @@ module aptos_framework::staking_contract {
 
         // Operator claims 10% of rewards so far as commissions.
         let expected_commission_1 =
-            (new_balance - last_recorded_principal(staker_address, operator_address))
-                / 10;
+            (new_balance - last_recorded_principal(staker_address, operator_address)) / 10;
         new_balance = new_balance - expected_commission_1;
         request_commission(operator, staker_address, operator_address);
         stake::assert_stake_pool(pool_address, new_balance, 0, 0, expected_commission_1);
@@ -1268,8 +1267,7 @@ module aptos_framework::staking_contract {
 
         // Second round of commission request/withdrawal.
         let expected_commission_2 =
-            (new_balance - last_recorded_principal(staker_address, operator_address))
-                / 10;
+            (new_balance - last_recorded_principal(staker_address, operator_address)) / 10;
         new_balance = new_balance - expected_commission_2;
         request_commission(operator, staker_address, operator_address);
         assert_distribution(
@@ -1296,8 +1294,7 @@ module aptos_framework::staking_contract {
 
         // Staker withdraws all stake, which should also request commission distribution.
         let unpaid_commission =
-            (new_balance - last_recorded_principal(staker_address, operator_address))
-                / 10;
+            (new_balance - last_recorded_principal(staker_address, operator_address)) / 10;
         unlock_stake(staker, operator_address, new_balance);
         stake::assert_stake_pool(pool_address, 0, 0, 0, new_balance);
         assert_distribution(
@@ -1362,8 +1359,7 @@ module aptos_framework::staking_contract {
 
         // Operator tries to request commission multiple times. But their distribution shouldn't change.
         let expected_commission =
-            (new_balance - last_recorded_principal(staker_address, operator_address))
-                / 10;
+            (new_balance - last_recorded_principal(staker_address, operator_address)) / 10;
         request_commission(operator, staker_address, operator_address);
         assert_distribution(
             staker_address,

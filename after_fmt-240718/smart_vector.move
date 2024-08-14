@@ -560,7 +560,8 @@ module aptos_std::smart_vector {
         // We can't use the constant ESMART_VECTORS_LENGTH_MISMATCH here as all calling code would then need to define it
         // due to how inline functions work.
         assert!(
-            aptos_std::smart_vector::length(&v1) == aptos_std::smart_vector::length(&v2),
+            aptos_std::smart_vector::length(&v1)
+                == aptos_std::smart_vector::length(&v2),
             0x20005,
         );
 

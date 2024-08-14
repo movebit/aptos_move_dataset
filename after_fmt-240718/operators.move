@@ -8,14 +8,7 @@ module 0x42::operators {
     }
 
     fun bools(x: bool, y: bool): bool {
-        x
-            && y
-            || x
-                && !y
-            || !x
-                && y
-            || !x
-                && !y
+        x && y || x && !y || !x && y || !x && !y
     }
 
     fun equality<T: drop>(x: T, y: T): bool {
@@ -27,9 +20,6 @@ module 0x42::operators {
     }
 
     fun order(x: u64, y: u64): bool {
-        x < y
-            && x <= y
-            && !(x > y)
-            && !(x >= y)
+        x < y && x <= y && !(x > y) && !(x >= y)
     }
 }
