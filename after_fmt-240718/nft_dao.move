@@ -213,10 +213,9 @@ module dao_platform::nft_dao {
 
     #[view]
     /// Unpack the DAO fields
-    public fun unpack_dao(nft_dao: address):
-        (
-        String, u64, address, String, u64, u64, u64, address, Option<address>
-    ) acquires DAO {
+    public fun unpack_dao(
+        nft_dao: address
+    ): (String, u64, address, String, u64, u64, u64, address, Option<address>) acquires DAO {
         let dao = borrow_global<DAO>(nft_dao);
         (
             dao.name,
@@ -520,7 +519,9 @@ module dao_platform::nft_dao {
     }
 
     /// Anyone can call the resolve function to resolve a proposal.
-    public entry fun resolve(proposal_id: u64, nft_dao: address) acquires Proposals, DAO, ProposalVotingStatistics {
+    public entry fun resolve(
+        proposal_id: u64, nft_dao: address
+    ) acquires Proposals, DAO, ProposalVotingStatistics {
         assert!(exists<DAO>(nft_dao), error::not_found(EDAO_NOT_EXIST));
         let dao = borrow_global<DAO>(nft_dao);
         // assert the proposal voting ended
@@ -808,10 +809,9 @@ module dao_platform::nft_dao {
     }
 
     /// Unpack the proposal fields
-    public fun unpack_proposal(proposal: &Proposal):
-        (
-        String, String, vector<String>, vector<PropertyMap>, u64, u8
-    ) {
+    public fun unpack_proposal(
+        proposal: &Proposal
+    ): (String, String, vector<String>, vector<PropertyMap>, u64, u8) {
         (
             proposal.name,
             proposal.description,

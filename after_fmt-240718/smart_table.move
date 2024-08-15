@@ -141,7 +141,11 @@ module aptos_std::smart_table {
     /// For standard linear hash algorithm, it is stored as a variable but `num_buckets` here could be leveraged.
     /// Abort if `key` already exists.
     /// Note: This method may occasionally cost much more gas when triggering bucket split.
-    public fun add<K, V>(table: &mut SmartTable<K, V>, key: K, value: V) {
+    public fun add<K, V>(
+        table: &mut SmartTable<K, V>,
+        key: K,
+        value: V
+    ) {
         let hash = sip_hash_from_value(&key);
         let index = bucket_index(table.level, table.num_buckets, hash);
         let bucket = table_with_length::borrow_mut(&mut table.buckets, index);
@@ -358,7 +362,9 @@ module aptos_std::smart_table {
     /// Acquire an immutable reference to the value which `key` maps to.
     /// Returns specified default value if there is no entry for `key`.
     public fun borrow_with_default<K: copy + drop, V>(
-        table: &SmartTable<K, V>, key: K, default: &V
+        table: &SmartTable<K, V>,
+        key: K,
+        default: &V
     ): &V {
         if (!contains(table, copy key)) {
             default
@@ -415,7 +421,9 @@ module aptos_std::smart_table {
 
     /// Remove from `table` and return the value which `key` maps to.
     /// Aborts if there is no entry for `key`.
-    public fun remove<K: copy + drop, V>(table: &mut SmartTable<K, V>, key: K): V {
+    public fun remove<K: copy + drop, V>(
+        table: &mut SmartTable<K, V>, key: K
+    ): V {
         let index = bucket_index(
             table.level, table.num_buckets, sip_hash_from_value(&key)
         );
@@ -437,7 +445,9 @@ module aptos_std::smart_table {
     /// Insert the pair (`key`, `value`) if there is no entry for `key`.
     /// update the value of the entry for `key` to `value` otherwise
     public fun upsert<K: copy + drop, V: drop>(
-        table: &mut SmartTable<K, V>, key: K, value: V
+        table: &mut SmartTable<K, V>,
+        key: K,
+        value: V
     ) {
         if (!contains(table, copy key)) {
             add(table, copy key, value)
@@ -499,7 +509,8 @@ module aptos_std::smart_table {
 
     /// Apply the function to a mutable reference of each key-value pair in the table.
     public inline fun for_each_mut<K, V>(
-        table: &mut SmartTable<K, V>, f: |&K, &mut V|
+        table: &mut SmartTable<K, V>,
+        f: |&K, &mut V|
     ) {
         let i = 0;
         while (i < aptos_std::smart_table::num_buckets(table)) {
@@ -526,10 +537,7 @@ module aptos_std::smart_table {
     }
 
     /// Return true if any key-value pair in the table satisfies the predicate.
-    public inline fun any<K, V>(
-        table: &SmartTable<K, V>,
-        p: |&K, &V| bool
-    ): bool {
+    public inline fun any<K, V>(table: &SmartTable<K, V>, p: |&K, &V| bool): bool {
         let found = false;
         let i = 0;
         while (i < aptos_std::smart_table::num_buckets(table)) {
@@ -561,13 +569,15 @@ module aptos_std::smart_table {
         table.num_buckets
     }
 
-    public fun borrow_buckets<K, V>(table: &SmartTable<K, V>):
-        &TableWithLength<u64, vector<Entry<K, V>>> {
+    public fun borrow_buckets<K, V>(
+        table: &SmartTable<K, V>
+    ): &TableWithLength<u64, vector<Entry<K, V>>> {
         &table.buckets
     }
 
-    public fun borrow_buckets_mut<K, V>(table: &mut SmartTable<K, V>):
-        &mut TableWithLength<u64, vector<Entry<K, V>>> {
+    public fun borrow_buckets_mut<K, V>(
+        table: &mut SmartTable<K, V>
+    ): &mut TableWithLength<u64, vector<Entry<K, V>>> {
         &mut table.buckets
     }
 

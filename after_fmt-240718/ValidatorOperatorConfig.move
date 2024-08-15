@@ -49,7 +49,9 @@ module CoreFramework::ValidatorOperatorConfig {
 
     /// Get validator's account human name
     /// Aborts if there is no ValidatorOperatorConfig resource
-    public fun get_human_name(validator_operator_addr: address): vector<u8> acquires ValidatorOperatorConfig {
+    public fun get_human_name(
+        validator_operator_addr: address
+    ): vector<u8> acquires ValidatorOperatorConfig {
         assert!(
             has_validator_operator_config(validator_operator_addr),
             errors::not_published(EVALIDATOR_OPERATOR_CONFIG)

@@ -327,7 +327,9 @@ module ExperimentalFramework::Vote {
         gc_internal<Proposal>(borrow_global_mut<Ballots<Proposal>>(addr));
     }
 
-    public(friend) fun gc_test_helper<Proposal: store + drop>(addr: address): vector<BallotID> acquires Ballots {
+    public(friend) fun gc_test_helper<Proposal: store + drop>(
+        addr: address
+    ): vector<BallotID> acquires Ballots {
         gc_internal<Proposal>(borrow_global_mut<Ballots<Proposal>>(addr))
     }
 

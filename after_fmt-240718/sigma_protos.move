@@ -349,8 +349,9 @@ module veiled_coin::sigma_protos {
     //
 
     /// Deserializes and returns an `WithdrawalSubproof` given its byte representation.
-    public fun deserialize_withdrawal_subproof(proof_bytes: vector<u8>):
-        Option<WithdrawalSubproof> {
+    public fun deserialize_withdrawal_subproof(
+        proof_bytes: vector<u8>
+    ): Option<WithdrawalSubproof> {
         if (vector::length<u8>(&proof_bytes) != 192) {
             return std::option::none<WithdrawalSubproof>()
         };

@@ -99,10 +99,9 @@ module publisher_address::liquidity_pool_wrapper {
         );
     }
 
-    public fun create_pool(publisher: &signer, is_stable: bool):
-        (
-        Object<LiquidityPool>, MintRef, MintRef
-    ) {
+    public fun create_pool(
+        publisher: &signer, is_stable: bool
+    ): (Object<LiquidityPool>, MintRef, MintRef) {
         let mint_1 = create_fungible_asset(publisher, b"test1");
         let mint_2 = create_fungible_asset(publisher, b"test2");
         let pool =

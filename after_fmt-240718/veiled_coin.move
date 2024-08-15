@@ -288,7 +288,9 @@ module veiled_coin::veiled_coin {
     /// This function can be used by the `owner` to initialize his veiled balance to a *public* value.
     ///
     /// **WARNING:** The initialized balance is *leaked*, since its initialized `amount` is public here.
-    public entry fun veil<CoinType>(owner: &signer, amount: u32) acquires VeiledCoinMinter, VeiledCoinStore {
+    public entry fun veil<CoinType>(
+        owner: &signer, amount: u32
+    ) acquires VeiledCoinMinter, VeiledCoinStore {
         veil_to<CoinType>(owner, signer::address_of(owner), amount)
     }
 
@@ -468,7 +470,9 @@ module veiled_coin::veiled_coin {
     }
 
     /// Returns the ElGamal encryption of the veiled balance of `owner` for the provided `CoinType`.
-    public fun veiled_balance<CoinType>(owner: address): elgamal::CompressedCiphertext acquires VeiledCoinStore {
+    public fun veiled_balance<CoinType>(
+        owner: address
+    ): elgamal::CompressedCiphertext acquires VeiledCoinStore {
         assert!(
             has_veiled_coin_store<CoinType>(owner),
             error::not_found(EVEILED_COIN_STORE_NOT_PUBLISHED)
@@ -478,7 +482,9 @@ module veiled_coin::veiled_coin {
     }
 
     /// Given an address `addr`, returns the ElGamal encryption public key associated with that address
-    public fun encryption_public_key<CoinType>(addr: address): elgamal::CompressedPubkey acquires VeiledCoinStore {
+    public fun encryption_public_key<CoinType>(
+        addr: address
+    ): elgamal::CompressedPubkey acquires VeiledCoinStore {
         assert!(
             has_veiled_coin_store<CoinType>(addr),
             error::not_found(EVEILED_COIN_STORE_NOT_PUBLISHED)
@@ -761,7 +767,9 @@ module veiled_coin::veiled_coin {
     /// Mints a veiled coin from a normal coin, shelving the normal coin into the resource account's coin store.
     ///
     /// **WARNING:** Fundamentally, there is no way to hide the value of the coin being minted here.
-    fun veiled_mint_from_coin<CoinType>(c: Coin<CoinType>): VeiledCoin<CoinType> acquires VeiledCoinMinter {
+    fun veiled_mint_from_coin<CoinType>(
+        c: Coin<CoinType>
+    ): VeiledCoin<CoinType> acquires VeiledCoinMinter {
         // If there is no `coin::CoinStore<CoinType>` in the resource account, create one.
         let rsrc_acc_signer = get_resource_account_signer();
         let rsrc_acc_addr = signer::address_of(&rsrc_acc_signer);

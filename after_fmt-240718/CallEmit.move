@@ -38,7 +38,12 @@ module 0x2::M {
     }
 
     #[callable(sig = b"ev(uint8,address,uint16,bytes)")]
-    fun do_event_2(v1: u8, v2: address, v3: u64, v4: vector<u8>) {
+    fun do_event_2(
+        v1: u8,
+        v2: address,
+        v3: u64,
+        v4: vector<u8>
+    ) {
         emit(Event_2 { v1, v2, v3, v4 });
     }
 

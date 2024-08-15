@@ -114,7 +114,9 @@ module FACoin::fa_coin {
     }
 
     /// Withdraw as the owner of metadata object ignoring `frozen` field.
-    public fun withdraw(admin: &signer, amount: u64, from: address): FungibleAsset acquires ManagedFungibleAsset {
+    public fun withdraw(
+        admin: &signer, amount: u64, from: address
+    ): FungibleAsset acquires ManagedFungibleAsset {
         let asset = get_metadata();
         let transfer_ref = &authorized_borrow_refs(admin, asset).transfer_ref;
         let from_wallet = primary_fungible_store::primary_store(from, asset);

@@ -99,7 +99,9 @@ module 0x1::aggregator_v2_test {
         init<DerivedStringSnapshot>(account, use_type);
     }
 
-    fun delete<Agg: store + drop>(account_addr: address, use_type: u32) acquires AggregatorInResource, AggregatorInResourceGroup {
+    fun delete<Agg: store + drop>(
+        account_addr: address, use_type: u32
+    ) acquires AggregatorInResource, AggregatorInResourceGroup {
         if (use_type == USE_RESOURCE_TYPE) {
             assert!(
                 exists<AggregatorInResource<Agg>>(account_addr),
@@ -138,7 +140,10 @@ module 0x1::aggregator_v2_test {
     }
 
     fun insert<Agg: store + drop>(
-        account_addr: address, use_type: u32, i: u64, e: Agg
+        account_addr: address,
+        use_type: u32,
+        i: u64,
+        e: Agg
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         assert!(
             use_type == USE_RESOURCE_TYPE
@@ -257,7 +262,10 @@ module 0x1::aggregator_v2_test {
     }
 
     public entry fun new<Element: drop + copy + store>(
-        addr: address, use_type: u32, i: u64, limit: Element
+        addr: address,
+        use_type: u32,
+        i: u64,
+        limit: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         insert<Aggregator<Element>>(
             addr,
@@ -279,7 +287,10 @@ module 0x1::aggregator_v2_test {
     }
 
     public entry fun try_add<Element: store + drop>(
-        addr: address, use_type: u32, i: u64, value: Element
+        addr: address,
+        use_type: u32,
+        i: u64,
+        value: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         for_element_mut<Aggregator<Element>, bool>(
             addr,
@@ -290,7 +301,10 @@ module 0x1::aggregator_v2_test {
     }
 
     public entry fun add<Element: store + drop>(
-        addr: address, use_type: u32, i: u64, value: Element
+        addr: address,
+        use_type: u32,
+        i: u64,
+        value: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         for_element_mut<Aggregator<Element>, bool>(
             addr,
@@ -304,7 +318,10 @@ module 0x1::aggregator_v2_test {
     }
 
     public entry fun try_sub<Element: store + drop>(
-        addr: address, use_type: u32, i: u64, value: Element
+        addr: address,
+        use_type: u32,
+        i: u64,
+        value: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         for_element_mut<Aggregator<Element>, bool>(
             addr,
@@ -315,7 +332,10 @@ module 0x1::aggregator_v2_test {
     }
 
     public entry fun sub<Element: store + drop>(
-        addr: address, use_type: u32, i: u64, value: Element
+        addr: address,
+        use_type: u32,
+        i: u64,
+        value: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         for_element_mut<Aggregator<Element>, bool>(
             addr,
@@ -424,14 +444,20 @@ module 0x1::aggregator_v2_test {
     }
 
     public entry fun add_delete<Element: drop + copy + store>(
-        addr: address, use_type: u32, i: u64, a: Element
+        addr: address,
+        use_type: u32,
+        i: u64,
+        a: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         add(addr, use_type, i, a);
         delete_aggregator<Element>(addr, use_type);
     }
 
     public entry fun materialize_and_add<Element: store + drop>(
-        addr: address, use_type: u32, i: u64, value: Element
+        addr: address,
+        use_type: u32,
+        i: u64,
+        value: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         call_read<Element>(addr, use_type, i);
         add<Element>(addr, use_type, i, value);
@@ -444,7 +470,10 @@ module 0x1::aggregator_v2_test {
     }
 
     public entry fun materialize_and_sub<Element: store + drop>(
-        addr: address, use_type: u32, i: u64, value: Element
+        addr: address,
+        use_type: u32,
+        i: u64,
+        value: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         call_read<Element>(addr, use_type, i);
         sub<Element>(addr, use_type, i, value);
@@ -457,7 +486,10 @@ module 0x1::aggregator_v2_test {
     }
 
     public entry fun add_and_materialize<Element: store + drop>(
-        addr: address, use_type: u32, i: u64, value: Element
+        addr: address,
+        use_type: u32,
+        i: u64,
+        value: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         for_element_mut<Aggregator<Element>, Element>(
             addr,
@@ -471,7 +503,10 @@ module 0x1::aggregator_v2_test {
     }
 
     public entry fun sub_and_materialize<Element: store + drop>(
-        addr: address, use_type: u32, i: u64, value: Element
+        addr: address,
+        use_type: u32,
+        i: u64,
+        value: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         for_element_mut<Aggregator<Element>, Element>(
             addr,
@@ -582,7 +617,10 @@ module 0x1::aggregator_v2_test {
     }
 
     public entry fun add_and_read_snapshot<Element: copy + store + drop>(
-        addr: address, use_type: u32, i: u64, value: Element
+        addr: address,
+        use_type: u32,
+        i: u64,
+        value: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         for_element_mut<Aggregator<Element>, Element>(
             addr,

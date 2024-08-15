@@ -45,13 +45,20 @@ module aptos_std::string_utils {
     }
 
     public fun format3<T0: drop, T1: drop, T2: drop>(
-        fmt: &vector<u8>, a: T0, b: T1, c: T2
+        fmt: &vector<u8>,
+        a: T0,
+        b: T1,
+        c: T2
     ): String {
         native_format_list(fmt, &list3(a, b, c))
     }
 
     public fun format4<T0: drop, T1: drop, T2: drop, T3: drop>(
-        fmt: &vector<u8>, a: T0, b: T1, c: T2, d: T3
+        fmt: &vector<u8>,
+        a: T0,
+        b: T1,
+        c: T2,
+        d: T3
     ): String {
         native_format_list(fmt, &list4(a, b, c, d))
     }
@@ -80,12 +87,13 @@ module aptos_std::string_utils {
     } inline fun list2<T0, T1>(a: T0, b: T1): Cons<T0, Cons<T1, NIL>> {
 
         cons(a, list1(b))
-    } inline fun list3<T0, T1, T2>(a: T0, b: T1, c: T2): Cons<T0, Cons<T1, Cons<T2, NIL>>> {
+    } inline fun list3<T0, T1, T2>(
 
+    a: T0, b: T1, c: T2): Cons<T0, Cons<T1, Cons<T2, NIL>>> {
         cons(a, list2(b, c))
-    } inline fun list4<T0, T1, T2, T3>(a: T0, b: T1, c: T2, d: T3)
+    } inline fun list4<T0, T1, T2, T3>(
 
-    : Cons<T0, Cons<T1, Cons<T2, Cons<T3, NIL>>>> {
+    a: T0, b: T1, c: T2, d: T3): Cons<T0, Cons<T1, Cons<T2, Cons<T3, NIL>>>> {
         cons(a, list3(b, c, d))
     }
 

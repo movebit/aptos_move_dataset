@@ -402,7 +402,9 @@ module aptos_framework::object {
     }
 
     /// Generate a new event handle.
-    public fun new_event_handle<T: drop + store>(object: &signer): event::EventHandle<T> acquires ObjectCore {
+    public fun new_event_handle<T: drop + store>(
+        object: &signer
+    ): event::EventHandle<T> acquires ObjectCore {
         event::new_event_handle(create_guid(object))
     }
 
@@ -472,7 +474,9 @@ module aptos_framework::object {
 
     /// Create a LinearTransferRef for a one-time transfer. This requires that the owner at the
     /// time of generation is the owner at the time of transferring.
-    public fun generate_linear_transfer_ref(ref: &TransferRef): LinearTransferRef acquires ObjectCore {
+    public fun generate_linear_transfer_ref(
+        ref: &TransferRef
+    ): LinearTransferRef acquires ObjectCore {
         assert!(!exists<Untransferable>(ref.self), error::permission_denied(ENOT_MOVABLE));
         let owner = owner(Object<ObjectCore> { inner: ref.self });
         LinearTransferRef { self: ref.self, owner }

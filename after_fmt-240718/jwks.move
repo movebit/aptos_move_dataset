@@ -169,7 +169,9 @@ module aptos_framework::jwks {
 
     /// Get a JWK by issuer and key ID from the `PatchedJWKs`, if it exists.
     /// More convenient to call from Move, since it does not abort.
-    public fun try_get_patched_jwk(issuer: vector<u8>, jwk_id: vector<u8>): Option<JWK> acquires PatchedJWKs {
+    public fun try_get_patched_jwk(
+        issuer: vector<u8>, jwk_id: vector<u8>
+    ): Option<JWK> acquires PatchedJWKs {
         let jwks = &borrow_global<PatchedJWKs>(@aptos_framework).jwks;
         try_get_jwk_by_issuer(jwks, issuer, jwk_id)
     }
@@ -221,7 +223,9 @@ module aptos_framework::jwks {
     /// Deprecated by `remove_oidc_provider_for_next_epoch()`.
     ///
     /// TODO: update all the tests that reference this function, then disable this function.
-    public fun remove_oidc_provider(fx: &signer, name: vector<u8>): Option<vector<u8>> acquires SupportedOIDCProviders {
+    public fun remove_oidc_provider(
+        fx: &signer, name: vector<u8>
+    ): Option<vector<u8>> acquires SupportedOIDCProviders {
         system_addresses::assert_aptos_framework(fx);
         chain_status::assert_genesis();
 
@@ -268,7 +272,9 @@ module aptos_framework::jwks {
     }
 
     /// Set the `Patches`. Only called in governance proposals.
-    public fun set_patches(fx: &signer, patches: vector<Patch>) acquires Patches, PatchedJWKs, ObservedJWKs {
+    public fun set_patches(
+        fx: &signer, patches: vector<Patch>
+    ) acquires Patches, PatchedJWKs, ObservedJWKs {
         system_addresses::assert_aptos_framework(fx);
         borrow_global_mut<Patches>(@aptos_framework).patches = patches;
         regenerate_patched_jwks();
@@ -297,7 +303,12 @@ module aptos_framework::jwks {
     }
 
     /// Create a `JWK` of variant `RSA_JWK`.
-    public fun new_rsa_jwk(kid: String, alg: String, e: String, n: String): JWK {
+    public fun new_rsa_jwk(
+        kid: String,
+        alg: String,
+        e: String,
+        n: String
+    ): JWK {
         JWK {
             variant: copyable_any::pack(RSA_JWK { kid, kty: utf8(b"RSA"), e, n, alg })
         }

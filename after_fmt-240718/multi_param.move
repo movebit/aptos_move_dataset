@@ -21,7 +21,8 @@ module 0x42::Test {
 
     // Checks a multi-mutality scenario.
     public inline fun elem_for_each_ref<K, V>(
-        v: &mut vector<Elem<K, V>>, f: |&K, &mut V| u64
+        v: &mut vector<Elem<K, V>>,
+        f: |&K, &mut V| u64
     ): u64 {
         let result = 0;
         for_each_ref_mut(

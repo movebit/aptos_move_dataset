@@ -486,12 +486,16 @@ module collection_offer {
     }
 
     #[view]
-    public fun expiration_time(collection_offer: Object<CollectionOffer>): u64 acquires CollectionOffer {
+    public fun expiration_time(
+        collection_offer: Object<CollectionOffer>
+    ): u64 acquires CollectionOffer {
         borrow_collection_offer(collection_offer).expiration_time
     }
 
     #[view]
-    public fun fee_schedule(collection_offer: Object<CollectionOffer>): Object<FeeSchedule> acquires CollectionOffer {
+    public fun fee_schedule(
+        collection_offer: Object<CollectionOffer>
+    ): Object<FeeSchedule> acquires CollectionOffer {
         borrow_collection_offer(collection_offer).fee_schedule
     }
 
@@ -506,7 +510,9 @@ module collection_offer {
     }
 
     #[view]
-    public fun collectionv1(collection_offer: Object<CollectionOffer>): CollectionOfferTokenV1 acquires CollectionOfferTokenV1 {
+    public fun collectionv1(
+        collection_offer: Object<CollectionOffer>
+    ): CollectionOfferTokenV1 acquires CollectionOfferTokenV1 {
         let collection_offer_addr = object::object_address(&collection_offer);
         assert!(
             exists<CollectionOfferTokenV1>(collection_offer_addr),
@@ -516,7 +522,9 @@ module collection_offer {
     }
 
     #[view]
-    public fun collectionv2(collection_offer: Object<CollectionOffer>): CollectionOfferTokenV2 acquires CollectionOfferTokenV2 {
+    public fun collectionv2(
+        collection_offer: Object<CollectionOffer>
+    ): CollectionOfferTokenV2 acquires CollectionOfferTokenV2 {
         let collection_offer_addr = object::object_address(&collection_offer);
         assert!(
             exists<CollectionOffer>(collection_offer_addr),

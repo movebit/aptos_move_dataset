@@ -5,7 +5,12 @@ module 0xc0ffee::m {
         (x, y)
     }
 
-    fun swap2(a: u64, b: u64, c: u64, d: u64): (u64, u64, u64, u64) {
+    fun swap2(
+        a: u64,
+        b: u64,
+        c: u64,
+        d: u64
+    ): (u64, u64, u64, u64) {
         (a, b, c, d) = (c, d, b, a);
         (a, b, c, d)
     }

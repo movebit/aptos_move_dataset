@@ -163,7 +163,9 @@ module knight::food {
     }
 
     /// Transfers the given amount of the corn token from the given sender to the given receiver.
-    public entry fun transfer_corn(from: &signer, to: address, amount: u64) {
+    public entry fun transfer_corn(
+        from: &signer, to: address, amount: u64
+    ) {
         transfer_food(
             from,
             object::address_to_object<FoodToken>(corn_token_address()),
@@ -173,7 +175,9 @@ module knight::food {
     }
 
     /// Transfers the given amount of the meat token from the given sender to the given receiver.
-    public entry fun transfer_meat(from: &signer, to: address, amount: u64) {
+    public entry fun transfer_meat(
+        from: &signer, to: address, amount: u64
+    ) {
         transfer_food(
             from,
             object::address_to_object<FoodToken>(meat_token_address()),
@@ -322,7 +326,9 @@ module knight::food {
     }
 
     #[test(creator = @knight, user1 = @0x456, user2 = @0x789)]
-    public fun test_food(creator: &signer, user1: &signer, user2: &signer) acquires FoodToken {
+    public fun test_food(
+        creator: &signer, user1: &signer, user2: &signer
+    ) acquires FoodToken {
         // This test assumes that the creator's address is equal to @knight.
         assert!(signer::address_of(creator) == @knight, 0);
 

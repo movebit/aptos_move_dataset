@@ -558,7 +558,9 @@ module post_mint_reveal_nft::minting {
 
     // Exchange a source certificate token to a destination token. This function will burn the source certificate
     // and put a destination token in the nft_claimer's TokenStore.
-    entry fun exchange(nft_claimer: &signer, source_token_name: String) acquires NFTMintConfig, CollectionConfig, RevealConfig, SourceToken {
+    entry fun exchange(
+        nft_claimer: &signer, source_token_name: String
+    ) acquires NFTMintConfig, CollectionConfig, RevealConfig, SourceToken {
         let nft_mint_config = borrow_global_mut<NFTMintConfig>(@post_mint_reveal_nft);
         assert!(
             exists<CollectionConfig>(@post_mint_reveal_nft)

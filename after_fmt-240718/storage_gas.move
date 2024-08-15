@@ -554,7 +554,13 @@ module aptos_framework::storage_gas {
     }
 
     // Interpolates y for x on the line between (x0, y0) and (x1, y1).
-    fun interpolate(x0: u64, x1: u64, y0: u64, y1: u64, x: u64): u64 {
+    fun interpolate(
+        x0: u64,
+        x1: u64,
+        y0: u64,
+        y1: u64,
+        x: u64
+    ): u64 {
         y0 + (x - x0) * (y1 - y0) / (x1 - x0)
     }
 

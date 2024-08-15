@@ -62,7 +62,11 @@ module post_mint_reveal_nft::bucket_table {
     /// Add (key, value) pair in the hash map, it may grow one bucket if current load factor exceeds the threshold.
     /// Note it may not split the actual overflowed bucket.
     /// Abort if `key` already exists.
-    public fun add<K, V>(map: &mut BucketTable<K, V>, key: K, value: V) {
+    public fun add<K, V>(
+        map: &mut BucketTable<K, V>,
+        key: K,
+        value: V
+    ) {
         let hash = sip_hash_from_value(&key);
         let index = bucket_index(map.level, map.num_buckets, hash);
         let bucket = table_with_length::borrow_mut(&mut map.buckets, index);

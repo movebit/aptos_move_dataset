@@ -219,7 +219,9 @@ module aptos_framework::transaction_fee {
     }
 
     /// Burn transaction fees in epilogue.
-    public(friend) fun burn_fee(account: address, fee: u64) acquires AptosFABurnCapabilities, AptosCoinCapabilities {
+    public(friend) fun burn_fee(
+        account: address, fee: u64
+    ) acquires AptosFABurnCapabilities, AptosCoinCapabilities {
         if (exists<AptosFABurnCapabilities>(@aptos_framework)) {
             let burn_ref =
                 &borrow_global<AptosFABurnCapabilities>(@aptos_framework).burn_ref;
@@ -242,7 +244,9 @@ module aptos_framework::transaction_fee {
     }
 
     /// Mint refund in epilogue.
-    public(friend) fun mint_and_refund(account: address, refund: u64) acquires AptosCoinMintCapability {
+    public(friend) fun mint_and_refund(
+        account: address, refund: u64
+    ) acquires AptosCoinMintCapability {
         let mint_cap = &borrow_global<AptosCoinMintCapability>(@aptos_framework).mint_cap;
         let refund_coin = coin::mint(refund, mint_cap);
         coin::force_deposit(account, refund_coin);
@@ -273,7 +277,9 @@ module aptos_framework::transaction_fee {
         }
     }
 
-    public entry fun convert_to_aptos_fa_burn_ref(aptos_framework: &signer) acquires AptosCoinCapabilities {
+    public entry fun convert_to_aptos_fa_burn_ref(
+        aptos_framework: &signer
+    ) acquires AptosCoinCapabilities {
         assert!(
             features::operations_default_to_fa_apt_store_enabled(),
             EFA_GAS_CHARGING_NOT_ENABLED

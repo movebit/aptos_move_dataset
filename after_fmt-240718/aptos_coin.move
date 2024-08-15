@@ -36,10 +36,9 @@ module aptos_framework::aptos_coin {
     }
 
     /// Can only called during genesis to initialize the Aptos coin.
-    public(friend) fun initialize(aptos_framework: &signer):
-        (
-        BurnCapability<AptosCoin>, MintCapability<AptosCoin>
-    ) {
+    public(friend) fun initialize(
+        aptos_framework: &signer
+    ): (BurnCapability<AptosCoin>, MintCapability<AptosCoin>) {
         system_addresses::assert_aptos_framework(aptos_framework);
 
         let (burn_cap, freeze_cap, mint_cap) =
@@ -187,10 +186,9 @@ module aptos_framework::aptos_coin {
     }
 
     #[test_only]
-    public fun initialize_for_test(aptos_framework: &signer):
-        (
-        BurnCapability<AptosCoin>, MintCapability<AptosCoin>
-    ) {
+    public fun initialize_for_test(
+        aptos_framework: &signer
+    ): (BurnCapability<AptosCoin>, MintCapability<AptosCoin>) {
         aggregator_factory::initialize_aggregator_factory_for_test(aptos_framework);
         let (burn_cap, mint_cap) = initialize(aptos_framework);
         coin::create_coin_conversion_map(aptos_framework);

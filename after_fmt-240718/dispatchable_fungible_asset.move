@@ -163,7 +163,9 @@ module aptos_framework::dispatchable_fungible_asset {
         }
     }
 
-    inline fun borrow_transfer_ref<T: key>(metadata: Object<T>): &TransferRef acquires TransferRefStore {
+    inline fun borrow_transfer_ref<T: key>(
+        metadata: Object<T>
+    ): &TransferRef acquires TransferRefStore {
         let metadata_addr =
             object::object_address(&fungible_asset::store_metadata(metadata));
         assert!(

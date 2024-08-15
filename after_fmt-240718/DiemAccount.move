@@ -1051,7 +1051,9 @@ module DiemFramework::DiemAccount {
     }
 
     /// Return a unique capability granting permission to rotate the sender's authentication key
-    public fun extract_key_rotation_capability(account: &signer): KeyRotationCapability acquires DiemAccount {
+    public fun extract_key_rotation_capability(
+        account: &signer
+    ): KeyRotationCapability acquires DiemAccount {
         let account_address = signer::address_of(account);
         // Abort if we already extracted the unique key rotation capability for this account.
         assert!(
@@ -1159,7 +1161,9 @@ module DiemFramework::DiemAccount {
     /// Aborts if there is already an account at `new_account_address`.
     ///
     /// Creating an account at address 0x0 will abort as it is a reserved address for the MoveVM.
-    fun make_account(new_account: &signer, auth_key_prefix: vector<u8>) acquires AccountOperationsCapability {
+    fun make_account(
+        new_account: &signer, auth_key_prefix: vector<u8>
+    ) acquires AccountOperationsCapability {
         let new_account_addr = signer::address_of(new_account);
         // cannot create an account at the reserved address 0x0
         assert!(

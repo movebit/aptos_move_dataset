@@ -143,7 +143,13 @@ module G {
         f5: u256
     }
 
-    public fun new(v1: u64, v2: u128, v3: u16, v4: u32, v5: u256): S {
+    public fun new(
+        v1: u64,
+        v2: u128,
+        v3: u16,
+        v4: u32,
+        v5: u256
+    ): S {
         S { f1: v1, f2: v2, f3: v3, f4: v4, f5: v5 }
     }
 

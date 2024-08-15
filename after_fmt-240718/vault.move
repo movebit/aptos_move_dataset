@@ -259,7 +259,9 @@ module std::vault {
 
     /// Removes a vault and all its associated data, returning the current content. In order for
     /// this to succeed, there must be no active accessor for the vault.
-    public fun remove_vault<Content: store + drop>(owner: &signer): Content acquires Vault, VaultDelegates, VaultDelegate, VaultEvents {
+    public fun remove_vault<Content: store + drop>(
+        owner: &signer
+    ): Content acquires Vault, VaultDelegates, VaultDelegate, VaultEvents {
         let addr = signer::address_of(owner);
         assert!(exists<Vault<Content>>(addr), error::not_found(EVAULT));
         let Vault { content } = move_from<Vault<Content>>(addr);
@@ -284,15 +286,18 @@ module std::vault {
 
     /// Acquires the capability to read the vault. The passed signer must either be the owner
     /// of the vault or a delegate with appropriate access.
-    public fun acquire_read_cap<Content: store + drop>(requester: &signer): ReadCap<Content> acquires VaultDelegate {
+    public fun acquire_read_cap<Content: store + drop>(
+        requester: &signer
+    ): ReadCap<Content> acquires VaultDelegate {
         let (vault_address, authority) = validate_cap<Content>(requester, read_cap_type());
         ReadCap { vault_address, authority }
     }
 
     /// Acquires the capability to modify the vault. The passed signer must either be the owner
     /// of the vault or a delegate with appropriate access.
-    public fun acquire_modify_cap<Content: store + drop>(requester: &signer):
-        ModifyCap<Content> acquires VaultDelegate {
+    public fun acquire_modify_cap<Content: store + drop>(
+        requester: &signer
+    ): ModifyCap<Content> acquires VaultDelegate {
         let (vault_address, authority) =
             validate_cap<Content>(requester, modify_cap_type());
         ModifyCap { vault_address, authority }
@@ -353,8 +358,9 @@ module std::vault {
     /// Only one accessor (whether read or modify) for the same vault can exist at a time, and this
     /// function will abort if one is in use. An accessor must be explicitly released using
     /// `Self::release_read_accessor`.
-    public fun read_accessor<Content: store + drop>(cap: &ReadCap<Content>):
-        ReadAccessor<Content> acquires Vault {
+    public fun read_accessor<Content: store + drop>(
+        cap: &ReadCap<Content>
+    ): ReadAccessor<Content> acquires Vault {
         let content = &mut borrow_global_mut<Vault<Content>>(cap.vault_address).content;
         assert!(option::is_some(content), error::invalid_state(EACCESSOR_IN_USE));
         ReadAccessor {
@@ -491,7 +497,9 @@ module std::vault {
     }
 
     /// Revokes all delegate rights for this vault.
-    public fun revoke_all<Content: store + drop>(cap: &DelegateCap<Content>) acquires VaultDelegates, VaultDelegate, VaultEvents {
+    public fun revoke_all<Content: store + drop>(
+        cap: &DelegateCap<Content>
+    ) acquires VaultDelegates, VaultDelegate, VaultEvents {
         assert!(
             exists<VaultDelegates<Content>>(cap.vault_address),
             error::invalid_state(EDELEGATION_NOT_ENABLED)

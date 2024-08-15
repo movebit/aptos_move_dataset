@@ -331,7 +331,9 @@ module aptos_framework::vesting {
     /// Return the address of the underlying stake pool (separate resource account) of the vesting contract.
     ///
     /// This errors out if the vesting contract with the provided address doesn't exist.
-    public fun stake_pool_address(vesting_contract_address: address): address acquires VestingContract {
+    public fun stake_pool_address(
+        vesting_contract_address: address
+    ): address acquires VestingContract {
         assert_vesting_contract_exists(vesting_contract_address);
         borrow_global<VestingContract>(vesting_contract_address).staking.pool_address
     }
@@ -433,7 +435,9 @@ module aptos_framework::vesting {
     /// So 268435456 = 0.0625.
     ///
     /// This errors out if the vesting contract with the provided address doesn't exist.
-    public fun vesting_schedule(vesting_contract_address: address): VestingSchedule acquires VestingContract {
+    public fun vesting_schedule(
+        vesting_contract_address: address
+    ): VestingSchedule acquires VestingContract {
         assert_vesting_contract_exists(vesting_contract_address);
         borrow_global<VestingContract>(vesting_contract_address).vesting_schedule
     }
@@ -479,7 +483,9 @@ module aptos_framework::vesting {
 
     #[view]
     /// Return the list of all shareholders in the vesting contract.
-    public fun shareholders(vesting_contract_address: address): vector<address> acquires VestingContract {
+    public fun shareholders(
+        vesting_contract_address: address
+    ): vector<address> acquires VestingContract {
         assert_active_vesting_contract(vesting_contract_address);
 
         let vesting_contract = borrow_global<VestingContract>(vesting_contract_address);
@@ -1180,7 +1186,9 @@ module aptos_framework::vesting {
         staking_contract::set_beneficiary_for_operator(operator, new_beneficiary);
     }
 
-    public fun get_role_holder(contract_address: address, role: String): address acquires VestingAccountManagement {
+    public fun get_role_holder(
+        contract_address: address, role: String
+    ): address acquires VestingAccountManagement {
         assert!(
             exists<VestingAccountManagement>(contract_address),
             error::not_found(EVESTING_ACCOUNT_HAS_NO_ROLES)

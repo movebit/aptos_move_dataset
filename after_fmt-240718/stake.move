@@ -426,7 +426,9 @@ module aptos_framework::stake {
     #[view]
     /// Return the voting power of the validator in the current epoch.
     /// This is the same as the validator's total active and pending_inactive stake.
-    public fun get_current_epoch_voting_power(pool_address: address): u64 acquires StakePool, ValidatorSet {
+    public fun get_current_epoch_voting_power(
+        pool_address: address
+    ): u64 acquires StakePool, ValidatorSet {
         assert_stake_pool_exists(pool_address);
         let validator_state = get_validator_state(pool_address);
         // Both active and pending inactive validators can still vote in the current epoch.
@@ -468,7 +470,9 @@ module aptos_framework::stake {
 
     #[view]
     /// Return the number of successful and failed proposals for the proposal at the given validator index.
-    public fun get_current_epoch_proposal_counts(validator_index: u64): (u64, u64) acquires ValidatorPerformance {
+    public fun get_current_epoch_proposal_counts(
+        validator_index: u64
+    ): (u64, u64) acquires ValidatorPerformance {
         let validator_performances =
             &borrow_global<ValidatorPerformance>(@aptos_framework).validators;
         let validator_performance = vector::borrow(
@@ -482,8 +486,9 @@ module aptos_framework::stake {
 
     #[view]
     /// Return the validator's config.
-    public fun get_validator_config(pool_address: address):
-        (vector<u8>, vector<u8>, vector<u8>) acquires ValidatorConfig {
+    public fun get_validator_config(
+        pool_address: address
+    ): (vector<u8>, vector<u8>, vector<u8>) acquires ValidatorConfig {
         assert_stake_pool_exists(pool_address);
         let validator_config = borrow_global<ValidatorConfig>(pool_address);
         (
@@ -711,7 +716,9 @@ module aptos_framework::stake {
     }
 
     /// Allows an owner to change the operator of the stake pool.
-    public entry fun set_operator(owner: &signer, new_operator: address) acquires OwnerCapability, StakePool {
+    public entry fun set_operator(
+        owner: &signer, new_operator: address
+    ) acquires OwnerCapability, StakePool {
         let owner_address = signer::address_of(owner);
         assert_owner_cap_exists(owner_address);
         let ownership_cap = borrow_global<OwnerCapability>(owner_address);
@@ -759,7 +766,9 @@ module aptos_framework::stake {
     }
 
     /// Add `amount` of coins from the `account` owning the StakePool.
-    public entry fun add_stake(owner: &signer, amount: u64) acquires OwnerCapability, StakePool, ValidatorSet {
+    public entry fun add_stake(
+        owner: &signer, amount: u64
+    ) acquires OwnerCapability, StakePool, ValidatorSet {
         let owner_address = signer::address_of(owner);
         assert_owner_cap_exists(owner_address);
         let ownership_cap = borrow_global<OwnerCapability>(owner_address);
@@ -1106,7 +1115,9 @@ module aptos_framework::stake {
     }
 
     /// Withdraw from `account`'s inactive stake.
-    public entry fun withdraw(owner: &signer, withdraw_amount: u64) acquires OwnerCapability, StakePool, ValidatorSet {
+    public entry fun withdraw(
+        owner: &signer, withdraw_amount: u64
+    ) acquires OwnerCapability, StakePool, ValidatorSet {
         let owner_address = signer::address_of(owner);
         assert_owner_cap_exists(owner_address);
         let ownership_cap = borrow_global<OwnerCapability>(owner_address);
@@ -1984,7 +1995,9 @@ module aptos_framework::stake {
     }
 
     #[test_only]
-    public fun fast_forward_to_unlock(pool_address: address) acquires AptosCoinCapabilities, StakePool, ValidatorConfig, ValidatorPerformance, ValidatorSet, ValidatorFees {
+    public fun fast_forward_to_unlock(
+        pool_address: address
+    ) acquires AptosCoinCapabilities, StakePool, ValidatorConfig, ValidatorPerformance, ValidatorSet, ValidatorFees {
         let expiration_time = get_lockup_secs(pool_address);
         timestamp::update_global_time_for_test_secs(expiration_time);
         end_epoch();
@@ -2039,7 +2052,9 @@ module aptos_framework::stake {
     }
 
     #[test_only]
-    public fun mint_and_add_stake(account: &signer, amount: u64) acquires AptosCoinCapabilities, OwnerCapability, StakePool, ValidatorSet {
+    public fun mint_and_add_stake(
+        account: &signer, amount: u64
+    ) acquires AptosCoinCapabilities, OwnerCapability, StakePool, ValidatorSet {
         mint(account, amount);
         add_stake(account, amount);
     }

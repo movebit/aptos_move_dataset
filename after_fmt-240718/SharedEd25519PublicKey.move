@@ -116,7 +116,9 @@ module DiemFramework::SharedEd25519PublicKey {
     /// `SharedEd25519PublicKey` to a new value derived from `new_public_key`
     /// Aborts if the sender does not have a `SharedEd25519PublicKey` resource.
     /// Aborts if the length of `new_public_key` is not 32.
-    public fun rotate_key(account: &signer, new_public_key: vector<u8>) acquires SharedEd25519PublicKey {
+    public fun rotate_key(
+        account: &signer, new_public_key: vector<u8>
+    ) acquires SharedEd25519PublicKey {
         let addr = signer::address_of(account);
         assert!(exists_at(addr), errors::not_published(ESHARED_KEY));
         rotate_key_(borrow_global_mut<SharedEd25519PublicKey>(addr), new_public_key);

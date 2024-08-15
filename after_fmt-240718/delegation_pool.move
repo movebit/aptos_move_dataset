@@ -547,7 +547,9 @@ module aptos_framework::delegation_pool {
 
     #[view]
     /// Return the operator commission percentage set on the delegation pool `pool_address`.
-    public fun operator_commission_percentage(pool_address: address): u64 acquires DelegationPool, NextCommissionPercentage {
+    public fun operator_commission_percentage(
+        pool_address: address
+    ): u64 acquires DelegationPool, NextCommissionPercentage {
         assert_delegation_pool_exists(pool_address);
         if (is_next_commission_percentage_effective(pool_address)) {
             operator_commission_percentage_next_lockup_cycle(pool_address)
@@ -689,7 +691,9 @@ module aptos_framework::delegation_pool {
     /// To mitigate this, some of the added stake is extracted and fed back into the pool as placeholder
     /// for the rewards the remaining stake would have earned if active:
     /// extracted-fee = (amount - extracted-fee) * reward-rate% * (100% - operator-commission%)
-    public fun get_add_stake_fee(pool_address: address, amount: u64): u64 acquires DelegationPool, NextCommissionPercentage {
+    public fun get_add_stake_fee(
+        pool_address: address, amount: u64
+    ): u64 acquires DelegationPool, NextCommissionPercentage {
         if (stake::is_current_epoch_validator(pool_address)) {
             let (rewards_rate, rewards_rate_denominator) =
                 staking_config::get_reward_rate(&staking_config::get());
@@ -829,7 +833,9 @@ module aptos_framework::delegation_pool {
 
     #[view]
     /// Return allowlist or revert if allowlisting is not enabled for the provided delegation pool.
-    public fun get_delegators_allowlist(pool_address: address): vector<address> acquires DelegationPoolAllowlisting {
+    public fun get_delegators_allowlist(
+        pool_address: address
+    ): vector<address> acquires DelegationPoolAllowlisting {
         assert_allowlisting_enabled(pool_address);
 
         let allowlist = vector[];
@@ -1366,13 +1372,16 @@ module aptos_framework::delegation_pool {
         calculate_total_voting_power(pool, delegated_votes)
     }
 
-    inline fun borrow_mut_delegators_allowlist(pool_address: address):
-        &mut SmartTable<address, bool> acquires DelegationPoolAllowlisting {
+    inline fun borrow_mut_delegators_allowlist(
+        pool_address: address
+    ): &mut SmartTable<address, bool> acquires DelegationPoolAllowlisting {
         &mut borrow_global_mut<DelegationPoolAllowlisting>(pool_address).allowlist
     }
 
     /// Allows an owner to change the operator of the underlying stake pool.
-    public entry fun set_operator(owner: &signer, new_operator: address) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage {
+    public entry fun set_operator(
+        owner: &signer, new_operator: address
+    ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage {
         let pool_address = get_owned_pool_address(signer::address_of(owner));
         // synchronize delegation and stake pools before any user operation
         // ensure the old operator is paid its uncommitted commission rewards
@@ -1564,7 +1573,9 @@ module aptos_framework::delegation_pool {
     }
 
     /// Enable delegators allowlisting as the pool owner.
-    public entry fun enable_delegators_allowlisting(owner: &signer) acquires DelegationPoolOwnership, DelegationPool {
+    public entry fun enable_delegators_allowlisting(
+        owner: &signer
+    ) acquires DelegationPoolOwnership, DelegationPool {
         assert!(
             features::delegation_pool_allowlisting_enabled(),
             error::invalid_state(EDELEGATORS_ALLOWLISTING_NOT_SUPPORTED)
@@ -1584,7 +1595,9 @@ module aptos_framework::delegation_pool {
     }
 
     /// Disable delegators allowlisting as the pool owner. The existing allowlist will be emptied.
-    public entry fun disable_delegators_allowlisting(owner: &signer) acquires DelegationPoolOwnership, DelegationPoolAllowlisting {
+    public entry fun disable_delegators_allowlisting(
+        owner: &signer
+    ) acquires DelegationPoolOwnership, DelegationPoolAllowlisting {
         let pool_address = get_owned_pool_address(signer::address_of(owner));
         assert_allowlisting_enabled(pool_address);
 
@@ -2162,7 +2175,9 @@ module aptos_framework::delegation_pool {
 
     /// Synchronize delegation and stake pools: distribute yet-undetected rewards to the corresponding internal
     /// shares pools, assign commission to operator and eventually prepare delegation pool for a new lockup cycle.
-    public entry fun synchronize_delegation_pool(pool_address: address) acquires DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage {
+    public entry fun synchronize_delegation_pool(
+        pool_address: address
+    ) acquires DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage {
         assert_delegation_pool_exists(pool_address);
         let pool = borrow_global_mut<DelegationPool>(pool_address);
         let (

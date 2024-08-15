@@ -176,7 +176,9 @@ module publisher_address::liquidity_pool {
     }
 
     #[view]
-    public fun supported_inner_assets(pool: Object<LiquidityPool>): vector<Object<Metadata>> acquires LiquidityPool {
+    public fun supported_inner_assets(
+        pool: Object<LiquidityPool>
+    ): vector<Object<Metadata>> acquires LiquidityPool {
         let pool_data = liquidity_pool_data(&pool);
         vector[
             fungible_asset::store_metadata(pool_data.token_store_1),
@@ -207,7 +209,9 @@ module publisher_address::liquidity_pool {
     }
 
     #[view]
-    public fun claimable_fees(lp: address, pool: Object<LiquidityPool>): (u128, u128) acquires FeesAccounting {
+    public fun claimable_fees(
+        lp: address, pool: Object<LiquidityPool>
+    ): (u128, u128) acquires FeesAccounting {
         let fees_accounting = safe_fees_accounting(&pool);
         (
             *smart_table::borrow_with_default(&fees_accounting.claimable_1, lp, &0),
@@ -547,7 +551,9 @@ module publisher_address::liquidity_pool {
         }
     }
 
-    fun ensure_lp_token_store<T: key>(lp: address, pool: Object<T>): Object<FungibleStore> acquires LiquidityPool {
+    fun ensure_lp_token_store<T: key>(
+        lp: address, pool: Object<T>
+    ): Object<FungibleStore> acquires LiquidityPool {
         primary_fungible_store::ensure_primary_store_exists(lp, pool);
         let store = primary_fungible_store::primary_store(lp, pool);
         if (!fungible_asset::is_frozen(store)) {
@@ -597,7 +603,9 @@ module publisher_address::liquidity_pool {
         }
     }
 
-    inline fun safe_fees_accounting<T: key>(pool: &Object<T>): &FeesAccounting acquires FeesAccounting {
+    inline fun safe_fees_accounting<T: key>(
+        pool: &Object<T>
+    ): &FeesAccounting acquires FeesAccounting {
         borrow_global<FeesAccounting>(object::object_address(pool))
     }
 
@@ -609,11 +617,15 @@ module publisher_address::liquidity_pool {
         borrow_global<LiquidityPoolConfigs>(@publisher_address)
     }
 
-    inline fun unchecked_mut_liquidity_pool_data<T: key>(pool: &Object<T>): &mut LiquidityPool acquires LiquidityPool {
+    inline fun unchecked_mut_liquidity_pool_data<T: key>(
+        pool: &Object<T>
+    ): &mut LiquidityPool acquires LiquidityPool {
         borrow_global_mut<LiquidityPool>(object::object_address(pool))
     }
 
-    inline fun unchecked_mut_fees_accounting<T: key>(pool: &Object<T>): &mut FeesAccounting acquires FeesAccounting {
+    inline fun unchecked_mut_fees_accounting<T: key>(
+        pool: &Object<T>
+    ): &mut FeesAccounting acquires FeesAccounting {
         borrow_global_mut<FeesAccounting>(object::object_address(pool))
     }
 

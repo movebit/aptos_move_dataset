@@ -603,7 +603,9 @@ module aptos_framework::aptos_governance {
         }
     }
 
-    public entry fun add_approved_script_hash_script(proposal_id: u64) acquires ApprovedExecutionHashes {
+    public entry fun add_approved_script_hash_script(
+        proposal_id: u64
+    ) acquires ApprovedExecutionHashes {
         add_approved_script_hash(proposal_id)
     }
 
@@ -638,7 +640,9 @@ module aptos_framework::aptos_governance {
 
     /// Resolve a successful single-step proposal. This would fail if the proposal is not successful (not enough votes or more no
     /// than yes).
-    public fun resolve(proposal_id: u64, signer_address: address): signer acquires ApprovedExecutionHashes, GovernanceResponsbility {
+    public fun resolve(
+        proposal_id: u64, signer_address: address
+    ): signer acquires ApprovedExecutionHashes, GovernanceResponsbility {
         voting::resolve<GovernanceProposal>(@aptos_framework, proposal_id);
         remove_approved_hash(proposal_id);
         get_signer(signer_address)
@@ -709,7 +713,9 @@ module aptos_framework::aptos_governance {
 
     /// `force_end_epoch()` equivalent but only called in testnet,
     /// where the core resources account exists and has been granted power to mint Aptos coins.
-    public entry fun force_end_epoch_test_only(aptos_framework: &signer) acquires GovernanceResponsbility {
+    public entry fun force_end_epoch_test_only(
+        aptos_framework: &signer
+    ) acquires GovernanceResponsbility {
         let core_signer = get_signer_testnet_only(aptos_framework, @0x1);
         system_addresses::assert_aptos_framework(&core_signer);
         reconfiguration_with_dkg::finish(&core_signer);

@@ -102,7 +102,10 @@ module tic_tac_toe::ttt {
     * @dev checks to ensure a player can make a valid move
     */
     public entry fun choose_move(
-        player: &signer, game_addr: address, x: u64, y: u64
+        player: &signer,
+        game_addr: address,
+        x: u64,
+        y: u64
     ) acquires Game {
         assert!(x < 3, error::out_of_range(EOUT_OF_BOUNDS_MOVE));
         assert!(y < 3, error::out_of_range(EOUT_OF_BOUNDS_MOVE));
@@ -195,7 +198,12 @@ module tic_tac_toe::ttt {
     /*
     * @notice place (x,y) move on a 3x3 board
     */
-    fun place_move(game: &mut Game, x: u64, y: u64, player: Player) {
+    fun place_move(
+        game: &mut Game,
+        x: u64,
+        y: u64,
+        player: Player
+    ) {
         // validate game state
         assert!(!game.is_game_over, error::invalid_argument(EGAME_HAS_ALREADY_FINISHED));
 

@@ -300,7 +300,10 @@ module aptos_std::pool_u64_unbound {
     }
 
     public fun multiply_then_divide(
-        _pool: &Pool, x: u128, y: u128, z: u128
+        _pool: &Pool,
+        x: u128,
+        y: u128,
+        z: u128
     ): u128 {
         let result = (to_u256(x) * to_u256(y)) / to_u256(z);
         (result as u128)

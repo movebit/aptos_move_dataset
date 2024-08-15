@@ -753,7 +753,9 @@ module aptos_framework::staking_contract {
     }
 
     /// Unlock all accumulated rewards since the last recorded principals.
-    public entry fun unlock_rewards(staker: &signer, operator: address) acquires Store, BeneficiaryForOperator {
+    public entry fun unlock_rewards(
+        staker: &signer, operator: address
+    ) acquires Store, BeneficiaryForOperator {
         let staker_address = signer::address_of(staker);
         assert_staking_contract_exists(staker_address, operator);
 
@@ -861,7 +863,9 @@ module aptos_framework::staking_contract {
 
     /// Allow anyone to distribute already unlocked funds. This does not affect reward compounding and therefore does
     /// not need to be restricted to just the staker or operator.
-    public entry fun distribute(staker: address, operator: address) acquires Store, BeneficiaryForOperator {
+    public entry fun distribute(
+        staker: address, operator: address
+    ) acquires Store, BeneficiaryForOperator {
         assert_staking_contract_exists(staker, operator);
         let store = borrow_global_mut<Store>(staker);
         let staking_contract =

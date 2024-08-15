@@ -37,7 +37,12 @@ module This::AccountContinuation {
     }
 
     #[rpc]
-    fun xfer(this: &Account, dest: address, v: u64, cont: Cont<Unit>) {
+    fun xfer(
+        this: &Account,
+        dest: address,
+        v: u64,
+        cont: Cont<Unit>
+    ) {
         // Do not initiate the transfer if there are not enough funds.
         assert!(this.value >= v, 1);
         // Deposit on the other end, and only if this succeeds, withdraw here.
@@ -60,7 +65,9 @@ module This::AccountContinuation {
     // automatically by the runtime environment.
 
     #[_generated_send]
-    public native fun send_deposit(dest: address, v: u64, cont: Cont<Unit>);
+    public native fun send_deposit(
+        dest: address, v: u64, cont: Cont<Unit>
+    );
 
     #[_generated_cont]
     native fun cont_xfer_withdraw(v: u64, cont: Cont<Unit>): Cont<Unit>;

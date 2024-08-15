@@ -32,7 +32,9 @@ module aptos_std::table_with_length {
     /// key already exists. The entry itself is not stored in the
     /// table, and cannot be discovered from it.
     public fun add<K: copy + drop, V>(
-        table: &mut TableWithLength<K, V>, key: K, val: V
+        table: &mut TableWithLength<K, V>,
+        key: K,
+        val: V
     ) {
         table::add(&mut table.inner, key, val);
         table.length = table.length + 1;
@@ -83,7 +85,9 @@ module aptos_std::table_with_length {
     /// Insert the pair (`key`, `value`) if there is no entry for `key`.
     /// update the value of the entry for `key` to `value` otherwise
     public fun upsert<K: copy + drop, V: drop>(
-        table: &mut TableWithLength<K, V>, key: K, value: V
+        table: &mut TableWithLength<K, V>,
+        key: K,
+        value: V
     ) {
         if (!table::contains(&table.inner, key)) {
             add(table, copy key, value)

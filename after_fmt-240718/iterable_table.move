@@ -41,7 +41,9 @@ module aptos_std::iterable_table {
     /// Add a new entry to the table. Aborts if an entry for this
     /// key already exists.
     public fun add<K: copy + store + drop, V: store>(
-        table: &mut IterableTable<K, V>, key: K, val: V
+        table: &mut IterableTable<K, V>,
+        key: K,
+        val: V
     ) {
         let wrapped_value = IterableValue { val, prev: table.tail, next: option::none() };
         table_with_length::add(&mut table.inner, key, wrapped_value);
@@ -82,7 +84,9 @@ module aptos_std::iterable_table {
     /// Acquire a mutable reference to the value which `key` maps to.
     /// Insert the pair (`key`, `default`) first if there is no entry for `key`.
     public fun borrow_mut_with_default<K: copy + store + drop, V: store + drop>(
-        table: &mut IterableTable<K, V>, key: K, default: V
+        table: &mut IterableTable<K, V>,
+        key: K,
+        default: V
     ): &mut V {
         if (!contains(table, key)) {
             add(table, key, default)

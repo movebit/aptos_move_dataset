@@ -57,7 +57,9 @@ module 0xABCD::resource_groups_example {
         name: String
     }
 
-    public entry fun set(owner: &signer, index: u64, name: String) acquires ExampleResource0, ExampleResource1, ExampleResource2, ExampleResource3, ExampleResource4, ExampleResource5, ExampleResource6, ExampleResource7 {
+    public entry fun set(
+        owner: &signer, index: u64, name: String
+    ) acquires ExampleResource0, ExampleResource1, ExampleResource2, ExampleResource3, ExampleResource4, ExampleResource5, ExampleResource6, ExampleResource7 {
         let owner_address = signer::address_of(owner);
         assert!(index < 8, error::invalid_argument(EINDEX_TOO_LARGE));
         if (index == 0) {
@@ -127,7 +129,9 @@ module 0xABCD::resource_groups_example {
         };
     }
 
-    public entry fun read_or_init(owner: &signer, index: u64) acquires ExampleResource0, ExampleResource1, ExampleResource2, ExampleResource3, ExampleResource4, ExampleResource5, ExampleResource6, ExampleResource7 {
+    public entry fun read_or_init(
+        owner: &signer, index: u64
+    ) acquires ExampleResource0, ExampleResource1, ExampleResource2, ExampleResource3, ExampleResource4, ExampleResource5, ExampleResource6, ExampleResource7 {
         let owner_address = signer::address_of(owner);
         assert!(index < 8, error::invalid_argument(EINDEX_TOO_LARGE));
         if (index == 0) {

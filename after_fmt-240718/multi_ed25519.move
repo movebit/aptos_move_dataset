@@ -151,8 +151,9 @@ module aptos_std::multi_ed25519 {
     }
 
     /// Parses the input bytes as a *validated* MultiEd25519 public key (see `public_key_validate_internal_v2`).
-    public fun new_validated_public_key_from_bytes_v2(bytes: vector<u8>):
-        Option<ValidatedPublicKey> {
+    public fun new_validated_public_key_from_bytes_v2(
+        bytes: vector<u8>
+    ): Option<ValidatedPublicKey> {
         if (!features::multi_ed25519_pk_validate_v2_enabled()) {
             abort(error::invalid_state(E_NATIVE_FUN_NOT_AVAILABLE))
         };

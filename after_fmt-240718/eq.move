@@ -11,7 +11,13 @@ module 0x8675309::M {
         f: T
     }
 
-    fun t0(r: &R, r_mut: &mut R, s: S, s_ref: &S, s_mut: &mut S) {
+    fun t0(
+        r: &R,
+        r_mut: &mut R,
+        s: S,
+        s_ref: &S,
+        s_mut: &mut S
+    ) {
         (0 == 1: bool);
         (0 == (1: u8): bool);
         ((0: u8) == 1: bool);

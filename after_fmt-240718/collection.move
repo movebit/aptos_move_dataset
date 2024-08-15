@@ -519,7 +519,9 @@ module aptos_token_objects::collection {
     ///
     /// Note: Calling this method from transaction that also mints/burns, prevents
     /// it from being parallelized.
-    public fun count<T: key>(collection: Object<T>): Option<u64> acquires FixedSupply, UnlimitedSupply, ConcurrentSupply {
+    public fun count<T: key>(
+        collection: Object<T>
+    ): Option<u64> acquires FixedSupply, UnlimitedSupply, ConcurrentSupply {
         let collection_address = object::object_address(&collection);
         check_collection_exists(collection_address);
 
@@ -635,7 +637,9 @@ module aptos_token_objects::collection {
         );
     }
 
-    public fun set_max_supply(mutator_ref: &MutatorRef, max_supply: u64) acquires ConcurrentSupply, FixedSupply {
+    public fun set_max_supply(
+        mutator_ref: &MutatorRef, max_supply: u64
+    ) acquires ConcurrentSupply, FixedSupply {
         let collection = object::address_to_object<Collection>(mutator_ref.self);
         let collection_address = object::object_address(&collection);
         let old_max_supply;
@@ -702,7 +706,9 @@ module aptos_token_objects::collection {
     }
 
     #[test(creator = @0x123)]
-    fun test_create_mint_burn_for_unlimited(creator: &signer) acquires FixedSupply, UnlimitedSupply, ConcurrentSupply {
+    fun test_create_mint_burn_for_unlimited(
+        creator: &signer
+    ) acquires FixedSupply, UnlimitedSupply, ConcurrentSupply {
         let creator_address = signer::address_of(creator);
         let name = string::utf8(b"collection name");
         let constructor_ref =
@@ -740,7 +746,9 @@ module aptos_token_objects::collection {
     }
 
     #[test(creator = @0x123)]
-    fun test_create_mint_burn_for_fixed(creator: &signer) acquires FixedSupply, UnlimitedSupply, ConcurrentSupply {
+    fun test_create_mint_burn_for_fixed(
+        creator: &signer
+    ) acquires FixedSupply, UnlimitedSupply, ConcurrentSupply {
         let creator_address = signer::address_of(creator);
         let name = string::utf8(b"collection name");
         let constructor_ref =
@@ -777,7 +785,9 @@ module aptos_token_objects::collection {
     }
 
     #[test(creator = @0x123)]
-    fun test_create_mint_burn_for_concurrent(creator: &signer) acquires FixedSupply, UnlimitedSupply, ConcurrentSupply {
+    fun test_create_mint_burn_for_concurrent(
+        creator: &signer
+    ) acquires FixedSupply, UnlimitedSupply, ConcurrentSupply {
         let creator_address = signer::address_of(creator);
         let name = string::utf8(b"collection name");
         create_fixed_collection(
@@ -890,7 +900,9 @@ module aptos_token_objects::collection {
     }
 
     #[test(creator = @0x123)]
-    entry fun test_set_max_supply_concurrent(creator: &signer) acquires ConcurrentSupply, FixedSupply {
+    entry fun test_set_max_supply_concurrent(
+        creator: &signer
+    ) acquires ConcurrentSupply, FixedSupply {
         let collection_name = string::utf8(b"collection name");
         let max_supply = 100;
         let constructor_ref =
@@ -964,7 +976,9 @@ module aptos_token_objects::collection {
 
     #[test(creator = @0x123)]
     #[expected_failure(abort_code = 0x20009, location = aptos_token_objects::collection)]
-    entry fun test_set_max_supply_too_low_fixed_supply(creator: &signer) acquires ConcurrentSupply, FixedSupply, UnlimitedSupply {
+    entry fun test_set_max_supply_too_low_fixed_supply(
+        creator: &signer
+    ) acquires ConcurrentSupply, FixedSupply, UnlimitedSupply {
         let max_supply = 3;
         let collection_name = string::utf8(b"Low Supply Collection");
         let constructor_ref =

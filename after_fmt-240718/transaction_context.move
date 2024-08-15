@@ -225,8 +225,9 @@ module aptos_framework::transaction_context {
     }
 
     /// Returns the inner entry function payload of the multisig payload.
-    public fun inner_entry_function_payload(payload: &MultisigPayload):
-        Option<EntryFunctionPayload> {
+    public fun inner_entry_function_payload(
+        payload: &MultisigPayload
+    ): Option<EntryFunctionPayload> {
         assert!(
             features::transaction_context_extension_enabled(),
             error::invalid_state(ETRANSACTION_CONTEXT_EXTENSION_NOT_ENABLED)

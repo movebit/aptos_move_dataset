@@ -152,7 +152,9 @@ module 0xABCD::token_v1 {
         (resource_signer, token_id)
     }
 
-    fun mint_nft_parallel(user: &signer, creator_address: address): (signer, TokenId) acquires MinterConfig {
+    fun mint_nft_parallel(
+        user: &signer, creator_address: address
+    ): (signer, TokenId) acquires MinterConfig {
         let resource_signer = get_signer(creator_address);
         let token_name =
             build_token_name(

@@ -107,7 +107,10 @@ module raffle::raffle_test {
 
     #[test_only]
     fun test_raffle_with_randomness(
-        u1: &signer, u2: &signer, u3: &signer, u4: &signer
+        u1: &signer,
+        u2: &signer,
+        u3: &signer,
+        u4: &signer
     ): address {
         //
         // Each user sends a TXN to buy their ticket

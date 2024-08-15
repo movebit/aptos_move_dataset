@@ -171,7 +171,12 @@ module 0x42::TestResources {
         ensures result.a.addr == a;
     }
 
-    public fun pack_C(a: address, va: u64, vb: u64, vc: u64): C {
+    public fun pack_C(
+        a: address,
+        va: u64,
+        vb: u64,
+        vc: u64
+    ): C {
         let var_a = A { addr: a, val: va };
         let var_b = B { val: vb, a: var_a };
         let var_c = C { val: vc, b: var_b };
@@ -212,7 +217,12 @@ module 0x42::TestResources {
         ensures result_3 == vb;
     }
 
-    public fun unpack_C(a: address, va: u64, vb: u64, vc: u64): (address, u64, u64, u64) {
+    public fun unpack_C(
+        a: address,
+        va: u64,
+        vb: u64,
+        vc: u64
+    ): (address, u64, u64, u64) {
         let var_a = A { addr: a, val: va };
         let var_b = B { val: vb, a: var_a };
         let var_c = C { val: vc, b: var_b };

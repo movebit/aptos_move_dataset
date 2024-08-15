@@ -100,7 +100,9 @@ module rewards_pool::rewards_pool {
 
     #[view]
     /// Return all the reward tokens supported by the rewards pool.
-    public fun reward_tokens(rewards_pool: Object<RewardsPool>): vector<Object<Metadata>> acquires RewardsPool {
+    public fun reward_tokens(
+        rewards_pool: Object<RewardsPool>
+    ): vector<Object<Metadata>> acquires RewardsPool {
         simple_map::keys(&safe_rewards_pool_data(&rewards_pool).reward_stores)
     }
 
@@ -300,7 +302,9 @@ module rewards_pool::rewards_pool {
         )
     }
 
-    inline fun safe_rewards_pool_data(rewards_pool: &Object<RewardsPool>): &RewardsPool acquires RewardsPool {
+    inline fun safe_rewards_pool_data(
+        rewards_pool: &Object<RewardsPool>
+    ): &RewardsPool acquires RewardsPool {
         borrow_global<RewardsPool>(object::object_address(rewards_pool))
     }
 

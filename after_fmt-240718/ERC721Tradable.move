@@ -243,7 +243,9 @@ module Evm::ERC721Tradable {
 
     #[callable(sig = b"safeTransferFrom(address,address,uint256)")]
     /// Transfers the ownership of an NFT from one address to another address.
-    public fun safeTransferFrom(from: address, to: address, tokenId: U256) acquires State {
+    public fun safeTransferFrom(
+        from: address, to: address, tokenId: U256
+    ) acquires State {
         safeTransferFrom_with_data(from, to, tokenId, b"");
     }
 

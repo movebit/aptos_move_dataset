@@ -156,10 +156,9 @@ module swap::liquidity_pool_tests {
         );
     }
 
-    public fun create_pool(lp_1: &signer, is_stable: bool):
-        (
-        Object<LiquidityPool>, FungibleAsset, FungibleAsset
-    ) {
+    public fun create_pool(
+        lp_1: &signer, is_stable: bool
+    ): (Object<LiquidityPool>, FungibleAsset, FungibleAsset) {
         let tokens_1 =
             test_helpers::create_fungible_asset_and_mint(lp_1, b"test1", 10000000);
         let tokens_2 =

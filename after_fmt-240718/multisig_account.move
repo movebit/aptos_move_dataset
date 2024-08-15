@@ -337,7 +337,9 @@ module aptos_framework::multisig_account {
 
     #[view]
     /// Return the multisig account's metadata.
-    public fun metadata(multisig_account: address): SimpleMap<String, vector<u8>> acquires MultisigAccount {
+    public fun metadata(
+        multisig_account: address
+    ): SimpleMap<String, vector<u8>> acquires MultisigAccount {
         borrow_global<MultisigAccount>(multisig_account).metadata
     }
 
@@ -376,8 +378,9 @@ module aptos_framework::multisig_account {
 
     #[view]
     /// Return all pending transactions.
-    public fun get_pending_transactions(multisig_account: address):
-        vector<MultisigTransaction> acquires MultisigAccount {
+    public fun get_pending_transactions(
+        multisig_account: address
+    ): vector<MultisigTransaction> acquires MultisigAccount {
         let pending_transactions: vector<MultisigTransaction> = vector[];
         let multisig_account = borrow_global<MultisigAccount>(multisig_account);
         let i = multisig_account.last_executed_sequence_number + 1;
@@ -478,7 +481,9 @@ module aptos_framework::multisig_account {
 
     #[view]
     /// Return the id of the last transaction that was executed (successful or failed) or removed.
-    public fun last_resolved_sequence_number(multisig_account: address): u64 acquires MultisigAccount {
+    public fun last_resolved_sequence_number(
+        multisig_account: address
+    ): u64 acquires MultisigAccount {
         let multisig_account_resource =
             borrow_global_mut<MultisigAccount>(multisig_account);
         multisig_account_resource.last_executed_sequence_number

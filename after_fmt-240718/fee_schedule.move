@@ -277,7 +277,9 @@ module marketplace::fee_schedule {
     }
 
     #[view]
-    public fun listing_fee(marketplace: Object<FeeSchedule>, _base: u64): u64 acquires FixedRateListingFee {
+    public fun listing_fee(
+        marketplace: Object<FeeSchedule>, _base: u64
+    ): u64 acquires FixedRateListingFee {
         let fee_schedule_addr = assert_exists_internal(&marketplace);
         if (exists<FixedRateListingFee>(fee_schedule_addr)) {
             borrow_global<FixedRateListingFee>(fee_schedule_addr).listing_fee
@@ -285,7 +287,9 @@ module marketplace::fee_schedule {
     }
 
     #[view]
-    public fun bidding_fee(marketplace: Object<FeeSchedule>, _bid: u64): u64 acquires FixedRateBiddingFee {
+    public fun bidding_fee(
+        marketplace: Object<FeeSchedule>, _bid: u64
+    ): u64 acquires FixedRateBiddingFee {
         let fee_schedule_addr = assert_exists_internal(&marketplace);
         if (exists<FixedRateBiddingFee>(fee_schedule_addr)) {
             borrow_global<FixedRateBiddingFee>(fee_schedule_addr).bidding_fee
@@ -293,7 +297,9 @@ module marketplace::fee_schedule {
     }
 
     #[view]
-    public fun commission(marketplace: Object<FeeSchedule>, price: u64): u64 acquires FixedRateCommission, PercentageRateCommission {
+    public fun commission(
+        marketplace: Object<FeeSchedule>, price: u64
+    ): u64 acquires FixedRateCommission, PercentageRateCommission {
         let fee_schedule_addr = assert_exists_internal(&marketplace);
         if (exists<FixedRateCommission>(fee_schedule_addr)) {
             borrow_global<FixedRateCommission>(fee_schedule_addr).commission
@@ -322,7 +328,9 @@ module marketplace::fee_schedule {
     use aptos_framework::account;
 
     #[test(creator = @0x123)]
-    fun test_init(creator: &signer) acquires FeeSchedule, FixedRateBiddingFee, FixedRateCommission, FixedRateListingFee, PercentageRateCommission {
+    fun test_init(
+        creator: &signer
+    ) acquires FeeSchedule, FixedRateBiddingFee, FixedRateCommission, FixedRateListingFee, PercentageRateCommission {
         let creator_addr = signer::address_of(creator);
         account::create_account_for_test(creator_addr);
         let obj = init(creator, creator_addr, 0, 0, 1, 0);
@@ -347,7 +355,9 @@ module marketplace::fee_schedule {
     }
 
     #[test(creator = @0x123)]
-    fun test_empty_init(creator: &signer) acquires FeeSchedule, FixedRateBiddingFee, FixedRateCommission, FixedRateListingFee, PercentageRateCommission {
+    fun test_empty_init(
+        creator: &signer
+    ) acquires FeeSchedule, FixedRateBiddingFee, FixedRateCommission, FixedRateListingFee, PercentageRateCommission {
         let creator_addr = signer::address_of(creator);
         account::create_account_for_test(creator_addr);
         let (constructor_ref, _fee_schedule_signer) = empty_init(creator, creator_addr);
@@ -458,7 +468,9 @@ module marketplace::fee_schedule {
 
     #[test(creator = @0x123)]
     #[expected_failure(abort_code = 0x10003, location = Self)]
-    fun test_set_too_big_percentage_commission(creator: &signer) acquires FeeSchedule, FixedRateCommission, PercentageRateCommission {
+    fun test_set_too_big_percentage_commission(
+        creator: &signer
+    ) acquires FeeSchedule, FixedRateCommission, PercentageRateCommission {
         let creator_addr = signer::address_of(creator);
         account::create_account_for_test(creator_addr);
         let obj = init(creator, creator_addr, 0, 0, 1, 0);

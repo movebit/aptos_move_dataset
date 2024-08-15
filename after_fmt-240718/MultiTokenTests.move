@@ -14,7 +14,9 @@ module ExperimentalFramework::MultiTokenTests {
     const ETRANSFER_FAILED: u64 = 1;
 
     #[test(admin = @0xa550c18, creator = @0x42, user = @0x43)]
-    public entry fun test_all(admin: signer, creator: signer, user: signer) {
+    public entry fun test_all(
+        admin: signer, creator: signer, user: signer
+    ) {
         /*
         ===============================================================
             Initialization + preparation

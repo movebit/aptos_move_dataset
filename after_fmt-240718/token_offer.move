@@ -426,7 +426,9 @@ module token_offer {
 
     /// Cleanup the offer by deleting it and returning the remaining funds to the token offer
     /// creator.
-    inline fun cleanup<CoinType>(token_offer: Object<TokenOffer>) acquires CoinOffer, TokenOffer, TokenOfferTokenV1, TokenOfferTokenV2 {
+    inline fun cleanup<CoinType>(
+        token_offer: Object<TokenOffer>
+    ) acquires CoinOffer, TokenOffer, TokenOfferTokenV1, TokenOfferTokenV2 {
         let token_offer_addr = object::object_address(&token_offer);
         let CoinOffer<CoinType> { coins } = move_from(token_offer_addr);
         aptos_account::deposit_coins(object::owner(token_offer), coins);
@@ -460,7 +462,9 @@ module token_offer {
     }
 
     #[view]
-    public fun fee_schedule(token_offer: Object<TokenOffer>): Object<FeeSchedule> acquires TokenOffer {
+    public fun fee_schedule(
+        token_offer: Object<TokenOffer>
+    ): Object<FeeSchedule> acquires TokenOffer {
         borrow_token_offer(token_offer).fee_schedule
     }
 
@@ -470,7 +474,9 @@ module token_offer {
     }
 
     #[view]
-    public fun collectionv1(token_offer: Object<TokenOffer>): TokenOfferTokenV1 acquires TokenOfferTokenV1 {
+    public fun collectionv1(
+        token_offer: Object<TokenOffer>
+    ): TokenOfferTokenV1 acquires TokenOfferTokenV1 {
         let token_offer_addr = object::object_address(&token_offer);
         assert!(
             exists<TokenOfferTokenV1>(token_offer_addr),
@@ -480,7 +486,9 @@ module token_offer {
     }
 
     #[view]
-    public fun collectionv2(token_offer: Object<TokenOffer>): TokenOfferTokenV2 acquires TokenOfferTokenV2 {
+    public fun collectionv2(
+        token_offer: Object<TokenOffer>
+    ): TokenOfferTokenV2 acquires TokenOfferTokenV2 {
         let token_offer_addr = object::object_address(&token_offer);
         assert!(
             exists<TokenOffer>(token_offer_addr),

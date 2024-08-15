@@ -83,7 +83,9 @@ module DiemFramework::AccountFreezing {
     }
 
     /// Freeze the account at `addr`.
-    public fun freeze_account(account: &signer, frozen_address: address) acquires FreezingBit, FreezeEventsHolder {
+    public fun freeze_account(
+        account: &signer, frozen_address: address
+    ) acquires FreezingBit, FreezeEventsHolder {
         DiemTimestamp::assert_operating();
         Roles::assert_treasury_compliance(account);
         // The diem root account and TC cannot be frozen

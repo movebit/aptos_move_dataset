@@ -238,7 +238,9 @@ module marketplace::listing {
     #[view]
     /// Compute the royalty either from the internal TokenV1, TokenV2 if it exists, or return
     /// no royalty.
-    public fun compute_royalty(object: Object<Listing>, amount: u64): (address, u64) acquires Listing, TokenV1Container {
+    public fun compute_royalty(
+        object: Object<Listing>, amount: u64
+    ): (address, u64) acquires Listing, TokenV1Container {
         let listing = borrow_listing(object);
         let obj_addr = object::object_address(&listing.object);
         if (exists<TokenV1Container>(obj_addr)) {
@@ -269,7 +271,9 @@ module marketplace::listing {
 
     #[view]
     /// Produce a events::TokenMetadata for a listing
-    public fun token_metadata(object: Object<Listing>): events::TokenMetadata acquires Listing, TokenV1Container {
+    public fun token_metadata(
+        object: Object<Listing>
+    ): events::TokenMetadata acquires Listing, TokenV1Container {
         let listing = borrow_listing(object);
         let obj_addr = object::object_address(&listing.object);
         if (exists<TokenV1Container>(obj_addr)) {

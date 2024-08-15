@@ -124,7 +124,9 @@ module aptos_framework::aptos_account {
 
     /// Convenient function to deposit a custom CoinType into a recipient account that might not exist.
     /// This would create the recipient account first and register it to receive the CoinType, before transferring.
-    public fun deposit_coins<CoinType>(to: address, coins: Coin<CoinType>) acquires DirectTransferConfig {
+    public fun deposit_coins<CoinType>(
+        to: address, coins: Coin<CoinType>
+    ) acquires DirectTransferConfig {
         if (!account::exists_at(to)) {
             create_account(to);
             spec {
@@ -207,7 +209,9 @@ module aptos_framework::aptos_account {
     /// receive.
     ///
     /// By default, this returns true if an account has not explicitly set whether the can receive direct transfers.
-    public fun can_receive_direct_coin_transfers(account: address): bool acquires DirectTransferConfig {
+    public fun can_receive_direct_coin_transfers(
+        account: address
+    ): bool acquires DirectTransferConfig {
         !exists<DirectTransferConfig>(account)
             || borrow_global<DirectTransferConfig>(account).allow_arbitrary_coin_transfers
     }
@@ -227,7 +231,9 @@ module aptos_framework::aptos_account {
     /// This would create the recipient APT PFS first, which also registers it to receive APT, before transferring.
     /// TODO: once migration is complete, rename to just "transfer_only" and make it an entry function (for cheapest way
     /// to transfer APT) - if we want to allow APT PFS without account itself
-    fun fungible_transfer_only(source: &signer, to: address, amount: u64) {
+    fun fungible_transfer_only(
+        source: &signer, to: address, amount: u64
+    ) {
         let sender_store =
             ensure_primary_fungible_store_exists(signer::address_of(source));
         let recipient_store = ensure_primary_fungible_store_exists(to);

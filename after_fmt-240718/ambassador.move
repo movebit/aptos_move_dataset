@@ -272,7 +272,9 @@ module ambassador::ambassador {
 
     /// Burns an ambassador token. This function burns the ambassador token and destroys the
     /// AmbassadorToken resource, AmbassadorLevel resource, the event handle, and the property map.
-    public entry fun burn(creator: &signer, token: Object<AmbassadorToken>) acquires AmbassadorToken, AmbassadorLevel {
+    public entry fun burn(
+        creator: &signer, token: Object<AmbassadorToken>
+    ) acquires AmbassadorToken, AmbassadorLevel {
         authorize_creator(creator, &token);
         let ambassador_token = move_from<AmbassadorToken>(object::object_address(&token));
         let AmbassadorToken { mutator_ref: _, burn_ref, property_mutator_ref, base_uri: _ } =
@@ -289,7 +291,9 @@ module ambassador::ambassador {
     /// Uses multisig to mint to user, with creator permissions.
     /// Uses users address as unique name of the soulbound token.
     /// Burns token that was minted by mint_ambassador_token_by_user
-    public entry fun burn_named_by_user(user: &signer, creator: &signer) acquires AmbassadorToken, AmbassadorLevel {
+    public entry fun burn_named_by_user(
+        user: &signer, creator: &signer
+    ) acquires AmbassadorToken, AmbassadorLevel {
         let collection_name = string::utf8(COLLECTION_NAME);
         let token_address =
             token::create_token_address(
@@ -432,7 +436,9 @@ module ambassador::ambassador {
     }
 
     #[test(creator = @0x123, user1 = @0x456)]
-    fun test_mint_burn_by_user(creator: &signer, user1: &signer) acquires AmbassadorToken, AmbassadorLevel {
+    fun test_mint_burn_by_user(
+        creator: &signer, user1: &signer
+    ) acquires AmbassadorToken, AmbassadorLevel {
         // ------------------------------------------
         // Creator creates the Ambassador Collection.
         // ------------------------------------------

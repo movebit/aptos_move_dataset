@@ -6,7 +6,12 @@ module 0x8675309::M {
         x: X
     }
 
-    fun t0(x: &u64, x_mut: &mut u64, s: &S, s_mut: &mut S) {
+    fun t0(
+        x: &u64,
+        x_mut: &mut u64,
+        s: &S,
+        s_mut: &mut S
+    ) {
         (*x: bool);
         (*x_mut: &u64);
 

@@ -17,7 +17,12 @@ module Evm::ERC1155Mock {
     }
 
     #[callable(sig = b"mint(address,uint256,uint256,bytes)")]
-    public fun mint(to: address, id: U256, amount: U256, data: vector<u8>) acquires State {
+    public fun mint(
+        to: address,
+        id: U256,
+        amount: U256,
+        data: vector<u8>
+    ) acquires State {
         mint_(to, id, amount, data);
     }
 
@@ -318,7 +323,12 @@ module Evm::ERC1155Mock {
     }
 
     // Internal function for minting.
-    fun mint_(to: address, id: U256, amount: U256, _data: vector<u8>) acquires State {
+    fun mint_(
+        to: address,
+        id: U256,
+        amount: U256,
+        _data: vector<u8>
+    ) acquires State {
         require(to != @0x0, b"ERC1155: mint to the zero address");
         let s = borrow_global_mut<State>(self());
         let mut_balance_to = mut_balanceOf(s, copy id, to);

@@ -546,7 +546,9 @@ module coin_listing {
     // View
 
     #[view]
-    public fun price<CoinType>(object: Object<Listing>): Option<u64> acquires AuctionListing, FixedPriceListing {
+    public fun price<CoinType>(
+        object: Object<Listing>
+    ): Option<u64> acquires AuctionListing, FixedPriceListing {
         let listing_addr = object::object_address(&object);
         if (exists<FixedPriceListing<CoinType>>(listing_addr)) {
             let fixed_price = borrow_global<FixedPriceListing<CoinType>>(listing_addr);
@@ -593,7 +595,9 @@ module coin_listing {
     }
 
     #[view]
-    public fun current_bidder<CoinType>(object: Object<Listing>): Option<address> acquires AuctionListing {
+    public fun current_bidder<CoinType>(
+        object: Object<Listing>
+    ): Option<address> acquires AuctionListing {
         let auction = borrow_auction<CoinType>(object);
         if (option::is_some(&auction.current_bid)) {
             option::some(option::borrow(&auction.current_bid).bidder)
@@ -603,7 +607,9 @@ module coin_listing {
     }
 
     #[view]
-    public fun current_amount<CoinType>(object: Object<Listing>): Option<u64> acquires AuctionListing {
+    public fun current_amount<CoinType>(
+        object: Object<Listing>
+    ): Option<u64> acquires AuctionListing {
         let auction = borrow_auction<CoinType>(object);
         if (option::is_some(&auction.current_bid)) {
             let coins = &option::borrow(&auction.current_bid).coins;
@@ -613,14 +619,17 @@ module coin_listing {
         }
     }
 
-    inline fun borrow_auction<CoinType>(object: Object<Listing>): &AuctionListing<CoinType> acquires AuctionListing {
+    inline fun borrow_auction<CoinType>(
+        object: Object<Listing>
+    ): &AuctionListing<CoinType> acquires AuctionListing {
         let obj_addr = object::object_address(&object);
         assert!(exists<AuctionListing<CoinType>>(obj_addr), error::not_found(ENO_LISTING));
         borrow_global<AuctionListing<CoinType>>(obj_addr)
     }
 
-    inline fun borrow_fixed_price<CoinType>(object: Object<Listing>):
-        &FixedPriceListing<CoinType> acquires FixedPriceListing {
+    inline fun borrow_fixed_price<CoinType>(
+        object: Object<Listing>
+    ): &FixedPriceListing<CoinType> acquires FixedPriceListing {
         let obj_addr = object::object_address(&object);
         assert!(
             exists<FixedPriceListing<CoinType>>(obj_addr),
@@ -1160,10 +1169,9 @@ module listing_tests {
 
     // Objects and TokenV2 stuff
 
-    inline fun fixed_price_listing(marketplace: &signer, seller: &signer):
-        (
-        Object<Token>, Object<FeeSchedule>, Object<Listing>
-    ) {
+    inline fun fixed_price_listing(
+        marketplace: &signer, seller: &signer
+    ): (Object<Token>, Object<FeeSchedule>, Object<Listing>) {
         let token = test_utils::mint_tokenv2(seller);
         fixed_price_listing_with_token(marketplace, seller, token)
     }
@@ -1183,10 +1191,9 @@ module listing_tests {
         (token, fee_schedule, listing)
     }
 
-    inline fun auction_listing(marketplace: &signer, seller: &signer):
-        (
-        Object<Token>, Object<FeeSchedule>, Object<Listing>
-    ) {
+    inline fun auction_listing(
+        marketplace: &signer, seller: &signer
+    ): (Object<Token>, Object<FeeSchedule>, Object<Listing>) {
         let token = test_utils::mint_tokenv2(seller);
         let fee_schedule = test_utils::fee_schedule(marketplace);
         let listing =

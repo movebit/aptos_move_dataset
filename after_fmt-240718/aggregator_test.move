@@ -56,7 +56,12 @@ module 0x1::aggregator_test {
         aggregator::sub(aggregator, value);
     }
 
-    public entry fun sub_add(account: &signer, i: u64, a: u128, b: u128) acquires AggregatorStore {
+    public entry fun sub_add(
+        account: &signer,
+        i: u64,
+        a: u128,
+        b: u128
+    ) acquires AggregatorStore {
         let addr = signer::address_of(account);
         let aggregators = &mut borrow_global_mut<AggregatorStore>(addr).aggregators;
         let aggregator = table::borrow_mut(aggregators, i);
