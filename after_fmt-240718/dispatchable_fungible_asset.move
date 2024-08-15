@@ -174,7 +174,10 @@ module aptos_framework::dispatchable_fungible_asset {
     }
 
     native fun dispatchable_withdraw<T: key>(
-        store: Object<T>, amount: u64, transfer_ref: &TransferRef, function: &FunctionInfo
+        store: Object<T>,
+        amount: u64,
+        transfer_ref: &TransferRef,
+        function: &FunctionInfo
     ): FungibleAsset;
 
     native fun dispatchable_deposit<T: key>(
@@ -184,5 +187,7 @@ module aptos_framework::dispatchable_fungible_asset {
         function: &FunctionInfo
     );
 
-    native fun dispatchable_derived_balance<T: key>(store: Object<T>, function: &FunctionInfo): u64;
+    native fun dispatchable_derived_balance<T: key>(
+        store: Object<T>, function: &FunctionInfo
+    ): u64;
 }

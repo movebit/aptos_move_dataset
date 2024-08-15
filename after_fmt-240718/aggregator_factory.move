@@ -52,7 +52,9 @@ module aptos_framework::aggregator_factory {
     }
 
     /// Returns a new aggregator.
-    native fun new_aggregator(aggregator_factory: &mut AggregatorFactory, limit: u128): Aggregator;
+    native fun new_aggregator(
+        aggregator_factory: &mut AggregatorFactory, limit: u128
+    ): Aggregator;
 
     #[test_only]
     public fun initialize_aggregator_factory_for_test(

@@ -510,12 +510,16 @@ module aptos_std::ristretto255 {
 
     native fun point_identity_internal(): u64;
 
-    native fun point_decompress_internal(maybe_non_canonical_bytes: vector<u8>): (u64, bool);
+    native fun point_decompress_internal(
+        maybe_non_canonical_bytes: vector<u8>
+    ): (u64, bool);
 
     native fun point_clone_internal(point_handle: u64): u64;
     native fun point_compress_internal(point: &RistrettoPoint): vector<u8>;
 
-    native fun point_mul_internal(point: &RistrettoPoint, a: vector<u8>, in_place: bool): u64;
+    native fun point_mul_internal(
+        point: &RistrettoPoint, a: vector<u8>, in_place: bool
+    ): u64;
 
     native fun basepoint_mul_internal(a: vector<u8>): u64;
 
@@ -523,21 +527,30 @@ module aptos_std::ristretto255 {
         a: vector<u8>, some_point: &RistrettoPoint, b: vector<u8>
     ): u64;
 
-    native fun point_add_internal(a: &RistrettoPoint, b: &RistrettoPoint, in_place: bool): u64;
+    native fun point_add_internal(
+        a: &RistrettoPoint, b: &RistrettoPoint, in_place: bool
+    ): u64;
 
-    native fun point_sub_internal(a: &RistrettoPoint, b: &RistrettoPoint, in_place: bool): u64;
+    native fun point_sub_internal(
+        a: &RistrettoPoint, b: &RistrettoPoint, in_place: bool
+    ): u64;
 
     native fun point_neg_internal(a: &RistrettoPoint, in_place: bool): u64;
 
     native fun double_scalar_mul_internal(
-        point1: u64, point2: u64, scalar1: vector<u8>, scalar2: vector<u8>
+        point1: u64,
+        point2: u64,
+        scalar1: vector<u8>,
+        scalar2: vector<u8>
     ): u64;
 
     /// The generic arguments are needed to deal with some Move VM peculiarities which prevent us from borrowing the
     /// points (or scalars) inside a &vector in Rust.
     ///
     /// WARNING: This function can only be called with P = RistrettoPoint and S = Scalar.
-    native fun multi_scalar_mul_internal<P, S>(points: &vector<P>, scalars: &vector<S>): u64;
+    native fun multi_scalar_mul_internal<P, S>(
+        points: &vector<P>, scalars: &vector<S>
+    ): u64;
 
     //
     // Only used internally for implementing Scalar.
@@ -558,11 +571,17 @@ module aptos_std::ristretto255 {
     // NOTE: This was supposed to be more clearly named with *_sha2_512_*.
     native fun scalar_from_sha512_internal(sha2_512_input: vector<u8>): vector<u8>;
 
-    native fun scalar_mul_internal(a_bytes: vector<u8>, b_bytes: vector<u8>): vector<u8>;
+    native fun scalar_mul_internal(
+        a_bytes: vector<u8>, b_bytes: vector<u8>
+    ): vector<u8>;
 
-    native fun scalar_add_internal(a_bytes: vector<u8>, b_bytes: vector<u8>): vector<u8>;
+    native fun scalar_add_internal(
+        a_bytes: vector<u8>, b_bytes: vector<u8>
+    ): vector<u8>;
 
-    native fun scalar_sub_internal(a_bytes: vector<u8>, b_bytes: vector<u8>): vector<u8>;
+    native fun scalar_sub_internal(
+        a_bytes: vector<u8>, b_bytes: vector<u8>
+    ): vector<u8>;
 
     native fun scalar_neg_internal(a_bytes: vector<u8>): vector<u8>;
 

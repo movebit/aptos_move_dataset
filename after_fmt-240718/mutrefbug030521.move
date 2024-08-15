@@ -23,8 +23,8 @@ module 0x42::Bug {
         aborts_if coin.value < amount;
     }
 
-    public fun split<CoinType>(coin: Diem<CoinType>, amount: u64)
-        : (Diem<CoinType>, Diem<CoinType>) {
+    public fun split<CoinType>(coin: Diem<CoinType>, amount: u64):
+        (Diem<CoinType>, Diem<CoinType>) {
         let other = withdraw(&mut coin, amount);
         (coin, other)
     }

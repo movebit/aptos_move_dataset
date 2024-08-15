@@ -62,7 +62,9 @@ module std::event {
     }
 
     /// Log `msg` as the `count`th event associated with the event stream identified by `guid`
-    native fun write_to_event_store<T: drop + store>(guid: vector<u8>, count: u64, msg: T);
+    native fun write_to_event_store<T: drop + store>(
+        guid: vector<u8>, count: u64, msg: T
+    );
 
     /// Destroy a unique handle.
     public fun destroy_handle<T: drop + store>(handle: EventHandle<T>) {

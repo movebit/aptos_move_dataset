@@ -190,8 +190,8 @@ module aptos_std::smart_table {
         );
     }
 
-    inline fun unzip_entries<K: copy, V: copy>(entries: &vector<Entry<K, V>>)
-        : (vector<K>, vector<V>) {
+    inline fun unzip_entries<K: copy, V: copy>(entries: &vector<Entry<K, V>>):
+        (vector<K>, vector<V>) {
         let keys = vector[];
         let values = vector[];
         vector::for_each_ref(
@@ -561,13 +561,13 @@ module aptos_std::smart_table {
         table.num_buckets
     }
 
-    public fun borrow_buckets<K, V>(table: &SmartTable<K, V>)
-        : &TableWithLength<u64, vector<Entry<K, V>>> {
+    public fun borrow_buckets<K, V>(table: &SmartTable<K, V>):
+        &TableWithLength<u64, vector<Entry<K, V>>> {
         &table.buckets
     }
 
-    public fun borrow_buckets_mut<K, V>(table: &mut SmartTable<K, V>)
-        : &mut TableWithLength<u64, vector<Entry<K, V>>> {
+    public fun borrow_buckets_mut<K, V>(table: &mut SmartTable<K, V>):
+        &mut TableWithLength<u64, vector<Entry<K, V>>> {
         &mut table.buckets
     }
 

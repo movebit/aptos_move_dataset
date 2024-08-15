@@ -619,8 +619,8 @@ module coin_listing {
         borrow_global<AuctionListing<CoinType>>(obj_addr)
     }
 
-    inline fun borrow_fixed_price<CoinType>(object: Object<Listing>)
-        : &FixedPriceListing<CoinType> acquires FixedPriceListing {
+    inline fun borrow_fixed_price<CoinType>(object: Object<Listing>):
+        &FixedPriceListing<CoinType> acquires FixedPriceListing {
         let obj_addr = object::object_address(&object);
         assert!(
             exists<FixedPriceListing<CoinType>>(obj_addr),
@@ -1160,8 +1160,8 @@ module listing_tests {
 
     // Objects and TokenV2 stuff
 
-    inline fun fixed_price_listing(marketplace: &signer, seller: &signer)
-        : (
+    inline fun fixed_price_listing(marketplace: &signer, seller: &signer):
+        (
         Object<Token>, Object<FeeSchedule>, Object<Listing>
     ) {
         let token = test_utils::mint_tokenv2(seller);
@@ -1183,8 +1183,8 @@ module listing_tests {
         (token, fee_schedule, listing)
     }
 
-    inline fun auction_listing(marketplace: &signer, seller: &signer)
-        : (
+    inline fun auction_listing(marketplace: &signer, seller: &signer):
+        (
         Object<Token>, Object<FeeSchedule>, Object<Listing>
     ) {
         let token = test_utils::mint_tokenv2(seller);

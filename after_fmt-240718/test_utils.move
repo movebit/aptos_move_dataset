@@ -66,8 +66,8 @@ module marketplace::test_utils {
         );
     }
 
-    public fun mint_tokenv2_with_collection(seller: &signer)
-        : (Object<Collection>, Object<Token>) {
+    public fun mint_tokenv2_with_collection(seller: &signer):
+        (Object<Collection>, Object<Token>) {
         let collection_name = string::utf8(b"collection_name");
 
         let collection_object =

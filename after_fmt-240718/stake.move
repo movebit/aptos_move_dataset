@@ -482,8 +482,8 @@ module aptos_framework::stake {
 
     #[view]
     /// Return the validator's config.
-    public fun get_validator_config(pool_address: address)
-        : (vector<u8>, vector<u8>, vector<u8>) acquires ValidatorConfig {
+    public fun get_validator_config(pool_address: address):
+        (vector<u8>, vector<u8>, vector<u8>) acquires ValidatorConfig {
         assert_stake_pool_exists(pool_address);
         let validator_config = borrow_global<ValidatorConfig>(pool_address);
         (
@@ -2147,8 +2147,8 @@ module aptos_framework::stake {
     }
 
     #[test_only]
-    public fun generate_identity()
-        : (
+    public fun generate_identity():
+        (
         bls12381::SecretKey, bls12381::PublicKey, bls12381::ProofOfPossession
     ) {
         let (sk, pkpop) = bls12381::generate_keys();

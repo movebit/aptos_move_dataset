@@ -81,7 +81,9 @@ module aptos_framework::function_info {
         load_function_impl(f)
     }
 
-    native fun check_dispatch_type_compatibility_impl(lhs: &FunctionInfo, r: &FunctionInfo): bool;
+    native fun check_dispatch_type_compatibility_impl(
+        lhs: &FunctionInfo, r: &FunctionInfo
+    ): bool;
     native fun is_identifier(s: &vector<u8>): bool;
     native fun load_function_impl(f: &FunctionInfo);
 

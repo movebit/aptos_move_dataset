@@ -426,8 +426,8 @@ module aptos_framework::coin {
     }
 
     /// Get the `MintRef` of paired fungible asset of a coin type from `MintCapability`.
-    public fun get_paired_mint_ref<CoinType>(_: &MintCapability<CoinType>)
-        : (
+    public fun get_paired_mint_ref<CoinType>(_: &MintCapability<CoinType>):
+        (
         MintRef, MintRefReceipt
     ) acquires CoinConversionMap, PairedFungibleAssetRefs {
         let metadata = assert_paired_metadata_exists<CoinType>();
@@ -520,8 +520,8 @@ module aptos_framework::coin {
     }
 
     /// Get the `BurnRef` of paired fungible asset of a coin type from `BurnCapability`.
-    public fun get_paired_burn_ref<CoinType>(_: &BurnCapability<CoinType>)
-        : (
+    public fun get_paired_burn_ref<CoinType>(_: &BurnCapability<CoinType>):
+        (
         BurnRef, BurnRefReceipt
     ) acquires CoinConversionMap, PairedFungibleAssetRefs {
         let metadata = assert_paired_metadata_exists<CoinType>();

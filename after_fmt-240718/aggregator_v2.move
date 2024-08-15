@@ -77,8 +77,9 @@ module aptos_framework::aggregator_v2 {
     ///
     /// Currently supported types for IntElement are u64 and u128.
     /// EAGGREGATOR_ELEMENT_TYPE_NOT_SUPPORTED raised if called with a different type.
-    public native fun create_aggregator<IntElement: copy + drop>(max_value: IntElement): Aggregator<
-        IntElement>;
+    public native fun create_aggregator<IntElement: copy + drop>(
+        max_value: IntElement
+    ): Aggregator<IntElement>;
 
     public fun create_aggregator_with_value<IntElement: copy + drop>(
         start_value: IntElement, max_value: IntElement
@@ -93,7 +94,8 @@ module aptos_framework::aggregator_v2 {
     ///
     /// Currently supported types for IntElement are u64 and u128.
     /// EAGGREGATOR_ELEMENT_TYPE_NOT_SUPPORTED raised if called with a different type.
-    public native fun create_unbounded_aggregator<IntElement: copy + drop>(): Aggregator<IntElement>;
+    public native fun create_unbounded_aggregator<IntElement: copy + drop>():
+        Aggregator<IntElement>;
 
     public fun create_unbounded_aggregator_with_value<IntElement: copy + drop>(
         start_value: IntElement
@@ -187,13 +189,15 @@ module aptos_framework::aggregator_v2 {
     /// Unlike read(), it is fast and avoids sequential dependencies.
     ///
     /// Parallelism info: This operation enables parallelism.
-    public native fun snapshot<IntElement>(aggregator: &Aggregator<IntElement>): AggregatorSnapshot<
-        IntElement>;
+    public native fun snapshot<IntElement>(
+        aggregator: &Aggregator<IntElement>
+    ): AggregatorSnapshot<IntElement>;
 
     /// Creates a snapshot of a given value.
     /// Useful for when object is sometimes created via snapshot() or string_concat(), and sometimes directly.
-    public native fun create_snapshot<IntElement: copy + drop>(value: IntElement): AggregatorSnapshot<
-        IntElement>;
+    public native fun create_snapshot<IntElement: copy + drop>(
+        value: IntElement
+    ): AggregatorSnapshot<IntElement>;
 
     /// Returns a value stored in this snapshot.
     /// Note: This operation is resource-intensive, and reduces parallelism.
@@ -201,7 +205,9 @@ module aptos_framework::aggregator_v2 {
     /// or has other read/write conflicts)
     ///
     /// Parallelism info: This operation *prevents* speculative parallelism.
-    public native fun read_snapshot<IntElement>(snapshot: &AggregatorSnapshot<IntElement>): IntElement;
+    public native fun read_snapshot<IntElement>(
+        snapshot: &AggregatorSnapshot<IntElement>
+    ): IntElement;
 
     /// Returns a value stored in this DerivedStringSnapshot.
     /// Note: This operation is resource-intensive, and reduces parallelism.

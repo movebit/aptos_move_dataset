@@ -164,8 +164,8 @@ module aptos_std::bls12381 {
     /// Aggregates the input signatures into an aggregate-or-multi-signature structure, which can be later verified via
     /// `verify_aggregate_signature` or `verify_multisignature`. Returns `None` if zero signatures are given as input
     /// or if some of the signatures are not valid group elements.
-    public fun aggregate_signatures(signatures: vector<Signature>)
-        : Option<AggrOrMultiSignature> {
+    public fun aggregate_signatures(signatures: vector<Signature>):
+        Option<AggrOrMultiSignature> {
         let (bytes, success) = aggregate_signatures_internal(signatures);
         if (success) {
             option::some(AggrOrMultiSignature { bytes })
@@ -351,9 +351,9 @@ module aptos_std::bls12381 {
     /// Given a vector of serialized public keys, combines them into an aggregated public key, returning `(bytes, true)`,
     /// where `bytes` store the serialized public key.
     /// Aborts if no public keys are given as input.
-    native fun aggregate_pubkeys_internal(public_keys: vector<PublicKeyWithPoP>): (
-        vector<u8>, bool
-    );
+    native fun aggregate_pubkeys_internal(
+        public_keys: vector<PublicKeyWithPoP>
+    ): (vector<u8>, bool);
 
     /// CRYPTOGRAPHY WARNING: This function can be safely called without verifying that the input signatures are elements
     /// of the prime-order subgroup of the BLS12-381 curve.
@@ -363,7 +363,9 @@ module aptos_std::bls12381 {
     /// Does not check the input signatures nor the final aggregated signatures for prime-order subgroup membership.
     /// Returns `(_, false)` if no signatures are given as input.
     /// Does not abort.
-    native fun aggregate_signatures_internal(signatures: vector<Signature>): (vector<u8>, bool);
+    native fun aggregate_signatures_internal(
+        signatures: vector<Signature>
+    ): (vector<u8>, bool);
 
     /// Return `true` if the bytes in `public_key` are a valid BLS12-381 public key:
     ///  (1) it is NOT the identity point, and

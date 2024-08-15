@@ -1108,8 +1108,8 @@ module aptos_framework::fungible_asset {
     }
 
     #[test_only]
-    public fun init_test_metadata(constructor_ref: &ConstructorRef)
-        : (
+    public fun init_test_metadata(constructor_ref: &ConstructorRef):
+        (
         MintRef, TransferRef, BurnRef
     ) {
         add_fungibility(
@@ -1128,8 +1128,8 @@ module aptos_framework::fungible_asset {
     }
 
     #[test_only]
-    public fun create_fungible_asset(creator: &signer)
-        : (
+    public fun create_fungible_asset(creator: &signer):
+        (
         MintRef, TransferRef, BurnRef, Object<Metadata>
     ) {
         let (creator_ref, token_object) = create_test_token(creator);

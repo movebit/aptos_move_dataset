@@ -130,8 +130,8 @@ module aptos_framework::delegation_pool_integration_tests {
     }
 
     #[test_only]
-    public fun generate_identity()
-        : (
+    public fun generate_identity():
+        (
         bls12381::SecretKey, bls12381::PublicKey, bls12381::ProofOfPossession
     ) {
         let (sk, pkpop) = bls12381::generate_keys();

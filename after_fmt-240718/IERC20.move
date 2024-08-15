@@ -7,11 +7,16 @@ module Evm::IERC20 {
 
     #[external(sig = b"transferFrom(address,address,uint) returns (bool)")]
     public native fun call_transferFrom(
-        contract: address, from: address, to: address, amount: U256
+        contract: address,
+        from: address,
+        to: address,
+        amount: U256
     ): bool;
 
     #[external(sig = b"approve(address,uint) returns (bool)")]
-    public native fun call_approve(contract: address, spender: address, amount: U256): bool;
+    public native fun call_approve(
+        contract: address, spender: address, amount: U256
+    ): bool;
 
     #[external(sig = b"balanceOf(address) returns (uint)")]
     public native fun call_balanceOf(contract: address, account: address): U256;

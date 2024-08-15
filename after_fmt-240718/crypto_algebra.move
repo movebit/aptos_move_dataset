@@ -304,7 +304,9 @@ module aptos_std::crypto_algebra {
     #[test_only]
     native fun rand_insecure_internal<S>(): u64;
     native fun mul_internal<F>(handle_1: u64, handle_2: u64): u64;
-    native fun multi_pairing_internal<G1, G2, Gt>(g1_handles: vector<u64>, g2_handles: vector<u64>): u64;
+    native fun multi_pairing_internal<G1, G2, Gt>(
+        g1_handles: vector<u64>, g2_handles: vector<u64>
+    ): u64;
     native fun multi_scalar_mul_internal<G, S>(
         element_handles: vector<u64>, scalar_handles: vector<u64>
     ): u64;
@@ -312,7 +314,9 @@ module aptos_std::crypto_algebra {
     native fun one_internal<S>(): u64;
     native fun order_internal<G>(): vector<u8>;
     native fun pairing_internal<G1, G2, Gt>(g1_handle: u64, g2_handle: u64): u64;
-    native fun scalar_mul_internal<G, S>(element_handle: u64, scalar_handle: u64): u64;
+    native fun scalar_mul_internal<G, S>(
+        element_handle: u64, scalar_handle: u64
+    ): u64;
     native fun serialize_internal<S, F>(handle: u64): vector<u8>;
     native fun sqr_internal<G>(handle: u64): u64;
     native fun sub_internal<G>(handle_1: u64, handle_2: u64): u64;

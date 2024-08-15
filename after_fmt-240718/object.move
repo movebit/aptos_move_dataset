@@ -214,7 +214,9 @@ module aptos_framework::object {
         from_bcs::to_address(hash::sha3_256(bytes))
     }
 
-    native fun create_user_derived_object_address_impl(source: address, derive_from: address): address;
+    native fun create_user_derived_object_address_impl(
+        source: address, derive_from: address
+    ): address;
 
     /// Derives an object address from the source address and an object: sha3_256([source | object addr | 0xFC]).
     public fun create_user_derived_object_address(

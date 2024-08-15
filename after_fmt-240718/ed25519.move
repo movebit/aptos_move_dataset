@@ -79,8 +79,8 @@ module aptos_std::ed25519 {
     }
 
     /// Parses the input 32 bytes as a *validated* Ed25519 public key.
-    public fun new_validated_public_key_from_bytes(bytes: vector<u8>)
-        : Option<ValidatedPublicKey> {
+    public fun new_validated_public_key_from_bytes(bytes: vector<u8>):
+        Option<ValidatedPublicKey> {
         if (public_key_validate_internal(bytes)) {
             option::some(ValidatedPublicKey { bytes })
         } else {

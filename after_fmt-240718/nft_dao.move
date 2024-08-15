@@ -213,8 +213,8 @@ module dao_platform::nft_dao {
 
     #[view]
     /// Unpack the DAO fields
-    public fun unpack_dao(nft_dao: address)
-        : (
+    public fun unpack_dao(nft_dao: address):
+        (
         String, u64, address, String, u64, u64, u64, address, Option<address>
     ) acquires DAO {
         let dao = borrow_global<DAO>(nft_dao);
@@ -808,8 +808,8 @@ module dao_platform::nft_dao {
     }
 
     /// Unpack the proposal fields
-    public fun unpack_proposal(proposal: &Proposal)
-        : (
+    public fun unpack_proposal(proposal: &Proposal):
+        (
         String, String, vector<String>, vector<PropertyMap>, u64, u8
     ) {
         (

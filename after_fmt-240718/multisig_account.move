@@ -376,7 +376,8 @@ module aptos_framework::multisig_account {
 
     #[view]
     /// Return all pending transactions.
-    public fun get_pending_transactions(multisig_account: address): vector<MultisigTransaction> acquires MultisigAccount {
+    public fun get_pending_transactions(multisig_account: address):
+        vector<MultisigTransaction> acquires MultisigAccount {
         let pending_transactions: vector<MultisigTransaction> = vector[];
         let multisig_account = borrow_global<MultisigAccount>(multisig_account);
         let i = multisig_account.last_executed_sequence_number + 1;

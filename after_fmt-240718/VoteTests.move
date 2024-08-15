@@ -28,8 +28,8 @@ module ExperimentalFramework::VoteTests {
         (voter1, voter1_address, voter2, voter2_address, voter3, voter3_address)
     }
 
-    fun vote_test_helper(dr: &signer, expiration_timestamp_secs: u64)
-        : (
+    fun vote_test_helper(dr: &signer, expiration_timestamp_secs: u64):
+        (
         signer, signer, signer, Vote::BallotID, TestProposal
     ) {
         let (voter1, voter1_address, voter2, voter2_address, voter3, voter3_address) =

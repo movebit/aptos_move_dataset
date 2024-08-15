@@ -156,8 +156,8 @@ module swap::liquidity_pool_tests {
         );
     }
 
-    public fun create_pool(lp_1: &signer, is_stable: bool)
-        : (
+    public fun create_pool(lp_1: &signer, is_stable: bool):
+        (
         Object<LiquidityPool>, FungibleAsset, FungibleAsset
     ) {
         let tokens_1 =
