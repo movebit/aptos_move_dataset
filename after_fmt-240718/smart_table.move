@@ -754,7 +754,7 @@ module aptos_std::smart_table {
             vector::append(&mut keys, returned_keys);
             if (starting_bucket_index_r == option::none()
                 || starting_vector_index_r == option::none())
-            break;
+                break;
             starting_bucket_index = option::destroy_some(starting_bucket_index_r);
             starting_vector_index = option::destroy_some(starting_vector_index_r);
         };

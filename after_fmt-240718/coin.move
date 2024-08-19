@@ -706,7 +706,7 @@ module aptos_framework::coin {
                     account_addr,
                     option::destroy_some(metadata)
                 ))
-            (coin_balance, amount - coin_balance)
+                (coin_balance, amount - coin_balance)
             else abort error::invalid_argument(EINSUFFICIENT_BALANCE)
         }
     }

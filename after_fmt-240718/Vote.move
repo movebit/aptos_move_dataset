@@ -220,7 +220,7 @@ module ExperimentalFramework::Vote {
         let len = vector::length(weighted_voters);
         while (i < len) {
             if (&vector::borrow(weighted_voters, i).voter == voter)
-            return true;
+                return true;
             i = i + 1;
         };
         false
@@ -251,7 +251,7 @@ module ExperimentalFramework::Vote {
         let len = vector::length(ballots);
         while (i < len) {
             if (&vector::borrow(ballots, i).ballot_id == &ballot_id)
-            break;
+                break;
             i = i + 1;
         };
         assert!(i < len, errors::invalid_state(EBALLOT_NOT_FOUND));
