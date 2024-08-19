@@ -1,13 +1,14 @@
 module 0x1::M {}
 
-address 0x2 { module M {
+address 0x2 {
+module M {
     struct X {}
 
     public fun x(): X {
         X {}
     }
-
-} }
+}
+}
 
 address 0x3 {}
 address 0x4 {}

@@ -1,25 +1,25 @@
 #[deprecated]
 // Think about using 0x43 instead
 address 0x42 {
+#[deprecated]
+// Try module M2
+module M {
+    use 0x41::N;
+
     #[deprecated]
-    // Try module M2
-    module M {
-        use 0x41::N;
+    struct S {}
 
-        #[deprecated]
-        struct S {}
+    #[deprecated]
+    const C: u64 = 0;
 
-        #[deprecated]
-        const C: u64 = 0;
-
-        #[deprecated]
-        public fun foo(): N::S {
-            let _foo = C + 3;
-            N::bar()
-        }
-
-        spec foo {}
+    #[deprecated]
+    public fun foo(): N::S {
+        let _foo = C + 3;
+        N::bar()
     }
+
+    spec foo {}
+}
 }
 
 #[deprecated]

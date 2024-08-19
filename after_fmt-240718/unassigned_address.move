@@ -1,7 +1,9 @@
 // Tests compilation is stopped for unassigned addresses
 // Named addresses don't exist at the bytecode level
 
-address UNASSIGNED { module Ex {} }
+address UNASSIGNED {
+module Ex {}
+}
 
 module UNASSIGNED::M {
     struct S {}
