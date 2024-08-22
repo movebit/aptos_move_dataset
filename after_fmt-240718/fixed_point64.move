@@ -169,7 +169,9 @@ module aptos_std::fixed_point64 {
     }
 
     spec fun spec_create_from_rational(numerator: num, denominator: num): FixedPoint64 {
-        FixedPoint64 { value: (numerator << 128) / (denominator << 64) }
+        FixedPoint64 {
+            value: (numerator << 128) / (denominator << 64)
+        }
     }
 
     /// Create a fixedpoint value from a raw value.

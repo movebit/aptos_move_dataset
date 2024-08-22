@@ -223,7 +223,9 @@ module aptos_framework::aptos_governance {
         move_to(aptos_framework, VotingRecords { votes: table::new() });
         move_to(
             aptos_framework,
-            ApprovedExecutionHashes { hashes: simple_map::create<u64, vector<u8>>() }
+            ApprovedExecutionHashes {
+                hashes: simple_map::create<u64, vector<u8>>()
+            }
         )
     }
 

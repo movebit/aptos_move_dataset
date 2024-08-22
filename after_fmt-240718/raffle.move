@@ -36,7 +36,11 @@ module raffle::raffle {
     fun init_module(deployer: &signer) {
         move_to(
             deployer,
-            Raffle { tickets: vector::empty(), coins: coin::zero(), is_closed: false }
+            Raffle {
+                tickets: vector::empty(),
+                coins: coin::zero(),
+                is_closed: false
+            }
         );
     }
 

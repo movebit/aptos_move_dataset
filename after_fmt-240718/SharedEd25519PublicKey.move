@@ -134,14 +134,18 @@ module DiemFramework::SharedEd25519PublicKey {
         new_public_key: vector<u8>;
         let addr = signer::address_of(account);
         aborts_if !exists_at(addr) with errors::NOT_PUBLISHED;
-        include RotateKey_AbortsIf { shared_key: global<SharedEd25519PublicKey>(addr) };
+        include RotateKey_AbortsIf {
+            shared_key: global<SharedEd25519PublicKey>(addr)
+        };
     }
 
     spec schema RotateKeyEnsures {
         account: signer;
         new_public_key: vector<u8>;
         let addr = signer::address_of(account);
-        include RotateKey_Ensures { shared_key: global<SharedEd25519PublicKey>(addr) };
+        include RotateKey_Ensures {
+            shared_key: global<SharedEd25519PublicKey>(addr)
+        };
     }
 
     /// Return the public key stored under `addr`.

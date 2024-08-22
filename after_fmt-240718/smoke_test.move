@@ -131,7 +131,10 @@ module 0x42::SmokeTest {
         let var_a = A { addr: a, val: va };
         let var_b = B { val: vb, a: var_a };
         let var_c = C { val: vc, b: var_b };
-        let C { val: v3, b: B { val: v2, a: A { addr: aa, val: v1 } } } = var_c;
+        let C {
+            val: v3,
+            b: B { val: v2, a: A { addr: aa, val: v1 } }
+        } = var_c;
         (aa, v1, v2, v3)
     }
 

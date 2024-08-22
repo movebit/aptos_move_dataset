@@ -18,7 +18,10 @@ module aptos_std::table_with_length {
 
     /// Create a new Table.
     public fun new<K: copy + drop, V: store>(): TableWithLength<K, V> {
-        TableWithLength { inner: table::new<K, V>(), length: 0 }
+        TableWithLength {
+            inner: table::new<K, V>(),
+            length: 0
+        }
     }
 
     /// Destroy a table. The table must be empty to succeed.

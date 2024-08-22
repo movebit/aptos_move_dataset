@@ -178,7 +178,9 @@ module 0x42::VerifyVector {
                     == other[k - len(old(v))];
             };
             !vector::is_empty(o)
-        }) { vector::push_back(v, vector::pop_back(o)) };
+        }) {
+            vector::push_back(v, vector::pop_back(o))
+        };
         vector::destroy_empty(other);
     }
 
@@ -193,7 +195,9 @@ module 0x42::VerifyVector {
     ) {
         let o = &mut other;
         vector::reverse(o);
-        while (!vector::is_empty(o)) { vector::push_back(v, vector::pop_back(o)) };
+        while (!vector::is_empty(o)) {
+            vector::push_back(v, vector::pop_back(o))
+        };
         vector::destroy_empty(other);
     }
 

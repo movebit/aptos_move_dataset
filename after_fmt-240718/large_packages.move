@@ -35,7 +35,10 @@ module large_packages::large_packages {
         if (!exists<StagingArea>(owner_address)) {
             move_to(
                 owner,
-                StagingArea { metadata_serialized: vector::empty(), code: vector::empty() }
+                StagingArea {
+                    metadata_serialized: vector::empty(),
+                    code: vector::empty()
+                }
             );
         };
 

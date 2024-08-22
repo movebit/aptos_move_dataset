@@ -23,7 +23,10 @@ module swap::package_manager {
             resource_account::retrieve_resource_account_cap(swap_signer, @deployer);
         move_to(
             swap_signer,
-            PermissionConfig { addresses: smart_table::new<String, address>(), signer_cap }
+            PermissionConfig {
+                addresses: smart_table::new<String, address>(),
+                signer_cap
+            }
         );
     }
 

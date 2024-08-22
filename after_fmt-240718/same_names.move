@@ -35,6 +35,8 @@ module 0x42::c {
     fun test(x: a::MyList, y: b::MyOtherList) {
         // In the lambda below, the type of x and y is not known when the
         // expression is checked.
-        foo(|x, y| { assert!(x.len() + y.len() == 1, 1) }, x, y)
+        foo(|x, y| {
+            assert!(x.len() + y.len() == 1, 1)
+        }, x, y)
     }
 }

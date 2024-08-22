@@ -17,7 +17,10 @@ module extensions::table {
 
     /// Create a new Table.
     public fun new<K: copy + drop, V: store>(): Table<K, V> {
-        Table { handle: new_table_handle<K, V>(), length: 0 }
+        Table {
+            handle: new_table_handle<K, V>(),
+            length: 0
+        }
     }
 
     /// Destroy a table. The table must be empty to succeed.

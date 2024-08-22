@@ -302,37 +302,49 @@ module aptos_std::bls12381 {
     #[test_only]
     /// Returns a mauled copy of a normal signature.
     public fun maul_signature(sig: &Signature): Signature {
-        Signature { bytes: maul_bytes(&signature_to_bytes(sig)) }
+        Signature {
+            bytes: maul_bytes(&signature_to_bytes(sig))
+        }
     }
 
     #[test_only]
     /// Returns a mauled copy of an aggregated signature or a multi-signature.
     public fun maul_aggr_or_multi_signature(sig: &AggrOrMultiSignature): AggrOrMultiSignature {
-        AggrOrMultiSignature { bytes: maul_bytes(&aggr_or_multi_signature_to_bytes(sig)) }
+        AggrOrMultiSignature {
+            bytes: maul_bytes(&aggr_or_multi_signature_to_bytes(sig))
+        }
     }
 
     #[test_only]
     /// Returns a mauled copy of a normal public key.
     public fun maul_public_key(pk: &PublicKey): PublicKey {
-        PublicKey { bytes: maul_bytes(&public_key_to_bytes(pk)) }
+        PublicKey {
+            bytes: maul_bytes(&public_key_to_bytes(pk))
+        }
     }
 
     #[test_only]
     /// Returns a mauled copy of a PoP'd public key.
     public fun maul_public_key_with_pop(pk: &PublicKeyWithPoP): PublicKeyWithPoP {
-        PublicKeyWithPoP { bytes: maul_bytes(&public_key_with_pop_to_bytes(pk)) }
+        PublicKeyWithPoP {
+            bytes: maul_bytes(&public_key_with_pop_to_bytes(pk))
+        }
     }
 
     #[test_only]
     /// Returns a mauled copy of an aggregated public key.
     public fun maul_aggregated_public_key(pk: &AggrPublicKeysWithPoP): AggrPublicKeysWithPoP {
-        AggrPublicKeysWithPoP { bytes: maul_bytes(&aggregate_pubkey_to_bytes(pk)) }
+        AggrPublicKeysWithPoP {
+            bytes: maul_bytes(&aggregate_pubkey_to_bytes(pk))
+        }
     }
 
     #[test_only]
     /// Returns a mauled copy of a proof-of-possession.
     public fun maul_proof_of_possession(pop: &ProofOfPossession): ProofOfPossession {
-        ProofOfPossession { bytes: maul_bytes(&proof_of_possession_to_bytes(pop)) }
+        ProofOfPossession {
+            bytes: maul_bytes(&proof_of_possession_to_bytes(pop))
+        }
     }
 
     #[test_only]

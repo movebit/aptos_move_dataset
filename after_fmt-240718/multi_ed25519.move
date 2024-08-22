@@ -108,7 +108,9 @@ module aptos_std::multi_ed25519 {
     #[test_only]
     public fun sign_struct<T: drop>(sk: &SecretKey, data: T): Signature {
         let encoded = ed25519::new_signed_message(data);
-        Signature { bytes: sign_internal(sk.bytes, bcs::to_bytes(&encoded)) }
+        Signature {
+            bytes: sign_internal(sk.bytes, bcs::to_bytes(&encoded))
+        }
     }
 
     /// Parses the input 32 bytes as an *unvalidated* MultiEd25519 public key.

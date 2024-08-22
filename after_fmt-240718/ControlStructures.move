@@ -13,11 +13,13 @@ module 0x2::M {
 
     #[callable]
     fun f(x: u64) {
-        while (x > 0) { if (x % 2 == 0) {
-            x = x + 1
-        } else {
-            x = x - 2
-        } }
+        while (x > 0) {
+            if (x % 2 == 0) {
+                x = x + 1
+            } else {
+                x = x - 2
+            }
+        }
     }
 
     #[callable]

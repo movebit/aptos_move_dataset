@@ -71,7 +71,9 @@ module DiemFramework::DesignatedDealer {
         );
         move_to(
             dd,
-            Dealer { mint_event_handle: event::new_event_handle<ReceivedMintEvent>(dd) }
+            Dealer {
+                mint_event_handle: event::new_event_handle<ReceivedMintEvent>(dd)
+            }
         );
         if (add_all_currencies) {
             add_currency<XUS>(dd, tc_account);

@@ -29,7 +29,10 @@ module aptos_std::any {
     /// Pack a value into the `Any` representation. Because Any can be stored and dropped, this is
     /// also required from `T`.
     public fun pack<T: drop + store>(x: T): Any {
-        Any { type_name: type_info::type_name<T>(), data: to_bytes(&x) }
+        Any {
+            type_name: type_info::type_name<T>(),
+            data: to_bytes(&x)
+        }
     }
 
     /// Unpack a value from the `Any` representation. This aborts if the value has not the expected type `T`.

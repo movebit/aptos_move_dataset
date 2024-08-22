@@ -175,7 +175,11 @@ module aptos_std::debug {
             b"0x1::debug::TestInner {\n  val: 100,\n  vec: [ 200, 400 ],\n  msgs: [\n    0x616263646566,\n    0x313233343536\n  ]\n}"
         );
 
-        let obj = TestInner { val: 10, vec: vector[], msgs: vector[] };
+        let obj = TestInner {
+            val: 10,
+            vec: vector[],
+            msgs: vector[]
+        };
 
         assert_equal(&obj, b"0x1::debug::TestInner {\n  val: 10,\n  vec: [],\n  msgs: []\n}");
     }
@@ -217,7 +221,11 @@ module aptos_std::debug {
                 vec: vector[127u128, 128u128],
                 msgs: vector[x"00ff", x"abcd"]
             },
-            TestInner { val: 8u128, vec: vector[128u128, 129u128], msgs: vector[x"0000"] }
+            TestInner {
+                val: 8u128,
+                vec: vector[128u128, 129u128],
+                msgs: vector[x"0000"]
+            }
         ];
         assert_equal(
             &v,
@@ -258,12 +266,28 @@ module aptos_std::debug {
 
         let v = vector[
             vector[
-                TestInner { val: 4u128, vec: vector[127u128, 128u128], msgs: vector[] },
-                TestInner { val: 8u128, vec: vector[128u128, 129u128], msgs: vector[] }
+                TestInner {
+                    val: 4u128,
+                    vec: vector[127u128, 128u128],
+                    msgs: vector[]
+                },
+                TestInner {
+                    val: 8u128,
+                    vec: vector[128u128, 129u128],
+                    msgs: vector[]
+                }
             ],
             vector[
-                TestInner { val: 4u128, vec: vector[127u128, 128u128], msgs: vector[] },
-                TestInner { val: 8u128, vec: vector[128u128, 129u128], msgs: vector[] }
+                TestInner {
+                    val: 4u128,
+                    vec: vector[127u128, 128u128],
+                    msgs: vector[]
+                },
+                TestInner {
+                    val: 8u128,
+                    vec: vector[128u128, 129u128],
+                    msgs: vector[]
+                }
             ]
         ];
         assert_equal(
@@ -280,8 +304,16 @@ module aptos_std::debug {
             bytes: x"c0ffee",
             name: std::string::utf8(b"He\"llo"),
             vec: vector[
-                TestInner { val: 1, vec: vector[130u128, 131u128], msgs: vector[] },
-                TestInner { val: 2, vec: vector[132u128, 133u128], msgs: vector[] }
+                TestInner {
+                    val: 1,
+                    vec: vector[130u128, 131u128],
+                    msgs: vector[]
+                },
+                TestInner {
+                    val: 2,
+                    vec: vector[132u128, 133u128],
+                    msgs: vector[]
+                }
             ]
         };
 

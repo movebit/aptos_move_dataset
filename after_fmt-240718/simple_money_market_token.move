@@ -186,7 +186,9 @@ module ToddNickels {
 
     public fun init(account: &signer) {
         assert!(signer::address_of(account) == @0x70DD, 42);
-        move_to(account, Wallet { nickels: Token::create(T {}, 0) })
+        move_to(account, Wallet {
+            nickels: Token::create(T {}, 0)
+        })
     }
 
     public fun mint(account: &signer): Token::Coin<T> {

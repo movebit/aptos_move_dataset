@@ -61,7 +61,9 @@ module aptos_std::crypto_algebra {
     /// Convert a u64 to an element of a structure `S`.
     public fun from_u64<S>(value: u64): Element<S> {
         abort_unless_cryptography_algebra_natives_enabled();
-        Element<S> { handle: from_u64_internal<S>(value) }
+        Element<S> {
+            handle: from_u64_internal<S>(value)
+        }
     }
 
     /// Return the additive identity of field `S`, or the identity of group `S`.
@@ -79,25 +81,33 @@ module aptos_std::crypto_algebra {
     /// Compute `-x` for an element `x` of a structure `S`.
     public fun neg<S>(x: &Element<S>): Element<S> {
         abort_unless_cryptography_algebra_natives_enabled();
-        Element<S> { handle: neg_internal<S>(x.handle) }
+        Element<S> {
+            handle: neg_internal<S>(x.handle)
+        }
     }
 
     /// Compute `x + y` for elements `x` and `y` of structure `S`.
     public fun add<S>(x: &Element<S>, y: &Element<S>): Element<S> {
         abort_unless_cryptography_algebra_natives_enabled();
-        Element<S> { handle: add_internal<S>(x.handle, y.handle) }
+        Element<S> {
+            handle: add_internal<S>(x.handle, y.handle)
+        }
     }
 
     /// Compute `x - y` for elements `x` and `y` of a structure `S`.
     public fun sub<S>(x: &Element<S>, y: &Element<S>): Element<S> {
         abort_unless_cryptography_algebra_natives_enabled();
-        Element<S> { handle: sub_internal<S>(x.handle, y.handle) }
+        Element<S> {
+            handle: sub_internal<S>(x.handle, y.handle)
+        }
     }
 
     /// Compute `x * y` for elements `x` and `y` of a structure `S`.
     public fun mul<S>(x: &Element<S>, y: &Element<S>): Element<S> {
         abort_unless_cryptography_algebra_natives_enabled();
-        Element<S> { handle: mul_internal<S>(x.handle, y.handle) }
+        Element<S> {
+            handle: mul_internal<S>(x.handle, y.handle)
+        }
     }
 
     /// Try computing `x / y` for elements `x` and `y` of a structure `S`.
@@ -114,7 +124,9 @@ module aptos_std::crypto_algebra {
     /// Compute `x^2` for an element `x` of a structure `S`. Faster and cheaper than `mul(x, x)`.
     public fun sqr<S>(x: &Element<S>): Element<S> {
         abort_unless_cryptography_algebra_natives_enabled();
-        Element<S> { handle: sqr_internal<S>(x.handle) }
+        Element<S> {
+            handle: sqr_internal<S>(x.handle)
+        }
     }
 
     /// Try computing `x^(-1)` for an element `x` of a structure `S`.
@@ -132,7 +144,9 @@ module aptos_std::crypto_algebra {
     /// Compute `2*P` for an element `P` of a structure `S`. Faster and cheaper than `add(P, P)`.
     public fun double<S>(element_p: &Element<S>): Element<S> {
         abort_unless_cryptography_algebra_natives_enabled();
-        Element<S> { handle: double_internal<S>(element_p.handle) }
+        Element<S> {
+            handle: double_internal<S>(element_p.handle)
+        }
     }
 
     /// Compute `k[0]*P[0]+...+k[n-1]*P[n-1]`, where
@@ -218,7 +232,9 @@ module aptos_std::crypto_algebra {
     /// Cast an element of a structure `S` to a parent structure `L`.
     public fun upcast<S, L>(element: &Element<S>): Element<L> {
         abort_unless_cryptography_algebra_natives_enabled();
-        Element<L> { handle: upcast_internal<S, L>(element.handle) }
+        Element<L> {
+            handle: upcast_internal<S, L>(element.handle)
+        }
     }
 
     /// Try casting an element `x` of a structure `L` to a sub-structure `S`.
@@ -239,14 +255,18 @@ module aptos_std::crypto_algebra {
     /// NOTE: some hashing methods do not accept a `dst` and will abort if a non-empty one is provided.
     public fun hash_to<S, H>(dst: &vector<u8>, msg: &vector<u8>): Element<S> {
         abort_unless_cryptography_algebra_natives_enabled();
-        Element { handle: hash_to_internal<S, H>(dst, msg) }
+        Element {
+            handle: hash_to_internal<S, H>(dst, msg)
+        }
     }
 
     #[test_only]
     /// Generate a random element of an algebraic structure `S`.
     public fun rand_insecure<S>(): Element<S> {
         abort_unless_cryptography_algebra_natives_enabled();
-        Element<S> { handle: rand_insecure_internal<S>() }
+        Element<S> {
+            handle: rand_insecure_internal<S>()
+        }
     }
 
     //

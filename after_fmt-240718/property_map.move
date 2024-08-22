@@ -127,7 +127,9 @@ module aptos_token::property_map {
     }
 
     public fun empty(): PropertyMap {
-        PropertyMap { map: simple_map::create<String, PropertyValue>() }
+        PropertyMap {
+            map: simple_map::create<String, PropertyValue>()
+        }
     }
 
     public fun contains_key(map: &PropertyMap, key: &String): bool {

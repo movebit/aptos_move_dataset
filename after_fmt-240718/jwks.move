@@ -282,24 +282,32 @@ module aptos_framework::jwks {
 
     /// Create a `Patch` that removes all entries.
     public fun new_patch_remove_all(): Patch {
-        Patch { variant: copyable_any::pack(PatchRemoveAll {}) }
+        Patch {
+            variant: copyable_any::pack(PatchRemoveAll {})
+        }
     }
 
     /// Create a `Patch` that removes the entry of a given issuer, if exists.
     public fun new_patch_remove_issuer(issuer: vector<u8>): Patch {
-        Patch { variant: copyable_any::pack(PatchRemoveIssuer { issuer }) }
+        Patch {
+            variant: copyable_any::pack(PatchRemoveIssuer { issuer })
+        }
     }
 
     /// Create a `Patch` that removes the entry of a given issuer, if exists.
     public fun new_patch_remove_jwk(
         issuer: vector<u8>, jwk_id: vector<u8>
     ): Patch {
-        Patch { variant: copyable_any::pack(PatchRemoveJWK { issuer, jwk_id }) }
+        Patch {
+            variant: copyable_any::pack(PatchRemoveJWK { issuer, jwk_id })
+        }
     }
 
     /// Create a `Patch` that upserts a JWK into an issuer's JWK set.
     public fun new_patch_upsert_jwk(issuer: vector<u8>, jwk: JWK): Patch {
-        Patch { variant: copyable_any::pack(PatchUpsertJWK { issuer, jwk }) }
+        Patch {
+            variant: copyable_any::pack(PatchUpsertJWK { issuer, jwk })
+        }
     }
 
     /// Create a `JWK` of variant `RSA_JWK`.
@@ -316,16 +324,28 @@ module aptos_framework::jwks {
 
     /// Create a `JWK` of variant `UnsupportedJWK`.
     public fun new_unsupported_jwk(id: vector<u8>, payload: vector<u8>): JWK {
-        JWK { variant: copyable_any::pack(UnsupportedJWK { id, payload }) }
+        JWK {
+            variant: copyable_any::pack(UnsupportedJWK { id, payload })
+        }
     }
 
     /// Initialize some JWK resources. Should only be invoked by genesis.
     public fun initialize(fx: &signer) {
         system_addresses::assert_aptos_framework(fx);
         move_to(fx, SupportedOIDCProviders { providers: vector[] });
-        move_to(fx, ObservedJWKs { jwks: AllProvidersJWKs { entries: vector[] } });
+        move_to(
+            fx,
+            ObservedJWKs {
+                jwks: AllProvidersJWKs { entries: vector[] }
+            }
+        );
         move_to(fx, Patches { patches: vector[] });
-        move_to(fx, PatchedJWKs { jwks: AllProvidersJWKs { entries: vector[] } });
+        move_to(
+            fx,
+            PatchedJWKs {
+                jwks: AllProvidersJWKs { entries: vector[] }
+            }
+        );
     }
 
     /// Helper function that removes an OIDC provider from the `SupportedOIDCProviders`.

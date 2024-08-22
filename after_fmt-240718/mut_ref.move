@@ -105,9 +105,15 @@ module 0x1::TestMutRef {
 
     spec call_return_ref_different_path_vec {
         ensures b ==>
-            result == V { is: concat(vec(1u64), vec(5u64)), ts: vec() };
+            result == V {
+                is: concat(vec(1u64), vec(5u64)),
+                ts: vec()
+            };
         ensures !b ==>
-            result == V { is: concat(vec(5u64), vec(2u64)), ts: vec() };
+            result == V {
+                is: concat(vec(5u64), vec(2u64)),
+                ts: vec()
+            };
     }
 
     // Different path into a vector or a vector of structs subfield

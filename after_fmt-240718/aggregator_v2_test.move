@@ -546,7 +546,9 @@ module 0x1::aggregator_v2_test {
                 addr_i,
                 use_type_i,
                 i,
-                |aggregator| { aggregator_v2::snapshot<Element>(aggregator) }
+                |aggregator| {
+                    aggregator_v2::snapshot<Element>(aggregator)
+                }
             );
         insert<AggregatorSnapshot<Element>>(addr_j, use_type_j, j, snapshot);
     }

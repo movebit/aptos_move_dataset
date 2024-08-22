@@ -17,7 +17,10 @@ module aptos_std::copyable_any {
     /// Pack a value into the `Any` representation. Because Any can be stored, dropped, and copied this is
     /// also required from `T`.
     public fun pack<T: drop + store + copy>(x: T): Any {
-        Any { type_name: type_info::type_name<T>(), data: bcs::to_bytes(&x) }
+        Any {
+            type_name: type_info::type_name<T>(),
+            data: bcs::to_bytes(&x)
+        }
     }
 
     /// Unpack a value from the `Any` representation. This aborts if the value has not the expected type `T`.

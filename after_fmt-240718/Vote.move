@@ -574,7 +574,9 @@ module ExperimentalFramework::Vote {
     }
 
     spec gc_ballots {
-        include GcEnsures<Proposal> { ballot_data: global<Ballots<Proposal>>(addr) };
+        include GcEnsures<Proposal> {
+            ballot_data: global<Ballots<Proposal>>(addr)
+        };
     }
 
     // Lower-level invariants

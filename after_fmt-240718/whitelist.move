@@ -97,7 +97,9 @@ module post_mint_reveal_nft::whitelist {
     /// Initializes the WhitelistMintConfig resource.
     public fun init_whitelist_config(admin: &signer) {
         let config =
-            WhitelistMintConfig { whitelist_configs: vector::empty<WhitelistStage>() };
+            WhitelistMintConfig {
+                whitelist_configs: vector::empty<WhitelistStage>()
+            };
         move_to(admin, config);
     }
 

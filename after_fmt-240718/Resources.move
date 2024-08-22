@@ -226,7 +226,10 @@ module 0x42::TestResources {
         let var_a = A { addr: a, val: va };
         let var_b = B { val: vb, a: var_a };
         let var_c = C { val: vc, b: var_b };
-        let C { val: v3, b: B { val: v2, a: A { addr: aa, val: v1 } } } = var_c;
+        let C {
+            val: v3,
+            b: B { val: v2, a: A { addr: aa, val: v1 } }
+        } = var_c;
         (aa, v1, v2, v3)
     }
 
@@ -280,7 +283,10 @@ module 0x42::TestResources {
     }
 
     public fun spec_pack_B(account: &signer): B {
-        B { val: 77, a: A { addr: signer::address_of(account), val: 7 } }
+        B {
+            val: 77,
+            a: A { addr: signer::address_of(account), val: 7 }
+        }
     }
 
     spec spec_pack_B {
@@ -288,10 +294,22 @@ module 0x42::TestResources {
         ensures result.val == 77;
         ensures result.a.val == 7;
         ensures result.a.addr == signer::address_of(account);
-        ensures result == B { val: 77, a: A { addr: signer::address_of(account), val: 7 } };
-        ensures result == B { val: 77, a: A { val: 7, addr: signer::address_of(account) } };
-        ensures result == B { a: A { addr: signer::address_of(account), val: 7 }, val: 77 };
-        ensures result == B { a: A { val: 7, addr: signer::address_of(account) }, val: 77 };
+        ensures result == B {
+            val: 77,
+            a: A { addr: signer::address_of(account), val: 7 }
+        };
+        ensures result == B {
+            val: 77,
+            a: A { val: 7, addr: signer::address_of(account) }
+        };
+        ensures result == B {
+            a: A { addr: signer::address_of(account), val: 7 },
+            val: 77
+        };
+        ensures result == B {
+            a: A { val: 7, addr: signer::address_of(account) },
+            val: 77
+        };
     }
 
     // ------------

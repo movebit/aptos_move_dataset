@@ -35,7 +35,12 @@ module 0x42::Faucet {
 
     #[receive, payable]
     public fun receive() {
-        emit(DepositEvent { from: sender(), amount: value() })
+        emit(
+            DepositEvent {
+                from: sender(),
+                amount: value()
+            }
+        )
     }
 
     #[callable]

@@ -85,7 +85,9 @@ module aptos_framework::randomness_config {
 
     /// Create a `ConfigOff` variant.
     public fun new_off(): RandomnessConfig {
-        RandomnessConfig { variant: copyable_any::pack(ConfigOff {}) }
+        RandomnessConfig {
+            variant: copyable_any::pack(ConfigOff {})
+        }
     }
 
     /// Create a `ConfigV1` variant.

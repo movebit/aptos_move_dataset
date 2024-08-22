@@ -1588,7 +1588,9 @@ module aptos_framework::delegation_pool {
             retrieve_stake_pool_owner(borrow_global<DelegationPool>(pool_address));
         move_to(
             &pool_signer,
-            DelegationPoolAllowlisting { allowlist: smart_table::new<address, bool>() }
+            DelegationPoolAllowlisting {
+                allowlist: smart_table::new<address, bool>()
+            }
         );
 
         event::emit(EnableDelegatorsAllowlisting { pool_address });

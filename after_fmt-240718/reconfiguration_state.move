@@ -39,7 +39,12 @@ module aptos_framework::reconfiguration_state {
     public fun initialize(fx: &signer) {
         system_addresses::assert_aptos_framework(fx);
         if (!exists<State>(@aptos_framework)) {
-            move_to(fx, State { variant: copyable_any::pack(StateInactive {}) })
+            move_to(
+                fx,
+                State {
+                    variant: copyable_any::pack(StateInactive {})
+                }
+            )
         }
     }
 

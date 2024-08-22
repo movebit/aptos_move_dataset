@@ -1156,7 +1156,9 @@ module aptos_framework::vesting {
             let contract_signer = &get_vesting_account_signer_internal(vesting_contract);
             move_to(
                 contract_signer,
-                VestingAccountManagement { roles: simple_map::create<String, address>() }
+                VestingAccountManagement {
+                    roles: simple_map::create<String, address>()
+                }
             )
         };
         let roles =

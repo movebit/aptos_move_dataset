@@ -114,7 +114,9 @@ module std::capability {
     public fun acquire<Feature>(
         requester: &signer, _feature_witness: &Feature
     ): Cap<Feature> acquires CapState, CapDelegateState {
-        Cap<Feature> { root: validate_acquire<Feature>(requester) }
+        Cap<Feature> {
+            root: validate_acquire<Feature>(requester)
+        }
     }
 
     /// Acquires a linear capability token. It is up to the module which owns `Feature` to decide
@@ -122,7 +124,9 @@ module std::capability {
     public fun acquire_linear<Feature>(
         requester: &signer, _feature_witness: &Feature
     ): LinearCap<Feature> acquires CapState, CapDelegateState {
-        LinearCap<Feature> { root: validate_acquire<Feature>(requester) }
+        LinearCap<Feature> {
+            root: validate_acquire<Feature>(requester)
+        }
     }
 
     /// Helper to validate an acquire. Returns the root address of the capability.

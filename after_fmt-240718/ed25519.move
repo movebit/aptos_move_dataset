@@ -141,7 +141,10 @@ module aptos_std::ed25519 {
     public fun signature_verify_strict_t<T: drop>(
         signature: &Signature, public_key: &UnvalidatedPublicKey, data: T
     ): bool {
-        let encoded = SignedMessage { type_info: type_info::type_of<T>(), inner: data };
+        let encoded = SignedMessage {
+            type_info: type_info::type_of<T>(),
+            inner: data
+        };
 
         signature_verify_strict_internal(
             signature.bytes, public_key.bytes, bcs::to_bytes(&encoded)
@@ -150,7 +153,10 @@ module aptos_std::ed25519 {
 
     /// Helper method to construct a SignedMessage struct.
     public fun new_signed_message<T: drop>(data: T): SignedMessage<T> {
-        SignedMessage { type_info: type_info::type_of<T>(), inner: data }
+        SignedMessage {
+            type_info: type_info::type_of<T>(),
+            inner: data
+        }
     }
 
     /// Derives the Aptos-specific authentication key of the given Ed25519 public key.
@@ -192,7 +198,9 @@ module aptos_std::ed25519 {
     /// Generates an Ed25519 signature for given structured data using a given signing key.
     public fun sign_struct<T: drop>(sk: &SecretKey, data: T): Signature {
         let encoded = new_signed_message(data);
-        Signature { bytes: sign_internal(sk.bytes, bcs::to_bytes(&encoded)) }
+        Signature {
+            bytes: sign_internal(sk.bytes, bcs::to_bytes(&encoded))
+        }
     }
 
     //

@@ -264,7 +264,9 @@ module NFT {
         if (!exists<TokenDataCollection<TokenType>>(signer::address_of(account))) {
             move_to(
                 account,
-                TokenDataCollection { tokens: vector::empty<TokenData<TokenType>>() }
+                TokenDataCollection {
+                    tokens: vector::empty<TokenData<TokenType>>()
+                }
             );
         };
         create_impl<TokenType>(
@@ -341,7 +343,9 @@ module NFT {
             if (!exists<TokenDataCollection<TokenType>>(signer::address_of(account))) {
                 move_to(
                     account,
-                    TokenDataCollection { tokens: vector::empty<TokenData<TokenType>>() }
+                    TokenDataCollection {
+                        tokens: vector::empty<TokenData<TokenType>>()
+                    }
                 );
             };
         };

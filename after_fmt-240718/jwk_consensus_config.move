@@ -81,7 +81,9 @@ module aptos_framework::jwk_consensus_config {
 
     /// Construct a `JWKConsensusConfig` of variant `ConfigOff`.
     public fun new_off(): JWKConsensusConfig {
-        JWKConsensusConfig { variant: copyable_any::pack(ConfigOff {}) }
+        JWKConsensusConfig {
+            variant: copyable_any::pack(ConfigOff {})
+        }
     }
 
     /// Construct a `JWKConsensusConfig` of variant `ConfigV1`.
@@ -99,7 +101,9 @@ module aptos_framework::jwk_consensus_config {
                 }
             }
         );
-        JWKConsensusConfig { variant: copyable_any::pack(ConfigV1 { oidc_providers }) }
+        JWKConsensusConfig {
+            variant: copyable_any::pack(ConfigV1 { oidc_providers })
+        }
     }
 
     /// Construct an `OIDCProvider` object.

@@ -72,7 +72,10 @@ spec aptos_std::ed25519 {
     spec fun spec_signature_verify_strict_t<T>(
         signature: Signature, public_key: UnvalidatedPublicKey, data: T
     ): bool {
-        let encoded = SignedMessage<T> { type_info: type_info::type_of<T>(), inner: data };
+        let encoded = SignedMessage<T> {
+            type_info: type_info::type_of<T>(),
+            inner: data
+        };
         let message = bcs::serialize(encoded);
         spec_signature_verify_strict_internal(signature.bytes, public_key.bytes, message)
     }
