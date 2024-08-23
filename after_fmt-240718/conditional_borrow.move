@@ -2,8 +2,10 @@
 module 0x8675::M {
     fun test1(r: u64): u64 { // 7 or 2
         let x = 3;
-        let tref = &mut { if (r < 4) { r }
-        else { x } }; // &mut tmp = 7 or 3
+        let tref = &mut {
+            if (r < 4) { r }
+            else { x }
+        }; // &mut tmp = 7 or 3
         *tref = 10; // ignored, writes to *&tmp
         let y = r; // 7 or 2
         let tref2 = &mut y;
@@ -37,8 +39,10 @@ module 0x8675::M {
 
     fun test1b(r: S): u64 { // 7 or 2
         let x = S { f: 3 };
-        let tref = &mut { if (r.f < 4) { r }
-        else { x } }; // &mut tmp = 7 or 3
+        let tref = &mut {
+            if (r.f < 4) { r }
+            else { x }
+        }; // &mut tmp = 7 or 3
         (*tref).f = 10; // ignored, writes to *&tmp
         let y = r; // 7 or 2
         let tref2 = &mut y;

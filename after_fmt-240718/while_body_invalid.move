@@ -7,6 +7,8 @@ module 0x8675309::M {
             let x = 0;
             x
         };
-        while (cond) { if (cond) 1 else 0 };
+        while (cond) {
+            if (cond) 1 else 0
+        };
     }
 }
