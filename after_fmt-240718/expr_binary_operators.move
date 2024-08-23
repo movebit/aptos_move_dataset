@@ -11,7 +11,7 @@ script {
         assert!((true || false) && (false || true), 107);
         assert!((2 ^ 3) == 1, 108);
         assert!((1 | 2) == 3, 109);
-        assert!((2& 3) == 2, 110);
+        assert!((2 & 3) == 2, 110);
         assert!((2 << 1) == 4, 111);
         assert!((8 >> 2) == 2, 112);
         assert!((1 + 2) == 3, 113);
