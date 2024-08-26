@@ -844,7 +844,7 @@ module aptos_framework::staking_contract {
         let old_beneficiary = beneficiary_for_operator(operator_addr);
         if (exists<BeneficiaryForOperator>(operator_addr)) {
             borrow_global_mut<BeneficiaryForOperator>(operator_addr).beneficiary_for_operator =
-                 new_beneficiary;
+                new_beneficiary;
         } else {
             move_to(
                 operator,

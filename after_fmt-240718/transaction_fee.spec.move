@@ -124,7 +124,7 @@ spec aptos_framework::transaction_fee {
         /// [high-level-req-6.1]
         ensures is_fees_collection_enabled() ==>
             option::spec_borrow(global<CollectedFeesPerBlock>(@aptos_framework).proposer) ==
-                 proposer_addr;
+                proposer_addr;
     }
 
     spec burn_coin_fraction(coin: &mut Coin<AptosCoin>, burn_percentage: u8) {

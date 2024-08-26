@@ -106,7 +106,7 @@ into the pending_inactive one on A's behalf</li>
     </li>
 </ol>
 </ol>
- */
+*/
 module aptos_framework::delegation_pool {
     use std::error;
     use std::features;
@@ -1409,7 +1409,7 @@ module aptos_framework::delegation_pool {
         let old_beneficiary = beneficiary_for_operator(operator_addr);
         if (exists<BeneficiaryForOperator>(operator_addr)) {
             borrow_global_mut<BeneficiaryForOperator>(operator_addr).beneficiary_for_operator =
-                 new_beneficiary;
+                new_beneficiary;
         } else {
             move_to(
                 operator,
@@ -5479,7 +5479,7 @@ module aptos_framework::delegation_pool {
         // By default, the voter of a delegator is itself.
         assert!(
             calculate_and_update_voter_total_voting_power(pool_address, validator_address) ==
-             100 * ONE_APT,
+            100 * ONE_APT,
             1
         );
         assert!(
@@ -5509,7 +5509,7 @@ module aptos_framework::delegation_pool {
         end_aptos_epoch();
         assert!(
             calculate_and_update_voter_total_voting_power(pool_address, validator_address) ==
-             100 * ONE_APT,
+            100 * ONE_APT,
             1
         );
         assert!(
@@ -5541,7 +5541,7 @@ module aptos_framework::delegation_pool {
         end_aptos_epoch();
         assert!(
             calculate_and_update_voter_total_voting_power(pool_address, validator_address) ==
-             550 * ONE_APT,
+            550 * ONE_APT,
             1
         );
         assert!(
@@ -5564,7 +5564,7 @@ module aptos_framework::delegation_pool {
         end_aptos_epoch();
         assert!(
             calculate_and_update_voter_total_voting_power(pool_address, validator_address) ==
-             122499999999,
+            122499999999,
             1
         );
         assert!(
@@ -5661,7 +5661,7 @@ module aptos_framework::delegation_pool {
 
         assert!(
             calculate_and_update_voter_total_voting_power(pool_address, validator_address) ==
-             100 * ONE_APT,
+            100 * ONE_APT,
             1
         );
         assert!(

@@ -481,7 +481,7 @@ module DiemFramework::Roles {
         /// The TreasuryCompliance role is globally unique [[B2]][ROLE], and is published at TREASURY_COMPLIANCE_ADDRESS [[C2]][ROLE].
         /// In other words, a `RoleId` with `TREASURY_COMPLIANCE_ROLE_ID` uniquely exists at `TREASURY_COMPLIANCE_ADDRESS`.
         invariant forall addr: address where spec_has_treasury_compliance_role_addr(addr): addr ==
-             @TreasuryCompliance;
+            @TreasuryCompliance;
         invariant [suspendable] DiemTimestamp::is_operating() ==>
             spec_has_treasury_compliance_role_addr(@TreasuryCompliance);
 
