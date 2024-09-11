@@ -28,7 +28,7 @@ module 0x42::M {
     }
 
     struct S2 {
-        a: S1<HasAbilities<NoAbilities, u64>>
+        a: S1<HasAbilities<NoAbilities, u64>>,
     }
 
     struct S3<T1: drop, T2: copy, T3: store, T4: key> {
@@ -40,8 +40,8 @@ module 0x42::M {
 
     struct S4 {
         a: S3<HasDrop<NoAbilities, u64>, HasCopy<NoAbilities, u64>, HasStore<NoAbilities, u64>, HasKey<
-            NoAbilities,
-            u64>>
+                NoAbilities,
+                u64>>
     }
 
     fun f1<T: drop + copy + store + key>() {}
@@ -54,7 +54,7 @@ module 0x42::M {
 
     fun f4() {
         f3<HasDrop<NoAbilities, u64>, HasCopy<NoAbilities, u64>, HasStore<NoAbilities, u64>, HasKey<
-            NoAbilities,
-            u64>>();
+                NoAbilities,
+                u64>>();
     }
 }

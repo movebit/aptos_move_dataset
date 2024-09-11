@@ -5,23 +5,24 @@ module 0x42::nested_loop {
         let n = vector::length(v);
         if (n == 0) { return };
         while ({
-            spec {
-                invariant i <= n - 1;
-                invariant forall x: u64, y: u64 where x < i && x < y && y < n:
-                    v[x] != v[y];
-            };
-            i < n - 1
-        }) {
-            let j = i + 1;
-            while ({
                 spec {
                     invariant i <= n - 1;
-                    invariant j <= n;
-                    invariant i < j;
-                    invariant forall y: u64 where i < y && y < j: v[i] != v[y];
+                    invariant forall x: u64, y: u64 where x < i
+                        && x < y
+                        && y < n: v[x] != v[y];
                 };
-                j < n
+                i < n - 1
             }) {
+            let j = i + 1;
+            while ({
+                    spec {
+                        invariant i <= n - 1;
+                        invariant j <= n;
+                        invariant i < j;
+                        invariant forall y: u64 where i < y && y < j: v[i] != v[y];
+                    };
+                    j < n
+                }) {
                 let v_i = *vector::borrow(v, i);
                 let v_j = *vector::borrow(v, j);
                 assert!(v_i != v_j, 0);
@@ -32,7 +33,9 @@ module 0x42::nested_loop {
     }
 
     spec assert_no_duplicate {
-        aborts_if exists i: u64, j: u64:
-            i < len(v) && j < len(v) && i != j && v[i] == v[j];
+        aborts_if exists i: u64, j: u64: i < len(v)
+            && j < len(v)
+            && i != j
+            && v[i] == v[j];
     }
 }

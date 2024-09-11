@@ -63,13 +63,13 @@ module knight::food {
         /// Used to mint fungible assets.
         fungible_asset_mint_ref: fungible_asset::MintRef,
         /// Used to burn fungible assets.
-        fungible_asset_burn_ref: fungible_asset::BurnRef
+        fungible_asset_burn_ref: fungible_asset::BurnRef,
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
     /// Restoration value of the food. An attribute of a food token.
     struct RestorationValue has key {
-        value: u64
+        value: u64,
     }
 
     /// Initializes the module, creating the food collection and creating two fungible tokens such as Corn, and Meat.
@@ -82,30 +82,30 @@ module knight::food {
             string::utf8(b"Corn Token Description"),
             string::utf8(CORN_TOKEN_NAME),
             string::utf8(
-                b"https://raw.githubusercontent.com/aptos-labs/aptos-core/main/ecosystem/typescript/sdk/examples/typescript/metadata/knight/Corn"
+                b"https://raw.githubusercontent.com/aptos-labs/aptos-core/main/ecosystem/typescript/sdk/examples/typescript/metadata/knight/Corn",
             ),
             string::utf8(b"Corn"),
             string::utf8(b"CORN"),
             string::utf8(
-                b"https://raw.githubusercontent.com/aptos-labs/aptos-core/main/ecosystem/typescript/sdk/examples/typescript/metadata/knight/Corn.png"
+                b"https://raw.githubusercontent.com/aptos-labs/aptos-core/main/ecosystem/typescript/sdk/examples/typescript/metadata/knight/Corn.png",
             ),
             string::utf8(b"https://www.aptoslabs.com"),
-            5
+            5,
         );
         create_food_token_as_fungible_token(
             sender,
             string::utf8(b"Meat Token Description"),
             string::utf8(MEAT_TOKEN_NAME),
             string::utf8(
-                b"https://raw.githubusercontent.com/aptos-labs/aptos-core/main/ecosystem/typescript/sdk/examples/typescript/metadata/knight/Meat"
+                b"https://raw.githubusercontent.com/aptos-labs/aptos-core/main/ecosystem/typescript/sdk/examples/typescript/metadata/knight/Meat",
             ),
             string::utf8(b"Meat"),
             string::utf8(b"MEAT"),
             string::utf8(
-                b"https://raw.githubusercontent.com/aptos-labs/aptos-core/main/ecosystem/typescript/sdk/examples/typescript/metadata/knight/Meat.png"
+                b"https://raw.githubusercontent.com/aptos-labs/aptos-core/main/ecosystem/typescript/sdk/examples/typescript/metadata/knight/Meat.png",
             ),
             string::utf8(b"https://www.aptoslabs.com"),
-            20
+            20,
         );
     }
 
@@ -163,34 +163,27 @@ module knight::food {
     }
 
     /// Transfers the given amount of the corn token from the given sender to the given receiver.
-    public entry fun transfer_corn(
-        from: &signer, to: address, amount: u64
-    ) {
+    public entry fun transfer_corn(from: &signer, to: address, amount: u64) {
         transfer_food(
             from,
             object::address_to_object<FoodToken>(corn_token_address()),
             to,
-            amount
+            amount,
         );
     }
 
     /// Transfers the given amount of the meat token from the given sender to the given receiver.
-    public entry fun transfer_meat(
-        from: &signer, to: address, amount: u64
-    ) {
+    public entry fun transfer_meat(from: &signer, to: address, amount: u64) {
         transfer_food(
             from,
             object::address_to_object<FoodToken>(meat_token_address()),
             to,
-            amount
+            amount,
         );
     }
 
     public entry fun transfer_food(
-        from: &signer,
-        food: Object<FoodToken>,
-        to: address,
-        amount: u64
+        from: &signer, food: Object<FoodToken>, to: address, amount: u64
     ) {
         let metadata = object::convert<FoodToken, Metadata>(food);
         primary_fungible_store::transfer(from, metadata, to, amount);
@@ -222,7 +215,7 @@ module knight::food {
             description,
             name,
             option::none(),
-            uri
+            uri,
         );
     }
 
@@ -236,7 +229,7 @@ module knight::food {
         fungible_asset_symbol: String,
         icon_uri: String,
         project_uri: String,
-        restoration_value: u64
+        restoration_value: u64,
     ) {
         // The collection name is used to locate the collection object and to create a new token object.
         let collection = string::utf8(FOOD_COLLECTION_NAME);
@@ -249,7 +242,7 @@ module knight::food {
                 description,
                 name,
                 option::none(),
-                uri
+                uri,
             );
 
         // Generates the object signer and the refs. The object signer is used to publish a resource
@@ -266,7 +259,7 @@ module knight::food {
         property_map::add_typed(
             &property_mutator_ref,
             string::utf8(RESTORATION_VALUE_PROPERTY_NAME),
-            restoration_value
+            restoration_value,
         );
 
         // Creates the fungible asset.
@@ -277,7 +270,7 @@ module knight::food {
             fungible_asset_symbol,
             0,
             icon_uri,
-            project_uri
+            project_uri,
         );
         let fungible_asset_mint_ref = fungible_asset::generate_mint_ref(&constructor_ref);
         let fungible_asset_burn_ref = fungible_asset::generate_burn_ref(&constructor_ref);
@@ -286,17 +279,14 @@ module knight::food {
         let food_token = FoodToken {
             property_mutator_ref,
             fungible_asset_mint_ref,
-            fungible_asset_burn_ref
+            fungible_asset_burn_ref,
         };
         move_to(&object_signer, food_token);
     }
 
     /// The internal mint function.
     fun mint_internal(
-        creator: &signer,
-        token: Object<FoodToken>,
-        receiver: address,
-        amount: u64
+        creator: &signer, token: Object<FoodToken>, receiver: address, amount: u64
     ) acquires FoodToken {
         let food_token = authorized_borrow<FoodToken>(creator, &token);
         let fungible_asset_mint_ref = &food_token.fungible_asset_mint_ref;
@@ -310,12 +300,12 @@ module knight::food {
         let token_address = object::object_address(token);
         assert!(
             exists<FoodToken>(token_address),
-            error::not_found(ETOKEN_DOES_NOT_EXIST)
+            error::not_found(ETOKEN_DOES_NOT_EXIST),
         );
 
         assert!(
             token::creator(*token) == signer::address_of(creator),
-            error::permission_denied(ENOT_CREATOR)
+            error::permission_denied(ENOT_CREATOR),
         );
         borrow_global<FoodToken>(token_address)
     }
@@ -326,9 +316,7 @@ module knight::food {
     }
 
     #[test(creator = @knight, user1 = @0x456, user2 = @0x789)]
-    public fun test_food(
-        creator: &signer, user1: &signer, user2: &signer
-    ) acquires FoodToken {
+    public fun test_food(creator: &signer, user1: &signer, user2: &signer) acquires FoodToken {
         // This test assumes that the creator's address is equal to @knight.
         assert!(signer::address_of(creator) == @knight, 0);
 

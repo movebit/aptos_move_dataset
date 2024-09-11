@@ -19,7 +19,7 @@ module 0x42::test {
         let a = mathtest::mul_div(
             1,
             mathtest::mul_div(1, 1, 1),
-            mathtest2::mul_div2(1, 1, 1)
+            mathtest2::mul_div2(1, 1, 1),
         );
         assert!(a == 1, 0);
     }

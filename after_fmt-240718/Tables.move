@@ -108,10 +108,7 @@ module 0x2::Tables {
 
         let entry_mut_ref = Table::borrow_mut(global_t, &@0xCD);
         entry_mut_ref.value = sub(entry_mut_ref.value, one());
-        assert!(
-            Table::borrow(global_t, &@0xCD).value == u256_from_words(45, 45),
-            105
-        );
+        assert!(Table::borrow(global_t, &@0xCD).value == u256_from_words(45, 45), 105);
 
         let Balance { value } = Table::remove(global_t, &@0xAB);
         assert!(value == val_1, 106);

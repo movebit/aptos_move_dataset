@@ -73,7 +73,7 @@ module mint_nft::create_nft {
 
     // This struct stores an NFT collection's relevant information
     struct ModuleData has key {
-        token_data_id: TokenDataId
+        token_data_id: TokenDataId,
     }
 
     /// Action not authorized because the signer is not the admin of this module
@@ -100,7 +100,7 @@ module mint_nft::create_nft {
             description,
             collection_uri,
             maximum_supply,
-            mutate_setting
+            mutate_setting,
         );
 
         // Create a token data id to specify the token to be minted.
@@ -118,7 +118,7 @@ module mint_nft::create_nft {
                 // This variable sets if we want to allow mutation for token maximum, uri, royalty, description, and properties.
                 // Here we enable mutation for properties by setting the last boolean in the vector to true.
                 token::create_token_mutability_config(
-                    &vector<bool>[false, false, false, false, true]
+                    &vector<bool>[false, false, false, false, true],
                 ),
                 // We can use property maps to record attributes related to the token.
                 // In this example, we are using it to record the receiver's address.
@@ -126,12 +126,12 @@ module mint_nft::create_nft {
                 // when a user successfully mints a token in the `mint_nft()` function.
                 vector<String>[string::utf8(b"given_to")],
                 vector<vector<u8>>[b""],
-                vector<String>[string::utf8(b"address")]
+                vector<String>[string::utf8(b"address")],
             );
 
         // Store the token data id within the module, so we can refer to it later
         // when we're minting the NFT and updating its property version.
-        move_to(source_account, ModuleData { token_data_id });
+        move_to(source_account, ModuleData { token_data_id, });
     }
 
     /// Mint an NFT to the receiver. Note that here we ask two accounts to sign: the module owner and the receiver.
@@ -147,7 +147,7 @@ module mint_nft::create_nft {
         // Assert that the module owner signer is the owner of this module.
         assert!(
             signer::address_of(module_owner) == @mint_nft,
-            error::permission_denied(ENOT_AUTHORIZED)
+            error::permission_denied(ENOT_AUTHORIZED),
         );
 
         // Mint token to the receiver.
@@ -173,7 +173,7 @@ module mint_nft::create_nft {
             // Mutate the properties to record the receiveer's address.
             vector<String>[string::utf8(b"given_to")],
             vector<vector<u8>>[bcs::to_bytes(&signer::address_of(receiver))],
-            vector<String>[string::utf8(b"address")]
+            vector<String>[string::utf8(b"address")],
         );
     }
 }

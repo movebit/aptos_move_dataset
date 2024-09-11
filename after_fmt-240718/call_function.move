@@ -10,13 +10,13 @@ module Alice::hello_world {
 
     struct ModuleData has key, store {
         global_counter: u64,
-        state: String
+        state: String,
     }
 
     public entry fun initialize(sender: &signer) {
         move_to(
             sender,
-            ModuleData { global_counter: 0, state: string::utf8(b"init") }
+            ModuleData { global_counter: 0, state: string::utf8(b"init") },
         );
     }
 

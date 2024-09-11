@@ -33,30 +33,30 @@ module DiemFramework::SignatureTests {
         // valid signature, invalid pubkey (too short, too long, bad small subgroup)
         assert!(
             !Signature::ed25519_verify(copy valid_signature, copy short_pubkey, x""),
-            9004
+            9004,
         );
         assert!(
             !Signature::ed25519_verify(copy valid_signature, copy long_pubkey, x""),
-            9005
+            9005,
         );
         assert!(
             !Signature::ed25519_verify(copy valid_signature, copy invalid_pubkey, x""),
-            9006
+            9006,
         );
         // invalid signature, valid pubkey
         assert!(
             !Signature::ed25519_verify(copy short_signature, copy valid_pubkey, x""),
-            9007
+            9007,
         );
         assert!(
             !Signature::ed25519_verify(copy long_signature, copy valid_pubkey, x""),
-            9008
+            9008,
         );
 
         // valid (lengthwise) signature, valid pubkey, but signature doesn't match message
         assert!(
             !Signature::ed25519_verify(copy valid_signature, copy valid_pubkey, x""),
-            9009
+            9009,
         );
 
         // all three valid

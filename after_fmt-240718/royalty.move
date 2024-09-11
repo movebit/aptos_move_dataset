@@ -25,12 +25,12 @@ module aptos_token_objects::royalty {
         denominator: u64,
         /// The recipient of royalty payments. See the `shared_account` for how to handle multiple
         /// creators.
-        payee_address: address
+        payee_address: address,
     }
 
     /// This enables creating or overwriting a `MutatorRef`.
     struct MutatorRef has drop, store {
-        inner: ExtendRef
+        inner: ExtendRef,
     }
 
     /// Add a royalty, given a ConstructorRef.

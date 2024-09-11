@@ -31,11 +31,11 @@ module 0x42::VerifyLoops {
     public fun iter10_no_abort() {
         let i = 0;
         while ({
-            spec {
-                invariant i <= 11;
-            };
-            (i <= 10)
-        }) {
+                spec {
+                    invariant i <= 11;
+                };
+                (i <= 10)
+            }) {
             if (i > 10) abort 10;
             i = i + 1;
         }
@@ -49,11 +49,11 @@ module 0x42::VerifyLoops {
     public fun iter10_no_abort_incorrect() {
         let i = 0;
         while ({
-            spec {
-                invariant i <= 11;
-            };
-            (i <= 10)
-        }) {
+                spec {
+                    invariant i <= 11;
+                };
+                (i <= 10)
+            }) {
             if (i > 10) abort 10;
             i = i + 1;
         }
@@ -66,11 +66,11 @@ module 0x42::VerifyLoops {
     public fun iter10_abort() {
         let i = 0;
         while ({
-            spec {
-                invariant i <= 7;
-            };
-            (i <= 10)
-        }) {
+                spec {
+                    invariant i <= 7;
+                };
+                (i <= 10)
+            }) {
             if (i == 7) abort 7;
             i = i + 1;
         }
@@ -84,11 +84,11 @@ module 0x42::VerifyLoops {
     public fun iter10_abort_incorrect() {
         let i = 0;
         while ({
-            spec {
-                invariant i <= 7;
-            };
-            (i <= 10)
-        }) {
+                spec {
+                    invariant i <= 7;
+                };
+                (i <= 10)
+            }) {
             if (i == 7) abort 7;
             i = i + 1;
         }
@@ -210,11 +210,11 @@ module 0x42::VerifyLoops {
     public fun loop_invariant_base_invalid(n: u64): u64 {
         let x = 0;
         while ({
-            spec {
-                invariant x != 0;
-            };
-            (x < n)
-        }) {
+                spec {
+                    invariant x != 0;
+                };
+                (x < n)
+            }) {
             x = x + 1;
         };
         x
@@ -223,11 +223,11 @@ module 0x42::VerifyLoops {
     public fun loop_invariant_induction_invalid(n: u64): u64 {
         let x = 0;
         while ({
-            spec {
-                invariant x == 0;
-            };
-            (x < n)
-        }) {
+                spec {
+                    invariant x == 0;
+                };
+                (x < n)
+            }) {
             x = x + 1;
         };
         x
@@ -236,11 +236,11 @@ module 0x42::VerifyLoops {
     public fun iter10_assert_instead_of_invariant() {
         let i = 0;
         while ({
-            spec {
-                assert i <= 11;
-            }; // expect to fail, `i` is havoc-ed
-            (i <= 10)
-        }) {
+                spec {
+                    assert i <= 11;
+                }; // expect to fail, `i` is havoc-ed
+                (i <= 10)
+            }) {
             if (i > 10) abort 10;
             i = i + 1;
         }
@@ -253,12 +253,12 @@ module 0x42::VerifyLoops {
     public fun iter10_assume_assert_instead_of_invariant() {
         let i = 0;
         while ({
-            spec {
-                assume i <= 1; // assume arbitrary property about `i`
-                assert i <= 1; // now this can be verified
-            };
-            (i <= 10)
-        }) {
+                spec {
+                    assume i <= 1; // assume arbitrary property about `i`
+                    assert i <= 1; // now this can be verified
+                };
+                (i <= 10)
+            }) {
             if (i > 10) abort 10;
             i = i + 1;
         }

@@ -17,7 +17,7 @@ module 0x42::m {
         v5: vector<u32>,
         v6: vector<u64>,
         v7: vector<u128>,
-        v8: vector<u256>
+        v8: vector<u256>,
     }
 
     entry fun mt(s: signer) {
@@ -39,13 +39,13 @@ module 0x42::m {
                 v5: vector[1000],
                 v6: vector[10000],
                 v7: vector[100000],
-                v8: vector[1000000]
-            }
+                v8: vector[1000000],
+            },
         )
     }
 
     entry fun mf(a: address) acquires Foo {
-        let Foo { f1, f2, f3, f4, f5, f6, f7, f8, v1, v2, v3, v4, v5, v6, v7, v8 } =
+        let Foo { f1, f2, f3, f4, f5, f6, f7, f8, v1, v2, v3, v4, v5, v6, v7, v8, } =
             move_from(a);
         assert!(f1 == f1, 0);
         assert!(f2 == f2, 0);

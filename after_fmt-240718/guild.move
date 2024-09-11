@@ -38,7 +38,7 @@ module guild::guild {
         /// Whitelist of guild masters.
         whitelist: SmartVector<address>,
         /// `extend_ref` of the guild collection manager object. Used to obtain its signer.
-        extend_ref: object::ExtendRef
+        extend_ref: object::ExtendRef,
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
@@ -47,7 +47,7 @@ module guild::guild {
         /// Used to get the signer of the token
         extend_ref: object::ExtendRef,
         /// Member collection name
-        member_collection_name: String
+        member_collection_name: String,
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
@@ -56,7 +56,7 @@ module guild::guild {
         /// Belonging guild
         guild: Object<GuildToken>,
         /// Used to burn
-        burn_ref: token::BurnRef
+        burn_ref: token::BurnRef,
     }
 
     /// Initializes the module, creating the manager object, the guild token collection and the whitelist.
@@ -79,7 +79,7 @@ module guild::guild {
         token::create_token_address(
             &guild_collection_manager_address(),
             &string::utf8(GUILD_COLLECTION_NAME),
-            &guild_token_name
+            &guild_token_name,
         )
     }
 
@@ -115,7 +115,7 @@ module guild::guild {
         uri: String,
         member_collection_name: String,
         member_collection_description: String,
-        member_collection_uri: String
+        member_collection_uri: String,
     ) acquires Config {
         // Checks if the guild master is whitelisted.
         let guild_master_addr = signer::address_of(guild_master);
@@ -133,7 +133,7 @@ module guild::guild {
                 description,
                 name,
                 option::none(),
-                uri
+                uri,
             );
 
         // Generates the object signer and the refs. The refs are used to manage the token.
@@ -146,7 +146,7 @@ module guild::guild {
         object::transfer_with_ref(linear_transfer_ref, guild_master_addr);
 
         // Publishes the GuildToken resource with the refs.
-        let guild_token = GuildToken { extend_ref, member_collection_name };
+        let guild_token = GuildToken { extend_ref, member_collection_name, };
         move_to(&object_signer, guild_token);
 
         // Creates a member collection which is associated to the guild token.
@@ -154,7 +154,7 @@ module guild::guild {
             &object_signer,
             member_collection_name,
             member_collection_description,
-            member_collection_uri
+            member_collection_uri,
         );
     }
 
@@ -166,12 +166,12 @@ module guild::guild {
         description: String,
         name: String,
         uri: String,
-        receiver: address
+        receiver: address,
     ) acquires GuildToken {
         // Checks if the guild master is the owner of the guild token.
         assert!(
             object::owner(guild_token) == signer::address_of(guild_master),
-            ENOT_OWNER
+            ENOT_OWNER,
         );
 
         let guild = borrow_global<GuildToken>(object::object_address(&guild_token));
@@ -186,7 +186,7 @@ module guild::guild {
                 description,
                 name,
                 option::none(),
-                uri
+                uri,
             );
 
         // Generates the object signer and the refs. The refs are used to manage the token.
@@ -199,22 +199,22 @@ module guild::guild {
         object::transfer_with_ref(linear_transfer_ref, receiver);
 
         // Publishes the MemberToken resource with the refs.
-        let member_token = MemberToken { guild: guild_token, burn_ref };
+        let member_token = MemberToken { guild: guild_token, burn_ref, };
         move_to(&object_signer, member_token);
     }
 
     /// Burns a member token.
     public entry fun burn_member(
-        guild_master: &signer, token: Object<MemberToken>
+        guild_master: &signer, token: Object<MemberToken>,
     ) acquires MemberToken {
         let belonging_guild =
             borrow_global<MemberToken>(object::object_address(&token)).guild;
         assert!(
             object::owner(belonging_guild) == signer::address_of(guild_master),
-            ENOT_OWNER
+            ENOT_OWNER,
         );
         let member_token = move_from<MemberToken>(object::object_address(&token));
-        let MemberToken { guild: _, burn_ref } = member_token;
+        let MemberToken { guild: _, burn_ref, } = member_token;
         token::burn(burn_ref);
     }
 
@@ -252,7 +252,7 @@ module guild::guild {
             description,
             name,
             option::none(),
-            uri
+            uri,
         );
     }
 
@@ -260,10 +260,7 @@ module guild::guild {
     /// the module constants for description, name, and URI, defined above. The royalty configuration
     /// is skipped in this collection for simplicity.
     fun create_member_collection(
-        guild_token_object_signer: &signer,
-        name: String,
-        description: String,
-        uri: String
+        guild_token_object_signer: &signer, name: String, description: String, uri: String
     ) {
         // Creates the collection with unlimited supply and without establishing any royalty configuration.
         collection::create_unlimited_collection(
@@ -271,7 +268,7 @@ module guild::guild {
             description,
             name,
             option::none(),
-            uri
+            uri,
         );
     }
 
@@ -307,7 +304,7 @@ module guild::guild {
             string::utf8(b"Guild Token #1 URI"),
             string::utf8(b"Member Collection #1"),
             string::utf8(b"Member Collection #1 Description"),
-            string::utf8(b"Member Collection #1 URI")
+            string::utf8(b"Member Collection #1 URI"),
         );
 
         // -------------------------------------------
@@ -325,7 +322,7 @@ module guild::guild {
             token_description,
             token_name,
             token_uri,
-            user
+            user,
         );
 
         // ------------------------------------------------
@@ -334,7 +331,7 @@ module guild::guild {
         let member_token_addr = member_token_address(guild_token, token_name);
         burn_member(
             guild_master,
-            object::address_to_object<MemberToken>(member_token_addr)
+            object::address_to_object<MemberToken>(member_token_addr),
         );
     }
 }

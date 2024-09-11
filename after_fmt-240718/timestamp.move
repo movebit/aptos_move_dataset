@@ -10,7 +10,7 @@ module aptos_framework::timestamp {
 
     /// A singleton resource holding the current Unix time in microseconds
     struct CurrentTimeMicroseconds has key {
-        microseconds: u64
+        microseconds: u64,
     }
 
     /// Conversion factor between seconds and microseconds
@@ -67,9 +67,7 @@ module aptos_framework::timestamp {
     }
 
     #[test_only]
-    public fun update_global_time_for_test(
-        timestamp_microsecs: u64
-    ) acquires CurrentTimeMicroseconds {
+    public fun update_global_time_for_test(timestamp_microsecs: u64) acquires CurrentTimeMicroseconds {
         let global_timer = borrow_global_mut<CurrentTimeMicroseconds>(@aptos_framework);
         let now = global_timer.microseconds;
         assert!(now < timestamp_microsecs, error::invalid_argument(EINVALID_TIMESTAMP));
@@ -77,9 +75,7 @@ module aptos_framework::timestamp {
     }
 
     #[test_only]
-    public fun update_global_time_for_test_secs(
-        timestamp_seconds: u64
-    ) acquires CurrentTimeMicroseconds {
+    public fun update_global_time_for_test_secs(timestamp_seconds: u64) acquires CurrentTimeMicroseconds {
         update_global_time_for_test(timestamp_seconds * MICRO_CONVERSION_FACTOR);
     }
 

@@ -27,7 +27,7 @@ module aptos_std::ristretto255_pedersen {
 
     /// A Pedersen commitment to some value with some randomness.
     struct Commitment has drop {
-        point: RistrettoPoint
+        point: RistrettoPoint,
     }
 
     //
@@ -62,10 +62,7 @@ module aptos_std::ristretto255_pedersen {
 
     /// Returns a commitment `v * val_base + r * rand_base` where `(val_base, rand_base)` is the commitment key.
     public fun new_commitment(
-        v: &Scalar,
-        val_base: &RistrettoPoint,
-        r: &Scalar,
-        rand_base: &RistrettoPoint
+        v: &Scalar, val_base: &RistrettoPoint, r: &Scalar, rand_base: &RistrettoPoint
     ): Commitment {
         Commitment { point: ristretto255::double_scalar_mul(v, val_base, r, rand_base) }
     }
@@ -156,7 +153,7 @@ module aptos_std::ristretto255_pedersen {
         std::option::extract(
             &mut ristretto255::new_point_from_bytes(
                 BULLETPROOF_DEFAULT_PEDERSEN_RAND_BASE
-            )
+            ),
         )
     }
 }

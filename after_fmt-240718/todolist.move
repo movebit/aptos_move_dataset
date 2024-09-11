@@ -23,7 +23,7 @@ module todolist_addr::todolist {
         task_id: u64,
         address: address,
         content: String,
-        completed: bool
+        completed: bool,
     }
 
     public entry fun create_list(account: &signer) {

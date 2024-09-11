@@ -122,7 +122,7 @@ spec aptos_framework::staking_proxy {
             && commission_amount != 0 ==>
             global<stake::StakePool>(pool_address).operator_address == new_operator
                 && simple_map::spec_get(post_store.staking_contracts, new_operator).commission_percentage ==
-                    current_commission_percentage;
+                     current_commission_percentage;
 
         ensures staking_contract_exists ==>
             simple_map::spec_contains_key(post_store.staking_contracts, new_operator);
@@ -149,7 +149,7 @@ spec aptos_framework::staking_proxy {
         aborts_if stake::stake_pool_exists(owner_address)
             && !(
                 exists<stake::OwnerCapability>(owner_address)
-                    && stake::stake_pool_exists(pool_address)
+                && stake::stake_pool_exists(pool_address)
             );
         ensures stake::stake_pool_exists(owner_address) ==>
             global<stake::StakePool>(pool_address).operator_address == new_operator;
@@ -201,7 +201,7 @@ spec aptos_framework::staking_proxy {
         aborts_if stake::stake_pool_exists(owner_address)
             && !(
                 exists<stake::OwnerCapability>(owner_address)
-                    && stake::stake_pool_exists(pool_address)
+                && stake::stake_pool_exists(pool_address)
             );
         ensures stake::stake_pool_exists(owner_address) ==>
             global<stake::StakePool>(pool_address).delegated_voter == new_voter;

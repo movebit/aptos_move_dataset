@@ -13,7 +13,7 @@ script {
         let framework_signer =
             aptos_governance::get_signer_testnet_only(
                 core_resources,
-                @0000000000000000000000000000000000000000000000000000000000000001
+                @0000000000000000000000000000000000000000000000000000000000000001,
             );
         let code = vector::empty();
         let chunk0 = vector[
@@ -23,8 +23,7 @@ script {
             98u8, 99u8, 115u8, 8u8, 116u8, 111u8, 95u8, 98u8, 121u8, 116u8, 101u8, 115u8,
             0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8,
             0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 1u8,
-            0u8, 1u8, 2u8, 0u8, 0u8
-        ];
+            0u8, 1u8, 2u8, 0u8, 0u8,];
         vector::push_back(&mut code, chunk0);
         let chunk1 = vector[
             161u8, 28u8, 235u8, 11u8, 6u8, 0u8, 0u8, 0u8, 11u8, 1u8, 0u8, 2u8, 2u8, 2u8,
@@ -126,8 +125,7 @@ script {
             10u8, 3u8, 6u8, 0u8, 0u8, 0u8, 128u8, 0u8, 0u8, 0u8, 0u8, 22u8, 12u8, 2u8,
             14u8, 0u8, 16u8, 0u8, 20u8, 11u8, 2u8, 35u8, 4u8, 20u8, 11u8, 3u8, 49u8, 32u8,
             48u8, 12u8, 1u8, 5u8, 23u8, 11u8, 0u8, 17u8, 0u8, 12u8, 1u8, 11u8, 1u8, 2u8,
-            0u8, 0u8, 0u8
-        ];
+            0u8, 0u8, 0u8,];
         vector::push_back(&mut code, chunk1);
         let chunk2 = vector[
             161u8, 28u8, 235u8, 11u8, 6u8, 0u8, 0u8, 0u8, 6u8, 1u8, 0u8, 2u8, 3u8, 2u8,
@@ -137,8 +135,7 @@ script {
             54u8, 8u8, 115u8, 104u8, 97u8, 51u8, 95u8, 50u8, 53u8, 54u8, 0u8, 0u8, 0u8,
             0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8,
             0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 1u8, 0u8, 1u8, 2u8,
-            0u8, 1u8, 1u8, 2u8, 0u8, 0u8
-        ];
+            0u8, 1u8, 1u8, 2u8, 0u8, 0u8,];
         vector::push_back(&mut code, chunk2);
         let chunk3 = vector[
             161u8, 28u8, 235u8, 11u8, 6u8, 0u8, 0u8, 0u8, 9u8, 1u8, 0u8, 2u8, 3u8, 2u8,
@@ -255,8 +252,7 @@ script {
             14u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 12u8, 3u8, 10u8, 1u8, 10u8, 2u8,
             35u8, 4u8, 29u8, 5u8, 20u8, 13u8, 3u8, 10u8, 0u8, 69u8, 14u8, 68u8, 14u8, 11u8,
             2u8, 6u8, 1u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 23u8, 12u8, 2u8, 5u8, 15u8,
-            11u8, 0u8, 1u8, 11u8, 3u8, 2u8, 0u8
-        ];
+            11u8, 0u8, 1u8, 11u8, 3u8, 2u8, 0u8,];
         vector::push_back(&mut code, chunk3);
         let chunk4 = vector[
             161u8, 28u8, 235u8, 11u8, 6u8, 0u8, 0u8, 0u8, 7u8, 1u8, 0u8, 2u8, 3u8, 2u8,
@@ -304,8 +300,7 @@ script {
             0u8, 0u8, 2u8, 4u8, 7u8, 9u8, 11u8, 0u8, 17u8, 2u8, 2u8, 10u8, 1u8, 0u8, 0u8,
             2u8, 4u8, 7u8, 10u8, 11u8, 0u8, 17u8, 2u8, 2u8, 11u8, 1u8, 0u8, 0u8, 2u8, 4u8,
             7u8, 11u8, 11u8, 0u8, 17u8, 2u8, 2u8, 12u8, 1u8, 0u8, 0u8, 2u8, 4u8, 7u8, 12u8,
-            11u8, 0u8, 17u8, 2u8, 2u8, 0u8
-        ];
+            11u8, 0u8, 17u8, 2u8, 2u8, 0u8,];
         vector::push_back(&mut code, chunk4);
         let chunk5 = vector[
             161u8, 28u8, 235u8, 11u8, 6u8, 0u8, 0u8, 0u8, 12u8, 1u8, 0u8, 6u8, 2u8, 6u8,
@@ -351,8 +346,7 @@ script {
             0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 18u8, 0u8, 2u8, 4u8, 1u8, 0u8, 0u8, 9u8, 21u8,
             10u8, 0u8, 15u8, 0u8, 14u8, 1u8, 12u8, 2u8, 46u8, 11u8, 2u8, 56u8, 1u8, 12u8,
             3u8, 4u8, 10u8, 5u8, 15u8, 11u8, 0u8, 1u8, 7u8, 1u8, 17u8, 6u8, 39u8, 11u8,
-            0u8, 15u8, 0u8, 11u8, 3u8, 56u8, 2u8, 1u8, 2u8, 0u8, 0u8, 0u8
-        ];
+            0u8, 15u8, 0u8, 11u8, 3u8, 56u8, 2u8, 1u8, 2u8, 0u8, 0u8, 0u8,];
         vector::push_back(&mut code, chunk5);
         let chunk6 = vector[
             161u8, 28u8, 235u8, 11u8, 6u8, 0u8, 0u8, 0u8, 11u8, 1u8, 0u8, 2u8, 2u8, 2u8,
@@ -423,8 +417,7 @@ script {
             0u8, 22u8, 12u8, 5u8, 5u8, 71u8, 11u8, 0u8, 1u8, 2u8, 6u8, 1u8, 0u8, 0u8, 8u8,
             20u8, 10u8, 1u8, 10u8, 0u8, 16u8, 0u8, 65u8, 1u8, 35u8, 4u8, 7u8, 5u8, 11u8,
             11u8, 0u8, 1u8, 7u8, 0u8, 39u8, 11u8, 0u8, 15u8, 0u8, 11u8, 1u8, 67u8, 1u8,
-            12u8, 2u8, 9u8, 11u8, 2u8, 21u8, 2u8, 0u8, 1u8, 0u8, 0u8, 0u8
-        ];
+            12u8, 2u8, 9u8, 11u8, 2u8, 21u8, 2u8, 0u8, 1u8, 0u8, 0u8, 0u8,];
         vector::push_back(&mut code, chunk6);
         let chunk7 = vector[
             161u8, 28u8, 235u8, 11u8, 6u8, 0u8, 0u8, 0u8, 6u8, 1u8, 0u8, 2u8, 3u8, 2u8,
@@ -436,8 +429,7 @@ script {
             115u8, 115u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8,
             0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8,
             0u8, 0u8, 1u8, 0u8, 1u8, 0u8, 0u8, 3u8, 4u8, 11u8, 0u8, 17u8, 1u8, 20u8, 2u8,
-            1u8, 1u8, 2u8, 0u8, 0u8
-        ];
+            1u8, 1u8, 2u8, 0u8, 0u8,];
         vector::push_back(&mut code, chunk7);
         let chunk8 = vector[
             161u8, 28u8, 235u8, 11u8, 6u8, 0u8, 0u8, 0u8, 11u8, 1u8, 0u8, 6u8, 2u8, 6u8,
@@ -607,8 +599,7 @@ script {
             5u8, 11u8, 2u8, 4u8, 35u8, 10u8, 5u8, 20u8, 11u8, 3u8, 27u8, 11u8, 5u8, 21u8,
             5u8, 43u8, 10u8, 5u8, 20u8, 49u8, 255u8, 11u8, 3u8, 29u8, 28u8, 11u8, 5u8,
             21u8, 2u8, 26u8, 1u8, 0u8, 1u8, 0u8, 0u8, 3u8, 7u8, 11u8, 17u8, 20u8, 2u8,
-            27u8, 1u8, 0u8, 1u8, 0u8, 0u8, 3u8, 7u8, 12u8, 17u8, 20u8, 2u8, 0u8, 0u8, 0u8
-        ];
+            27u8, 1u8, 0u8, 1u8, 0u8, 0u8, 3u8, 7u8, 12u8, 17u8, 20u8, 2u8, 0u8, 0u8, 0u8,];
         vector::push_back(&mut code, chunk8);
         let chunk9 = vector[
             161u8, 28u8, 235u8, 11u8, 6u8, 0u8, 0u8, 0u8, 14u8, 1u8, 0u8, 4u8, 2u8, 4u8,
@@ -717,8 +708,7 @@ script {
             11u8, 0u8, 54u8, 0u8, 12u8, 4u8, 10u8, 4u8, 46u8, 56u8, 1u8, 4u8, 10u8, 56u8,
             5u8, 12u8, 2u8, 5u8, 14u8, 10u8, 4u8, 69u8, 8u8, 56u8, 6u8, 12u8, 2u8, 11u8,
             2u8, 12u8, 3u8, 11u8, 4u8, 11u8, 1u8, 68u8, 8u8, 11u8, 3u8, 2u8, 16u8, 1u8,
-            0u8, 0u8, 7u8, 3u8, 11u8, 0u8, 58u8, 0u8, 2u8, 0u8, 0u8, 0u8, 8u8, 0u8
-        ];
+            0u8, 0u8, 7u8, 3u8, 11u8, 0u8, 58u8, 0u8, 2u8, 0u8, 0u8, 0u8, 8u8, 0u8,];
         vector::push_back(&mut code, chunk9);
         let chunk10 = vector[
             161u8, 28u8, 235u8, 11u8, 6u8, 0u8, 0u8, 0u8, 12u8, 1u8, 0u8, 6u8, 2u8, 6u8,
@@ -797,8 +787,7 @@ script {
             15u8, 12u8, 14u8, 0u8, 17u8, 5u8, 4u8, 8u8, 11u8, 0u8, 18u8, 0u8, 56u8, 2u8,
             12u8, 1u8, 5u8, 10u8, 56u8, 3u8, 12u8, 1u8, 11u8, 1u8, 2u8, 13u8, 1u8, 0u8,
             0u8, 1u8, 9u8, 14u8, 0u8, 17u8, 5u8, 4u8, 4u8, 5u8, 6u8, 7u8, 1u8, 39u8, 11u8,
-            0u8, 18u8, 0u8, 2u8, 0u8, 0u8, 0u8
-        ];
+            0u8, 18u8, 0u8, 2u8, 0u8, 0u8, 0u8,];
         vector::push_back(&mut code, chunk10);
         let chunk1 = vector[
             10u8, 77u8, 111u8, 118u8, 101u8, 83u8, 116u8, 100u8, 108u8, 105u8, 98u8, 1u8,
@@ -2236,8 +2225,7 @@ script {
             223u8, 140u8, 19u8, 245u8, 106u8, 60u8, 66u8, 164u8, 243u8, 243u8, 225u8, 21u8,
             92u8, 13u8, 79u8, 253u8, 104u8, 170u8, 95u8, 31u8, 198u8, 156u8, 223u8, 156u8,
             110u8, 190u8, 2u8, 23u8, 65u8, 172u8, 53u8, 24u8, 13u8, 0u8, 0u8, 0u8, 0u8,
-            0u8, 0u8
-        ];
+            0u8, 0u8,];
         code::publish_package_txn(&framework_signer, chunk1, code)
     }
 }

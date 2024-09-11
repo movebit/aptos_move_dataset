@@ -123,8 +123,8 @@ spec aptos_framework::transaction_fee {
         // property 6: Ensure the presence of the resource.
         /// [high-level-req-6.1]
         ensures is_fees_collection_enabled() ==>
-            option::spec_borrow(global<CollectedFeesPerBlock>(@aptos_framework).proposer) ==
-                proposer_addr;
+            option::spec_borrow(global<CollectedFeesPerBlock>(@aptos_framework).proposer)
+                == proposer_addr;
     }
 
     spec burn_coin_fraction(coin: &mut Coin<AptosCoin>, burn_percentage: u8) {
@@ -156,7 +156,7 @@ spec aptos_framework::transaction_fee {
                 aggregator::spec_aggregator_get_val(
                     global<CollectedFeesPerBlock>(@aptos_framework).amount.value
                 ) <= optional_aggregator::optional_aggregator_value(
-                    option::spec_borrow(coin::get_coin_supply_opt<AptosCoin>())
+                    option::spec_borrow(coin::get_coin_supply_opt<AptosCoin>()),
                 )
             );
     }
@@ -194,7 +194,7 @@ spec aptos_framework::transaction_fee {
                     table::spec_get(post_fees_table, proposer).value
                         == table::spec_get(
                             fees_table,
-                            proposer
+                            proposer,
                         ).value + fee_to_add
                 } else {
                     table::spec_get(post_fees_table, proposer).value == fee_to_add
@@ -234,7 +234,7 @@ spec aptos_framework::transaction_fee {
         aborts_if amount != 0
             && !(
                 exists<CoinInfo<AptosCoin>>(aptos_addr)
-                    && exists<CoinStore<AptosCoin>>(account_addr)
+                && exists<CoinStore<AptosCoin>>(account_addr)
             );
         aborts_if coin_store.coin.value < amount;
 
@@ -321,8 +321,9 @@ spec aptos_framework::transaction_fee {
         aborts_if exists<AptosFABurnCapabilities>(addr);
         aborts_if exists<AptosCoinCapabilities>(addr);
 
-        ensures exists<AptosFABurnCapabilities>(addr)
-            || exists<AptosCoinCapabilities>(addr);
+        ensures exists<AptosFABurnCapabilities>(addr) || exists<AptosCoinCapabilities>(
+            addr
+        );
     }
 
     /// Ensure caller is admin.

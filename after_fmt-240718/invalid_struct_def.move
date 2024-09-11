@@ -31,7 +31,7 @@ module 0x42::ability {
 
     struct ConditionalDropInvalid<T> has drop {
         x: ConditionalDrop<T>,
-        y: Impotent
+        y: Impotent,
     }
 
     struct S<T> has drop {
@@ -40,7 +40,7 @@ module 0x42::ability {
     }
 
     struct S1<T> {
-        x: Foo<T>
+        x: Foo<T>,
     }
 
     struct S2<phantom T> {

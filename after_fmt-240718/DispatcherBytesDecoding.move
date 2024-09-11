@@ -29,9 +29,7 @@ module 0x2::M {
     }
 
     // bytes5[2][]
-    #[callable(
-        sig = b"test_bytes5_2_dynamic_size_sum(bytes5[2][]) returns (uint64, uint8)"
-    )]
+    #[callable(sig = b"test_bytes5_2_dynamic_size_sum(bytes5[2][]) returns (uint64, uint8)")]
     fun test_bytes5_2_dynamic_size_sum(v: vector<vector<vector<u8>>>): (u64, u8) {
         let len_v = vector::length(&v);
         let sum = 0;

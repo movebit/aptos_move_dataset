@@ -7,7 +7,7 @@ module 0x42::Faucet {
 
     #[storage]
     struct State has key {
-        owner: address
+        owner: address,
     }
 
     #[event]
@@ -35,12 +35,7 @@ module 0x42::Faucet {
 
     #[receive, payable]
     public fun receive() {
-        emit(
-            DepositEvent {
-                from: sender(),
-                amount: value()
-            }
-        )
+        emit(DepositEvent { from: sender(), amount: value() })
     }
 
     #[callable]
@@ -53,7 +48,7 @@ module 0x42::Faucet {
         // Limit withdrawal amount
         assert!(
             U256::le(copy amount, U256::u256_from_u128(100)),
-            errors::invalid_argument(0)
+            errors::invalid_argument(0),
         );
 
         // Funds must be available.

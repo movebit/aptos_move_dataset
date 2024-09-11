@@ -121,8 +121,7 @@ spec aptos_framework::reconfiguration {
 
     spec last_reconfiguration_time {
         aborts_if !exists<Configuration>(@aptos_framework);
-        ensures result
-            == global<Configuration>(@aptos_framework).last_reconfiguration_time;
+        ensures result == global<Configuration>(@aptos_framework).last_reconfiguration_time;
     }
 
     spec reconfigure {
@@ -136,10 +135,10 @@ spec aptos_framework::reconfiguration {
         requires exists<stake::ValidatorFees>(@aptos_framework);
 
         let success = !(
-            chain_status::is_genesis()
+                chain_status::is_genesis()
                 || timestamp::spec_now_microseconds() == 0
                 || !reconfiguration_enabled()
-        )
+            )
             && timestamp::spec_now_microseconds()
                 != global<Configuration>(@aptos_framework).last_reconfiguration_time;
         include features::spec_periodical_reward_rate_decrease_enabled() ==>

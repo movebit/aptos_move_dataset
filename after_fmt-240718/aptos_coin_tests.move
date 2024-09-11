@@ -13,7 +13,7 @@ module aptos_framework::aptos_coin_tests {
     }
 
     public fun mint_apt_fa_to_primary_fungible_store_for_test(
-        owner: address, amount: u64
+        owner: address, amount: u64,
     ) {
         primary_fungible_store::deposit(owner, aptos_coin::mint_apt_fa_for_test(amount));
     }
@@ -27,9 +27,9 @@ module aptos_framework::aptos_coin_tests {
         assert!(
             primary_fungible_store::balance(
                 @aptos_framework,
-                object::address_to_object<Metadata>(@aptos_fungible_asset)
+                object::address_to_object<Metadata>(@aptos_fungible_asset),
             ) == 100,
-            0
+            0,
         );
         coin::destroy_mint_cap(mint_cap);
         coin::destroy_burn_cap(burn_cap);

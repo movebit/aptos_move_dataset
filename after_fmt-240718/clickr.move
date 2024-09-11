@@ -23,22 +23,22 @@ module clickr::clickr {
         mint_cap: MintCapability<ClickrCoin>,
         current_game_id: u64,
         is_paused: bool,
-        end_time: u64
+        end_time: u64,
     }
 
     struct CurrentGame has key {
-        total_plays: Aggregator<u128>
+        total_plays: Aggregator<u128>,
     }
 
     struct Player has key {
         rounds: u128,
-        game_played: u64
+        game_played: u64,
     }
 
     #[event]
     struct GameEnd {
         game_id: u64,
-        total_plays: u64
+        total_plays: u64,
     }
 
     #[view]
@@ -74,7 +74,7 @@ module clickr::clickr {
                 string::utf8(b"CLICKR"),
                 string::utf8(b"CLICKR"),
                 8, // decimals
-                false // monitor_supply
+                false, // monitor_supply
             );
         coin::destroy_burn_cap(burn_cap);
         coin::destroy_freeze_cap(freeze_cap);
@@ -86,8 +86,8 @@ module clickr::clickr {
                 mint_cap,
                 current_game_id: 0,
                 is_paused: false,
-                end_time: 0
-            }
+                end_time: 0,
+            },
         );
     }
 
@@ -108,7 +108,7 @@ module clickr::clickr {
         config.end_time = end_time;
         move_to(
             admin,
-            CurrentGame { total_plays: aggregator_v2::create_unbounded_aggregator() }
+            CurrentGame { total_plays: aggregator_v2::create_unbounded_aggregator() },
         );
     }
 
@@ -130,7 +130,7 @@ module clickr::clickr {
         let config = borrow_global<Config>(@clickr);
         assert!(
             config.end_time > timestamp::now_seconds() && !config.is_paused,
-            INACTIVE_GAME
+            INACTIVE_GAME,
         );
         claim(user);
         let current_game = borrow_global_mut<CurrentGame>(@clickr);
@@ -151,7 +151,7 @@ module clickr::clickr {
                 math128::mul_div(
                     player.rounds,
                     ONE_CLICKR,
-                    *table::borrow(&config.total_plays, player.game_played)
+                    *table::borrow(&config.total_plays, player.game_played),
                 );
             player.game_played = config.current_game_id;
             let rewards = coin::mint((rewards_amt as u64), &config.mint_cap);

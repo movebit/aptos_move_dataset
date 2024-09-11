@@ -18,7 +18,7 @@ module example_addr::multisig_managed_coin {
         decimals: u8,
         icon_uri: String,
         project_uri: String,
-        ref_flags: vector<bool>
+        ref_flags: vector<bool>,
     ) {
         let multisig_address =
             multisig_account::get_next_multisig_account_address(
@@ -30,7 +30,7 @@ module example_addr::multisig_managed_coin {
             additional_owners,
             num_signature_required,
             metadata_keys,
-            metadata_values
+            metadata_values,
         );
 
         // The ideal way is to get the multisig account signer but it is unavailable right now. So the pattern is to
@@ -40,7 +40,7 @@ module example_addr::multisig_managed_coin {
         object::transfer(
             creator,
             object::object_from_constructor_ref<ObjectCore>(constructor_ref),
-            multisig_address
+            multisig_address,
         );
 
         // Customize those arguments as needed.
@@ -52,7 +52,7 @@ module example_addr::multisig_managed_coin {
             decimals,
             icon_uri,
             project_uri,
-            ref_flags
+            ref_flags,
         );
     }
 }

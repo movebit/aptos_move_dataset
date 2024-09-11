@@ -28,7 +28,7 @@ module swap::liquidity_pool_tests {
         verify_reserves(
             pool,
             (expected_total_reserves_1 as u64),
-            (expected_total_reserves_2 as u64)
+            (expected_total_reserves_2 as u64),
         );
 
         // Remove half of the liquidity. Should receive the proportional amounts of tokens back.
@@ -45,7 +45,7 @@ module swap::liquidity_pool_tests {
                 fungible_asset::asset_metadata(&tokens_1),
                 fungible_asset::asset_metadata(&tokens_2),
                 is_stable,
-                (lp_tokens_to_withdraw as u64)
+                (lp_tokens_to_withdraw as u64),
             );
         assert!(fungible_asset::amount(&liq_1) == (expected_liq_1 as u64), 0);
         assert!(fungible_asset::amount(&liq_2) == (expected_liq_2 as u64), 0);
@@ -121,7 +121,7 @@ module swap::liquidity_pool_tests {
         lp_1: &signer,
         pool: Object<LiquidityPool>,
         tokens: &mut FungibleAsset,
-        amount_in: u64
+        amount_in: u64,
     ): (u64, u64) {
         let (reserves_1, reserves_2) = liquidity_pool::pool_reserves(pool);
         let pool_assets = liquidity_pool::supported_inner_assets(pool);
@@ -146,19 +146,20 @@ module swap::liquidity_pool_tests {
         tokens_2: &mut FungibleAsset,
         amount_1: u64,
         amount_2: u64,
-        is_stable: bool
+        is_stable: bool,
     ) {
         liquidity_pool::mint(
             lp,
             fungible_asset::extract(tokens_1, amount_1),
             fungible_asset::extract(tokens_2, amount_2),
-            is_stable
+            is_stable,
         );
     }
 
-    public fun create_pool(
-        lp_1: &signer, is_stable: bool
-    ): (Object<LiquidityPool>, FungibleAsset, FungibleAsset) {
+    public fun create_pool(lp_1: &signer, is_stable: bool)
+        : (
+        Object<LiquidityPool>, FungibleAsset, FungibleAsset
+    ) {
         let tokens_1 =
             test_helpers::create_fungible_asset_and_mint(lp_1, b"test1", 10000000);
         let tokens_2 =
@@ -167,7 +168,7 @@ module swap::liquidity_pool_tests {
             liquidity_pool::create(
                 fungible_asset::asset_metadata(&tokens_1),
                 fungible_asset::asset_metadata(&tokens_2),
-                is_stable
+                is_stable,
             );
         (pool, tokens_1, tokens_2)
     }

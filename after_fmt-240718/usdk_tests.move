@@ -7,14 +7,9 @@ module stablecoin::usdk_tests {
     use stablecoin::usdk;
     use aptos_framework::object;
 
-    #[test(
-        creator = @0xcafe, minter = @0xface, master_minter = @0xbab, denylister = @0xcade
-    )]
+    #[test(creator = @0xcafe, minter = @0xface, master_minter = @0xbab, denylister = @0xcade)]
     fun test_basic_flow(
-        creator: &signer,
-        minter: &signer,
-        master_minter: &signer,
-        denylister: &signer
+        creator: &signer, minter: &signer, master_minter: &signer, denylister: &signer
     ) {
         usdk::init_for_test(creator);
         let receiver_address = @0xcafe1;
@@ -44,15 +39,10 @@ module stablecoin::usdk_tests {
         assert!(primary_fungible_store::balance(minter_address, asset) == 0, 0);
     }
 
-    #[test(
-        creator = @0xcafe, pauser = @0xdafe, minter = @0xface, master_minter = @0xbab
-    )]
+    #[test(creator = @0xcafe, pauser = @0xdafe, minter = @0xface, master_minter = @0xbab)]
     #[expected_failure(abort_code = 2, location = stablecoin::usdk)]
     fun test_pause(
-        creator: &signer,
-        pauser: &signer,
-        minter: &signer,
-        master_minter: &signer
+        creator: &signer, pauser: &signer, minter: &signer, master_minter: &signer
     ) {
         usdk::init_for_test(creator);
         let minter_address = signer::address_of(minter);

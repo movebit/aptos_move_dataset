@@ -21,7 +21,7 @@ module aptos_framework::reconfiguration_state {
         /// Currently the variant type is one of the following.
         /// - `ReconfigStateInactive`
         /// - `ReconfigStateActive`
-        variant: Any
+        variant: Any,
     }
 
     /// A state variant indicating no reconfiguration is in progress.
@@ -29,7 +29,7 @@ module aptos_framework::reconfiguration_state {
 
     /// A state variant indicating a reconfiguration is in progress.
     struct StateActive has copy, drop, store {
-        start_time_secs: u64
+        start_time_secs: u64,
     }
 
     public fun is_initialized(): bool {
@@ -39,12 +39,7 @@ module aptos_framework::reconfiguration_state {
     public fun initialize(fx: &signer) {
         system_addresses::assert_aptos_framework(fx);
         if (!exists<State>(@aptos_framework)) {
-            move_to(
-                fx,
-                State {
-                    variant: copyable_any::pack(StateInactive {})
-                }
-            )
+            move_to(fx, State { variant: copyable_any::pack(StateInactive {}) })
         }
     }
 

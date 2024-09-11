@@ -20,7 +20,7 @@ module M {
         Self as borrow_global_mut,
         Self as exists,
         Self as freeze,
-        Self as assert
+        Self as assert,
     };
 
     fun t(): u64 {
@@ -49,8 +49,7 @@ module M {
         address + signer + u8 + u64 + u128 +
         // vector now keyworded in expressions, so this would fail in parsing
         // vector +
-        move_to + move_from + borrow_global + borrow_global_mut + exists + freeze
-            + assert
+        move_to + move_from + borrow_global + borrow_global_mut + exists + freeze + assert
     }
 }
 }

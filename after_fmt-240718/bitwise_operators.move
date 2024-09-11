@@ -6,14 +6,17 @@ module M {
         let a = A { f1: 1 };
         let b = B { a: a };
         let c = C { a: 1, b: b.a.f1 };
-        (a.f1 & 0) | (b.a.f1 & 1) | (c.b ^ 2)
+        (a.f1 & 0) |(b.a.f1 & 1) |(c.b ^ 2)
     }
 
     spec foo {
         pragma bv_ret = b"0";
         ensures result
-            == (((((1 as u64) & (0 as u64)) as u64) | (((1 as u64) & (1 as u64)) as u64) as u64)
-            | (((1 as u64) ^ (2 as u64)) as u64) as u64);
+            == (
+                (
+                    (((1 as u64) & (0 as u64)) as u64) |(((1 as u64) & (1 as u64)) as u64) as u64
+                ) |(((1 as u64) ^(2 as u64)) as u64) as u64
+            );
     }
 
     struct A<T> has copy, drop {

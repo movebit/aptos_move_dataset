@@ -91,12 +91,7 @@ module 0x42::TestNonlinearArithmetic {
     }
 
     // fails.
-    fun overflow_u64_mul_4_incorrect(
-        a: u64,
-        b: u64,
-        c: u64,
-        d: u64
-    ): u64 {
+    fun overflow_u64_mul_4_incorrect(a: u64, b: u64, c: u64, d: u64): u64 {
         a * b * c * d
     }
 
@@ -104,12 +99,7 @@ module 0x42::TestNonlinearArithmetic {
         aborts_if false;
     }
 
-    fun overflow_u64_mul_4(
-        a: u64,
-        b: u64,
-        c: u64,
-        d: u64
-    ): u64 {
+    fun overflow_u64_mul_4(a: u64, b: u64, c: u64, d: u64): u64 {
         a * b * c * d
     }
 
@@ -121,12 +111,7 @@ module 0x42::TestNonlinearArithmetic {
     }
 
     // fails.
-    fun overflow_u128_mul_4_incorrect(
-        a: u128,
-        b: u128,
-        c: u128,
-        d: u128
-    ): u128 {
+    fun overflow_u128_mul_4_incorrect(a: u128, b: u128, c: u128, d: u128): u128 {
         a * b * c * d
     }
 
@@ -135,12 +120,7 @@ module 0x42::TestNonlinearArithmetic {
         aborts_if false;
     }
 
-    fun overflow_u128_mul_4(
-        a: u128,
-        b: u128,
-        c: u128,
-        d: u128
-    ): u128 {
+    fun overflow_u128_mul_4(a: u128, b: u128, c: u128, d: u128): u128 {
         a * b * c * d
     }
 
@@ -156,13 +136,7 @@ module 0x42::TestNonlinearArithmetic {
     // -----------------------------------------
 
     // fails.
-    fun overflow_u8_mul_5_incorrect(
-        a: u8,
-        b: u8,
-        c: u8,
-        d: u8,
-        e: u8
-    ): u8 {
+    fun overflow_u8_mul_5_incorrect(a: u8, b: u8, c: u8, d: u8, e: u8): u8 {
         a * b * c * d * e
     }
 
@@ -171,13 +145,7 @@ module 0x42::TestNonlinearArithmetic {
     }
 
     // succeeds.
-    fun overflow_u8_mul_5(
-        a: u8,
-        b: u8,
-        c: u8,
-        d: u8,
-        e: u8
-    ): u8 {
+    fun overflow_u8_mul_5(a: u8, b: u8, c: u8, d: u8, e: u8): u8 {
         a * b * c * d * e
     }
 
@@ -190,11 +158,7 @@ module 0x42::TestNonlinearArithmetic {
 
     // fails.
     fun overflow_u64_mul_5_incorrect(
-        a: u64,
-        b: u64,
-        c: u64,
-        d: u64,
-        e: u64
+        a: u64, b: u64, c: u64, d: u64, e: u64
     ): u64 {
         a * b * c * d * e
     }
@@ -203,13 +167,7 @@ module 0x42::TestNonlinearArithmetic {
         aborts_if false;
     }
 
-    fun overflow_u64_mul_5(
-        a: u64,
-        b: u64,
-        c: u64,
-        d: u64,
-        e: u64
-    ): u64 {
+    fun overflow_u64_mul_5(a: u64, b: u64, c: u64, d: u64, e: u64): u64 {
         a * b * c * d * e
     }
 
@@ -223,11 +181,7 @@ module 0x42::TestNonlinearArithmetic {
 
     // fails.
     fun overflow_u128_mul_5_incorrect(
-        a: u128,
-        b: u128,
-        c: u128,
-        d: u128,
-        e: u128
+        a: u128, b: u128, c: u128, d: u128, e: u128
     ): u128 {
         a * b * c * d * e
     }
@@ -237,13 +191,7 @@ module 0x42::TestNonlinearArithmetic {
         aborts_if false;
     }
 
-    fun overflow_u128_mul_5(
-        a: u128,
-        b: u128,
-        c: u128,
-        d: u128,
-        e: u128
-    ): u128 {
+    fun overflow_u128_mul_5(a: u128, b: u128, c: u128, d: u128, e: u128): u128 {
         a * b * c * d * e
     }
 
@@ -259,13 +207,7 @@ module 0x42::TestNonlinearArithmetic {
     // miscellaneous
     // -------------
 
-    fun mul5(
-        a: u64,
-        b: u64,
-        c: u64,
-        d: u64,
-        e: u64
-    ): u64 {
+    fun mul5(a: u64, b: u64, c: u64, d: u64, e: u64): u64 {
         spec {
             assume a < b;
             assume b < c;
@@ -280,13 +222,7 @@ module 0x42::TestNonlinearArithmetic {
         ensures result != 72;
     }
 
-    fun mul5_incorrect(
-        a: u64,
-        b: u64,
-        c: u64,
-        d: u64,
-        e: u64
-    ): u64 {
+    fun mul5_incorrect(a: u64, b: u64, c: u64, d: u64, e: u64): u64 {
         spec {
             assume a < b;
             assume b < c;
@@ -301,12 +237,7 @@ module 0x42::TestNonlinearArithmetic {
         ensures result != 720;
     }
 
-    fun distribution_law(
-        a: u64,
-        b: u64,
-        c: u64,
-        d: u64
-    ): u64 {
+    fun distribution_law(a: u64, b: u64, c: u64, d: u64): u64 {
         a * b * (c + d)
     }
 
@@ -314,12 +245,7 @@ module 0x42::TestNonlinearArithmetic {
         ensures result == a * b * c + a * b * d;
     }
 
-    fun distribution_law_incorrect(
-        a: u64,
-        b: u64,
-        c: u64,
-        d: u64
-    ): u64 {
+    fun distribution_law_incorrect(a: u64, b: u64, c: u64, d: u64): u64 {
         a * b * (c + d)
     }
 

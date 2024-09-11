@@ -9,19 +9,12 @@ module Evm::IERC721 {
 
     #[external]
     public native fun call_safeTransferFrom(
-        contract: address,
-        from: address,
-        to: address,
-        tokenId: U256
+        contract: address, from: address, to: address, tokenId: U256
     ): Result<Unit, vector<u8>>;
 
     #[external(name = safeTransferFrom)]
     public native fun call_safeTransferFrom_with_data(
-        contract: address,
-        from: address,
-        to: address,
-        tokenId: U256,
-        data: vector<u8>
+        contract: address, from: address, to: address, tokenId: U256, data: vector<u8>
     ): Result<Unit, vector<u8>>;
 
     #[interface_id]

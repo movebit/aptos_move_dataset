@@ -17,7 +17,7 @@ module NFT {
     struct Token<TokenType: copy + store + drop> has key, store {
         id: guid::ID,
         balance: u64,
-        token_data: Option<TokenData<TokenType>>
+        token_data: Option<TokenData<TokenType>>,
     }
 
     /// Struct representing data of a specific token with token_id,
@@ -37,31 +37,31 @@ module NFT {
     /// The data of the NFT tokens is either kept inline (in case their balance is 1), or is detached and kept
     /// in the token data collection by the original creator.
     struct TokenDataCollection<TokenType: copy + store + drop> has key {
-        tokens: vector<TokenData<TokenType>>
+        tokens: vector<TokenData<TokenType>>,
     }
 
     struct MintEvent has copy, drop, store {
         id: guid::ID,
         creator: address,
         content_uri: vector<u8>,
-        amount: u64
+        amount: u64,
     }
 
     struct TransferEvent has copy, drop, store {
         id: guid::ID,
         from: address,
         to: address,
-        amount: u64
+        amount: u64,
     }
 
     struct Admin has key {
         mint_events: event::EventHandle<MintEvent>,
-        transfer_events: event::EventHandle<TransferEvent>
+        transfer_events: event::EventHandle<TransferEvent>,
     }
 
     /// Indicates that a user allows creation delegation for a given TokenType
     struct CreationDelegation<phantom TokenType: copy + store + drop> has key, store {
-        guid_capability: guid::CreateCapability
+        guid_capability: guid::CreateCapability,
     }
 
     const ADMIN: address = @0xa550c18;
@@ -89,8 +89,8 @@ module NFT {
             &account,
             Admin {
                 mint_events: event::new_event_handle<MintEvent>(&account),
-                transfer_events: event::new_event_handle<TransferEvent>(&account)
-            }
+                transfer_events: event::new_event_handle<TransferEvent>(&account),
+            },
         )
     }
 
@@ -222,7 +222,7 @@ module NFT {
         assert!(option::is_none(&token.token_data), EINLINE_DATA_OP);
 
         token.balance = token.balance - amount;
-        Token { id: *&token.id, balance: amount, token_data: option::none() }
+        Token { id: *&token.id, balance: amount, token_data: option::none(), }
     }
 
     /// Create an NFT on behalf of the given user, in case a user explicitly approved this delegation for the given
@@ -237,7 +237,7 @@ module NFT {
     ): Token<TokenType> acquires CreationDelegation, Admin, TokenDataCollection {
         assert!(
             exists<CreationDelegation<TokenType>>(creator),
-            ECREATION_DELEGATION_NOT_ALLOWED
+            ECREATION_DELEGATION_NOT_ALLOWED,
         );
         let guid_creation_cap =
             &borrow_global<CreationDelegation<TokenType>>(creator).guid_capability;
@@ -248,7 +248,7 @@ module NFT {
             metadata,
             content_uri,
             amount,
-            parent_id
+            parent_id,
         )
     }
 
@@ -264,9 +264,7 @@ module NFT {
         if (!exists<TokenDataCollection<TokenType>>(signer::address_of(account))) {
             move_to(
                 account,
-                TokenDataCollection {
-                    tokens: vector::empty<TokenData<TokenType>>()
-                }
+                TokenDataCollection { tokens: vector::empty<TokenData<TokenType>>() },
             );
         };
         create_impl<TokenType>(
@@ -275,7 +273,7 @@ module NFT {
             metadata,
             content_uri,
             amount,
-            parent_id
+            parent_id,
         )
     }
 
@@ -293,8 +291,8 @@ module NFT {
                 id: guid::id(&guid),
                 creator: addr,
                 content_uri: copy content_uri,
-                amount
-            }
+                amount,
+            },
         );
         let id = guid::id(&guid);
         let token_data = TokenData {
@@ -321,7 +319,7 @@ module NFT {
     ) {
         assert!(
             !exists<TokenDataCollection<TokenType>>(signer::address_of(account)),
-            ETOKEN_DATA_COLLECTION_ALREADY_PUBLISHED
+            ETOKEN_DATA_COLLECTION_ALREADY_PUBLISHED,
         );
         move_to(account, TokenDataCollection<TokenType> { tokens: vector::empty() });
     }
@@ -337,15 +335,13 @@ module NFT {
                 account,
                 CreationDelegation<TokenType> {
                     guid_capability: guid::gen_create_capability(account)
-                }
+                },
             );
             // In order to support creation delegation, prepare the token data collection ahead of time.
             if (!exists<TokenDataCollection<TokenType>>(signer::address_of(account))) {
                 move_to(
                     account,
-                    TokenDataCollection {
-                        tokens: vector::empty<TokenData<TokenType>>()
-                    }
+                    TokenDataCollection { tokens: vector::empty<TokenData<TokenType>>() },
                 );
             };
         };
@@ -355,7 +351,7 @@ module NFT {
         guid: &guid::ID,
         account: &signer,
         to: address,
-        amount: u64
+        amount: u64,
     ) acquires Admin {
         event::emit_event(
             &mut borrow_global_mut<Admin>(ADMIN).transfer_events,
@@ -363,8 +359,8 @@ module NFT {
                 id: *guid,
                 from: signer::address_of(account),
                 to: to,
-                amount: amount
-            }
+                amount: amount,
+            },
         );
     }
 }

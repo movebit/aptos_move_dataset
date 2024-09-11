@@ -9,7 +9,7 @@ module 0x2::M {
     struct Transfer {
         from: address,
         to: address,
-        value: U256
+        value: U256,
     }
 
     #[callable]
@@ -21,7 +21,7 @@ module 0x2::M {
     struct Event_1 {
         from: u8,
         to: address,
-        value: U256
+        value: U256,
     }
 
     #[callable]
@@ -38,12 +38,7 @@ module 0x2::M {
     }
 
     #[callable(sig = b"ev(uint8,address,uint16,bytes)")]
-    fun do_event_2(
-        v1: u8,
-        v2: address,
-        v3: u64,
-        v4: vector<u8>
-    ) {
+    fun do_event_2(v1: u8, v2: address, v3: u64, v4: vector<u8>) {
         emit(Event_2 { v1, v2, v3, v4 });
     }
 
@@ -53,7 +48,7 @@ module 0x2::M {
     struct Event_3 {
         from: u8,
         to: address,
-        value: U256
+        value: U256,
     }
 
     #[callable]
@@ -65,7 +60,7 @@ module 0x2::M {
     struct Event_4 {
         v1: vector<u8>,
         v2: vector<u8>,
-        v3: vector<u8>
+        v3: vector<u8>,
     }
 
     #[callable(sig = b"ev(bytes1,bytes2,bytes32)")]
@@ -102,7 +97,7 @@ module 0x2::M {
 
     #[event(sig = b"Event(bytes[] indexed)")]
     struct Event_7 {
-        bys: vector<vector<u8>>
+        bys: vector<vector<u8>>,
     }
 
     #[callable(sig = b"ev(bytes[])")]

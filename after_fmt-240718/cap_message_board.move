@@ -34,7 +34,7 @@ module message_board::cap_based_mb {
     /// emit an event from board acct showing the new participant with posting capability
     struct MessageCapUpdate has store, drop {
         board: address,
-        participant: address
+        participant: address,
     }
 
     #[event]
@@ -47,9 +47,7 @@ module message_board::cap_based_mb {
 
     /// create the message board and move the resource to signer
     public entry fun message_board_init(account: &signer) {
-        let board = CapBasedMB {
-            pinned_post: vector::empty<u8>()
-        };
+        let board = CapBasedMB { pinned_post: vector::empty<u8>() };
         let board_addr = signer::address_of(account);
         move_to(account, board);
         let notice_cap = MessageChangeCapability { board: board_addr };
@@ -103,7 +101,7 @@ module message_board::cap_based_mb {
                 board: board_addr,
                 message,
                 participant: signer::address_of(account)
-            }
+            },
         );
     }
 
@@ -116,7 +114,7 @@ module message_board::cap_based_mb {
                 board: board_addr,
                 message,
                 participant: signer::address_of(&account)
-            }
+            },
         );
     }
 }
@@ -129,9 +127,9 @@ module message_board::MessageBoardCapTests {
     use message_board::cap_based_mb;
 
     const HELLO_WORLD: vector<u8> = vector<u8>[150, 145, 154, 154, 157, 040, 167, 157, 162,
-    154, 144];
+        154, 144];
     const BOB_IS_HERE: vector<u8> = vector<u8>[142, 157, 142, 040, 151, 163, 040, 150, 145,
-    162, 145];
+        162, 145];
 
     #[test]
     public entry fun test_init_messageboard_v_cap() {

@@ -10,7 +10,7 @@ module Evm::TestUniswapLiquidity {
         tokenA: address,
         tokenB: address,
         amountA: U256,
-        amountB: U256
+        amountB: U256,
     ) {
         // TODO: Replace these local constants with module-level constants once Move supports 20-bytes addresses and literals.
         let const_ROUTER =
@@ -34,11 +34,11 @@ module Evm::TestUniswapLiquidity {
                 U256::one(),
                 U256::one(),
                 self(),
-                block_timestamp()
+                block_timestamp(),
             );
     }
 
-    public fun removeLiquidity(tokenA: address, tokenB: address) {
+    public fun removeLiquidity(tokenA: address, tokenB: address,) {
         // TODO: Replace these local constants with module-level constants once Move supports 20-bytes addresses and literals.
         let const_FACTORY =
             U256::to_address(
@@ -63,7 +63,7 @@ module Evm::TestUniswapLiquidity {
                 U256::one(),
                 U256::one(),
                 self(),
-                block_timestamp()
+                block_timestamp(),
             );
     }
 }

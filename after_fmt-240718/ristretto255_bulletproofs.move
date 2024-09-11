@@ -70,14 +70,11 @@ module aptos_std::ristretto255_bulletproofs {
     /// WARNING: The DST check is VERY important for security as it prevents proofs computed for one application
     /// (a.k.a., a _domain_) with `dst_1` from verifying in a different application with `dst_2 != dst_1`.
     public fun verify_range_proof_pedersen(
-        com: &pedersen::Commitment,
-        proof: &RangeProof,
-        num_bits: u64,
-        dst: vector<u8>
+        com: &pedersen::Commitment, proof: &RangeProof, num_bits: u64, dst: vector<u8>
     ): bool {
         assert!(
             features::bulletproofs_enabled(),
-            error::invalid_state(E_NATIVE_FUN_NOT_AVAILABLE)
+            error::invalid_state(E_NATIVE_FUN_NOT_AVAILABLE),
         );
 
         verify_range_proof_internal(
@@ -86,7 +83,7 @@ module aptos_std::ristretto255_bulletproofs {
             &ristretto255::hash_to_point_base(),
             proof.bytes,
             num_bits,
-            dst
+            dst,
         )
     }
 
@@ -102,7 +99,7 @@ module aptos_std::ristretto255_bulletproofs {
     ): bool {
         assert!(
             features::bulletproofs_enabled(),
-            error::invalid_state(E_NATIVE_FUN_NOT_AVAILABLE)
+            error::invalid_state(E_NATIVE_FUN_NOT_AVAILABLE),
         );
 
         verify_range_proof_internal(
@@ -111,7 +108,7 @@ module aptos_std::ristretto255_bulletproofs {
             rand_base,
             proof.bytes,
             num_bits,
-            dst
+            dst,
         )
     }
 
@@ -120,10 +117,7 @@ module aptos_std::ristretto255_bulletproofs {
     /// commitment key; see `pedersen::new_commitment_for_bulletproof`. Returns the said commitment too.
     ///  Only works for `num_bits` in `{8, 16, 32, 64}`.
     public fun prove_range_pedersen(
-        val: &Scalar,
-        r: &Scalar,
-        num_bits: u64,
-        dst: vector<u8>
+        val: &Scalar, r: &Scalar, num_bits: u64, dst: vector<u8>
     ): (RangeProof, pedersen::Commitment) {
         let (bytes, compressed_comm) =
             prove_range_internal(
@@ -132,7 +126,7 @@ module aptos_std::ristretto255_bulletproofs {
                 num_bits,
                 dst,
                 &ristretto255::basepoint(),
-                &ristretto255::hash_to_point_base()
+                &ristretto255::hash_to_point_base(),
             );
         let point = ristretto255::new_compressed_point_from_bytes(compressed_comm);
         let point = &std::option::extract(&mut point);
@@ -197,7 +191,7 @@ module aptos_std::ristretto255_bulletproofs {
         features::change_feature_flags_for_testing(
             &fx,
             vector[features::get_bulletproofs_feature()],
-            vector[]
+            vector[],
         );
 
         let comm = ristretto255::new_point_from_bytes(A_COMM);
@@ -209,9 +203,9 @@ module aptos_std::ristretto255_bulletproofs {
                 &comm,
                 &range_proof_from_bytes(A_RANGE_PROOF_PEDERSEN),
                 10,
-                A_DST
+                A_DST,
             ),
-            1
+            1,
         );
     }
 
@@ -220,7 +214,7 @@ module aptos_std::ristretto255_bulletproofs {
         features::change_feature_flags_for_testing(
             &fx,
             vector[features::get_bulletproofs_feature()],
-            vector[]
+            vector[],
         );
 
         let v = ristretto255::new_scalar_from_u64(59);
@@ -242,7 +236,7 @@ module aptos_std::ristretto255_bulletproofs {
         features::change_feature_flags_for_testing(
             &fx,
             vector[features::get_bulletproofs_feature()],
-            vector[]
+            vector[],
         );
 
         let proof = &range_proof_from_bytes(vector[]);
@@ -250,7 +244,7 @@ module aptos_std::ristretto255_bulletproofs {
         let com =
             pedersen::new_commitment_for_bulletproof(
                 &ristretto255::scalar_one(),
-                &ristretto255::new_scalar_from_sha2_512(b"hello random world")
+                &ristretto255::new_scalar_from_sha2_512(b"hello random world"),
             );
 
         // This will fail with error::invalid_argument(E_DESERIALIZE_RANGE_PROOF)
@@ -262,7 +256,7 @@ module aptos_std::ristretto255_bulletproofs {
         features::change_feature_flags_for_testing(
             &fx,
             vector[features::get_bulletproofs_feature()],
-            vector[]
+            vector[],
         );
 
         let value = ristretto255::new_scalar_from_bytes(A_VALUE);
@@ -282,9 +276,9 @@ module aptos_std::ristretto255_bulletproofs {
                 &comm,
                 &range_proof_from_bytes(A_RANGE_PROOF_PEDERSEN),
                 MAX_RANGE_BITS,
-                A_DST
+                A_DST,
             ),
-            1
+            1,
         );
     }
 
@@ -293,7 +287,7 @@ module aptos_std::ristretto255_bulletproofs {
         features::change_feature_flags_for_testing(
             &fx,
             vector[features::get_bulletproofs_feature()],
-            vector[]
+            vector[],
         );
 
         let comm = ristretto255::new_point_from_bytes(A_COMM);
@@ -313,9 +307,9 @@ module aptos_std::ristretto255_bulletproofs {
                 &comm,
                 &range_proof_from_bytes(range_proof_invalid),
                 MAX_RANGE_BITS,
-                A_DST
+                A_DST,
             ) == false,
-            1
+            1,
         );
     }
 }

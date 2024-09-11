@@ -120,8 +120,7 @@ spec aptos_framework::code {
         pragma opaque;
         aborts_if [abstract] false;
         ensures [abstract] len(result) == len(pack.modules);
-        ensures [abstract] forall i in 0..len(result): result[i]
-            == pack.modules[i].name;
+        ensures [abstract] forall i in 0..len(result): result[i] == pack.modules[i].name;
     }
 
     spec freeze_code_object(publisher: &signer, code_object: Object<PackageRegistry>) {

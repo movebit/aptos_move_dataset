@@ -17,11 +17,12 @@ spec aptos_framework::storage_gas {
         /// that is, the gas-curve is a monotonically increasing function.
         invariant (len(points) > 0 ==> points[0].x > 0)
             && (len(points) > 0 ==>
-                points[len(points) - 1].x < BASIS_POINT_DENOMINATION)
+                    points[len(points) - 1].x < BASIS_POINT_DENOMINATION)
             && (
-                forall i in 0..len(points) - 1:
-                    (points[i].x < points[i + 1].x
-                        && points[i].y <= points[i + 1].y)
+                forall i in 0..len(points) - 1: (
+                    points[i].x < points[i + 1].x
+                    && points[i].y <= points[i + 1].y
+                )
             );
     }
 
@@ -110,7 +111,7 @@ spec aptos_framework::storage_gas {
         aborts_if target_usage > MAX_U64 / BASIS_POINT_DENOMINATION;
         /// [high-level-req-4]
         ensures result
-            == UsageGasConfig { target_usage, read_curve, create_curve, write_curve };
+            == UsageGasConfig { target_usage, read_curve, create_curve, write_curve, };
     }
 
     spec new_storage_gas_config(item_config: UsageGasConfig, byte_config: UsageGasConfig): StorageGasConfig {
@@ -155,8 +156,7 @@ spec aptos_framework::storage_gas {
         requires max_usage > 0;
         requires max_usage <= MAX_U64 / BASIS_POINT_DENOMINATION;
         aborts_if false;
-        ensures [abstract] result
-            == spec_calculate_gas(max_usage, current_usage, curve);
+        ensures [abstract] result == spec_calculate_gas(max_usage, current_usage, curve);
     }
 
     spec interpolate(
@@ -196,10 +196,10 @@ spec aptos_framework::storage_gas {
         points: vector<Point>;
 
         /// [high-level-req-2]
-        aborts_if exists i in 0..len(points) - 1:
-            (points[i].x >= points[i + 1].x || points[i].y > points[i + 1].y);
+        aborts_if exists i in 0..len(points) - 1: (
+            points[i].x >= points[i + 1].x || points[i].y > points[i + 1].y
+        );
         aborts_if len(points) > 0 && points[0].x == 0;
-        aborts_if len(points) > 0
-            && points[len(points) - 1].x == BASIS_POINT_DENOMINATION;
+        aborts_if len(points) > 0 && points[len(points) - 1].x == BASIS_POINT_DENOMINATION;
     }
 }

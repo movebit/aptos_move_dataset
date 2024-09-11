@@ -8,15 +8,10 @@ module 0x8675309::M {
     }
 
     struct X3 {
-        f: u64
+        f: u64,
     }
 
-    fun t0(
-        x1: &X1,
-        x1_mut: &mut X1,
-        x2: &X2,
-        x2_mut: &mut X2
-    ) {
+    fun t0(x1: &X1, x1_mut: &mut X1, x2: &X2, x2_mut: &mut X2) {
         (x1.x2.x3.f: u64);
         (x1_mut.x2.x3.f: u64);
         (x2.x3.f: u64);

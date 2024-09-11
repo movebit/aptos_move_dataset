@@ -8,7 +8,7 @@ module TestFeatures {
 
     /// The enabled features, represented by a bitset stored on chain.
     struct Features has key {
-        features: vector<u8>
+        features: vector<u8>,
     }
 
     spec Features {
@@ -27,16 +27,16 @@ module TestFeatures {
         pragma bv = b"0";
         pragma opaque;
         aborts_if false;
-        ensures result
-            == ((feature / 8) < len(features) && spec_contains(features, feature));
+        ensures result == (
+            (feature / 8) < len(features) && spec_contains(features, feature)
+        );
     }
 
     fun is_enabled(feature: u64): bool acquires Features {
-        exists<Features>(@std)
-            && contains(
-                &borrow_global<Features>(@std).features,
-                feature
-            )
+        exists<Features>(@std) && contains(
+            &borrow_global<Features>(@std).features,
+            feature,
+        )
     }
 
     spec is_enabled {
@@ -45,11 +45,15 @@ module TestFeatures {
         ensures result
             == (
                 exists<Features>(@std) // this one does not verify
-                    && (((feature / 8) < len(global<Features>(@std).features)
+                && (
+                    (
+                        (feature / 8) < len(global<Features>(@std).features)
                         && spec_contains(
                             global<Features>(@std).features,
-                            feature
-                        )))
+                            feature,
+                        )
+                    )
+                )
             );
     }
 
@@ -61,23 +65,22 @@ module TestFeatures {
         let byte_index = feature / 8;
         let bit_mask = 1 << ((feature % 8) as u8);
         while ({
-            spec {
-                invariant n == len(features);
-                invariant n >= old_n;
-                invariant byte_index < old_n ==> len(features) == old_n;
-                invariant byte_index >= old_n ==>
-                    len(features) <= byte_index + 1;
-                invariant forall i in 0..old_n: features[i] == old_features[i];
-                invariant forall i in old_n..n: (features[i] as u8) == (0 as u8);
-            };
-            vector::length(features) <= byte_index
-        }) {
+                spec {
+                    invariant n == len(features);
+                    invariant n >= old_n;
+                    invariant byte_index < old_n ==> len(features) == old_n;
+                    invariant byte_index >= old_n ==>
+                        len(features) <= byte_index + 1;
+                    invariant forall i in 0..old_n: features[i] == old_features[i];
+                    invariant forall i in old_n..n: (features[i] as u8) == (0 as u8);
+                };
+                vector::length(features) <= byte_index
+            }) {
             vector::push_back(features, 0);
             n = n + 1;
         };
         let entry = vector::borrow_mut(features, byte_index);
-        if (include) *entry = *entry | bit_mask
-        else *entry = *entry & (0xff ^ bit_mask)
+        if (include) *entry = *entry | bit_mask else *entry = *entry & (0xff ^ bit_mask)
     }
 
     spec set {
@@ -96,7 +99,7 @@ module TestFeatures {
     ) acquires Features {
         assert!(
             signer::address_of(framework) == @std,
-            error::permission_denied(EFRAMEWORK_SIGNER_NEEDED)
+            error::permission_denied(EFRAMEWORK_SIGNER_NEEDED),
         );
         if (!exists<Features>(@std)) {
             move_to<Features>(framework, Features { features: vector[] })
@@ -123,8 +126,10 @@ module TestFeatures {
     }
 
     spec fun spec_compute_feature_flag(features: vector<u8>, feature: u64): u8 {
-        ((int2bv((((1 as u8) << ((feature % (8 as u64)) as u64)) as u8)) as u8)
-            & features[feature / 8] as u8)
+        (
+            (int2bv((((1 as u8) << ((feature % (8 as u64)) as u64)) as u8)) as u8)
+                & features[feature / 8] as u8
+        )
     }
 
     spec fun spec_contains(features: vector<u8>, feature: u64): bool {
@@ -140,19 +145,17 @@ module TestFeatures {
         let i = 0;
         let n = vector::length(&disable);
         while ({
-            spec {
-                invariant i <= n;
-                invariant forall j in 0..i:
-                    disable[j] / 8 < len(features)
+                spec {
+                    invariant i <= n;
+                    invariant forall j in 0..i: disable[j] / 8 < len(features)
                         && !spec_contains(features, disable[j]);
-            };
-            i < n
-        }) {
+                };
+                i < n
+            }) {
             set(features, *vector::borrow(&disable, i), false);
             spec {
                 assert(
-                    disable[i] / 8 < len(features)
-                        && !spec_contains(features, disable[i])
+                    disable[i] / 8 < len(features) && !spec_contains(features, disable[i])
                 );
             };
             i = i + 1;
@@ -164,8 +167,9 @@ module TestFeatures {
         pragma timeout = 120;
         modifies global<Features>(@std);
         let post features = global<Features>(@std).features;
-        ensures forall i in 0..len(disable):
-            (disable[i] / 8 < len(features) && !spec_contains(features, disable[i]));
+        ensures forall i in 0..len(disable): (
+            disable[i] / 8 < len(features) && !spec_contains(features, disable[i])
+        );
     }
 
     public fun enable_feature_flags(enable: vector<u64>) acquires Features {
@@ -173,17 +177,16 @@ module TestFeatures {
         let i = 0;
         let n = vector::length(&enable);
         while ({
-            spec {
-                invariant i <= n;
-                invariant forall j in 0..i:
-                    enable[j] / 8 < len(features) && spec_contains(features, enable[j]);
-            };
-            i < n
-        }) {
+                spec {
+                    invariant i <= n;
+                    invariant forall j in 0..i: enable[j] / 8 < len(features)
+                        && spec_contains(features, enable[j]);
+                };
+                i < n
+            }) {
             set(features, *vector::borrow(&enable, i), true);
             spec {
-                assert(enable[i] / 8 < len(features)
-                    && spec_contains(features, enable[i]));
+                assert(enable[i] / 8 < len(features) && spec_contains(features, enable[i]));
             };
             i = i + 1;
         };
@@ -194,8 +197,9 @@ module TestFeatures {
         pragma timeout = 120;
         modifies global<Features>(@std);
         let post features = global<Features>(@std).features;
-        ensures forall i in 0..len(enable):
-            (enable[i] / 8 < len(features) && spec_contains(features, enable[i]));
+        ensures forall i in 0..len(enable): (
+            enable[i] / 8 < len(features) && spec_contains(features, enable[i])
+        );
     }
 }
 }

@@ -9,7 +9,7 @@ module DiemFramework::NetworkIdentity {
 
     /// Holder for all `NetworkIdentity` in an account
     struct NetworkIdentity has key {
-        identities: vector<vector<u8>>
+        identities: vector<vector<u8>>,
     }
 
     spec NetworkIdentity {
@@ -28,7 +28,7 @@ module DiemFramework::NetworkIdentity {
         /// The new identities
         identities: vector<vector<u8>>,
         /// The time at which the `identities` was rotated
-        time_rotated_seconds: u64
+        time_rotated_seconds: u64,
     }
 
     const MAX_ADDR_IDENTITIES: u64 = 100;
@@ -50,11 +50,11 @@ module DiemFramework::NetworkIdentity {
         Roles::assert_treasury_compliance(tc_account);
         assert!(
             !exists<NetworkIdentityEventHandle>(signer::address_of(tc_account)),
-            errors::already_published(ENETWORK_ID_EVENT_HANDLE_INVALID)
+            errors::already_published(ENETWORK_ID_EVENT_HANDLE_INVALID),
         );
         let event_handle = NetworkIdentityEventHandle {
             identity_change_events: event::new_event_handle<
-                NetworkIdentityChangeNotification>(tc_account)
+                NetworkIdentityChangeNotification>(tc_account),
         };
         move_to(tc_account, event_handle);
     }
@@ -78,7 +78,7 @@ module DiemFramework::NetworkIdentity {
     public fun get(account_addr: address): vector<vector<u8>> acquires NetworkIdentity {
         assert!(
             exists<NetworkIdentity>(account_addr),
-            errors::not_published(ENETWORK_ID_DOESNT_EXIST)
+            errors::not_published(ENETWORK_ID_DOESNT_EXIST),
         );
         *&borrow_global<NetworkIdentity>(account_addr).identities
     }
@@ -94,7 +94,7 @@ module DiemFramework::NetworkIdentity {
     ) acquires NetworkIdentity, NetworkIdentityEventHandle {
         assert!(
             tc_network_identity_event_handle_exists(),
-            errors::not_published(ENETWORK_ID_EVENT_HANDLE_INVALID)
+            errors::not_published(ENETWORK_ID_EVENT_HANDLE_INVALID),
         );
         let num_to_add = vector::length(&to_add);
         assert!(num_to_add > 0, errors::invalid_argument(ENETWORK_ID_NO_INPUT));
@@ -108,7 +108,7 @@ module DiemFramework::NetworkIdentity {
 
         assert!(
             vector::length(identities) + num_to_add <= MAX_ADDR_IDENTITIES,
-            errors::limit_exceeded(ENETWORK_ID_LIMIT_EXCEEDED)
+            errors::limit_exceeded(ENETWORK_ID_LIMIT_EXCEEDED),
         );
 
         let has_change = add_members_internal(identities, &to_add);
@@ -118,8 +118,8 @@ module DiemFramework::NetworkIdentity {
                 NetworkIdentityChangeNotification {
                     account: account_addr,
                     identities: *&identity.identities,
-                    time_rotated_seconds: DiemTimestamp::now_seconds()
-                }
+                    time_rotated_seconds: DiemTimestamp::now_seconds(),
+                },
             );
         }
     }
@@ -136,7 +136,7 @@ module DiemFramework::NetworkIdentity {
         let post msg = NetworkIdentityChangeNotification {
             account: account_addr,
             identities: global<NetworkIdentity>(account_addr).identities,
-            time_rotated_seconds: DiemTimestamp::spec_now_seconds()
+            time_rotated_seconds: DiemTimestamp::spec_now_seconds(),
         };
 
         aborts_if !tc_network_identity_event_handle_exists() with errors::NOT_PUBLISHED;
@@ -147,7 +147,7 @@ module DiemFramework::NetworkIdentity {
             DiemTimestamp::AbortsIfNotOperating;
         include AddMembersInternalEnsures<vector<u8>> {
             old_members: prior_identities,
-            new_members: global<NetworkIdentity>(account_addr).identities
+            new_members: global<NetworkIdentity>(account_addr).identities,
         };
         modifies global<NetworkIdentity>(account_addr);
         emits msg to handle if has_change;
@@ -159,19 +159,19 @@ module DiemFramework::NetworkIdentity {
     ) acquires NetworkIdentity, NetworkIdentityEventHandle {
         assert!(
             tc_network_identity_event_handle_exists(),
-            errors::not_published(ENETWORK_ID_EVENT_HANDLE_INVALID)
+            errors::not_published(ENETWORK_ID_EVENT_HANDLE_INVALID),
         );
         let num_to_remove = vector::length(&to_remove);
         assert!(num_to_remove > 0, errors::invalid_argument(ENETWORK_ID_NO_INPUT));
         assert!(
             num_to_remove <= MAX_ADDR_IDENTITIES,
-            errors::limit_exceeded(ENETWORK_ID_LIMIT_EXCEEDED)
+            errors::limit_exceeded(ENETWORK_ID_LIMIT_EXCEEDED),
         );
 
         let account_addr = signer::address_of(account);
         assert!(
             exists<NetworkIdentity>(account_addr),
-            errors::not_published(ENETWORK_ID_DOESNT_EXIST)
+            errors::not_published(ENETWORK_ID_DOESNT_EXIST),
         );
 
         let identity = borrow_global_mut<NetworkIdentity>(account_addr);
@@ -184,8 +184,8 @@ module DiemFramework::NetworkIdentity {
                 NetworkIdentityChangeNotification {
                     account: account_addr,
                     identities: *&identity.identities,
-                    time_rotated_seconds: DiemTimestamp::now_seconds()
-                }
+                    time_rotated_seconds: DiemTimestamp::now_seconds(),
+                },
             );
         };
     }
@@ -199,7 +199,7 @@ module DiemFramework::NetworkIdentity {
         let post msg = NetworkIdentityChangeNotification {
             account: account_addr,
             identities: global<NetworkIdentity>(account_addr).identities,
-            time_rotated_seconds: DiemTimestamp::spec_now_seconds()
+            time_rotated_seconds: DiemTimestamp::spec_now_seconds(),
         };
 
         aborts_if !tc_network_identity_event_handle_exists() with errors::NOT_PUBLISHED;
@@ -210,7 +210,7 @@ module DiemFramework::NetworkIdentity {
             DiemTimestamp::AbortsIfNotOperating;
         include RemoveMembersInternalEnsures<vector<u8>> {
             old_members: prior_identities,
-            new_members: global<NetworkIdentity>(account_addr).identities
+            new_members: global<NetworkIdentity>(account_addr).identities,
         };
         modifies global<NetworkIdentity>(account_addr);
         emits msg to handle if has_change;
@@ -226,35 +226,35 @@ module DiemFramework::NetworkIdentity {
     /// insertion. The `to_add` argument, on the other hand, does not guarantee
     /// to be a set and hence can have duplicated elements.
     fun add_members_internal<T: copy>(
-        members: &mut vector<T>, to_add: &vector<T>
+        members: &mut vector<T>, to_add: &vector<T>,
     ): bool {
         let num_to_add = vector::length(to_add);
         let num_existing = vector::length(members);
 
         let i = 0;
         while ({
-            spec {
-                invariant i <= num_to_add;
-                // the set can never reduce in size
-                invariant len(members) >= len(old(members));
-                // the current set maintains the uniqueness of the elements
-                invariant forall j in 0..len(members), k in 0..len(members):
-                    members[j] == members[k] ==> j == k;
-                // the left-split of the current set is exactly the same as the original set
-                invariant forall j in 0..len(old(members)): members[j]
-                    == old(members)[j];
-                // all elements in the right-split of the current set is from the `to_add` vector
-                invariant forall j in len(old(members))..len(members):
-                    contains(to_add[0..i], members[j]);
-                // the current set includes everything in `to_add` we have seen so far
-                invariant forall j in 0..i: contains(members, to_add[j]);
-                // having no new members means that all elements in the `to_add` vector we have seen so far are already
-                // in the existing set, and vice versa.
-                invariant len(members) == len(old(members)) <==>
-                    (forall j in 0..i: contains(old(members), to_add[j]));
-            };
-            (i < num_to_add)
-        }) {
+                spec {
+                    invariant i <= num_to_add;
+                    // the set can never reduce in size
+                    invariant len(members) >= len(old(members));
+                    // the current set maintains the uniqueness of the elements
+                    invariant forall j in 0..len(members), k in 0..len(members): members[j] ==
+                         members[k] ==> j == k;
+                    // the left-split of the current set is exactly the same as the original set
+                    invariant forall j in 0..len(old(members)): members[j] == old(members)[j];
+                    // all elements in the right-split of the current set is from the `to_add` vector
+                    invariant forall j in len(old(members))..len(members): contains(
+                        to_add[0..i], members[j]
+                    );
+                    // the current set includes everything in `to_add` we have seen so far
+                    invariant forall j in 0..i: contains(members, to_add[j]);
+                    // having no new members means that all elements in the `to_add` vector we have seen so far are already
+                    // in the existing set, and vice versa.
+                    invariant len(members) == len(old(members)) <==>
+                        (forall j in 0..i: contains(old(members), to_add[j]));
+                };
+                (i < num_to_add)
+            }) {
             let entry = vector::borrow(to_add, i);
             if (!vector::contains(members, entry)) {
                 vector::push_back(members, *entry);
@@ -274,7 +274,7 @@ module DiemFramework::NetworkIdentity {
         aborts_if false;
         include AddMembersInternalEnsures<T> {
             old_members: old(members),
-            new_members: members
+            new_members: members,
         };
         // ensures that the `members` argument is and remains a set
         include UniqueMembers<T>;
@@ -291,8 +291,7 @@ module DiemFramework::NetworkIdentity {
         // everything in the old set must remain in the updated set
         ensures forall e in old_members: contains(new_members, e);
         // everything in the updated set must come from either the old set or the `to_add` vector
-        ensures forall e in new_members: (contains(old_members, e)
-            || contains(to_add, e));
+        ensures forall e in new_members: (contains(old_members, e) || contains(to_add, e));
     }
 
     /// Remove all elements that appear in `to_remove` from `members`.
@@ -302,37 +301,38 @@ module DiemFramework::NetworkIdentity {
     /// removal. The `to_remove` argument, on the other hand, does not guarantee
     /// to be a set and hence can have duplicated elements.
     fun remove_members_internal<T: drop>(
-        members: &mut vector<T>, to_remove: &vector<T>
+        members: &mut vector<T>, to_remove: &vector<T>,
     ): bool {
         let num_existing = vector::length(members);
         let num_to_remove = vector::length(to_remove);
 
         let i = 0;
         while ({
-            spec {
-                invariant i <= num_to_remove;
-                // the set can never grow in size
-                invariant len(members) <= len(old(members));
-                // the current set maintains the uniqueness of the elements
-                invariant forall j in 0..len(members), k in 0..len(members):
-                    members[j] == members[k] ==> j == k;
-                // all elements in the current set come from the original set
-                invariant forall j in 0..len(members): contains(old(members), members[j]);
-                // the current set never contains anything from the `to_remove` vector
-                invariant forall j in 0..i: !contains(members, to_remove[j]);
-                // the current set should never remove an element from the original set which is not in `to_remove`
-                invariant forall j in 0..len(old(members)):
-                    (
+                spec {
+                    invariant i <= num_to_remove;
+                    // the set can never grow in size
+                    invariant len(members) <= len(old(members));
+                    // the current set maintains the uniqueness of the elements
+                    invariant forall j in 0..len(members), k in 0..len(members): members[j] ==
+                         members[k] ==> j == k;
+                    // all elements in the current set come from the original set
+                    invariant forall j in 0..len(members): contains(
+                        old(members), members[j]
+                    );
+                    // the current set never contains anything from the `to_remove` vector
+                    invariant forall j in 0..i: !contains(members, to_remove[j]);
+                    // the current set should never remove an element from the original set which is not in `to_remove`
+                    invariant forall j in 0..len(old(members)): (
                         contains(to_remove[0..i], old(members)[j])
                             || contains(members, old(members)[j])
                     );
-                // having the same member means that all elements in the `to_remove` vector we have seen so far are not
-                // in the existing set, and vice versa.
-                invariant len(members) == len(old(members)) <==>
-                    (forall j in 0..i: !contains(old(members), to_remove[j]));
-            };
-            (i < num_to_remove)
-        }) {
+                    // having the same member means that all elements in the `to_remove` vector we have seen so far are not
+                    // in the existing set, and vice versa.
+                    invariant len(members) == len(old(members)) <==>
+                        (forall j in 0..i: !contains(old(members), to_remove[j]));
+                };
+                (i < num_to_remove)
+            }) {
             let entry = vector::borrow(to_remove, i);
             let (exist, index) = vector::index_of(members, entry);
             if (exist) {
@@ -357,7 +357,7 @@ module DiemFramework::NetworkIdentity {
         aborts_if false;
         include RemoveMembersInternalEnsures<T> {
             old_members: old(members),
-            new_members: members
+            new_members: members,
         };
         // ensures that the `members` argument is and remains a set
         include UniqueMembers<T>;
@@ -374,13 +374,14 @@ module DiemFramework::NetworkIdentity {
         // all members in the updated set must be in the original set
         ensures forall e in new_members: contains(old_members, e);
         // an element from the original set that is not in the `to_remove` must be in the updated set
-        ensures forall e in old_members:
-            (contains(to_remove, e) || contains(new_members, e));
+        ensures forall e in old_members: (
+            contains(to_remove, e) || contains(new_members, e)
+        );
     }
 
     spec schema UniqueMembers<T> {
         members: vector<T>;
-        invariant forall i in 0..len(members), j in 0..len(members):
-            members[i] == members[j] ==> i == j;
+        invariant forall i in 0..len(members), j in 0..len(members): members[i] == members[j] ==>
+             i == j;
     }
 }

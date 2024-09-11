@@ -29,7 +29,7 @@ module aptos_framework::reconfiguration {
     /// with new configuration information. This is also called a
     /// "reconfiguration event"
     struct NewEpochEvent has drop, store {
-        epoch: u64
+        epoch: u64,
     }
 
     #[event]
@@ -37,7 +37,7 @@ module aptos_framework::reconfiguration {
     /// with new configuration information. This is also called a
     /// "reconfiguration event"
     struct NewEpoch has drop, store {
-        epoch: u64
+        epoch: u64,
     }
 
     /// Holds information about state of reconfiguration
@@ -47,7 +47,7 @@ module aptos_framework::reconfiguration {
         /// Time of last reconfiguration. Only changes on reconfiguration events.
         last_reconfiguration_time: u64,
         /// Event handle for reconfiguration events
-        events: event::EventHandle<NewEpochEvent>
+        events: event::EventHandle<NewEpochEvent>,
     }
 
     /// Reconfiguration will be disabled if this resource is published under the
@@ -73,15 +73,15 @@ module aptos_framework::reconfiguration {
         // assert it matches `new_epoch_event_key()`, otherwise the event can't be recognized
         assert!(
             account::get_guid_next_creation_num(signer::address_of(aptos_framework)) == 2,
-            error::invalid_state(EINVALID_GUID_FOR_EVENT)
+            error::invalid_state(EINVALID_GUID_FOR_EVENT),
         );
         move_to<Configuration>(
             aptos_framework,
             Configuration {
                 epoch: 0,
                 last_reconfiguration_time: 0,
-                events: account::new_event_handle<NewEpochEvent>(aptos_framework)
-            }
+                events: account::new_event_handle<NewEpochEvent>(aptos_framework),
+            },
         );
     }
 
@@ -154,7 +154,7 @@ module aptos_framework::reconfiguration {
 
         assert!(
             current_time > config_ref.last_reconfiguration_time,
-            error::invalid_state(EINVALID_BLOCK_TIME)
+            error::invalid_state(EINVALID_BLOCK_TIME),
         );
         config_ref.last_reconfiguration_time = current_time;
         spec {
@@ -163,11 +163,11 @@ module aptos_framework::reconfiguration {
         config_ref.epoch = config_ref.epoch + 1;
 
         if (std::features::module_event_migration_enabled()) {
-            event::emit(NewEpoch { epoch: config_ref.epoch });
+            event::emit(NewEpoch { epoch: config_ref.epoch, });
         };
         event::emit_event<NewEpochEvent>(
             &mut config_ref.events,
-            NewEpochEvent { epoch: config_ref.epoch }
+            NewEpochEvent { epoch: config_ref.epoch, },
         );
 
         reconfiguration_state::on_reconfig_finish();
@@ -187,16 +187,16 @@ module aptos_framework::reconfiguration {
         let config_ref = borrow_global_mut<Configuration>(@aptos_framework);
         assert!(
             config_ref.epoch == 0 && config_ref.last_reconfiguration_time == 0,
-            error::invalid_state(ECONFIGURATION)
+            error::invalid_state(ECONFIGURATION),
         );
         config_ref.epoch = 1;
 
         if (std::features::module_event_migration_enabled()) {
-            event::emit(NewEpoch { epoch: config_ref.epoch });
+            event::emit(NewEpoch { epoch: config_ref.epoch, });
         };
         event::emit_event<NewEpochEvent>(
             &mut config_ref.events,
-            NewEpochEvent { epoch: config_ref.epoch }
+            NewEpochEvent { epoch: config_ref.epoch, },
         );
     }
 
@@ -209,8 +209,8 @@ module aptos_framework::reconfiguration {
             Configuration {
                 epoch: 0,
                 last_reconfiguration_time: 0,
-                events: account::new_event_handle<NewEpochEvent>(account)
-            }
+                events: account::new_event_handle<NewEpochEvent>(account),
+            },
         );
     }
 

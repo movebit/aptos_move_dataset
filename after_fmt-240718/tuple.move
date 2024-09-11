@@ -1,7 +1,7 @@
 module 0x42::tuple {
 
     struct S {
-        f: u64
+        f: u64,
     }
 
     fun tuple(x: u64): (u64, S) {

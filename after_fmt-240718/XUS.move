@@ -10,7 +10,7 @@ module DiemFramework::XUS {
     struct XUS {}
 
     /// Registers the `XUS` cointype. This can only be called from genesis.
-    public fun initialize(dr_account: &signer, tc_account: &signer) {
+    public fun initialize(dr_account: &signer, tc_account: &signer,) {
         DiemTimestamp::assert_genesis();
         Roles::assert_treasury_compliance(tc_account);
         Roles::assert_diem_root(dr_account);
@@ -20,7 +20,7 @@ module DiemFramework::XUS {
             fixed_point32::create_from_rational(1, 1), // exchange rate to XDX
             1000000, // scaling_factor = 10^6
             100, // fractional_part = 10^2
-            b"XUS"
+            b"XUS",
         );
         AccountLimits::publish_unrestricted_limits<XUS>(dr_account);
     }
@@ -29,7 +29,7 @@ module DiemFramework::XUS {
         use DiemFramework::Roles;
         include Diem::RegisterSCSCurrencyAbortsIf<XUS> {
             currency_code: b"XUS",
-            scaling_factor: 1000000
+            scaling_factor: 1000000,
         };
         include AccountLimits::PublishUnrestrictedLimitsAbortsIf<XUS> {
             publish_account: dr_account
@@ -96,28 +96,26 @@ module DiemFramework::XUS {
     spec module {
         /// Only TreasuryCompliance can have MintCapability<XUS> [[H1]][PERMISSION].
         /// If an account has MintCapability<XUS>, it is a TreasuryCompliance account.
-        invariant forall a: address:
-            Diem::spec_has_mint_capability<XUS>(a) ==>
-                Roles::spec_has_treasury_compliance_role_addr(a);
+        invariant forall a: address: Diem::spec_has_mint_capability<XUS>(a) ==>
+            Roles::spec_has_treasury_compliance_role_addr(a);
 
         /// Only the owner of MintCapability<XUS> can mint XUS [[H1]][PERMISSION].
         /// If the `total_value` for XUS is increased, the transaction should be
         /// signed by the owner of MintCapability<XUS>.
         invariant update[suspendable](
             old(Diem::spec_is_currency<XUS>())
-                && Diem::spec_is_currency<XUS>()
-                && old(Diem::spec_currency_info<XUS>().total_value)
-                    < Diem::spec_currency_info<XUS>().total_value
+            && Diem::spec_is_currency<XUS>()
+            && old(Diem::spec_currency_info<XUS>().total_value)
+                < Diem::spec_currency_info<XUS>().total_value
         ) ==>
             Diem::spec_signed_by_mint_capability_owner<XUS>();
 
         /// The permission to mint XUS is unique [[I1]][PERMISSION].
         /// At most one address has a MintCapability<XUS>.
-        invariant forall a1: address, a2: address:
-            (
-                Diem::spec_has_mint_capability<XUS>(a1)
-                    && Diem::spec_has_mint_capability<XUS>(a2)
-            ) ==> a1 == a2;
+        invariant forall a1: address, a2: address: (
+            Diem::spec_has_mint_capability<XUS>(a1)
+                && Diem::spec_has_mint_capability<XUS>(a2)
+        ) ==> a1 == a2;
 
         /// MintCapability<XUS> is not transferrable [[J1]][PERMISSION].
         /// MintCapability<XUS> is not copiable, and once it's published, it's not removed.
@@ -131,35 +129,33 @@ module DiemFramework::XUS {
     spec module {
         /// Only TreasuryCompliance can have BurnCapability [[H3]][PERMISSION].
         /// If an account has BurnCapability<XUS>, it is a TreasuryCompliance account.
-        invariant forall a: address:
-            Diem::spec_has_burn_capability<XUS>(a) ==>
-                Roles::spec_has_treasury_compliance_role_addr(a);
+        invariant forall a: address: Diem::spec_has_burn_capability<XUS>(a) ==>
+            Roles::spec_has_treasury_compliance_role_addr(a);
 
         /// Only the owner of BurnCapability<XUS> can burn XUS [[H3]][PERMISSION].
         /// If the `total_value` or `preburn_value` for XUS is decreased, the
         /// transaction should be signed by the owner of BurnCapability<XUS>.
         invariant update[suspendable](
             old(Diem::spec_is_currency<XUS>())
-                && Diem::spec_is_currency<XUS>()
-                && old(Diem::spec_currency_info<XUS>().total_value)
-                    > Diem::spec_currency_info<XUS>().total_value
+            && Diem::spec_is_currency<XUS>()
+            && old(Diem::spec_currency_info<XUS>().total_value)
+                > Diem::spec_currency_info<XUS>().total_value
         ) ==>
             Diem::spec_signed_by_burn_capability_owner<XUS>();
         invariant update[suspendable](
             old(Diem::spec_is_currency<XUS>())
-                && Diem::spec_is_currency<XUS>()
-                && old(Diem::spec_currency_info<XUS>().preburn_value)
-                    > Diem::spec_currency_info<XUS>().preburn_value
+            && Diem::spec_is_currency<XUS>()
+            && old(Diem::spec_currency_info<XUS>().preburn_value)
+                > Diem::spec_currency_info<XUS>().preburn_value
         ) ==>
             Diem::spec_signed_by_burn_capability_owner<XUS>();
 
         /// The permission to burn XUS is unique [[I3]][PERMISSION].
         /// At most one address has a BurnCapability<XUS>.
-        invariant forall a1: address, a2: address:
-            (
-                Diem::spec_has_burn_capability<XUS>(a1)
-                    && Diem::spec_has_burn_capability<XUS>(a2)
-            ) ==> a1 == a2;
+        invariant forall a1: address, a2: address: (
+            Diem::spec_has_burn_capability<XUS>(a1)
+                && Diem::spec_has_burn_capability<XUS>(a2)
+        ) ==> a1 == a2;
 
         /// BurnCapability<XUS> is not transferrable [[J3]][PERMISSION].
         /// BurnCapability<XUS> is not copiable, and once it's published, it's not removed.
@@ -173,22 +169,23 @@ module DiemFramework::XUS {
     spec module {
         /// Only DesignatedDealer can has the "preburn" permission [[H4]][PERMISSION].
         /// If an account has PreburnQueue<XUS> or Preburn<XUS>, it is a DesignatedDealer account.
-        invariant forall a: address:
-            (Diem::spec_has_preburn_queue<XUS>(a) || Diem::spec_has_preburn<XUS>(a)) ==>
-                Roles::spec_has_designated_dealer_role_addr(a);
+        invariant forall a: address: (
+            Diem::spec_has_preburn_queue<XUS>(a) || Diem::spec_has_preburn<XUS>(a)
+        ) ==>
+            Roles::spec_has_designated_dealer_role_addr(a);
 
         /// Only the owner of PreburnQueue<XUS> can preburn XUS [[H4]][PERMISSION].
         /// If the `preburn_value` for XUS is increased, the transaction should be
         /// signed by the owner of PreburnQueue<XUS> or Preburn<XUS>.
         invariant update[suspendable](
             old(Diem::spec_is_currency<XUS>())
-                && Diem::spec_is_currency<XUS>()
-                && old(Diem::spec_currency_info<XUS>().preburn_value)
-                    < Diem::spec_currency_info<XUS>().preburn_value
+            && Diem::spec_is_currency<XUS>()
+            && old(Diem::spec_currency_info<XUS>().preburn_value)
+                < Diem::spec_currency_info<XUS>().preburn_value
         ) ==>
             (
                 Diem::spec_signed_by_preburn_queue_owner<XUS>()
-                    || Diem::spec_signed_by_preburn_owner<XUS>()
+                || Diem::spec_signed_by_preburn_owner<XUS>()
             );
 
         /// PreburnQueue<XUS> is not transferrable [[J4]][PERMISSION].

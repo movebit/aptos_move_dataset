@@ -19,7 +19,7 @@ module 0x42::Test {
                 _x = y // We expect this to assign 3 via foo if renaming works correctly. If not it would
                 // have the value 1.
             },
-            z
+            z,
         );
         assert!(_x == 3, 0)
     }
@@ -32,7 +32,7 @@ module 0x42::Test {
                 _x = y // We expect this to assign 3 via foo if renaming works correctly. If not it would
                 // have the value 1.
             },
-            z
+            z,
         );
         assert!(_x == 3, 0)
     }

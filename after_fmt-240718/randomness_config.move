@@ -17,7 +17,7 @@ module aptos_framework::randomness_config {
         /// Currently the variant type is one of the following.
         /// - `ConfigOff`
         /// - `ConfigV1`
-        variant: Any
+        variant: Any,
     }
 
     /// A randomness config variant indicating the feature is disabled.
@@ -28,7 +28,7 @@ module aptos_framework::randomness_config {
         /// Any validator subset should not be able to reconstruct randomness if `subset_power / total_power <= secrecy_threshold`,
         secrecy_threshold: FixedPoint64,
         /// Any validator subset should be able to reconstruct randomness if `subset_power / total_power > reconstruction_threshold`.
-        reconstruction_threshold: FixedPoint64
+        reconstruction_threshold: FixedPoint64,
     }
 
     /// A randomness config variant indicating the feature is enabled with fast path.
@@ -38,7 +38,7 @@ module aptos_framework::randomness_config {
         /// Any validator subset should be able to reconstruct randomness if `subset_power / total_power > reconstruction_threshold`.
         reconstruction_threshold: FixedPoint64,
         /// Any validator subset should not be able to reconstruct randomness via the fast path if `subset_power / total_power <= fast_path_secrecy_threshold`,
-        fast_path_secrecy_threshold: FixedPoint64
+        fast_path_secrecy_threshold: FixedPoint64,
     }
 
     /// Initialize the configuration. Used in genesis or governance.
@@ -85,9 +85,7 @@ module aptos_framework::randomness_config {
 
     /// Create a `ConfigOff` variant.
     public fun new_off(): RandomnessConfig {
-        RandomnessConfig {
-            variant: copyable_any::pack(ConfigOff {})
-        }
+        RandomnessConfig { variant: copyable_any::pack(ConfigOff {}) }
     }
 
     /// Create a `ConfigV1` variant.
@@ -105,15 +103,15 @@ module aptos_framework::randomness_config {
     public fun new_v2(
         secrecy_threshold: FixedPoint64,
         reconstruction_threshold: FixedPoint64,
-        fast_path_secrecy_threshold: FixedPoint64
+        fast_path_secrecy_threshold: FixedPoint64,
     ): RandomnessConfig {
         RandomnessConfig {
             variant: copyable_any::pack(
                 ConfigV2 {
                     secrecy_threshold,
                     reconstruction_threshold,
-                    fast_path_secrecy_threshold
-                }
+                    fast_path_secrecy_threshold,
+                },
             )
         }
     }
@@ -144,7 +142,7 @@ module aptos_framework::randomness_config {
         let config =
             new_v1(
                 fixed_point64::create_from_rational(1, 2),
-                fixed_point64::create_from_rational(2, 3)
+                fixed_point64::create_from_rational(2, 3),
             );
         set_for_next_epoch(&framework, config);
         on_new_epoch(&framework);

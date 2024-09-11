@@ -196,8 +196,8 @@ module 0x42::TestVector {
 
     spec vector_of_proper_positives {
         ensures forall n in result: n > 0;
-        ensures forall i in 0..len(result), j in 0..len(result) where result[i]
-            == result[j]: i == j;
+        ensures forall i in 0..len(result), j in 0..len(result) where result[i] == result[j]: i ==
+             j;
     }
 
     // succeeds. 7 == 7.

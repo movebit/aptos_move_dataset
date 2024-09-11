@@ -21,7 +21,7 @@ module marketplace::test_utils {
         aptos_framework: &signer,
         marketplace: &signer,
         seller: &signer,
-        purchaser: &signer
+        purchaser: &signer,
     ): (address, address, address) {
         timestamp::set_time_has_started_for_testing(aptos_framework);
         let (burn_cap, mint_cap) = aptos_coin::initialize_for_test(aptos_framework);
@@ -56,7 +56,7 @@ module marketplace::test_utils {
             2,
             1,
             100,
-            1
+            1,
         )
     }
 
@@ -66,8 +66,8 @@ module marketplace::test_utils {
         );
     }
 
-    public fun mint_tokenv2_with_collection(seller: &signer):
-        (Object<Collection>, Object<Token>) {
+    public fun mint_tokenv2_with_collection(seller: &signer)
+        : (Object<Collection>, Object<Token>) {
         let collection_name = string::utf8(b"collection_name");
 
         let collection_object =
@@ -87,7 +87,7 @@ module marketplace::test_utils {
                 true,
                 true,
                 1,
-                100
+                100,
             );
 
         let aptos_token =
@@ -99,7 +99,7 @@ module marketplace::test_utils {
                 string::utf8(b"uri"),
                 vector::empty(),
                 vector::empty(),
-                vector::empty()
+                vector::empty(),
             );
         (object::convert(collection_object), object::convert(aptos_token))
     }
@@ -126,7 +126,7 @@ module marketplace::test_utils {
                 true,
                 true,
                 royalty_numerator,
-                royalty_denominator
+                royalty_denominator,
             );
 
         let aptos_token =
@@ -138,7 +138,7 @@ module marketplace::test_utils {
                 string::utf8(b"uri"),
                 vector::empty(),
                 vector::empty(),
-                vector::empty()
+                vector::empty(),
             );
         (object::convert(collection_object), object::convert(aptos_token))
     }
@@ -160,7 +160,7 @@ module marketplace::test_utils {
                 string::utf8(b"uri"),
                 vector::empty(),
                 vector::empty(),
-                vector::empty()
+                vector::empty(),
             );
         object::convert(aptos_token)
     }
@@ -175,7 +175,7 @@ module marketplace::test_utils {
             string::utf8(b"Collection: Hello, World"),
             string::utf8(b"https://aptos.dev"),
             2,
-            vector[true, true, true]
+            vector[true, true, true],
         );
 
         tokenv1::create_token_script(
@@ -192,14 +192,14 @@ module marketplace::test_utils {
             vector[true, true, true, true, true],
             vector::empty(),
             vector::empty(),
-            vector::empty()
+            vector::empty(),
         );
 
         tokenv1::create_token_id_raw(
             signer::address_of(seller),
             collection_name,
             token_name,
-            0
+            0,
         )
     }
 
@@ -220,14 +220,14 @@ module marketplace::test_utils {
             vector[true, true, true, true, true],
             vector::empty(),
             vector::empty(),
-            vector::empty()
+            vector::empty(),
         );
 
         tokenv1::create_token_id_raw(
             signer::address_of(seller),
             collection_name,
             token_name,
-            0
+            0,
         )
     }
 
@@ -250,14 +250,14 @@ module marketplace::test_utils {
             vector[true, true, true, true, true],
             vector::empty(),
             vector::empty(),
-            vector::empty()
+            vector::empty(),
         );
 
         tokenv1::create_token_id_raw(
             signer::address_of(seller),
             collection_name,
             token_name,
-            0
+            0,
         )
     }
 }

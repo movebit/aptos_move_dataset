@@ -17,13 +17,13 @@ module 0xcafe::ten_x_token {
             function_info::new_function_info(
                 account,
                 string::utf8(b"ten_x_token"),
-                string::utf8(b"derived_balance")
+                string::utf8(b"derived_balance"),
             );
         dispatchable_fungible_asset::register_dispatch_functions(
             constructor_ref,
             option::none(),
             option::none(),
-            option::some(value)
+            option::some(value),
         );
     }
 

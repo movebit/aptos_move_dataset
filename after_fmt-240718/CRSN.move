@@ -26,7 +26,7 @@ module DiemFramework::CRSN {
         min_nonce: u64,
         size: u64,
         slots: BitVector,
-        force_shift_events: EventHandle<ForceShiftEvent>
+        force_shift_events: EventHandle<ForceShiftEvent>,
     }
 
     /// Whenever a force shift is performed a `ForceShiftEvent` is emitted.
@@ -42,7 +42,7 @@ module DiemFramework::CRSN {
         /// in the past. This can be used to prove that a transaction can't
         /// exist from an account because the slot was expired and not used.
         /// Note: the sequence  nonce of the shifting transaction will not be set.
-        bits_at_shift: BitVector
+        bits_at_shift: BitVector,
     }
 
     /// Flag stored in memory to turn on CRSNs
@@ -69,7 +69,7 @@ module DiemFramework::CRSN {
         Roles::assert_diem_root(account);
         assert!(
             !exists<CRSNsAllowed>(signer::address_of(account)),
-            errors::invalid_state(EALREADY_INITIALIZED)
+            errors::invalid_state(EALREADY_INITIALIZED),
         );
         move_to(account, CRSNsAllowed {})
     }
@@ -88,8 +88,8 @@ module DiemFramework::CRSN {
                 min_nonce,
                 size,
                 slots: bit_vector::new(size),
-                force_shift_events: event::new_event_handle<ForceShiftEvent>(account)
-            }
+                force_shift_events: event::new_event_handle<ForceShiftEvent>(account),
+            },
         )
     }
 
@@ -142,10 +142,12 @@ module DiemFramework::CRSN {
 
         // Don't accept if it's outside of the window
         if ((sequence_nonce < crsn.min_nonce)
-            || ((sequence_nonce as u128)
-                >= (crsn.min_nonce as u128) + (bit_vector::length(&crsn.slots) as u128))) {
-            false
-        } else {
+                || (
+                    (sequence_nonce as u128)
+                        >= (crsn.min_nonce as u128)
+                            + (bit_vector::length(&crsn.slots) as u128)
+                )) { false }
+        else {
             // scaled nonce is the index in the window
             let scaled_nonce = sequence_nonce - crsn.min_nonce;
 
@@ -177,7 +179,7 @@ module DiemFramework::CRSN {
     spec fun spec_check(addr: address, sequence_nonce: u64): bool {
         let crsn = global<CRSN>(addr);
         if ((sequence_nonce < crsn.min_nonce)
-            || (sequence_nonce >= crsn.min_nonce + bit_vector::length(crsn.slots))) {
+                || (sequence_nonce >= crsn.min_nonce + bit_vector::length(crsn.slots))) {
             false
         } else {
             let scaled_nonce = sequence_nonce - crsn.min_nonce;
@@ -199,8 +201,8 @@ module DiemFramework::CRSN {
             ForceShiftEvent {
                 current_min_nonce: crsn.min_nonce,
                 shift_amount: shift_amount,
-                bits_at_shift: *&crsn.slots
-            }
+                bits_at_shift: *&crsn.slots,
+            },
         );
 
         bit_vector::shift_left(&mut crsn.slots, shift_amount);

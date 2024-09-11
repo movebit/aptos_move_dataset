@@ -28,9 +28,7 @@ module std::vector {
 
     #[bytecode_instruction]
     /// Add element `e` to the end of the vector `v`.
-    native public fun push_back<Element>(
-        v: &mut vector<Element>, e: Element
-    );
+    native public fun push_back<Element>(v: &mut vector<Element>, e: Element);
 
     #[bytecode_instruction]
     /// Return a mutable reference to the `i`th element in the vector `v`.
@@ -50,9 +48,7 @@ module std::vector {
     #[bytecode_instruction]
     /// Swaps the elements at the `i`th and `j`th indices in the vector `v`.
     /// Aborts if `i` or `j` is out of bounds.
-    native public fun swap<Element>(
-        v: &mut vector<Element>, i: u64, j: u64
-    );
+    native public fun swap<Element>(v: &mut vector<Element>, i: u64, j: u64);
 
     /// Return an vector of size one containing element `e`.
     public fun singleton<Element>(e: Element): vector<Element> {
@@ -153,7 +149,7 @@ module std::vector {
             {
                 i = i + 1;
                 i
-            }
+            },
         );
         pop_back(v)
     }
@@ -237,7 +233,7 @@ module std::vector {
             v,
             |elem| {
                 if (p(&elem)) push_back(&mut result, elem);
-            }
+            },
         );
         result
     }

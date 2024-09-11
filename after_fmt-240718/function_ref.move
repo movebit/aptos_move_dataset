@@ -7,7 +7,7 @@ module 0x42::m {
         x
     }
 
-    public fun f1(addr: address) {
+    public fun f1(addr: address,) {
         let h = 5;
         let au = g(&mut 3, &addr);
         let du = f(&h, &addr);

@@ -6,14 +6,14 @@ module aptos_std::iterable_table {
     struct IterableValue<K: copy + store + drop, V: store> has store {
         val: V,
         prev: Option<K>,
-        next: Option<K>
+        next: Option<K>,
     }
 
     /// An iterable table implementation based on double linked list.
     struct IterableTable<K: copy + store + drop, V: store> has store {
         inner: TableWithLength<K, IterableValue<K, V>>,
         head: Option<K>,
-        tail: Option<K>
+        tail: Option<K>,
     }
 
     /// Regular table API.
@@ -23,7 +23,7 @@ module aptos_std::iterable_table {
         IterableTable {
             inner: table_with_length::new(),
             head: option::none(),
-            tail: option::none()
+            tail: option::none(),
         }
     }
 
@@ -41,11 +41,9 @@ module aptos_std::iterable_table {
     /// Add a new entry to the table. Aborts if an entry for this
     /// key already exists.
     public fun add<K: copy + store + drop, V: store>(
-        table: &mut IterableTable<K, V>,
-        key: K,
-        val: V
+        table: &mut IterableTable<K, V>, key: K, val: V
     ) {
-        let wrapped_value = IterableValue { val, prev: table.tail, next: option::none() };
+        let wrapped_value = IterableValue { val, prev: table.tail, next: option::none(), };
         table_with_length::add(&mut table.inner, key, wrapped_value);
         if (option::is_some(&table.tail)) {
             let k = option::borrow(&table.tail);
@@ -84,9 +82,7 @@ module aptos_std::iterable_table {
     /// Acquire a mutable reference to the value which `key` maps to.
     /// Insert the pair (`key`, `default`) first if there is no entry for `key`.
     public fun borrow_mut_with_default<K: copy + store + drop, V: store + drop>(
-        table: &mut IterableTable<K, V>,
-        key: K,
-        default: V
+        table: &mut IterableTable<K, V>, key: K, default: V
     ): &mut V {
         if (!contains(table, key)) {
             add(table, key, default)
@@ -175,8 +171,7 @@ module aptos_std::iterable_table {
 
     /// Remove all items from v2 and append to v1.
     public fun append<K: copy + store + drop, V: store>(
-        v1: &mut IterableTable<K, V>,
-        v2: &mut IterableTable<K, V>
+        v1: &mut IterableTable<K, V>, v2: &mut IterableTable<K, V>
     ) {
         let key = head_key(v2);
         while (option::is_some(&key)) {

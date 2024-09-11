@@ -27,7 +27,7 @@ module FACoin::fa_coin {
     struct ManagedFungibleAsset has key {
         mint_ref: MintRef,
         transfer_ref: TransferRef,
-        burn_ref: BurnRef
+        burn_ref: BurnRef,
     }
 
     /// Initialize metadata object and store the refs.
@@ -41,7 +41,7 @@ module FACoin::fa_coin {
             utf8(ASSET_SYMBOL), /* symbol */
             8, /* decimals */
             utf8(b"http://example.com/favicon.ico"), /* icon */
-            utf8(b"http://example.com") /* project */
+            utf8(b"http://example.com"), /* project */
         );
 
         // Create mint/burn/transfer refs to allow creator to manage the fungible asset.
@@ -51,7 +51,7 @@ module FACoin::fa_coin {
         let metadata_object_signer = object::generate_signer(constructor_ref);
         move_to(
             &metadata_object_signer,
-            ManagedFungibleAsset { mint_ref, transfer_ref, burn_ref }
+            ManagedFungibleAsset { mint_ref, transfer_ref, burn_ref },
         )
         // <:!:initialize
     }
@@ -77,10 +77,7 @@ module FACoin::fa_coin {
 
     /// Transfer as the owner of metadata object ignoring `frozen` field.
     public entry fun transfer(
-        admin: &signer,
-        from: address,
-        to: address,
-        amount: u64
+        admin: &signer, from: address, to: address, amount: u64
     ) acquires ManagedFungibleAsset {
         let asset = get_metadata();
         let transfer_ref = &authorized_borrow_refs(admin, asset).transfer_ref;
@@ -114,9 +111,7 @@ module FACoin::fa_coin {
     }
 
     /// Withdraw as the owner of metadata object ignoring `frozen` field.
-    public fun withdraw(
-        admin: &signer, amount: u64, from: address
-    ): FungibleAsset acquires ManagedFungibleAsset {
+    public fun withdraw(admin: &signer, amount: u64, from: address): FungibleAsset acquires ManagedFungibleAsset {
         let asset = get_metadata();
         let transfer_ref = &authorized_borrow_refs(admin, asset).transfer_ref;
         let from_wallet = primary_fungible_store::primary_store(from, asset);
@@ -134,17 +129,17 @@ module FACoin::fa_coin {
     /// Borrow the immutable reference of the refs of `metadata`.
     /// This validates that the signer is the metadata object's owner.
     inline fun authorized_borrow_refs(
-        owner: &signer, asset: Object<Metadata>
+        owner: &signer, asset: Object<Metadata>,
     ): &ManagedFungibleAsset acquires ManagedFungibleAsset {
         assert!(
             object::is_owner(asset, signer::address_of(owner)),
-            error::permission_denied(ENOT_OWNER)
+            error::permission_denied(ENOT_OWNER),
         );
         borrow_global<ManagedFungibleAsset>(object::object_address(&asset))
     }
 
     #[test(creator = @FACoin)]
-    fun test_basic_flow(creator: &signer) acquires ManagedFungibleAsset {
+    fun test_basic_flow(creator: &signer,) acquires ManagedFungibleAsset {
         init_module(creator);
         let creator_address = signer::address_of(creator);
         let aaron_address = @0xface;

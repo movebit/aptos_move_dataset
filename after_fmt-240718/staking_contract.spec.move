@@ -75,8 +75,7 @@ spec aptos_framework::staking_contract {
     spec stake_pool_address(staker: address, operator: address): address {
         include ContractExistsAbortsIf;
         let staking_contracts = global<Store>(staker).staking_contracts;
-        ensures result
-            == simple_map::spec_get(staking_contracts, operator).pool_address;
+        ensures result == simple_map::spec_get(staking_contracts, operator).pool_address;
 
     }
 
@@ -150,7 +149,7 @@ spec aptos_framework::staking_contract {
         voter: address,
         amount: u64,
         commission_percentage: u64,
-        contract_creation_seed: vector<u8>
+        contract_creation_seed: vector<u8>,
     ) {
         pragma aborts_if_is_partial;
         pragma verify_duration_estimate = 120;
@@ -168,7 +167,7 @@ spec aptos_framework::staking_contract {
         voter: address,
         coins: Coin<AptosCoin>,
         commission_percentage: u64,
-        contract_creation_seed: vector<u8>
+        contract_creation_seed: vector<u8>,
     ): address {
         pragma verify_duration_estimate = 120;
         pragma aborts_if_is_partial;
@@ -269,7 +268,7 @@ spec aptos_framework::staking_contract {
         operator: address,
         staking_contract: &mut StakingContract,
         add_distribution_events: &mut EventHandle<AddDistributionEvent>,
-        request_commission_events: &mut EventHandle<RequestCommissionEvent>
+        request_commission_events: &mut EventHandle<RequestCommissionEvent>,
     ): u64 {
         // TODO: A data invariant not hold happened here involve with 'pool_u64' #L16.
         pragma verify = false;
@@ -301,7 +300,7 @@ spec aptos_framework::staking_contract {
 
     /// Staking_contract exists the stacker/operator pair.
     spec switch_operator_with_same_commission(
-        staker: &signer, old_operator: address, new_operator: address
+        staker: &signer, old_operator: address, new_operator: address,
     ) {
         // TODO: These function passed locally however failed in github CI
         pragma verify_duration_estimate = 120;
@@ -316,7 +315,7 @@ spec aptos_framework::staking_contract {
         staker: &signer,
         old_operator: address,
         new_operator: address,
-        new_commission_percentage: u64
+        new_commission_percentage: u64,
     ) {
         // TODO: Call `update_distribution_pool` and could not verify `update_distribution_pool`.
         // TODO: Set because of timeout (estimate unknown).
@@ -354,7 +353,7 @@ spec aptos_framework::staking_contract {
         staker: address,
         operator: address,
         staking_contract: &mut StakingContract,
-        distribute_events: &mut EventHandle<DistributeEvent>
+        distribute_events: &mut EventHandle<DistributeEvent>,
     ) {
         // TODO: These function passed locally however failed in github CI
         pragma verify_duration_estimate = 120;
@@ -363,8 +362,7 @@ spec aptos_framework::staking_contract {
         let pool_address = staking_contract.pool_address;
         let stake_pool = borrow_global<stake::StakePool>(pool_address);
         aborts_if !exists<stake::StakePool>(pool_address);
-        aborts_if stake_pool.inactive.value + stake_pool.pending_inactive.value
-            > MAX_U64;
+        aborts_if stake_pool.inactive.value + stake_pool.pending_inactive.value > MAX_U64;
         aborts_if !exists<stake::StakePool>(staking_contract.owner_cap.pool_address);
     }
 
@@ -378,7 +376,7 @@ spec aptos_framework::staking_contract {
         staking_contract: &mut StakingContract,
         recipient: address,
         coins_amount: u64,
-        add_distribution_events: &mut EventHandle<AddDistributionEvent>
+        add_distribution_events: &mut EventHandle<AddDistributionEvent>,
     ) {
         // TODO: Call `update_distribution_pool` and could not verify `update_distribution_pool`.
         pragma verify = false;
@@ -408,7 +406,7 @@ spec aptos_framework::staking_contract {
         staker: &signer,
         operator: address,
         voter: address,
-        contract_creation_seed: vector<u8>
+        contract_creation_seed: vector<u8>,
     ): (signer, SignerCapability, OwnerCapability) {
         pragma verify_duration_estimate = 120;
         include stake::ResourceRequirement;
@@ -418,7 +416,7 @@ spec aptos_framework::staking_contract {
         let seed_0 = bcs::to_bytes(staker_address);
         let seed_1 = concat(
             concat(concat(seed_0, bcs::to_bytes(operator)), SALT),
-            contract_creation_seed
+            contract_creation_seed,
         );
         let resource_addr = account::spec_create_resource_address(staker_address, seed_1);
         include CreateStakePoolAbortsIf { resource_addr };
@@ -448,7 +446,7 @@ spec aptos_framework::staking_contract {
         distribution_pool: &mut Pool,
         updated_total_coins: u64,
         operator: address,
-        commission_percentage: u64
+        commission_percentage: u64,
     ) {
         // TODO: complex aborts conditions in the cycle.
         // pragma verify = false;
@@ -520,8 +518,7 @@ spec aptos_framework::staking_contract {
         aborts_if active + pending_active > MAX_U64;
         // TODO: These function causes the timeout
         aborts_if total_active_stake < staking_contract.principal;
-        aborts_if accumulated_rewards * staking_contract.commission_percentage
-            > MAX_U64;
+        aborts_if accumulated_rewards * staking_contract.commission_percentage > MAX_U64;
     }
 
     spec schema IncreaseLockupWithCapAbortsIf {
@@ -624,8 +621,7 @@ spec aptos_framework::staking_contract {
         // postconditions account::create_resource_account()
         let acc = global<account::Account>(resource_addr);
         aborts_if exists<account::Account>(resource_addr)
-            && (len(acc.signer_capability_offer.for.vec) != 0
-                || acc.sequence_number != 0);
+            && (len(acc.signer_capability_offer.for.vec) != 0 || acc.sequence_number != 0);
         aborts_if !exists<account::Account>(resource_addr)
             && len(bcs::to_bytes(resource_addr)) != 32;
         aborts_if len(account::ZERO_AUTH_KEY) != 32;

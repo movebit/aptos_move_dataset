@@ -35,5 +35,5 @@ module 0x42::TestAbortsWithCheck {
          aborts_with [check] 2;
          ensures result == x;
      }
-    */
+     */
 }

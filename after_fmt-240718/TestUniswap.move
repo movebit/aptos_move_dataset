@@ -47,7 +47,7 @@ module Evm::TestUniswap {
             amountOutMin,
             path,
             to,
-            block_timestamp()
+            block_timestamp(),
         );
     }
 }

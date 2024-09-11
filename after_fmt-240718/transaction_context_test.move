@@ -23,7 +23,7 @@ module admin::transaction_context_test {
         function_name: String,
         type_arg_names: vector<String>,
         args: vector<vector<u8>>,
-        multisig_address: address
+        multisig_address: address,
     }
 
     /// Called when the module is first deployed at address `signer`, which is supposed to be @admin (= 0x1).
@@ -44,14 +44,12 @@ module admin::transaction_context_test {
                 function_name: string::utf8(x""),
                 args: vector[],
                 type_arg_names: vector[],
-                multisig_address: @0x0
-            }
+                multisig_address: @0x0,
+            },
         );
     }
 
-    public entry fun store_sender_from_native_txn_context(
-        _s: &signer
-    ) acquires TransactionContextStore {
+    public entry fun store_sender_from_native_txn_context(_s: &signer) acquires TransactionContextStore {
         let store = borrow_global_mut<TransactionContextStore>(@admin);
         store.sender = transaction_context::sender();
     }
@@ -70,9 +68,7 @@ module admin::transaction_context_test {
         store.secondary_signers = transaction_context::secondary_signers();
     }
 
-    public entry fun store_gas_payer_from_native_txn_context(
-        _s: &signer
-    ) acquires TransactionContextStore {
+    public entry fun store_gas_payer_from_native_txn_context(_s: &signer) acquires TransactionContextStore {
         let store = borrow_global_mut<TransactionContextStore>(@admin);
         store.gas_payer = transaction_context::gas_payer();
     }
@@ -91,9 +87,7 @@ module admin::transaction_context_test {
         store.gas_unit_price = transaction_context::gas_unit_price();
     }
 
-    public entry fun store_chain_id_from_native_txn_context(
-        _s: &signer
-    ) acquires TransactionContextStore {
+    public entry fun store_chain_id_from_native_txn_context(_s: &signer) acquires TransactionContextStore {
         let store = borrow_global_mut<TransactionContextStore>(@admin);
         store.chain_id = transaction_context::chain_id();
     }
@@ -120,16 +114,13 @@ module admin::transaction_context_test {
                     == vector[
                         type_info::type_name<T1>(),
                         type_info::type_name<T2>(),
-                        type_info::type_name<T3>()
-                    ],
-                13
+                        type_info::type_name<T3>()],
+                13,
             );
         }
     }
 
-    entry fun store_multisig_payload_from_native_txn_context(
-        _s: &signer
-    ) acquires TransactionContextStore {
+    entry fun store_multisig_payload_from_native_txn_context(_s: &signer) acquires TransactionContextStore {
         let store = borrow_global_mut<TransactionContextStore>(@admin);
         let multisig_opt = transaction_context::multisig_payload();
         if (option::is_some(&multisig_opt)) {

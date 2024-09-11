@@ -27,11 +27,8 @@ module 0x8675309::M {
     }
 
     fun t2(cond: bool, u: &u64, u_mut: &mut u64) {
-        let (_, _): (&mut u64, &mut u64) = if (cond) (u, u)
-        else (u_mut, u_mut);
-        let (_, _): (&mut u64, &mut u64) = if (cond) (u_mut, u)
-        else (u, u_mut);
-        let (_, _): (&mut u64, &mut u64) = if (cond) (u, u_mut)
-        else (u_mut, u);
+        let (_, _): (&mut u64, &mut u64) = if (cond) (u, u) else (u_mut, u_mut);
+        let (_, _): (&mut u64, &mut u64) = if (cond) (u_mut, u) else (u, u_mut);
+        let (_, _): (&mut u64, &mut u64) = if (cond) (u, u_mut) else (u_mut, u);
     }
 }

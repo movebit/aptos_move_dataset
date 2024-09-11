@@ -18,18 +18,12 @@ module Evm::Result {
 
     /// Return a Result containing `value`.
     public fun ok<T, E>(value: T): Result<T, E> {
-        Result<T, E> {
-            value: option::some(value),
-            error: option::none<E>()
-        }
+        Result<T, E> { value: option::some(value), error: option::none<E>() }
     }
 
     /// Return a Result containing 'error'.
     public fun err<T, E>(error: E): Result<T, E> {
-        Result<T, E> {
-            value: option::none<T>(),
-            error: option::some(error)
-        }
+        Result<T, E> { value: option::none<T>(), error: option::some(error) }
     }
 
     /// Return true if `result` holds a value.

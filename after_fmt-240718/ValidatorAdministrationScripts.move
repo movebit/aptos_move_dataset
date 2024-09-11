@@ -140,14 +140,14 @@ module ValidatorAdministrationScripts {
         validator_account: address,
         consensus_pubkey: vector<u8>,
         validator_network_addresses: vector<u8>,
-        fullnode_network_addresses: vector<u8>
+        fullnode_network_addresses: vector<u8>,
     ) {
         ValidatorConfig::set_config(
             &validator_operator_account,
             validator_account,
             consensus_pubkey,
             validator_network_addresses,
-            fullnode_network_addresses
+            fullnode_network_addresses,
         );
     }
 
@@ -303,14 +303,14 @@ module ValidatorAdministrationScripts {
         validator_account: address,
         consensus_pubkey: vector<u8>,
         validator_network_addresses: vector<u8>,
-        fullnode_network_addresses: vector<u8>
+        fullnode_network_addresses: vector<u8>,
     ) {
         ValidatorConfig::set_config(
             &validator_operator_account,
             validator_account,
             consensus_pubkey,
             validator_network_addresses,
-            fullnode_network_addresses
+            fullnode_network_addresses,
         );
         DiemSystem::update_config_and_reconfigure(
             &validator_operator_account, validator_account
@@ -340,7 +340,7 @@ module ValidatorAdministrationScripts {
             == ValidatorConfig::Config {
                 consensus_pubkey,
                 validator_network_addresses,
-                fullnode_network_addresses
+                fullnode_network_addresses,
             };
 
         include ValidatorConfig::SetConfigAbortsIf { validator_addr: validator_account };
@@ -352,14 +352,14 @@ module ValidatorAdministrationScripts {
         // v_info.config is the old config (if it exists) and the Config with args from set_config is
         // the new config
         let is_validator_info_updated = (
-            exists v_info in DiemSystem::spec_get_validators():
-                v_info.addr == validator_account
-                    && v_info.config
-                        != ValidatorConfig::Config {
-                            consensus_pubkey,
-                            validator_network_addresses,
-                            fullnode_network_addresses
-                        }
+            exists v_info in DiemSystem::spec_get_validators(): v_info.addr
+                == validator_account
+                && v_info.config
+                    != ValidatorConfig::Config {
+                        consensus_pubkey,
+                        validator_network_addresses,
+                        fullnode_network_addresses,
+                    }
         );
         include is_validator_info_updated ==>
             DiemConfig::ReconfigureAbortsIf;
@@ -447,8 +447,8 @@ module ValidatorAdministrationScripts {
         // next is due to abort in get_human_name
         include ValidatorConfig::AbortsIfNoValidatorConfig { addr: account_addr };
         // TODO: use an error code from Errors.move instead of 0.
-        aborts_if ValidatorOperatorConfig::get_human_name(operator_account)
-            != operator_name with 0;
+        aborts_if ValidatorOperatorConfig::get_human_name(operator_account) != operator_name with
+            0;
         include ValidatorConfig::SetOperatorAbortsIf {
             validator_account: account,
             operator_addr: operator_account
@@ -543,8 +543,8 @@ module ValidatorAdministrationScripts {
         // next is due to abort in get_human_name
         include ValidatorConfig::AbortsIfNoValidatorConfig { addr: account_addr };
         // TODO: use an error code from Errors.move instead of 0.
-        aborts_if ValidatorOperatorConfig::get_human_name(operator_account)
-            != operator_name with 0;
+        aborts_if ValidatorOperatorConfig::get_human_name(operator_account) != operator_name with
+            0;
         include ValidatorConfig::SetOperatorAbortsIf {
             validator_account: account,
             operator_addr: operator_account

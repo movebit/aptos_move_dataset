@@ -1,9 +1,8 @@
 #[test_only]
-address 0x42 {
-module A {
+address 0x42 { module A {
     struct T {}
-}
-}
+
+} }
 
 #[test_only]
 module 0x42::M {}

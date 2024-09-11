@@ -18,7 +18,7 @@ module CoreFramework::DiemConfig {
     /// with new configuration information. This is also called a
     /// "reconfiguration event"
     struct NewEpochEvent has drop, store {
-        epoch: u64
+        epoch: u64,
     }
 
     /// Holds information about state of reconfiguration
@@ -28,7 +28,7 @@ module CoreFramework::DiemConfig {
         /// Time of last reconfiguration. Only changes on reconfiguration events.
         last_reconfiguration_time: u64,
         /// Event handle for reconfiguration events
-        events: event::EventHandle<NewEpochEvent>
+        events: event::EventHandle<NewEpochEvent>,
     }
 
     /// Reconfiguration disabled if this resource occurs under LibraRoot.
@@ -46,20 +46,20 @@ module CoreFramework::DiemConfig {
     const MAX_U64: u64 = 18446744073709551615;
 
     /// Publishes `Configuration` resource. Can only be invoked by Diem root, and only a single time in Genesis.
-    public fun initialize(account: &signer) {
+    public fun initialize(account: &signer,) {
         DiemTimestamp::assert_genesis();
         SystemAddresses::assert_core_resource(account);
         assert!(
             !exists<Configuration>(@CoreResources),
-            errors::already_published(ECONFIGURATION)
+            errors::already_published(ECONFIGURATION),
         );
         move_to<Configuration>(
             account,
             Configuration {
                 epoch: 0,
                 last_reconfiguration_time: 0,
-                events: event::new_event_handle<NewEpochEvent>(account)
-            }
+                events: event::new_event_handle<NewEpochEvent>(account),
+            },
         );
     }
 
@@ -120,14 +120,14 @@ module CoreFramework::DiemConfig {
 
         assert!(
             current_time > config_ref.last_reconfiguration_time,
-            errors::invalid_state(EINVALID_BLOCK_TIME)
+            errors::invalid_state(EINVALID_BLOCK_TIME),
         );
         config_ref.last_reconfiguration_time = current_time;
         config_ref.epoch = config_ref.epoch + 1;
 
         event::emit_event<NewEpochEvent>(
             &mut config_ref.events,
-            NewEpochEvent { epoch: config_ref.epoch }
+            NewEpochEvent { epoch: config_ref.epoch, },
         );
     }
 
@@ -136,18 +136,18 @@ module CoreFramework::DiemConfig {
     fun emit_genesis_reconfiguration_event() acquires Configuration {
         assert!(
             exists<Configuration>(@CoreResources),
-            errors::not_published(ECONFIGURATION)
+            errors::not_published(ECONFIGURATION),
         );
         let config_ref = borrow_global_mut<Configuration>(@CoreResources);
         assert!(
             config_ref.epoch == 0 && config_ref.last_reconfiguration_time == 0,
-            errors::invalid_state(ECONFIGURATION)
+            errors::invalid_state(ECONFIGURATION),
         );
         config_ref.epoch = 1;
 
         event::emit_event<NewEpochEvent>(
             &mut config_ref.events,
-            NewEpochEvent { epoch: config_ref.epoch }
+            NewEpochEvent { epoch: config_ref.epoch, },
         );
     }
 }

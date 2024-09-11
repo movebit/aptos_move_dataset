@@ -5,12 +5,7 @@ module 0xc0ffee::m {
         (x, y)
     }
 
-    fun swap2(
-        a: u64,
-        b: u64,
-        c: u64,
-        d: u64
-    ): (u64, u64, u64, u64) {
+    fun swap2(a: u64, b: u64, c: u64, d: u64): (u64, u64, u64, u64) {
         (a, b, c, d) = (c, d, b, a);
         (a, b, c, d)
     }
@@ -21,7 +16,7 @@ module 0xc0ffee::m {
     }
 
     struct W {
-        inner: u64
+        inner: u64,
     }
 
     fun swap4(a: W, b: W): (W, W) {
@@ -38,12 +33,12 @@ module 0xc0ffee::m {
 
     fun swap6(x: u64, y: u64): (u64, u64) {
         (x, y) = ({
-            y = y + 1;
-            y
-        }, {
-            x = x + 1;
-            x
-        });
+                y = y + 1;
+                y
+            }, {
+                x = x + 1;
+                x
+            });
         (x, y)
     }
 
@@ -71,9 +66,9 @@ module 0xc0ffee::m {
     fun swap10(x: u64): (u64, u64) {
         let y;
         (x, y) = ({
-            let x = 88;
-            x
-        }, x);
+                let x = 88;
+                x
+            }, x);
         (x, y)
     }
 
@@ -81,9 +76,9 @@ module 0xc0ffee::m {
         let x = 53;
         let y;
         (x, y) = ({
-            let x = 83;
-            x
-        }, x);
+                let x = 83;
+                x
+            }, x);
         (x, y)
     }
 

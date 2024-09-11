@@ -5,7 +5,7 @@ module 0x2::Collection {
 
     struct Collection<T> has drop {
         items: vector<T>,
-        owner: address
+        owner: address,
     }
 
     public fun borrow_mut<T>(c: &mut Collection<T>, i: u64): &mut T {
@@ -13,7 +13,7 @@ module 0x2::Collection {
     }
 
     public fun make_collection<T>(): Collection<T> {
-        Collection { items: vector::empty(), owner: @0x2 }
+        Collection { items: vector::empty(), owner: @0x2, }
     }
 }
 

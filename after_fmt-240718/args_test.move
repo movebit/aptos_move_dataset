@@ -9,11 +9,11 @@ module 0xCAFE::test {
     use aptos_framework::object;
 
     struct ModuleData has key, store {
-        state: String
+        state: String,
     }
 
     struct GenericModuleData<T: copy + store> has key, store {
-        state: T
+        state: T,
     }
 
     public entry fun initialize(sender: &signer) {
@@ -35,7 +35,7 @@ module 0xCAFE::test {
             objs,
             |o| {
                 borrow_global_mut<ModuleData>(object::object_address(&o)).state = msg;
-            }
+            },
         );
     }
 
@@ -110,7 +110,7 @@ module 0xCAFE::test {
 
     // Valuable data that should not be able to be fabricated by a malicious tx
     struct MyPrecious {
-        value: u64
+        value: u64,
     }
 
     public entry fun ensure_no_fabrication(my_precious: Option<MyPrecious>) {

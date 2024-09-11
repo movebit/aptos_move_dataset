@@ -12,7 +12,7 @@ module token_lockup::token_lockup {
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
     struct LockupConfig has key {
         last_transfer: u64,
-        transfer_ref: TransferRef
+        transfer_ref: TransferRef,
     }
 
     /// The owner of the token has not owned it for long enough
@@ -35,11 +35,15 @@ module token_lockup::token_lockup {
             MAXIMUM_SUPPLY,
             string::utf8(COLLECTION_NAME),
             option::none<Royalty>(),
-            string::utf8(COLLECTION_URI)
+            string::utf8(COLLECTION_URI),
         );
     }
 
-    public fun mint_to(creator: &signer, token_name: String, to: address): ConstructorRef {
+    public fun mint_to(
+        creator: &signer,
+        token_name: String,
+        to: address,
+    ): ConstructorRef {
         let token_constructor_ref =
             token::create_named_token(
                 creator,
@@ -47,7 +51,7 @@ module token_lockup::token_lockup {
                 string::utf8(COLLECTION_DESCRIPTION),
                 token_name,
                 option::none(),
-                string::utf8(TOKEN_URI)
+                string::utf8(TOKEN_URI),
             );
 
         let transfer_ref = object::generate_transfer_ref(&token_constructor_ref);
@@ -63,19 +67,21 @@ module token_lockup::token_lockup {
 
         move_to(
             &token_signer,
-            LockupConfig { last_transfer: timestamp::now_seconds(), transfer_ref }
+            LockupConfig { last_transfer: timestamp::now_seconds(), transfer_ref, },
         );
 
         token_constructor_ref
     }
 
     public entry fun transfer(
-        from: &signer, token: Object<Token>, to: address
+        from: &signer,
+        token: Object<Token>,
+        to: address,
     ) acquires LockupConfig {
         // redundant error checking for clear error message
         assert!(
             object::is_owner(token, signer::address_of(from)),
-            error::permission_denied(ENOT_TOKEN_OWNER)
+            error::permission_denied(ENOT_TOKEN_OWNER),
         );
         let now = timestamp::now_seconds();
         let lockup_config =
@@ -85,7 +91,7 @@ module token_lockup::token_lockup {
         let lockup_period_secs = LOCKUP_PERIOD_SECS;
         assert!(
             time_since_transfer >= lockup_period_secs,
-            error::permission_denied(ETOKEN_IN_LOCKUP)
+            error::permission_denied(ETOKEN_IN_LOCKUP),
         );
 
         // generate linear transfer ref and transfer the token object
@@ -98,7 +104,7 @@ module token_lockup::token_lockup {
     }
 
     #[view]
-    public fun view_last_transfer(token: Object<Token>): u64 acquires LockupConfig {
+    public fun view_last_transfer(token: Object<Token>,): u64 acquires LockupConfig {
         borrow_global<LockupConfig>(object::object_address(&token)).last_transfer
     }
 }

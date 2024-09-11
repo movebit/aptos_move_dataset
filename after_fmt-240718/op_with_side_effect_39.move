@@ -8,16 +8,12 @@ module 0xc0ffee::m {
     struct S has drop {
         x: u64,
         y: u64,
-        z: u64
+        z: u64,
     }
 
     public fun test(): u64 {
         let x = 1;
-        let S { x, y, z } = S {
-            x,
-            y: inc(&mut x, 7),
-            z: inc(&mut x, 11)
-        };
+        let S { x, y, z } = S { x, y: inc(&mut x, 7), z: inc(&mut x, 11) };
         x + y + z
     }
 }

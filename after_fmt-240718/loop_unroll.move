@@ -2,11 +2,11 @@ module 0x42::loop_unroll {
     fun t1_success(): u64 {
         let i = 0;
         while ({
-            spec {
-                invariant [unroll = 3] true;
-            };
-            (i < 5)
-        }) {
+                spec {
+                    invariant [unroll = 3] true;
+                };
+                (i < 5)
+            }) {
             i = i + 1;
         };
         i
@@ -20,13 +20,13 @@ module 0x42::loop_unroll {
     fun t2_success(): u64 {
         let i = 0;
         while ({
-            // it is okay to unroll more than the loop iterations, it won't
-            // affect the correctness
-            spec {
-                invariant [unroll = 6] true;
-            };
-            (i < 5)
-        }) {
+                // it is okay to unroll more than the loop iterations, it won't
+                // affect the correctness
+                spec {
+                    invariant [unroll = 6] true;
+                };
+                (i < 5)
+            }) {
             i = i + 1;
         };
         i
@@ -39,11 +39,11 @@ module 0x42::loop_unroll {
     fun t3_success(n: u64): u64 {
         let i = 0;
         while ({
-            spec {
-                invariant [unroll = 3] true;
-            };
-            (i < n)
-        }) {
+                spec {
+                    invariant [unroll = 3] true;
+                };
+                (i < n)
+            }) {
             i = i + 1;
         };
         i
@@ -56,11 +56,11 @@ module 0x42::loop_unroll {
     fun t4_success(n: u64): u64 {
         let i = 0;
         while ({
-            spec {
-                invariant [unroll = 3] true;
-            };
-            (i < n)
-        }) {
+                spec {
+                    invariant [unroll = 3] true;
+                };
+                (i < n)
+            }) {
             i = i + 1;
         };
         i
@@ -74,11 +74,11 @@ module 0x42::loop_unroll {
     fun t5_success(n: u64): u64 {
         let i = 0;
         while ({
-            spec {
-                invariant [unroll = 3] true;
-            };
-            (i < n)
-        }) {
+                spec {
+                    invariant [unroll = 3] true;
+                };
+                (i < n)
+            }) {
             i = i + 1;
             assert!(i != 5, 0);
         };
@@ -93,11 +93,11 @@ module 0x42::loop_unroll {
     fun t6_failure(n: u64): u64 {
         let i = 0;
         while ({
-            spec {
-                invariant [unroll = 6] true;
-            };
-            (i < n)
-        }) {
+                spec {
+                    invariant [unroll = 6] true;
+                };
+                (i < n)
+            }) {
             i = i + 1;
             assert!(i != 5, 0);
         };

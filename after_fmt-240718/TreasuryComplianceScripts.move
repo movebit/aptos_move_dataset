@@ -163,10 +163,7 @@ module DiemFramework::TreasuryComplianceScripts {
     /// * `TreasuryComplianceScripts::preburn`
 
     public entry fun burn_with_amount<Token>(
-        account: signer,
-        sliding_nonce: u64,
-        preburn_address: address,
-        amount: u64
+        account: signer, sliding_nonce: u64, preburn_address: address, amount: u64
     ) {
         SlidingNonce::record_nonce_or_abort(&account, sliding_nonce);
         Diem::burn<Token>(&account, preburn_address, amount)
@@ -371,7 +368,7 @@ module DiemFramework::TreasuryComplianceScripts {
             &tc_account,
             designated_dealer_address,
             mint_amount,
-            tier_index
+            tier_index,
         );
     }
 
@@ -564,13 +561,13 @@ module DiemFramework::TreasuryComplianceScripts {
         tc_account: signer,
         sliding_nonce: u64,
         new_exchange_rate_numerator: u64,
-        new_exchange_rate_denominator: u64
+        new_exchange_rate_denominator: u64,
     ) {
         SlidingNonce::record_nonce_or_abort(&tc_account, sliding_nonce);
         let rate =
             fixed_point32::create_from_rational(
                 new_exchange_rate_numerator,
-                new_exchange_rate_denominator
+                new_exchange_rate_denominator,
             );
         Diem::update_xdx_exchange_rate<Currency>(&tc_account, rate);
     }
@@ -591,7 +588,7 @@ module DiemFramework::TreasuryComplianceScripts {
         };
         let rate = fixed_point32::spec_create_from_rational(
             new_exchange_rate_numerator,
-            new_exchange_rate_denominator
+            new_exchange_rate_denominator,
         );
         include Diem::UpdateXDXExchangeRateAbortsIf<Currency>;
         include Diem::UpdateXDXExchangeRateEnsures<Currency> { xdx_exchange_rate: rate };
@@ -663,7 +660,9 @@ module DiemFramework::TreasuryComplianceScripts {
     /// | `Errors::INVALID_ARGUMENT` | `VASPDomain::EDOMAIN_ALREADY_EXISTS`         | The `domain` already exists in the list of `VASPDomain::VASPDomain`s  in the `VASPDomain::VASPDomains` resource published under `address`. |
     /// | `Errors::INVALID_ARGUMENT` | `VASPDomain::EINVALID_VASP_DOMAIN`        | The `domain` is greater in length than `VASPDomain::DOMAIN_LENGTH`.                                                                        |
     public entry fun add_vasp_domain(
-        tc_account: signer, address: address, domain: vector<u8>
+        tc_account: signer,
+        address: address,
+        domain: vector<u8>,
     ) {
         VASPDomain::add_vasp_domain(&tc_account, address, domain);
     }
@@ -702,7 +701,9 @@ module DiemFramework::TreasuryComplianceScripts {
     /// | `Errors::INVALID_ARGUMENT` | `VASPDomain::EINVALID_VASP_DOMAIN`        | The `domain` is greater in length than `VASPDomain::DOMAIN_LENGTH`.                                                                        |
     /// | `Errors::INVALID_ARGUMENT` | `VASPDomain::EVASP_DOMAIN_NOT_FOUND`              | The `domain` does not exist in the list of `VASPDomain::VASPDomain`s  in the `VASPDomain::VASPDomains` resource published under `address`. |
     public entry fun remove_vasp_domain(
-        tc_account: signer, address: address, domain: vector<u8>
+        tc_account: signer,
+        address: address,
+        domain: vector<u8>,
     ) {
         VASPDomain::remove_vasp_domain(&tc_account, address, domain);
     }

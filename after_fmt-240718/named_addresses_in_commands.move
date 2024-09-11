@@ -12,7 +12,7 @@ script {
 //# publish
 module A::M {
     struct Foo has key {
-        x: u64
+        x: u64,
     }
 
     public fun publish_foo(s: &signer) {

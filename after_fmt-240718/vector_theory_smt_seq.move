@@ -9,16 +9,17 @@ module 0x42::test {
     }
 
     spec f1 {
-        invariant forall i in 0..len(pool), j in 0..len(pool):
-            (pool[i] == pool[j]) ==> (i == j);
+        invariant forall i in 0..len(pool), j in 0..len(pool): (pool[i] == pool[j]) ==> (i ==
+             j);
 
-        ensures forall a: address where a != addr:
-            old(contains(pool, a)) ==> contains(pool, a);
+        ensures forall a: address where a != addr: old(contains(pool, a)) ==> contains(
+            pool, a
+        );
     }
 
     struct Pool {
         shares: Table<address, u64>,
-        holders: vector<address>
+        holders: vector<address>,
     }
 
     fun f2(pool: &mut Pool, addr: address) {
@@ -28,11 +29,12 @@ module 0x42::test {
     }
 
     spec f2 {
-        invariant forall i in 0..len(pool.holders), j in 0..len(pool.holders):
-            pool.holders[i] == pool.holders[j] ==> i == j;
+        invariant forall i in 0..len(pool.holders), j in 0..len(pool.holders): pool.holders[i] ==
+             pool.holders[j] ==> i == j;
 
-        invariant forall addr: address:
-            (table::spec_contains(pool.shares, addr) <==>
-                contains(pool.holders, addr));
+        invariant forall addr: address: (
+            table::spec_contains(pool.shares, addr) <==>
+            contains(pool.holders, addr)
+        );
     }
 }

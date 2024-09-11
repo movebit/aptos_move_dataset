@@ -163,7 +163,7 @@ module std::vault {
         authority: address,
         delegate: address,
         cap: CapType,
-        is_revoked: bool
+        is_revoked: bool,
     }
 
     /// An event which we generate on vault transfer if event generation is enabled.
@@ -171,7 +171,7 @@ module std::vault {
         metadata: vector<u8>,
         vault_address: address,
         authority: address,
-        new_vault_address: address
+        new_vault_address: address,
     }
 
     // ================================================================================================================
@@ -181,13 +181,13 @@ module std::vault {
     struct Vault<Content: store> has key {
         /// The content. If the option is empty, the content is currently moved into an
         /// accessor in order to work with it.
-        content: option::Option<Content>
+        content: option::Option<Content>,
     }
 
     /// Private. If the vault supports delegation, information about the delegates.
     struct VaultDelegates<phantom Content: store> has key {
         /// The currently authorized delegates.
-        delegates: vector<address>
+        delegates: vector<address>,
     }
 
     /// Private. If event generation is enabled, contains the event generators.
@@ -198,14 +198,14 @@ module std::vault {
         /// Event handle for vault delegation.
         delegate_events: event::EventHandle<VaultDelegateEvent>,
         /// Event handle for vault transfer.
-        transfer_events: event::EventHandle<VaultTransferEvent>
+        transfer_events: event::EventHandle<VaultTransferEvent>,
     }
 
     /// Private. A value stored at a delegates address pointing to the owner of the vault. Also
     /// describes the capabilities granted to this delegate.
     struct VaultDelegate<phantom Content: store> has key {
         vault_address: address,
-        granted_caps: vector<CapType>
+        granted_caps: vector<CapType>,
     }
 
     // ================================================================================================================
@@ -219,7 +219,7 @@ module std::vault {
         assert!(!exists<Vault<Content>>(addr), error::already_exists(EVAULT));
         move_to<Vault<Content>>(
             owner,
-            Vault { content: option::some(initial_content) }
+            Vault { content: option::some(initial_content) },
         )
     }
 
@@ -252,16 +252,14 @@ module std::vault {
             VaultEvents {
                 metadata,
                 delegate_events: event::new_event_handle<VaultDelegateEvent>(owner),
-                transfer_events: event::new_event_handle<VaultTransferEvent>(owner)
-            }
+                transfer_events: event::new_event_handle<VaultTransferEvent>(owner),
+            },
         );
     }
 
     /// Removes a vault and all its associated data, returning the current content. In order for
     /// this to succeed, there must be no active accessor for the vault.
-    public fun remove_vault<Content: store + drop>(
-        owner: &signer
-    ): Content acquires Vault, VaultDelegates, VaultDelegate, VaultEvents {
+    public fun remove_vault<Content: store + drop>(owner: &signer): Content acquires Vault, VaultDelegates, VaultDelegate, VaultEvents {
         let addr = signer::address_of(owner);
         assert!(exists<Vault<Content>>(addr), error::not_found(EVAULT));
         let Vault { content } = move_from<Vault<Content>>(addr);
@@ -286,18 +284,15 @@ module std::vault {
 
     /// Acquires the capability to read the vault. The passed signer must either be the owner
     /// of the vault or a delegate with appropriate access.
-    public fun acquire_read_cap<Content: store + drop>(
-        requester: &signer
-    ): ReadCap<Content> acquires VaultDelegate {
+    public fun acquire_read_cap<Content: store + drop>(requester: &signer): ReadCap<Content> acquires VaultDelegate {
         let (vault_address, authority) = validate_cap<Content>(requester, read_cap_type());
         ReadCap { vault_address, authority }
     }
 
     /// Acquires the capability to modify the vault. The passed signer must either be the owner
     /// of the vault or a delegate with appropriate access.
-    public fun acquire_modify_cap<Content: store + drop>(
-        requester: &signer
-    ): ModifyCap<Content> acquires VaultDelegate {
+    public fun acquire_modify_cap<Content: store + drop>(requester: &signer)
+        : ModifyCap<Content> acquires VaultDelegate {
         let (vault_address, authority) =
             validate_cap<Content>(requester, modify_cap_type());
         ModifyCap { vault_address, authority }
@@ -334,7 +329,7 @@ module std::vault {
             let delegate = borrow_global<VaultDelegate<Content>>(addr);
             assert!(
                 vector::contains(&delegate.granted_caps, &cap),
-                error::permission_denied(EDELEGATE)
+                error::permission_denied(EDELEGATE),
             );
             (delegate.vault_address, addr)
         } else {
@@ -350,7 +345,7 @@ module std::vault {
     /// A read accessor for the content of the vault.
     struct ReadAccessor<Content: store + drop> {
         content: Content,
-        vault_address: address
+        vault_address: address,
     }
 
     /// Creates a read accessor for the content in the vault based on a read capability.
@@ -358,9 +353,8 @@ module std::vault {
     /// Only one accessor (whether read or modify) for the same vault can exist at a time, and this
     /// function will abort if one is in use. An accessor must be explicitly released using
     /// `Self::release_read_accessor`.
-    public fun read_accessor<Content: store + drop>(
-        cap: &ReadCap<Content>
-    ): ReadAccessor<Content> acquires Vault {
+    public fun read_accessor<Content: store + drop>(cap: &ReadCap<Content>)
+        : ReadAccessor<Content> acquires Vault {
         let content = &mut borrow_global_mut<Vault<Content>>(cap.vault_address).content;
         assert!(option::is_some(content), error::invalid_state(EACCESSOR_IN_USE));
         ReadAccessor {
@@ -394,7 +388,7 @@ module std::vault {
     /// A modify accessor for the content of the vault.
     struct ModifyAccessor<Content: store + drop> {
         content: Content,
-        vault_address: address
+        vault_address: address,
     }
 
     /// Creates a modify accessor for the content in the vault based on a modify capability. This
@@ -441,7 +435,7 @@ module std::vault {
     ) acquires VaultDelegates, VaultDelegate, VaultEvents {
         assert!(
             exists<VaultDelegates<Content>>(cap.vault_address),
-            error::invalid_state(EDELEGATION_NOT_ENABLED)
+            error::invalid_state(EDELEGATION_NOT_ENABLED),
         );
 
         let addr = signer::address_of(to_signer);
@@ -454,7 +448,7 @@ module std::vault {
                 VaultDelegate {
                     vault_address: cap.vault_address,
                     granted_caps: vector::empty()
-                }
+                },
             );
             // Add the delegate to VaultDelegates.
             let vault_delegates =
@@ -476,7 +470,7 @@ module std::vault {
     ) acquires VaultDelegates, VaultDelegate, VaultEvents {
         assert!(
             exists<VaultDelegates<Content>>(cap.vault_address),
-            error::invalid_state(EDELEGATION_NOT_ENABLED)
+            error::invalid_state(EDELEGATION_NOT_ENABLED),
         );
         assert!(exists<VaultDelegate<Content>>(addr), error::not_found(EDELEGATE));
 
@@ -497,12 +491,10 @@ module std::vault {
     }
 
     /// Revokes all delegate rights for this vault.
-    public fun revoke_all<Content: store + drop>(
-        cap: &DelegateCap<Content>
-    ) acquires VaultDelegates, VaultDelegate, VaultEvents {
+    public fun revoke_all<Content: store + drop>(cap: &DelegateCap<Content>) acquires VaultDelegates, VaultDelegate, VaultEvents {
         assert!(
             exists<VaultDelegates<Content>>(cap.vault_address),
-            error::invalid_state(EDELEGATION_NOT_ENABLED)
+            error::invalid_state(EDELEGATION_NOT_ENABLED),
         );
         let delegates =
             &mut borrow_global_mut<VaultDelegates<Content>>(cap.vault_address).delegates;
@@ -550,7 +542,7 @@ module std::vault {
             };
             event::emit_event(
                 &mut borrow_global_mut<VaultEvents<Content>>(cap.vault_address).delegate_events,
-                event
+                event,
             );
         }
     }
@@ -567,7 +559,7 @@ module std::vault {
         assert!(!exists<Vault<Content>>(new_addr), error::already_exists(EVAULT));
         assert!(
             option::is_some(&borrow_global<Vault<Content>>(cap.vault_address).content),
-            error::invalid_state(EACCESSOR_IN_USE)
+            error::invalid_state(EACCESSOR_IN_USE),
         );
 
         // Revoke all delegates.
@@ -589,7 +581,7 @@ module std::vault {
             };
             event::emit_event(
                 &mut borrow_global_mut<VaultEvents<Content>>(cap.vault_address).transfer_events,
-                event
+                event,
             );
         };
 

@@ -21,7 +21,7 @@ module aptos_std::smart_table_test {
             &t,
             |x, y| {
                 s = s + *x + *y;
-            }
+            },
         );
         assert!(s == 9900, 0);
         smart_table::destroy(t);
@@ -35,13 +35,13 @@ module aptos_std::smart_table_test {
             |_key, val| {
                 let val: &mut u64 = val;
                 *val = *val + 1
-            }
+            },
         );
         smart_table::for_each_ref(
             &t,
             |key, val| {
                 assert!(*key + 1 == *val, *key);
-            }
+            },
         );
         smart_table::destroy(t);
     }
@@ -54,7 +54,7 @@ module aptos_std::smart_table_test {
             &r,
             |key, val| {
                 assert!(*key + 1 == *val, *key);
-            }
+            },
         );
         smart_table::destroy(t);
         smart_table::destroy(r);

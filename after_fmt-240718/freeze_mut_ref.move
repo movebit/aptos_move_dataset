@@ -6,11 +6,11 @@ module 0x42::freeze_mut_ref {
         f: u64
     }
 
-    public fun borrow_mut<Element>(map: &mut vector<Element>): &Element {
+    public fun borrow_mut<Element>(map: &mut vector<Element>,): &Element {
         vector::borrow_mut(map, 0)
     }
 
-    public fun borrow_mut2<Element>(v: &mut Element): &Element {
+    public fun borrow_mut2<Element>(v: &mut Element,): &Element {
         v
     }
 
@@ -27,18 +27,18 @@ module 0x42::freeze_mut_ref {
         let f = {
             x = x + 1;
             &mut ({
-                x = x + 1;
-                s
-            }).f
+                    x = x + 1;
+                    s
+                }).f
         };
         let y = &mut 2;
         let z: &u64;
 
         *({
-            *f = 0;
-            z = y;
-            f
-        }) = 2;
+                *f = 0;
+                z = y;
+                f
+            }) = 2;
         (*z, *f, x)
     }
 

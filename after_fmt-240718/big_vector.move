@@ -25,7 +25,7 @@ module post_mint_reveal_nft::big_vector {
     /// Create an empty vector.
     public fun empty<T: store>(bucket_size: u64): BigVector<T> {
         assert!(bucket_size > 0, error::invalid_argument(EZERO_BUCKET_SIZE));
-        BigVector { buckets: table_with_length::new(), end_index: 0, bucket_size }
+        BigVector { buckets: table_with_length::new(), end_index: 0, bucket_size, }
     }
 
     /// Create a vector of length 1 containing the passed in element.
@@ -49,7 +49,7 @@ module post_mint_reveal_nft::big_vector {
         assert!(i < length(v), error::invalid_argument(EINDEX_OUT_OF_BOUNDS));
         vector::borrow(
             table_with_length::borrow(&v.buckets, i / v.bucket_size),
-            i % v.bucket_size
+            i % v.bucket_size,
         )
     }
 
@@ -59,7 +59,7 @@ module post_mint_reveal_nft::big_vector {
         assert!(i < length(v), error::invalid_argument(EINDEX_OUT_OF_BOUNDS));
         vector::borrow_mut(
             table_with_length::borrow_mut(&mut v.buckets, i / v.bucket_size),
-            i % v.bucket_size
+            i % v.bucket_size,
         )
     }
 
@@ -157,7 +157,7 @@ module post_mint_reveal_nft::big_vector {
     public fun swap<T>(v: &mut BigVector<T>, i: u64, j: u64) {
         assert!(
             i < length(v) && j < length(v),
-            error::invalid_argument(EINDEX_OUT_OF_BOUNDS)
+            error::invalid_argument(EINDEX_OUT_OF_BOUNDS),
         );
         let i_bucket_index = i / v.bucket_size;
         let j_bucket_index = j / v.bucket_size;
@@ -167,7 +167,7 @@ module post_mint_reveal_nft::big_vector {
             vector::swap(
                 table_with_length::borrow_mut(&mut v.buckets, i_bucket_index),
                 i_vector_index,
-                j_vector_index
+                j_vector_index,
             );
             return
         };

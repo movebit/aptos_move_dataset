@@ -122,7 +122,7 @@ module rewards_pool::rewards_pool_tests {
         rewards_pool::add_rewards(
             rewards_pool,
             vector[asset_rewards],
-            epoch::now() - 1
+            epoch::now() - 1,
         );
         verify_claimer_shares_percentage(claimer_1, rewards_pool, 100, 50);
         verify_claimer_shares_percentage(claimer_2, rewards_pool, 100, 50);
@@ -146,7 +146,7 @@ module rewards_pool::rewards_pool_tests {
         rewards_pool::add_rewards(
             rewards_pool,
             vector[non_reward_assets],
-            epoch::now() - 1
+            epoch::now() - 1,
         );
         test_helpers::clean_up(vector[asset_rewards]);
     }
@@ -163,7 +163,7 @@ module rewards_pool::rewards_pool_tests {
         rewards_pool::add_rewards(
             rewards_pool,
             vector[asset_rewards],
-            epoch::now()
+            epoch::now(),
         );
         rewards_pool::claim_rewards_entry(claimer, rewards_pool, 100);
     }
@@ -172,7 +172,7 @@ module rewards_pool::rewards_pool_tests {
         claimer_1: &signer,
         rewards_pool: Object<RewardsPool>,
         epoch: u64,
-        expected_shares: u64
+        expected_shares: u64,
     ) {
         let (shares, _) =
             rewards_pool::claimer_shares(
@@ -186,15 +186,14 @@ module rewards_pool::rewards_pool_tests {
         rewards_1: &mut FungibleAsset,
         rewards_2: &mut FungibleAsset,
         amount_1: u64,
-        amount_2: u64
+        amount_2: u64,
     ) {
         rewards_pool::add_rewards(
             pool,
             vector[
                 fungible_asset::extract(rewards_1, amount_1),
-                fungible_asset::extract(rewards_2, amount_2)
-            ],
-            epoch::now() - 1
+                fungible_asset::extract(rewards_2, amount_2)],
+            epoch::now() - 1,
         );
     }
 
@@ -214,7 +213,7 @@ module rewards_pool::rewards_pool_tests {
         claimer: &signer,
         pool: Object<RewardsPool>,
         epoch: u64,
-        expected_amounts: vector<u64>
+        expected_amounts: vector<u64>,
     ) {
         let claimer_addr = signer::address_of(claimer);
         let (non_zero_reward_tokens, claimable_rewards) =
@@ -234,7 +233,7 @@ module rewards_pool::rewards_pool_tests {
                 assert!(fungible_asset::amount(&reward) == claimable_amount, 0);
                 assert!(fungible_asset::amount(&reward) == expected_amount, 0);
                 primary_fungible_store::deposit(claimer_addr, reward);
-            }
+            },
         );
     }
 }

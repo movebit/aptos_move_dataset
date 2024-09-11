@@ -6,16 +6,16 @@ module 0x42::simple_map {
     const EKEY_NOT_FOUND: u64 = 2;
 
     struct SimpleMap<Key, Value> has copy, drop, store {
-        data: vector<Element<Key, Value>>
+        data: vector<Element<Key, Value>>,
     }
 
     struct Element<Key, Value> has copy, drop, store {
         key: Key,
-        value: Value
+        value: Value,
     }
 
     public fun borrow<Key: store, Value: store>(
-        map: &SimpleMap<Key, Value>, key: &Key
+        map: &SimpleMap<Key, Value>, key: &Key,
     ): &Value {
         let maybe_idx = find(map, key);
         assert!(option::is_some(&maybe_idx), error::invalid_argument(EKEY_NOT_FOUND));
@@ -25,7 +25,7 @@ module 0x42::simple_map {
     }
 
     fun find<Key: store, Value: store>(
-        map: &SimpleMap<Key, Value>, key: &Key
+        map: &SimpleMap<Key, Value>, key: &Key,
     ): option::Option<u64> {
         let leng = vector::length(&map.data);
         let i = 0;

@@ -5,7 +5,7 @@ module 0xCAFE::BasicCoin {
     use std::signer;
 
     struct Coin has key {
-        value: u64
+        value: u64,
     }
 
     public fun mint(account: signer, value: u64) {

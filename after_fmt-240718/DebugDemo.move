@@ -4,7 +4,7 @@ module DebugDemo::Message {
     use aptos_std::debug;
 
     struct MessageHolder has key {
-        message: string::String
+        message: string::String,
     }
 
     public entry fun set_message(
@@ -14,7 +14,7 @@ module DebugDemo::Message {
         let message = string::utf8(message_bytes);
         let account_addr = signer::address_of(&account);
         if (!exists<MessageHolder>(account_addr)) {
-            move_to(&account, MessageHolder { message })
+            move_to(&account, MessageHolder { message, })
         } else {
             let old_message_holder = borrow_global_mut<MessageHolder>(account_addr);
             old_message_holder.message = message;

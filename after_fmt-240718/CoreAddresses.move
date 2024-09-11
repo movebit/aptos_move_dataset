@@ -20,7 +20,7 @@ module DiemFramework::CoreAddresses {
     public fun assert_diem_root(account: &signer) {
         assert!(
             signer::address_of(account) == @DiemRoot,
-            errors::requires_address(EDIEM_ROOT)
+            errors::requires_address(EDIEM_ROOT),
         )
     }
 
@@ -39,7 +39,7 @@ module DiemFramework::CoreAddresses {
     public fun assert_treasury_compliance(account: &signer) {
         assert!(
             signer::address_of(account) == @TreasuryCompliance,
-            errors::requires_address(ETREASURY_COMPLIANCE)
+            errors::requires_address(ETREASURY_COMPLIANCE),
         )
     }
 
@@ -74,7 +74,7 @@ module DiemFramework::CoreAddresses {
     public fun assert_currency_info(account: &signer) {
         assert!(
             signer::address_of(account) == @CurrencyInfo,
-            errors::requires_address(ECURRENCY_INFO)
+            errors::requires_address(ECURRENCY_INFO),
         )
     }
 

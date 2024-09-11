@@ -28,11 +28,7 @@ module 0x2::M {
     }
 
     // Compatibility between vector in Move and array, bytes and string in Solidity
-    #[
-        callable(
-            sig = b"fun_2(int120[ 3 ][][5] memory , address payable [],bytes   [2]memory, bytes1 ,bytes32 ) returns (uint64)"
-        )
-    ]
+    #[callable(sig = b"fun_2(int120[ 3 ][][5] memory , address payable [],bytes   [2]memory, bytes1 ,bytes32 ) returns (uint64)")]
     fun f3(
         _vec0: vector<vector<vector<u128>>>,
         _vec1: vector<address>,

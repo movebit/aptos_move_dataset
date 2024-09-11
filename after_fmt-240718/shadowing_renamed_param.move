@@ -16,7 +16,7 @@ module 0x42::Test {
                 x = y // We expect this to assign 3 via foo if renaming works correctly. If not it would
                 // have the value 1.
             },
-            3
+            3,
         );
         assert!(x == 3, 0);
 
@@ -25,7 +25,7 @@ module 0x42::Test {
                 x = y // We expect this to assign 3 via foo if renaming works correctly. If not it would
                 // have the value 1.
             },
-            5
+            5,
         );
         assert!(x == 5, 0)
     }
@@ -37,7 +37,7 @@ module 0x42::Test {
                 x = y // We expect this to assign 3 via foo if renaming works correctly. If not it would
                 // have the value 1.
             },
-            3
+            3,
         );
         assert!(x == 3, 0);
 
@@ -46,7 +46,7 @@ module 0x42::Test {
                 x = y // We expect this to assign 3 via foo if renaming works correctly. If not it would
                 // have the value 1.
             },
-            5
+            5,
         );
         assert!(x == 5, 0)
     }

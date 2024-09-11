@@ -3,7 +3,7 @@ module Token {
 
     struct Coin<AssetType: copy + drop> has store {
         type: AssetType,
-        value: u64
+        value: u64,
     }
 
     // control the minting/creation in the defining module of `ATy`
@@ -15,8 +15,8 @@ module Token {
         coin.value
     }
 
-    public fun split<ATy: copy + drop + store>(coin: Coin<ATy>, amount: u64):
-        (Coin<ATy>, Coin<ATy>) {
+    public fun split<ATy: copy + drop + store>(coin: Coin<ATy>, amount: u64)
+        : (Coin<ATy>, Coin<ATy>) {
         let other = withdraw(&mut coin, amount);
         (coin, other)
     }
@@ -55,19 +55,19 @@ module OneToOneMarket {
     use 0x2::Token;
 
     struct Pool<AssetType: copy + drop> has key {
-        coin: Token::Coin<AssetType>
+        coin: Token::Coin<AssetType>,
     }
 
     struct DepositRecord<phantom InputAsset: copy + drop, phantom OutputAsset: copy + drop> has key {
-        record: u64
+        record: u64,
     }
 
     struct BorrowRecord<phantom InputAsset: copy + drop, phantom OutputAsset: copy + drop> has key {
-        record: u64
+        record: u64,
     }
 
     struct Price<phantom InputAsset: copy + drop, phantom OutputAsset: copy + drop> has key {
-        price: u64
+        price: u64,
     }
 
     fun accept<AssetType: copy + drop + store>(
@@ -103,7 +103,7 @@ module OneToOneMarket {
     }
 
     public fun borrow<In: copy + drop + store, Out: copy + drop + store>(
-        account: &signer, amount: u64
+        account: &signer, amount: u64,
     ): Token::Coin<Out> acquires Price, Pool, DepositRecord, BorrowRecord {
         assert!(amount <= max_borrow_amount<In, Out>(account), 1025);
 
@@ -128,8 +128,7 @@ module OneToOneMarket {
             let pool = borrow_global<Pool<Out>>(@0xB055);
             Token::value(&pool.coin)
         };
-        if (max_output < available_output) max_output
-        else available_output
+        if (max_output < available_output) max_output else available_output
 
     }
 
@@ -181,14 +180,12 @@ module ToddNickels {
     struct T has copy, drop, store {}
 
     struct Wallet has key {
-        nickels: Token::Coin<T>
+        nickels: Token::Coin<T>,
     }
 
     public fun init(account: &signer) {
         assert!(signer::address_of(account) == @0x70DD, 42);
-        move_to(account, Wallet {
-            nickels: Token::create(T {}, 0)
-        })
+        move_to(account, Wallet { nickels: Token::create(T {}, 0) })
     }
 
     public fun mint(account: &signer): Token::Coin<T> {

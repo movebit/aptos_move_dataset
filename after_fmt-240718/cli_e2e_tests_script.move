@@ -9,7 +9,7 @@ script {
         amount_second: u64,
         dst_first: address,
         dst_second: address,
-        deposit_first: u64
+        deposit_first: u64,
     ) {
         let coin_first = coin::withdraw<aptos_coin::AptosCoin>(first, amount_first);
         let coin_second = coin::withdraw<aptos_coin::AptosCoin>(second, amount_second);
@@ -19,7 +19,7 @@ script {
         let coin_second =
             coin::extract(
                 &mut coin_first,
-                amount_first + amount_second - deposit_first
+                amount_first + amount_second - deposit_first,
             );
 
         coin::deposit(dst_first, coin_first);

@@ -25,7 +25,7 @@ module example_addr::preminted_managed_coin {
             8, /* decimals */
             utf8(b"http://example.com/favicon.ico"), /* icon */
             utf8(b"http://example.com"), /* project */
-            vector[false, true, true] /* mint_ref, transfer_ref, burn_ref */
+            vector[false, true, true], /* mint_ref, transfer_ref, burn_ref */
         );
 
         // Create mint ref to premint fungible asset with a fixed supply volume into a specific account.
@@ -51,9 +51,7 @@ module example_addr::preminted_managed_coin {
     use std::option;
 
     #[test(creator = @example_addr)]
-    #[expected_failure(
-        abort_code = 0x60004, location = example_addr::managed_fungible_asset
-    )]
+    #[expected_failure(abort_code = 0x60004, location = example_addr::managed_fungible_asset)]
     fun test_basic_flow(creator: &signer) {
         init_module(creator);
         let creator_address = signer::address_of(creator);
@@ -62,7 +60,7 @@ module example_addr::preminted_managed_coin {
         assert!(
             option::destroy_some(fungible_asset::supply(metadata))
                 == (PRE_MINTED_TOTAL_SUPPLY as u128),
-            1
+            1,
         );
         managed_fungible_asset::mint_to_primary_stores(
             creator, metadata, vector[creator_address], vector[100]

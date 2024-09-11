@@ -105,7 +105,7 @@ module 0x42::SimpleIsTxnSigner {
             old(exists<Counter>(ADMIN_ADDRESS()))
                 && global<Counter>(ADMIN_ADDRESS()).i
                     != old(
-                        global<Counter>(ADMIN_ADDRESS()).i
+                        global<Counter>(ADMIN_ADDRESS()).i,
                     )
         ) ==>
             signer::is_txn_signer_addr(ADMIN_ADDRESS());

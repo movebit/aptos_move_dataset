@@ -23,7 +23,7 @@ module marketplace::events {
         collection: Option<Object<collectionv2::Collection>>,
         token_name: String,
         token: Option<Object<tokenv2::Token>>,
-        property_version: Option<u64>
+        property_version: Option<u64>,
     }
 
     public fun token_metadata_for_tokenv1(token_id: tokenv1::TokenId): TokenMetadata {
@@ -36,7 +36,7 @@ module marketplace::events {
             collection: option::none(),
             token_name,
             token: option::none(),
-            property_version: option::some(property_version)
+            property_version: option::some(property_version),
         }
     }
 
@@ -47,7 +47,7 @@ module marketplace::events {
             collection: option::some(tokenv2::collection_object(token)),
             token_name: tokenv2::name(token),
             token: option::some(token),
-            property_version: option::none()
+            property_version: option::none(),
         }
     }
 
@@ -56,22 +56,22 @@ module marketplace::events {
     struct CollectionMetadata has drop, store {
         creator_address: address,
         collection_name: String,
-        collection: Option<Object<collectionv2::Collection>>
+        collection: Option<Object<collectionv2::Collection>>,
     }
 
     public fun collection_metadata_for_tokenv1(
-        creator_address: address, collection_name: String
+        creator_address: address, collection_name: String,
     ): CollectionMetadata {
-        CollectionMetadata { creator_address, collection_name, collection: option::none() }
+        CollectionMetadata { creator_address, collection_name, collection: option::none(), }
     }
 
     public fun collection_metadata_for_tokenv2(
-        collection: Object<collectionv2::Collection>
+        collection: Object<collectionv2::Collection>,
     ): CollectionMetadata {
         CollectionMetadata {
             creator_address: collectionv2::creator(collection),
             collection_name: collectionv2::name(collection),
-            collection: option::some(collection)
+            collection: option::some(collection),
         }
     }
 
@@ -88,7 +88,7 @@ module marketplace::events {
         previous_bidder: Option<address>,
         previous_bid: Option<u64>,
         previous_end_time: u64,
-        token_metadata: TokenMetadata
+        token_metadata: TokenMetadata,
     }
 
     public(friend) fun emit_bid_event<T: key>(
@@ -100,7 +100,7 @@ module marketplace::events {
         previous_bidder: Option<address>,
         previous_bid: Option<u64>,
         previous_end_time: u64,
-        token_metadata: TokenMetadata
+        token_metadata: TokenMetadata,
     ) {
         event::emit(
             AuctionBid {
@@ -112,8 +112,8 @@ module marketplace::events {
                 previous_bidder,
                 previous_bid,
                 previous_end_time,
-                token_metadata
-            }
+                token_metadata,
+            },
         );
     }
 
@@ -133,7 +133,7 @@ module marketplace::events {
         listing: address,
         seller: address,
         price: u64,
-        token_metadata: TokenMetadata
+        token_metadata: TokenMetadata,
     ) {
         event::emit(
             ListingPlaced {
@@ -142,8 +142,8 @@ module marketplace::events {
                 listing,
                 seller,
                 price,
-                token_metadata
-            }
+                token_metadata,
+            },
         );
     }
 
@@ -163,7 +163,7 @@ module marketplace::events {
         listing: address,
         seller: address,
         price: u64,
-        token_metadata: TokenMetadata
+        token_metadata: TokenMetadata,
     ) {
         event::emit(
             ListingCanceled {
@@ -172,8 +172,8 @@ module marketplace::events {
                 listing,
                 seller,
                 price,
-                token_metadata
-            }
+                token_metadata,
+            },
         );
     }
 
@@ -199,7 +199,7 @@ module marketplace::events {
         price: u64,
         commission: u64,
         royalties: u64,
-        token_metadata: TokenMetadata
+        token_metadata: TokenMetadata,
     ) {
         event::emit(
             ListingFilled {
@@ -211,8 +211,8 @@ module marketplace::events {
                 price,
                 commission,
                 royalties,
-                token_metadata
-            }
+                token_metadata,
+            },
         );
     }
 
@@ -225,7 +225,7 @@ module marketplace::events {
         purchaser: address,
         price: u64,
         token_amount: u64,
-        collection_metadata: CollectionMetadata
+        collection_metadata: CollectionMetadata,
     }
 
     public(friend) fun emit_collection_offer_placed<T: key>(
@@ -234,7 +234,7 @@ module marketplace::events {
         purchaser: address,
         price: u64,
         token_amount: u64,
-        collection_metadata: CollectionMetadata
+        collection_metadata: CollectionMetadata,
     ) {
         event::emit(
             CollectionOfferPlaced {
@@ -243,8 +243,8 @@ module marketplace::events {
                 purchaser,
                 price,
                 token_amount,
-                collection_metadata
-            }
+                collection_metadata,
+            },
         );
     }
 
@@ -255,7 +255,7 @@ module marketplace::events {
         purchaser: address,
         price: u64,
         remaining_token_amount: u64,
-        collection_metadata: CollectionMetadata
+        collection_metadata: CollectionMetadata,
     }
 
     public(friend) fun emit_collection_offer_canceled<T: key>(
@@ -264,7 +264,7 @@ module marketplace::events {
         purchaser: address,
         price: u64,
         remaining_token_amount: u64,
-        collection_metadata: CollectionMetadata
+        collection_metadata: CollectionMetadata,
     ) {
         event::emit(
             CollectionOfferCanceled {
@@ -273,8 +273,8 @@ module marketplace::events {
                 purchaser,
                 price,
                 remaining_token_amount,
-                collection_metadata
-            }
+                collection_metadata,
+            },
         );
     }
 
@@ -287,7 +287,7 @@ module marketplace::events {
         price: u64,
         royalties: u64,
         commission: u64,
-        token_metadata: TokenMetadata
+        token_metadata: TokenMetadata,
     }
 
     public(friend) fun emit_collection_offer_filled<T: key>(
@@ -298,7 +298,7 @@ module marketplace::events {
         price: u64,
         royalties: u64,
         commission: u64,
-        token_metadata: TokenMetadata
+        token_metadata: TokenMetadata,
     ) {
         event::emit(
             CollectionOfferFilled {
@@ -309,8 +309,8 @@ module marketplace::events {
                 price,
                 royalties,
                 commission,
-                token_metadata
-            }
+                token_metadata,
+            },
         );
     }
 
@@ -321,7 +321,7 @@ module marketplace::events {
         token_offer: address,
         purchaser: address,
         price: u64,
-        token_metadata: TokenMetadata
+        token_metadata: TokenMetadata,
     }
 
     public(friend) fun emit_token_offer_placed<T: key>(
@@ -329,7 +329,7 @@ module marketplace::events {
         token_offer: address,
         purchaser: address,
         price: u64,
-        token_metadata: TokenMetadata
+        token_metadata: TokenMetadata,
     ) {
         event::emit(
             TokenOfferPlaced {
@@ -337,8 +337,8 @@ module marketplace::events {
                 token_offer,
                 purchaser,
                 price,
-                token_metadata
-            }
+                token_metadata,
+            },
         );
     }
 
@@ -348,7 +348,7 @@ module marketplace::events {
         token_offer: address,
         purchaser: address,
         price: u64,
-        token_metadata: TokenMetadata
+        token_metadata: TokenMetadata,
     }
 
     public(friend) fun emit_token_offer_canceled<T: key>(
@@ -356,7 +356,7 @@ module marketplace::events {
         token_offer: address,
         purchaser: address,
         price: u64,
-        token_metadata: TokenMetadata
+        token_metadata: TokenMetadata,
     ) {
         event::emit(
             TokenOfferCanceled {
@@ -364,8 +364,8 @@ module marketplace::events {
                 token_offer,
                 purchaser,
                 price,
-                token_metadata
-            }
+                token_metadata,
+            },
         );
     }
 
@@ -378,7 +378,7 @@ module marketplace::events {
         price: u64,
         royalties: u64,
         commission: u64,
-        token_metadata: TokenMetadata
+        token_metadata: TokenMetadata,
     }
 
     public(friend) fun emit_token_offer_filled<T: key>(
@@ -389,7 +389,7 @@ module marketplace::events {
         price: u64,
         royalties: u64,
         commission: u64,
-        token_metadata: TokenMetadata
+        token_metadata: TokenMetadata,
     ) {
         event::emit(
             TokenOfferFilled {
@@ -400,8 +400,8 @@ module marketplace::events {
                 price,
                 royalties,
                 commission,
-                token_metadata
-            }
+                token_metadata,
+            },
         );
     }
 }

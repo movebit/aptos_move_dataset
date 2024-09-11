@@ -5,9 +5,7 @@
 module Evm::IUniswapV2Factory {
 
     #[external(sig = b"getPair(address,address) returns (address)")]
-    public native fun call_getPair(
-        contract: address, tokenA: address, tokenB: address
-    ): address;
+    public native fun call_getPair(contract: address, tokenA: address, tokenB: address): address;
 
     #[interface_id]
     /// Return the interface identifier.

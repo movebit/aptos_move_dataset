@@ -26,14 +26,14 @@ module std::event {
         /// Total number of events emitted to this event stream.
         counter: u64,
         /// A globally unique ID for this event stream.
-        guid: GUIDWrapper
+        guid: GUIDWrapper,
     }
 
     /// Deprecated. Only kept around so Diem clients know how to deserialize existing EventHandleGenerator's
     struct EventHandleGenerator has key {
         // A monotonically increasing counter
         counter: u64,
-        addr: address
+        addr: address,
     }
 
     /// Use EventHandleGenerator to generate a unique event handle for `sig`
@@ -62,9 +62,7 @@ module std::event {
     }
 
     /// Log `msg` as the `count`th event associated with the event stream identified by `guid`
-    native fun write_to_event_store<T: drop + store>(
-        guid: vector<u8>, count: u64, msg: T
-    );
+    native fun write_to_event_store<T: drop + store>(guid: vector<u8>, count: u64, msg: T);
 
     /// Destroy a unique handle.
     public fun destroy_handle<T: drop + store>(handle: EventHandle<T>) {

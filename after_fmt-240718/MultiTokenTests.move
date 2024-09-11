@@ -7,16 +7,14 @@ module ExperimentalFramework::MultiTokenTests {
     /// A test token type to instantiate generic Tokens with.
     struct Game has store {
         name: vector<u8>,
-        edition: u64
+        edition: u64,
     }
 
     const EMINT_FAILED: u64 = 0;
     const ETRANSFER_FAILED: u64 = 1;
 
     #[test(admin = @0xa550c18, creator = @0x42, user = @0x43)]
-    public entry fun test_all(
-        admin: signer, creator: signer, user: signer
-    ) {
+    public entry fun test_all(admin: signer, creator: signer, user: signer) {
         /*
         ===============================================================
             Initialization + preparation
@@ -44,7 +42,7 @@ module ExperimentalFramework::MultiTokenTests {
                 &creator,
                 Game { name: b"Mario", edition: 2008 },
                 b"nintendo.com",
-                10
+                10,
             );
         // Add all 10 tokens to creator's own account
         MultiTokenBalance::add_to_gallery<Game>(creator_addr, token1);
@@ -52,11 +50,11 @@ module ExperimentalFramework::MultiTokenTests {
         // Assert creator has the right number of tokens and supply is 10.
         assert!(
             MultiTokenBalance::has_token<Game>(creator_addr, &token1_id),
-            EMINT_FAILED
+            EMINT_FAILED,
         );
         assert!(
             MultiTokenBalance::get_token_balance<Game>(creator_addr, &token1_id) == 10,
-            EMINT_FAILED
+            EMINT_FAILED,
         );
         assert!(MultiToken::supply<Game>(&token1_id) == 10, EMINT_FAILED);
 
@@ -65,16 +63,16 @@ module ExperimentalFramework::MultiTokenTests {
                 &creator,
                 Game { name: b"ChromeDino", edition: 2015 },
                 b"google.com",
-                233
+                233,
             );
         MultiTokenBalance::add_to_gallery<Game>(creator_addr, token2);
         assert!(
             MultiTokenBalance::has_token<Game>(creator_addr, &token2_id),
-            EMINT_FAILED
+            EMINT_FAILED,
         );
         assert!(
             MultiTokenBalance::get_token_balance<Game>(creator_addr, &token2_id) == 233,
-            EMINT_FAILED
+            EMINT_FAILED,
         );
 
         /*
@@ -89,24 +87,24 @@ module ExperimentalFramework::MultiTokenTests {
             user_addr, // to
             6, // amount
             creator_addr, // token.id.addr
-            0 // token.id.creation_num
+            0, // token.id.creation_num
         );
 
         assert!(
             MultiTokenBalance::has_token<Game>(creator_addr, &token1_id),
-            ETRANSFER_FAILED
+            ETRANSFER_FAILED,
         );
         assert!(
             MultiTokenBalance::get_token_balance<Game>(creator_addr, &token1_id) == 4,
-            ETRANSFER_FAILED
+            ETRANSFER_FAILED,
         );
         assert!(
             MultiTokenBalance::has_token<Game>(user_addr, &token1_id),
-            ETRANSFER_FAILED
+            ETRANSFER_FAILED,
         );
         assert!(
             MultiTokenBalance::get_token_balance<Game>(user_addr, &token1_id) == 6,
-            ETRANSFER_FAILED
+            ETRANSFER_FAILED,
         );
         assert!(MultiToken::supply<Game>(&token1_id) == 10, ETRANSFER_FAILED); // supply should not change
 
@@ -122,19 +120,19 @@ module ExperimentalFramework::MultiTokenTests {
         );
         assert!(
             !MultiTokenBalance::has_token<Game>(user_addr, &token1_id),
-            ETRANSFER_FAILED
+            ETRANSFER_FAILED,
         ); // user doesn't have token1 anymore
         assert!(
             MultiTokenBalance::get_token_balance<Game>(user_addr, &token1_id) == 0,
-            ETRANSFER_FAILED
+            ETRANSFER_FAILED,
         );
         assert!(
             MultiTokenBalance::has_token<Game>(creator_addr, &token1_id),
-            ETRANSFER_FAILED
+            ETRANSFER_FAILED,
         );
         assert!(
             MultiTokenBalance::get_token_balance<Game>(creator_addr, &token1_id) == 10,
-            ETRANSFER_FAILED
+            ETRANSFER_FAILED,
         );
     }
 }

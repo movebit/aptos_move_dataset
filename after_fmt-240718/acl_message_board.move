@@ -73,7 +73,7 @@ module message_board::acl_based_mb {
         let board = borrow_global<ACLBasedMB>(board_addr);
         assert!(
             acl::contains(&board.participants, signer::address_of(account)),
-            EACCOUNT_NOT_IN_ACL
+            EACCOUNT_NOT_IN_ACL,
         );
 
         let board = borrow_global_mut<ACLBasedMB>(board_addr);
@@ -92,7 +92,7 @@ module message_board::acl_based_mb {
                 board: board_addr,
                 message,
                 participant: signer::address_of(&account)
-            }
+            },
         );
     }
 }
@@ -106,9 +106,9 @@ module message_board::MessageBoardTests {
     use message_board::acl_based_mb;
 
     const HELLO_WORLD: vector<u8> = vector<u8>[150, 145, 154, 154, 157, 040, 167, 157, 162,
-    154, 144];
+        154, 144];
     const BOB_IS_HERE: vector<u8> = vector<u8>[142, 157, 142, 040, 151, 163, 040, 150, 145,
-    162, 145];
+        162, 145];
 
     #[test]
     public entry fun test_init_messageboard() {

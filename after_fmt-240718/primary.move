@@ -6,11 +6,9 @@ module resource_groups_primary::primary {
     #[resource_group(scope = global)]
     struct ResourceGroupContainer {}
 
-    #[resource_group_member(
-        group = resource_groups_primary::primary::ResourceGroupContainer
-    )]
+    #[resource_group_member(group = resource_groups_primary::primary::ResourceGroupContainer)]
     struct Primary has drop, key {
-        value: u64
+        value: u64,
     }
 
     public entry fun init(account: &signer, value: u64) {

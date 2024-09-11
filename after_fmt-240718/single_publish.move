@@ -1,4 +1,2 @@
 //# publish
-address 0x42 {
-module N {}
-}
+address 0x42 { module N {} }

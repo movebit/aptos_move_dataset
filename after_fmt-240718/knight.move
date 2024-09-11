@@ -48,13 +48,13 @@ module knight::knight {
         /// Used to mutate properties
         property_mutator_ref: property_map::MutatorRef,
         /// the base URI of the token
-        base_uri: String
+        base_uri: String,
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
     /// The knight's health point
     struct HealthPoint has key {
-        value: u64
+        value: u64,
     }
 
     #[event]
@@ -62,7 +62,7 @@ module knight::knight {
     struct HealthUpdate has drop, store {
         token: address,
         old_health: u64,
-        new_health: u64
+        new_health: u64,
     }
 
     /// Initializes the module, creating the knight token collection.
@@ -93,7 +93,7 @@ module knight::knight {
         description: String,
         name: String,
         base_uri: String,
-        receiver: address
+        receiver: address,
     ) {
         // The collection name is used to locate the collection object and to create a new token object.
         let collection = string::utf8(KNIGHT_COLLECTION_NAME);
@@ -108,7 +108,7 @@ module knight::knight {
                 description,
                 name,
                 option::none(),
-                uri
+                uri,
             );
 
         // Generates the object signer and the refs. The object signer is used to publish a resource
@@ -133,14 +133,14 @@ module knight::knight {
         property_map::add_typed(
             &property_mutator_ref,
             string::utf8(CONDITION_PROPERTY_NAME),
-            string::utf8(CONDITION_HUNGRY)
+            string::utf8(CONDITION_HUNGRY),
         );
         // Although the health point is stored in the HealthPoint resource, it is also duplicated
         // and stored in the property map to be recognized as a property by the wallet.
         property_map::add_typed(
             &property_mutator_ref,
             string::utf8(HEALTH_POINT_PROPERTY_NAME),
-            1
+            1,
         );
 
         // Publishes the KnightToken resource with the refs.
@@ -184,15 +184,15 @@ module knight::knight {
         property_map::update_typed(
             property_mutator_ref,
             &string::utf8(HEALTH_POINT_PROPERTY_NAME),
-            new_health_point
+            new_health_point,
         );
 
         event::emit(
             HealthUpdate {
                 token: knight_token_address,
                 old_health: old_health_point,
-                new_health: new_health_point
-            }
+                new_health: new_health_point,
+            },
         );
 
         // `new_condition` is determined based on the new health point.
@@ -206,7 +206,7 @@ module knight::knight {
         property_map::update_typed(
             property_mutator_ref,
             &string::utf8(CONDITION_PROPERTY_NAME),
-            string::utf8(new_condition)
+            string::utf8(new_condition),
         );
 
         // Updates the token URI based on the new condition.
@@ -230,7 +230,7 @@ module knight::knight {
             description,
             name,
             option::none(),
-            uri
+            uri,
         );
     }
 
@@ -265,7 +265,7 @@ module knight::knight {
             token_description,
             token_name,
             token_uri,
-            user1_addr
+            user1_addr,
         );
         let token_address = knight_token_address(token_name);
         let knight_token = object::address_to_object<KnightToken>(token_address);

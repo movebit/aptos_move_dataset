@@ -13,17 +13,13 @@ module 0x2::M {
     public native fun decode_two_bytes1(input: vector<u8>): (vector<u8>, vector<u8>);
 
     #[encode(sig = b"encode_two_bytes1(bytes1, bytes1) returns (bytes)")]
-    public native fun encode_two_bytes1(
-        input_1: vector<u8>, input_2: vector<u8>
-    ): vector<u8>;
+    public native fun encode_two_bytes1(input_1: vector<u8>, input_2: vector<u8>): vector<u8>;
 
     #[encode_packed(sig = b"encode_packed(uint16, uint16) returns (bytes)")]
     public native fun encode_packed(input_1: u64, input_2: u64): vector<u8>;
 
     #[encode_packed(sig = b"encode_packed_string(string, string) returns (bytes)")]
-    public native fun encode_packed_string(
-        input_1: vector<u8>, input_2: vector<u8>
-    ): vector<u8>;
+    public native fun encode_packed_string(input_1: vector<u8>, input_2: vector<u8>): vector<u8>;
 
     #[evm_test]
     fun test_encode_packed_uint16() {
@@ -40,7 +36,7 @@ module 0x2::M {
         assert!(encode_packed_string(b"", b"abc") == b"abc", 102);
         assert!(
             encode_packed_string(encode_packed_string(b"a", b"bc"), b"de") == b"abcde",
-            103
+            103,
         );
         assert!(encode_packed_string(b"test", b"") == b"test", 104);
     }

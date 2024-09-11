@@ -12,12 +12,14 @@ module ExperimentalFramework::ExperimentalValidatorConfig {
     }
 
     public(friend) fun publish(
-        root_account: &signer, validator_account: &signer, human_name: vector<u8>
+        root_account: &signer,
+        validator_account: &signer,
+        human_name: vector<u8>,
     ) {
         ValidatorConfig::publish(
             validator_account,
             human_name,
-            capability::acquire(root_account, &ExperimentalValidatorConfig {})
+            capability::acquire(root_account, &ExperimentalValidatorConfig {}),
         );
     }
 }

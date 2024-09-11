@@ -32,7 +32,7 @@ spec aptos_token::token_transfers {
         collection: String,
         name: String,
         property_version: u64,
-        amount: u64
+        amount: u64,
     ) {
         pragma verify = false;
         let token_id = token::create_token_id_raw(
@@ -41,7 +41,7 @@ spec aptos_token::token_transfers {
     }
 
     spec offer(
-        sender: &signer, receiver: address, token_id: TokenId, amount: u64
+        sender: &signer, receiver: address, token_id: TokenId, amount: u64,
     ) {
         use aptos_token::token::{TokenStore, Self};
 
@@ -64,8 +64,9 @@ spec aptos_token::token_transfers {
         let a = table::spec_contains(pending_claims, token_offer_id);
         let dst_token = table::spec_get(pending_claims, token_offer_id);
 
-        aborts_if dst_token.amount
-            + spce_get(signer::address_of(sender), token_id, amount) > MAX_U64;
+        aborts_if dst_token.amount + spce_get(
+            signer::address_of(sender), token_id, amount
+        ) > MAX_U64;
     }
 
     /// Get the amount from sender token
@@ -86,7 +87,7 @@ spec aptos_token::token_transfers {
         creator: address,
         collection: String,
         name: String,
-        property_version: u64
+        property_version: u64,
     ) {
         use aptos_token::token::{TokenStore};
 
@@ -113,7 +114,7 @@ spec aptos_token::token_transfers {
 
     }
 
-    spec claim(receiver: &signer, sender: address, token_id: TokenId) {
+    spec claim(receiver: &signer, sender: address, token_id: TokenId,) {
         use aptos_token::token::{TokenStore};
         // TODO: deposit_token has pending issues
         pragma aborts_if_is_partial;
@@ -140,7 +141,7 @@ spec aptos_token::token_transfers {
         creator: address,
         collection: String,
         name: String,
-        property_version: u64
+        property_version: u64,
     ) {
         use aptos_token::token::{TokenStore};
 
@@ -168,7 +169,7 @@ spec aptos_token::token_transfers {
         aborts_if token.amount <= 0;
     }
 
-    spec cancel_offer(sender: &signer, receiver: address, token_id: TokenId) {
+    spec cancel_offer(sender: &signer, receiver: address, token_id: TokenId,) {
         use aptos_token::token::{TokenStore};
 
         // TODO: deposit_token has pending issues.

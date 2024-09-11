@@ -1,11 +1,10 @@
-address 0x42 {
-module mod1 {
+address 0x42 { module mod1 {
     struct C {}
 
     const C: u64 = 0;
     public fun mod1() {}
-}
-}
+
+} }
 
 address 0x41 {
 module N {

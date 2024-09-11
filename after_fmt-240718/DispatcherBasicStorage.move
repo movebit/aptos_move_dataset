@@ -2,7 +2,7 @@
 module 0x2::M {
     #[storage]
     struct Storage {
-        counter: u64
+        counter: u64,
     }
 
     #[create]

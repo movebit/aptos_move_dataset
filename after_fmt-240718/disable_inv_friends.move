@@ -21,8 +21,9 @@ module M1 {
     }
 
     spec module {
-        invariant [global , suspendable] forall addr: address:
-            exists<M3::R3>(addr) <==> exists<M2::R2>(addr);
+        invariant [global , suspendable] forall addr: address: exists<M3::R3>(addr) <==> exists<M2::R2>(
+            addr
+        );
     }
 }
 

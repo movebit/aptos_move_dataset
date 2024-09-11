@@ -9,7 +9,7 @@ module 0xABCD::coin_example {
             b"Example Coin",
             b"Example",
             8,
-            false
+            false,
         );
     }
 

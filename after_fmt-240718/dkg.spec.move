@@ -16,7 +16,7 @@ spec aptos_framework::dkg {
         dealer_epoch: u64,
         randomness_config: RandomnessConfig,
         dealer_validator_set: vector<ValidatorConsensusInfo>,
-        target_validator_set: vector<ValidatorConsensusInfo>
+        target_validator_set: vector<ValidatorConsensusInfo>,
     ) {
         aborts_if !exists<DKGState>(@aptos_framework);
         aborts_if !exists<timestamp::CurrentTimeMicroseconds>(@aptos_framework);

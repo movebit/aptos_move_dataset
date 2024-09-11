@@ -21,8 +21,7 @@ module 0x42::Test {
 
     // Checks a multi-mutality scenario.
     public inline fun elem_for_each_ref<K, V>(
-        v: &mut vector<Elem<K, V>>,
-        f: |&K, &mut V| u64
+        v: &mut vector<Elem<K, V>>, f: |&K, &mut V| u64
     ): u64 {
         let result = 0;
         for_each_ref_mut(
@@ -30,7 +29,7 @@ module 0x42::Test {
             |elem| {
                 let elem: &mut Elem<K, V> = elem; // Checks whether scoping is fine
                 result = result + f(&elem.k, &mut elem.v);
-            }
+            },
         );
         result
     }
@@ -38,7 +37,7 @@ module 0x42::Test {
     public fun test() {
         assert!(
             elem_for_each_ref(&mut vector[Elem { k: 1, v: 2 }], |x, y| *x + *y) == 3,
-            0
+            0,
         )
     }
 }

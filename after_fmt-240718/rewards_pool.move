@@ -37,7 +37,7 @@ module rewards_pool::rewards_pool {
         /// Total amount of rewards for each reward token added to this epoch.
         total_amounts: SimpleMap<Object<Metadata>, u64>,
         /// Pool representing the claimer shares in this epoch.
-        claimer_pool: Pool
+        claimer_pool: Pool,
     }
 
     /// Data regarding the store object for a specific reward token.
@@ -45,7 +45,7 @@ module rewards_pool::rewards_pool {
         /// The fungible store for this reward token.
         store: Object<FungibleStore>,
         /// We need to keep the fungible store's extend ref to be able to transfer rewards from it during claiming.
-        store_extend_ref: ExtendRef
+        store_extend_ref: ExtendRef,
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
@@ -53,7 +53,7 @@ module rewards_pool::rewards_pool {
         /// A mapping to track per epoch rewards data.
         epoch_rewards: SmartTable<u64, EpochRewards>,
         /// The stores where rewards are kept.
-        reward_stores: SimpleMap<Object<Metadata>, RewardStore>
+        reward_stores: SimpleMap<Object<Metadata>, RewardStore>,
     }
 
     /// Create a new rewards pool with the given reward tokens (fungible assets only)
@@ -86,30 +86,30 @@ module rewards_pool::rewards_pool {
                         // claimers claim their rewards.
                         store_extend_ref: object::generate_extend_ref(
                             store_constructor_ref
-                        )
-                    }
+                        ),
+                    },
                 );
-            }
+            },
         );
         move_to(
             rewards_pool_signer,
-            RewardsPool { epoch_rewards: smart_table::new(), reward_stores }
+            RewardsPool { epoch_rewards: smart_table::new(), reward_stores, },
         );
         object::object_from_constructor_ref(rewards_pool_constructor_ref)
     }
 
     #[view]
     /// Return all the reward tokens supported by the rewards pool.
-    public fun reward_tokens(
-        rewards_pool: Object<RewardsPool>
-    ): vector<Object<Metadata>> acquires RewardsPool {
+    public fun reward_tokens(rewards_pool: Object<RewardsPool>): vector<Object<Metadata>> acquires RewardsPool {
         simple_map::keys(&safe_rewards_pool_data(&rewards_pool).reward_stores)
     }
 
     #[view]
     /// Return the current shares and total shares of a given claimer for a given rewards pool and epoch.
     public fun claimer_shares(
-        claimer: address, rewards_pool: Object<RewardsPool>, epoch: u64
+        claimer: address,
+        rewards_pool: Object<RewardsPool>,
+        epoch: u64,
     ): (u64, u64) acquires RewardsPool {
         let epoch_rewards =
             smart_table::borrow(
@@ -124,7 +124,9 @@ module rewards_pool::rewards_pool {
     /// Return the amounts of claimable rewards for a given claimer, rewards pool, and epoch.
     /// The return value is a vector of reward tokens and a vector of amounts.
     public fun claimable_rewards(
-        claimer: address, rewards_pool: Object<RewardsPool>, epoch: u64
+        claimer: address,
+        rewards_pool: Object<RewardsPool>,
+        epoch: u64,
     ): (vector<Object<Metadata>>, vector<u64>) acquires RewardsPool {
         assert!(epoch < epoch::now(), EREWARDS_CANNOT_BE_CLAIMED_FOR_CURRENT_EPOCH);
         let all_rewards_tokens = reward_tokens(rewards_pool);
@@ -139,7 +141,7 @@ module rewards_pool::rewards_pool {
                     vector::push_back(&mut non_empty_reward_tokens, reward_token);
                     vector::push_back(&mut reward_per_tokens, reward);
                 };
-            }
+            },
         );
         (non_empty_reward_tokens, reward_per_tokens)
     }
@@ -147,13 +149,15 @@ module rewards_pool::rewards_pool {
     /// Allow a claimer to claim the rewards for a past epoch.
     /// This returns a vector of rewards for all reward tokens.
     public entry fun claim_rewards_entry(
-        claimer: &signer, rewards_pool: Object<RewardsPool>, epoch: u64
+        claimer: &signer,
+        rewards_pool: Object<RewardsPool>,
+        epoch: u64,
     ) acquires RewardsPool {
         let rewards = claim_rewards(claimer, rewards_pool, epoch);
         let claimer_addr = signer::address_of(claimer);
         vector::for_each_reverse(
             rewards,
-            |r| primary_fungible_store::deposit(claimer_addr, r)
+            |r| primary_fungible_store::deposit(claimer_addr, r),
         );
     }
 
@@ -162,7 +166,9 @@ module rewards_pool::rewards_pool {
     /// If there's no reward for a specific reward token, the corresponding returned reward asset will be of zero
     /// amount (created via fungible_asset::zero).
     public fun claim_rewards(
-        claimer: &signer, rewards_pool: Object<RewardsPool>, epoch: u64
+        claimer: &signer,
+        rewards_pool: Object<RewardsPool>,
+        epoch: u64,
     ): vector<FungibleAsset> acquires RewardsPool {
         assert!(epoch < epoch::now(), EREWARDS_CANNOT_BE_CLAIMED_FOR_CURRENT_EPOCH);
         let reward_tokens = reward_tokens(rewards_pool);
@@ -180,7 +186,7 @@ module rewards_pool::rewards_pool {
                         &mut rewards,
                         fungible_asset::zero(
                             fungible_asset::store_metadata(reward_store.store)
-                        )
+                        ),
                     );
                 } else {
                     // Withdraw the reward from the corresponding store.
@@ -190,7 +196,7 @@ module rewards_pool::rewards_pool {
                         );
                     vector::push_back(
                         &mut rewards,
-                        fungible_asset::withdraw(store_signer, reward_store.store, reward)
+                        fungible_asset::withdraw(store_signer, reward_store.store, reward),
                     );
 
                     // Update the remaining amount of rewards for the epoch.
@@ -202,7 +208,7 @@ module rewards_pool::rewards_pool {
                         );
                     *total_token_rewards = *total_token_rewards - reward;
                 };
-            }
+            },
         );
 
         // Remove the claimer's allocation in the epoch as they have now claimed all rewards for that epoch.
@@ -223,7 +229,7 @@ module rewards_pool::rewards_pool {
     public fun add_rewards(
         rewards_pool: Object<RewardsPool>,
         fungible_assets: vector<FungibleAsset>,
-        epoch: u64
+        epoch: u64,
     ) acquires RewardsPool {
         let rewards_data = unchecked_mut_rewards_pool_data(&rewards_pool);
         let reward_stores = &rewards_data.reward_stores;
@@ -234,7 +240,7 @@ module rewards_pool::rewards_pool {
                 let reward_token = fungible_asset::metadata_from_asset(&fa);
                 assert!(
                     simple_map::contains_key(reward_stores, &reward_token),
-                    EREWARD_TOKEN_NOT_SUPPORTED
+                    EREWARD_TOKEN_NOT_SUPPORTED,
                 );
 
                 // Deposit the rewards into the corresponding store.
@@ -251,13 +257,15 @@ module rewards_pool::rewards_pool {
                 } else {
                     simple_map::add(total_amounts, reward_token, amount);
                 };
-            }
+            },
         );
     }
 
     /// This should only be called by system modules to increase the shares of a claimer for the current epoch.
     public(friend) fun increase_allocation(
-        claimer: address, rewards_pool: Object<RewardsPool>, amount: u64
+        claimer: address,
+        rewards_pool: Object<RewardsPool>,
+        amount: u64,
     ) acquires RewardsPool {
         let epoch_rewards =
             &mut unchecked_mut_rewards_pool_data(&rewards_pool).epoch_rewards;
@@ -267,7 +275,9 @@ module rewards_pool::rewards_pool {
 
     /// This should only be called by system modules to decrease the shares of a claimer for the current epoch.
     public(friend) fun decrease_allocation(
-        claimer: address, rewards_pool: Object<RewardsPool>, amount: u64
+        claimer: address,
+        rewards_pool: Object<RewardsPool>,
+        amount: u64,
     ) acquires RewardsPool {
         let epoch_rewards =
             &mut unchecked_mut_rewards_pool_data(&rewards_pool).epoch_rewards;
@@ -281,7 +291,7 @@ module rewards_pool::rewards_pool {
         claimer: address,
         rewards_pool_data: &RewardsPool,
         reward_token: Object<Metadata>,
-        epoch: u64
+        epoch: u64,
     ): u64 {
         // No rewards (in any tokens) have been added for this epoch.
         if (!smart_table::contains(&rewards_pool_data.epoch_rewards, epoch)) {
@@ -302,14 +312,13 @@ module rewards_pool::rewards_pool {
         )
     }
 
-    inline fun safe_rewards_pool_data(
-        rewards_pool: &Object<RewardsPool>
-    ): &RewardsPool acquires RewardsPool {
+    inline fun safe_rewards_pool_data(rewards_pool: &Object<RewardsPool>,): &RewardsPool acquires RewardsPool {
         borrow_global<RewardsPool>(object::object_address(rewards_pool))
     }
 
     inline fun epoch_rewards_or_default(
-        epoch_rewards: &mut SmartTable<u64, EpochRewards>, epoch: u64
+        epoch_rewards: &mut SmartTable<u64, EpochRewards>,
+        epoch: u64,
     ): &mut EpochRewards acquires RewardsPool {
         if (!smart_table::contains(epoch_rewards, epoch)) {
             smart_table::add(
@@ -317,15 +326,15 @@ module rewards_pool::rewards_pool {
                 epoch,
                 EpochRewards {
                     total_amounts: simple_map::new(),
-                    claimer_pool: pool_u64::create()
-                }
+                    claimer_pool: pool_u64::create(),
+                },
             );
         };
         smart_table::borrow_mut(epoch_rewards, epoch)
     }
 
     inline fun unchecked_mut_rewards_pool_data(
-        rewards_pool: &Object<RewardsPool>
+        rewards_pool: &Object<RewardsPool>,
     ): &mut RewardsPool acquires RewardsPool {
         borrow_global_mut<RewardsPool>(object::object_address(rewards_pool))
     }

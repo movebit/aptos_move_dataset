@@ -4,26 +4,22 @@ module 0xc0ffee::m {
         let x = 1;
         x
             + {
-                x = {
-                    x + {
+                x = { x + {
                         x = x + 1;
                         x
                     } + {
                         x = x + 1;
                         x
-                    }
-                };
+                    } };
                 x
             } + {
-            x = {
-                x + {
+            x = { x + {
                     x = x + 1;
                     x
                 } + {
                     x = x + 1;
                     x
-                }
-            };
+                } };
             x
         }
     }

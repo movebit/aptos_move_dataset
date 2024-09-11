@@ -88,8 +88,7 @@ module 0x1::TestMutRef {
     // Different path into one vector
 
     fun return_ref_different_path_vec(b: bool, x: &mut V): &mut u64 {
-        if (b) vector::borrow_mut(&mut x.is, 1)
-        else vector::borrow_mut(&mut x.is, 0)
+        if (b) vector::borrow_mut(&mut x.is, 1) else vector::borrow_mut(&mut x.is, 0)
     }
 
     fun call_return_ref_different_path_vec(b: bool): V {
@@ -105,22 +104,16 @@ module 0x1::TestMutRef {
 
     spec call_return_ref_different_path_vec {
         ensures b ==>
-            result == V {
-                is: concat(vec(1u64), vec(5u64)),
-                ts: vec()
-            };
+            result == V { is: concat(vec(1u64), vec(5u64)), ts: vec() };
         ensures !b ==>
-            result == V {
-                is: concat(vec(5u64), vec(2u64)),
-                ts: vec()
-            };
+            result == V { is: concat(vec(5u64), vec(2u64)), ts: vec() };
     }
 
     // Different path into a vector or a vector of structs subfield
 
     fun return_ref_different_path_vec2(b: bool, x: &mut V): &mut u64 {
-        if (b) vector::borrow_mut(&mut x.is, 1)
-        else &mut (vector::borrow_mut(&mut x.ts, 0)).value
+        if (b) vector::borrow_mut(&mut x.is, 1) else
+            &mut (vector::borrow_mut(&mut x.ts, 0)).value
     }
 
     fun call_return_ref_different_path_vec2(b: bool): V {

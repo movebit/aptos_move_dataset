@@ -274,31 +274,31 @@ module 0x42::TestSome {
     // =======================================================================================
 
     struct BallotID has store, copy, drop {
-        counter: u64
+        counter: u64,
     }
 
     struct Ballot<Proposal: store + drop> has store, copy, drop {
         proposal: Proposal,
         ballot_id: BallotID,
-        expiration_timestamp_secs: u64
+        expiration_timestamp_secs: u64,
     }
 
     struct Ballots<Proposal: store + drop> has key {
-        ballots: vector<Ballot<Proposal>>
+        ballots: vector<Ballot<Proposal>>,
     }
 
     struct BallotCounter has key {
-        counter: u64
+        counter: u64,
     }
 
-    public fun new_ballot_id(counter: u64): BallotID {
-        BallotID { counter }
+    public fun new_ballot_id(counter: u64,): BallotID {
+        BallotID { counter, }
     }
 
     public fun create_ballot<Proposal: store + copy + drop>(
         ballot_account: &signer
     ): BallotID {
-        move_to(ballot_account, BallotCounter { counter: 0 });
+        move_to(ballot_account, BallotCounter { counter: 0, });
         let ballot_id = new_ballot_id(0);
         ballot_id
     }
@@ -312,8 +312,7 @@ module 0x42::TestSome {
     spec fun get_ballot<Proposal>(ballot_address: address, ballot_id: BallotID): Ballot<Proposal> {
         let ballots = global<Ballots<Proposal>>(ballot_address).ballots;
         global<Ballots<Proposal>>(ballot_address).ballots[
-            choose min i in 0..len(ballots) where ballots[i].ballot_id == ballot_id
-        ]
+            choose min i in 0..len(ballots) where ballots[i].ballot_id == ballot_id]
     }
 
     spec create_ballot {

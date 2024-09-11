@@ -87,7 +87,7 @@ module 0x42::TestReferences {
     // ---------------------------
 
     struct WithdrawalCapability has key {
-        account_address: address
+        account_address: address,
     }
 
     fun withdrawal_capability_address(cap: &WithdrawalCapability): &address {

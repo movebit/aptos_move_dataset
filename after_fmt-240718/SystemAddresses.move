@@ -19,7 +19,7 @@ module CoreFramework::SystemAddresses {
     public fun assert_core_resource_address(addr: address) {
         assert!(
             is_core_resource_address(addr),
-            errors::requires_address(ENOT_CORE_RESOURCE_ADDRESS)
+            errors::requires_address(ENOT_CORE_RESOURCE_ADDRESS),
         )
     }
 

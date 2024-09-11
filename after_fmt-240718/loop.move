@@ -14,29 +14,29 @@ module 0x42::VerifySort {
         let i = 0;
         let j = 1;
         while ({
-            spec {
-                // loop invariant that proves order of output vector
-                invariant i >= 0 && i < vlen;
-                invariant j >= 1 && j <= vlen;
-                invariant j == vlen ==> i == vlen - 1;
-                invariant j >= i + 1;
-                invariant len(v) == vlen;
-                invariant forall k in 0..i, l in 0..i: k < l ==> v[k] <= v[l];
-                invariant forall k in 0..i, l in i..vlen: v[k] <= v[l];
-                invariant forall k in (i + 1)..j: v[i] <= v[k];
+                spec {
+                    // loop invariant that proves order of output vector
+                    invariant i >= 0 && i < vlen;
+                    invariant j >= 1 && j <= vlen;
+                    invariant j == vlen ==> i == vlen - 1;
+                    invariant j >= i + 1;
+                    invariant len(v) == vlen;
+                    invariant forall k in 0..i, l in 0..i: k < l ==> v[k] <= v[l];
+                    invariant forall k in 0..i, l in i..vlen: v[k] <= v[l];
+                    invariant forall k in (i + 1)..j: v[i] <= v[k];
 
-                // loop invariant that proves output vector is a permutation of input vector
-                invariant len(iperm) == vlen
-                    && (forall k in 0..vlen: old(v)[iperm[k]] == v[k])
-                    && (forall k in 0..vlen: iperm[k] >= 0
-                        && iperm[k] < vlen)
-                    && (
-                        forall k in 0..vlen, l in 0..vlen:
-                            k != l ==> iperm[k] != iperm[l]
-                    );
-            };
-            (i < vlen - 1)
-        }) {
+                    // loop invariant that proves output vector is a permutation of input vector
+                    invariant len(iperm) == vlen
+                        && (forall k in 0..vlen: old(v)[iperm[k]] == v[k])
+                        && (forall k in 0..vlen: iperm[k] >= 0
+                                && iperm[k] < vlen)
+                        && (
+                            forall k in 0..vlen, l in 0..vlen: k != l ==> iperm[k]
+                                != iperm[l]
+                        );
+                };
+                (i < vlen - 1)
+            }) {
             if (*vector::borrow(v, i) > *vector::borrow(v, j)) {
                 vector::swap(v, i, j);
                 vector::swap(iperm, i, j);
@@ -61,12 +61,10 @@ module 0x42::VerifySort {
     spec verify_sort {
         aborts_if false;
         ensures forall i in 0..len(v) - 1: v[i] <= v[i + 1];
-        ensures exists perm: vector<u64> :
-            len(perm) == len(v)
-                && (forall k in 0..len(v): old(v)[perm[k]] == v[k])
-                && (forall k in 0..len(v): perm[k] >= 0
+        ensures exists perm: vector<u64> : len(perm) == len(v)
+            && (forall k in 0..len(v): old(v)[perm[k]] == v[k])
+            && (forall k in 0..len(v): perm[k] >= 0
                     && perm[k] < len(v))
-                && (forall k in 0..len(v), l in 0..len(v): k != l ==> perm[k]
-                    != perm[l]);
+            && (forall k in 0..len(v), l in 0..len(v): k != l ==> perm[k] != perm[l]);
     }
 }

@@ -13,12 +13,17 @@ module DiemFramework::ApprovalGroup {
         pk3: vector<u8>,
 
         // the threshold policy
-        threshold: u64
+        threshold: u64,
+
         // Recipient address allowlist policy ...
     }
 
     // create a new approval group
-    public fun create(pk1: vector<u8>, pk2: vector<u8>, pk3: vector<u8>): ApprovalGroup {
+    public fun create(
+        pk1: vector<u8>,
+        pk2: vector<u8>,
+        pk3: vector<u8>,
+    ): ApprovalGroup {
         ApprovalGroup { pk1, pk2, pk3, threshold: 2 }
     }
 
@@ -27,11 +32,11 @@ module DiemFramework::ApprovalGroup {
         group: &ApprovalGroup,
         pk: vector<u8>,
         sig: vector<u8>,
-        hash: vector<u8>
+        hash: vector<u8>,
     ): bool {
         (copy pk == *&group.pk1
-            || copy pk == *&group.pk2
-            || copy pk == *&group.pk3)
+                || copy pk == *&group.pk2
+                || copy pk == *&group.pk3)
             && Signature::ed25519_verify(sig, pk, hash)
     }
 
@@ -43,7 +48,7 @@ module DiemFramework::ApprovalGroup {
         sig1: vector<u8>,
         pk2: vector<u8>,
         sig2: vector<u8>,
-        hash: vector<u8>
+        hash: vector<u8>,
     ): bool {
         assert!(copy pk1 != copy pk2, 1000);
         let result1 = verify_sig(group, pk1, sig1, copy hash);
@@ -65,7 +70,7 @@ module DiemFramework::ColdWallet {
     struct ColdWallet has key {
         balance: Diem::Diem<XUS>,
         sequence_num: u64,
-        genesis_group: ApprovalGroup::ApprovalGroup
+        genesis_group: ApprovalGroup::ApprovalGroup,
     }
 
     // This struct is unused, only intended to define the format of a transaction
@@ -79,10 +84,10 @@ module DiemFramework::ColdWallet {
 
     // create a new ColdWallet with a default genesis group
     public fun create(
-        account: &signer, genesis_group: ApprovalGroup::ApprovalGroup
+        account: &signer, genesis_group: ApprovalGroup::ApprovalGroup,
     ) {
         let zero_balance = Diem::zero();
-        let wallet = ColdWallet { balance: zero_balance, sequence_num: 0, genesis_group };
+        let wallet = ColdWallet { balance: zero_balance, sequence_num: 0, genesis_group, };
         move_to<ColdWallet>(account, wallet);
     }
 
@@ -91,7 +96,7 @@ module DiemFramework::ColdWallet {
     }
 
     // deposit money into a payee's cold wallet
-    public fun deposit(payee: address, to_deposit: Diem::Diem<XUS>) acquires ColdWallet {
+    public fun deposit(payee: address, to_deposit: Diem::Diem<XUS>,) acquires ColdWallet {
         // Load the payee's account
         let payee_wallet_ref = borrow_global_mut<ColdWallet>(payee);
         // Deposit the `to_deposit` coin
@@ -104,7 +109,7 @@ module DiemFramework::ColdWallet {
         payer: address,
         payee: address,
         amount: u64,
-        wallet: &mut ColdWallet
+        wallet: &mut ColdWallet,
     ): vector<u8> {
         // TODO: consider moving into resource
         // TODO: Move doesn't support string now. As a workaround,
@@ -149,7 +154,7 @@ module DiemFramework::ColdWallet {
             payer,
             payee,
             amount,
-            payer_ref
+            payer_ref,
         );
 
         let hash = hash::sha3_256(transaction_bytes);
@@ -160,7 +165,7 @@ module DiemFramework::ColdWallet {
                 sig1,
                 pk2,
                 sig2,
-                hash
+                hash,
             );
         // check to see if genesis group has authority to approve
         if (has_authority) {
@@ -186,13 +191,7 @@ module DiemFramework::WalletModuleTests {
     use DiemFramework::ColdWallet;
 
     // private-key: 2f2bbeb071948c4ca586b0fa0f3663520fc3053056e79955059520d626117cdb
-    #[
-        test(
-            dr = @DiemRoot,
-            tc = @TreasuryCompliance,
-            account = @0xc2422587142d78bdf5a8068b8f9a2859
-        )
-    ]
+    #[test(dr = @DiemRoot, tc = @TreasuryCompliance, account = @0xc2422587142d78bdf5a8068b8f9a2859)]
     fun wallet_module_test(dr: signer, tc: signer, account: signer) {
         Genesis::setup(&dr, &tc);
         DiemAccount::create_parent_vasp_account<XUS>(
@@ -200,7 +199,7 @@ module DiemFramework::WalletModuleTests {
             signer::address_of(&account),
             x"355b32f571f894cfd431ab40dc950037",
             b"",
-            false
+            false,
         );
 
         let genesis_group = ApprovalGroup::create(x"1234", x"5678", x"abc123");

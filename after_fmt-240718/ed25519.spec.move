@@ -36,8 +36,7 @@ spec aptos_std::ed25519 {
     spec public_key_bytes_to_authentication_key(pk_bytes: vector<u8>): vector<u8> {
         pragma opaque;
         aborts_if false;
-        ensures [abstract] result
-            == spec_public_key_bytes_to_authentication_key(pk_bytes);
+        ensures [abstract] result == spec_public_key_bytes_to_authentication_key(pk_bytes);
     }
 
     // ----------------
@@ -72,10 +71,7 @@ spec aptos_std::ed25519 {
     spec fun spec_signature_verify_strict_t<T>(
         signature: Signature, public_key: UnvalidatedPublicKey, data: T
     ): bool {
-        let encoded = SignedMessage<T> {
-            type_info: type_info::type_of<T>(),
-            inner: data
-        };
+        let encoded = SignedMessage<T> { type_info: type_info::type_of<T>(), inner: data, };
         let message = bcs::serialize(encoded);
         spec_signature_verify_strict_internal(signature.bytes, public_key.bytes, message)
     }

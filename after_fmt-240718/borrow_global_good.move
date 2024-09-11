@@ -25,8 +25,7 @@ module 0x8675309::A {
 
     public fun A2(account: &signer, b: bool) acquires T {
         let sender = signer::address_of(account);
-        let t_ref = if (b) borrow_global_mut<T>(sender)
-        else borrow_global_mut<T>(sender);
+        let t_ref = if (b) borrow_global_mut<T>(sender) else borrow_global_mut<T>(sender);
         t_ref;
     }
 

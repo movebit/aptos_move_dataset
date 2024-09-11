@@ -9,14 +9,14 @@ module Evm::ERC20Mock {
     struct Transfer {
         from: address,
         to: address,
-        value: U256
+        value: U256,
     }
 
     #[event(sig = b"Approval(address indexed,address indexed,uint256)")]
     struct Approval {
         owner: address,
         spender: address,
-        value: U256
+        value: U256,
     }
 
     #[storage]
@@ -26,7 +26,7 @@ module Evm::ERC20Mock {
         allowances: Table<address, Table<address, U256>>,
         total_supply: U256,
         name: vector<u8>,
-        symbol: vector<u8>
+        symbol: vector<u8>,
     }
 
     // ----------------------------------------
@@ -44,20 +44,14 @@ module Evm::ERC20Mock {
 
     #[callable(sig = b"transferInternal(address,address,uint256)")]
     public fun transferInternal(
-        state: &mut State,
-        from: address,
-        to: address,
-        value: U256
+        state: &mut State, from: address, to: address, value: U256
     ) {
         transfer_(state, from, to, value)
     }
 
     #[callable(sig = b"approveInternal(address,address,uint256)")]
     public fun approveInternal(
-        state: &mut State,
-        owner: address,
-        spender: address,
-        value: U256
+        state: &mut State, owner: address, spender: address, value: U256
     ) {
         approve_(state, owner, spender, value)
     }
@@ -80,7 +74,7 @@ module Evm::ERC20Mock {
             balances: Table::empty<address, U256>(),
             allowances: Table::empty<address, Table<address, U256>>(),
             name,
-            symbol
+            symbol,
         };
         // Minting the initial supply
         mint_(&mut state, initial_account, initial_balance);
@@ -128,10 +122,7 @@ module Evm::ERC20Mock {
     /// Transfers the amount on behalf of the `from` account to the given account.
     /// This evaluates and adjusts the allowance.
     public fun transferFrom(
-        state: &mut State,
-        from: address,
-        to: address,
-        amount: U256
+        state: &mut State, from: address, to: address, amount: U256
     ): bool {
         spendAllowance_(state, from, sender(), amount);
         transfer_(state, from, to, amount);
@@ -173,23 +164,20 @@ module Evm::ERC20Mock {
         let currentAllowance = allowance(state, owner, spender);
         require(
             U256::ge(currentAllowance, subtractedValue),
-            b"ERC20: decreased allowance below zero"
+            b"ERC20: decreased allowance below zero",
         );
         approve_(
             state,
             owner,
             spender,
-            U256::sub(currentAllowance, subtractedValue)
+            U256::sub(currentAllowance, subtractedValue),
         );
         true
     }
 
     /// Helper function to update `owner` s allowance for `spender` based on spent `amount`.
     fun spendAllowance_(
-        state: &mut State,
-        owner: address,
-        spender: address,
-        amount: U256
+        state: &mut State, owner: address, spender: address, amount: U256
     ) {
         let currentAllowance = allowance(state, owner, spender);
         if (currentAllowance != U256::max()) {
@@ -200,10 +188,7 @@ module Evm::ERC20Mock {
 
     /// Helper function to perform an approval
     fun approve_(
-        state: &mut State,
-        owner: address,
-        spender: address,
-        amount: U256
+        state: &mut State, owner: address, spender: address, amount: U256
     ) {
         require(owner != @0x0, b"ERC20: approve from the zero address");
         require(spender != @0x0, b"ERC20: approve to the zero address");
@@ -221,10 +206,7 @@ module Evm::ERC20Mock {
 
     /// Helper function to perform a transfer of funds.
     fun transfer_(
-        state: &mut State,
-        from: address,
-        to: address,
-        amount: U256
+        state: &mut State, from: address, to: address, amount: U256
     ) {
         require(from != @0x0, b"ERC20: transfer from the zero address");
         require(to != @0x0, b"ERC20: transfer to the zero address");

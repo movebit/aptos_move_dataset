@@ -19,17 +19,12 @@ module 0x2::ERC721 {
     // Overloading `safeTransferFrom`
     /// Transfers the ownership of an NFT from one address to another address.
     public fun safeTransferFrom_with_data(
-        _from: address,
-        _to: address,
-        _tokenId: U256,
-        _data: vector<u8>
+        _from: address, _to: address, _tokenId: U256, _data: vector<u8>
     ) {}
 
     #[callable(sig = b"safeTransferFrom(address,address,uint256)")]
     /// Transfers the ownership of an NFT from one address to another address.
-    public fun safeTransferFrom(
-        from: address, to: address, tokenId: U256
-    ) {
+    public fun safeTransferFrom(from: address, to: address, tokenId: U256) {
         safeTransferFrom_with_data(from, to, tokenId, b"");
     }
 

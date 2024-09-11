@@ -24,14 +24,14 @@ module ExperimentalFramework::Vote {
     /// address is also part of the ballot id.
     struct BallotID has store, copy, drop {
         counter: u64,
-        proposer: address
+        proposer: address,
     }
 
     /// WeightedVoter represents a voter with a weight
     /// The voter is represented by the bcs serialization of address
     struct WeightedVoter has store, copy, drop {
         weight: u64,
-        voter: vector<u8>
+        voter: vector<u8>,
     }
 
     /// Ballot is a struct which contains a Proposal on which
@@ -58,7 +58,7 @@ module ExperimentalFramework::Vote {
         // A globally unique ballot id that is created for every proposal
         ballot_id: BallotID,
         // Votes rejected after this time
-        expiration_timestamp_secs: u64
+        expiration_timestamp_secs: u64,
     }
 
     /// Ballots stores a list of ballots under a proposers address.
@@ -71,21 +71,21 @@ module ExperimentalFramework::Vote {
         create_ballot_handle: event::EventHandle<CreateBallotEvent<Proposal>>,
         remove_ballot_handle: event::EventHandle<RemoveBallotEvent>,
         voted_handle: event::EventHandle<VotedEvent>,
-        ballot_approved_handle: event::EventHandle<BallotApprovedEvent>
+        ballot_approved_handle: event::EventHandle<BallotApprovedEvent>,
     }
 
     /// A counter which is stored under the proposers address and gets incremented
     /// everytime they create a new ballot. This is used for creating unique
     /// global identifiers for Ballots
     struct BallotCounter has key {
-        counter: u64
+        counter: u64,
     }
 
     /// CreateBallotEvent is emitted when a ballot is
     /// created by a proposer
     struct CreateBallotEvent<Proposal: store + drop> has drop, store {
         ballot_id: BallotID,
-        ballot: Ballot<Proposal>
+        ballot: Ballot<Proposal>,
     }
 
     /// RemoveBallotEvent is emitted when a ballot has
@@ -94,7 +94,7 @@ module ExperimentalFramework::Vote {
     /// * ballot was manually removed by the proposer
     /// * ballot was expired and garbage collected
     struct RemoveBallotEvent has drop, store {
-        ballot_id: BallotID
+        ballot_id: BallotID,
     }
 
     /// VotedEvent is emitted when a valid vote has
@@ -102,13 +102,13 @@ module ExperimentalFramework::Vote {
     struct VotedEvent has drop, store {
         ballot_id: BallotID,
         voter: address,
-        vote_weight: u64
+        vote_weight: u64,
     }
 
     /// BallotApprovedEvent is emitted when a ballot has
     /// been approved by the voters
     struct BallotApprovedEvent has drop, store {
-        ballot_id: BallotID
+        ballot_id: BallotID,
     }
 
     /// The maximum number of ballots allowed per proposal type
@@ -135,13 +135,13 @@ module ExperimentalFramework::Vote {
     const EINVALID_NUM_VOTES: u64 = 9;
 
     /// A constructor for BallotID
-    public fun new_ballot_id(counter: u64, proposer: address): BallotID {
-        BallotID { counter, proposer }
+    public fun new_ballot_id(counter: u64, proposer: address,): BallotID {
+        BallotID { counter, proposer, }
     }
 
     /// A constructor for WeightedVoter
-    public fun new_weighted_voter(weight: u64, voter: vector<u8>): WeightedVoter {
-        WeightedVoter { weight, voter }
+    public fun new_weighted_voter(weight: u64, voter: vector<u8>,): WeightedVoter {
+        WeightedVoter { weight, voter, }
     }
 
     /// Create a ballot under the signer's address and return the `BallotID`
@@ -157,12 +157,12 @@ module ExperimentalFramework::Vote {
 
         assert!(
             DiemTimestamp::now_seconds() < expiration_timestamp_secs,
-            errors::invalid_argument(EINVALID_TIMESTAMP)
+            errors::invalid_argument(EINVALID_TIMESTAMP),
         );
         assert!(num_votes_required > 0, errors::invalid_argument(EINVALID_NUM_VOTES));
 
         if (!exists<BallotCounter>(ballot_address)) {
-            move_to(ballot_account, BallotCounter { counter: 0 });
+            move_to(ballot_account, BallotCounter { counter: 0, });
         };
         if (!exists<Ballots<Proposal>>(ballot_address)) {
             move_to(
@@ -178,8 +178,8 @@ module ExperimentalFramework::Vote {
                     voted_handle: event::new_event_handle<VotedEvent>(ballot_account),
                     ballot_approved_handle: event::new_event_handle<BallotApprovedEvent>(
                         ballot_account
-                    )
-                }
+                    ),
+                },
             );
         };
 
@@ -191,7 +191,7 @@ module ExperimentalFramework::Vote {
 
         assert!(
             vector::length(ballots) < MAX_BALLOTS_PER_PROPOSAL_TYPE_PER_ADDRESS,
-            errors::limit_exceeded(ETOO_MANY_BALLOTS)
+            errors::limit_exceeded(ETOO_MANY_BALLOTS),
         );
         let ballot_id = new_ballot_id(incr_counter(ballot_account), ballot_address);
         let ballot = Ballot<Proposal> {
@@ -202,25 +202,25 @@ module ExperimentalFramework::Vote {
             votes_received: vector::empty(),
             total_weighted_votes_received: 0,
             ballot_id: *&ballot_id,
-            expiration_timestamp_secs
+            expiration_timestamp_secs,
         };
         vector::push_back(ballots, *&ballot);
         event::emit_event<CreateBallotEvent<Proposal>>(
             &mut ballot_data.create_ballot_handle,
-            CreateBallotEvent { ballot_id: *&ballot_id, ballot }
+            CreateBallotEvent { ballot_id: *&ballot_id, ballot, },
         );
         ballot_id
     }
 
     // Checks if a voter is present in the vector<WeightedVoter>
     fun check_voter_present(
-        weighted_voters: &vector<WeightedVoter>, voter: &vector<u8>
+        weighted_voters: &vector<WeightedVoter>, voter: &vector<u8>,
     ): bool {
         let i = 0;
         let len = vector::length(weighted_voters);
         while (i < len) {
             if (&vector::borrow(weighted_voters, i).voter == voter)
-                return true;
+            return true;
             i = i + 1;
         };
         false
@@ -239,7 +239,7 @@ module ExperimentalFramework::Vote {
         voter_account: &signer,
         ballot_id: BallotID,
         proposal_type: vector<u8>,
-        proposal: Proposal
+        proposal: Proposal,
     ): bool acquires Ballots {
         let ballot_data = borrow_global_mut<Ballots<Proposal>>(ballot_id.proposer);
 
@@ -251,7 +251,7 @@ module ExperimentalFramework::Vote {
         let len = vector::length(ballots);
         while (i < len) {
             if (&vector::borrow(ballots, i).ballot_id == &ballot_id)
-                break;
+            break;
             i = i + 1;
         };
         assert!(i < len, errors::invalid_state(EBALLOT_NOT_FOUND));
@@ -260,11 +260,11 @@ module ExperimentalFramework::Vote {
 
         assert!(
             &ballot.proposal == &proposal,
-            errors::invalid_argument(EBALLOT_PROPOSAL_MISMATCH)
+            errors::invalid_argument(EBALLOT_PROPOSAL_MISMATCH),
         );
         assert!(
             &ballot.proposal_type == &proposal_type,
-            errors::invalid_argument(EBALLOT_PROPOSAL_MISMATCH)
+            errors::invalid_argument(EBALLOT_PROPOSAL_MISMATCH),
         );
 
         let voter_address = signer::address_of(voter_account);
@@ -273,16 +273,16 @@ module ExperimentalFramework::Vote {
 
         assert!(
             check_voter_present(allowed_voters, &voter_address_bcs),
-            errors::invalid_state(EINVALID_VOTER)
+            errors::invalid_state(EINVALID_VOTER),
         );
         assert!(
             DiemTimestamp::now_seconds() <= ballot.expiration_timestamp_secs,
-            errors::invalid_state(EBALLOT_EXPIRED)
+            errors::invalid_state(EBALLOT_EXPIRED),
         );
 
         assert!(
             !check_voter_present(&ballot.votes_received, &voter_address_bcs),
-            errors::invalid_state(EALREADY_VOTED)
+            errors::invalid_state(EALREADY_VOTED),
         );
 
         let i = 0;
@@ -298,8 +298,8 @@ module ExperimentalFramework::Vote {
                     VotedEvent {
                         ballot_id: *&ballot_id,
                         voter: voter_address,
-                        vote_weight: weighted_voter.weight
-                    }
+                        vote_weight: weighted_voter.weight,
+                    },
                 );
                 break
             };
@@ -312,7 +312,7 @@ module ExperimentalFramework::Vote {
             vector::swap_remove(ballots, ballot_index);
             event::emit_event<BallotApprovedEvent>(
                 &mut ballot_data.ballot_approved_handle,
-                BallotApprovedEvent { ballot_id }
+                BallotApprovedEvent { ballot_id, },
             );
         };
         ballot_approved
@@ -322,36 +322,34 @@ module ExperimentalFramework::Vote {
     /// under the provided address `addr`. The signer can be anybody
     /// and does not need to have the same address as `addr`
     public entry fun gc_ballots<Proposal: store + drop>(
-        _signer: signer, addr: address
+        _signer: signer, addr: address,
     ) acquires Ballots {
         gc_internal<Proposal>(borrow_global_mut<Ballots<Proposal>>(addr));
     }
 
-    public(friend) fun gc_test_helper<Proposal: store + drop>(
-        addr: address
-    ): vector<BallotID> acquires Ballots {
+    public(friend) fun gc_test_helper<Proposal: store + drop>(addr: address,): vector<BallotID> acquires Ballots {
         gc_internal<Proposal>(borrow_global_mut<Ballots<Proposal>>(addr))
     }
 
     fun gc_internal<Proposal: store + drop>(
-        ballot_data: &mut Ballots<Proposal>
+        ballot_data: &mut Ballots<Proposal>,
     ): vector<BallotID> {
         let ballots = &mut ballot_data.ballots;
         let remove_handle = &mut ballot_data.remove_ballot_handle;
         let i = 0;
         let removed_ballots = vector::empty();
         while ({
-            spec {
-                invariant unique_ballots(ballots);
-                invariant no_expired_ballots(
-                    ballots, DiemTimestamp::spec_now_seconds(), i
-                );
-                invariant vector_subset(ballots, old(ballot_data).ballots);
-                invariant i <= len(ballots);
-                invariant 0 <= i;
-            };
-            i < vector::length(ballots)
-        }) {
+                spec {
+                    invariant unique_ballots(ballots);
+                    invariant no_expired_ballots(
+                        ballots, DiemTimestamp::spec_now_seconds(), i
+                    );
+                    invariant vector_subset(ballots, old(ballot_data).ballots);
+                    invariant i <= len(ballots);
+                    invariant 0 <= i;
+                };
+                i < vector::length(ballots)
+            }) {
             let ballot = vector::borrow(ballots, i);
             if (ballot.expiration_timestamp_secs < DiemTimestamp::now_seconds()) {
                 let ballot_id = *(&ballot.ballot_id);
@@ -359,7 +357,7 @@ module ExperimentalFramework::Vote {
                 vector::push_back(&mut removed_ballots, *&ballot_id);
                 event::emit_event<RemoveBallotEvent>(
                     remove_handle,
-                    RemoveBallotEvent { ballot_id }
+                    RemoveBallotEvent { ballot_id },
                 );
             } else {
                 i = i + 1;
@@ -369,7 +367,7 @@ module ExperimentalFramework::Vote {
     }
 
     public(friend) fun remove_ballot_internal<Proposal: store + drop>(
-        account: signer, ballot_id: BallotID
+        account: signer, ballot_id: BallotID,
     ) acquires Ballots {
         let addr = signer::address_of(&account);
         let ballot_data = borrow_global_mut<Ballots<Proposal>>(addr);
@@ -378,16 +376,16 @@ module ExperimentalFramework::Vote {
         let i = 0;
         let len = vector::length(ballots);
         while ({
-            spec {
-                invariant ballot_id_does_not_exist<Proposal>(ballot_id, ballots, i);
-            };
-            i < len
-        }) {
+                spec {
+                    invariant ballot_id_does_not_exist<Proposal>(ballot_id, ballots, i);
+                };
+                i < len
+            }) {
             if (&vector::borrow(ballots, i).ballot_id == &ballot_id) {
                 vector::swap_remove(ballots, i);
                 event::emit_event<RemoveBallotEvent>(
                     remove_handle,
-                    RemoveBallotEvent { ballot_id }
+                    RemoveBallotEvent { ballot_id },
                 );
                 return ()
             };
@@ -400,7 +398,7 @@ module ExperimentalFramework::Vote {
     /// If a ballot with `ballot_id` is not found, then it
     /// does nothing
     public fun remove_ballot<Proposal: store + drop>(
-        account: signer, ballot_id: BallotID
+        account: signer, ballot_id: BallotID,
     ) acquires Ballots {
         remove_ballot_internal<Proposal>(account, ballot_id)
     }
@@ -469,8 +467,7 @@ module ExperimentalFramework::Vote {
     spec fun get_ballot<Proposal>(ballot_address: address, ballot_id: BallotID): Ballot<Proposal> {
         let ballots = global<Ballots<Proposal>>(ballot_address).ballots;
         get_ballots<Proposal>(ballot_address)[
-            choose min i in 0..len(ballots) where ballots[i].ballot_id == ballot_id
-        ]
+            choose min i in 0..len(ballots) where ballots[i].ballot_id == ballot_id]
     }
 
     /// Tests whether ballot_id is represented in the ballots vector. Returns false if there is no
@@ -562,7 +559,7 @@ module ExperimentalFramework::Vote {
         ensures no_expired_ballots<Proposal>(
             post_ballots,
             DiemTimestamp::spec_now_seconds(),
-            len(post_ballots)
+            len(post_ballots),
         );
     }
 
@@ -574,9 +571,7 @@ module ExperimentalFramework::Vote {
     }
 
     spec gc_ballots {
-        include GcEnsures<Proposal> {
-            ballot_data: global<Ballots<Proposal>>(addr)
-        };
+        include GcEnsures<Proposal> { ballot_data: global<Ballots<Proposal>>(addr) };
     }
 
     // Lower-level invariants
@@ -599,9 +594,8 @@ module ExperimentalFramework::Vote {
         let ballots = get_ballots<Proposal>(proposer_address);
         exists<Ballots<Proposal>>(proposer_address) ==>
             (
-                forall i in 0..len(ballots):
-                    ballots[i].ballot_id.counter
-                        < global<BallotCounter>(proposer_address).counter
+                forall i in 0..len(ballots): ballots[i].ballot_id.counter
+                    < global<BallotCounter>(proposer_address).counter
             )
     }
 
@@ -611,14 +605,15 @@ module ExperimentalFramework::Vote {
     /// that every BallotID is in one of the legal states.
     spec fun no_winning_ballots_in_vector<Proposal>(proposer_address: address): bool {
         let ballots = get_ballots<Proposal>(proposer_address);
-        forall i in 0..len(ballots):
-            ballots[i].total_weighted_votes_received < ballots[i].num_votes_required
+        forall i in 0..len(ballots): ballots[i].total_weighted_votes_received
+            < ballots[i].num_votes_required
     }
 
     spec module {
         /// ballots in vector all have the proposer address in their ballot IDs.
-        invariant<Proposal>[suspendable] forall proposer_address: address:
-            ballot_ids_have_correct_ballot_address<Proposal>(proposer_address);
+        invariant<Proposal>[suspendable] forall proposer_address: address: ballot_ids_have_correct_ballot_address<Proposal>(
+            proposer_address
+        );
 
         // / counter values in ballots are all less than the value of the BallotCounter
         // / See note on spec fun existing_ballots_have_small_counters
@@ -630,15 +625,17 @@ module ExperimentalFramework::Vote {
         invariant<Proposal>(
             forall addr: address: existing_ballots_have_small_counters<Proposal>(addr)
         ) && (
-            forall ballot_addr: address:
-                ballot_counter_initialized_first<Proposal>(ballot_addr)
+            forall ballot_addr: address: ballot_counter_initialized_first<Proposal>(
+                ballot_addr
+            )
         );
 
         /// Every ballot in the vector has total_weighted_votes_received < num_votes_required
         /// So the ballot will eventually be removed either by accumulating enough votes or by expiring
         /// and being garbage-collected
-        invariant<Proposal> forall addr: address:
-            no_winning_ballots_in_vector<Proposal>(addr);
+        invariant<Proposal> forall addr: address: no_winning_ballots_in_vector<Proposal>(
+            addr
+        );
     }
 
     /// There are no duplicate Ballot IDs in the Ballots<Proposer>.ballots vector

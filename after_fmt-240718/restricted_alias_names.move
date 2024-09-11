@@ -18,7 +18,7 @@ module M {
         foo as exists,
         foo as freeze,
         foo as assert,
-        foo as Self
+        foo as Self,
     };
 }
 }
@@ -38,7 +38,7 @@ script {
         foo as exists,
         foo as freeze,
         foo as assert,
-        foo as Self
+        foo as Self,
     };
     fun main() {}
 }

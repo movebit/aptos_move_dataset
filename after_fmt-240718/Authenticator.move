@@ -11,7 +11,7 @@ module DiemFramework::Authenticator {
         /// vector of ed25519 public keys
         public_keys: vector<vector<u8>>,
         /// approval threshold
-        threshold: u8
+        threshold: u8,
     }
 
     /// Scheme byte ID for ed25519
@@ -42,12 +42,12 @@ module DiemFramework::Authenticator {
         assert!(threshold != 0, errors::invalid_argument(EZERO_THRESHOLD));
         assert!(
             (threshold as u64) <= len,
-            errors::invalid_argument(ENOT_ENOUGH_KEYS_FOR_THRESHOLD)
+            errors::invalid_argument(ENOT_ENOUGH_KEYS_FOR_THRESHOLD),
         );
         // the multied25519 signature scheme allows at most 32 keys
         assert!(
             len <= MAX_MULTI_ED25519_KEYS,
-            errors::invalid_argument(ENUM_KEYS_ABOVE_MAX_THRESHOLD)
+            errors::invalid_argument(ENUM_KEYS_ABOVE_MAX_THRESHOLD),
         );
 
         MultiEd25519PublicKey { public_keys, threshold }
@@ -79,7 +79,7 @@ module DiemFramework::Authenticator {
             let public_key = *vector::borrow(public_keys, i);
             vector::append(
                 &mut authentication_key_preimage,
-                public_key
+                public_key,
             );
             i = i + 1;
         };

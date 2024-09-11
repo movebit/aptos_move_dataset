@@ -9,14 +9,14 @@ module Evm::ERC20DecimalsMock {
     struct Transfer {
         from: address,
         to: address,
-        value: U256
+        value: U256,
     }
 
     #[event(sig = b"Approval(address indexed,address indexed,uint256)")]
     struct Approval {
         owner: address,
         spender: address,
-        value: U256
+        value: U256,
     }
 
     /// Represents the state of this contract. This is located at `borrow_global<State>(self())`.
@@ -26,7 +26,7 @@ module Evm::ERC20DecimalsMock {
         total_supply: U256,
         name: vector<u8>,
         symbol: vector<u8>,
-        decimals: u8
+        decimals: u8,
     }
 
     #[create(sig = b"constructor(string,string,uint8)")]
@@ -41,8 +41,8 @@ module Evm::ERC20DecimalsMock {
                 allowances: Table::empty<address, Table<address, U256>>(),
                 name,
                 symbol,
-                decimals
-            }
+                decimals,
+            },
         );
     }
 
@@ -122,7 +122,7 @@ module Evm::ERC20DecimalsMock {
         let currentAllowance = allowance(owner, spender);
         require(
             U256::ge(currentAllowance, subtractedValue),
-            b"ERC20: decreased allowance below zero"
+            b"ERC20: decreased allowance below zero",
         );
         approve_(owner, spender, U256::sub(currentAllowance, subtractedValue));
         true

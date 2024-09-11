@@ -14,13 +14,13 @@ module ExperimentalFramework::ExperimentalAccount {
 
     /// A resource that holds the event handle for all the past WriteSet transactions that have been committed on chain.
     struct DiemWriteSetManager has key {
-        upgrade_events: event::EventHandle<AdminTransactionEvent>
+        upgrade_events: event::EventHandle<AdminTransactionEvent>,
     }
 
     /// Message for committed WriteSet transaction.
     struct AdminTransactionEvent has drop, store {
         // The block time when this WriteSet is committed.
-        committed_timestamp_secs: u64
+        committed_timestamp_secs: u64,
     }
 
     const MAX_U64: u128 = 18446744073709551615;
@@ -72,11 +72,11 @@ module ExperimentalFramework::ExperimentalAccount {
     ): (signer, vector<u8>) {
         assert!(
             account_address != @VMReserved,
-            errors::invalid_argument(ECANNOT_CREATE_AT_VM_RESERVED)
+            errors::invalid_argument(ECANNOT_CREATE_AT_VM_RESERVED),
         );
         assert!(
             account_address != @CoreFramework,
-            errors::invalid_argument(ECANNOT_CREATE_AT_CORE_CODE)
+            errors::invalid_argument(ECANNOT_CREATE_AT_CORE_CODE),
         );
         Account::create_account(
             account_address, auth_key_prefix, &ExperimentalAccountMarker {}
@@ -85,7 +85,7 @@ module ExperimentalFramework::ExperimentalAccount {
 
     /// Initialize this module. This is only callable from genesis.
     public fun initialize(
-        dr_account: &signer, dummy_auth_key_prefix: vector<u8>
+        dr_account: &signer, dummy_auth_key_prefix: vector<u8>,
     ) {
         DiemTimestamp::assert_genesis();
         // Operational constraint, not a privilege constraint.
@@ -100,7 +100,7 @@ module ExperimentalFramework::ExperimentalAccount {
             b"script_prologue",
             b"epilogue",
             b"writeset_epilogue",
-            false
+            false,
         );
 
         // TODO: For legacy reasons. Remove
@@ -112,7 +112,7 @@ module ExperimentalFramework::ExperimentalAccount {
     ///////////////////////////////////////////////////////////////////////////
 
     public fun create_account(
-        new_account_address: address, auth_key_prefix: vector<u8>
+        new_account_address: address, auth_key_prefix: vector<u8>,
     ) {
         create_core_account(new_account_address, auth_key_prefix);
         // No role attached
@@ -125,21 +125,21 @@ module ExperimentalFramework::ExperimentalAccount {
     /// Creates the diem root account (during genesis). Publishes the Diem root role,
     /// Publishes a SlidingNonce resource, sets up event generator, publishes
     /// AccountOperationsCapability, WriteSetManager, and finally makes the account.
-    fun create_diem_root_account(auth_key_prefix: vector<u8>) {
+    fun create_diem_root_account(auth_key_prefix: vector<u8>,) {
         DiemTimestamp::assert_genesis();
         let (dr_account, _) = create_core_account(@CoreResources, auth_key_prefix);
         SystemAddresses::assert_core_resource(&dr_account);
         assert!(
             !exists<DiemWriteSetManager>(@CoreResources),
-            errors::already_published(EWRITESET_MANAGER)
+            errors::already_published(EWRITESET_MANAGER),
         );
         move_to(
             &dr_account,
             DiemWriteSetManager {
                 upgrade_events: event::new_event_handle<AdminTransactionEvent>(
                     &dr_account
-                )
-            }
+                ),
+            },
         );
     }
 
@@ -148,7 +148,7 @@ module ExperimentalFramework::ExperimentalAccount {
         dr_account: &signer,
         new_account_address: address,
         auth_key_prefix: vector<u8>,
-        human_name: vector<u8>
+        human_name: vector<u8>,
     ) {
         let (new_account, _) = create_core_account(new_account_address, auth_key_prefix);
         ExperimentalValidatorConfig::publish(dr_account, &new_account, human_name);
@@ -159,7 +159,7 @@ module ExperimentalFramework::ExperimentalAccount {
         dr_account: &signer,
         new_account_address: address,
         auth_key_prefix: vector<u8>,
-        human_name: vector<u8>
+        human_name: vector<u8>,
     ) {
         let (new_account, _) = create_core_account(new_account_address, auth_key_prefix);
         ExperimentalValidatorOperatorConfig::publish(dr_account, &new_account, human_name);
@@ -167,7 +167,7 @@ module ExperimentalFramework::ExperimentalAccount {
 
     /// Rotate the authentication key for the account under cap.account_address
     public fun rotate_authentication_key(
-        account: &signer, new_authentication_key: vector<u8>
+        account: &signer, new_authentication_key: vector<u8>,
     ) {
         Account::rotate_authentication_key(account, new_authentication_key)
     }
@@ -182,7 +182,7 @@ module ExperimentalFramework::ExperimentalAccount {
         _txn_gas_price: u64,
         _txn_max_gas_units: u64,
         _txn_expiration_time: u64,
-        chain_id: u8
+        chain_id: u8,
     ) {
         Account::prologue(&sender, txn_sequence_number, txn_public_key, chain_id)
     }
@@ -195,7 +195,7 @@ module ExperimentalFramework::ExperimentalAccount {
         _txn_max_gas_units: u64,
         _txn_expiration_time: u64,
         chain_id: u8,
-        _script_hash: vector<u8>
+        _script_hash: vector<u8>,
     ) {
         Account::prologue(&sender, txn_sequence_number, txn_public_key, chain_id)
     }
@@ -205,7 +205,7 @@ module ExperimentalFramework::ExperimentalAccount {
         txn_sequence_number: u64,
         txn_public_key: vector<u8>,
         _txn_expiration_time: u64,
-        chain_id: u8
+        chain_id: u8,
     ) {
         Account::prologue(&sender, txn_sequence_number, txn_public_key, chain_id)
     }
@@ -220,7 +220,7 @@ module ExperimentalFramework::ExperimentalAccount {
         _txn_gas_price: u64,
         _txn_max_gas_units: u64,
         _txn_expiration_time: u64,
-        chain_id: u8
+        chain_id: u8,
     ) {
         Account::prologue(&sender, txn_sequence_number, txn_sender_public_key, chain_id)
     }
@@ -236,7 +236,9 @@ module ExperimentalFramework::ExperimentalAccount {
     }
 
     fun writeset_epilogue(
-        dr_account: signer, _txn_sequence_number: u64, should_trigger_reconfiguration: bool
+        dr_account: signer,
+        _txn_sequence_number: u64,
+        should_trigger_reconfiguration: bool,
     ) {
         Account::writeset_epilogue(
             &dr_account, should_trigger_reconfiguration, &ExperimentalAccountMarker {}

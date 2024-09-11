@@ -70,17 +70,17 @@ module 0x42::SmokeTest {
 
     struct A {
         addr: address,
-        val: u64
+        val: u64,
     }
 
     struct B {
         val: u64,
-        a: A
+        a: A,
     }
 
     struct C {
         val: u64,
-        b: B
+        b: B,
     }
 
     fun identity(a: A, b: B, c: C): (A, B, C) {
@@ -97,12 +97,7 @@ module 0x42::SmokeTest {
         var_b
     }
 
-    fun pack_C(
-        a: address,
-        va: u64,
-        vb: u64,
-        vc: u64
-    ): C {
+    fun pack_C(a: address, va: u64, vb: u64, vc: u64): C {
         let var_a = A { addr: a, val: va };
         let var_b = B { val: vb, a: var_a };
         let var_c = C { val: vc, b: var_b };
@@ -122,19 +117,11 @@ module 0x42::SmokeTest {
         (aa, v1, v2)
     }
 
-    fun unpack_C(
-        a: address,
-        va: u64,
-        vb: u64,
-        vc: u64
-    ): (address, u64, u64, u64) {
+    fun unpack_C(a: address, va: u64, vb: u64, vc: u64): (address, u64, u64, u64) {
         let var_a = A { addr: a, val: va };
         let var_b = B { val: vb, a: var_a };
         let var_c = C { val: vc, b: var_b };
-        let C {
-            val: v3,
-            b: B { val: v2, a: A { addr: aa, val: v1 } }
-        } = var_c;
+        let C { val: v3, b: B { val: v2, a: A { addr: aa, val: v1 } } } = var_c;
         (aa, v1, v2, v3)
     }
 

@@ -21,26 +21,26 @@ module Evm::ExternalResult {
         invariant option::is_some(value) ==>
             (
                 option::is_none(err_data)
-                    && option::is_none(err_reason)
-                    && option::is_none(panic_code)
+                && option::is_none(err_reason)
+                && option::is_none(panic_code)
             );
         invariant option::is_some(err_data) ==>
             (
                 option::is_none(value)
-                    && option::is_none(err_reason)
-                    && option::is_none(panic_code)
+                && option::is_none(err_reason)
+                && option::is_none(panic_code)
             );
         invariant option::is_some(err_reason) ==>
             (
                 option::is_none(value)
-                    && option::is_none(err_data)
-                    && option::is_none(panic_code)
+                && option::is_none(err_data)
+                && option::is_none(panic_code)
             );
         invariant option::is_some(panic_code) ==>
             (
                 option::is_none(value)
-                    && option::is_none(err_data)
-                    && option::is_none(err_reason)
+                && option::is_none(err_data)
+                && option::is_none(err_reason)
             );
     }
 

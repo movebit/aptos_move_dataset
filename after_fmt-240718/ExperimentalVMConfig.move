@@ -6,7 +6,9 @@ module ExperimentalFramework::ExperimentalVMConfig {
 
     /// Publishes the VM config.
     public fun initialize(
-        account: &signer, instruction_schedule: vector<u8>, native_schedule: vector<u8>
+        account: &signer,
+        instruction_schedule: vector<u8>,
+        native_schedule: vector<u8>,
     ) {
         DiemVMConfig::initialize<ExperimentalVMConfig>(
             account, instruction_schedule, native_schedule
@@ -26,7 +28,7 @@ module ExperimentalFramework::ExperimentalVMConfig {
         max_price_per_gas_unit: u64,
         max_transaction_size_in_bytes: u64,
         gas_unit_scaling_factor: u64,
-        default_account_size: u64
+        default_account_size: u64,
     ) {
         DiemVMConfig::set_gas_constants<ExperimentalVMConfig>(
             global_memory_per_byte_cost,
@@ -40,7 +42,7 @@ module ExperimentalFramework::ExperimentalVMConfig {
             max_transaction_size_in_bytes,
             gas_unit_scaling_factor,
             default_account_size,
-            &capability::acquire(account, &ExperimentalVMConfig {})
+            &capability::acquire(account, &ExperimentalVMConfig {}),
         );
     }
 }

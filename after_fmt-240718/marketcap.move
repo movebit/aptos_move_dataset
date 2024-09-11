@@ -57,6 +57,6 @@ module TestMarketCap {
          ensures coin_ref.value == old(coin_ref.value) + check.value / 2;
      }
 
-    */
+     */
 }
 }

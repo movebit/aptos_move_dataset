@@ -20,9 +20,7 @@ module 0x2::M {
     public native fun encode_wrong_input_type_packed(input: vector<u64>): vector<u64>;
 
     #[encode_packed(sig = b"encode_packed(uint64[]) returns (uint64[])")]
-    public native fun encode_wrong_input_type_packed_sig(
-        input: vector<u64>
-    ): vector<u64>;
+    public native fun encode_wrong_input_type_packed_sig(input: vector<u64>): vector<u64>;
 
     #[evm_test]
     fun test_decode_error() {

@@ -20,7 +20,7 @@ module aptos_framework::aggregator_factory {
     /// system and who can create them. At the moment, only Aptos Framework (0x1)
     /// account can.
     struct AggregatorFactory has key {
-        phantom_table: Table<address, u128>
+        phantom_table: Table<address, u128>,
     }
 
     /// Creates a new factory for aggregators. Can only be called during genesis.
@@ -33,12 +33,10 @@ module aptos_framework::aggregator_factory {
     }
 
     /// Creates a new aggregator instance which overflows on exceeding a `limit`.
-    public(friend) fun create_aggregator_internal(
-        limit: u128
-    ): Aggregator acquires AggregatorFactory {
+    public(friend) fun create_aggregator_internal(limit: u128): Aggregator acquires AggregatorFactory {
         assert!(
             exists<AggregatorFactory>(@aptos_framework),
-            error::not_found(EAGGREGATOR_FACTORY_NOT_FOUND)
+            error::not_found(EAGGREGATOR_FACTORY_NOT_FOUND),
         );
 
         let aggregator_factory = borrow_global_mut<AggregatorFactory>(@aptos_framework);
@@ -54,9 +52,7 @@ module aptos_framework::aggregator_factory {
     }
 
     /// Returns a new aggregator.
-    native fun new_aggregator(
-        aggregator_factory: &mut AggregatorFactory, limit: u128
-    ): Aggregator;
+    native fun new_aggregator(aggregator_factory: &mut AggregatorFactory, limit: u128): Aggregator;
 
     #[test_only]
     public fun initialize_aggregator_factory_for_test(

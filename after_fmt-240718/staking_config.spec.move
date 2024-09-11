@@ -82,7 +82,7 @@ spec aptos_framework::staking_config {
     spec StakingRewardsConfig {
         invariant fixed_point64::spec_less_or_equal(
             rewards_rate,
-            fixed_point64::spec_create_from_u128((1u128))
+            fixed_point64::spec_create_from_u128((1u128)),
         );
         invariant fixed_point64::spec_less_or_equal(min_rewards_rate, rewards_rate);
         invariant rewards_rate_period_in_secs > 0;
@@ -104,7 +104,7 @@ spec aptos_framework::staking_config {
         allow_validator_set_change: bool,
         rewards_rate: u64,
         rewards_rate_denominator: u64,
-        voting_power_increase_limit: u64
+        voting_power_increase_limit: u64,
     ) {
         use std::signer;
         let addr = signer::address_of(aptos_framework);
@@ -132,7 +132,7 @@ spec aptos_framework::staking_config {
         min_rewards_rate: FixedPoint64,
         rewards_rate_period_in_secs: u64,
         last_rewards_rate_period_start_in_secs: u64,
-        rewards_rate_decrease_rate: FixedPoint64
+        rewards_rate_decrease_rate: FixedPoint64,
     ) {
         use std::signer;
         pragma verify_duration_estimate = 120;
@@ -140,8 +140,7 @@ spec aptos_framework::staking_config {
         let addr = signer::address_of(aptos_framework);
         /// [high-level-req-1.2]
         aborts_if addr != @aptos_framework;
-        aborts_if last_rewards_rate_period_start_in_secs
-            > timestamp::spec_now_seconds();
+        aborts_if last_rewards_rate_period_start_in_secs > timestamp::spec_now_seconds();
         include StakingRewardsConfigValidationAbortsIf;
         aborts_if exists<StakingRewardsConfig>(addr);
         ensures exists<StakingRewardsConfig>(addr);
@@ -155,9 +154,8 @@ spec aptos_framework::staking_config {
         include StakingRewardsConfigRequirement;
         ensures (
             features::spec_periodical_reward_rate_decrease_enabled()
-                && (
-                    global<StakingRewardsConfig>(@aptos_framework).rewards_rate.value as u64
-                ) != 0
+            && (global<StakingRewardsConfig>(@aptos_framework).rewards_rate.value as u64)
+                != 0
         ) ==>
             result_1 <= MAX_REWARDS_RATE
                 && result_2 <= MAX_U64;
@@ -169,9 +167,8 @@ spec aptos_framework::staking_config {
         include StakingRewardsConfigRequirement;
         ensures (
             features::spec_periodical_reward_rate_decrease_enabled()
-                && (
-                    global<StakingRewardsConfig>(@aptos_framework).rewards_rate.value as u64
-                ) != 0
+            && (global<StakingRewardsConfig>(@aptos_framework).rewards_rate.value as u64)
+                != 0
         ) ==>
             result_1 <= MAX_REWARDS_RATE
                 && result_2 <= MAX_U64;
@@ -195,7 +192,7 @@ spec aptos_framework::staking_config {
     /// The maximum_stake must be greater than maximum_stake in the range of Specified stake and the maximum_stake greater than zero.
     /// The StakingConfig is under @aptos_framework.
     spec update_required_stake(
-        aptos_framework: &signer, minimum_stake: u64, maximum_stake: u64
+        aptos_framework: &signer, minimum_stake: u64, maximum_stake: u64,
     ) {
         use std::signer;
         let addr = signer::address_of(aptos_framework);
@@ -211,7 +208,7 @@ spec aptos_framework::staking_config {
     /// The new_recurring_lockup_duration_secs must greater than zero.
     /// The StakingConfig is under @aptos_framework.
     spec update_recurring_lockup_duration_secs(
-        aptos_framework: &signer, new_recurring_lockup_duration_secs: u64
+        aptos_framework: &signer, new_recurring_lockup_duration_secs: u64,
     ) {
         use std::signer;
         let addr = signer::address_of(aptos_framework);
@@ -230,7 +227,7 @@ spec aptos_framework::staking_config {
     /// The `rewards_rate` which is the numerator is limited to be `<= MAX_REWARDS_RATE` in order to avoid the arithmetic overflow in the rewards calculation.
     /// rewards_rate/rewards_rate_denominator <= 1.
     spec update_rewards_rate(
-        aptos_framework: &signer, new_rewards_rate: u64, new_rewards_rate_denominator: u64
+        aptos_framework: &signer, new_rewards_rate: u64, new_rewards_rate_denominator: u64,
     ) {
         use std::signer;
         aborts_if features::spec_periodical_reward_rate_decrease_enabled();
@@ -253,7 +250,7 @@ spec aptos_framework::staking_config {
         rewards_rate: FixedPoint64,
         min_rewards_rate: FixedPoint64,
         rewards_rate_period_in_secs: u64,
-        rewards_rate_decrease_rate: FixedPoint64
+        rewards_rate_decrease_rate: FixedPoint64,
     ) {
         use std::signer;
         pragma verify_duration_estimate = 120; // verified but takes long
@@ -278,7 +275,7 @@ spec aptos_framework::staking_config {
     /// Only this %0-%50 of current total voting power is allowed to join the validator set in each epoch.
     /// The StakingConfig is under @aptos_framework.
     spec update_voting_power_increase_limit(
-        aptos_framework: &signer, new_voting_power_increase_limit: u64
+        aptos_framework: &signer, new_voting_power_increase_limit: u64,
     ) {
         use std::signer;
         let addr = signer::address_of(aptos_framework);
@@ -302,7 +299,7 @@ spec aptos_framework::staking_config {
         rewards_rate: FixedPoint64,
         min_rewards_rate: FixedPoint64,
         rewards_rate_period_in_secs: u64,
-        rewards_rate_decrease_rate: FixedPoint64
+        rewards_rate_decrease_rate: FixedPoint64,
     ) {
         include StakingRewardsConfigValidationAbortsIf;
     }
@@ -319,7 +316,7 @@ spec aptos_framework::staking_config {
 
         aborts_if fixed_point64::spec_greater(
             rewards_rate,
-            fixed_point64::spec_create_from_u128((1u128))
+            fixed_point64::spec_create_from_u128((1u128)),
         );
         aborts_if fixed_point64::spec_greater(min_rewards_rate, rewards_rate);
         aborts_if rewards_rate_period_in_secs == 0;
@@ -343,13 +340,12 @@ spec aptos_framework::staking_config {
 
         requires fixed_point64::spec_less_or_equal(
             rewards_rate,
-            fixed_point64::spec_create_from_u128((1u128))
+            fixed_point64::spec_create_from_u128((1u128)),
         );
         requires fixed_point64::spec_less_or_equal(min_rewards_rate, rewards_rate);
         requires rewards_rate_period_in_secs > 0;
         /// [high-level-req-4]
-        requires last_rewards_rate_period_start_in_secs
-            <= timestamp::spec_now_seconds();
+        requires last_rewards_rate_period_start_in_secs <= timestamp::spec_now_seconds();
         requires fixed_point64::spec_ceil(rewards_rate_decrease_rate) <= 1;
     }
 }

@@ -13,7 +13,9 @@ script {
     const NEG_T: bool = !true;
     const NEG_F: bool = !false;
 
-    const COMPLEX: bool = !((true && false) || (false || true) && true) || true;
+    const COMPLEX: bool = !((true && false)
+        || (false || true)
+        && true) || true;
 
     fun main() {
         assert!(AND_TT, 42);

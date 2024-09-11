@@ -9,7 +9,7 @@ script {
             aptos_governance::resolve_multi_step_proposal(
                 proposal_id,
                 @0000000000000000000000000000000000000000000000000000000000000001,
-                { { script_hash } }
+                { { script_hash } },
             );
     }
 }

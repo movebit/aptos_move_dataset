@@ -10,12 +10,12 @@ module DiemFramework::AccountFreezing {
 
     struct FreezingBit has key {
         /// If `is_frozen` is set true, the account cannot be used to send transactions or receive funds
-        is_frozen: bool
+        is_frozen: bool,
     }
 
     struct FreezeEventsHolder has key {
         freeze_event_handle: EventHandle<FreezeAccountEvent>,
-        unfreeze_event_handle: EventHandle<UnfreezeAccountEvent>
+        unfreeze_event_handle: EventHandle<UnfreezeAccountEvent>,
     }
 
     /// Message for freeze account events
@@ -23,7 +23,7 @@ module DiemFramework::AccountFreezing {
         /// The address that initiated freeze txn
         initiator_address: address,
         /// The address that was frozen
-        frozen_address: address
+        frozen_address: address,
     }
 
     /// Message for unfreeze account events
@@ -31,7 +31,7 @@ module DiemFramework::AccountFreezing {
         /// The address that initiated unfreeze txn
         initiator_address: address,
         /// The address that was unfrozen
-        unfrozen_address: address
+        unfrozen_address: address,
     }
 
     /// A property expected of the `FreezeEventsHolder` resource didn't hold
@@ -50,14 +50,14 @@ module DiemFramework::AccountFreezing {
         CoreAddresses::assert_diem_root(dr_account);
         assert!(
             !exists<FreezeEventsHolder>(signer::address_of(dr_account)),
-            errors::already_published(EFREEZE_EVENTS_HOLDER)
+            errors::already_published(EFREEZE_EVENTS_HOLDER),
         );
         move_to(
             dr_account,
             FreezeEventsHolder {
                 freeze_event_handle: event::new_event_handle(dr_account),
-                unfreeze_event_handle: event::new_event_handle(dr_account)
-            }
+                unfreeze_event_handle: event::new_event_handle(dr_account),
+            },
         );
     }
 
@@ -83,26 +83,24 @@ module DiemFramework::AccountFreezing {
     }
 
     /// Freeze the account at `addr`.
-    public fun freeze_account(
-        account: &signer, frozen_address: address
-    ) acquires FreezingBit, FreezeEventsHolder {
+    public fun freeze_account(account: &signer, frozen_address: address,) acquires FreezingBit, FreezeEventsHolder {
         DiemTimestamp::assert_operating();
         Roles::assert_treasury_compliance(account);
         // The diem root account and TC cannot be frozen
         assert!(
             frozen_address != @DiemRoot,
-            errors::invalid_argument(ECANNOT_FREEZE_DIEM_ROOT)
+            errors::invalid_argument(ECANNOT_FREEZE_DIEM_ROOT),
         );
         assert!(
             frozen_address != @TreasuryCompliance,
-            errors::invalid_argument(ECANNOT_FREEZE_TC)
+            errors::invalid_argument(ECANNOT_FREEZE_TC),
         );
         assert!(exists<FreezingBit>(frozen_address), errors::not_published(EFREEZING_BIT));
         borrow_global_mut<FreezingBit>(frozen_address).is_frozen = true;
         let initiator_address = signer::address_of(account);
         event::emit_event<FreezeAccountEvent>(
             &mut borrow_global_mut<FreezeEventsHolder>(@DiemRoot).freeze_event_handle,
-            FreezeAccountEvent { initiator_address, frozen_address }
+            FreezeAccountEvent { initiator_address, frozen_address },
         );
     }
 
@@ -129,19 +127,19 @@ module DiemFramework::AccountFreezing {
 
     /// Unfreeze the account at `addr`.
     public fun unfreeze_account(
-        account: &signer, unfrozen_address: address
+        account: &signer, unfrozen_address: address,
     ) acquires FreezingBit, FreezeEventsHolder {
         DiemTimestamp::assert_operating();
         Roles::assert_treasury_compliance(account);
         assert!(
             exists<FreezingBit>(unfrozen_address),
-            errors::not_published(EFREEZING_BIT)
+            errors::not_published(EFREEZING_BIT),
         );
         borrow_global_mut<FreezingBit>(unfrozen_address).is_frozen = false;
         let initiator_address = signer::address_of(account);
         event::emit_event<UnfreezeAccountEvent>(
             &mut borrow_global_mut<FreezeEventsHolder>(@DiemRoot).unfreeze_event_handle,
-            UnfreezeAccountEvent { initiator_address, unfrozen_address }
+            UnfreezeAccountEvent { initiator_address, unfrozen_address },
         );
     }
 
@@ -220,18 +218,17 @@ module DiemFramework::AccountFreezing {
             spec_account_is_not_frozen(@TreasuryCompliance);
 
         /// resource struct FreezingBit persists
-        invariant update forall addr: address where old(exists<FreezingBit>(addr)):
-            exists<FreezingBit>(addr);
+        invariant update forall addr: address where old(exists<FreezingBit>(addr)): exists<
+            FreezingBit>(addr);
 
         /// resource struct FreezeEventsHolder is there forever after initialization
         invariant [suspendable] DiemTimestamp::is_operating() ==>
             exists<FreezeEventsHolder>(@DiemRoot);
 
         /// Only TreasuryCompliance can change the freezing bits of accounts [[H7]][PERMISSION].
-        invariant update forall addr: address where old(exists<FreezingBit>(addr)):
-            global<FreezingBit>(addr).is_frozen
-                != old(global<FreezingBit>(addr).is_frozen) ==>
-                Roles::spec_signed_by_treasury_compliance_role();
+        invariant update forall addr: address where old(exists<FreezingBit>(addr)): global<
+            FreezingBit>(addr).is_frozen != old(global<FreezingBit>(addr).is_frozen) ==>
+            Roles::spec_signed_by_treasury_compliance_role();
     }
 
     /// # Helper Functions

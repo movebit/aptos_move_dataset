@@ -10,7 +10,7 @@ module CoinSwap::CoinSwap {
     struct LiquidityPool<phantom CoinType1, phantom CoinType2> has key {
         coin1: u64,
         coin2: u64,
-        share: u64
+        share: u64,
     }
 
     public fun create_pool<CoinType1: drop, CoinType2: drop>(
@@ -29,15 +29,15 @@ module CoinSwap::CoinSwap {
         BasicCoin::publish_balance<CoinType2>(coinswap);
         assert!(
             signer::address_of(coinswap) == @CoinSwap,
-            error::invalid_argument(ECOINSWAP_ADDRESS)
+            error::invalid_argument(ECOINSWAP_ADDRESS),
         );
         assert!(
             !exists<LiquidityPool<CoinType1, CoinType2>>(signer::address_of(coinswap)),
-            error::already_exists(EPOOL)
+            error::already_exists(EPOOL),
         );
         move_to(
             coinswap,
-            LiquidityPool<CoinType1, CoinType2> { coin1, coin2, share }
+            LiquidityPool<CoinType1, CoinType2> { coin1, coin2, share },
         );
 
         // Transfer the initial liquidity of CoinType1 and CoinType2 to the pool under @CoinSwap.
@@ -70,11 +70,11 @@ module CoinSwap::CoinSwap {
     ) acquires LiquidityPool {
         assert!(
             signer::address_of(coinswap) == @CoinSwap,
-            error::invalid_argument(ECOINSWAP_ADDRESS)
+            error::invalid_argument(ECOINSWAP_ADDRESS),
         );
         assert!(
             exists<LiquidityPool<CoinType1, CoinType2>>(signer::address_of(coinswap)),
-            error::not_found(EPOOL)
+            error::not_found(EPOOL),
         );
         let pool =
             borrow_global_mut<LiquidityPool<CoinType1, CoinType2>>(
@@ -97,7 +97,7 @@ module CoinSwap::CoinSwap {
         coin1: u64,
         coin2: u64,
         witness1: CoinType1,
-        witness2: CoinType2
+        witness2: CoinType2,
     ) acquires LiquidityPool {
         let pool = borrow_global_mut<LiquidityPool<CoinType1, CoinType2>>(@CoinSwap);
 
@@ -119,7 +119,7 @@ module CoinSwap::CoinSwap {
         requester: &signer,
         share: u64,
         witness1: CoinType1,
-        witness2: CoinType2
+        witness2: CoinType2,
     ) acquires LiquidityPool {
         let pool = borrow_global_mut<LiquidityPool<CoinType1, CoinType2>>(@CoinSwap);
 
@@ -134,13 +134,13 @@ module CoinSwap::CoinSwap {
             coinswap,
             signer::address_of(requester),
             coin1_removed,
-            witness1
+            witness1,
         );
         BasicCoin::transfer<CoinType2>(
             coinswap,
             signer::address_of(requester),
             coin2_removed,
-            witness2
+            witness2,
         );
         PoolToken::burn<CoinType1, CoinType2>(signer::address_of(requester), share)
     }

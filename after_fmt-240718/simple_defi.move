@@ -26,7 +26,7 @@ module resource_account::simple_defi {
     struct ModuleData has key {
         resource_signer_cap: account::SignerCapability,
         burn_cap: BurnCapability<ChloesCoin>,
-        mint_cap: MintCapability<ChloesCoin>
+        mint_cap: MintCapability<ChloesCoin>,
     }
 
     struct ChloesCoin {
@@ -44,11 +44,11 @@ module resource_account::simple_defi {
                 string::utf8(b"Chloe's Coin"),
                 string::utf8(b"CCOIN"),
                 8,
-                false
+                false,
             );
         move_to(
             account,
-            ModuleData { resource_signer_cap, burn_cap, mint_cap }
+            ModuleData { resource_signer_cap, burn_cap, mint_cap, },
         );
 
         // destroy freeze cap because we aren't using it
@@ -111,14 +111,7 @@ module resource_account::simple_defi {
         init_module(resource_account);
     }
 
-    #[
-        test(
-            origin_account = @0xcafe,
-            resource_account =
-            @0xc3bb8488ab1a5815a9d543d7e41b0e0df46a7396f89b22821f07a4362f75ddc5,
-            framework = @aptos_framework
-        )
-    ]
+    #[test(origin_account = @0xcafe, resource_account = @0xc3bb8488ab1a5815a9d543d7e41b0e0df46a7396f89b22821f07a4362f75ddc5, framework = @aptos_framework)]
     public entry fun test_exchange_to_and_exchange_from(
         origin_account: signer, resource_account: signer, framework: signer
     ) acquires ModuleData {

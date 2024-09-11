@@ -50,7 +50,7 @@ spec aptos_framework::managed_coin {
         pragma aborts_if_is_strict;
     }
 
-    spec burn<CoinType>(account: &signer, amount: u64) {
+    spec burn<CoinType>(account: &signer, amount: u64,) {
         use aptos_std::type_info;
         // TODO(fa_migration)
         pragma verify = false;
@@ -92,7 +92,7 @@ spec aptos_framework::managed_coin {
         name: vector<u8>,
         symbol: vector<u8>,
         decimals: u8,
-        monitor_supply: bool
+        monitor_supply: bool,
     ) {
         include coin::InitializeInternalSchema<CoinType>;
         aborts_if !string::spec_internal_check_utf8(name);
@@ -105,7 +105,7 @@ spec aptos_framework::managed_coin {
 
     /// The Capabilities<CoinType> should not exist in the signer address.
     /// The `dst_addr` should not be frozen.
-    spec mint<CoinType>(account: &signer, dst_addr: address, amount: u64) {
+    spec mint<CoinType>(account: &signer, dst_addr: address, amount: u64,) {
         use aptos_std::type_info;
         // TODO(fa_migration)
         pragma verify = false;

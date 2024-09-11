@@ -5,7 +5,7 @@ module 0xc0ffee::m {
         b: u64,
         c: u64,
         d: u64,
-        e: u64
+        e: u64,
     }
 
     fun sequential(p: Foo): Foo {
@@ -19,14 +19,9 @@ module 0xc0ffee::m {
 
     public fun main() {
         assert!(
-            sequential(Foo { a: 1, b: 2, c: 3, d: 4, e: 5 }) == Foo {
-                a: 1,
-                b: 2,
-                c: 3,
-                d: 4,
-                e: 5
-            },
-            0
+            sequential(Foo { a: 1, b: 2, c: 3, d: 4, e: 5 })
+                == Foo { a: 1, b: 2, c: 3, d: 4, e: 5 },
+            0,
         );
     }
 }

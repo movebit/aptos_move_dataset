@@ -112,15 +112,15 @@ module 0x42::VerifyVector {
         let front_index = 0;
         let back_index = vlen - 1;
         while ({
-            spec {
-                invariant front_index + back_index == vlen - 1;
-                invariant forall i in 0..front_index: v[i] == old(v)[vlen - 1 - i];
-                invariant forall i in 0..front_index: v[vlen - 1 - i] == old(v)[i];
-                invariant forall j in front_index..back_index + 1: v[j] == old(v)[j];
-                invariant len(v) == vlen;
-            };
-            (front_index < back_index)
-        }) {
+                spec {
+                    invariant front_index + back_index == vlen - 1;
+                    invariant forall i in 0..front_index: v[i] == old(v)[vlen - 1 - i];
+                    invariant forall i in 0..front_index: v[vlen - 1 - i] == old(v)[i];
+                    invariant forall j in front_index..back_index + 1: v[j] == old(v)[j];
+                    invariant len(v) == vlen;
+                };
+                (front_index < back_index)
+            }) {
             vector::swap(v, front_index, back_index);
             front_index = front_index + 1;
             back_index = back_index - 1;
@@ -168,19 +168,17 @@ module 0x42::VerifyVector {
         let o = &mut other;
         vector::reverse(o);
         while ({
-            spec {
-                invariant len(v) >= len(old(v));
-                invariant len(o) <= len(other);
-                invariant len(v) + len(o) == len(old(v)) + len(other);
-                invariant forall k in 0..len(old(v)): v[k] == old(v)[k];
-                invariant forall k in 0..len(o): o[k] == other[len(other) - 1 - k];
-                invariant forall k in len(old(v))..len(v): v[k]
-                    == other[k - len(old(v))];
-            };
-            !vector::is_empty(o)
-        }) {
-            vector::push_back(v, vector::pop_back(o))
-        };
+                spec {
+                    invariant len(v) >= len(old(v));
+                    invariant len(o) <= len(other);
+                    invariant len(v) + len(o) == len(old(v)) + len(other);
+                    invariant forall k in 0..len(old(v)): v[k] == old(v)[k];
+                    invariant forall k in 0..len(o): o[k] == other[len(other) - 1 - k];
+                    invariant forall k in len(old(v))..len(v): v[k] == other[k
+                            - len(old(v))];
+                };
+                !vector::is_empty(o)
+            }) { vector::push_back(v, vector::pop_back(o)) };
         vector::destroy_empty(other);
     }
 
@@ -195,9 +193,7 @@ module 0x42::VerifyVector {
     ) {
         let o = &mut other;
         vector::reverse(o);
-        while (!vector::is_empty(o)) {
-            vector::push_back(v, vector::pop_back(o))
-        };
+        while (!vector::is_empty(o)) { vector::push_back(v, vector::pop_back(o)) };
         vector::destroy_empty(other);
     }
 
@@ -245,11 +241,11 @@ module 0x42::VerifyVector {
         let i = 0;
         let len = vector::length(v);
         while ({
-            spec {
-                invariant !(exists j in 0..i: v[j] == e);
-            };
-            i < len
-        }) {
+                spec {
+                    invariant !(exists j in 0..i: v[j] == e);
+                };
+                i < len
+            }) {
             if (vector::borrow(v, i) == e) return (true, i);
             i = i + 1;
         };
@@ -305,11 +301,11 @@ module 0x42::VerifyVector {
         let i = 0;
         let len = vector::length(v);
         while ({
-            spec {
-                invariant !(exists j in 0..i: v[j] == e);
-            };
-            i < len
-        }) {
+                spec {
+                    invariant !(exists j in 0..i: v[j] == e);
+                };
+                i < len
+            }) {
             if (vector::borrow(v, i) == e) return true;
             i = i + 1;
         };
@@ -365,16 +361,16 @@ module 0x42::VerifyVector {
 
         vlen = vlen - 1;
         while ({
-            spec {
-                invariant j <= i && i <= vlen;
-                invariant vlen + 1 == len(v);
-                invariant v[0..j] == old(v)[0..j];
-                invariant forall k in j..i: v[k] == old(v)[k + 1];
-                invariant forall k in i + 1..len(v): v[k] == old(v)[k];
-                invariant v[i] == old(v)[j];
-            };
-            i < vlen
-        }) {
+                spec {
+                    invariant j <= i && i <= vlen;
+                    invariant vlen + 1 == len(v);
+                    invariant v[0..j] == old(v)[0..j];
+                    invariant forall k in j..i: v[k] == old(v)[k + 1];
+                    invariant forall k in i + 1..len(v): v[k] == old(v)[k];
+                    invariant v[i] == old(v)[j];
+                };
+                i < vlen
+            }) {
             vector::swap(v, i, i + 1);
             i = i + 1;
         };

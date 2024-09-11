@@ -2,7 +2,7 @@ module 0x42::M {
 
     struct S {
         x: u64,
-        y: bool
+        y: bool,
     }
 
     spec module {

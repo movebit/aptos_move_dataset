@@ -11,7 +11,7 @@ module CoreFramework::ValidatorOperatorConfig {
 
     struct ValidatorOperatorConfig has key {
         /// The human readable name of this entity. Immutable.
-        human_name: vector<u8>
+        human_name: vector<u8>,
     }
 
     /// The `ValidatorOperatorConfig` was not in the required state
@@ -25,7 +25,7 @@ module CoreFramework::ValidatorOperatorConfig {
 
         assert!(
             !exists<ValidatorOperatorConfigChainMarker<T>>(@CoreResources),
-            errors::already_published(ECHAIN_MARKER)
+            errors::already_published(ECHAIN_MARKER),
         );
         move_to(account, ValidatorOperatorConfigChainMarker<T> {});
     }
@@ -36,25 +36,23 @@ module CoreFramework::ValidatorOperatorConfig {
         DiemTimestamp::assert_operating();
         assert!(
             exists<ValidatorOperatorConfigChainMarker<T>>(@CoreResources),
-            errors::not_published(ECHAIN_MARKER)
+            errors::not_published(ECHAIN_MARKER),
         );
 
         assert!(
             !has_validator_operator_config(signer::address_of(validator_operator_account)),
-            errors::already_published(EVALIDATOR_OPERATOR_CONFIG)
+            errors::already_published(EVALIDATOR_OPERATOR_CONFIG),
         );
 
-        move_to(validator_operator_account, ValidatorOperatorConfig { human_name });
+        move_to(validator_operator_account, ValidatorOperatorConfig { human_name, });
     }
 
     /// Get validator's account human name
     /// Aborts if there is no ValidatorOperatorConfig resource
-    public fun get_human_name(
-        validator_operator_addr: address
-    ): vector<u8> acquires ValidatorOperatorConfig {
+    public fun get_human_name(validator_operator_addr: address): vector<u8> acquires ValidatorOperatorConfig {
         assert!(
             has_validator_operator_config(validator_operator_addr),
-            errors::not_published(EVALIDATOR_OPERATOR_CONFIG)
+            errors::not_published(EVALIDATOR_OPERATOR_CONFIG),
         );
         *&borrow_global<ValidatorOperatorConfig>(validator_operator_addr).human_name
     }

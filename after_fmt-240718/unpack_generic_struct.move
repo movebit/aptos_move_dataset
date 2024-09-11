@@ -16,7 +16,7 @@ module 0x42::m {
     }
 
     struct E<Key> has copy, drop, store {
-        key: Key
+        key: Key,
     }
 
     public inline fun h<Key: store + drop>(x: E<Key>, v: |Key| E<Key>): E<Key> {
@@ -35,7 +35,7 @@ module 0x42::m {
             |e| {
                 let (E { key }, _x) = (e, 3);
                 *v = key;
-            }
+            },
         );
     }
 }

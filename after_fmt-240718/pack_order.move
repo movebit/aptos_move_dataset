@@ -3,7 +3,7 @@ module 0x42::pack_unpack {
     struct S {
         f1: u8,
         f2: u8,
-        f3: u8
+        f3: u8,
     }
 
     fun pack1(x: u8, y: u8, z: u8): S {

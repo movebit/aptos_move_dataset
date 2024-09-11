@@ -56,34 +56,34 @@ module 0x2::Bug7 {
 
     struct BallotID has store, copy, drop {
         counter: u64,
-        proposer: address
+        proposer: address,
     }
 
     struct Ballot has store, copy, drop {
         // A globally unique ballot id that is created for every proposal
-        ballot_id: BallotID
+        ballot_id: BallotID,
     }
 
     struct Ballots<Proposal: store + drop> has key {
         proposal: Proposal,
-        ballots: vector<Ballot>
+        ballots: vector<Ballot>,
     }
 
     /// A counter which is stored under the proposers address and gets incremented
     /// everytime they create a new ballot. This is used for creating unique
     /// global identifiers for Ballots
     struct BallotCounter has key {
-        counter: u64
+        counter: u64,
     }
 
     /// Create a ballot under the signer's address and return the `BallotID`
     public fun create_ballot<Proposal: store + copy + drop>(
-        ballot_account: &signer, proposal: Proposal
+        ballot_account: &signer, proposal: Proposal,
     ): BallotID acquires Ballots, BallotCounter {
         let ballot_address = signer::address_of(ballot_account);
 
         if (!exists<BallotCounter>(ballot_address)) {
-            move_to(ballot_account, BallotCounter { counter: 0 });
+            move_to(ballot_account, BallotCounter { counter: 0, });
             // DD Debug
             spec {
                 assert!exists<Ballots<Proposal>>(ballot_address);
@@ -92,7 +92,7 @@ module 0x2::Bug7 {
         if (!exists<Ballots<Proposal>>(ballot_address)) {
             move_to(
                 ballot_account,
-                Ballots<Proposal> { proposal, ballots: vector::empty() }
+                Ballots<Proposal> { proposal, ballots: vector::empty(), },
             );
         };
 
@@ -101,14 +101,14 @@ module 0x2::Bug7 {
         let ballots = &mut ballot_data.ballots;
 
         let ballot_id = new_ballot_id(incr_counter(ballot_account), ballot_address);
-        let ballot = Ballot { ballot_id: *&ballot_id };
+        let ballot = Ballot { ballot_id: *&ballot_id, };
         vector::push_back(ballots, *&ballot);
         ballot_id
     }
 
     /// A constructor for BallotID
-    public fun new_ballot_id(counter: u64, proposer: address): BallotID {
-        BallotID { counter, proposer }
+    public fun new_ballot_id(counter: u64, proposer: address,): BallotID {
+        BallotID { counter, proposer, }
     }
 
     /// incr_counter increments the counter stored under the signer's
@@ -136,8 +136,7 @@ module 0x2::Bug7 {
     spec fun get_ballot<Proposal>(ballot_address: address, ballot_id: BallotID): Ballot {
         let ballots = global<Ballots<Proposal>>(ballot_address).ballots;
         get_ballots<Proposal>(ballot_address)[
-            choose min i in 0..len(ballots) where ballots[i].ballot_id == ballot_id
-        ]
+            choose min i in 0..len(ballots) where ballots[i].ballot_id == ballot_id]
     }
 
     // Lower-level invariants
@@ -150,9 +149,8 @@ module 0x2::Bug7 {
         let ballots = get_ballots<Proposal>(proposer_address);
         exists<Ballots<Proposal>>(proposer_address) ==>
             (
-                forall i in 0..len(ballots):
-                    ballots[i].ballot_id.counter
-                        < global<BallotCounter>(proposer_address).counter
+                forall i in 0..len(ballots): ballots[i].ballot_id.counter
+                    < global<BallotCounter>(proposer_address).counter
             )
     }
 
@@ -165,7 +163,8 @@ module 0x2::Bug7 {
 
         /// counter values in ballots are all less than the value of the BallotCounter
         /// See note on spec fun existing_ballots_have_small_counters
-        invariant<Proposal> forall addr: address:
-            existing_ballots_have_small_counters<Proposal>(addr);
+        invariant<Proposal> forall addr: address: existing_ballots_have_small_counters<Proposal>(
+            addr
+        );
     }
 }

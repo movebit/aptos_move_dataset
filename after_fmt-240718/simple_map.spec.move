@@ -76,16 +76,16 @@ spec aptos_std::simple_map {
         ensures [abstract] forall k: Key: !spec_contains_key(result, k);
     }
 
-    spec new_from<Key: store, Value: store>(keys: vector<Key>, values: vector<Value>): SimpleMap<Key, Value> {
+    spec new_from<Key: store, Value: store>(keys: vector<Key>, values: vector<Value>,): SimpleMap<Key, Value> {
         pragma intrinsic;
         pragma opaque;
         aborts_if [abstract] false;
         ensures [abstract] spec_len(result) == len(keys);
-        ensures [abstract] forall k: Key:
-            spec_contains_key(result, k) <==>
-                vector::spec_contains(keys, k);
-        ensures [abstract] forall i in 0..len(keys):
-            spec_get(result, vector::borrow(keys, i)) == vector::borrow(values, i);
+        ensures [abstract] forall k: Key: spec_contains_key(result, k) <==>
+            vector::spec_contains(keys, k);
+        ensures [abstract] forall i in 0..len(keys): spec_get(
+            result, vector::borrow(keys, i)
+        ) == vector::borrow(values, i);
     }
 
     spec to_vec_pair<Key: store, Value: store>(map: SimpleMap<Key, Value>): (
@@ -93,11 +93,11 @@ spec aptos_std::simple_map {
     ) {
         pragma intrinsic;
         pragma opaque;
-        ensures [abstract] forall k: Key:
-            vector::spec_contains(result_1, k) <==>
-                spec_contains_key(map, k);
-        ensures [abstract] forall i in 0..len(result_1):
-            spec_get(map, vector::borrow(result_1, i)) == vector::borrow(result_2, i);
+        ensures [abstract] forall k: Key: vector::spec_contains(result_1, k) <==>
+            spec_contains_key(map, k);
+        ensures [abstract] forall i in 0..len(result_1): spec_get(
+            map, vector::borrow(result_1, i)
+        ) == vector::borrow(result_2, i);
     }
 
     spec upsert<Key: store, Value: store>(
@@ -116,8 +116,10 @@ spec aptos_std::simple_map {
         ensures [abstract] spec_contains_key(old(map), key) ==>
             ((option::is_some(result_1)) && (option::spec_borrow(result_1) == key));
         ensures [abstract] spec_contains_key(old(map), key) ==>
-            ((option::is_some(result_2))
-                && (option::spec_borrow(result_2) == spec_get(old(map), key)));
+            (
+                (option::is_some(result_2))
+                    && (option::spec_borrow(result_2) == spec_get(old(map), key))
+            );
     }
 
     // Specification functions for tables

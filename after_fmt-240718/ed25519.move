@@ -44,7 +44,7 @@ module aptos_std::ed25519 {
     /// A BCS-serializable message, which one can verify signatures on via `signature_verify_strict_t`
     struct SignedMessage<MessageType> has drop {
         type_info: TypeInfo,
-        inner: MessageType
+        inner: MessageType,
     }
 
     /// An *unvalidated* Ed25519 public key: not necessarily an elliptic curve point, just a sequence of 32 bytes
@@ -73,14 +73,14 @@ module aptos_std::ed25519 {
     public fun new_unvalidated_public_key_from_bytes(bytes: vector<u8>): UnvalidatedPublicKey {
         assert!(
             std::vector::length(&bytes) == PUBLIC_KEY_NUM_BYTES,
-            std::error::invalid_argument(E_WRONG_PUBKEY_SIZE)
+            std::error::invalid_argument(E_WRONG_PUBKEY_SIZE),
         );
         UnvalidatedPublicKey { bytes }
     }
 
     /// Parses the input 32 bytes as a *validated* Ed25519 public key.
-    public fun new_validated_public_key_from_bytes(bytes: vector<u8>):
-        Option<ValidatedPublicKey> {
+    public fun new_validated_public_key_from_bytes(bytes: vector<u8>)
+        : Option<ValidatedPublicKey> {
         if (public_key_validate_internal(bytes)) {
             option::some(ValidatedPublicKey { bytes })
         } else {
@@ -92,7 +92,7 @@ module aptos_std::ed25519 {
     public fun new_signature_from_bytes(bytes: vector<u8>): Signature {
         assert!(
             std::vector::length(&bytes) == SIGNATURE_NUM_BYTES,
-            std::error::invalid_argument(E_WRONG_SIGNATURE_SIZE)
+            std::error::invalid_argument(E_WRONG_SIGNATURE_SIZE),
         );
         Signature { bytes }
     }
@@ -141,10 +141,7 @@ module aptos_std::ed25519 {
     public fun signature_verify_strict_t<T: drop>(
         signature: &Signature, public_key: &UnvalidatedPublicKey, data: T
     ): bool {
-        let encoded = SignedMessage {
-            type_info: type_info::type_of<T>(),
-            inner: data
-        };
+        let encoded = SignedMessage { type_info: type_info::type_of<T>(), inner: data, };
 
         signature_verify_strict_internal(
             signature.bytes, public_key.bytes, bcs::to_bytes(&encoded)
@@ -153,10 +150,7 @@ module aptos_std::ed25519 {
 
     /// Helper method to construct a SignedMessage struct.
     public fun new_signed_message<T: drop>(data: T): SignedMessage<T> {
-        SignedMessage {
-            type_info: type_info::type_of<T>(),
-            inner: data
-        }
+        SignedMessage { type_info: type_info::type_of<T>(), inner: data, }
     }
 
     /// Derives the Aptos-specific authentication key of the given Ed25519 public key.
@@ -198,9 +192,7 @@ module aptos_std::ed25519 {
     /// Generates an Ed25519 signature for given structured data using a given signing key.
     public fun sign_struct<T: drop>(sk: &SecretKey, data: T): Signature {
         let encoded = new_signed_message(data);
-        Signature {
-            bytes: sign_internal(sk.bytes, bcs::to_bytes(&encoded))
-        }
+        Signature { bytes: sign_internal(sk.bytes, bcs::to_bytes(&encoded)) }
     }
 
     //
@@ -237,7 +229,7 @@ module aptos_std::ed25519 {
     #[test_only]
     struct TestMessage has copy, drop {
         title: vector<u8>,
-        content: vector<u8>
+        content: vector<u8>,
     }
 
     #[test]
@@ -247,16 +239,13 @@ module aptos_std::ed25519 {
 
         let msg1: vector<u8> = x"0123456789abcdef";
         let sig1 = sign_arbitrary_bytes(&sk, msg1);
-        assert!(
-            signature_verify_strict(&sig1, &pk, msg1),
-            std::error::invalid_state(1)
-        );
+        assert!(signature_verify_strict(&sig1, &pk, msg1), std::error::invalid_state(1));
 
-        let msg2 = TestMessage { title: b"Some Title", content: b"That is it." };
+        let msg2 = TestMessage { title: b"Some Title", content: b"That is it.", };
         let sig2 = sign_struct(&sk, copy msg2);
         assert!(
             signature_verify_strict_t(&sig2, &pk, copy msg2),
-            std::error::invalid_state(2)
+            std::error::invalid_state(2),
         );
     }
 }

@@ -103,9 +103,7 @@ spec aptos_framework::reconfiguration_state {
         requires exists<State>(@aptos_framework);
         requires copyable_any::type_name(global<State>(@aptos_framework).variant).bytes
             == b"0x1::reconfiguration_state::StateActive";
-        include UnpackRequiresStateActive {
-            x: global<State>(@aptos_framework).variant
-        };
+        include UnpackRequiresStateActive { x: global<State>(@aptos_framework).variant };
     }
 
     spec schema UnpackRequiresStateActive {

@@ -82,7 +82,7 @@ module DiemFramework::AccountLimitsTests {
             100, /* new_max_inflow */
             200, /* new_max_outflow */
             150, /* new_max_holding_balance */
-            10000 /* new_time_period */
+            10000, /* new_time_period */
         )
     }
 
@@ -95,7 +95,7 @@ module DiemFramework::AccountLimitsTests {
             0, /* new_max_inflow */
             0, /* new_max_outflow */
             150, /* new_max_holding_balance */
-            10000 /* new_time_period */
+            10000, /* new_time_period */
         )
     }
 
@@ -110,7 +110,7 @@ module DiemFramework::AccountLimitsTests {
             100, /* new_max_inflow */
             200, /* new_max_outflow */
             150, /* new_max_holding_balance */
-            10000 /* new_time_period */
+            10000, /* new_time_period */
         );
         AccountLimits::update_limits_definition<XUS>(
             &tc,
@@ -118,7 +118,7 @@ module DiemFramework::AccountLimitsTests {
             0, /* new_max_inflow */
             0, /* new_max_outflow */
             150, /* new_max_holding_balance */
-            10000 /* new_time_period */
+            10000, /* new_time_period */
         )
     }
 
@@ -134,7 +134,7 @@ module DiemFramework::AccountLimitsTests {
             100, /* new_max_inflow */
             200, /* new_max_outflow */
             150, /* new_max_holding_balance */
-            10000 /* new_time_period */
+            10000, /* new_time_period */
         )
     }
 
@@ -150,7 +150,7 @@ module DiemFramework::AccountLimitsTests {
             100, /* new_max_inflow */
             200, /* new_max_outflow */
             150, /* new_max_holding_balance */
-            10000 /* new_time_period */
+            10000, /* new_time_period */
         )
     }
 
@@ -162,19 +162,19 @@ module DiemFramework::AccountLimitsTests {
             &tc,
             vasp_addr,
             120,
-            vasp_addr
+            vasp_addr,
         );
         AccountLimits::update_window_info<XUS>(
             &tc,
             vasp_addr,
             0,
-            vasp_addr
+            vasp_addr,
         );
         AccountLimits::update_window_info<XUS>(
             &tc,
             vasp_addr,
             120,
-            vasp_addr
+            vasp_addr,
         );
     }
 
@@ -187,7 +187,7 @@ module DiemFramework::AccountLimitsTests {
             &dr,
             vasp_addr,
             120,
-            vasp_addr
+            vasp_addr,
         );
     }
 

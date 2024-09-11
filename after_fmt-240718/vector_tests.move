@@ -509,9 +509,10 @@ module std::vector_tests {
     fun test_for_each() {
         let v = vector[1, 2, 3];
         let s = 0;
-        V::for_each(v, |e| {
-            s = s + e;
-        });
+        V::for_each(v,
+            |e| {
+                s = s + e;
+            });
         assert!(s == 6, 0)
     }
 
@@ -532,7 +533,7 @@ module std::vector_tests {
             |e| {
                 *e = s;
                 s = s + 1
-            }
+            },
         );
         assert!(v == vector[2, 3, 4], 0)
     }

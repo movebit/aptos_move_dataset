@@ -10,7 +10,7 @@ module ExperimentalFramework::VoteTests {
     use ExperimentalFramework::Vote;
 
     struct TestProposal has store, copy, drop {
-        test_data: u8
+        test_data: u8,
     }
 
     fun get_proposer(): signer {
@@ -28,27 +28,28 @@ module ExperimentalFramework::VoteTests {
         (voter1, voter1_address, voter2, voter2_address, voter3, voter3_address)
     }
 
-    fun vote_test_helper(
-        dr: &signer, expiration_timestamp_secs: u64
-    ): (signer, signer, signer, Vote::BallotID, TestProposal) {
+    fun vote_test_helper(dr: &signer, expiration_timestamp_secs: u64,)
+        : (
+        signer, signer, signer, Vote::BallotID, TestProposal
+    ) {
         let (voter1, voter1_address, voter2, voter2_address, voter3, voter3_address) =
             get_three_voters();
         let approvers = vector::empty();
         vector::push_back(
             &mut approvers,
-            Vote::new_weighted_voter(1, bcs::to_bytes(&voter1_address))
+            Vote::new_weighted_voter(1, bcs::to_bytes(&voter1_address)),
         );
         vector::push_back(
             &mut approvers,
-            Vote::new_weighted_voter(1, bcs::to_bytes(&voter2_address))
+            Vote::new_weighted_voter(1, bcs::to_bytes(&voter2_address)),
         );
         vector::push_back(
             &mut approvers,
-            Vote::new_weighted_voter(1, bcs::to_bytes(&voter3_address))
+            Vote::new_weighted_voter(1, bcs::to_bytes(&voter3_address)),
         );
 
         let (proposer, _addr, _addr_bcs) = ballot_setup(dr);
-        let proposal = TestProposal { test_data: 1 };
+        let proposal = TestProposal { test_data: 1, };
         let ballot_id =
             Vote::create_ballot(
                 &proposer, // ballot_account
@@ -56,7 +57,7 @@ module ExperimentalFramework::VoteTests {
                 b"test_proposal", // proposal_type
                 2, // num_votes_required
                 approvers, // allowed_voters
-                expiration_timestamp_secs // expiration_timestamp_secs
+                expiration_timestamp_secs, // expiration_timestamp_secs
             );
         (voter1, voter2, voter3, ballot_id, proposal)
     }
@@ -75,33 +76,33 @@ module ExperimentalFramework::VoteTests {
         let ballot_id =
             Vote::create_ballot(
                 &proposer,
-                TestProposal { test_data: 1 },
+                TestProposal { test_data: 1, },
                 b"test_proposal",
                 1,
                 vector::singleton(Vote::new_weighted_voter(1, *(&addr_bcs))),
-                10
+                10,
             );
         assert!(&ballot_id == &Vote::new_ballot_id(0, addr), 0);
 
         let ballot_id =
             Vote::create_ballot(
                 &proposer,
-                TestProposal { test_data: 1 },
+                TestProposal { test_data: 1, },
                 b"test_proposal",
                 1,
                 vector::singleton(Vote::new_weighted_voter(1, *(&addr_bcs))),
-                10
+                10,
             );
         assert!(&ballot_id == &Vote::new_ballot_id(1, addr), 0);
 
         let ballot_id =
             Vote::create_ballot(
                 &proposer,
-                TestProposal { test_data: 1 },
+                TestProposal { test_data: 1, },
                 b"test_proposal",
                 1,
                 vector::singleton(Vote::new_weighted_voter(1, addr_bcs)),
-                10
+                10,
             );
         assert!(&ballot_id == &Vote::new_ballot_id(2, addr), 0);
     }
@@ -113,12 +114,12 @@ module ExperimentalFramework::VoteTests {
         Vote::create_ballot(
             &proposer, // ballot_account
             TestProposal { // proposal
-                test_data: 1
+                test_data: 1,
             },
             b"test_proposal", // proposal_type
             1, // num_votes_required
             vector::singleton(Vote::new_weighted_voter(1, addr_bcs)), // allowed_voters
-            0 // expiration_timestamp_secs
+            0, // expiration_timestamp_secs
         );
     }
 
@@ -128,41 +129,41 @@ module ExperimentalFramework::VoteTests {
         let _ballot_id1 =
             Vote::create_ballot(
                 &proposer,
-                TestProposal { test_data: 1 },
+                TestProposal { test_data: 1, },
                 b"test_proposal",
                 1,
                 vector::singleton(Vote::new_weighted_voter(1, *(&addr_bcs))),
-                1
+                1,
             );
 
         let _ballot_id2 =
             Vote::create_ballot(
                 &proposer,
-                TestProposal { test_data: 1 },
+                TestProposal { test_data: 1, },
                 b"test_proposal",
                 1,
                 vector::singleton(Vote::new_weighted_voter(1, *(&addr_bcs))),
-                2
+                2,
             );
 
         let _ballot_id3 =
             Vote::create_ballot(
                 &proposer,
-                TestProposal { test_data: 1 },
+                TestProposal { test_data: 1, },
                 b"test_proposal",
                 1,
                 vector::singleton(Vote::new_weighted_voter(1, *(&addr_bcs))),
-                3
+                3,
             );
 
         let _ballot_id4 =
             Vote::create_ballot(
                 &proposer,
-                TestProposal { test_data: 1 },
+                TestProposal { test_data: 1, },
                 b"test_proposal",
                 1,
                 vector::singleton(Vote::new_weighted_voter(1, addr_bcs)),
-                4
+                4,
             );
 
         DiemTimestamp::update_global_time(&vm, @0xCAFE, 3000000);
@@ -170,11 +171,11 @@ module ExperimentalFramework::VoteTests {
         assert!(vector::length(&remove_ballots) == 2, 0);
         assert!(
             &vector::pop_back(&mut remove_ballots) == &Vote::new_ballot_id(1, addr),
-            0
+            0,
         );
         assert!(
             &vector::pop_back(&mut remove_ballots) == &Vote::new_ballot_id(0, addr),
-            0
+            0,
         );
     }
 
@@ -218,12 +219,12 @@ module ExperimentalFramework::VoteTests {
         // First vote does not approve the ballot
         assert!(
             !Vote::vote(&voter1, *(&ballot_id), b"test_proposal", *(&proposal)),
-            0
+            0,
         );
         // Second vote approves the ballot
         assert!(
             Vote::vote(&voter2, *(&ballot_id), b"test_proposal", *(&proposal)),
-            0
+            0,
         );
         // Third vote aborts
         Vote::vote(&voter3, *(&ballot_id), b"test_proposal", *(&proposal));
@@ -236,19 +237,19 @@ module ExperimentalFramework::VoteTests {
         let approvers = vector::empty();
         vector::push_back(
             &mut approvers,
-            Vote::new_weighted_voter(3, bcs::to_bytes(&voter1_address))
+            Vote::new_weighted_voter(3, bcs::to_bytes(&voter1_address)),
         );
         vector::push_back(
             &mut approvers,
-            Vote::new_weighted_voter(4, bcs::to_bytes(&voter2_address))
+            Vote::new_weighted_voter(4, bcs::to_bytes(&voter2_address)),
         );
         vector::push_back(
             &mut approvers,
-            Vote::new_weighted_voter(2, bcs::to_bytes(&voter3_address))
+            Vote::new_weighted_voter(2, bcs::to_bytes(&voter3_address)),
         );
 
         let (proposer, _addr, _addr_bcs) = ballot_setup(&dr);
-        let proposal = TestProposal { test_data: 1 };
+        let proposal = TestProposal { test_data: 1, };
         let ballot_id =
             Vote::create_ballot(
                 &proposer, // ballot_account
@@ -256,18 +257,18 @@ module ExperimentalFramework::VoteTests {
                 b"test_proposal", // proposal_type
                 7, // num_votes_required
                 approvers, // allowed_voters
-                10 // expiration_timestamp_secs
+                10, // expiration_timestamp_secs
             );
 
         // First vote does not approve the ballot
         assert!(
             !Vote::vote(&voter1, *(&ballot_id), b"test_proposal", *(&proposal)),
-            0
+            0,
         );
         // Second vote approves the ballot
         assert!(
             Vote::vote(&voter2, *(&ballot_id), b"test_proposal", *(&proposal)),
-            0
+            0,
         );
     }
 
@@ -286,7 +287,7 @@ module ExperimentalFramework::VoteTests {
         // First vote does not approve the ballot
         assert!(
             !Vote::vote(&voter1, *(&ballot_id), b"test_proposal", *(&proposal)),
-            0
+            0,
         );
         // Cannot vote again
         Vote::vote(&voter1, *(&ballot_id), b"test_proposal", *(&proposal));
@@ -304,7 +305,7 @@ module ExperimentalFramework::VoteTests {
     #[expected_failure(abort_code = 1031, location = Vote)]
     fun vote_invalid_proposal(dr: signer) {
         let (voter1, _voter2, _voter3, ballot_id, _proposal) = vote_test_helper(&dr, 10);
-        let invalid_proposal = TestProposal { test_data: 100 };
+        let invalid_proposal = TestProposal { test_data: 100, };
         // Invalid proposal
         Vote::vote(&voter1, *(&ballot_id), b"test_proposal", invalid_proposal);
     }

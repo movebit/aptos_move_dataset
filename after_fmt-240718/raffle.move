@@ -29,18 +29,14 @@ module raffle::raffle {
         // See [AIP-41](https://github.com/aptos-foundation/AIPs/blob/main/aips/aip-41.md#undergasing-attacks).
         tickets: vector<address>,
         coins: Coin<AptosCoin>,
-        is_closed: bool
+        is_closed: bool,
     }
 
     /// Initializes the `Raffle` resource, which will maintain the list of raffle tickets bought by users.
     fun init_module(deployer: &signer) {
         move_to(
             deployer,
-            Raffle {
-                tickets: vector::empty(),
-                coins: coin::zero(),
-                is_closed: false
-            }
+            Raffle { tickets: vector::empty(), coins: coin::zero(), is_closed: false, },
         );
     }
 

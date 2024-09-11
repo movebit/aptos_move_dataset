@@ -174,8 +174,7 @@ spec aptos_framework::multisig_account {
 
     spec num_signatures_required(multisig_account: address): u64 {
         aborts_if !exists<MultisigAccount>(multisig_account);
-        ensures result
-            == global<MultisigAccount>(multisig_account).num_signatures_required;
+        ensures result == global<MultisigAccount>(multisig_account).num_signatures_required;
     }
 
     spec owners(multisig_account: address): vector<address> {
@@ -183,7 +182,7 @@ spec aptos_framework::multisig_account {
         ensures result == global<MultisigAccount>(multisig_account).owners;
     }
 
-    spec get_transaction(multisig_account: address, sequence_number: u64): MultisigTransaction {
+    spec get_transaction(multisig_account: address, sequence_number: u64,): MultisigTransaction {
         let multisig_account_resource = global<MultisigAccount>(multisig_account);
         aborts_if !exists<MultisigAccount>(multisig_account);
         aborts_if sequence_number == 0
@@ -197,8 +196,7 @@ spec aptos_framework::multisig_account {
 
     spec get_next_transaction_payload(multisig_account: address, provided_payload: vector<u8>): vector<u8> {
         let multisig_account_resource = global<MultisigAccount>(multisig_account);
-        let sequence_number = multisig_account_resource.last_executed_sequence_number
-            + 1;
+        let sequence_number = multisig_account_resource.last_executed_sequence_number + 1;
         let transaction = table::spec_get(
             multisig_account_resource.transactions, sequence_number
         );

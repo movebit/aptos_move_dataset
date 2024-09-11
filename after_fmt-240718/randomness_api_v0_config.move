@@ -6,12 +6,12 @@ module aptos_framework::randomness_api_v0_config {
     friend aptos_framework::reconfiguration_with_dkg;
 
     struct RequiredGasDeposit has key, drop, store {
-        gas_amount: Option<u64>
+        gas_amount: Option<u64>,
     }
 
     /// If this flag is set, `max_gas` specified inside `#[randomness()]` will be used as the required deposit.
     struct AllowCustomMaxGasFlag has key, drop, store {
-        value: bool
+        value: bool,
     }
 
     /// Only used in genesis.

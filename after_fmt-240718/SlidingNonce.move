@@ -14,7 +14,7 @@ module DiemFramework::SlidingNonce {
         /// tell whether they have been executed or not.
         min_nonce: u64,
         /// Bit-vector of window of nonce values
-        nonce_mask: u128
+        nonce_mask: u128,
     }
 
     /// The `SlidingNonce` resource is in an invalid state
@@ -195,7 +195,7 @@ module DiemFramework::SlidingNonce {
         };
         assert!(
             exists<SlidingNonce>(signer::address_of(account)),
-            errors::not_published(ESLIDING_NONCE)
+            errors::not_published(ESLIDING_NONCE),
         );
         let t = borrow_global_mut<SlidingNonce>(signer::address_of(account));
         // The `seq_nonce` is outside the current window to the "left" and is
@@ -265,7 +265,7 @@ module DiemFramework::SlidingNonce {
     public(friend) fun publish(account: &signer) {
         assert!(
             !exists<SlidingNonce>(signer::address_of(account)),
-            errors::already_published(ENONCE_ALREADY_PUBLISHED)
+            errors::already_published(ENONCE_ALREADY_PUBLISHED),
         );
         move_to(account, SlidingNonce { min_nonce: 0, nonce_mask: 0 });
     }

@@ -35,8 +35,9 @@ module 0x42::TestMonomorphization {
     }
 
     spec mutate_R {
-        ensures global<R<bool>>(addr)
-            == update_field(old(global<R<bool>>(addr)), y, false);
+        ensures global<R<bool>>(addr) == update_field(
+            old(global<R<bool>>(addr)), y, false
+        );
     }
 
     public fun create_R_generic<T: store>(account: &signer, x: T, y: T) {

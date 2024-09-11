@@ -70,14 +70,14 @@ module DiemFramework::VASP {
     /// Create a child VASP resource for the `parent`
     /// Aborts if `parent` is not a ParentVASP
     public(friend) fun publish_child_vasp_credential(
-        parent: &signer, child: &signer
+        parent: &signer, child: &signer,
     ) acquires ParentVASP {
         Roles::assert_parent_vasp_role(parent);
         Roles::assert_child_vasp_role(child);
         let child_vasp_addr = signer::address_of(child);
         assert!(
             !is_vasp(child_vasp_addr),
-            errors::already_published(EPARENT_OR_CHILD_VASP)
+            errors::already_published(EPARENT_OR_CHILD_VASP),
         );
         let parent_vasp_addr = signer::address_of(parent);
         assert!(is_parent(parent_vasp_addr), errors::invalid_argument(ENOT_A_PARENT_VASP));
@@ -116,8 +116,7 @@ module DiemFramework::VASP {
     spec schema PublishChildVASPEnsures {
         parent_addr: address;
         child_addr: address;
-        ensures spec_num_children(parent_addr)
-            == old(spec_num_children(parent_addr)) + 1;
+        ensures spec_num_children(parent_addr) == old(spec_num_children(parent_addr)) + 1;
         ensures is_child(child_addr);
         ensures spec_parent_address(child_addr) == parent_addr;
     }
@@ -251,8 +250,9 @@ module DiemFramework::VASP {
 
     /// # Existence of Parents
     spec module {
-        invariant forall child_addr: address where is_child(child_addr):
-            is_parent(global<ChildVASP>(child_addr).parent_vasp_addr);
+        invariant forall child_addr: address where is_child(child_addr): is_parent(
+            global<ChildVASP>(child_addr).parent_vasp_addr
+        );
     }
 
     /// # Creation of Child VASPs
@@ -274,15 +274,16 @@ module DiemFramework::VASP {
     }
 
     spec schema NumChildrenRemainsSame {
-        ensures forall parent: address where old(is_parent(parent)):
-            spec_num_children(parent) == old(spec_num_children(parent));
+        ensures forall parent: address where old(is_parent(parent)): spec_num_children(
+            parent
+        ) == old(spec_num_children(parent));
     }
 
     /// # Immutability of Parent Address
 
     spec module {
         /// The parent address stored at ChildVASP resource never changes.
-        invariant update forall a: address where old(is_child(a)):
-            spec_parent_address(a) == old(spec_parent_address(a));
+        invariant update forall a: address where old(is_child(a)): spec_parent_address(a)
+            == old(spec_parent_address(a));
     }
 }

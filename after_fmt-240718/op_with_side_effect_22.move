@@ -6,9 +6,9 @@ module 0xc0ffee::m {
 
     public fun test(): u64 {
         add3(abort 0, {
-            abort 14;
-            0
-        }, 0)
+                abort 14;
+                0
+            }, 0)
     }
 }
 

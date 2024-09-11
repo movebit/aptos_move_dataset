@@ -1,7 +1,7 @@
 module 0x8675309::M {
     struct R {
         f: u64,
-        b: u8
+        b: u8,
     }
 
     fun t0(x: u64, b: u8, r: R) {

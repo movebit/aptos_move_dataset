@@ -2,14 +2,14 @@
 module 0x42::M {
     struct S has drop {
         a: u64,
-        b: u64
+        b: u64,
     }
 
     struct R has key, store {}
 
     struct Cup has key {
         a: u64,
-        b: R
+        b: R,
     }
 
     public fun t0() {

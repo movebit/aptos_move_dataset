@@ -8,11 +8,11 @@ module 0x42::loop_inv {
         let i = 0;
 
         while ({
-            spec {
-                invariant index == len(v1);
-            };
-            i < 10000
-        }) {
+                spec {
+                    invariant index == len(v1);
+                };
+                i < 10000
+            }) {
             i = i + 1;
             if (i == 100) {
                 continue

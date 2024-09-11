@@ -102,13 +102,13 @@ module ExperimentalFramework::MultiTokenBalance {
         let i = 0;
         let len1 = vector::length(gallery);
         while ({
-            spec {
-                invariant i >= 0;
-                invariant i <= len(gallery);
-                invariant forall k in 0..i: gallery[k].id != id;
-            };
-            (i < len1)
-        }) {
+                spec {
+                    invariant i >= 0;
+                    invariant i <= len(gallery);
+                    invariant forall k in 0..i: gallery[k].id != id;
+                };
+                (i < len1)
+            }) {
             if (MultiToken::id<TokenType>(vector::borrow(gallery, i)) == *id) {
                 return option::some(i)
             };
@@ -133,8 +133,8 @@ module ExperimentalFramework::MultiTokenBalance {
         option::is_some(
             &index_of_token(
                 &borrow_global<TokenBalance<TokenType>>(owner).gallery,
-                token_id
-            )
+                token_id,
+            ),
         )
     }
 
@@ -248,7 +248,7 @@ module ExperimentalFramework::MultiTokenBalance {
     public fun publish_balance<TokenType: store>(account: &signer) {
         assert!(
             !exists<TokenBalance<TokenType>>(signer::address_of(account)),
-            EBALANCE_ALREADY_PUBLISHED
+            EBALANCE_ALREADY_PUBLISHED,
         );
         move_to(account, TokenBalance<TokenType> { gallery: vector::empty() });
     }

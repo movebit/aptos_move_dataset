@@ -168,7 +168,7 @@ spec aptos_std::bls12381 {
     spec fun spec_verify_aggregate_signature_internal(
         aggsig: vector<u8>,
         public_keys: vector<PublicKeyWithPoP>,
-        messages: vector<vector<u8>>
+        messages: vector<vector<u8>>,
     ): bool;
 
     spec fun spec_verify_multisignature_internal(

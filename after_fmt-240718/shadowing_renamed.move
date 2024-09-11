@@ -12,7 +12,7 @@ module 0x42::Test {
             |y| {
                 x = y // We expect this to assign 3 via foo if renaming works correctly. If not it would
                 // have the value 1.
-            }
+            },
         );
         assert!(x == 3, 0)
     }

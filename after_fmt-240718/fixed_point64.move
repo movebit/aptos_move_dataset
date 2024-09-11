@@ -169,9 +169,7 @@ module aptos_std::fixed_point64 {
     }
 
     spec fun spec_create_from_rational(numerator: num, denominator: num): FixedPoint64 {
-        FixedPoint64 {
-            value: (numerator << 128) / (denominator << 64)
-        }
+        FixedPoint64 { value: (numerator << 128) / (denominator << 64) }
     }
 
     /// Create a fixedpoint value from a raw value.
@@ -448,7 +446,7 @@ module aptos_std::fixed_point64 {
         assert_approx_the_same(
             (get_raw_value(result) as u256),
             (get_raw_value(expected_result) as u256),
-            16
+            16,
         );
     }
 

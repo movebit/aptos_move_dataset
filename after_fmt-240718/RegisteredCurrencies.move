@@ -11,7 +11,7 @@ module DiemFramework::RegisteredCurrencies {
     /// currencies. The inner vector<u8>'s are string representations of
     /// currency names.
     struct RegisteredCurrencies has copy, drop, store {
-        currency_codes: vector<vector<u8>>
+        currency_codes: vector<vector<u8>>,
     }
 
     /// Attempted to add a currency code that is already in use
@@ -24,7 +24,7 @@ module DiemFramework::RegisteredCurrencies {
         Roles::assert_diem_root(dr_account);
         DiemConfig::publish_new_config(
             dr_account,
-            RegisteredCurrencies { currency_codes: vector::empty() }
+            RegisteredCurrencies { currency_codes: vector::empty() },
         );
     }
 
@@ -49,12 +49,12 @@ module DiemFramework::RegisteredCurrencies {
 
     /// Adds a new currency code. The currency code must not yet exist.
     public fun add_currency_code(
-        dr_account: &signer, currency_code: vector<u8>
+        dr_account: &signer, currency_code: vector<u8>,
     ) {
         let config = DiemConfig::get<RegisteredCurrencies>();
         assert!(
             !vector::contains(&config.currency_codes, &currency_code),
-            errors::invalid_argument(ECURRENCY_CODE_ALREADY_TAKEN)
+            errors::invalid_argument(ECURRENCY_CODE_ALREADY_TAKEN),
         );
         vector::push_back(&mut config.currency_codes, currency_code);
         DiemConfig::set(dr_account, config);
@@ -72,7 +72,7 @@ module DiemFramework::RegisteredCurrencies {
         /// The same currency code can be only added once.
         aborts_if contains(
             DiemConfig::get<RegisteredCurrencies>().currency_codes,
-            currency_code
+            currency_code,
         ) with errors::INVALID_ARGUMENT;
     }
 
@@ -82,7 +82,7 @@ module DiemFramework::RegisteredCurrencies {
         ensures vector::eq_push_back(
             get_currency_codes(),
             old(get_currency_codes()),
-            currency_code
+            currency_code,
         );
         include DiemConfig::SetEnsures<RegisteredCurrencies> {
             payload: DiemConfig::get<RegisteredCurrencies>()

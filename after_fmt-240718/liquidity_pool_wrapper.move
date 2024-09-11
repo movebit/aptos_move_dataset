@@ -17,7 +17,7 @@ module publisher_address::liquidity_pool_wrapper {
         token_1_mint: MintRef,
         token_2_mint: MintRef,
         token_1: Object<Metadata>,
-        token_2: Object<Metadata>
+        token_2: Object<Metadata>,
     }
 
     public entry fun initialize_liquid_pair(
@@ -34,7 +34,7 @@ module publisher_address::liquidity_pool_wrapper {
             &token_2_mint,
             100000000,
             200000000,
-            is_stable
+            is_stable,
         );
         if (!is_stable) {
             verify_reserves(pool, 100000000, 200000000);
@@ -43,7 +43,7 @@ module publisher_address::liquidity_pool_wrapper {
         let token_2 = fungible_asset::mint_ref_metadata(&token_2_mint);
         move_to(
             publisher,
-            Addresses { pool: pool, token_1_mint, token_2_mint, token_1, token_2 }
+            Addresses { pool: pool, token_1_mint, token_2_mint, token_1, token_2, },
         )
     }
 
@@ -51,7 +51,7 @@ module publisher_address::liquidity_pool_wrapper {
         user: &signer,
         publisher: &signer,
         amount_in: u64,
-        from_1: bool
+        from_1: bool,
     ) acquires Addresses {
         assert!(signer::address_of(publisher) == @publisher_address, ENOT_PUBLISHER);
         assert!(exists<Addresses>(@publisher_address), EADDRESSES_NOT_FOUND);
@@ -66,7 +66,7 @@ module publisher_address::liquidity_pool_wrapper {
 
         let tokens =
             if (primary_fungible_store::balance(signer::address_of(user), from_token)
-                >= amount_in) {
+                    >= amount_in) {
                 primary_fungible_store::withdraw(user, from_token, amount_in)
             } else {
                 fungible_asset::mint(from_mint, amount_in)
@@ -89,19 +89,20 @@ module publisher_address::liquidity_pool_wrapper {
         mint_2_ref: &MintRef,
         amount_1: u64,
         amount_2: u64,
-        is_stable: bool
+        is_stable: bool,
     ) {
         liquidity_pool::mint(
             lp,
             fungible_asset::mint(mint_1_ref, amount_1),
             fungible_asset::mint(mint_2_ref, amount_2),
-            is_stable
+            is_stable,
         );
     }
 
-    public fun create_pool(
-        publisher: &signer, is_stable: bool
-    ): (Object<LiquidityPool>, MintRef, MintRef) {
+    public fun create_pool(publisher: &signer, is_stable: bool)
+        : (
+        Object<LiquidityPool>, MintRef, MintRef
+    ) {
         let mint_1 = create_fungible_asset(publisher, b"test1");
         let mint_2 = create_fungible_asset(publisher, b"test2");
         let pool =
@@ -109,7 +110,7 @@ module publisher_address::liquidity_pool_wrapper {
                 publisher,
                 fungible_asset::mint_ref_metadata(&mint_1),
                 fungible_asset::mint_ref_metadata(&mint_2),
-                is_stable
+                is_stable,
             );
         (pool, mint_1, mint_2)
     }
@@ -123,7 +124,7 @@ module publisher_address::liquidity_pool_wrapper {
             string::utf8(name),
             8,
             string::utf8(b""),
-            string::utf8(b"")
+            string::utf8(b""),
         );
         fungible_asset::generate_mint_ref(token_metadata)
     }

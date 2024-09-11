@@ -33,13 +33,13 @@ module aptos_framework::config_buffer {
     const ESTD_SIGNER_NEEDED: u64 = 1;
 
     struct PendingConfigs has key {
-        configs: SimpleMap<String, Any>
+        configs: SimpleMap<String, Any>,
     }
 
     public fun initialize(aptos_framework: &signer) {
         system_addresses::assert_aptos_framework(aptos_framework);
         if (!exists<PendingConfigs>(@aptos_framework)) {
-            move_to(aptos_framework, PendingConfigs { configs: simple_map::new() })
+            move_to(aptos_framework, PendingConfigs { configs: simple_map::new(), })
         }
     }
 
@@ -74,7 +74,7 @@ module aptos_framework::config_buffer {
 
     #[test_only]
     struct DummyConfig has drop, store {
-        data: u64
+        data: u64,
     }
 
     #[test(fx = @std)]

@@ -8,13 +8,13 @@ script {
             aptos_governance::resolve_multi_step_proposal(
                 proposal_id,
                 @0x1,
-                { { script_hash } }
+                { { script_hash } },
             );
 
         jwks::upsert_oidc_provider_for_next_epoch(
             &framework_signer,
             b"https://accounts.google.com",
-            b"https://accounts.google.com/.well-known/openid-configuration"
+            b"https://accounts.google.com/.well-known/openid-configuration",
         );
         aptos_governance::reconfigure(&framework_signer);
     }

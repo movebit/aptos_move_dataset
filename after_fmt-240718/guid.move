@@ -5,7 +5,7 @@ module std::guid {
     /// A generator for new GUIDs.
     struct Generator has key {
         /// A monotonically increasing counter
-        counter: u64
+        counter: u64,
     }
 
     /// A globally unique identifier derived from the sender's address and a counter

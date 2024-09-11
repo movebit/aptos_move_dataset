@@ -177,7 +177,7 @@ module aptos_std::math128 {
         assert!(
             ceil_div((((1u256 << 128) - 9) as u128), 11)
                 == 30934760629176223951215873402888019223,
-            0
+            0,
         );
     }
 
@@ -293,7 +293,7 @@ module aptos_std::math128 {
             assert_approx_the_same(
                 (fixed_point32::get_raw_value(res) as u128),
                 expected,
-                8
+                8,
             );
             idx = idx + 1;
         };
@@ -325,7 +325,7 @@ module aptos_std::math128 {
             assert_approx_the_same(
                 fixed_point64::get_raw_value(res),
                 (expected as u128),
-                14
+                14,
             );
             idx = idx + 1;
         };

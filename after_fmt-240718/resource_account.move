@@ -77,14 +77,16 @@ module aptos_framework::resource_account {
     const ZERO_AUTH_KEY: vector<u8> = x"0000000000000000000000000000000000000000000000000000000000000000";
 
     struct Container has key {
-        store: SimpleMap<address, account::SignerCapability>
+        store: SimpleMap<address, account::SignerCapability>,
     }
 
     /// Creates a new resource account and rotates the authentication key to either
     /// the optional auth key if it is non-empty (though auth keys are 32-bytes)
     /// or the source accounts current auth key.
     public entry fun create_resource_account(
-        origin: &signer, seed: vector<u8>, optional_auth_key: vector<u8>
+        origin: &signer,
+        seed: vector<u8>,
+        optional_auth_key: vector<u8>,
     ) acquires Container {
         let (resource, resource_signer_cap) =
             account::create_resource_account(origin, seed);
@@ -92,7 +94,7 @@ module aptos_framework::resource_account {
             origin,
             resource,
             resource_signer_cap,
-            optional_auth_key
+            optional_auth_key,
         );
     }
 
@@ -105,7 +107,7 @@ module aptos_framework::resource_account {
         origin: &signer,
         seed: vector<u8>,
         optional_auth_key: vector<u8>,
-        fund_amount: u64
+        fund_amount: u64,
     ) acquires Container {
         let (resource, resource_signer_cap) =
             account::create_resource_account(origin, seed);
@@ -115,7 +117,7 @@ module aptos_framework::resource_account {
             origin,
             resource,
             resource_signer_cap,
-            optional_auth_key
+            optional_auth_key,
         );
     }
 
@@ -125,7 +127,7 @@ module aptos_framework::resource_account {
         origin: &signer,
         seed: vector<u8>,
         metadata_serialized: vector<u8>,
-        code: vector<vector<u8>>
+        code: vector<vector<u8>>,
     ) acquires Container {
         let (resource, resource_signer_cap) =
             account::create_resource_account(origin, seed);
@@ -134,7 +136,7 @@ module aptos_framework::resource_account {
             origin,
             resource,
             resource_signer_cap,
-            ZERO_AUTH_KEY
+            ZERO_AUTH_KEY,
         );
     }
 
@@ -142,7 +144,7 @@ module aptos_framework::resource_account {
         origin: &signer,
         resource: signer,
         resource_signer_cap: account::SignerCapability,
-        optional_auth_key: vector<u8>
+        optional_auth_key: vector<u8>,
     ) acquires Container {
         let origin_addr = signer::address_of(origin);
         if (!exists<Container>(origin_addr)) {
@@ -166,11 +168,11 @@ module aptos_framework::resource_account {
     /// account and rotate the account's auth key to 0x0 making the account inaccessible without
     /// the SignerCapability.
     public fun retrieve_resource_account_cap(
-        resource: &signer, source_addr: address
+        resource: &signer, source_addr: address,
     ): account::SignerCapability acquires Container {
         assert!(
             exists<Container>(source_addr),
-            error::not_found(ECONTAINER_NOT_PUBLISHED)
+            error::not_found(ECONTAINER_NOT_PUBLISHED),
         );
 
         let resource_addr = signer::address_of(resource);
@@ -178,7 +180,7 @@ module aptos_framework::resource_account {
             let container = borrow_global_mut<Container>(source_addr);
             assert!(
                 simple_map::contains_key(&container.store, &resource_addr),
-                error::invalid_argument(EUNAUTHORIZED_NOT_OWNER)
+                error::invalid_argument(EUNAUTHORIZED_NOT_OWNER),
             );
             let (_resource_addr, signer_cap) =
                 simple_map::remove(&mut container.store, &resource_addr);

@@ -34,7 +34,7 @@ module 0x8675309::Tester {
         assert!(b2.f != 0, 42);
         assert!(
             (returned_ref == &(&mut b1).f) != (returned_ref == &(&mut b2).f),
-            42
+            42,
         );
 
         *result = *returned_ref;

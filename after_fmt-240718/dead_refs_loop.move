@@ -24,8 +24,7 @@ module 0x8675309::M {
         let x = 0;
         let x_ref = &mut x;
         loop {
-            if (cond) break
-            else {
+            if (cond) break else {
                 _ = x_ref;
             }
         };

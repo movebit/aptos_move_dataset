@@ -73,10 +73,12 @@ spec aptos_framework::optional_aggregator {
 
     spec sub(optional_aggregator: &mut OptionalAggregator, value: u128) {
         include SubAbortsIf;
-        ensures ((
-            optional_aggregator_value(optional_aggregator)
-                == optional_aggregator_value(old(optional_aggregator)) - value
-        ));
+        ensures (
+            (
+                optional_aggregator_value(optional_aggregator)
+                    == optional_aggregator_value(old(optional_aggregator)) - value
+            )
+        );
     }
 
     spec schema SubAbortsIf {
@@ -96,18 +98,19 @@ spec aptos_framework::optional_aggregator {
         ensures !is_parallelizable(optional_aggregator) ==>
             result == option::borrow(optional_aggregator.integer).value;
         ensures is_parallelizable(optional_aggregator) ==>
-            result
-                == aggregator::spec_read(
-                    option::borrow(optional_aggregator.aggregator)
-                );
+            result == aggregator::spec_read(
+                option::borrow(optional_aggregator.aggregator)
+            );
     }
 
     spec add(optional_aggregator: &mut OptionalAggregator, value: u128) {
         include AddAbortsIf;
-        ensures ((
-            optional_aggregator_value(optional_aggregator)
-                == optional_aggregator_value(old(optional_aggregator)) + value
-        ));
+        ensures (
+            (
+                optional_aggregator_value(optional_aggregator)
+                    == optional_aggregator_value(old(optional_aggregator)) + value
+            )
+        );
     }
 
     spec schema AddAbortsIf {
@@ -202,7 +205,7 @@ spec aptos_framework::optional_aggregator {
         aborts_if len(optional_aggregator.aggregator.vec) != 0;
         ensures is_parallelizable(optional_aggregator);
         ensures aggregator::spec_get_limit(option::borrow(optional_aggregator.aggregator)) ==
-            limit;
+             limit;
         ensures aggregator::spec_aggregator_get_val(
             option::borrow(optional_aggregator.aggregator)
         ) == 0;

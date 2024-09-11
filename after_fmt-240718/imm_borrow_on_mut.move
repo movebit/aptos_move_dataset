@@ -35,7 +35,7 @@ module 0x8675309::Tester {
         // imagine some more interesting check than this assert
         assert!(
             (*returned_ref == point_ref.x) && (*returned_ref != point_ref.y),
-            42
+            42,
         );
         returned_ref
     }

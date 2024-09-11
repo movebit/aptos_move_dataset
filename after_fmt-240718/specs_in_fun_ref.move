@@ -86,11 +86,11 @@ module 0x42::TestAssertWithReferences {
         let x = 0;
 
         while ({
-            spec {
-                invariant x <= n;
-            };
-            (x < n)
-        }) {
+                spec {
+                    invariant x <= n;
+                };
+                (x < n)
+            }) {
             x = x + 1;
         };
         spec {

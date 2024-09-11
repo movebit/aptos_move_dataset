@@ -20,7 +20,7 @@ module 0xc0ffee::m {
                         {
                             x = x + 1;
                             x
-                        }
+                        },
                     )
                 },
                 {
@@ -34,9 +34,9 @@ module 0xc0ffee::m {
                         {
                             x = x + 1;
                             x
-                        }
+                        },
                     )
-                }
+                },
             ) + {
             x = inc(&mut x) + 1;
             x
@@ -69,7 +69,7 @@ module 0xc0ffee::m {
                         {
                             x = x + 1;
                             x
-                        }
+                        },
                     )
                 },
                 {
@@ -83,9 +83,9 @@ module 0xc0ffee::m {
                         {
                             x = x + 1;
                             x
-                        }
+                        },
                     )
-                }
+                },
             ) + {
             x = inc_by(&mut x, 47) + 1;
             x

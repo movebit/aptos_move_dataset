@@ -8,7 +8,7 @@ module 0x42::pack_unpack_ref {
     struct G has drop {
         x1: u64,
         x2: u64,
-        s: S
+        s: S,
     }
 
     fun unpack_ref_G() {

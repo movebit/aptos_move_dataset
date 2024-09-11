@@ -19,7 +19,7 @@ module hero::hero {
     const EINVALID_TYPE: u64 = 7;
 
     struct OnChainConfig has key {
-        collection: String
+        collection: String,
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
@@ -29,28 +29,28 @@ module hero::hero {
         race: String,
         shield: Option<Object<Shield>>,
         weapon: Option<Object<Weapon>>,
-        mutator_ref: token::MutatorRef
+        mutator_ref: token::MutatorRef,
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
     struct Armor has key {
         defense: u64,
         gem: Option<Object<Gem>>,
-        weight: u64
+        weight: u64,
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
     struct Gem has key {
         attack_modifier: u64,
         defense_modifier: u64,
-        magic_attribute: String
+        magic_attribute: String,
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
     struct Shield has key {
         defense: u64,
         gem: Option<Object<Gem>>,
-        weight: u64
+        weight: u64,
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
@@ -58,7 +58,7 @@ module hero::hero {
         attack: u64,
         gem: Option<Object<Gem>>,
         weapon_type: String,
-        weight: u64
+        weight: u64,
     }
 
     fun init_module(account: &signer) {
@@ -68,10 +68,10 @@ module hero::hero {
             string::utf8(b"collection description"),
             collection,
             option::none(),
-            string::utf8(b"collection uri")
+            string::utf8(b"collection uri"),
         );
 
-        let on_chain_config = OnChainConfig { collection };
+        let on_chain_config = OnChainConfig { collection, };
         move_to(account, on_chain_config);
     }
 
@@ -79,7 +79,7 @@ module hero::hero {
         creator: &signer,
         description: String,
         name: String,
-        uri: String
+        uri: String,
     ): ConstructorRef acquires OnChainConfig {
         let on_chain_config = borrow_global<OnChainConfig>(signer::address_of(creator));
         token::create_named_token(
@@ -88,7 +88,7 @@ module hero::hero {
             description,
             name,
             option::none(),
-            uri
+            uri,
         )
     }
 
@@ -100,7 +100,7 @@ module hero::hero {
         gender: String,
         name: String,
         race: String,
-        uri: String
+        uri: String,
     ): Object<Hero> acquires OnChainConfig {
         let constructor_ref = create(creator, description, name, uri);
         let token_signer = object::generate_signer(&constructor_ref);
@@ -111,7 +111,7 @@ module hero::hero {
             race,
             shield: option::none(),
             weapon: option::none(),
-            mutator_ref: token::generate_mutator_ref(&constructor_ref)
+            mutator_ref: token::generate_mutator_ref(&constructor_ref),
         };
         move_to(&token_signer, hero);
 
@@ -125,12 +125,12 @@ module hero::hero {
         name: String,
         uri: String,
         weapon_type: String,
-        weight: u64
+        weight: u64,
     ): Object<Weapon> acquires OnChainConfig {
         let constructor_ref = create(creator, description, name, uri);
         let token_signer = object::generate_signer(&constructor_ref);
 
-        let weapon = Weapon { attack, gem: option::none(), weapon_type, weight };
+        let weapon = Weapon { attack, gem: option::none(), weapon_type, weight, };
         move_to(&token_signer, weapon);
 
         object::address_to_object(signer::address_of(&token_signer))
@@ -143,12 +143,12 @@ module hero::hero {
         description: String,
         magic_attribute: String,
         name: String,
-        uri: String
+        uri: String,
     ): Object<Gem> acquires OnChainConfig {
         let constructor_ref = create(creator, description, name, uri);
         let token_signer = object::generate_signer(&constructor_ref);
 
-        let gem = Gem { attack_modifier, defense_modifier, magic_attribute };
+        let gem = Gem { attack_modifier, defense_modifier, magic_attribute, };
         move_to(&token_signer, gem);
 
         object::address_to_object(signer::address_of(&token_signer))
@@ -198,7 +198,7 @@ module hero::hero {
         gender: String,
         name: String,
         race: String,
-        uri: String
+        uri: String,
     ) acquires OnChainConfig {
         create_hero(account, description, gender, name, race, uri);
     }
@@ -207,17 +207,17 @@ module hero::hero {
         creator: &signer,
         collection: String,
         name: String,
-        description: String
+        description: String,
     ) acquires Hero {
         let (hero_obj, hero) = get_hero(
             &signer::address_of(creator),
             &collection,
-            &name
+            &name,
         );
         let creator_addr = token::creator(hero_obj);
         assert!(
             creator_addr == signer::address_of(creator),
-            error::permission_denied(ENOT_CREATOR)
+            error::permission_denied(ENOT_CREATOR),
         );
         token::set_description(&hero.mutator_ref, description);
     }
@@ -274,7 +274,7 @@ module hero::hero {
                 string::utf8(b"Male"),
                 string::utf8(b"Wukong"),
                 string::utf8(b"Monkey God"),
-                string::utf8(b"")
+                string::utf8(b""),
             );
 
         let weapon =
@@ -285,7 +285,7 @@ module hero::hero {
                 string::utf8(b"Ruyi Jingu Bang"),
                 string::utf8(b""),
                 string::utf8(b"staff"),
-                15
+                15,
             );
 
         let gem =
@@ -296,7 +296,7 @@ module hero::hero {
                 string::utf8(b"Beautiful specimen!"),
                 string::utf8(b"earth"),
                 string::utf8(b"jade"),
-                string::utf8(b"")
+                string::utf8(b""),
             );
 
         let account_address = signer::address_of(account);

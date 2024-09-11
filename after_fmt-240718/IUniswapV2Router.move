@@ -5,11 +5,7 @@
 module Evm::IUniswapV2Router {
     use Evm::U256::{U256};
 
-    #[
-        external(
-            sig = b"swapExactTokensForTokens(uint,uint,address[],address,uint) returns (uint[])"
-        )
-    ]
+    #[external(sig = b"swapExactTokensForTokens(uint,uint,address[],address,uint) returns (uint[])")]
     public native fun call_swapExactTokensForTokens(
         contract: address,
         amountIn: U256,
@@ -19,11 +15,7 @@ module Evm::IUniswapV2Router {
         deadline: U256
     ): vector<U256>;
 
-    #[
-        external(
-            sig = b"addLiquidity(address,address,uint,uint,uint,uint,address) returns (uint,uint,uint)"
-        )
-    ]
+    #[external(sig = b"addLiquidity(address,address,uint,uint,uint,uint,address) returns (uint,uint,uint)")]
     public native fun call_addLiquidity(
         contract: address,
         tokenA: address,
@@ -36,11 +28,7 @@ module Evm::IUniswapV2Router {
         deadline: U256
     ): (U256, U256, U256);
 
-    #[
-        external(
-            sig = b"removeLiquidity(address,address,uint,uint,uint,address,uint) returns (uint,uint)"
-        )
-    ]
+    #[external(sig = b"removeLiquidity(address,address,uint,uint,uint,address,uint) returns (uint,uint)")]
     public native fun call_removeLiquidity(
         contract: address,
         tokenA: address,

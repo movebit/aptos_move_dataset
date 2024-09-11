@@ -25,7 +25,7 @@ module aptos_framework::jwk_consensus_config {
         /// Currently the variant type is one of the following.
         /// - `ConfigOff`
         /// - `ConfigV1`
-        variant: Any
+        variant: Any,
     }
 
     /// A JWK consensus config variant indicating JWK consensus should not run.
@@ -33,12 +33,12 @@ module aptos_framework::jwk_consensus_config {
 
     struct OIDCProvider has copy, drop, store {
         name: String,
-        config_url: String
+        config_url: String,
     }
 
     /// A JWK consensus config variant indicating JWK consensus should run to watch a given list of OIDC providers.
     struct ConfigV1 has copy, drop, store {
-        oidc_providers: vector<OIDCProvider>
+        oidc_providers: vector<OIDCProvider>,
     }
 
     /// Initialize the configuration. Used in genesis or governance.
@@ -81,9 +81,7 @@ module aptos_framework::jwk_consensus_config {
 
     /// Construct a `JWKConsensusConfig` of variant `ConfigOff`.
     public fun new_off(): JWKConsensusConfig {
-        JWKConsensusConfig {
-            variant: copyable_any::pack(ConfigOff {})
-        }
+        JWKConsensusConfig { variant: copyable_any::pack(ConfigOff {}) }
     }
 
     /// Construct a `JWKConsensusConfig` of variant `ConfigV1`.
@@ -99,11 +97,9 @@ module aptos_framework::jwk_consensus_config {
                 if (option::is_some(&old_value)) {
                     abort(error::invalid_argument(EDUPLICATE_PROVIDERS))
                 }
-            }
+            },
         );
-        JWKConsensusConfig {
-            variant: copyable_any::pack(ConfigV1 { oidc_providers })
-        }
+        JWKConsensusConfig { variant: copyable_any::pack(ConfigV1 { oidc_providers }) }
     }
 
     /// Construct an `OIDCProvider` object.
@@ -131,8 +127,7 @@ module aptos_framework::jwk_consensus_config {
             new_v1(
                 vector[
                     new_oidc_provider(utf8(b"Bob"), utf8(b"https://bob.dev")),
-                    new_oidc_provider(utf8(b"Alice"), utf8(b"https://alice.io"))
-                ]
+                    new_oidc_provider(utf8(b"Alice"), utf8(b"https://alice.io")),],
             );
         set_for_next_epoch(&framework, config);
         on_new_epoch(&framework);
@@ -150,8 +145,7 @@ module aptos_framework::jwk_consensus_config {
             vector[
                 new_oidc_provider(utf8(b"Alice"), utf8(b"https://alice.info")),
                 new_oidc_provider(utf8(b"Bob"), utf8(b"https://bob.dev")),
-                new_oidc_provider(utf8(b"Alice"), utf8(b"https://alice.io"))
-            ]
+                new_oidc_provider(utf8(b"Alice"), utf8(b"https://alice.io")),],
         );
 
     }

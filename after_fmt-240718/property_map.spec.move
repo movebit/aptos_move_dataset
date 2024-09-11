@@ -157,7 +157,7 @@ spec aptos_token::property_map {
         map: &mut PropertyMap,
         keys: vector<String>,
         values: vector<vector<u8>>,
-        types: vector<String>
+        types: vector<String>,
     ) {
         // TODO: Can't handle abort in loop.
         pragma aborts_if_is_partial;
@@ -183,8 +183,7 @@ spec aptos_token::property_map {
         let name = type_name<T>();
         aborts_if !string::spec_internal_check_utf8(b"bool");
 
-        aborts_if name != spec_utf8(b"bool")
-            && !string::spec_internal_check_utf8(b"u8");
+        aborts_if name != spec_utf8(b"bool") && !string::spec_internal_check_utf8(b"u8");
 
         aborts_if name != spec_utf8(b"bool")
             && name != spec_utf8(b"u8")

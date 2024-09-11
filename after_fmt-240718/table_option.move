@@ -4,11 +4,11 @@ module 0x42::table_option {
 
     struct MultisigAccount has key {
         transactions: table::Table<u64, MultisigTransaction>,
-        last_executed_sequence_number: u64
+        last_executed_sequence_number: u64,
     }
 
     struct MultisigTransaction has copy, drop, store {
-        payload: Option<vector<u8>>
+        payload: Option<vector<u8>>,
     }
 
     public fun get_next_transaction_payload(
@@ -28,8 +28,7 @@ module 0x42::table_option {
 
     spec get_next_transaction_payload(multisig_account: address, provided_payload: vector<u8>): vector<u8> {
         let multisig_account_resource = global<MultisigAccount>(multisig_account);
-        let sequence_number = multisig_account_resource.last_executed_sequence_number
-            + 1;
+        let sequence_number = multisig_account_resource.last_executed_sequence_number + 1;
         let transaction = table::spec_get(
             multisig_account_resource.transactions, sequence_number
         );

@@ -35,7 +35,7 @@ spec aptos_framework::transaction_validation {
         script_prologue_name: vector<u8>,
         module_prologue_name: vector<u8>,
         multi_agent_prologue_name: vector<u8>,
-        user_epilogue_name: vector<u8>
+        user_epilogue_name: vector<u8>,
     ) {
         use std::signer;
         let addr = signer::address_of(aptos_framework);
@@ -70,30 +70,30 @@ spec aptos_framework::transaction_validation {
         let transaction_sender = signer::address_of(sender);
 
         aborts_if (
-            !features::spec_is_enabled(features::SPONSORED_AUTOMATIC_ACCOUNT_CREATION)
+                !features::spec_is_enabled(features::SPONSORED_AUTOMATIC_ACCOUNT_CREATION)
                 || account::exists_at(transaction_sender)
                 || transaction_sender == gas_payer
                 || txn_sequence_number > 0
-        )
+            )
             && (
                 !(
                     txn_sequence_number
                         >= global<Account>(transaction_sender).sequence_number
                 )
-                    || !(
-                        txn_authentication_key
-                            == global<Account>(transaction_sender).authentication_key
-                    )
-                    || !account::exists_at(transaction_sender)
-                    || !(
-                        txn_sequence_number
-                            == global<Account>(transaction_sender).sequence_number
-                    )
+                || !(
+                    txn_authentication_key
+                        == global<Account>(transaction_sender).authentication_key
+                )
+                || !account::exists_at(transaction_sender)
+                || !(
+                    txn_sequence_number
+                        == global<Account>(transaction_sender).sequence_number
+                )
             );
 
         aborts_if features::spec_is_enabled(
-            features::SPONSORED_AUTOMATIC_ACCOUNT_CREATION
-        )
+                features::SPONSORED_AUTOMATIC_ACCOUNT_CREATION
+            )
             && transaction_sender != gas_payer
             && txn_sequence_number == 0
             && !account::exists_at(transaction_sender)
@@ -119,7 +119,7 @@ spec aptos_framework::transaction_validation {
         txn_gas_price: u64,
         txn_max_gas_units: u64,
         txn_expiration_time: u64,
-        chain_id: u8
+        chain_id: u8,
     ) {
         // TODO(fa_migration)
         pragma verify = false;
@@ -134,7 +134,7 @@ spec aptos_framework::transaction_validation {
         txn_max_gas_units: u64,
         txn_expiration_time: u64,
         chain_id: u8,
-        _script_hash: vector<u8>
+        _script_hash: vector<u8>,
     ) {
         // TODO(fa_migration)
         pragma verify = false;
@@ -155,25 +155,25 @@ spec aptos_framework::transaction_validation {
         // If any account does not exist, or public key hash does not match, abort.
         // property 2: All secondary signer addresses are verified to be authentic through a validation process.
         /// [high-level-req-2]
-        aborts_if exists i in 0..num_secondary_signers:
-            !account::exists_at(secondary_signer_addresses[i])
-                || secondary_signer_public_key_hashes[i]
-                    != account::get_authentication_key(secondary_signer_addresses[i]);
+        aborts_if exists i in 0..num_secondary_signers: !account::exists_at(
+            secondary_signer_addresses[i]
+        ) || secondary_signer_public_key_hashes[i]
+            != account::get_authentication_key(secondary_signer_addresses[i]);
 
         // By the end, all secondary signers account should exist and public key hash should match.
-        ensures forall i in 0..num_secondary_signers:
-            account::exists_at(secondary_signer_addresses[i])
-                && secondary_signer_public_key_hashes[i]
-                    == account::get_authentication_key(secondary_signer_addresses[i]);
+        ensures forall i in 0..num_secondary_signers: account::exists_at(
+            secondary_signer_addresses[i]
+        ) && secondary_signer_public_key_hashes[i]
+            == account::get_authentication_key(secondary_signer_addresses[i]);
     }
 
     spec multi_agent_common_prologue(
         secondary_signer_addresses: vector<address>,
-        secondary_signer_public_key_hashes: vector<vector<u8>>
+        secondary_signer_public_key_hashes: vector<vector<u8>>,
     ) {
         include MultiAgentPrologueCommonAbortsIf {
             secondary_signer_addresses,
-            secondary_signer_public_key_hashes
+            secondary_signer_public_key_hashes,
         };
     }
 
@@ -188,7 +188,7 @@ spec aptos_framework::transaction_validation {
         txn_gas_price: u64,
         txn_max_gas_units: u64,
         txn_expiration_time: u64,
-        chain_id: u8
+        chain_id: u8,
     ) {
         pragma verify_duration_estimate = 120;
         let gas_payer = signer::address_of(sender);
@@ -197,11 +197,11 @@ spec aptos_framework::transaction_validation {
         include PrologueCommonAbortsIf {
             gas_payer,
             txn_sequence_number,
-            txn_authentication_key: txn_sender_public_key
+            txn_authentication_key: txn_sender_public_key,
         };
         include MultiAgentPrologueCommonAbortsIf {
             secondary_signer_addresses,
-            secondary_signer_public_key_hashes
+            secondary_signer_public_key_hashes,
         };
     }
 
@@ -216,7 +216,7 @@ spec aptos_framework::transaction_validation {
         txn_gas_price: u64,
         txn_max_gas_units: u64,
         txn_expiration_time: u64,
-        chain_id: u8
+        chain_id: u8,
     ) {
         pragma verify_duration_estimate = 120;
 
@@ -225,11 +225,11 @@ spec aptos_framework::transaction_validation {
         include PrologueCommonAbortsIf {
             gas_payer,
             txn_sequence_number,
-            txn_authentication_key: txn_sender_public_key
+            txn_authentication_key: txn_sender_public_key,
         };
         include MultiAgentPrologueCommonAbortsIf {
             secondary_signer_addresses,
-            secondary_signer_public_key_hashes
+            secondary_signer_public_key_hashes,
         };
 
         aborts_if !account::exists_at(gas_payer);
@@ -323,8 +323,7 @@ spec aptos_framework::transaction_validation {
         let aggr_lim = aggregator::spec_get_limit(aggr);
 
         /// [high-level-req-3]
-        aborts_if collect_fee_enabled
-            && !exists<CollectedFeesPerBlock>(@aptos_framework);
+        aborts_if collect_fee_enabled && !exists<CollectedFeesPerBlock>(@aptos_framework);
         aborts_if collect_fee_enabled
             && transaction_fee_amount > 0
             && aggr_val + transaction_fee_amount > aggr_lim;
@@ -346,8 +345,7 @@ spec aptos_framework::transaction_validation {
             post_apt_supply
         );
 
-        aborts_if amount_to_burn > 0
-            && !exists<AptosCoinCapabilities>(@aptos_framework);
+        aborts_if amount_to_burn > 0 && !exists<AptosCoinCapabilities>(@aptos_framework);
         aborts_if amount_to_burn > 0 && !exists<CoinInfo<AptosCoin>>(apt_addr);
         aborts_if amount_to_burn > 0
             && total_supply_enabled
@@ -365,15 +363,13 @@ spec aptos_framework::transaction_validation {
         let post post_total_supply = coin::supply<AptosCoin>;
 
         aborts_if amount_to_mint > 0 && !exists<CoinStore<AptosCoin>>(addr);
-        aborts_if amount_to_mint > 0
-            && !exists<AptosCoinMintCapability>(@aptos_framework);
+        aborts_if amount_to_mint > 0 && !exists<AptosCoinMintCapability>(@aptos_framework);
         aborts_if amount_to_mint > 0 && total_supply + amount_to_mint > MAX_U128;
         ensures amount_to_mint > 0 ==>
             post_total_supply == total_supply + amount_to_mint;
 
         let aptos_addr = type_info::type_of<AptosCoin>().account_address;
-        aborts_if (amount_to_mint != 0)
-            && !exists<coin::CoinInfo<AptosCoin>>(aptos_addr);
+        aborts_if (amount_to_mint != 0) && !exists<coin::CoinInfo<AptosCoin>>(aptos_addr);
         include coin::CoinAddAbortsIf<AptosCoin> { amount: amount_to_mint };
     }
 

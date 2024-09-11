@@ -18,7 +18,7 @@ module aptos_framework::system_addresses {
     public fun assert_core_resource_address(addr: address) {
         assert!(
             is_core_resource_address(addr),
-            error::permission_denied(ENOT_CORE_RESOURCE_ADDRESS)
+            error::permission_denied(ENOT_CORE_RESOURCE_ADDRESS),
         )
     }
 
@@ -29,7 +29,7 @@ module aptos_framework::system_addresses {
     public fun assert_aptos_framework(account: &signer) {
         assert!(
             is_aptos_framework_address(signer::address_of(account)),
-            error::permission_denied(ENOT_APTOS_FRAMEWORK_ADDRESS)
+            error::permission_denied(ENOT_APTOS_FRAMEWORK_ADDRESS),
         )
     }
 
@@ -40,7 +40,7 @@ module aptos_framework::system_addresses {
     public fun assert_framework_reserved(addr: address) {
         assert!(
             is_framework_reserved_address(addr),
-            error::permission_denied(ENOT_FRAMEWORK_RESERVED_ADDRESS)
+            error::permission_denied(ENOT_FRAMEWORK_RESERVED_ADDRESS),
         )
     }
 

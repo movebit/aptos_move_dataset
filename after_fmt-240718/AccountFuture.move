@@ -12,7 +12,7 @@ module This::AccountFuture {
 
     #[state]
     struct Account {
-        value: u64
+        value: u64,
     }
 
     #[init]

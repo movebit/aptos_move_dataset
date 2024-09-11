@@ -164,14 +164,11 @@ module 0x42::FixedPointArithmetic {
     }
 
     fun mul_3_times_incorrect(
-        a: u64,
-        b: FixedPoint32,
-        c: FixedPoint32,
-        d: FixedPoint32
+        a: u64, b: FixedPoint32, c: FixedPoint32, d: FixedPoint32
     ): u64 {
         fixed_point32::multiply_u64(
             fixed_point32::multiply_u64(fixed_point32::multiply_u64(a, b), c),
-            d
+            d,
         )
     }
 

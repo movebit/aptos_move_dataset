@@ -352,7 +352,7 @@ module DiemFramework::RolesTests {
                 vector::pop_back(&mut accounts),
                 vector::pop_back(&mut accounts),
                 vector::pop_back(&mut accounts),
-                vector::pop_back(&mut accounts)
+                vector::pop_back(&mut accounts),
             )
         };
 
@@ -368,7 +368,7 @@ module DiemFramework::RolesTests {
         assert!(Roles::get_role_id(signer::address_of(&validator_account)) == 3, 3);
         assert!(
             Roles::get_role_id(signer::address_of(&validator_operator_account)) == 4,
-            4
+            4,
         );
         assert!(Roles::get_role_id(signer::address_of(&pvasp)) == 5, 5);
         assert!(Roles::get_role_id(signer::address_of(&child_account)) == 6, 6);

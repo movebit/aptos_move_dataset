@@ -20,7 +20,7 @@ module Token {
 
     struct Coin<AssetType: copy + drop> has store {
         type: AssetType,
-        value: u64
+        value: u64,
     }
 
     // control the minting/creation in the defining module of `ATy`
@@ -70,7 +70,7 @@ module OneToOneMarket {
     use 0x2::Token;
 
     struct Pool<AssetType: copy + drop> has key {
-        coin: Token::Coin<AssetType>
+        coin: Token::Coin<AssetType>,
     }
 
     struct DepositRecord<phantom InputAsset: copy + drop, phantom OutputAsset: copy + drop> has key {
@@ -84,7 +84,7 @@ module OneToOneMarket {
     }
 
     struct Price<phantom InputAsset: copy + drop, phantom OutputAsset: copy + drop> has key {
-        price: u64
+        price: u64,
     }
 
     fun accept<AssetType: copy + drop + store>(
@@ -118,7 +118,9 @@ module OneToOneMarket {
     }
 
     public fun borrow<In: copy + drop + store, Out: copy + drop + store>(
-        account: &signer, pool_owner: address, amount: u64
+        account: &signer,
+        pool_owner: address,
+        amount: u64,
     ): Token::Coin<Out> acquires Price, Pool, DepositRecord, BorrowRecord {
         assert!(amount <= max_borrow_amount<In, Out>(account, pool_owner), 1025);
 
@@ -143,8 +145,7 @@ module OneToOneMarket {
             let pool = borrow_global<Pool<Out>>(pool_owner);
             Token::value(&pool.coin)
         };
-        if (max_output < available_output) max_output
-        else available_output
+        if (max_output < available_output) max_output else available_output
 
     }
 
@@ -185,8 +186,7 @@ module OneToOneMarket {
         if (!exists<DepositRecord<In, Out>>(sender)) return 0;
 
         let record = &borrow_global<DepositRecord<In, Out>>(sender).record;
-        if (Map::contains_key(record, &pool_owner)) *Map::get(record, &pool_owner)
-        else 0
+        if (Map::contains_key(record, &pool_owner)) *Map::get(record, &pool_owner) else 0
     }
 
     fun borrowed_amount<In: copy + drop + store, Out: copy + drop + store>(
@@ -196,8 +196,7 @@ module OneToOneMarket {
         if (!exists<BorrowRecord<In, Out>>(sender)) return 0;
 
         let record = &borrow_global<BorrowRecord<In, Out>>(sender).record;
-        if (Map::contains_key(record, &pool_owner)) *Map::get(record, &pool_owner)
-        else 0
+        if (Map::contains_key(record, &pool_owner)) *Map::get(record, &pool_owner) else 0
     }
 }
 }
@@ -210,14 +209,12 @@ module ToddNickels {
     struct T has copy, drop, store {}
 
     struct Wallet has key {
-        nickels: Token::Coin<T>
+        nickels: Token::Coin<T>,
     }
 
     public fun init(account: &signer) {
         assert!(signer::address_of(account) == @0x70DD, 42);
-        move_to(account, Wallet {
-            nickels: Token::create(T {}, 0)
-        })
+        move_to(account, Wallet { nickels: Token::create(T {}, 0) })
     }
 
     public fun mint(account: &signer): Token::Coin<T> {

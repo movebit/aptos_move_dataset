@@ -5,7 +5,7 @@ module defi::reserve {
 
     struct Coin1Info has key {
         total_value: u64,
-        reserve_coin2: ReserveComponent
+        reserve_coin2: ReserveComponent,
     }
 
     spec Coin1Info {
@@ -17,14 +17,12 @@ module defi::reserve {
 
     struct ReserveComponent has store {
         backing_value: u64,
-        backing_ratio: FixedPoint32
+        backing_ratio: FixedPoint32,
     }
 
     // Mint Coin1 by providing Coin2 as backing.
     // For simplicity, `backing_coin2` should be the exact amount of Coin2 to reserve for the minted Coin1.
-    public fun mint_coin1(
-        amount_to_mint: u64, backing_coin2: u64
-    ): u64 // returns the minted Coin1.
+    public fun mint_coin1(amount_to_mint: u64, backing_coin2: u64): u64 // returns the minted Coin1.
     acquires Coin1Info {
         assert!(amount_to_mint > 0, 1);
         let coin1info = borrow_global_mut<Coin1Info>(ADMIN);
@@ -53,8 +51,7 @@ module defi::reserve {
         ensures global<Coin1Info>(ADMIN).total_value
             == old(global<Coin1Info>(ADMIN).total_value) + amount_to_mint;
         ensures global<Coin1Info>(ADMIN).reserve_coin2.backing_value
-            == old(global<Coin1Info>(ADMIN).reserve_coin2.backing_value)
-                + backing_coin2;
+            == old(global<Coin1Info>(ADMIN).reserve_coin2.backing_value) + backing_coin2;
         ensures backing_coin2 == coin2_amount_to_reserve;
     }
 
@@ -78,9 +75,7 @@ module defi::reserve {
     }
 
     // Burn Coin1 and get back Coin2.
-    public fun burn_coin1(
-        amount_to_burn: u64
-    ): u64 // returns the Coin2 that was reserved.
+    public fun burn_coin1(amount_to_burn: u64): u64 // returns the Coin2 that was reserved.
     acquires Coin1Info {
         let coin1info = borrow_global_mut<Coin1Info>(ADMIN);
         let coin2_amount_to_return =
@@ -96,9 +91,7 @@ module defi::reserve {
 
     // Burn Coin1 and get back Coin2.
     // This function is incorrect because it does not reserve enough Coin2 due to miscalculation.
-    public fun burn_coin1_incorrect(
-        amount_to_burn: u64
-    ): u64 // returns the Coin2 that was reserved.
+    public fun burn_coin1_incorrect(amount_to_burn: u64): u64 // returns the Coin2 that was reserved.
     acquires Coin1Info {
         let coin1info = borrow_global_mut<Coin1Info>(ADMIN);
         let coin2_amount_to_return =

@@ -1,8 +1,7 @@
-address 0x2 {
-module X {
+address 0x2 { module X {
     public entry fun foo() {}
-}
-}
+
+} }
 
 script {
     fun main() {

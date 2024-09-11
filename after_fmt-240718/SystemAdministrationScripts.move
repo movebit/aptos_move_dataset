@@ -77,7 +77,7 @@ module ExperimentalFramework::SystemAdministrationScripts {
         max_price_per_gas_unit: u64,
         max_transaction_size_in_bytes: u64,
         gas_unit_scaling_factor: u64,
-        default_account_size: u64
+        default_account_size: u64,
     ) {
         ExperimentalVMConfig::set_gas_constants(
             &dr_account,
@@ -91,7 +91,7 @@ module ExperimentalFramework::SystemAdministrationScripts {
             max_price_per_gas_unit,
             max_transaction_size_in_bytes,
             gas_unit_scaling_factor,
-            default_account_size
+            default_account_size,
         )
     }
 

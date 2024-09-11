@@ -13,7 +13,7 @@ module DiemFramework::DesignatedDealer {
     /// currencies will be emitted on `mint_event_handle`.
     struct Dealer has key {
         /// Handle for mint events
-        mint_event_handle: event::EventHandle<ReceivedMintEvent>
+        mint_event_handle: event::EventHandle<ReceivedMintEvent>,
     }
 
     spec schema AbortsIfNoDealer {
@@ -31,7 +31,7 @@ module DiemFramework::DesignatedDealer {
         /// The minted inflow during this time window
         window_inflow: u64,
         /// 0-indexed array of tier upperbounds
-        tiers: vector<u64>
+        tiers: vector<u64>,
     }
 
     /// Message for mint events
@@ -41,7 +41,7 @@ module DiemFramework::DesignatedDealer {
         /// The address that receives the mint
         destination_address: address,
         /// The amount minted (in base units of `currency_code`)
-        amount: u64
+        amount: u64,
     }
 
     /// The `DesignatedDealer` resource is in an invalid state
@@ -61,19 +61,19 @@ module DiemFramework::DesignatedDealer {
     /// If `add_all_currencies = true` this will add a `PreburnQueue`,
     /// for each known currency at launch.
     public(friend) fun publish_designated_dealer_credential<CoinType>(
-        dd: &signer, tc_account: &signer, add_all_currencies: bool
+        dd: &signer,
+        tc_account: &signer,
+        add_all_currencies: bool,
     ) {
         Roles::assert_treasury_compliance(tc_account);
         Roles::assert_designated_dealer(dd);
         assert!(
             !exists<Dealer>(signer::address_of(dd)),
-            errors::already_published(EDEALER)
+            errors::already_published(EDEALER),
         );
         move_to(
             dd,
-            Dealer {
-                mint_event_handle: event::new_event_handle<ReceivedMintEvent>(dd)
-            }
+            Dealer { mint_event_handle: event::new_event_handle<ReceivedMintEvent>(dd) },
         );
         if (add_all_currencies) {
             add_currency<XUS>(dd, tc_account);
@@ -150,7 +150,7 @@ module DiemFramework::DesignatedDealer {
         dd_addr: address,
         // tiers are deprecated. We continue to accept this argument for backward
         // compatibility, but it will be ignored.
-        _tier_index: u64
+        _tier_index: u64,
     ): Diem::Diem<CoinType> acquires Dealer, TierInfo {
         Roles::assert_treasury_compliance(tc_account);
         assert!(amount > 0, errors::invalid_argument(EINVALID_MINT_AMOUNT));
@@ -170,7 +170,7 @@ module DiemFramework::DesignatedDealer {
                 currency_code: Diem::currency_code<CoinType>(),
                 destination_address: dd_addr,
                 amount
-            }
+            },
         );
         Diem::mint<CoinType>(tc_account, amount)
     }
@@ -214,7 +214,7 @@ module DiemFramework::DesignatedDealer {
         let msg = ReceivedMintEvent {
             currency_code: Diem::spec_currency_code<CoinType>(),
             destination_address: dd_addr,
-            amount
+            amount,
         };
         emits msg to handle;
         include Diem::MintEmits<CoinType> { value: amount };
@@ -237,7 +237,8 @@ module DiemFramework::DesignatedDealer {
 
     spec module {
         /// resource struct Dealer persists after publication
-        invariant update forall addr: address where old(exists<Dealer>(addr)):
-            exists<Dealer>(addr);
+        invariant update forall addr: address where old(exists<Dealer>(addr)): exists<Dealer>(
+            addr
+        );
     }
 }

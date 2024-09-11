@@ -56,7 +56,7 @@ module ExperimentalFramework::AccountCreationScripts {
             &dr_account,
             new_account_address,
             auth_key_prefix,
-            human_name
+            human_name,
         );
     }
 
@@ -112,13 +112,13 @@ module ExperimentalFramework::AccountCreationScripts {
         dr_account: signer,
         new_account_address: address,
         auth_key_prefix: vector<u8>,
-        human_name: vector<u8>
+        human_name: vector<u8>,
     ) {
         ExperimentalAccount::create_validator_account(
             &dr_account,
             new_account_address,
             auth_key_prefix,
-            human_name
+            human_name,
         );
     }
 
@@ -127,7 +127,9 @@ module ExperimentalFramework::AccountCreationScripts {
     // No roles attached, no conditions checked.
     ////////////////////////////////////////////////////////////////
     public entry fun create_account(
-        _account: signer, new_account_address: address, auth_key_prefix: vector<u8>
+        _account: signer,
+        new_account_address: address,
+        auth_key_prefix: vector<u8>,
     ) {
         ExperimentalAccount::create_account(new_account_address, auth_key_prefix);
     }

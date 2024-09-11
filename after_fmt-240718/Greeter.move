@@ -4,12 +4,12 @@ module Evm::Greeter {
     use Evm::Evm::sign;
 
     struct State has key {
-        greeting: vector<u8>
+        greeting: vector<u8>,
     }
 
     #[create(sig = b"constructor(string)")]
     public fun create(greeting: vector<u8>) {
-        move_to<State>(&sign(self()), State { greeting });
+        move_to<State>(&sign(self()), State { greeting, });
     }
 
     #[callable(sig = b"greet() returns (string)"), view]

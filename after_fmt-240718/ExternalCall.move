@@ -10,22 +10,14 @@ module 0x2::M {
 
     #[external(sig = b"safeTransferFrom(address,address,uint256,bytes)")]
     public native fun safe_transfer_form(
-        contract: address,
-        from: address,
-        to: address,
-        tokenId: U256,
-        data: vector<u8>
+        contract: address, from: address, to: address, tokenId: U256, data: vector<u8>
     );
 
     #[external(sig = b"isApprovedForAll(address,address)returns(bool)"), view]
-    public native fun is_approved_for_all(
-        contract: address, account: address, operator: address
-    ): bool;
+    public native fun is_approved_for_all(contract: address, account: address, operator: address): bool;
 
     #[external, view]
-    public native fun multi_ret(
-        contract: address, v: U256, vec: vector<U256>
-    ): (vector<U256>, U256);
+    public native fun multi_ret(contract: address, v: U256, vec: vector<U256>): (vector<U256>, U256);
 
     #[external(sig = b"testExternalReturn(uint) returns (uint)")]
     public native fun test_try_call(contract: address, v: U256): ExternalResult<U256>;

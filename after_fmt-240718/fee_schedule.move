@@ -28,28 +28,28 @@ module marketplace::fee_schedule {
         /// Address to send fees to
         fee_address: address,
         /// Ref for changing the configuration of the marketplace
-        extend_ref: ExtendRef
+        extend_ref: ExtendRef,
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
     /// Fixed rate for bidding
     struct FixedRateBiddingFee has drop, key {
         /// Fixed rate for bidding
-        bidding_fee: u64
+        bidding_fee: u64,
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
     /// Fixed rate for listing
     struct FixedRateListingFee has drop, key {
         /// Fixed rate for listing
-        listing_fee: u64
+        listing_fee: u64,
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
     /// Fixed rate for commission
     struct FixedRateCommission has drop, key {
         /// Fixed rate for commission
-        commission: u64
+        commission: u64,
     }
 
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
@@ -58,7 +58,7 @@ module marketplace::fee_schedule {
         /// Denominator for the commission rate
         denominator: u64,
         /// Numerator for the commission rate
-        numerator: u64
+        numerator: u64,
     }
 
     #[event]
@@ -66,7 +66,7 @@ module marketplace::fee_schedule {
     struct Mutation has drop, store {
         marketplace: address,
         /// The type info of the struct that was updated.
-        updated_resource: String
+        updated_resource: String,
     }
 
     // Initializers
@@ -78,7 +78,7 @@ module marketplace::fee_schedule {
         bidding_fee: u64,
         listing_fee: u64,
         commission_denominator: u64,
-        commission_numerator: u64
+        commission_numerator: u64,
     ) {
         init(
             creator,
@@ -86,7 +86,7 @@ module marketplace::fee_schedule {
             bidding_fee,
             listing_fee,
             commission_denominator,
-            commission_numerator
+            commission_numerator,
         );
     }
 
@@ -96,15 +96,15 @@ module marketplace::fee_schedule {
         bidding_fee: u64,
         listing_fee: u64,
         commission_denominator: u64,
-        commission_numerator: u64
+        commission_numerator: u64,
     ): Object<FeeSchedule> {
         assert!(
             commission_numerator <= commission_denominator,
-            error::invalid_argument(EEXCEEDS_MAXIMUM)
+            error::invalid_argument(EEXCEEDS_MAXIMUM),
         );
         assert!(
             commission_denominator != 0,
-            error::out_of_range(EDENOMINATOR_IS_ZERO)
+            error::out_of_range(EDENOMINATOR_IS_ZERO),
         );
 
         let (constructor_ref, fee_schedule_signer) = empty_init(creator, fee_address);
@@ -112,7 +112,7 @@ module marketplace::fee_schedule {
         move_to(&fee_schedule_signer, FixedRateListingFee { listing_fee });
         let commission_rate = PercentageRateCommission {
             denominator: commission_denominator,
-            numerator: commission_numerator
+            numerator: commission_numerator,
         };
         move_to(&fee_schedule_signer, commission_rate);
         object::object_from_constructor_ref(&constructor_ref)
@@ -128,7 +128,7 @@ module marketplace::fee_schedule {
         let extend_ref = object::generate_extend_ref(&constructor_ref);
         let fee_schedule_signer = object::generate_signer(&constructor_ref);
 
-        let marketplace = FeeSchedule { fee_address, extend_ref };
+        let marketplace = FeeSchedule { fee_address, extend_ref, };
         move_to(&fee_schedule_signer, marketplace);
 
         (constructor_ref, fee_schedule_signer)
@@ -138,12 +138,14 @@ module marketplace::fee_schedule {
 
     /// Set the fee address
     public entry fun set_fee_address(
-        creator: &signer, marketplace: Object<FeeSchedule>, fee_address: address
+        creator: &signer,
+        marketplace: Object<FeeSchedule>,
+        fee_address: address,
     ) acquires FeeSchedule {
         let fee_schedule_addr = assert_exists_internal(&marketplace);
         assert!(
             object::is_owner(marketplace, signer::address_of(creator)),
-            error::permission_denied(ENOT_OWNER)
+            error::permission_denied(ENOT_OWNER),
         );
         let fee_schedule_obj = borrow_global_mut<FeeSchedule>(fee_schedule_addr);
         fee_schedule_obj.fee_address = fee_address;
@@ -153,7 +155,9 @@ module marketplace::fee_schedule {
 
     /// Remove any existing listing fees and set a fixed rate listing fee.
     public entry fun set_fixed_rate_listing_fee(
-        creator: &signer, marketplace: Object<FeeSchedule>, fee: u64
+        creator: &signer,
+        marketplace: Object<FeeSchedule>,
+        fee: u64,
     ) acquires FeeSchedule, FixedRateListingFee {
         let fee_schedule_signer = remove_listing_fee(creator, marketplace);
         move_to(&fee_schedule_signer, FixedRateListingFee { listing_fee: fee });
@@ -162,12 +166,12 @@ module marketplace::fee_schedule {
             Mutation {
                 marketplace: signer::address_of(&fee_schedule_signer),
                 updated_resource
-            }
+            },
         );
     }
 
     inline fun remove_listing_fee(
-        creator: &signer, marketplace: Object<FeeSchedule>
+        creator: &signer, marketplace: Object<FeeSchedule>,
     ): signer acquires FeeSchedule, FixedRateListingFee {
         let (fee_schedule_signer, fee_schedule_addr) = assert_access(creator, marketplace);
         if (exists<FixedRateListingFee>(fee_schedule_addr)) {
@@ -178,7 +182,9 @@ module marketplace::fee_schedule {
 
     /// Remove any existing bidding fees and set a fixed rate bidding fee.
     public entry fun set_fixed_rate_bidding_fee(
-        creator: &signer, marketplace: Object<FeeSchedule>, fee: u64
+        creator: &signer,
+        marketplace: Object<FeeSchedule>,
+        fee: u64,
     ) acquires FeeSchedule, FixedRateBiddingFee {
         let fee_schedule_signer = remove_bidding_fee(creator, marketplace);
         move_to(&fee_schedule_signer, FixedRateBiddingFee { bidding_fee: fee });
@@ -187,12 +193,12 @@ module marketplace::fee_schedule {
             Mutation {
                 marketplace: signer::address_of(&fee_schedule_signer),
                 updated_resource
-            }
+            },
         );
     }
 
     inline fun remove_bidding_fee(
-        creator: &signer, marketplace: Object<FeeSchedule>
+        creator: &signer, marketplace: Object<FeeSchedule>,
     ): signer acquires FeeSchedule, FixedRateBiddingFee {
         let (fee_schedule_signer, fee_schedule_addr) = assert_access(creator, marketplace);
         if (exists<FixedRateBiddingFee>(fee_schedule_addr)) {
@@ -203,7 +209,9 @@ module marketplace::fee_schedule {
 
     /// Remove any existing commission and set a fixed rate commission.
     public entry fun set_fixed_rate_commission(
-        creator: &signer, marketplace: Object<FeeSchedule>, commission: u64
+        creator: &signer,
+        marketplace: Object<FeeSchedule>,
+        commission: u64,
     ) acquires FeeSchedule, FixedRateCommission, PercentageRateCommission {
         let fee_schedule_signer = remove_commission(creator, marketplace);
         move_to(&fee_schedule_signer, FixedRateCommission { commission });
@@ -212,7 +220,7 @@ module marketplace::fee_schedule {
             Mutation {
                 marketplace: signer::address_of(&fee_schedule_signer),
                 updated_resource
-            }
+            },
         );
     }
 
@@ -221,15 +229,15 @@ module marketplace::fee_schedule {
         creator: &signer,
         marketplace: Object<FeeSchedule>,
         denominator: u64,
-        numerator: u64
+        numerator: u64,
     ) acquires FeeSchedule, FixedRateCommission, PercentageRateCommission {
         assert!(
             numerator <= denominator,
-            error::invalid_argument(EEXCEEDS_MAXIMUM)
+            error::invalid_argument(EEXCEEDS_MAXIMUM),
         );
         assert!(
             denominator != 0,
-            error::out_of_range(EDENOMINATOR_IS_ZERO)
+            error::out_of_range(EDENOMINATOR_IS_ZERO),
         );
 
         let fee_schedule_signer = remove_commission(creator, marketplace);
@@ -239,12 +247,12 @@ module marketplace::fee_schedule {
             Mutation {
                 marketplace: signer::address_of(&fee_schedule_signer),
                 updated_resource
-            }
+            },
         );
     }
 
     inline fun remove_commission(
-        creator: &signer, marketplace: Object<FeeSchedule>
+        creator: &signer, marketplace: Object<FeeSchedule>,
     ): signer acquires FeeSchedule, FixedRateCommission, PercentageRateCommission {
         let (fee_schedule_signer, fee_schedule_addr) = assert_access(creator, marketplace);
         if (exists<FixedRateCommission>(fee_schedule_addr)) {
@@ -256,12 +264,12 @@ module marketplace::fee_schedule {
     }
 
     inline fun assert_access(
-        creator: &signer, marketplace: Object<FeeSchedule>
+        creator: &signer, marketplace: Object<FeeSchedule>,
     ): (signer, address) acquires FeeSchedule {
         let fee_schedule_addr = assert_exists_internal(&marketplace);
         assert!(
             object::is_owner(marketplace, signer::address_of(creator)),
-            error::permission_denied(ENOT_OWNER)
+            error::permission_denied(ENOT_OWNER),
         );
         let fee_schedule_obj = borrow_global<FeeSchedule>(fee_schedule_addr);
         let fee_schedule_signer =
@@ -277,9 +285,7 @@ module marketplace::fee_schedule {
     }
 
     #[view]
-    public fun listing_fee(
-        marketplace: Object<FeeSchedule>, _base: u64
-    ): u64 acquires FixedRateListingFee {
+    public fun listing_fee(marketplace: Object<FeeSchedule>, _base: u64,): u64 acquires FixedRateListingFee {
         let fee_schedule_addr = assert_exists_internal(&marketplace);
         if (exists<FixedRateListingFee>(fee_schedule_addr)) {
             borrow_global<FixedRateListingFee>(fee_schedule_addr).listing_fee
@@ -287,9 +293,7 @@ module marketplace::fee_schedule {
     }
 
     #[view]
-    public fun bidding_fee(
-        marketplace: Object<FeeSchedule>, _bid: u64
-    ): u64 acquires FixedRateBiddingFee {
+    public fun bidding_fee(marketplace: Object<FeeSchedule>, _bid: u64,): u64 acquires FixedRateBiddingFee {
         let fee_schedule_addr = assert_exists_internal(&marketplace);
         if (exists<FixedRateBiddingFee>(fee_schedule_addr)) {
             borrow_global<FixedRateBiddingFee>(fee_schedule_addr).bidding_fee
@@ -297,9 +301,7 @@ module marketplace::fee_schedule {
     }
 
     #[view]
-    public fun commission(
-        marketplace: Object<FeeSchedule>, price: u64
-    ): u64 acquires FixedRateCommission, PercentageRateCommission {
+    public fun commission(marketplace: Object<FeeSchedule>, price: u64,): u64 acquires FixedRateCommission, PercentageRateCommission {
         let fee_schedule_addr = assert_exists_internal(&marketplace);
         if (exists<FixedRateCommission>(fee_schedule_addr)) {
             borrow_global<FixedRateCommission>(fee_schedule_addr).commission
@@ -317,7 +319,7 @@ module marketplace::fee_schedule {
         let fee_schedule_addr = object::object_address(marketplace);
         assert!(
             exists<FeeSchedule>(fee_schedule_addr),
-            error::not_found(ENO_FEE_SCHEDULE)
+            error::not_found(ENO_FEE_SCHEDULE),
         );
         fee_schedule_addr
     }
@@ -328,9 +330,7 @@ module marketplace::fee_schedule {
     use aptos_framework::account;
 
     #[test(creator = @0x123)]
-    fun test_init(
-        creator: &signer
-    ) acquires FeeSchedule, FixedRateBiddingFee, FixedRateCommission, FixedRateListingFee, PercentageRateCommission {
+    fun test_init(creator: &signer,) acquires FeeSchedule, FixedRateBiddingFee, FixedRateCommission, FixedRateListingFee, PercentageRateCommission {
         let creator_addr = signer::address_of(creator);
         account::create_account_for_test(creator_addr);
         let obj = init(creator, creator_addr, 0, 0, 1, 0);
@@ -355,9 +355,7 @@ module marketplace::fee_schedule {
     }
 
     #[test(creator = @0x123)]
-    fun test_empty_init(
-        creator: &signer
-    ) acquires FeeSchedule, FixedRateBiddingFee, FixedRateCommission, FixedRateListingFee, PercentageRateCommission {
+    fun test_empty_init(creator: &signer,) acquires FeeSchedule, FixedRateBiddingFee, FixedRateCommission, FixedRateListingFee, PercentageRateCommission {
         let creator_addr = signer::address_of(creator);
         account::create_account_for_test(creator_addr);
         let (constructor_ref, _fee_schedule_signer) = empty_init(creator, creator_addr);
@@ -396,7 +394,7 @@ module marketplace::fee_schedule {
     #[test(creator = @0x123, non_creator = @0x223)]
     #[expected_failure(abort_code = 0x50004, location = Self)]
     fun test_non_creator_fixed_listing(
-        creator: &signer, non_creator: &signer
+        creator: &signer, non_creator: &signer,
     ) acquires FeeSchedule, FixedRateListingFee {
         let creator_addr = signer::address_of(creator);
         account::create_account_for_test(creator_addr);
@@ -407,7 +405,7 @@ module marketplace::fee_schedule {
     #[test(creator = @0x123, non_creator = @0x223)]
     #[expected_failure(abort_code = 0x50004, location = Self)]
     fun test_non_creator_fixed_bidding(
-        creator: &signer, non_creator: &signer
+        creator: &signer, non_creator: &signer,
     ) acquires FeeSchedule, FixedRateBiddingFee {
         let creator_addr = signer::address_of(creator);
         account::create_account_for_test(creator_addr);
@@ -418,7 +416,7 @@ module marketplace::fee_schedule {
     #[test(creator = @0x123, non_creator = @0x223)]
     #[expected_failure(abort_code = 0x50004, location = Self)]
     fun test_non_creator_percentage_commission(
-        creator: &signer, non_creator: &signer
+        creator: &signer, non_creator: &signer,
     ) acquires FeeSchedule, FixedRateCommission, PercentageRateCommission {
         let creator_addr = signer::address_of(creator);
         account::create_account_for_test(creator_addr);
@@ -429,7 +427,7 @@ module marketplace::fee_schedule {
     #[test(creator = @0x123, non_creator = @0x223)]
     #[expected_failure(abort_code = 0x50004, location = Self)]
     fun test_non_creator_fixed_commission(
-        creator: &signer, non_creator: &signer
+        creator: &signer, non_creator: &signer,
     ) acquires FeeSchedule, FixedRateCommission, PercentageRateCommission {
         let creator_addr = signer::address_of(creator);
         account::create_account_for_test(creator_addr);
@@ -450,7 +448,7 @@ module marketplace::fee_schedule {
     #[test(creator = @0x123)]
     #[expected_failure(abort_code = 0x20002, location = Self)]
     fun test_set_zero_denominator_percentage_commission(
-        creator: &signer
+        creator: &signer,
     ) acquires FeeSchedule, FixedRateCommission, PercentageRateCommission {
         let creator_addr = signer::address_of(creator);
         account::create_account_for_test(creator_addr);
@@ -468,9 +466,7 @@ module marketplace::fee_schedule {
 
     #[test(creator = @0x123)]
     #[expected_failure(abort_code = 0x10003, location = Self)]
-    fun test_set_too_big_percentage_commission(
-        creator: &signer
-    ) acquires FeeSchedule, FixedRateCommission, PercentageRateCommission {
+    fun test_set_too_big_percentage_commission(creator: &signer,) acquires FeeSchedule, FixedRateCommission, PercentageRateCommission {
         let creator_addr = signer::address_of(creator);
         account::create_account_for_test(creator_addr);
         let obj = init(creator, creator_addr, 0, 0, 1, 0);

@@ -39,7 +39,7 @@ module std::offer {
     ) {
         assert!(
             !exists<Offer<Offered>>(signer::address_of(account)),
-            error::already_exists(EOFFER_ALREADY_CREATED)
+            error::already_exists(EOFFER_ALREADY_CREATED),
         );
         move_to(account, Offer<Offered> { offered, for });
     }
@@ -62,13 +62,13 @@ module std::offer {
     ): Offered acquires Offer {
         assert!(
             exists<Offer<Offered>>(offer_address),
-            error::not_found(EOFFER_DOES_NOT_EXIST)
+            error::not_found(EOFFER_DOES_NOT_EXIST),
         );
         let Offer<Offered> { offered, for } = move_from<Offer<Offered>>(offer_address);
         let sender = signer::address_of(account);
         assert!(
             sender == for || sender == offer_address,
-            error::invalid_argument(EOFFER_DNE_FOR_ACCOUNT)
+            error::invalid_argument(EOFFER_DNE_FOR_ACCOUNT),
         );
         offered
     }
@@ -101,7 +101,7 @@ module std::offer {
     public fun address_of<Offered: store>(offer_address: address): address acquires Offer {
         assert!(
             exists<Offer<Offered>>(offer_address),
-            error::not_found(EOFFER_DOES_NOT_EXIST)
+            error::not_found(EOFFER_DOES_NOT_EXIST),
         );
         borrow_global<Offer<Offered>>(offer_address).for
     }
@@ -126,8 +126,9 @@ module std::offer {
     spec schema NoOfferCreated<Offered> {
         /// Says no offer is created for any address. Later, it is applied to all functions
         /// except `create`
-        ensures forall addr: address where !old(exists<Offer<Offered>>(addr)):
-            !exists<Offer<Offered>>(addr);
+        ensures forall addr: address where !old(exists<Offer<Offered>>(addr)): !exists<Offer<Offered>>(
+            addr
+        );
     }
 
     spec module {
@@ -139,12 +140,10 @@ module std::offer {
 
     spec schema NoOfferRemoved<Offered> {
         /// Says no offer is removed for any address. Applied below to everything except `redeem`
-        ensures forall addr: address where old(exists<Offer<Offered>>(addr)):
-            (
-                exists<Offer<Offered>>(addr)
-                    && global<Offer<Offered>>(addr)
-                        == old(global<Offer<Offered>>(addr))
-            );
+        ensures forall addr: address where old(exists<Offer<Offered>>(addr)): (
+            exists<Offer<Offered>>(addr)
+                && global<Offer<Offered>>(addr) == old(global<Offer<Offered>>(addr))
+        );
     }
 
     spec module {
@@ -158,8 +157,7 @@ module std::offer {
         /// Returns true if the recipient is allowed to redeem `Offer<Offered>` at `offer_address`
         /// and false otherwise.
         fun is_allowed_recipient<Offered>(offer_addr: address, recipient: address): bool {
-            recipient == global<Offer<Offered>>(offer_addr).for
-                || recipient == offer_addr
+            recipient == global<Offer<Offered>>(offer_addr).for || recipient == offer_addr
         }
     }
 }

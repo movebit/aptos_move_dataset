@@ -24,7 +24,7 @@ module Test {
     use 0x2::Base;
 
     struct R<T: store> has key {
-        f: T
+        f: T,
     }
 
     public fun put_r<T: store>(s: &signer, v: T) {

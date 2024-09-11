@@ -19,19 +19,19 @@ module aptos_framework::optional_aggregator {
     /// Wrapper around integer with a custom overflow limit. Supports add, subtract and read just like `Aggregator`.
     struct Integer has store {
         value: u128,
-        limit: u128
+        limit: u128,
     }
 
     /// Creates a new integer which overflows on exceeding a `limit`.
     fun new_integer(limit: u128): Integer {
-        Integer { value: 0, limit }
+        Integer { value: 0, limit, }
     }
 
     /// Adds `value` to integer. Aborts on overflowing the limit.
     fun add_integer(integer: &mut Integer, value: u128) {
         assert!(
             value <= (integer.limit - integer.value),
-            error::out_of_range(EAGGREGATOR_OVERFLOW)
+            error::out_of_range(EAGGREGATOR_OVERFLOW),
         );
         integer.value = integer.value + value;
     }
@@ -62,7 +62,7 @@ module aptos_framework::optional_aggregator {
         // Parallelizable.
         aggregator: Option<Aggregator>,
         // Non-parallelizable.
-        integer: Option<Integer>
+        integer: Option<Integer>,
     }
 
     /// Creates a new optional aggregator.
@@ -72,12 +72,12 @@ module aptos_framework::optional_aggregator {
                 aggregator: option::some(
                     aggregator_factory::create_aggregator_internal(limit)
                 ),
-                integer: option::none()
+                integer: option::none(),
             }
         } else {
             OptionalAggregator {
                 aggregator: option::none(),
-                integer: option::some(new_integer(limit))
+                integer: option::some(new_integer(limit)),
             }
         }
     }

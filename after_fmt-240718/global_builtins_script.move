@@ -1,12 +1,11 @@
-address 0x42 {
-module M {
+address 0x42 { module M {
     struct R has key {}
 
     public fun new(): R {
         R {}
     }
-}
-}
+
+} }
 
 script {
     use 0x42::M;

@@ -9,7 +9,7 @@ script {
             aptos_governance::resolve_multi_step_proposal(
                 proposal_id,
                 @0x1,
-                { { script_hash } }
+                { { script_hash } },
             );
         transaction_fee::initialize_storage_refund(&framework_signer);
     }

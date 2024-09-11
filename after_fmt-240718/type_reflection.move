@@ -4,7 +4,7 @@ module extensions::type_info {
     struct TypeInfo has copy, drop, store {
         account_address: address,
         module_name: vector<u8>,
-        struct_name: vector<u8>
+        struct_name: vector<u8>,
     }
 
     // these are mocks of the type reflection scheme
@@ -44,11 +44,9 @@ module 0x42::test {
 
     fun test_type_info_concrete(): type_info::TypeInfo {
         spec {
-            assert type_info::type_of<MyTable<address, u128>>().account_address
-                == @0x42;
+            assert type_info::type_of<MyTable<address, u128>>().account_address == @0x42;
             assert type_info::type_of<MyTable<address, u128>>().module_name == b"test";
-            assert type_info::type_of<MyTable<address, u128>>().struct_name
-                == b"MyTable";
+            assert type_info::type_of<MyTable<address, u128>>().struct_name == b"MyTable";
         };
         type_info::type_of<MyTable<vector<bool>, address>>()
     }

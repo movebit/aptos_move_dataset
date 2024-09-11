@@ -10,12 +10,12 @@ module 0xc0ffee::m {
             || {
                 x = x + 1;
                 x
-            }
+            },
         ) + call(
             || {
                 x = x + 7;
                 x
-            }
+            },
         )
     }
 }

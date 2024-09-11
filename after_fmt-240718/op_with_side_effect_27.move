@@ -2,10 +2,11 @@
 module 0xc0ffee::m {
     public fun test(p: bool): bool {
         (!p
-            && {
-                p = p && false;
-                p
-            })
+                && {
+                    p = p
+                        && false;
+                    p
+                })
             || {
                 p = !p;
                 !p
