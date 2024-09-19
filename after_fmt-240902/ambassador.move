@@ -121,11 +121,7 @@ module ambassador::ambassador {
 
         // Creates the collection with unlimited supply and without establishing any royalty configuration.
         collection::create_unlimited_collection(
-            creator,
-            description,
-            name,
-            option::none(),
-            uri
+            creator, description, name, option::none(), uri
         );
     }
 
@@ -158,7 +154,12 @@ module ambassador::ambassador {
         soul_bound_to: address
     ) {
         mint_ambassador_token_impl(
-            creator, description, name, base_uri, soul_bound_to, true
+            creator,
+            description,
+            name,
+            base_uri,
+            soul_bound_to,
+            true
         );
     }
 
@@ -191,7 +192,11 @@ module ambassador::ambassador {
         uri: String
     ) {
         mint_numbered_ambassador_token(
-            creator, description, name, uri, signer::address_of(user)
+            creator,
+            description,
+            name,
+            uri,
+            signer::address_of(user)
         );
     }
 
@@ -446,12 +451,7 @@ module ambassador::ambassador {
 
         let token_description = string::utf8(b"Ambassador Token #1 Description");
         let token_uri = string::utf8(b"Ambassador Token #1 URI/");
-        mint_ambassador_token_by_user(
-            user1,
-            creator,
-            token_description,
-            token_uri
-        );
+        mint_ambassador_token_by_user(user1, creator, token_description, token_uri);
         burn_named_by_user(user1, creator);
     }
 }

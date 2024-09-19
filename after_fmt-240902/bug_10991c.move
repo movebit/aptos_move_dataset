@@ -11,7 +11,10 @@ module 0x42::Test {
     }
 
     public fun test() {
-        assert!(foo(|_, y, _, q| y + q, 10, 100, 1000, 10000) == 10100, 0);
+        assert!(
+            foo(|_, y, _, q| y + q, 10, 100, 1000, 10000) == 10100,
+            0
+        );
     }
 }
 

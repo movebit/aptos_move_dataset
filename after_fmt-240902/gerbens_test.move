@@ -22,7 +22,10 @@ module 0x42::test_case {
         v: &vector<Element>, f: |&Element| NewElement
     ): vector<NewElement> {
         let result = vector<NewElement>[];
-        for_each_ref(v, |elem| vector::push_back(&mut result, f(elem)));
+        for_each_ref(
+            v,
+            |elem| vector::push_back(&mut result, f(elem))
+        );
         result
     }
 

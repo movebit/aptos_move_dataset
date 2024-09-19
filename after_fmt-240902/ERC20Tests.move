@@ -10,7 +10,11 @@ module Evm::ERC20Tests {
 
     #[test]
     fun test_create() {
-        ERC20::create(string(vector::empty<u8>()), string(vector::empty<u8>()), one());
+        ERC20::create(
+            string(vector::empty<u8>()),
+            string(vector::empty<u8>()),
+            one()
+        );
         assert!(ERC20::balanceOf(sender()) == one(), 100);
         assert!(ERC20::balanceOf(Alice) == zero(), 101);
         assert!(ERC20::balanceOf(Bob) == zero(), 102);
@@ -18,7 +22,11 @@ module Evm::ERC20Tests {
 
     #[test]
     fun test_balance_of() {
-        ERC20::create(string(vector::empty<u8>()), string(vector::empty<u8>()), one());
+        ERC20::create(
+            string(vector::empty<u8>()),
+            string(vector::empty<u8>()),
+            one()
+        );
         assert!(ERC20::balanceOf(sender()) == one(), 103);
         assert!(ERC20::balanceOf(Alice) == zero(), 104);
         assert!(ERC20::balanceOf(Bob) == zero(), 105);
@@ -33,9 +41,15 @@ module Evm::ERC20Tests {
             u256_from_u128(7)
         );
         ERC20::transfer(Alice, one());
-        assert!(ERC20::balanceOf(sender()) == u256_from_u128(6), 106);
+        assert!(
+            ERC20::balanceOf(sender()) == u256_from_u128(6),
+            106
+        );
         assert!(ERC20::balanceOf(Alice) == one(), 107);
         assert!(ERC20::balanceOf(Bob) == zero(), 108);
-        assert!(ERC20::balanceOf(sender()) == u256_from_u128(7), 109); // expected to fail
+        assert!(
+            ERC20::balanceOf(sender()) == u256_from_u128(7),
+            109
+        ); // expected to fail
     }
 }

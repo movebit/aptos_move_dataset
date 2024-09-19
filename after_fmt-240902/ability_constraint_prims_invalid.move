@@ -51,7 +51,7 @@ module M {
         let Sk {} = Sk<vector<NoK>> {};
         let Scds {} = Scds<signer> {};
         let Scds {} = Scds<vector<NoC>> {};
-        let Scds {} = Scds<vector<Cup<u8>> > {};
+        let Scds {} = Scds<vector<Cup<u8>>> {};
     }
 }
 }

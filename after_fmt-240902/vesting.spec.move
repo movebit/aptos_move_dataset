@@ -473,7 +473,9 @@ spec aptos_framework::vesting {
         aborts_if !coin::spec_is_account_registered<AptosCoin>(new_beneficiary);
         include VerifyAdminAbortsIf;
         let post vesting_contract = global<VestingContract>(contract_address);
-        ensures simple_map::spec_contains_key(vesting_contract.beneficiaries, shareholder);
+        ensures simple_map::spec_contains_key(
+            vesting_contract.beneficiaries, shareholder
+        );
     }
 
     spec reset_beneficiary(account: &signer, contract_address: address, shareholder: address) {

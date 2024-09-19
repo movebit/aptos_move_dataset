@@ -100,9 +100,7 @@ module drand::lottery_test {
             give_coins(&mint_cap, &u4);
 
             // Simulates the lottery starting at the current blockchain time
-            timestamp::update_global_time_for_test(
-                lottery_start_time_secs * 1000 * 1000
-            );
+            timestamp::update_global_time_for_test(lottery_start_time_secs * 1000 * 1000);
 
             test_lottery_with_randomness(
                 &u1,

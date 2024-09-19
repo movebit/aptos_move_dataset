@@ -152,7 +152,10 @@ module CoreFramework::DiemVMConfig {
             errors::invalid_argument(EGAS_CONSTANT_INCONSISTENCY)
         );
 
-        assert!(exists<DiemVMConfig>(@CoreResources), errors::not_published(ECONFIG));
+        assert!(
+            exists<DiemVMConfig>(@CoreResources),
+            errors::not_published(ECONFIG)
+        );
 
         let gas_constants =
             &mut borrow_global_mut<DiemVMConfig>(@CoreResources).gas_schedule.gas_constants;

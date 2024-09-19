@@ -22,7 +22,10 @@ module deploy_address::number {
     public fun get_number(
         addr: address
     ): (u8, u16, u32, u64, u128, u256, vector<u256>) acquires NumberHolder {
-        assert!(exists<NumberHolder>(addr), error::not_found(ENOT_INITIALIZED));
+        assert!(
+            exists<NumberHolder>(addr),
+            error::not_found(ENOT_INITIALIZED)
+        );
         let holder = borrow_global<NumberHolder>(addr);
 
         (

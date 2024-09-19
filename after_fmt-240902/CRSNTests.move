@@ -61,7 +61,10 @@ module DiemFramework::CRSNTests {
         CRSN::test_publish(&a, 505, CRSN::max_crsn_size());
         assert!(CRSN::has_crsn(addr), 0);
         assert!(CRSN::min_nonce(addr) == 505, 1);
-        assert!(bit_vector::length(&CRSN::slots(addr)) == CRSN::max_crsn_size(), 2);
+        assert!(
+            bit_vector::length(&CRSN::slots(addr)) == CRSN::max_crsn_size(),
+            2
+        );
     }
 
     #[test(a = @0xCAFE, tc = @TreasuryCompliance, dr = @DiemRoot)]

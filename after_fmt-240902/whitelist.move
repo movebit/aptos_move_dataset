@@ -120,7 +120,9 @@ module post_mint_reveal_nft::whitelist {
             &mut whitelist_mint_config.whitelist_configs, stage
         );
         assert!(
-            bucket_table::contains(&whitelist_stage.whitelisted_address, &minter_address),
+            bucket_table::contains(
+                &whitelist_stage.whitelisted_address, &minter_address
+            ),
             error::permission_denied(EACCOUNT_NOT_WHITELISTED)
         );
         let remaining_minting_amount =

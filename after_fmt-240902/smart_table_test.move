@@ -17,12 +17,9 @@ module aptos_std::smart_table_test {
     public fun smart_table_for_each_ref_test() {
         let t = make_smart_table();
         let s = 0;
-        smart_table::for_each_ref(
-            &t,
-            |x, y| {
-                s = s + *x + *y;
-            }
-        );
+        smart_table::for_each_ref(&t, |x, y| {
+            s = s + *x + *y;
+        });
         assert!(s == 9900, 0);
         smart_table::destroy(t);
     }
@@ -37,12 +34,9 @@ module aptos_std::smart_table_test {
                 *val = *val + 1
             }
         );
-        smart_table::for_each_ref(
-            &t,
-            |key, val| {
-                assert!(*key + 1 == *val, *key);
-            }
-        );
+        smart_table::for_each_ref(&t, |key, val| {
+            assert!(*key + 1 == *val, *key);
+        });
         smart_table::destroy(t);
     }
 
@@ -50,12 +44,9 @@ module aptos_std::smart_table_test {
     public fun smart_table_test_map_ref_test() {
         let t = make_smart_table();
         let r = smart_table::map_ref(&t, |val| *val + 1);
-        smart_table::for_each_ref(
-            &r,
-            |key, val| {
-                assert!(*key + 1 == *val, *key);
-            }
-        );
+        smart_table::for_each_ref(&r, |key, val| {
+            assert!(*key + 1 == *val, *key);
+        });
         smart_table::destroy(t);
         smart_table::destroy(r);
     }

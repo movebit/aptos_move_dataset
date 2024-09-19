@@ -141,13 +141,19 @@ module 0x1::TestMutRef {
             result
                 == V {
                     is: concat(vec(1u64), vec(5u64)),
-                    ts: concat(vec(T { value: 3 }), vec(T { value: 4 }))
+                    ts: concat(
+                        vec(T { value: 3 }),
+                        vec(T { value: 4 })
+                    )
                 };
         ensures !b ==>
             result
                 == V {
                     is: concat(vec(1u64), vec(2u64)),
-                    ts: concat(vec(T { value: 5 }), vec(T { value: 4 }))
+                    ts: concat(
+                        vec(T { value: 5 }),
+                        vec(T { value: 4 })
+                    )
                 };
     }
 
@@ -171,13 +177,19 @@ module 0x1::TestMutRef {
             result
                 == V {
                     is: concat(vec(1u64), vec(0u64)),
-                    ts: concat(vec(T { value: 3 }), vec(T { value: 4 }))
+                    ts: concat(
+                        vec(T { value: 3 }),
+                        vec(T { value: 4 })
+                    )
                 };
         ensures !b ==>
             result
                 == V {
                     is: concat(vec(1u64), vec(2u64)),
-                    ts: concat(vec(T { value: 0 }), vec(T { value: 4 }))
+                    ts: concat(
+                        vec(T { value: 0 }),
+                        vec(T { value: 4 })
+                    )
                 };
     }
 }

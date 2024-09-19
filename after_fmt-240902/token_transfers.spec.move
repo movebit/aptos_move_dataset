@@ -98,7 +98,9 @@ spec aptos_token::token_transfers {
         );
         aborts_if !exists<PendingClaims>(sender);
         let pending_claims = global<PendingClaims>(sender).pending_claims;
-        let token_offer_id = create_token_offer_id(signer::address_of(receiver), token_id);
+        let token_offer_id = create_token_offer_id(
+            signer::address_of(receiver), token_id
+        );
         aborts_if !table::spec_contains(pending_claims, token_offer_id);
         let tokens = table::spec_get(pending_claims, token_offer_id);
 
@@ -120,7 +122,9 @@ spec aptos_token::token_transfers {
 
         aborts_if !exists<PendingClaims>(sender);
         let pending_claims = global<PendingClaims>(sender).pending_claims;
-        let token_offer_id = create_token_offer_id(signer::address_of(receiver), token_id);
+        let token_offer_id = create_token_offer_id(
+            signer::address_of(receiver), token_id
+        );
         aborts_if !table::spec_contains(pending_claims, token_offer_id);
         let tokens = table::spec_get(pending_claims, token_offer_id);
 

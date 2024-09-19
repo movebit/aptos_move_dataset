@@ -131,7 +131,10 @@ module DiemFramework::PaymentScripts {
     ) {
         let payer_withdrawal_cap = DiemAccount::extract_withdraw_capability(&payer);
         DiemAccount::pay_by_signers<Currency>(
-            &payer_withdrawal_cap, &payee, amount, metadata
+            &payer_withdrawal_cap,
+            &payee,
+            amount,
+            metadata
         );
         DiemAccount::restore_withdraw_capability(payer_withdrawal_cap);
     }

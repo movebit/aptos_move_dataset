@@ -152,7 +152,9 @@ module DiemFramework::VASPDomain {
         tc_account: &signer, address: address, domain: vector<u8>
     ) acquires VASPDomainManager, VASPDomains {
         Roles::assert_treasury_compliance(tc_account);
-        assert!(tc_domain_manager_exists(), errors::not_published(EVASP_DOMAIN_MANAGER));
+        assert!(
+            tc_domain_manager_exists(), errors::not_published(EVASP_DOMAIN_MANAGER)
+        );
         assert!(
             exists<VASPDomains>(address),
             errors::not_published(EVASP_DOMAINS_NOT_PUBLISHED)
@@ -212,7 +214,9 @@ module DiemFramework::VASPDomain {
         tc_account: &signer, address: address, domain: vector<u8>
     ) acquires VASPDomainManager, VASPDomains {
         Roles::assert_treasury_compliance(tc_account);
-        assert!(tc_domain_manager_exists(), errors::not_published(EVASP_DOMAIN_MANAGER));
+        assert!(
+            tc_domain_manager_exists(), errors::not_published(EVASP_DOMAIN_MANAGER)
+        );
         assert!(
             exists<VASPDomains>(address),
             errors::not_published(EVASP_DOMAINS_NOT_PUBLISHED)

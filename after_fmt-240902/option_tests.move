@@ -128,7 +128,10 @@ module std::option_tests {
 
     #[test]
     fun destroy_with_default() {
-        assert!(option::destroy_with_default(option::none<u64>(), 4) == 4, 0);
+        assert!(
+            option::destroy_with_default(option::none<u64>(), 4) == 4,
+            0
+        );
         assert!(option::destroy_with_default(option::some(4), 5) == 4, 1);
     }
 

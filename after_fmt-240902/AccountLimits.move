@@ -158,24 +158,9 @@ module DiemFramework::AccountLimitsTests {
     fun update_window_info(dr: signer, tc: signer, vasp: signer) {
         setup(&dr, &tc, &vasp);
         let vasp_addr = signer::address_of(&vasp);
-        AccountLimits::update_window_info<XUS>(
-            &tc,
-            vasp_addr,
-            120,
-            vasp_addr
-        );
-        AccountLimits::update_window_info<XUS>(
-            &tc,
-            vasp_addr,
-            0,
-            vasp_addr
-        );
-        AccountLimits::update_window_info<XUS>(
-            &tc,
-            vasp_addr,
-            120,
-            vasp_addr
-        );
+        AccountLimits::update_window_info<XUS>(&tc, vasp_addr, 120, vasp_addr);
+        AccountLimits::update_window_info<XUS>(&tc, vasp_addr, 0, vasp_addr);
+        AccountLimits::update_window_info<XUS>(&tc, vasp_addr, 120, vasp_addr);
     }
 
     #[test(dr = @DiemRoot, tc = @TreasuryCompliance, vasp = @0x2)]
@@ -183,18 +168,16 @@ module DiemFramework::AccountLimitsTests {
     fun update_window_info_non_tc(dr: signer, tc: signer, vasp: signer) {
         setup(&dr, &tc, &vasp);
         let vasp_addr = signer::address_of(&vasp);
-        AccountLimits::update_window_info<XUS>(
-            &dr,
-            vasp_addr,
-            120,
-            vasp_addr
-        );
+        AccountLimits::update_window_info<XUS>(&dr, vasp_addr, 120, vasp_addr);
     }
 
     #[test(dr = @DiemRoot, tc = @TreasuryCompliance, vasp = @0x2)]
     fun has_limits_published(dr: signer, tc: signer, vasp: signer) {
         setup(&dr, &tc, &vasp);
-        assert!(AccountLimits::has_limits_published<XUS>(signer::address_of(&vasp)), 1);
+        assert!(
+            AccountLimits::has_limits_published<XUS>(signer::address_of(&vasp)),
+            1
+        );
         assert!(!AccountLimits::has_limits_published<XUS>(@0x42 /* non-exsistent */), 3);
     }
 }

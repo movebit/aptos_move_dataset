@@ -162,7 +162,9 @@ module ExperimentalFramework::ExperimentalAccount {
         human_name: vector<u8>
     ) {
         let (new_account, _) = create_core_account(new_account_address, auth_key_prefix);
-        ExperimentalValidatorOperatorConfig::publish(dr_account, &new_account, human_name);
+        ExperimentalValidatorOperatorConfig::publish(
+            dr_account, &new_account, human_name
+        );
     }
 
     /// Rotate the authentication key for the account under cap.account_address
@@ -184,7 +186,12 @@ module ExperimentalFramework::ExperimentalAccount {
         _txn_expiration_time: u64,
         chain_id: u8
     ) {
-        Account::prologue(&sender, txn_sequence_number, txn_public_key, chain_id)
+        Account::prologue(
+            &sender,
+            txn_sequence_number,
+            txn_public_key,
+            chain_id
+        )
     }
 
     fun script_prologue(
@@ -197,7 +204,12 @@ module ExperimentalFramework::ExperimentalAccount {
         chain_id: u8,
         _script_hash: vector<u8>
     ) {
-        Account::prologue(&sender, txn_sequence_number, txn_public_key, chain_id)
+        Account::prologue(
+            &sender,
+            txn_sequence_number,
+            txn_public_key,
+            chain_id
+        )
     }
 
     fun writeset_prologue(
@@ -207,7 +219,12 @@ module ExperimentalFramework::ExperimentalAccount {
         _txn_expiration_time: u64,
         chain_id: u8
     ) {
-        Account::prologue(&sender, txn_sequence_number, txn_public_key, chain_id)
+        Account::prologue(
+            &sender,
+            txn_sequence_number,
+            txn_public_key,
+            chain_id
+        )
     }
 
     // Might be able to combine this
@@ -222,7 +239,12 @@ module ExperimentalFramework::ExperimentalAccount {
         _txn_expiration_time: u64,
         chain_id: u8
     ) {
-        Account::prologue(&sender, txn_sequence_number, txn_sender_public_key, chain_id)
+        Account::prologue(
+            &sender,
+            txn_sequence_number,
+            txn_sender_public_key,
+            chain_id
+        )
     }
 
     fun epilogue(

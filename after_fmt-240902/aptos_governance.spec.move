@@ -435,7 +435,9 @@ spec aptos_framework::aptos_governance {
         let post post_voting_forum = global<voting::VotingForum<GovernanceProposal>>(
             @aptos_framework
         );
-        let post post_proposal = table::spec_get(post_voting_forum.proposals, proposal_id);
+        let post post_proposal = table::spec_get(
+            post_voting_forum.proposals, proposal_id
+        );
 
         aborts_if !string::spec_internal_check_utf8(voting::RESOLVABLE_TIME_METADATA_KEY);
         let key = utf8(voting::RESOLVABLE_TIME_METADATA_KEY);
@@ -630,7 +632,9 @@ spec aptos_framework::aptos_governance {
         let post post_voting_forum = global<voting::VotingForum<GovernanceProposal>>(
             @aptos_framework
         );
-        let post post_proposal = table::spec_get(post_voting_forum.proposals, proposal_id);
+        let post post_proposal = table::spec_get(
+            post_voting_forum.proposals, proposal_id
+        );
         ensures post_proposal.is_resolved == true
             && post_proposal.resolution_time_secs == timestamp::now_seconds();
         aborts_if option::spec_is_none(proposal.execution_content);
@@ -885,7 +889,9 @@ spec aptos_framework::aptos_governance {
         let post post_voting_forum = global<voting::VotingForum<GovernanceProposal>>(
             @aptos_framework
         );
-        let post post_proposal = table::spec_get(post_voting_forum.proposals, proposal_id);
+        let post post_proposal = table::spec_get(
+            post_voting_forum.proposals, proposal_id
+        );
 
         aborts_if !string::spec_internal_check_utf8(
             voting::IS_MULTI_STEP_PROPOSAL_IN_EXECUTION_KEY

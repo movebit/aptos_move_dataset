@@ -433,11 +433,7 @@ module bonding_curve_launchpad::liquidity_pairs {
         // return to `bonding_curve_launchpad` by not executing the custom withdraw logic.
         let optimal_1 = coin::withdraw<CoinType>(lp, optimal_amount_1);
         let optimal_2 =
-            fungible_asset::withdraw_with_ref(
-                transfer_ref,
-                fa_store,
-                optimal_amount_2
-            );
+            fungible_asset::withdraw_with_ref(transfer_ref, fa_store, optimal_amount_2);
         // Place the APT and FA into the liquidity pair.
         router::add_liquidity_coin<CoinType>(lp, optimal_1, optimal_2, is_stable);
     }

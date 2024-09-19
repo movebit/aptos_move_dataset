@@ -37,10 +37,7 @@ module CoreFramework::DiemVersion {
         );
 
         move_to(account, VersionChainMarker<T> {});
-        move_to(
-            account,
-            DiemVersion { major: initial_version }
-        );
+        move_to(account, DiemVersion { major: initial_version });
     }
 
     /// Updates the major version to a larger version.
@@ -49,7 +46,10 @@ module CoreFramework::DiemVersion {
             exists<VersionChainMarker<T>>(@CoreResources),
             errors::not_published(ECHAIN_MARKER)
         );
-        assert!(exists<DiemVersion>(@CoreResources), errors::not_published(ECONFIG));
+        assert!(
+            exists<DiemVersion>(@CoreResources),
+            errors::not_published(ECONFIG)
+        );
         let old_major = *&borrow_global<DiemVersion>(@CoreResources).major;
 
         assert!(

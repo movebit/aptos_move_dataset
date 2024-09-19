@@ -98,9 +98,7 @@ module aptos_token::token_transfers {
         amount: u64
     ) acquires PendingClaims {
         let token_id =
-            token::create_token_id_raw(
-                creator, collection, name, property_version
-            );
+            token::create_token_id_raw(creator, collection, name, property_version);
         offer(&sender, receiver, token_id, amount);
     }
 
@@ -144,9 +142,7 @@ module aptos_token::token_transfers {
         property_version: u64
     ) acquires PendingClaims {
         let token_id =
-            token::create_token_id_raw(
-                creator, collection, name, property_version
-            );
+            token::create_token_id_raw(creator, collection, name, property_version);
         claim(&receiver, sender, token_id);
     }
 
@@ -155,7 +151,9 @@ module aptos_token::token_transfers {
     ) acquires PendingClaims {
         assert!(exists<PendingClaims>(sender), ETOKEN_OFFER_NOT_EXIST);
         let pending_claims = &mut borrow_global_mut<PendingClaims>(sender).pending_claims;
-        let token_offer_id = create_token_offer_id(signer::address_of(receiver), token_id);
+        let token_offer_id = create_token_offer_id(
+            signer::address_of(receiver), token_id
+        );
         assert!(
             table::contains(pending_claims, token_offer_id),
             error::not_found(ETOKEN_OFFER_NOT_EXIST)
@@ -184,9 +182,7 @@ module aptos_token::token_transfers {
         property_version: u64
     ) acquires PendingClaims {
         let token_id =
-            token::create_token_id_raw(
-                creator, collection, name, property_version
-            );
+            token::create_token_id_raw(creator, collection, name, property_version);
         cancel_offer(&sender, receiver, token_id);
     }
 

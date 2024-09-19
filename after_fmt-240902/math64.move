@@ -147,7 +147,10 @@ module aptos_std::math64 {
         assert!(ceil_div(13, 3) == 5, 0);
 
         // No overflow
-        assert!(ceil_div((((1u128 << 64) - 9) as u64), 11) == 1676976733973595601, 0);
+        assert!(
+            ceil_div((((1u128 << 64) - 9) as u64), 11) == 1676976733973595601,
+            0
+        );
     }
 
     #[test]
@@ -240,7 +243,10 @@ module aptos_std::math64 {
         };
         idx = 1;
         while (idx <= 64) {
-            assert!(floor_log2((((1u128 << idx) - 1) as u64)) == idx - 1, 0);
+            assert!(
+                floor_log2((((1u128 << idx) - 1) as u64)) == idx - 1,
+                0
+            );
             idx = idx + 1;
         };
     }
@@ -250,7 +256,10 @@ module aptos_std::math64 {
         let idx: u8 = 0;
         while (idx < 64) {
             let res = log2(1 << idx);
-            assert!(fixed_point32::get_raw_value(res) == (idx as u64) << 32, 0);
+            assert!(
+                fixed_point32::get_raw_value(res) == (idx as u64) << 32,
+                0
+            );
             idx = idx + 1;
         };
         idx = 10;

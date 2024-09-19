@@ -231,7 +231,9 @@ module mint_nft::create_nft_getting_production_ready {
             timestamp::now_seconds() < module_data.expiration_timestamp,
             error::permission_denied(ECOLLECTION_EXPIRED)
         );
-        assert!(module_data.minting_enabled, error::permission_denied(EMINTING_DISABLED));
+        assert!(
+            module_data.minting_enabled, error::permission_denied(EMINTING_DISABLED)
+        );
 
         // verify that the `mint_proof_signature` is valid against the admin's public key
         verify_proof_of_knowledge(
@@ -347,7 +349,9 @@ module mint_nft::create_nft_getting_production_ready {
 
         // create a resource account from the origin account, mocking the module publishing process
         resource_account::create_resource_account(
-            &origin_account, vector::empty<u8>(), vector::empty<u8>()
+            &origin_account,
+            vector::empty<u8>(),
+            vector::empty<u8>()
         );
 
         init_module(resource_account);

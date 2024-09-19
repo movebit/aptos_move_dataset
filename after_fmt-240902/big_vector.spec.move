@@ -20,7 +20,9 @@ spec aptos_std::big_vector {
             || len(table_with_length::spec_get(buckets, spec_table_len(buckets) - 1))
                 <= bucket_size;
         // ensure each table entry exists due to a bad spec in `Table::spec_get`
-        invariant forall i in 0..spec_table_len(buckets): spec_table_contains(buckets, i);
+        invariant forall i in 0..spec_table_len(buckets): spec_table_contains(
+            buckets, i
+        );
         // ensure correct number of buckets
         invariant spec_table_len(buckets) == (end_index + bucket_size - 1) / bucket_size;
         // ensure bucket lengths add up to `end_index`

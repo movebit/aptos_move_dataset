@@ -36,7 +36,10 @@ module groth16_example::groth16 {
         let scalars = vector[from_u64<S>(1)];
         std::vector::append(&mut scalars, *public_inputs);
         let right = zero<Gt>();
-        let right = add(&right, &pairing<G1, G2, Gt>(vk_alpha_g1, vk_beta_g2));
+        let right = add(
+            &right,
+            &pairing<G1, G2, Gt>(vk_alpha_g1, vk_beta_g2)
+        );
         let right =
             add(
                 &right,
@@ -94,7 +97,9 @@ module groth16_example::groth16 {
         let g2_elements = vector[*proof_b, *pvk_gamma_g2_neg, *pvk_delta_g2_neg];
         eq(
             pvk_alpha_g1_beta_g2,
-            &upcast(&multi_pairing<G1, G2, Gt>(&g1_elements, &g2_elements))
+            &upcast(
+                &multi_pairing<G1, G2, Gt>(&g1_elements, &g2_elements)
+            )
         )
     }
 

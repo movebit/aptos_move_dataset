@@ -136,10 +136,18 @@ module aptos_framework::staking_proxy {
             ]
         );
         staking_contract::setup_staking_contract(
-            aptos_framework, owner, operator_1, INITIAL_BALANCE, 0
+            aptos_framework,
+            owner,
+            operator_1,
+            INITIAL_BALANCE,
+            0
         );
         staking_contract::setup_staking_contract(
-            aptos_framework, owner, operator_2, INITIAL_BALANCE, 0
+            aptos_framework,
+            owner,
+            operator_2,
+            INITIAL_BALANCE,
+            0
         );
 
         let vesting_contract_1 =
@@ -150,7 +158,12 @@ module aptos_framework::staking_proxy {
                 owner_address,
                 0
             );
-        vesting::update_operator(owner, vesting_contract_1, operator_1_address, 0);
+        vesting::update_operator(
+            owner,
+            vesting_contract_1,
+            operator_1_address,
+            0
+        );
         let vesting_contract_2 =
             vesting::setup_vesting_contract(
                 owner,
@@ -159,7 +172,12 @@ module aptos_framework::staking_proxy {
                 owner_address,
                 0
             );
-        vesting::update_operator(owner, vesting_contract_2, operator_2_address, 0);
+        vesting::update_operator(
+            owner,
+            vesting_contract_2,
+            operator_2_address,
+            0
+        );
 
         let (_sk, pk, pop) = stake::generate_identity();
         stake::initialize_test_validator(&pk, &pop, owner, INITIAL_BALANCE, false, false);
@@ -171,11 +189,15 @@ module aptos_framework::staking_proxy {
         // Staking contract has been switched from operator 1 to new operator.
         // Staking contract with operator_2 should stay unchanged.
         assert!(
-            staking_contract::staking_contract_exists(owner_address, new_operator_address),
+            staking_contract::staking_contract_exists(
+                owner_address, new_operator_address
+            ),
             1
         );
         assert!(
-            !staking_contract::staking_contract_exists(owner_address, operator_1_address),
+            !staking_contract::staking_contract_exists(
+                owner_address, operator_1_address
+            ),
             2
         );
         assert!(
@@ -217,7 +239,11 @@ module aptos_framework::staking_proxy {
             ]
         );
         staking_contract::setup_staking_contract(
-            aptos_framework, owner, operator_2, INITIAL_BALANCE, 0
+            aptos_framework,
+            owner,
+            operator_2,
+            INITIAL_BALANCE,
+            0
         );
 
         let vesting_contract_2 =
@@ -228,7 +254,12 @@ module aptos_framework::staking_proxy {
                 owner_address,
                 0
             );
-        vesting::update_operator(owner, vesting_contract_2, operator_2_address, 0);
+        vesting::update_operator(
+            owner,
+            vesting_contract_2,
+            operator_2_address,
+            0
+        );
 
         set_operator(owner, operator_1_address, new_operator_address);
         // No staking or vesting contracts changed.
@@ -275,10 +306,18 @@ module aptos_framework::staking_proxy {
             ]
         );
         staking_contract::setup_staking_contract(
-            aptos_framework, owner, operator_1, INITIAL_BALANCE, 0
+            aptos_framework,
+            owner,
+            operator_1,
+            INITIAL_BALANCE,
+            0
         );
         staking_contract::setup_staking_contract(
-            aptos_framework, owner, operator_2, INITIAL_BALANCE, 0
+            aptos_framework,
+            owner,
+            operator_2,
+            INITIAL_BALANCE,
+            0
         );
 
         let vesting_contract_1 =
@@ -289,7 +328,12 @@ module aptos_framework::staking_proxy {
                 owner_address,
                 0
             );
-        vesting::update_operator(owner, vesting_contract_1, operator_1_address, 0);
+        vesting::update_operator(
+            owner,
+            vesting_contract_1,
+            operator_1_address,
+            0
+        );
         let vesting_contract_2 =
             vesting::setup_vesting_contract(
                 owner,
@@ -298,7 +342,12 @@ module aptos_framework::staking_proxy {
                 owner_address,
                 0
             );
-        vesting::update_operator(owner, vesting_contract_2, operator_2_address, 0);
+        vesting::update_operator(
+            owner,
+            vesting_contract_2,
+            operator_2_address,
+            0
+        );
 
         let (_sk, pk, pop) = stake::generate_identity();
         stake::initialize_test_validator(&pk, &pop, owner, INITIAL_BALANCE, false, false);
@@ -313,7 +362,9 @@ module aptos_framework::staking_proxy {
         let stake_pool_address_2 =
             staking_contract::stake_pool_address(owner_address, operator_2_address);
         assert!(stake::get_delegated_voter(stake_pool_address_1) == new_voter_address, 1);
-        assert!(stake::get_delegated_voter(stake_pool_address_2) == operator_2_address, 2);
+        assert!(
+            stake::get_delegated_voter(stake_pool_address_2) == operator_2_address, 2
+        );
         // Vesting contract 1's voter has been updated while vesting contract 2's stays unchanged.
         assert!(vesting::voter(vesting_contract_1) == new_voter_address, 3);
         assert!(vesting::voter(vesting_contract_2) == owner_address, 4);
@@ -349,7 +400,11 @@ module aptos_framework::staking_proxy {
             ]
         );
         staking_contract::setup_staking_contract(
-            aptos_framework, owner, operator_2, INITIAL_BALANCE, 0
+            aptos_framework,
+            owner,
+            operator_2,
+            INITIAL_BALANCE,
+            0
         );
 
         let vesting_contract_2 =
@@ -360,7 +415,12 @@ module aptos_framework::staking_proxy {
                 owner_address,
                 0
             );
-        vesting::update_operator(owner, vesting_contract_2, operator_2_address, 0);
+        vesting::update_operator(
+            owner,
+            vesting_contract_2,
+            operator_2_address,
+            0
+        );
 
         set_operator(owner, operator_1_address, new_voter_address);
         // No staking or vesting contracts changed.

@@ -398,7 +398,9 @@ module veiled_coin::sigma_protos {
         };
         let alpha3 = std::option::extract(&mut alpha3);
 
-        std::option::some(WithdrawalSubproof { x1, x2, x3, alpha1, alpha2, alpha3 })
+        std::option::some(
+            WithdrawalSubproof { x1, x2, x3, alpha1, alpha2, alpha3 }
+        )
     }
 
     /// Deserializes and returns a `TransferSubproof` given its byte representation.
@@ -955,7 +957,9 @@ module veiled_coin::sigma_protos {
             );
 
         let new_balance_comm =
-            pedersen::new_commitment_for_bulletproof(&new_balance_val, &new_balance_rand);
+            pedersen::new_commitment_for_bulletproof(
+                &new_balance_val, &new_balance_rand
+            );
 
         let sigma_proof =
             prove_transfer(
@@ -1083,7 +1087,9 @@ module veiled_coin::sigma_protos {
                 &curr_balance_val, &new_balance_rand, &sender_pk
             );
         let new_balance_comm =
-            pedersen::new_commitment_for_bulletproof(&new_balance_val, &new_balance_rand);
+            pedersen::new_commitment_for_bulletproof(
+                &new_balance_val, &new_balance_rand
+            );
 
         let sigma_proof =
             prove_transfer(
@@ -1115,23 +1121,33 @@ module veiled_coin::sigma_protos {
         assert!(ristretto255::point_equals(&sigma_proof.x5, &deserialized_proof.x5), 1);
         assert!(ristretto255::point_equals(&sigma_proof.x6, &deserialized_proof.x6), 1);
         assert!(
-            ristretto255::scalar_equals(&sigma_proof.alpha1, &deserialized_proof.alpha1),
+            ristretto255::scalar_equals(
+                &sigma_proof.alpha1, &deserialized_proof.alpha1
+            ),
             1
         );
         assert!(
-            ristretto255::scalar_equals(&sigma_proof.alpha2, &deserialized_proof.alpha2),
+            ristretto255::scalar_equals(
+                &sigma_proof.alpha2, &deserialized_proof.alpha2
+            ),
             1
         );
         assert!(
-            ristretto255::scalar_equals(&sigma_proof.alpha3, &deserialized_proof.alpha3),
+            ristretto255::scalar_equals(
+                &sigma_proof.alpha3, &deserialized_proof.alpha3
+            ),
             1
         );
         assert!(
-            ristretto255::scalar_equals(&sigma_proof.alpha4, &deserialized_proof.alpha4),
+            ristretto255::scalar_equals(
+                &sigma_proof.alpha4, &deserialized_proof.alpha4
+            ),
             1
         );
         assert!(
-            ristretto255::scalar_equals(&sigma_proof.alpha5, &deserialized_proof.alpha5),
+            ristretto255::scalar_equals(
+                &sigma_proof.alpha5, &deserialized_proof.alpha5
+            ),
             1
         );
     }

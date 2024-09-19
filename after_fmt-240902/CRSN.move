@@ -78,10 +78,16 @@ module DiemFramework::CRSN {
     public(friend) fun publish(
         account: &signer, min_nonce: u64, size: u64
     ) {
-        assert!(!has_crsn(signer::address_of(account)), errors::invalid_state(EHAS_CRSN));
+        assert!(
+            !has_crsn(signer::address_of(account)),
+            errors::invalid_state(EHAS_CRSN)
+        );
         assert!(size > 0, errors::invalid_argument(EZERO_SIZE_CRSN));
         assert!(size <= MAX_CRSN_SIZE, errors::invalid_argument(ECRSN_SIZE_TOO_LARGE));
-        assert!(exists<CRSNsAllowed>(@DiemRoot), errors::invalid_state(ENOT_INITIALIZED));
+        assert!(
+            exists<CRSNsAllowed>(@DiemRoot),
+            errors::invalid_state(ENOT_INITIALIZED)
+        );
         move_to(
             account,
             CRSN {

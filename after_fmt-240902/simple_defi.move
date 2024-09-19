@@ -106,7 +106,9 @@ module resource_account::simple_defi {
 
         // create a resource account from the origin account, mocking the module publishing process
         resource_account::create_resource_account(
-            origin_account, vector::empty<u8>(), vector::empty<u8>()
+            origin_account,
+            vector::empty<u8>(),
+            vector::empty<u8>()
         );
         init_module(resource_account);
     }
@@ -132,14 +134,26 @@ module resource_account::simple_defi {
         let five_a_coins = coin::mint(5, &aptos_coin_mint_cap);
         let c_coins = exchange_to(five_a_coins);
         assert!(coin::value(&c_coins) == 5, 0);
-        assert!(coin::balance<AptosCoin>(signer::address_of(&resource_account)) == 5, 1);
-        assert!(coin::balance<ChloesCoin>(signer::address_of(&resource_account)) == 0, 2);
+        assert!(
+            coin::balance<AptosCoin>(signer::address_of(&resource_account)) == 5,
+            1
+        );
+        assert!(
+            coin::balance<ChloesCoin>(signer::address_of(&resource_account)) == 0,
+            2
+        );
 
         // exchange from 5 chloe's coins to 5 aptos coins & assert the results are expected
         let a_coins = exchange_from(c_coins);
         assert!(coin::value(&a_coins) == 5, 0);
-        assert!(coin::balance<AptosCoin>(signer::address_of(&resource_account)) == 0, 3);
-        assert!(coin::balance<ChloesCoin>(signer::address_of(&resource_account)) == 0, 4);
+        assert!(
+            coin::balance<AptosCoin>(signer::address_of(&resource_account)) == 0,
+            3
+        );
+        assert!(
+            coin::balance<ChloesCoin>(signer::address_of(&resource_account)) == 0,
+            4
+        );
 
         // burn the remaining coins & destroy the capabilities since they aren't droppable
         coin::burn(a_coins, &aptos_coin_burn_cap);

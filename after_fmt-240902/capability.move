@@ -104,7 +104,10 @@ module std::capability {
     /// they own the `Feature` type parameter.
     public fun create<Feature>(owner: &signer, _feature_witness: &Feature) {
         let addr = signer::address_of(owner);
-        assert!(!exists<CapState<Feature>>(addr), error::already_exists(ECAP));
+        assert!(
+            !exists<CapState<Feature>>(addr),
+            error::already_exists(ECAP)
+        );
         move_to<CapState<Feature>>(owner, CapState { delegates: vector::empty() });
     }
 
@@ -135,7 +138,10 @@ module std::capability {
         if (exists<CapDelegateState<Feature>>(addr)) {
             let root_addr = borrow_global<CapDelegateState<Feature>>(addr).root;
             // double check that requester is actually registered as a delegate
-            assert!(exists<CapState<Feature>>(root_addr), error::invalid_state(EDELEGATE));
+            assert!(
+                exists<CapState<Feature>>(root_addr),
+                error::invalid_state(EDELEGATE)
+            );
             assert!(
                 vector::contains(
                     &borrow_global<CapState<Feature>>(root_addr).delegates,
@@ -145,7 +151,10 @@ module std::capability {
             );
             root_addr
         } else {
-            assert!(exists<CapState<Feature>>(addr), error::not_found(ECAP));
+            assert!(
+                exists<CapState<Feature>>(addr),
+                error::not_found(ECAP)
+            );
             addr
         }
     }
@@ -174,7 +183,10 @@ module std::capability {
         let addr = signer::address_of(to);
         if (exists<CapDelegateState<Feature>>(addr)) return;
         move_to(to, CapDelegateState<Feature> { root: cap.root });
-        add_element(&mut borrow_global_mut<CapState<Feature>>(cap.root).delegates, addr);
+        add_element(
+            &mut borrow_global_mut<CapState<Feature>>(cap.root).delegates,
+            addr
+        );
     }
 
     /// Revokes a delegation relation. If no relation exists, this function does nothing.

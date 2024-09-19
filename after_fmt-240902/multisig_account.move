@@ -359,7 +359,9 @@ module aptos_framework::multisig_account {
     #[view]
     /// Return true if the provided owner is an owner of the provided multisig account.
     public fun is_owner(owner: address, multisig_account: address): bool acquires MultisigAccount {
-        vector::contains(&borrow_global<MultisigAccount>(multisig_account).owners, &owner)
+        vector::contains(
+            &borrow_global<MultisigAccount>(multisig_account).owners, &owner
+        )
     }
 
     #[view]
@@ -763,7 +765,12 @@ module aptos_framework::multisig_account {
             }
         );
 
-        update_metadata_internal(multisig_account, metadata_keys, metadata_values, false);
+        update_metadata_internal(
+            multisig_account,
+            metadata_keys,
+            metadata_values,
+            false
+        );
     }
 
     ////////////////////////// Self-updates ///////////////////////////////
@@ -1014,7 +1021,12 @@ module aptos_framework::multisig_account {
     public entry fun reject_transaction(
         owner: &signer, multisig_account: address, sequence_number: u64
     ) acquires MultisigAccount {
-        vote_transanction(owner, multisig_account, sequence_number, false);
+        vote_transanction(
+            owner,
+            multisig_account,
+            sequence_number,
+            false
+        );
     }
 
     /// Generic function that can be used to either approve or reject a multisig transaction
@@ -1070,7 +1082,12 @@ module aptos_framework::multisig_account {
             features::multisig_v2_enhancement_feature_enabled(),
             error::invalid_state(EMULTISIG_V2_ENHANCEMENT_NOT_ENABLED)
         );
-        vote_transanction(owner, multisig_account, sequence_number, approved);
+        vote_transanction(
+            owner,
+            multisig_account,
+            sequence_number,
+            approved
+        );
     }
 
     /// Generic function that can be used to either approve or reject a batch of transactions within a specified range.
@@ -1087,7 +1104,12 @@ module aptos_framework::multisig_account {
         );
         let sequence_number = starting_sequence_number;
         while (sequence_number <= final_sequence_number) {
-            vote_transanction(owner, multisig_account, sequence_number, approved);
+            vote_transanction(
+                owner,
+                multisig_account,
+                sequence_number,
+                approved
+            );
             sequence_number = sequence_number + 1;
         }
     }
@@ -1704,7 +1726,9 @@ module aptos_framework::multisig_account {
         // First transaction has 2 approvals so it can be executed.
         assert!(can_be_executed(multisig_account, 1), 1);
         // First transaction was executed successfully.
-        successful_transaction_execution_cleanup(owner_2_addr, multisig_account, vector[]);
+        successful_transaction_execution_cleanup(
+            owner_2_addr, multisig_account, vector[]
+        );
         assert!(
             get_pending_transactions(multisig_account)
                 == vector[
@@ -1768,9 +1792,14 @@ module aptos_framework::multisig_account {
         reject_transaction(owner_2, multisig_account, 1);
         // Owner 2 can execute the transaction, implicitly voting to approve it,
         // which overrides their previous vote for rejection.
-        assert!(can_execute(owner_2_addr, multisig_account, 1), 1);
+        assert!(
+            can_execute(owner_2_addr, multisig_account, 1),
+            1
+        );
         // First transaction was executed successfully.
-        successful_transaction_execution_cleanup(owner_2_addr, multisig_account, vector[]);
+        successful_transaction_execution_cleanup(
+            owner_2_addr, multisig_account, vector[]
+        );
         assert!(
             get_pending_transactions(multisig_account)
                 == vector[get_transaction(multisig_account, 2)],
@@ -1779,7 +1808,10 @@ module aptos_framework::multisig_account {
 
         reject_transaction(owner_1, multisig_account, 2);
         // Owner 3 can execute-reject the transaction, implicitly voting to reject it.
-        assert!(can_reject(owner_3_addr, multisig_account, 2), 2);
+        assert!(
+            can_reject(owner_3_addr, multisig_account, 2),
+            2
+        );
         execute_rejected_transaction(owner_3, multisig_account);
         assert!(get_pending_transactions(multisig_account) == vector[], 0);
     }
@@ -1996,8 +2028,14 @@ module aptos_framework::multisig_account {
         );
         let updated_metadata = metadata(multisig_account);
         assert!(simple_map::length(&updated_metadata) == 2, 0);
-        assert!(simple_map::borrow(&updated_metadata, &utf8(b"key1")) == &vector[1], 0);
-        assert!(simple_map::borrow(&updated_metadata, &utf8(b"key2")) == &vector[2], 0);
+        assert!(
+            simple_map::borrow(&updated_metadata, &utf8(b"key1")) == &vector[1],
+            0
+        );
+        assert!(
+            simple_map::borrow(&updated_metadata, &utf8(b"key2")) == &vector[2],
+            0
+        );
     }
 
     #[test(owner = @0x123)]
@@ -2084,7 +2122,10 @@ module aptos_framework::multisig_account {
         remove_owners(multisig_signer, vector[@0x130]);
         assert!(owners(multisig_account) == vector[owner_1_addr, owner_3_addr], 3);
         // Removing with duplicate owners should still work.
-        remove_owners(multisig_signer, vector[owner_3_addr, owner_3_addr, owner_3_addr]);
+        remove_owners(
+            multisig_signer,
+            vector[owner_3_addr, owner_3_addr, owner_3_addr]
+        );
         assert!(owners(multisig_account) == vector[owner_1_addr], 4);
     }
 
@@ -2112,7 +2153,10 @@ module aptos_framework::multisig_account {
             0
         );
         let multisig_signer = &create_signer(multisig_account);
-        remove_owners(multisig_signer, vector[owner_1_addr, owner_2_addr, owner_3_addr]);
+        remove_owners(
+            multisig_signer,
+            vector[owner_1_addr, owner_2_addr, owner_3_addr]
+        );
     }
 
     #[test(owner_1 = @0x123, owner_2 = @0x124, owner_3 = @0x125)]
@@ -2428,7 +2472,9 @@ module aptos_framework::multisig_account {
             ),
             0
         );
-        successful_transaction_execution_cleanup(owner_3_addr, multisig_account, vector[]);
+        successful_transaction_execution_cleanup(
+            owner_3_addr, multisig_account, vector[]
+        );
     }
 
     #[test(owner_1 = @0x123, owner_2 = @0x124, owner_3 = @0x125)]

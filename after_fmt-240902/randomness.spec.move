@@ -53,7 +53,12 @@ spec aptos_framework::randomness {
         let txn_counter = spec_fetch_and_increment_txn_counter();
         ensures len(result) == 32;
         ensures result
-            == hash::sha3_256(concat(concat(concat(input, seed), txn_hash), txn_counter));
+            == hash::sha3_256(
+                concat(
+                    concat(concat(input, seed), txn_hash),
+                    txn_counter
+                )
+            );
     }
 
     spec schema NextBlobAbortsIf {

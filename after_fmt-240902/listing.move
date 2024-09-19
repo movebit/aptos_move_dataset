@@ -207,7 +207,10 @@ module marketplace::listing {
 
     public(friend) fun assert_started(object: &Object<Listing>): address acquires Listing {
         let listing_addr = object::object_address(object);
-        assert!(exists<Listing>(listing_addr), error::not_found(ENO_LISTING));
+        assert!(
+            exists<Listing>(listing_addr),
+            error::not_found(ENO_LISTING)
+        );
 
         let listing = borrow_global<Listing>(listing_addr);
         let now = timestamp::now_seconds();
@@ -291,13 +294,19 @@ module marketplace::listing {
     ): u64 {
         if (denominator == 0) { 0 }
         else {
-            math64::min(amount, math64::mul_div(amount, numerator, denominator))
+            math64::min(
+                amount,
+                math64::mul_div(amount, numerator, denominator)
+            )
         }
     }
 
     inline fun borrow_listing(object: Object<Listing>): &Listing acquires Listing {
         let obj_addr = object::object_address(&object);
-        assert!(exists<Listing>(obj_addr), error::not_found(ENO_LISTING));
+        assert!(
+            exists<Listing>(obj_addr),
+            error::not_found(ENO_LISTING)
+        );
         borrow_global<Listing>(obj_addr)
     }
 }

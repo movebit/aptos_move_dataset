@@ -134,7 +134,12 @@ module rewards_pool::rewards_pool {
         vector::for_each(
             all_rewards_tokens,
             |reward_token| {
-                let reward = rewards(claimer, rewards_pool_data, reward_token, epoch);
+                let reward = rewards(
+                    claimer,
+                    rewards_pool_data,
+                    reward_token,
+                    epoch
+                );
                 if (reward > 0) {
                     vector::push_back(&mut non_empty_reward_tokens, reward_token);
                     vector::push_back(&mut reward_per_tokens, reward);
@@ -172,7 +177,12 @@ module rewards_pool::rewards_pool {
         vector::for_each(
             reward_tokens,
             |reward_token| {
-                let reward = rewards(claimer_addr, rewards_data, reward_token, epoch);
+                let reward = rewards(
+                    claimer_addr,
+                    rewards_data,
+                    reward_token,
+                    epoch
+                );
                 let reward_store =
                     simple_map::borrow(&rewards_data.reward_stores, &reward_token);
                 if (reward == 0) {
@@ -190,7 +200,9 @@ module rewards_pool::rewards_pool {
                         );
                     vector::push_back(
                         &mut rewards,
-                        fungible_asset::withdraw(store_signer, reward_store.store, reward)
+                        fungible_asset::withdraw(
+                            store_signer, reward_store.store, reward
+                        )
                     );
 
                     // Update the remaining amount of rewards for the epoch.
@@ -261,7 +273,9 @@ module rewards_pool::rewards_pool {
     ) acquires RewardsPool {
         let epoch_rewards =
             &mut unchecked_mut_rewards_pool_data(&rewards_pool).epoch_rewards;
-        let current_epoch_rewards = epoch_rewards_or_default(epoch_rewards, epoch::now());
+        let current_epoch_rewards = epoch_rewards_or_default(
+            epoch_rewards, epoch::now()
+        );
         pool_u64::buy_in(&mut current_epoch_rewards.claimer_pool, claimer, amount);
     }
 
@@ -271,7 +285,9 @@ module rewards_pool::rewards_pool {
     ) acquires RewardsPool {
         let epoch_rewards =
             &mut unchecked_mut_rewards_pool_data(&rewards_pool).epoch_rewards;
-        let current_epoch_rewards = epoch_rewards_or_default(epoch_rewards, epoch::now());
+        let current_epoch_rewards = epoch_rewards_or_default(
+            epoch_rewards, epoch::now()
+        );
         pool_u64::redeem_shares(
             &mut current_epoch_rewards.claimer_pool, claimer, (amount as u128)
         );

@@ -358,8 +358,7 @@ module ExperimentalFramework::Vote {
                 vector::swap_remove(ballots, i);
                 vector::push_back(&mut removed_ballots, *&ballot_id);
                 event::emit_event<RemoveBallotEvent>(
-                    remove_handle,
-                    RemoveBallotEvent { ballot_id }
+                    remove_handle, RemoveBallotEvent { ballot_id }
                 );
             } else {
                 i = i + 1;
@@ -386,8 +385,7 @@ module ExperimentalFramework::Vote {
             if (&vector::borrow(ballots, i).ballot_id == &ballot_id) {
                 vector::swap_remove(ballots, i);
                 event::emit_event<RemoveBallotEvent>(
-                    remove_handle,
-                    RemoveBallotEvent { ballot_id }
+                    remove_handle, RemoveBallotEvent { ballot_id }
                 );
                 return ()
             };

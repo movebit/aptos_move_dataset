@@ -101,7 +101,9 @@ module guild::guild {
     public entry fun whitelist_guild_master(
         admin: &signer, guild_master: address
     ) acquires Config {
-        assert!(signer::address_of(admin) == guild_collection_manager_owner(), ENOT_ADMIN);
+        assert!(
+            signer::address_of(admin) == guild_collection_manager_owner(), ENOT_ADMIN
+        );
         let config = borrow_global_mut<Config>(@guild);
         smart_vector::push_back(&mut config.whitelist, guild_master);
     }
@@ -248,11 +250,7 @@ module guild::guild {
 
         // Creates the collection with unlimited supply and without establishing any royalty configuration.
         collection::create_unlimited_collection(
-            admin,
-            description,
-            name,
-            option::none(),
-            uri
+            admin, description, name, option::none(), uri
         );
     }
 

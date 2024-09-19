@@ -196,7 +196,8 @@ spec aptos_framework::resource_account {
         aborts_if !exists<account::Account>(resource_addr);
         /// [high-level-req-8]
         ensures simple_map::spec_contains_key(
-            old(global<Container>(source_addr)).store, resource_addr
+            old(global<Container>(source_addr)).store,
+            resource_addr
         ) && simple_map::spec_len(old(global<Container>(source_addr)).store) == 1 ==>
             !exists<Container>(source_addr);
         ensures exists<Container>(source_addr) ==>

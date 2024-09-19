@@ -209,7 +209,10 @@ module NFT {
         option::destroy_none(token_data); // aborts in case token data is not None
         assert!(option::is_none(&token.token_data), EINLINE_DATA_OP);
         assert!(*&token.id == id, EWRONG_TOKEN_ID);
-        assert!(MAX_U64 - token.balance >= balance, ETOKEN_BALANCE_OVERFLOWS);
+        assert!(
+            MAX_U64 - token.balance >= balance,
+            ETOKEN_BALANCE_OVERFLOWS
+        );
         token.balance = token.balance + balance;
     }
 
@@ -323,7 +326,10 @@ module NFT {
             !exists<TokenDataCollection<TokenType>>(signer::address_of(account)),
             ETOKEN_DATA_COLLECTION_ALREADY_PUBLISHED
         );
-        move_to(account, TokenDataCollection<TokenType> { tokens: vector::empty() });
+        move_to(
+            account,
+            TokenDataCollection<TokenType> { tokens: vector::empty() }
+        );
     }
 
     /// Allow creation delegation for a given TokenType (the entity, which can generate a metadata of a given TokenType

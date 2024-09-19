@@ -67,7 +67,10 @@ module aptos_std::debug {
 
     #[test_only]
     fun assert_string_equal(x: vector<u8>, expected: vector<u8>) {
-        assert!(std::string::bytes(&format(&std::string::utf8(x))) == &expected, 1);
+        assert!(
+            std::string::bytes(&format(&std::string::utf8(x))) == &expected,
+            1
+        );
     }
 
     #[test]

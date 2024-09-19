@@ -44,7 +44,13 @@ module 0x1::BARSToken {
         content_uri: vector<u8>,
         amount: u64
     ) {
-        mint_internal(&bars_account, artist, artist_name, content_uri, amount);
+        mint_internal(
+            &bars_account,
+            artist,
+            artist_name,
+            content_uri,
+            amount
+        );
     }
 
     /// Need this internal function for testing, since the script fun version

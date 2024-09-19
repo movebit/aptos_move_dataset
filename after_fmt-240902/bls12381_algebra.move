@@ -279,7 +279,10 @@ module aptos_std::bls12381_algebra {
             );
         assert!(eq(&val_7, &val_7_another), 1);
         assert!(FQ12_VAL_7_SERIALIZED == serialize<Fq12, FormatFq12LscLsb>(&val_7), 1);
-        assert!(std::option::is_none(&deserialize<Fq12, FormatFq12LscLsb>(&x"ffff")), 1);
+        assert!(
+            std::option::is_none(&deserialize<Fq12, FormatFq12LscLsb>(&x"ffff")),
+            1
+        );
 
         // Negation.
         let val_minus_7 = neg(&val_7);
@@ -303,7 +306,10 @@ module aptos_std::bls12381_algebra {
 
         // division.
         let val_0 = from_u64<Fq12>(0);
-        assert!(eq(&val_7, &std::option::extract(&mut div(&val_63, &val_9))), 1);
+        assert!(
+            eq(&val_7, &std::option::extract(&mut div(&val_63, &val_9))),
+            1
+        );
         assert!(std::option::is_none(&div(&val_63, &val_0)), 1);
 
         // Inversion.
@@ -316,7 +322,10 @@ module aptos_std::bls12381_algebra {
 
         // Downcasting.
         assert!(
-            eq(&zero<Gt>(), &std::option::extract(&mut downcast<Fq12, Gt>(&val_1))),
+            eq(
+                &zero<Gt>(),
+                &std::option::extract(&mut downcast<Fq12, Gt>(&val_1))
+            ),
             1
         );
     }
@@ -551,7 +560,10 @@ module aptos_std::bls12381_algebra {
         assert!(eq(&point_2g, &point_2g_calc), 1);
 
         // Subtraction.
-        assert!(eq(&point_9g, &sub(&point_2g, &point_minus_7g_calc)), 1);
+        assert!(
+            eq(&point_9g, &sub(&point_2g, &point_minus_7g_calc)),
+            1
+        );
 
         // Hash-to-group using suite `BLS12381G1_XMD:SHA-256_SSWU_RO_`.
         // Test vectors source: https://www.ietf.org/archive/id/draft-irtf-cfrg-hash-to-curve-16.html#name-bls12381g1_xmdsha-256_sswu_
@@ -786,7 +798,10 @@ module aptos_std::bls12381_algebra {
         assert!(eq(&point_2g, &point_2g_calc), 1);
 
         // Subtraction.
-        assert!(eq(&point_9g, &sub(&point_2g, &point_minus_7g_calc)), 1);
+        assert!(
+            eq(&point_9g, &sub(&point_2g, &point_minus_7g_calc)),
+            1
+        );
 
         // Hash-to-group using suite `BLS12381G2_XMD:SHA-256_SSWU_RO_`.
         // Test vectors source: https://www.ietf.org/archive/id/draft-irtf-cfrg-hash-to-curve-16.html#name-bls12381g2_xmdsha-256_sswu_
@@ -848,7 +863,10 @@ module aptos_std::bls12381_algebra {
             std::option::extract(
                 &mut deserialize<Gt, FormatGt>(&GT_GENERATOR_MUL_BY_7_SERIALIZED)
             );
-        assert!(std::option::is_none(&deserialize<Gt, FormatGt>(&x"ffff")), 1);
+        assert!(
+            std::option::is_none(&deserialize<Gt, FormatGt>(&x"ffff")),
+            1
+        );
 
         // Deserialization should fail if given an element in Fq12 but not in the prime-order subgroup.
         assert!(
@@ -897,10 +915,16 @@ module aptos_std::bls12381_algebra {
         assert!(eq(&element_2g, &element_2g_calc), 1);
 
         // Subtraction.
-        assert!(eq(&element_9g, &sub(&element_2g, &element_minus_7g_calc)), 1);
+        assert!(
+            eq(&element_9g, &sub(&element_2g, &element_minus_7g_calc)),
+            1
+        );
 
         // Upcasting to Fq12.
-        assert!(eq(&one<Fq12>(), &upcast<Gt, Fq12>(&identity)), 1);
+        assert!(
+            eq(&one<Fq12>(), &upcast<Gt, Fq12>(&identity)),
+            1
+        );
     }
 
     #[test_only]
@@ -1004,8 +1028,14 @@ module aptos_std::bls12381_algebra {
             ),
             1
         );
-        assert!(std::option::is_none(&deserialize<Fr, FormatFrLsb>(&x"ffff")), 1);
-        assert!(std::option::is_none(&deserialize<Fr, FormatFrMsb>(&x"ffff")), 1);
+        assert!(
+            std::option::is_none(&deserialize<Fr, FormatFrLsb>(&x"ffff")),
+            1
+        );
+        assert!(
+            std::option::is_none(&deserialize<Fr, FormatFrMsb>(&x"ffff")),
+            1
+        );
 
         // Negation.
         let val_minus_7 = neg(&val_7);
@@ -1028,7 +1058,10 @@ module aptos_std::bls12381_algebra {
 
         // division.
         let val_0 = from_u64<Fr>(0);
-        assert!(eq(&val_7, &std::option::extract(&mut div(&val_63, &val_9))), 1);
+        assert!(
+            eq(&val_7, &std::option::extract(&mut div(&val_63, &val_9))),
+            1
+        );
         assert!(std::option::is_none(&div(&val_63, &val_0)), 1);
 
         // Inversion.

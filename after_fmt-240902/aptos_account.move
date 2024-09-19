@@ -372,13 +372,7 @@ module aptos_framework::aptos_account {
     #[test(from = @0x1, to = @0x12)]
     public fun test_direct_coin_transfers(from: &signer, to: &signer) acquires DirectTransferConfig {
         let (burn_cap, freeze_cap, mint_cap) =
-            coin::initialize<FakeCoin>(
-                from,
-                utf8(b"FC"),
-                utf8(b"FC"),
-                10,
-                true
-            );
+            coin::initialize<FakeCoin>(from, utf8(b"FC"), utf8(b"FC"), 10, true);
         create_account_for_test(signer::address_of(from));
         create_account_for_test(signer::address_of(to));
         deposit_coins(signer::address_of(from), coin::mint(1000, &mint_cap));
@@ -397,13 +391,7 @@ module aptos_framework::aptos_account {
         from: &signer, recipient_1: &signer, recipient_2: &signer
     ) acquires DirectTransferConfig {
         let (burn_cap, freeze_cap, mint_cap) =
-            coin::initialize<FakeCoin>(
-                from,
-                utf8(b"FC"),
-                utf8(b"FC"),
-                10,
-                true
-            );
+            coin::initialize<FakeCoin>(from, utf8(b"FC"), utf8(b"FC"), 10, true);
         create_account_for_test(signer::address_of(from));
         let recipient_1_addr = signer::address_of(recipient_1);
         let recipient_2_addr = signer::address_of(recipient_2);
@@ -440,13 +428,7 @@ module aptos_framework::aptos_account {
         from: &signer, to: &signer
     ) acquires DirectTransferConfig {
         let (burn_cap, freeze_cap, mint_cap) =
-            coin::initialize<FakeCoin>(
-                from,
-                utf8(b"FC"),
-                utf8(b"FC"),
-                10,
-                true
-            );
+            coin::initialize<FakeCoin>(from, utf8(b"FC"), utf8(b"FC"), 10, true);
         create_account_for_test(signer::address_of(from));
         create_account_for_test(signer::address_of(to));
         set_allow_direct_coin_transfers(from, true);
@@ -467,13 +449,7 @@ module aptos_framework::aptos_account {
         from: &signer, to: &signer
     ) acquires DirectTransferConfig {
         let (burn_cap, freeze_cap, mint_cap) =
-            coin::initialize<FakeCoin>(
-                from,
-                utf8(b"FC"),
-                utf8(b"FC"),
-                10,
-                true
-            );
+            coin::initialize<FakeCoin>(from, utf8(b"FC"), utf8(b"FC"), 10, true);
         create_account_for_test(signer::address_of(from));
         create_account_for_test(signer::address_of(to));
         set_allow_direct_coin_transfers(from, false);
@@ -497,11 +473,15 @@ module aptos_framework::aptos_account {
         let user_addr = signer::address_of(user);
         assert!(
             primary_fungible_store_address(user_addr)
-                == primary_fungible_store::primary_store_address(user_addr, apt_metadata),
+                == primary_fungible_store::primary_store_address(
+                    user_addr, apt_metadata
+                ),
             1
         );
 
         ensure_primary_fungible_store_exists(user_addr);
-        assert!(primary_fungible_store::primary_store_exists(user_addr, apt_metadata), 2);
+        assert!(
+            primary_fungible_store::primary_store_exists(user_addr, apt_metadata), 2
+        );
     }
 }

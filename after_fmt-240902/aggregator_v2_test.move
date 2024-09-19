@@ -68,14 +68,32 @@ module 0x1::aggregator_v2_test {
     fun init<Agg: store + drop>(account: &signer, use_type: u32) {
         let addr = std::signer::address_of(account);
         if (use_type == USE_RESOURCE_TYPE) {
-            assert!(!exists<AggregatorInResource<Agg>>(addr), ERESOURCE_ALREADY_EXISTS);
-            move_to(account, AggregatorInResource<Agg> { data: vector::empty() });
+            assert!(
+                !exists<AggregatorInResource<Agg>>(addr),
+                ERESOURCE_ALREADY_EXISTS
+            );
+            move_to(
+                account,
+                AggregatorInResource<Agg> { data: vector::empty() }
+            );
         } else if (use_type == USE_TABLE_TYPE) {
-            assert!(!exists<AggregatorInTable<Agg>>(addr), ETABLE_ALREADY_EXISTS);
-            move_to(account, AggregatorInTable<Agg> { data: table::new() });
+            assert!(
+                !exists<AggregatorInTable<Agg>>(addr),
+                ETABLE_ALREADY_EXISTS
+            );
+            move_to(
+                account,
+                AggregatorInTable<Agg> { data: table::new() }
+            );
         } else if (use_type == USE_RESOURCE_GROUP_TYPE) {
-            assert!(!exists<AggregatorInTable<Agg>>(addr), ERESOURCE_GROUP_ALREADY_EXISTS);
-            move_to(account, AggregatorInResourceGroup<Agg> { data: vector::empty() });
+            assert!(
+                !exists<AggregatorInTable<Agg>>(addr),
+                ERESOURCE_GROUP_ALREADY_EXISTS
+            );
+            move_to(
+                account,
+                AggregatorInResourceGroup<Agg> { data: vector::empty() }
+            );
         } else {
             assert!(false, EINVALID_ARG);
         };
@@ -160,7 +178,10 @@ module 0x1::aggregator_v2_test {
                 );
                 &mut borrow_global_mut<AggregatorInResource<Agg>>(account_addr).data
             } else if (use_type == USE_TABLE_TYPE) {
-                assert!(exists<AggregatorInTable<Agg>>(account_addr), ETABLE_DOESNT_EXIST);
+                assert!(
+                    exists<AggregatorInTable<Agg>>(account_addr),
+                    ETABLE_DOESNT_EXIST
+                );
                 let data =
                     &mut borrow_global_mut<AggregatorInTable<Agg>>(account_addr).data;
                 let outer = i / 10;
@@ -208,7 +229,10 @@ module 0x1::aggregator_v2_test {
                 );
                 &borrow_global<AggregatorInResource<Agg>>(account_addr).data
             } else if (use_type == USE_TABLE_TYPE) {
-                assert!(exists<AggregatorInTable<Agg>>(account_addr), ETABLE_DOESNT_EXIST);
+                assert!(
+                    exists<AggregatorInTable<Agg>>(account_addr),
+                    ETABLE_DOESNT_EXIST
+                );
                 let data = &borrow_global<AggregatorInTable<Agg>>(account_addr).data;
                 let outer = i / 10;
                 let inner = i % 10;
@@ -569,7 +593,9 @@ module 0x1::aggregator_v2_test {
                 use_type_i,
                 i,
                 |snapshot| {
-                    aggregator_v2::derive_string_concat<Element>(prefix, snapshot, suffix)
+                    aggregator_v2::derive_string_concat<Element>(
+                        prefix, snapshot, suffix
+                    )
                 }
             );
         insert<DerivedStringSnapshot>(addr_j, use_type_j, j, snapshot);

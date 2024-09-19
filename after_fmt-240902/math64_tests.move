@@ -10,7 +10,10 @@ module aptos_std::math64_tests {
 
     #[test]
     fun test_nested_mul_div2() {
-        assert!(math64::mul_div(1, math64::mul_div(1, 1, 1), 1) == 1, 0);
+        assert!(
+            math64::mul_div(1, math64::mul_div(1, 1, 1), 1) == 1,
+            0
+        );
     }
 
     #[test]

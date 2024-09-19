@@ -124,7 +124,9 @@ module aptos_framework::transaction_fee {
         aptos_framework: &signer, new_burn_percentage: u8
     ) acquires AptosCoinCapabilities, CollectedFeesPerBlock {
         system_addresses::assert_aptos_framework(aptos_framework);
-        assert!(new_burn_percentage <= 100, error::out_of_range(EINVALID_BURN_PERCENTAGE));
+        assert!(
+            new_burn_percentage <= 100, error::out_of_range(EINVALID_BURN_PERCENTAGE)
+        );
 
         // Prior to upgrading the burn percentage, make sure to process collected
         // fees. Otherwise we would use the new (incorrect) burn_percentage when
@@ -234,11 +236,7 @@ module aptos_framework::transaction_fee {
                 aptos_account::burn_from_fungible_store(&burn_ref, account, fee);
                 coin::return_paired_burn_ref(burn_ref, burn_receipt);
             } else {
-                coin::burn_from<AptosCoin>(
-                    account,
-                    fee,
-                    burn_cap
-                );
+                coin::burn_from<AptosCoin>(account, fee, burn_cap);
             };
         };
     }
@@ -338,30 +336,48 @@ module aptos_framework::transaction_fee {
         store_aptos_coin_burn_cap(&aptos_framework, burn_cap);
 
         let c1 = coin::mint<AptosCoin>(100, &mint_cap);
-        assert!(*option::borrow(&coin::supply<AptosCoin>()) == 100, 0);
+        assert!(
+            *option::borrow(&coin::supply<AptosCoin>()) == 100,
+            0
+        );
 
         // Burning 25%.
         burn_coin_fraction(&mut c1, 25);
         assert!(coin::value(&c1) == 75, 0);
-        assert!(*option::borrow(&coin::supply<AptosCoin>()) == 75, 0);
+        assert!(
+            *option::borrow(&coin::supply<AptosCoin>()) == 75,
+            0
+        );
 
         // Burning 0%.
         burn_coin_fraction(&mut c1, 0);
         assert!(coin::value(&c1) == 75, 0);
-        assert!(*option::borrow(&coin::supply<AptosCoin>()) == 75, 0);
+        assert!(
+            *option::borrow(&coin::supply<AptosCoin>()) == 75,
+            0
+        );
 
         // Burning remaining 100%.
         burn_coin_fraction(&mut c1, 100);
         assert!(coin::value(&c1) == 0, 0);
-        assert!(*option::borrow(&coin::supply<AptosCoin>()) == 0, 0);
+        assert!(
+            *option::borrow(&coin::supply<AptosCoin>()) == 0,
+            0
+        );
 
         coin::destroy_zero(c1);
         let c2 = coin::mint<AptosCoin>(10, &mint_cap);
-        assert!(*option::borrow(&coin::supply<AptosCoin>()) == 10, 0);
+        assert!(
+            *option::borrow(&coin::supply<AptosCoin>()) == 10,
+            0
+        );
 
         burn_coin_fraction(&mut c2, 5);
         assert!(coin::value(&c2) == 10, 0);
-        assert!(*option::borrow(&coin::supply<AptosCoin>()) == 10, 0);
+        assert!(
+            *option::borrow(&coin::supply<AptosCoin>()) == 10,
+            0
+        );
 
         burn_coin_fraction(&mut c2, 100);
         coin::destroy_zero(c2);
@@ -407,7 +423,10 @@ module aptos_framework::transaction_fee {
         coin::deposit(alice_addr, coin::mint(10000, &mint_cap));
         coin::deposit(bob_addr, coin::mint(10000, &mint_cap));
         coin::deposit(carol_addr, coin::mint(10000, &mint_cap));
-        assert!(*option::borrow(&coin::supply<AptosCoin>()) == 30000, 0);
+        assert!(
+            *option::borrow(&coin::supply<AptosCoin>()) == 30000,
+            0
+        );
 
         // Block 1 starts.
         process_collected_fees();
@@ -417,7 +436,10 @@ module aptos_framework::transaction_fee {
         let collected_fees = borrow_global<CollectedFeesPerBlock>(@aptos_framework);
         assert!(coin::is_aggregatable_coin_zero(&collected_fees.amount), 0);
         assert!(*option::borrow(&collected_fees.proposer) == alice_addr, 0);
-        assert!(*option::borrow(&coin::supply<AptosCoin>()) == 30000, 0);
+        assert!(
+            *option::borrow(&coin::supply<AptosCoin>()) == 30000,
+            0
+        );
 
         // Simulate transaction fee collection - here we simply collect some fees from Bob.
         collect_fee(bob_addr, 100);
@@ -443,7 +465,10 @@ module aptos_framework::transaction_fee {
         let collected_fees = borrow_global<CollectedFeesPerBlock>(@aptos_framework);
         assert!(coin::is_aggregatable_coin_zero(&collected_fees.amount), 0);
         assert!(*option::borrow(&collected_fees.proposer) == bob_addr, 0);
-        assert!(*option::borrow(&coin::supply<AptosCoin>()) == 29900, 0);
+        assert!(
+            *option::borrow(&coin::supply<AptosCoin>()) == 29900,
+            0
+        );
 
         // Simulate transaction fee collection one more time.
         collect_fee(bob_addr, 5000);
@@ -468,7 +493,10 @@ module aptos_framework::transaction_fee {
         let collected_fees = borrow_global<CollectedFeesPerBlock>(@aptos_framework);
         assert!(coin::is_aggregatable_coin_zero(&collected_fees.amount), 0);
         assert!(*option::borrow(&collected_fees.proposer) == carol_addr, 0);
-        assert!(*option::borrow(&coin::supply<AptosCoin>()) == 29000, 0);
+        assert!(
+            *option::borrow(&coin::supply<AptosCoin>()) == 29000,
+            0
+        );
 
         // Simulate transaction fee collection one last time.
         collect_fee(alice_addr, 1000);
@@ -487,7 +515,10 @@ module aptos_framework::transaction_fee {
         assert!(stake::get_validator_fee(carol_addr) == 1800, 0);
         assert!(coin::is_aggregatable_coin_zero(&collected_fees.amount), 0);
         assert!(*option::borrow(&collected_fees.proposer) == alice_addr, 0);
-        assert!(*option::borrow(&coin::supply<AptosCoin>()) == 28800, 0);
+        assert!(
+            *option::borrow(&coin::supply<AptosCoin>()) == 28800,
+            0
+        );
 
         coin::destroy_burn_cap(burn_cap);
         coin::destroy_mint_cap(mint_cap);

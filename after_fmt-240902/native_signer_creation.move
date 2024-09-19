@@ -27,7 +27,10 @@ module 0x1::M {
 
         i = 0;
         while (i < num_signers) {
-            assert!(has_a(signer::address_of(vector::borrow(&signers, i))), 0);
+            assert!(
+                has_a(signer::address_of(vector::borrow(&signers, i))),
+                0
+            );
             i = i + 1;
         }
     }

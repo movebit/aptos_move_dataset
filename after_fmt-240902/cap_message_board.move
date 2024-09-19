@@ -84,7 +84,8 @@ module message_board::cap_based_mb {
     ) acquires MessageChangeCapability {
         let cap = borrow_global_mut<MessageChangeCapability>(participant);
         assert!(
-            signer::address_of(&account) == cap.board, EONLY_ADMIN_CAN_REMOVE_NOTICE_CAP
+            signer::address_of(&account) == cap.board,
+            EONLY_ADMIN_CAN_REMOVE_NOTICE_CAP
         );
         let cap = move_from<MessageChangeCapability>(participant);
         let MessageChangeCapability { board: _ } = cap;

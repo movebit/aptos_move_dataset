@@ -327,7 +327,10 @@ module DiemFramework::DiemAccount {
         };
 
         // Deposit the `to_deposit` coin
-        Diem::deposit(&mut borrow_global_mut<Balance<Token>>(payee).coin, to_deposit);
+        Diem::deposit(
+            &mut borrow_global_mut<Balance<Token>>(payee).coin,
+            to_deposit
+        );
 
         // Log a received event
         event::emit_event<ReceivedPaymentEvent>(
@@ -448,7 +451,14 @@ module DiemFramework::DiemAccount {
             );
         // Use the reserved address as the payer because the funds did not come from an existing
         // balance
-        deposit(@VMReserved, designated_dealer_address, coin, x"", x"", false)
+        deposit(
+            @VMReserved,
+            designated_dealer_address,
+            coin,
+            x"",
+            x"",
+            false
+        )
     }
 
     spec tiered_mint {
@@ -529,7 +539,14 @@ module DiemFramework::DiemAccount {
         let coin = Diem::cancel_burn<Token>(account, preburn_address, amount);
         // record both sender and recipient as `preburn_address`: the coins are moving from
         // `preburn_address`'s `Preburn` resource to its balance
-        deposit(preburn_address, preburn_address, coin, x"", x"", false)
+        deposit(
+            preburn_address,
+            preburn_address,
+            coin,
+            x"",
+            x"",
+            false
+        )
     }
 
     spec cancel_burn {
@@ -1685,7 +1702,10 @@ module DiemFramework::DiemAccount {
             errors::already_published(EADD_EXISTING_CURRENCY)
         );
 
-        move_to(account, Balance<Token> { coin: Diem::zero<Token>() })
+        move_to(
+            account,
+            Balance<Token> { coin: Diem::zero<Token>() }
+        )
     }
 
     spec add_currency {

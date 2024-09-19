@@ -377,7 +377,9 @@ module example_addr::managed_fungible_asset {
         owner: &signer, asset: Object<Metadata>
     ): &TransferRef acquires ManagingRefs {
         let refs = authorized_borrow_refs(owner, asset);
-        assert!(option::is_some(&refs.transfer_ref), error::not_found(ERR_TRANSFER_REF));
+        assert!(
+            option::is_some(&refs.transfer_ref), error::not_found(ERR_TRANSFER_REF)
+        );
         option::borrow(&refs.transfer_ref)
     }
 
@@ -487,6 +489,11 @@ module example_addr::managed_fungible_asset {
     fun test_permission_denied(creator: &signer, aaron: &signer) acquires ManagingRefs {
         let metadata = create_test_mfa(creator);
         let creator_address = signer::address_of(creator);
-        mint_to_primary_stores(aaron, metadata, vector[creator_address], vector[100]);
+        mint_to_primary_stores(
+            aaron,
+            metadata,
+            vector[creator_address],
+            vector[100]
+        );
     }
 }

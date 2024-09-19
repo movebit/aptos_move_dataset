@@ -49,8 +49,7 @@ module bcs_stream::tests {
                 stream,
                 |stream| {
                     bcs_stream::deserialize_vector(
-                        stream,
-                        |stream_| { deserialize_Bar(stream_) }
+                        stream, |stream_| { deserialize_Bar(stream_) }
                     )
                 }
             )
@@ -92,7 +91,9 @@ module bcs_stream::tests {
             h: vector[Bar { x: 01, y: false }, Bar { x: 02, y: true }],
             i: @0xABCD,
             j: string::utf8(b"some string"),
-            k: option::some(vector[Bar { x: 01, y: false }, Bar { x: 02, y: true }])
+            k: option::some(
+                vector[Bar { x: 01, y: false }, Bar { x: 02, y: true }]
+            )
         };
 
         assert!(foo == expected, 0);

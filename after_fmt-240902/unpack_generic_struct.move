@@ -29,7 +29,10 @@ module 0x42::m {
     }
 
     public fun foo<Key: store + drop>(data: E<Key>, v: &mut Key) {
-        let f = h(data, |e| { E { key: e } });
+        let f = h(
+            data,
+            |e| { E { key: e } }
+        );
         g(
             f,
             |e| {

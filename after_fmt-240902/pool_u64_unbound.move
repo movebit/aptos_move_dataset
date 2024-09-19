@@ -294,7 +294,12 @@ module aptos_std::pool_u64_unbound {
         if (pool.total_coins == 0 || total_shares == 0) { 0 }
         else {
             (
-                multiply_then_divide(pool, shares, to_u128(total_coins), total_shares) as u64
+                multiply_then_divide(
+                    pool,
+                    shares,
+                    to_u128(total_coins),
+                    total_shares
+                ) as u64
             )
         }
     }

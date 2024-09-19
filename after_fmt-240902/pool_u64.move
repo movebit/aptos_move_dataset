@@ -273,7 +273,12 @@ module aptos_std::pool_u64 {
             // Shares price = total_coins / total existing shares.
             // New number of shares = new_amount / shares_price = new_amount * existing_shares / total_amount.
             // We rearrange the calc and do multiplication first to avoid rounding errors.
-            multiply_then_divide(pool, coins_amount, pool.total_shares, total_coins)
+            multiply_then_divide(
+                pool,
+                coins_amount,
+                pool.total_shares,
+                total_coins
+            )
         }
     }
 
@@ -408,8 +413,14 @@ module aptos_std::pool_u64 {
         assert!(shares_2 == half_max_u64 + 1, 1);
         assert!(total_shares(&pool) == MAX_U64, 2);
         assert!(total_coins(&pool) == MAX_U64, 3);
-        assert!(redeem_shares(&mut pool, @1, shares_1) == half_max_u64, 4);
-        assert!(redeem_shares(&mut pool, @2, shares_2) == half_max_u64 + 1, 5);
+        assert!(
+            redeem_shares(&mut pool, @1, shares_1) == half_max_u64,
+            4
+        );
+        assert!(
+            redeem_shares(&mut pool, @2, shares_2) == half_max_u64 + 1,
+            5
+        );
         destroy_empty(pool);
     }
 
@@ -419,9 +430,15 @@ module aptos_std::pool_u64 {
         let pool = create_with_scaling_factor(2, scaling_factor);
         let coins_amount = MAX_U64 / 100;
         let shares = buy_in(&mut pool, @1, coins_amount);
-        assert!(total_shares(&pool) == coins_amount * scaling_factor, 0);
+        assert!(
+            total_shares(&pool) == coins_amount * scaling_factor,
+            0
+        );
         assert!(total_coins(&pool) == coins_amount, 1);
-        assert!(redeem_shares(&mut pool, @1, shares) == coins_amount, 2);
+        assert!(
+            redeem_shares(&mut pool, @1, shares) == coins_amount,
+            2
+        );
         destroy_empty(pool);
     }
 
@@ -447,7 +464,10 @@ module aptos_std::pool_u64 {
         let total_coins = total_coins(&pool);
         update_total_coins(&mut pool, total_coins * 6 / 5);
         // Minus 1 due to rounding error.
-        assert!(balance(&pool, @1) == 100000000000000000 * 6 / 5 - 1, 1);
+        assert!(
+            balance(&pool, @1) == 100000000000000000 * 6 / 5 - 1,
+            1
+        );
         assert!(balance(&pool, @2) == 1, 2);
         destroy_pool(pool);
     }
@@ -466,7 +486,10 @@ module aptos_std::pool_u64 {
         let pool = new(1);
         update_total_coins(&mut pool, 1000);
         add_shares(&mut pool, @1, 1);
-        assert!(shares(&pool, @1) == add_shares(&mut pool, @1, 0), 0);
+        assert!(
+            shares(&pool, @1) == add_shares(&mut pool, @1, 0),
+            0
+        );
         destroy_pool(pool);
     }
 

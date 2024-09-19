@@ -470,12 +470,7 @@ module Evm::ERC1155Mock {
         if (isContract(to)) {
             let result =
                 IERC1155Receiver_try_call_onERC1155Received(
-                    to,
-                    operator,
-                    from,
-                    id,
-                    amount,
-                    data
+                    to, operator, from, id, amount, data
                 );
             if (ExternalResult::is_err_reason(&result)) {
                 // abort_with(b"err_reason");
@@ -508,12 +503,7 @@ module Evm::ERC1155Mock {
         if (isContract(to)) {
             let result =
                 IERC1155Receiver_try_call_onERC1155BatchReceived(
-                    to,
-                    operator,
-                    from,
-                    ids,
-                    amounts,
-                    data
+                    to, operator, from, ids, amounts, data
                 );
             if (ExternalResult::is_err_reason(&result)) {
                 // abort_with(b"err_reason");

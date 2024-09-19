@@ -53,7 +53,10 @@ module 0x2::Tables {
         assert!(Table::contains(&t, &42), 101);
         assert!(!Table::contains(&t, &0), 102);
         assert!(vector::length(Table::borrow(&t, &42)) == 1, 103);
-        assert!(*vector::borrow(Table::borrow(&t, &42), 0) == @0x1012, 104);
+        assert!(
+            *vector::borrow(Table::borrow(&t, &42), 0) == @0x1012,
+            104
+        );
 
         move_to(&sign(@0x42), S { t });
 
@@ -61,7 +64,10 @@ module 0x2::Tables {
         let v_mut_ref = Table::borrow_mut(&mut s.t, &42);
         vector::push_back(v_mut_ref, @0x1013);
         assert!(vector::length(Table::borrow(&s.t, &42)) == 2, 105);
-        assert!(*vector::borrow(Table::borrow(&s.t, &42), 1) == @0x1013, 106);
+        assert!(
+            *vector::borrow(Table::borrow(&s.t, &42), 1) == @0x1013,
+            106
+        );
 
         let v = Table::remove(&mut s.t, &42);
         assert!(vector::length(&v) == 2, 107);
@@ -79,7 +85,10 @@ module 0x2::Tables {
 
         Table::insert(&mut t, &key, val_1);
         assert!(Table::contains(&t, &key), 101);
-        assert!(*Table::borrow(&t, &key) == u256_from_words(11, 12), 102);
+        assert!(
+            *Table::borrow(&t, &key) == u256_from_words(11, 12),
+            102
+        );
 
         let entry_mut_ref = Table::borrow_mut(&mut t, &key);
         *entry_mut_ref = val_2;
@@ -136,18 +145,43 @@ module 0x2::Tables {
         Table::insert(&mut t, &@0x12, t1);
         Table::insert(&mut t, &@0x34, t2);
 
-        assert!(Table::contains(Table::borrow(&t, &@0x12), &@0xAB), 101);
-        assert!(Table::contains(Table::borrow(&t, &@0x34), &@0xCD), 102);
-        assert!(*Table::borrow(Table::borrow(&t, &@0x12), &@0xAB) == val_1, 103);
-        assert!(*Table::borrow(Table::borrow(&t, &@0x34), &@0xCD) == val_2, 104);
+        assert!(
+            Table::contains(Table::borrow(&t, &@0x12), &@0xAB),
+            101
+        );
+        assert!(
+            Table::contains(Table::borrow(&t, &@0x34), &@0xCD),
+            102
+        );
+        assert!(
+            *Table::borrow(Table::borrow(&t, &@0x12), &@0xAB) == val_1,
+            103
+        );
+        assert!(
+            *Table::borrow(Table::borrow(&t, &@0x34), &@0xCD) == val_2,
+            104
+        );
 
-        Table::insert(Table::borrow_mut(&mut t, &@0x12), &@0xEF, val_3);
-        assert!(*Table::borrow(Table::borrow(&t, &@0x12), &@0xEF) == val_3, 105);
-        assert!(*Table::borrow(Table::borrow(&t, &@0x12), &@0xAB) == val_1, 106);
+        Table::insert(
+            Table::borrow_mut(&mut t, &@0x12),
+            &@0xEF,
+            val_3
+        );
+        assert!(
+            *Table::borrow(Table::borrow(&t, &@0x12), &@0xEF) == val_3,
+            105
+        );
+        assert!(
+            *Table::borrow(Table::borrow(&t, &@0x12), &@0xAB) == val_1,
+            106
+        );
 
         let val = Table::remove(Table::borrow_mut(&mut t, &@0x34), &@0xCD);
         assert!(val == val_2, 107);
-        assert!(!Table::contains(Table::borrow(&t, &@0x34), &@0xCD), 108);
+        assert!(
+            !Table::contains(Table::borrow(&t, &@0x34), &@0xCD),
+            108
+        );
 
         move_to(&sign(@0x42), S { t });
     }

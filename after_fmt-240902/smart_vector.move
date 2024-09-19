@@ -138,12 +138,9 @@ module aptos_std::smart_vector {
 
     /// Add multiple values to the vector at once.
     public fun add_all<T: store>(v: &mut SmartVector<T>, vals: vector<T>) {
-        vector::for_each(
-            vals,
-            |val| {
-                push_back(v, val);
-            }
-        )
+        vector::for_each(vals, |val| {
+            push_back(v, val);
+        })
     }
 
     /// Convert a smart vector to a native vector, which is supposed to be called mostly by view functions to get an
@@ -689,9 +686,15 @@ module aptos_std::smart_vector {
         remove(&mut v, 20);
         assert!(vector::length(&v.inline_vec) == inline_len, 0);
         remove(&mut v, 10);
-        assert!(vector::length(&v.inline_vec) + 1 == inline_len, 0);
+        assert!(
+            vector::length(&v.inline_vec) + 1 == inline_len,
+            0
+        );
         remove(&mut v, 0);
-        assert!(vector::length(&v.inline_vec) + 2 == inline_len, 0);
+        assert!(
+            vector::length(&v.inline_vec) + 2 == inline_len,
+            0
+        );
         assert!(length(&v) == 90, 0);
 
         let index = 0;
@@ -733,10 +736,7 @@ module aptos_std::smart_vector {
         while (i + 1 < len) {
             assert!(
                 *big_vector::borrow(option::borrow(&v.big_vec), i)
-                    == *big_vector::borrow(
-                        option::borrow(&v.big_vec),
-                        i + 1
-                    ) + 1,
+                    == *big_vector::borrow(option::borrow(&v.big_vec), i + 1) + 1,
                 0
             );
             i = i + 1;

@@ -42,7 +42,7 @@ module M {
         let Sc {} = Sc<Box<TnoC>> {};
         let Sk {} = Sk<TnoK> {};
         let Sk {} = Sk<Cup<TnoC>> {};
-        let Sk {} = Sk<Box<Cup<TnoC>> > {};
+        let Sk {} = Sk<Box<Cup<TnoC>>> {};
         let Scds {} = Scds<TnoC> {};
         let Scds {} = Scds<Cup<TnoC>> {};
         let Scds {} = Scds<Cup<TnoK>> {};

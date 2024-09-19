@@ -266,7 +266,9 @@ module aptos_framework::code {
             error::invalid_argument(EUPGRADE_IMMUTABLE)
         );
         assert!(
-            can_change_upgrade_policy_to(old_pack.upgrade_policy, new_pack.upgrade_policy),
+            can_change_upgrade_policy_to(
+                old_pack.upgrade_policy, new_pack.upgrade_policy
+            ),
             error::invalid_argument(EUPGRADE_WEAKER_POLICY)
         );
         let old_modules = get_module_names(old_pack);
@@ -295,7 +297,8 @@ module aptos_framework::code {
                 while (j < vector::length(new_modules)) {
                     let name = vector::borrow(new_modules, j);
                     assert!(
-                        &old_mod.name != name, error::already_exists(EMODULE_NAME_CLASH)
+                        &old_mod.name != name,
+                        error::already_exists(EMODULE_NAME_CLASH)
                     );
                     j = j + 1;
                 };
@@ -353,8 +356,9 @@ module aptos_framework::code {
                                 let k = 0;
                                 let r = vector::length(&dep_pack.modules);
                                 while (k < r) {
-                                    let module_name = vector::borrow(&dep_pack.modules, k)
-                                        .name;
+                                    let module_name = vector::borrow(
+                                        &dep_pack.modules, k
+                                    ).name;
                                     vector::push_back(
                                         &mut allowed_module_deps,
                                         AllowedDep { account, module_name }

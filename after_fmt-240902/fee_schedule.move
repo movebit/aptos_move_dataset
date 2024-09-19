@@ -169,7 +169,9 @@ module marketplace::fee_schedule {
     inline fun remove_listing_fee(
         creator: &signer, marketplace: Object<FeeSchedule>
     ): signer acquires FeeSchedule, FixedRateListingFee {
-        let (fee_schedule_signer, fee_schedule_addr) = assert_access(creator, marketplace);
+        let (fee_schedule_signer, fee_schedule_addr) = assert_access(
+            creator, marketplace
+        );
         if (exists<FixedRateListingFee>(fee_schedule_addr)) {
             move_from<FixedRateListingFee>(fee_schedule_addr);
         };
@@ -194,7 +196,9 @@ module marketplace::fee_schedule {
     inline fun remove_bidding_fee(
         creator: &signer, marketplace: Object<FeeSchedule>
     ): signer acquires FeeSchedule, FixedRateBiddingFee {
-        let (fee_schedule_signer, fee_schedule_addr) = assert_access(creator, marketplace);
+        let (fee_schedule_signer, fee_schedule_addr) = assert_access(
+            creator, marketplace
+        );
         if (exists<FixedRateBiddingFee>(fee_schedule_addr)) {
             move_from<FixedRateBiddingFee>(fee_schedule_addr);
         };
@@ -246,7 +250,9 @@ module marketplace::fee_schedule {
     inline fun remove_commission(
         creator: &signer, marketplace: Object<FeeSchedule>
     ): signer acquires FeeSchedule, FixedRateCommission, PercentageRateCommission {
-        let (fee_schedule_signer, fee_schedule_addr) = assert_access(creator, marketplace);
+        let (fee_schedule_signer, fee_schedule_addr) = assert_access(
+            creator, marketplace
+        );
         if (exists<FixedRateCommission>(fee_schedule_addr)) {
             move_from<FixedRateCommission>(fee_schedule_addr);
         } else if (exists<PercentageRateCommission>(fee_schedule_addr)) {

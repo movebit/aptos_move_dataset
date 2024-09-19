@@ -491,7 +491,12 @@ module aptos_token_objects::aptos_token {
             error::permission_denied(EPROPERTIES_NOT_MUTABLE)
         );
 
-        property_map::add(&aptos_token.property_mutator_ref, key, type, value);
+        property_map::add(
+            &aptos_token.property_mutator_ref,
+            key,
+            type,
+            value
+        );
     }
 
     public entry fun add_typed_property<T: key, V: drop>(
@@ -534,7 +539,12 @@ module aptos_token_objects::aptos_token {
             error::permission_denied(EPROPERTIES_NOT_MUTABLE)
         );
 
-        property_map::update(&aptos_token.property_mutator_ref, &key, type, value);
+        property_map::update(
+            &aptos_token.property_mutator_ref,
+            &key,
+            type,
+            value
+        );
     }
 
     public entry fun update_typed_property<T: key, V: drop>(
@@ -1013,7 +1023,13 @@ module aptos_token_objects::aptos_token {
 
         create_collection_helper(creator, collection_name, true);
         let token = mint_helper(creator, collection_name, token_name);
-        add_property(creator, token, property_name, property_type, vector[0x08]);
+        add_property(
+            creator,
+            token,
+            property_name,
+            property_type,
+            vector[0x08]
+        );
 
         assert!(property_map::read_u8(&token, &property_name) == 0x8, 0);
     }
@@ -1040,7 +1056,13 @@ module aptos_token_objects::aptos_token {
 
         create_collection_helper(creator, collection_name, true);
         let token = mint_helper(creator, collection_name, token_name);
-        update_property(creator, token, property_name, property_type, vector[0x00]);
+        update_property(
+            creator,
+            token,
+            property_name,
+            property_type,
+            vector[0x00]
+        );
 
         assert!(!property_map::read_bool(&token, &property_name), 0);
     }

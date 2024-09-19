@@ -168,7 +168,9 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
         // FA Object<Metadata> required for primary_fungible_store interactions.
         // `transfer_ref` is used to bypass the `is_frozen` status of the FA. Without this, the defined dispatchable
         // withdraw function would prevent the ability to transfer the participant's FA onto the liquidity pair.
-        let fa_metadata_obj = object::address_to_object(get_fa_obj_address(name, symbol));
+        let fa_metadata_obj = object::address_to_object(
+            get_fa_obj_address(name, symbol)
+        );
         let transfer_ref =
             &borrow_global<FAController>(get_fa_obj_address(name, symbol)).transfer_ref;
         // Initiate the swap on the associated liquidity pair.

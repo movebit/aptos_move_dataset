@@ -20,10 +20,7 @@ module 0xABCD::smart_table_picture {
     }
 
     fun init_module(publisher: &signer) {
-        move_to<AllPalettes>(
-            publisher,
-            AllPalettes { all: vector::empty() }
-        );
+        move_to<AllPalettes>(publisher, AllPalettes { all: vector::empty() });
     }
 
     /// Create a new Palette
@@ -45,10 +42,7 @@ module 0xABCD::smart_table_picture {
                 &mut vec, object::address_from_constructor_ref(&constructor_ref)
             );
 
-            move_to<AllPalettes>(
-                caller,
-                AllPalettes { all: vec }
-            );
+            move_to<AllPalettes>(caller, AllPalettes { all: vec });
         } else {
             let all_palettes = borrow_global_mut<AllPalettes>(caller_addr);
             vector::push_back(

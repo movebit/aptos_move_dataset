@@ -5,11 +5,7 @@ module 0xABCD::coin_example {
 
     fun init_module(sender: &signer) {
         aptos_framework::managed_coin::initialize<ExampleCoin>(
-            sender,
-            b"Example Coin",
-            b"Example",
-            8,
-            false
+            sender, b"Example Coin", b"Example", 8, false
         );
     }
 

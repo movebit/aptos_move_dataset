@@ -50,7 +50,10 @@ module DiemFramework::XDX {
         // Operational constraint
         CoreAddresses::assert_currency_info(dr_account);
         // Reserve must not exist.
-        assert!(!exists<Reserve>(@DiemRoot), errors::already_published(ERESERVE));
+        assert!(
+            !exists<Reserve>(@DiemRoot),
+            errors::already_published(ERESERVE)
+        );
         let (mint_cap, burn_cap) =
             Diem::register_currency<XDX>(
                 dr_account,
@@ -64,7 +67,10 @@ module DiemFramework::XDX {
         Diem::update_minting_ability<XDX>(tc_account, false);
         AccountLimits::publish_unrestricted_limits<XDX>(dr_account);
         let preburn_cap = Diem::create_preburn<XDX>(tc_account);
-        move_to(dr_account, Reserve { mint_cap, burn_cap, preburn_cap });
+        move_to(
+            dr_account,
+            Reserve { mint_cap, burn_cap, preburn_cap }
+        );
     }
 
     spec initialize {

@@ -111,7 +111,11 @@ module Evm::ERC20DecimalsMock {
     /// Atomically increases the allowance granted to `spender` by the caller.
     public fun increaseAllowance(spender: address, addedValue: U256): bool acquires State {
         let owner = sender();
-        approve_(owner, spender, U256::add(allowance(owner, spender), addedValue));
+        approve_(
+            owner,
+            spender,
+            U256::add(allowance(owner, spender), addedValue)
+        );
         true
     }
 
@@ -124,7 +128,11 @@ module Evm::ERC20DecimalsMock {
             U256::ge(currentAllowance, subtractedValue),
             b"ERC20: decreased allowance below zero"
         );
-        approve_(owner, spender, U256::sub(currentAllowance, subtractedValue));
+        approve_(
+            owner,
+            spender,
+            U256::sub(currentAllowance, subtractedValue)
+        );
         true
     }
 
@@ -133,7 +141,11 @@ module Evm::ERC20DecimalsMock {
         let currentAllowance = allowance(owner, spender);
         if (currentAllowance != U256::max()) {
             require(U256::ge(currentAllowance, amount), b"ERC20: insufficient allowance");
-            approve_(owner, spender, U256::sub(currentAllowance, amount));
+            approve_(
+                owner,
+                spender,
+                U256::sub(currentAllowance, amount)
+            );
         }
     }
 
@@ -143,7 +155,11 @@ module Evm::ERC20DecimalsMock {
         require(spender != @0x0, b"ERC20: approve to the zero address");
         let s = borrow_global_mut<State>(self());
         if (!Table::contains(&s.allowances, &owner)) {
-            Table::insert(&mut s.allowances, &owner, Table::empty<address, U256>())
+            Table::insert(
+                &mut s.allowances,
+                &owner,
+                Table::empty<address, U256>()
+            )
         };
         let a = Table::borrow_mut(&mut s.allowances, &owner);
         if (!Table::contains(a, &spender)) {
@@ -172,7 +188,11 @@ module Evm::ERC20DecimalsMock {
     /// Helper function to return a mut ref to the allowance of a spender.
     fun mut_allowance(s: &mut State, owner: address, spender: address): &mut U256 {
         if (!Table::contains(&s.allowances, &owner)) {
-            Table::insert(&mut s.allowances, &owner, Table::empty<address, U256>())
+            Table::insert(
+                &mut s.allowances,
+                &owner,
+                Table::empty<address, U256>()
+            )
         };
         let allowance_owner = Table::borrow_mut(&mut s.allowances, &owner);
         Table::borrow_mut_with_default(allowance_owner, &spender, U256::zero())

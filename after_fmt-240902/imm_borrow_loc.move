@@ -32,7 +32,10 @@ module 0x8675309::Tester {
         // imagine some more interesting check than these asserts
         assert!(b1.f != 0, 42);
         assert!(b2.f != 0, 42);
-        assert!((returned_ref == &b1.f) != (returned_ref == &b2.f), 42);
+        assert!(
+            (returned_ref == &b1.f) != (returned_ref == &b2.f),
+            42
+        );
 
         *result = *returned_ref;
         move_to<Box>(account, b1);

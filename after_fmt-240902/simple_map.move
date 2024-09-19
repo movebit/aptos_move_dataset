@@ -87,7 +87,9 @@ module aptos_std::simple_map {
         value: Value
     ) {
         let maybe_idx = find(map, &key);
-        assert!(option::is_none(&maybe_idx), error::invalid_argument(EKEY_ALREADY_EXISTS));
+        assert!(
+            option::is_none(&maybe_idx), error::invalid_argument(EKEY_ALREADY_EXISTS)
+        );
 
         vector::push_back(&mut map.data, Element { key, value });
     }

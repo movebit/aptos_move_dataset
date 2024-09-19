@@ -46,10 +46,7 @@ module TestFeatures {
             == (
                 exists<Features>(@std) // this one does not verify
                     && (((feature / 8) < len(global<Features>(@std).features)
-                        && spec_contains(
-                            global<Features>(@std).features,
-                            feature
-                        )))
+                        && spec_contains(global<Features>(@std).features, feature)))
             );
     }
 

@@ -6,17 +6,13 @@ module 0xc0ffee::m {
 
     public fun test(): u64 {
         let x = 1;
-        x + call(
-            || {
-                x = x + 1;
-                x
-            }
-        ) + call(
-            || {
-                x = x + 7;
-                x
-            }
-        )
+        x + call(|| {
+            x = x + 1;
+            x
+        }) + call(|| {
+            x = x + 7;
+            x
+        })
     }
 }
 

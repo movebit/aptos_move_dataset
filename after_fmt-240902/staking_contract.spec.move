@@ -420,7 +420,9 @@ spec aptos_framework::staking_contract {
             concat(concat(seed_0, bcs::to_bytes(operator)), SALT),
             contract_creation_seed
         );
-        let resource_addr = account::spec_create_resource_address(staker_address, seed_1);
+        let resource_addr = account::spec_create_resource_address(
+            staker_address, seed_1
+        );
         include CreateStakePoolAbortsIf { resource_addr };
         ensures exists<account::Account>(resource_addr);
         let post post_account = global<account::Account>(resource_addr);

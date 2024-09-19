@@ -1020,7 +1020,10 @@ module aptos_framework::fungible_asset {
                 error::out_of_range(ESUPPLY_UNDERFLOW)
             );
         } else if (exists<Supply>(metadata_address)) {
-            assert!(exists<Supply>(metadata_address), error::not_found(ESUPPLY_NOT_FOUND));
+            assert!(
+                exists<Supply>(metadata_address),
+                error::not_found(ESUPPLY_NOT_FOUND)
+            );
             let supply = borrow_global_mut<Supply>(metadata_address);
             assert!(
                 supply.current >= (amount as u128),
@@ -1180,7 +1183,10 @@ module aptos_framework::fungible_asset {
             icon_uri(metadata) == string::utf8(b"http://www.example.com/favicon.ico"),
             6
         );
-        assert!(project_uri(metadata) == string::utf8(b"http://www.example.com"), 7);
+        assert!(
+            project_uri(metadata) == string::utf8(b"http://www.example.com"),
+            7
+        );
 
         increase_supply(&metadata, 50);
         assert!(supply(metadata) == option::some(50), 8);
@@ -1348,10 +1354,19 @@ module aptos_framework::fungible_asset {
         let (creator_ref, token_object) = create_test_token(creator);
         let (mint_ref, transfer_ref, _burn) = init_test_metadata(&creator_ref);
         let test_token = object::convert<TestToken, Metadata>(token_object);
-        assert!(exists<Supply>(object::object_address(&test_token)), 1);
-        assert!(!exists<ConcurrentSupply>(object::object_address(&test_token)), 2);
+        assert!(
+            exists<Supply>(object::object_address(&test_token)),
+            1
+        );
+        assert!(
+            !exists<ConcurrentSupply>(object::object_address(&test_token)),
+            2
+        );
         let creator_store = create_test_store(creator, test_token);
-        assert!(exists<FungibleStore>(object::object_address(&creator_store)), 3);
+        assert!(
+            exists<FungibleStore>(object::object_address(&creator_store)),
+            3
+        );
         assert!(
             !exists<ConcurrentFungibleBalance>(object::object_address(&creator_store)),
             4
@@ -1361,7 +1376,10 @@ module aptos_framework::fungible_asset {
         assert!(supply(test_token) == option::some(30), 5);
 
         deposit_with_ref(&transfer_ref, creator_store, fa);
-        assert!(exists<FungibleStore>(object::object_address(&creator_store)), 13);
+        assert!(
+            exists<FungibleStore>(object::object_address(&creator_store)),
+            13
+        );
         assert!(borrow_store_resource(&creator_store).balance == 30, 14);
         assert!(
             !exists<ConcurrentFungibleBalance>(object::object_address(&creator_store)),
@@ -1377,14 +1395,23 @@ module aptos_framework::fungible_asset {
         let extend_ref = object::generate_extend_ref(&creator_ref);
         // manual conversion of supply
         upgrade_to_concurrent(&extend_ref);
-        assert!(!exists<Supply>(object::object_address(&test_token)), 6);
-        assert!(exists<ConcurrentSupply>(object::object_address(&test_token)), 7);
+        assert!(
+            !exists<Supply>(object::object_address(&test_token)),
+            6
+        );
+        assert!(
+            exists<ConcurrentSupply>(object::object_address(&test_token)),
+            7
+        );
 
         // assert conversion of balance
         upgrade_store_to_concurrent(creator, creator_store);
         let fb = withdraw_with_ref(&transfer_ref, creator_store, 20);
         // both store and new balance need to exist. Old balance should be 0.
-        assert!(exists<FungibleStore>(object::object_address(&creator_store)), 9);
+        assert!(
+            exists<FungibleStore>(object::object_address(&creator_store)),
+            9
+        );
         assert!(borrow_store_resource(&creator_store).balance == 0, 10);
         assert!(
             exists<ConcurrentFungibleBalance>(object::object_address(&creator_store)),
@@ -1420,10 +1447,19 @@ module aptos_framework::fungible_asset {
         let (creator_ref, token_object) = create_test_token(creator);
         let (mint_ref, transfer_ref, _burn) = init_test_metadata(&creator_ref);
         let test_token = object::convert<TestToken, Metadata>(token_object);
-        assert!(!exists<Supply>(object::object_address(&test_token)), 1);
-        assert!(exists<ConcurrentSupply>(object::object_address(&test_token)), 2);
+        assert!(
+            !exists<Supply>(object::object_address(&test_token)),
+            1
+        );
+        assert!(
+            exists<ConcurrentSupply>(object::object_address(&test_token)),
+            2
+        );
         let creator_store = create_test_store(creator, test_token);
-        assert!(exists<FungibleStore>(object::object_address(&creator_store)), 3);
+        assert!(
+            exists<FungibleStore>(object::object_address(&creator_store)),
+            3
+        );
         assert!(
             exists<ConcurrentFungibleBalance>(object::object_address(&creator_store)),
             4
@@ -1434,7 +1470,10 @@ module aptos_framework::fungible_asset {
 
         deposit_with_ref(&transfer_ref, creator_store, fa);
 
-        assert!(exists<FungibleStore>(object::object_address(&creator_store)), 9);
+        assert!(
+            exists<FungibleStore>(object::object_address(&creator_store)),
+            9
+        );
         assert!(borrow_store_resource(&creator_store).balance == 0, 10);
         assert!(
             exists<ConcurrentFungibleBalance>(object::object_address(&creator_store)),

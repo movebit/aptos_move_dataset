@@ -192,10 +192,7 @@ spec aptos_framework::transaction_fee {
             if (proposer != @vm_reserved) {
                 if (table::spec_contains(fees_table, proposer)) {
                     table::spec_get(post_fees_table, proposer).value
-                        == table::spec_get(
-                            fees_table,
-                            proposer
-                        ).value + fee_to_add
+                        == table::spec_get(fees_table, proposer).value + fee_to_add
                 } else {
                     table::spec_get(post_fees_table, proposer).value == fee_to_add
                 }

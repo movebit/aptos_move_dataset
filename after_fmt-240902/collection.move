@@ -735,7 +735,12 @@ module aptos_token_objects::collection {
             ) == 1,
             0
         );
-        decrement_supply(&collection, creator_address, option::some(cid), creator_address);
+        decrement_supply(
+            &collection,
+            creator_address,
+            option::some(cid),
+            creator_address
+        );
         assert!(count(collection) == option::some(0), 0);
         assert!(
             event::counter(
@@ -775,7 +780,12 @@ module aptos_token_objects::collection {
                 == 1,
             0
         );
-        decrement_supply(&collection, creator_address, option::some(cid), creator_address);
+        decrement_supply(
+            &collection,
+            creator_address,
+            option::some(cid),
+            creator_address
+        );
         assert!(count(collection) == option::some(0), 0);
         assert!(
             event::counter(&borrow_global<FixedSupply>(collection_address).burn_events)
@@ -811,7 +821,12 @@ module aptos_token_objects::collection {
         );
         assert!(cid == option::some(aggregator_v2::create_snapshot(1)), 1);
         assert!(count(collection) == option::some(1), 0);
-        decrement_supply(&collection, creator_address, option::some(1), creator_address);
+        decrement_supply(
+            &collection,
+            creator_address,
+            option::some(1),
+            creator_address
+        );
         event::was_event_emitted<Burn>(
             &Burn {
                 collection: collection_address,
@@ -853,7 +868,9 @@ module aptos_token_objects::collection {
         let mutator_ref = generate_mutator_ref(&constructor_ref);
         let collection =
             object::address_to_object<Collection>(
-                create_collection_address(&signer::address_of(creator), &collection_name)
+                create_collection_address(
+                    &signer::address_of(creator), &collection_name
+                )
             );
         let new_collection_name = string::utf8(b"new collection name");
         assert!(new_collection_name != name(collection), 0);
@@ -875,7 +892,9 @@ module aptos_token_objects::collection {
         let constructor_ref = create_collection_helper(creator, collection_name);
         let collection =
             object::address_to_object<Collection>(
-                create_collection_address(&signer::address_of(creator), &collection_name)
+                create_collection_address(
+                    &signer::address_of(creator), &collection_name
+                )
             );
         let mutator_ref = generate_mutator_ref(&constructor_ref);
         let description = string::utf8(b"no fail");
@@ -891,7 +910,9 @@ module aptos_token_objects::collection {
         let mutator_ref = generate_mutator_ref(&constructor_ref);
         let collection =
             object::address_to_object<Collection>(
-                create_collection_address(&signer::address_of(creator), &collection_name)
+                create_collection_address(
+                    &signer::address_of(creator), &collection_name
+                )
             );
         let uri = string::utf8(b"no fail");
         assert!(uri != uri(collection), 0);

@@ -38,7 +38,10 @@ module Diem {
     }
 
     public fun preburn_to<Token: store>(account: &signer, coin: T<Token>) acquires Info, Preburn {
-        preburn(borrow_global_mut<Preburn<Token>>(signer::address_of(account)), coin)
+        preburn(
+            borrow_global_mut<Preburn<Token>>(signer::address_of(account)),
+            coin
+        )
     }
 
     public fun market_cap<Token: store>(): u128 acquires Info {

@@ -101,7 +101,9 @@ module veiled_coin::veiled_coin_tests {
         println(b"Transferred some fake money to the recipient.");
 
         println(b"Sender balance (as u64):");
-        print(&coin::balance<coin::FakeMoney>(signer::address_of(sender)));
+        print(
+            &coin::balance<coin::FakeMoney>(signer::address_of(sender))
+        );
         println(b"Sender balance (as u32):");
         print(
             &veiled_coin::clamp_u64_to_u32_amount(
@@ -110,7 +112,9 @@ module veiled_coin::veiled_coin_tests {
         );
         if (signer::address_of(recipient) != signer::address_of(sender)) {
             println(b"Recipient balance (as u64):");
-            print(&coin::balance<coin::FakeMoney>(signer::address_of(recipient)));
+            print(
+                &coin::balance<coin::FakeMoney>(signer::address_of(recipient))
+            );
             println(b"Sender balance (as u32):");
             print(
                 &veiled_coin::clamp_u64_to_u32_amount(
@@ -274,9 +278,7 @@ module veiled_coin::veiled_coin_tests {
         print(&@aptos_framework);
 
         // Create a `sender` account with 500 `FakeCoin`'s
-        set_up_for_veiled_coin_test(
-            &veiled_coin, aptos_fx, &sender, &sender, 500, 0
-        );
+        set_up_for_veiled_coin_test(&veiled_coin, aptos_fx, &sender, &sender, 500, 0);
 
         // Register a veiled balance for the `sender`
         let (sender_sk, sender_pk) = generate_elgamal_keypair();
@@ -385,7 +387,14 @@ module veiled_coin::veiled_coin_tests {
         sender: signer,
         recipient: signer
     ) {
-        set_up_for_veiled_coin_test(&veiled_coin, aptos_fx, &sender, &recipient, 500, 500);
+        set_up_for_veiled_coin_test(
+            &veiled_coin,
+            aptos_fx,
+            &sender,
+            &recipient,
+            500,
+            500
+        );
 
         // Creates a balance of `b = 150` veiled coins at sender (requires registering a veiled coin store at 'sender')
         let (sender_sk, sender_pk) = generate_elgamal_keypair();
@@ -460,7 +469,9 @@ module veiled_coin::veiled_coin_tests {
         let amount_comm =
             pedersen::new_commitment_for_bulletproof(&amount_val, &amount_rand);
         let new_balance_comm =
-            pedersen::new_commitment_for_bulletproof(&new_balance_val, &new_balance_rand);
+            pedersen::new_commitment_for_bulletproof(
+                &new_balance_val, &new_balance_rand
+            );
         println(
             b"Computed commitments to the amount to transfer and the sender's updated balance"
         );

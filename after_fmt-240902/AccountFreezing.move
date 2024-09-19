@@ -71,7 +71,10 @@ module DiemFramework::AccountFreezing {
 
     public(friend) fun create(account: &signer) {
         let addr = signer::address_of(account);
-        assert!(!exists<FreezingBit>(addr), errors::already_published(EFREEZING_BIT));
+        assert!(
+            !exists<FreezingBit>(addr),
+            errors::already_published(EFREEZING_BIT)
+        );
         move_to(account, FreezingBit { is_frozen: false })
     }
 
@@ -97,7 +100,10 @@ module DiemFramework::AccountFreezing {
             frozen_address != @TreasuryCompliance,
             errors::invalid_argument(ECANNOT_FREEZE_TC)
         );
-        assert!(exists<FreezingBit>(frozen_address), errors::not_published(EFREEZING_BIT));
+        assert!(
+            exists<FreezingBit>(frozen_address),
+            errors::not_published(EFREEZING_BIT)
+        );
         borrow_global_mut<FreezingBit>(frozen_address).is_frozen = true;
         let initiator_address = signer::address_of(account);
         event::emit_event<FreezeAccountEvent>(

@@ -408,7 +408,9 @@ module aptos_framework::stake {
     /// Returns the validator's state.
     public fun get_validator_state(pool_address: address): u64 acquires ValidatorSet {
         let validator_set = borrow_global<ValidatorSet>(@aptos_framework);
-        if (option::is_some(&find_validator(&validator_set.pending_active, pool_address))) {
+        if (option::is_some(
+            &find_validator(&validator_set.pending_active, pool_address)
+        )) {
             VALIDATOR_STATUS_PENDING_ACTIVE
         } else if (option::is_some(
             &find_validator(&validator_set.active_validators, pool_address)
@@ -1937,7 +1939,10 @@ module aptos_framework::stake {
     }
 
     fun assert_owner_cap_exists(owner: address) {
-        assert!(exists<OwnerCapability>(owner), error::not_found(EOWNER_CAP_NOT_FOUND));
+        assert!(
+            exists<OwnerCapability>(owner),
+            error::not_found(EOWNER_CAP_NOT_FOUND)
+        );
     }
 
     fun assert_reconfig_not_in_progress() {
@@ -2420,7 +2425,8 @@ module aptos_framework::stake {
         let validator_2_address = signer::address_of(validator_2);
         join_validator_set(validator_2, validator_2_address);
         assert!(
-            get_validator_state(validator_2_address) == VALIDATOR_STATUS_PENDING_ACTIVE, 0
+            get_validator_state(validator_2_address) == VALIDATOR_STATUS_PENDING_ACTIVE,
+            0
         );
         mint_and_add_stake(validator_2, 100);
         assert_validator_state(validator_2_address, 200, 0, 0, 0, 0);
@@ -2465,7 +2471,8 @@ module aptos_framework::stake {
         initialize_test_validator(&pk, &pop, validator, 100, true, false);
         let validator_address = signer::address_of(validator);
         assert!(
-            get_validator_state(validator_address) == VALIDATOR_STATUS_PENDING_ACTIVE, 0
+            get_validator_state(validator_address) == VALIDATOR_STATUS_PENDING_ACTIVE,
+            0
         );
 
         // Check that voting power increase is tracked.
@@ -2479,7 +2486,9 @@ module aptos_framework::stake {
         assert!(get_validator_state(validator_address) == VALIDATOR_STATUS_INACTIVE, 1);
 
         // Check that voting power increase has been decreased when the pending active validator leaves.
-        assert!(borrow_global<ValidatorSet>(@aptos_framework).total_joining_power == 0, 1);
+        assert!(
+            borrow_global<ValidatorSet>(@aptos_framework).total_joining_power == 0, 1
+        );
     }
 
     #[test(aptos_framework = @aptos_framework, validator = @0x123)]
@@ -2723,7 +2732,8 @@ module aptos_framework::stake {
         leave_validator_set(validator, validator_address);
         // Validator is in pending_inactive state but is technically still part of the validator set.
         assert!(
-            get_validator_state(validator_address) == VALIDATOR_STATUS_PENDING_INACTIVE, 2
+            get_validator_state(validator_address) == VALIDATOR_STATUS_PENDING_INACTIVE,
+            2
         );
         assert_validator_state(validator_address, 100, 0, 0, 0, 1);
         end_epoch();
@@ -2868,7 +2878,12 @@ module aptos_framework::stake {
         let (_sk_1b, pk_1b, pop_1b) = generate_identity();
         let pk_1b_bytes = bls12381::public_key_to_bytes(&pk_1b);
         let pop_1b_bytes = bls12381::proof_of_possession_to_bytes(&pop_1b);
-        rotate_consensus_key(validator_1, validator_1_address, pk_1b_bytes, pop_1b_bytes);
+        rotate_consensus_key(
+            validator_1,
+            validator_1_address,
+            pk_1b_bytes,
+            pop_1b_bytes
+        );
         leave_validator_set(validator_2, validator_2_address);
         join_validator_set(validator_3, validator_3_address);
         // Validator 2 is not effectively removed until next epoch.
@@ -2886,7 +2901,8 @@ module aptos_framework::stake {
         );
         // Validator 3 is not effectively added until next epoch.
         assert!(
-            get_validator_state(validator_3_address) == VALIDATOR_STATUS_PENDING_ACTIVE, 7
+            get_validator_state(validator_3_address) == VALIDATOR_STATUS_PENDING_ACTIVE,
+            7
         );
         assert!(
             vector::borrow(
@@ -2925,7 +2941,9 @@ module aptos_framework::stake {
         unlock(validator_1, 50);
         timestamp::fast_forward_seconds(LOCKUP_CYCLE_SECONDS);
         end_epoch();
-        assert!(get_validator_state(validator_1_address) == VALIDATOR_STATUS_INACTIVE, 11);
+        assert!(
+            get_validator_state(validator_1_address) == VALIDATOR_STATUS_INACTIVE, 11
+        );
     }
 
     #[test(aptos_framework = @aptos_framework, validator = @0x123)]
@@ -2972,7 +2990,12 @@ module aptos_framework::stake {
         let (_sk_new, pk_new, pop_new) = generate_identity();
         let pk_new_bytes = bls12381::public_key_to_bytes(&pk_new);
         let pop_new_bytes = bls12381::proof_of_possession_to_bytes(&pop_new);
-        rotate_consensus_key(validator, pool_address, pk_new_bytes, pop_new_bytes);
+        rotate_consensus_key(
+            validator,
+            pool_address,
+            pk_new_bytes,
+            pop_new_bytes
+        );
         let validator_config = borrow_global<ValidatorConfig>(pool_address);
         assert!(validator_config.consensus_pubkey == pk_new_bytes, 2);
 
@@ -3117,8 +3140,14 @@ module aptos_framework::stake {
                 validator_consensus_info::get_voting_power(vci)
             }
         );
-        assert!(vector[@0x5, @aptos_framework, @0x3] == vci_addrs, 1);
-        assert!(vector[pk_5_bytes, pk_1_bytes, pk_3_bytes] == vci_pks, 2);
+        assert!(
+            vector[@0x5, @aptos_framework, @0x3] == vci_addrs,
+            1
+        );
+        assert!(
+            vector[pk_5_bytes, pk_1_bytes, pk_3_bytes] == vci_pks,
+            2
+        );
         assert!(vector[105, 101, 103] == vci_voting_powers, 3);
         leave_validator_set(validator_3, v3_addr);
         let vci_vec_1 =
@@ -3379,7 +3408,12 @@ module aptos_framework::stake {
         // Call initialize_stake_owner, which only initializes the stake pool but not validator config.
         let validator_address = signer::address_of(validator);
         account::create_account_for_test(validator_address);
-        initialize_stake_owner(validator, 0, validator_address, validator_address);
+        initialize_stake_owner(
+            validator,
+            0,
+            validator_address,
+            validator_address
+        );
         mint_and_add_stake(validator, 100);
 
         // Join the validator set with enough stake. This should fail because the validator didn't initialize validator
@@ -3405,7 +3439,12 @@ module aptos_framework::stake {
         // Call initialize_stake_owner, which only initializes the stake pool but not validator config.
         let validator_address = signer::address_of(validator);
         account::create_account_for_test(validator_address);
-        initialize_stake_owner(validator, 0, validator_address, validator_address);
+        initialize_stake_owner(
+            validator,
+            0,
+            validator_address,
+            validator_address
+        );
         mint_and_add_stake(validator, 100);
 
         // Initialize validator config.
@@ -3413,7 +3452,12 @@ module aptos_framework::stake {
         let (_sk_new, pk_new, pop_new) = generate_identity();
         let pk_new_bytes = bls12381::public_key_to_bytes(&pk_new);
         let pop_new_bytes = bls12381::proof_of_possession_to_bytes(&pop_new);
-        rotate_consensus_key(validator, validator_address, pk_new_bytes, pop_new_bytes);
+        rotate_consensus_key(
+            validator,
+            validator_address,
+            pk_new_bytes,
+            pop_new_bytes
+        );
 
         // Join the validator set with enough stake. This now wouldn't fail since the validator config already exists.
         join_validator_set(validator, validator_address);

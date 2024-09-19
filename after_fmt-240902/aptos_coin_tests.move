@@ -15,7 +15,9 @@ module aptos_framework::aptos_coin_tests {
     public fun mint_apt_fa_to_primary_fungible_store_for_test(
         owner: address, amount: u64
     ) {
-        primary_fungible_store::deposit(owner, aptos_coin::mint_apt_fa_for_test(amount));
+        primary_fungible_store::deposit(
+            owner, aptos_coin::mint_apt_fa_for_test(amount)
+        );
     }
 
     #[test(aptos_framework = @aptos_framework)]
@@ -45,7 +47,9 @@ module aptos_framework::aptos_coin_tests {
         assert!(primary_fungible_store::balance(@aptos_framework, metadata) == 100, 0);
         let store_addr =
             primary_fungible_store::primary_store_address(@aptos_framework, metadata);
-        mint_apt_fa_to_for_test(object::address_to_object<FungibleStore>(store_addr), 100);
+        mint_apt_fa_to_for_test(
+            object::address_to_object<FungibleStore>(store_addr), 100
+        );
         assert!(primary_fungible_store::balance(@aptos_framework, metadata) == 200, 0);
     }
 }

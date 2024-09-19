@@ -99,7 +99,10 @@ module extensions::table_tests {
         assert!(T::contains(&t, 42), 101);
         assert!(!T::contains(&t, 0), 102);
         assert!(vector::length(T::borrow(&t, 42)) == 1, 103);
-        assert!(*vector::borrow(T::borrow(&t, 42), 0) == @0x1012, 104);
+        assert!(
+            *vector::borrow(T::borrow(&t, 42), 0) == @0x1012,
+            104
+        );
 
         move_to(&s, S { t });
 
@@ -107,7 +110,10 @@ module extensions::table_tests {
         let v_mut_ref = T::borrow_mut(&mut s.t, 42);
         vector::push_back(v_mut_ref, @0x1013);
         assert!(vector::length(T::borrow(&s.t, 42)) == 2, 105);
-        assert!(*vector::borrow(T::borrow(&s.t, 42), 1) == @0x1013, 106);
+        assert!(
+            *vector::borrow(T::borrow(&s.t, 42), 1) == @0x1013,
+            106
+        );
 
         let v = T::remove(&mut s.t, 42);
         assert!(vector::length(&v) == 2, 107);
@@ -136,7 +142,10 @@ module extensions::table_tests {
 
         let entry_mut_ref = T::borrow_mut(global_t, @0xCD);
         *&mut entry_mut_ref.value = entry_mut_ref.value - 1;
-        assert!(*&T::borrow(global_t, @0xCD).value == val_2 - 1, 105);
+        assert!(
+            *&T::borrow(global_t, @0xCD).value == val_2 - 1,
+            105
+        );
 
         let Balance { value } = T::remove(global_t, @0xAB);
         assert!(value == val_1, 106);
@@ -163,12 +172,24 @@ module extensions::table_tests {
 
         assert!(T::contains(T::borrow(&t, @0x12), @0xAB), 101);
         assert!(T::contains(T::borrow(&t, @0x34), @0xCD), 102);
-        assert!(*T::borrow(T::borrow(&t, @0x12), @0xAB) == val_1, 103);
-        assert!(*T::borrow(T::borrow(&t, @0x34), @0xCD) == val_2, 104);
+        assert!(
+            *T::borrow(T::borrow(&t, @0x12), @0xAB) == val_1,
+            103
+        );
+        assert!(
+            *T::borrow(T::borrow(&t, @0x34), @0xCD) == val_2,
+            104
+        );
 
         T::add(T::borrow_mut(&mut t, @0x12), @0xEF, val_3);
-        assert!(*T::borrow(T::borrow(&t, @0x12), @0xEF) == val_3, 105);
-        assert!(*T::borrow(T::borrow(&t, @0x12), @0xAB) == val_1, 106);
+        assert!(
+            *T::borrow(T::borrow(&t, @0x12), @0xEF) == val_3,
+            105
+        );
+        assert!(
+            *T::borrow(T::borrow(&t, @0x12), @0xAB) == val_1,
+            106
+        );
 
         let val = T::remove(T::borrow_mut(&mut t, @0x34), @0xCD);
         assert!(val == val_2, 107);

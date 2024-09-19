@@ -194,7 +194,12 @@ module Evm::ERC20Mock {
         let currentAllowance = allowance(state, owner, spender);
         if (currentAllowance != U256::max()) {
             require(U256::ge(currentAllowance, amount), b"ERC20: insufficient allowance");
-            approve_(state, owner, spender, U256::sub(currentAllowance, amount));
+            approve_(
+                state,
+                owner,
+                spender,
+                U256::sub(currentAllowance, amount)
+            );
         }
     }
 
@@ -208,7 +213,11 @@ module Evm::ERC20Mock {
         require(owner != @0x0, b"ERC20: approve from the zero address");
         require(spender != @0x0, b"ERC20: approve to the zero address");
         if (!Table::contains(&state.allowances, &owner)) {
-            Table::insert(&mut state.allowances, &owner, Table::empty<address, U256>())
+            Table::insert(
+                &mut state.allowances,
+                &owner,
+                Table::empty<address, U256>()
+            )
         };
         let a = Table::borrow_mut(&mut state.allowances, &owner);
         if (!Table::contains(a, &spender)) {
@@ -241,7 +250,11 @@ module Evm::ERC20Mock {
         state: &mut State, owner: address, spender: address
     ): &mut U256 {
         if (!Table::contains(&state.allowances, &owner)) {
-            Table::insert(&mut state.allowances, &owner, Table::empty<address, U256>())
+            Table::insert(
+                &mut state.allowances,
+                &owner,
+                Table::empty<address, U256>()
+            )
         };
         let allowance_owner = Table::borrow_mut(&mut state.allowances, &owner);
         Table::borrow_mut_with_default(allowance_owner, &spender, U256::zero())

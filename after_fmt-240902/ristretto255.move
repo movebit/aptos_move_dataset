@@ -841,7 +841,10 @@ module aptos_std::ristretto255 {
         // sanity-check the handles
         assert!(a.handle == before_a_gap, 1);
         assert!(b.handle == 1 + before_a_gap + before_b_gap, 1);
-        assert!(a_plus_b.handle == 2 + before_a_gap + before_b_gap, 1);
+        assert!(
+            a_plus_b.handle == 2 + before_a_gap + before_b_gap,
+            1
+        );
 
         assert!(!point_equals(&a, &b), 1);
         assert!(!point_equals(&a, &a_plus_b), 1);
@@ -894,8 +897,14 @@ module aptos_std::ristretto255 {
 
         assert!(a.handle != neg_a.handle, 1);
         assert!(!point_equals(&a, &neg_a), 1);
-        assert!(!point_equals(&point_add(&point_identity(), &a), &neg_a), 1);
-        assert!(point_equals(&point_add(&a, &neg_a), &point_identity()), 1);
+        assert!(
+            !point_equals(&point_add(&point_identity(), &a), &neg_a),
+            1
+        );
+        assert!(
+            point_equals(&point_add(&a, &neg_a), &point_identity()),
+            1
+        );
 
         let handle = a.handle;
         let neg_a_ref = point_neg_assign(&mut a);
@@ -972,7 +981,9 @@ module aptos_std::ristretto255 {
         let scalars = vector[Scalar { data: A_SCALAR }];
 
         let result = multi_scalar_mul(&points, &scalars);
-        let expected = std::option::extract(&mut new_point_from_bytes(A_TIMES_BASE_POINT));
+        let expected = std::option::extract(
+            &mut new_point_from_bytes(A_TIMES_BASE_POINT)
+        );
 
         assert!(point_equals(&result, &expected), 1);
     }
@@ -1140,8 +1151,14 @@ module aptos_std::ristretto255 {
         assert!(scalar_is_one(&s) == false, 1);
 
         // Multiply 0 with a random scalar and make sure you get zero
-        assert!(scalar_is_zero(&scalar_mul(&scalar_zero(), &s)), 1);
-        assert!(scalar_is_zero(&scalar_mul(&s, &scalar_zero())), 1);
+        assert!(
+            scalar_is_zero(&scalar_mul(&scalar_zero(), &s)),
+            1
+        );
+        assert!(
+            scalar_is_zero(&scalar_mul(&s, &scalar_zero())),
+            1
+        );
     }
 
     #[test]
@@ -1206,7 +1223,10 @@ module aptos_std::ristretto255 {
     #[test]
     fun test_scalar_invert() {
         // Cannot invert zero
-        assert!(std::option::is_none(&scalar_invert(&scalar_zero())), 1);
+        assert!(
+            std::option::is_none(&scalar_invert(&scalar_zero())),
+            1
+        );
 
         // One's inverse is one
         let one = scalar_invert(&scalar_one());
@@ -1247,19 +1267,28 @@ module aptos_std::ristretto255 {
         scalar_neg_assign(&mut x);
         assert!(scalar_equals(&x, &x_copy), 1);
 
-        assert!(scalar_equals(scalar_neg_assign(scalar_neg_assign(&mut x)), &x_copy), 1);
+        assert!(
+            scalar_equals(scalar_neg_assign(scalar_neg_assign(&mut x)), &x_copy),
+            1
+        );
     }
 
     #[test]
     fun test_scalar_mul() {
         // X * 1 == X
         let x = Scalar { data: X_SCALAR };
-        assert!(scalar_equals(&x, &scalar_mul(&x, &scalar_one())), 1);
+        assert!(
+            scalar_equals(&x, &scalar_mul(&x, &scalar_one())),
+            1
+        );
 
         // Test multiplication of two random scalars
         let y = Scalar { data: Y_SCALAR };
         let x_times_y = Scalar { data: X_TIMES_Y_SCALAR };
-        assert!(scalar_equals(&scalar_mul(&x, &y), &x_times_y), 1);
+        assert!(
+            scalar_equals(&scalar_mul(&x, &y), &x_times_y),
+            1
+        );
 
         // A * B
         assert!(
@@ -1286,11 +1315,20 @@ module aptos_std::ristretto255 {
     fun test_scalar_add() {
         // Addition reduces: \ell-1 + 1 = \ell = 0
         let ell_minus_one = Scalar { data: L_MINUS_ONE };
-        assert!(scalar_is_zero(&scalar_add(&ell_minus_one, &scalar_one())), 1);
+        assert!(
+            scalar_is_zero(&scalar_add(&ell_minus_one, &scalar_one())),
+            1
+        );
 
         // 1 + 1 = 2
         let two = Scalar { data: TWO_SCALAR };
-        assert!(scalar_equals(&scalar_add(&scalar_one(), &scalar_one()), &two), 1);
+        assert!(
+            scalar_equals(
+                &scalar_add(&scalar_one(), &scalar_one()),
+                &two
+            ),
+            1
+        );
 
         // A + B
         assert!(
@@ -1307,17 +1345,26 @@ module aptos_std::ristretto255 {
         // Subtraction reduces: 0 - 1 = \ell - 1
         let ell_minus_one = Scalar { data: L_MINUS_ONE };
         assert!(
-            scalar_equals(&scalar_sub(&scalar_zero(), &scalar_one()), &ell_minus_one),
+            scalar_equals(
+                &scalar_sub(&scalar_zero(), &scalar_one()),
+                &ell_minus_one
+            ),
             1
         );
 
         // 2 - 1 = 1
         let two = Scalar { data: TWO_SCALAR };
-        assert!(scalar_is_one(&scalar_sub(&two, &scalar_one())), 1);
+        assert!(
+            scalar_is_one(&scalar_sub(&two, &scalar_one())),
+            1
+        );
 
         // 1 - 2 = -1 = \ell - 1
         let ell_minus_one = Scalar { data: L_MINUS_ONE };
-        assert!(scalar_equals(&scalar_sub(&scalar_one(), &two), &ell_minus_one), 1);
+        assert!(
+            scalar_equals(&scalar_sub(&scalar_one(), &two), &ell_minus_one),
+            1
+        );
     }
 
     #[test]

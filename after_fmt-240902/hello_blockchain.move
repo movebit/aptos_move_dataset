@@ -23,7 +23,10 @@ module hello_blockchain::message {
 
     #[view]
     public fun get_message(addr: address): string::String acquires MessageHolder {
-        assert!(exists<MessageHolder>(addr), error::not_found(ENO_MESSAGE));
+        assert!(
+            exists<MessageHolder>(addr),
+            error::not_found(ENO_MESSAGE)
+        );
         borrow_global<MessageHolder>(addr).message
     }
 

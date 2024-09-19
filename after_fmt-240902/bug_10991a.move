@@ -12,7 +12,10 @@ module 0x42::Test {
     }
 
     public fun test() {
-        assert!(foo(|x, _| x, |_, y| y, |a, _b| a, |_c, d| d, 10, 100) == 220, 0);
+        assert!(
+            foo(|x, _| x, |_, y| y, |a, _b| a, |_c, d| d, 10, 100) == 220,
+            0
+        );
     }
 }
 

@@ -92,7 +92,10 @@ module tic_tac_toe::ttt {
             error::invalid_argument(ECANNOT_JOIN_AS_TWO_PLAYERS)
         );
 
-        assert!(exists<Game>(game_addr), error::not_found(EGAME_DOESNT_EXIST));
+        assert!(
+            exists<Game>(game_addr),
+            error::not_found(EGAME_DOESNT_EXIST)
+        );
         let game = borrow_global_mut(game_addr);
         choose_player_o(game, new_user_addr);
     }
@@ -179,7 +182,9 @@ module tic_tac_toe::ttt {
     * @notice user who initiates game is automatically player_x
     */
     fun choose_player_x(game: &mut Game, user: address) {
-        assert!(!game.is_game_over, error::invalid_argument(EGAME_HAS_ALREADY_FINISHED));
+        assert!(
+            !game.is_game_over, error::invalid_argument(EGAME_HAS_ALREADY_FINISHED)
+        );
         assert!(option::is_none(&game.player_x), error::already_exists(EPLAYER_TAKEN));
 
         game.player_x = option::some(Player { type: PLAYER_X_TYPE, owner: user });
@@ -189,7 +194,9 @@ module tic_tac_toe::ttt {
     * @notice another user whose not the creator may join as player_o
     */
     fun choose_player_o(game: &mut Game, user: address) {
-        assert!(!game.is_game_over, error::invalid_argument(EGAME_HAS_ALREADY_FINISHED));
+        assert!(
+            !game.is_game_over, error::invalid_argument(EGAME_HAS_ALREADY_FINISHED)
+        );
         assert!(option::is_none(&game.player_o), error::already_exists(EPLAYER_TAKEN));
 
         game.player_o = option::some(Player { type: PLAYER_O_TYPE, owner: user });
@@ -205,7 +212,9 @@ module tic_tac_toe::ttt {
         player: Player
     ) {
         // validate game state
-        assert!(!game.is_game_over, error::invalid_argument(EGAME_HAS_ALREADY_FINISHED));
+        assert!(
+            !game.is_game_over, error::invalid_argument(EGAME_HAS_ALREADY_FINISHED)
+        );
 
         // validate player move
         let player_type = player.type;

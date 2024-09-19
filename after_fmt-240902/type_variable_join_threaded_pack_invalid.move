@@ -49,7 +49,10 @@ module M {
         let v = Container::new();
         let x = Container::get(&v);
         let b = Box { f1: x, f2: x };
-        Container::put(&mut v, Box { f1: R {}, f2: R {} });
+        Container::put(
+            &mut v,
+            Box { f1: R {}, f2: R {} }
+        );
         b
     }
 }

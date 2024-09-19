@@ -11,14 +11,20 @@ module std::role {
     /// Assign the role to the account. The caller must pass a witness, so is
     /// expected to be a function of the module that defines `Type`.
     public fun assign_role<Type>(to: &signer, _witness: &Type) {
-        assert!(!has_role<Type>(signer::address_of(to)), error::already_exists(EROLE));
+        assert!(
+            !has_role<Type>(signer::address_of(to)),
+            error::already_exists(EROLE)
+        );
         move_to<Role<Type>>(to, Role<Type> {});
     }
 
     /// Revoke the role from the account. The caller must pass a witness, so is
     /// expected to be a function of the module that defines `Type`.
     public fun revoke_role<Type>(from: &signer, _witness: &Type) acquires Role {
-        assert!(has_role<Type>(signer::address_of(from)), error::not_found(EROLE));
+        assert!(
+            has_role<Type>(signer::address_of(from)),
+            error::not_found(EROLE)
+        );
         let Role<Type> {} = move_from<Role<Type>>(signer::address_of(from));
     }
 
@@ -29,6 +35,9 @@ module std::role {
 
     /// assert! that the account has the role.
     public fun assert_has_role<Type>(account: &signer) {
-        assert!(has_role<Type>(signer::address_of(account)), error::not_found(EROLE));
+        assert!(
+            has_role<Type>(signer::address_of(account)),
+            error::not_found(EROLE)
+        );
     }
 }

@@ -279,7 +279,12 @@ module collection_offer {
         token_name: String,
         property_version: u64
     ) acquires CoinOffer, CollectionOffer, CollectionOfferTokenV1, CollectionOfferTokenV2 {
-        sell_tokenv1<CoinType>(seller, collection_offer, token_name, property_version);
+        sell_tokenv1<CoinType>(
+            seller,
+            collection_offer,
+            token_name,
+            property_version
+        );
     }
 
     /// Sell a tokenv1 to a collection offer.
@@ -423,9 +428,13 @@ module collection_offer {
         // Commission can only be of whatever is left
         let fee_schedule = collection_offer_obj.fee_schedule;
         let commission_charge = fee_schedule::commission(fee_schedule, price);
-        let actual_commission_charge = math64::min(commission_charge, coin::value(&coins));
+        let actual_commission_charge = math64::min(
+            commission_charge, coin::value(&coins)
+        );
         let commission = coin::extract(&mut coins, actual_commission_charge);
-        aptos_account::deposit_coins(fee_schedule::fee_address(fee_schedule), commission);
+        aptos_account::deposit_coins(
+            fee_schedule::fee_address(fee_schedule), commission
+        );
 
         // Seller gets what is left
         aptos_account::deposit_coins(seller, coins);
@@ -710,7 +719,10 @@ module collection_offer_tests {
         assert!(coin::balance<AptosCoin>(seller_addr) == 10000, 0);
 
         collection_offer::sell_tokenv1<AptosCoin>(
-            seller, collection_offer, token_name, property_version
+            seller,
+            collection_offer,
+            token_name,
+            property_version
         );
         assert!(coin::balance<AptosCoin>(marketplace_addr) == 6, 0);
         assert!(coin::balance<AptosCoin>(purchaser_addr) == 8999, 0);
@@ -719,7 +731,10 @@ module collection_offer_tests {
         assert!(collection_offer::remaining(collection_offer) == 1, 0);
 
         collection_offer::sell_tokenv1<AptosCoin>(
-            purchaser, collection_offer, token_name, property_version
+            purchaser,
+            collection_offer,
+            token_name,
+            property_version
         );
         assert!(coin::balance<AptosCoin>(marketplace_addr) == 11, 0);
         assert!(coin::balance<AptosCoin>(purchaser_addr) == 9489, 0);
@@ -784,7 +799,12 @@ module collection_offer_tests {
         seller: &signer,
         purchaser: &signer
     ) {
-        test_utils::setup(aptos_framework, marketplace, seller, purchaser);
+        test_utils::setup(
+            aptos_framework,
+            marketplace,
+            seller,
+            purchaser
+        );
         let (collection, token) = test_utils::mint_tokenv2_with_collection(seller);
         let collection_offer =
             collection_offer::init_for_tokenv2<AptosCoin>(
@@ -808,7 +828,12 @@ module collection_offer_tests {
         seller: &signer,
         purchaser: &signer
     ) {
-        test_utils::setup(aptos_framework, marketplace, seller, purchaser);
+        test_utils::setup(
+            aptos_framework,
+            marketplace,
+            seller,
+            purchaser
+        );
         let token_id = test_utils::mint_tokenv1(seller);
         let (creator_addr, collection_name, token_name, property_version) =
             tokenv1::get_token_id_fields(&token_id);
@@ -842,7 +867,12 @@ module collection_offer_tests {
         seller: &signer,
         purchaser: &signer
     ) {
-        test_utils::setup(aptos_framework, marketplace, seller, purchaser);
+        test_utils::setup(
+            aptos_framework,
+            marketplace,
+            seller,
+            purchaser
+        );
         let (collection, token) = test_utils::mint_tokenv2_with_collection(seller);
         let collection_offer =
             collection_offer::init_for_tokenv2<AptosCoin>(
@@ -867,7 +897,12 @@ module collection_offer_tests {
         seller: &signer,
         purchaser: &signer
     ) {
-        test_utils::setup(aptos_framework, marketplace, seller, purchaser);
+        test_utils::setup(
+            aptos_framework,
+            marketplace,
+            seller,
+            purchaser
+        );
         let (collection, token) = test_utils::mint_tokenv2_with_collection(seller);
         let collection_offer =
             collection_offer::init_for_tokenv2<AptosCoin>(
@@ -893,7 +928,12 @@ module collection_offer_tests {
         seller: &signer,
         purchaser: &signer
     ) {
-        test_utils::setup(aptos_framework, marketplace, seller, purchaser);
+        test_utils::setup(
+            aptos_framework,
+            marketplace,
+            seller,
+            purchaser
+        );
         let token = test_utils::mint_tokenv2(seller);
 
         let other_collection =

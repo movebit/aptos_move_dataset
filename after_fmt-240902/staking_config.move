@@ -276,7 +276,9 @@ module aptos_framework::staking_config {
                 ),
                 fixed_point64::create_from_u128(1)
             );
-        new_rate = fixed_point64::max(new_rate, staking_rewards_config.min_rewards_rate);
+        new_rate = fixed_point64::max(
+            new_rate, staking_rewards_config.min_rewards_rate
+        );
 
         staking_rewards_config.rewards_rate = new_rate;
         staking_rewards_config.last_rewards_rate_period_start_in_secs = staking_rewards_config
@@ -465,22 +467,34 @@ module aptos_framework::staking_config {
         );
 
         let epoch_reward_rate = calculate_and_save_latest_epoch_rewards_rate();
-        assert!(equal(epoch_reward_rate, create_from_rational(1, 100)), 0);
+        assert!(
+            equal(epoch_reward_rate, create_from_rational(1, 100)),
+            0
+        );
         // Rewards rate should not change until the current reward rate period ends.
         timestamp::fast_forward_seconds(ONE_YEAR_IN_SECS / 2);
         epoch_reward_rate = calculate_and_save_latest_epoch_rewards_rate();
-        assert!(equal(epoch_reward_rate, create_from_rational(1, 100)), 1);
+        assert!(
+            equal(epoch_reward_rate, create_from_rational(1, 100)),
+            1
+        );
 
         // Rewards rate decreases to 1 / 100 * 5000 / 10000 = 5 / 1000.
         timestamp::fast_forward_seconds(ONE_YEAR_IN_SECS / 2);
         epoch_reward_rate = calculate_and_save_latest_epoch_rewards_rate();
-        assert!(equal(epoch_reward_rate, create_from_rational(5, 1000)), 2);
+        assert!(
+            equal(epoch_reward_rate, create_from_rational(5, 1000)),
+            2
+        );
 
         // Rewards rate decreases to 5 / 1000 * 5000 / 10000 = 2.5 / 1000.
         // But rewards_rate cannot be lower than min_rewards_rate = 3 / 1000.
         timestamp::fast_forward_seconds(ONE_YEAR_IN_SECS);
         epoch_reward_rate = calculate_and_save_latest_epoch_rewards_rate();
-        assert!(equal(epoch_reward_rate, create_from_rational(3, 1000)), 3);
+        assert!(
+            equal(epoch_reward_rate, create_from_rational(3, 1000)),
+            3
+        );
 
         // Test when rewards_rate_decrease_rate is very small
         update_rewards_config(
@@ -526,8 +540,14 @@ module aptos_framework::staking_config {
         );
 
         let config = borrow_global<StakingRewardsConfig>(@aptos_framework);
-        assert!(equal(config.rewards_rate, create_from_rational(2, 100)), 0);
-        assert!(equal(config.min_rewards_rate, create_from_rational(6, 1000)), 1);
+        assert!(
+            equal(config.rewards_rate, create_from_rational(2, 100)),
+            0
+        );
+        assert!(
+            equal(config.min_rewards_rate, create_from_rational(6, 1000)),
+            1
+        );
         assert!(config.rewards_rate_period_in_secs == ONE_YEAR_IN_SECS, 4);
         assert!(config.last_rewards_rate_period_start_in_secs == start_time_in_secs, 4);
         assert!(

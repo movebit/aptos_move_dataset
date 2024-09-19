@@ -98,7 +98,9 @@ spec aptos_framework::staking_proxy {
         ensures staking_contract_exists ==>
             !simple_map::spec_contains_key(post_store.staking_contracts, old_operator);
 
-        let staking_contract = simple_map::spec_get(store.staking_contracts, old_operator);
+        let staking_contract = simple_map::spec_get(
+            store.staking_contracts, old_operator
+        );
         let stake_pool = global<stake::StakePool>(staking_contract.pool_address);
         let active = coin::value(stake_pool.active);
         let pending_active = coin::value(stake_pool.pending_active);

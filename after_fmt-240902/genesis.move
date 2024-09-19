@@ -50,7 +50,9 @@ module ExperimentalFramework::Genesis {
         initial_diem_version: u64,
         consensus_config: vector<u8>
     ) {
-        ExperimentalAccount::initialize(dr_account, x"00000000000000000000000000000000");
+        ExperimentalAccount::initialize(
+            dr_account, x"00000000000000000000000000000000"
+        );
 
         // Pad the event counter for the Diem Root account to match DPN. This
         // _MUST_ match the new epoch event counter otherwise all manner of

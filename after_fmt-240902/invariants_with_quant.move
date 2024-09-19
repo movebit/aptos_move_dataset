@@ -17,8 +17,8 @@ module 0x42::TestQuantInvariant {
         ensures forall n in result: n > 0;
         ensures forall i in 0..len(result), j in 0..len(result) where result[i]
             == result[j]: i == j;
-        ensures forall i: u64, j: u64 { result[i], result[j] } where result[i]
-            == result[j]
+        ensures forall i: u64, j: u64 { result[i], result[j] }
+        where result[i] == result[j]
             && i >= 0
             && i < len(result)
             && j >= 0

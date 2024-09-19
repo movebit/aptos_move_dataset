@@ -404,7 +404,9 @@ module aptos_framework::voting {
             !is_voting_period_over(proposal),
             error::invalid_state(EPROPOSAL_VOTING_ALREADY_ENDED)
         );
-        assert!(!proposal.is_resolved, error::invalid_state(EPROPOSAL_ALREADY_RESOLVED));
+        assert!(
+            !proposal.is_resolved, error::invalid_state(EPROPOSAL_ALREADY_RESOLVED)
+        );
         // Assert this proposal is single-step, or if the proposal is multi-step, it is not in execution yet.
         assert!(
             !simple_map::contains_key(
@@ -453,7 +455,9 @@ module aptos_framework::voting {
         let voting_forum =
             borrow_global_mut<VotingForum<ProposalType>>(voting_forum_address);
         let proposal = table::borrow_mut(&mut voting_forum.proposals, proposal_id);
-        assert!(!proposal.is_resolved, error::invalid_state(EPROPOSAL_ALREADY_RESOLVED));
+        assert!(
+            !proposal.is_resolved, error::invalid_state(EPROPOSAL_ALREADY_RESOLVED)
+        );
 
         // We need to make sure that the resolution is happening in
         // a separate transaction from the last vote to guard against any potential flashloan attacks.
@@ -785,7 +789,9 @@ module aptos_framework::voting {
         let is_multi_step_in_execution_key =
             utf8(IS_MULTI_STEP_PROPOSAL_IN_EXECUTION_KEY);
         assert!(
-            simple_map::contains_key(&proposal.metadata, &is_multi_step_in_execution_key),
+            simple_map::contains_key(
+                &proposal.metadata, &is_multi_step_in_execution_key
+            ),
             error::invalid_argument(EPROPOSAL_IS_SINGLE_STEP)
         );
         from_bcs::to_bool(
@@ -969,7 +975,13 @@ module aptos_framework::voting {
 
         // Vote.
         let proof = TestProposal {};
-        vote<TestProposal>(&proof, governance_address, proposal_id, 10, true);
+        vote<TestProposal>(
+            &proof,
+            governance_address,
+            proposal_id,
+            10,
+            true
+        );
         let TestProposal {} = proof;
 
         // Resolve.
@@ -1054,7 +1066,13 @@ module aptos_framework::voting {
 
         // Vote.
         let proof = TestProposal {};
-        vote<TestProposal>(&proof, governance_address, proposal_id, 10, true);
+        vote<TestProposal>(
+            &proof,
+            governance_address,
+            proposal_id,
+            10,
+            true
+        );
         let TestProposal {} = proof;
 
         // Resolve.
@@ -1065,10 +1083,16 @@ module aptos_framework::voting {
             1
         );
         resolve_proposal_for_test<TestProposal>(
-            governance_address, proposal_id, is_multi_step, true
+            governance_address,
+            proposal_id,
+            is_multi_step,
+            true
         );
         resolve_proposal_for_test<TestProposal>(
-            governance_address, proposal_id, is_multi_step, true
+            governance_address,
+            proposal_id,
+            is_multi_step,
+            true
         );
     }
 
@@ -1109,15 +1133,29 @@ module aptos_framework::voting {
         // Assert that IS_MULTI_STEP_PROPOSAL_IN_EXECUTION_KEY has value `false` in proposal.metadata.
         if (is_multi_step) {
             assert!(
-                !is_multi_step_proposal_in_execution<TestProposal>(governance_address, 0),
+                !is_multi_step_proposal_in_execution<TestProposal>(
+                    governance_address, 0
+                ),
                 1
             );
         };
 
         // Vote.
         let proof = TestProposal {};
-        vote<TestProposal>(&proof, governance_address, proposal_id, 100, true);
-        vote<TestProposal>(&proof, governance_address, proposal_id, 10, false);
+        vote<TestProposal>(
+            &proof,
+            governance_address,
+            proposal_id,
+            100,
+            true
+        );
+        vote<TestProposal>(
+            &proof,
+            governance_address,
+            proposal_id,
+            10,
+            false
+        );
         let TestProposal {} = proof;
 
         // Resolve early. Need to increase timestamp as resolution cannot happen in the same tx.
@@ -1131,7 +1169,9 @@ module aptos_framework::voting {
         if (is_multi_step) {
             // Assert that IS_MULTI_STEP_PROPOSAL_IN_EXECUTION_KEY still has value `false` in proposal.metadata before execution.
             assert!(
-                !is_multi_step_proposal_in_execution<TestProposal>(governance_address, 0),
+                !is_multi_step_proposal_in_execution<TestProposal>(
+                    governance_address, 0
+                ),
                 3
             );
             resolve_proposal_for_test<TestProposal>(
@@ -1153,7 +1193,10 @@ module aptos_framework::voting {
         };
 
         resolve_proposal_for_test<TestProposal>(
-            governance_address, proposal_id, is_multi_step, true
+            governance_address,
+            proposal_id,
+            is_multi_step,
+            true
         );
         let voting_forum =
             borrow_global_mut<VotingForum<TestProposal>>(governance_address);
@@ -1162,7 +1205,9 @@ module aptos_framework::voting {
         // Assert that the IS_MULTI_STEP_PROPOSAL_IN_EXECUTION_KEY value is set back to `false` upon successful resolution of this multi-step proposal.
         if (is_multi_step) {
             assert!(
-                !is_multi_step_proposal_in_execution<TestProposal>(governance_address, 0),
+                !is_multi_step_proposal_in_execution<TestProposal>(
+                    governance_address, 0
+                ),
                 7
             );
         };
@@ -1193,13 +1238,28 @@ module aptos_framework::voting {
         let proposal_id =
             create_test_proposal_generic(governance, option::some(100), is_multi_step);
         let proof = TestProposal {};
-        vote<TestProposal>(&proof, governance_address, proposal_id, 40, true);
-        vote<TestProposal>(&proof, governance_address, proposal_id, 60, true);
+        vote<TestProposal>(
+            &proof,
+            governance_address,
+            proposal_id,
+            40,
+            true
+        );
+        vote<TestProposal>(
+            &proof,
+            governance_address,
+            proposal_id,
+            60,
+            true
+        );
         let TestProposal {} = proof;
 
         // Resolving early should fail since timestamp hasn't changed since the last vote.
         resolve_proposal_for_test<TestProposal>(
-            governance_address, proposal_id, is_multi_step, true
+            governance_address,
+            proposal_id,
+            is_multi_step,
+            true
         );
     }
 
@@ -1242,8 +1302,20 @@ module aptos_framework::voting {
 
         // Vote.
         let proof = TestProposal {};
-        vote<TestProposal>(&proof, governance_address, proposal_id, 10, true);
-        vote<TestProposal>(&proof, governance_address, proposal_id, 100, false);
+        vote<TestProposal>(
+            &proof,
+            governance_address,
+            proposal_id,
+            10,
+            true
+        );
+        vote<TestProposal>(
+            &proof,
+            governance_address,
+            proposal_id,
+            100,
+            false
+        );
         let TestProposal {} = proof;
 
         // Resolve.
@@ -1254,7 +1326,10 @@ module aptos_framework::voting {
             1
         );
         resolve_proposal_for_test<TestProposal>(
-            governance_address, proposal_id, is_multi_step, true
+            governance_address,
+            proposal_id,
+            is_multi_step,
+            true
         );
     }
 
@@ -1287,7 +1362,13 @@ module aptos_framework::voting {
         // Voting period is over. Voting should now fail.
         timestamp::fast_forward_seconds(VOTING_DURATION_SECS + 1);
         let proof = TestProposal {};
-        vote<TestProposal>(&proof, governance_address, proposal_id, 10, true);
+        vote<TestProposal>(
+            &proof,
+            governance_address,
+            proposal_id,
+            10,
+            true
+        );
         let TestProposal {} = proof;
     }
 
@@ -1312,7 +1393,13 @@ module aptos_framework::voting {
 
         // Vote.
         let proof = TestProposal {};
-        vote<TestProposal>(&proof, governance_address, proposal_id, 100, true);
+        vote<TestProposal>(
+            &proof,
+            governance_address,
+            proposal_id,
+            100,
+            true
+        );
 
         // Resolve early.
         timestamp::fast_forward_seconds(1);
@@ -1324,7 +1411,13 @@ module aptos_framework::voting {
         resolve_proposal_for_test<TestProposal>(
             governance_address, proposal_id, true, false
         );
-        vote<TestProposal>(&proof, governance_address, proposal_id, 100, false);
+        vote<TestProposal>(
+            &proof,
+            governance_address,
+            proposal_id,
+            100,
+            false
+        );
         let TestProposal {} = proof;
     }
 
@@ -1343,8 +1436,20 @@ module aptos_framework::voting {
 
         // Vote.
         let proof = TestProposal {};
-        vote<TestProposal>(&proof, governance_address, proposal_id, 100, true);
-        vote<TestProposal>(&proof, governance_address, proposal_id, 100, false);
+        vote<TestProposal>(
+            &proof,
+            governance_address,
+            proposal_id,
+            100,
+            true
+        );
+        vote<TestProposal>(
+            &proof,
+            governance_address,
+            proposal_id,
+            100,
+            false
+        );
         let TestProposal {} = proof;
 
         // Resolve.
@@ -1355,7 +1460,10 @@ module aptos_framework::voting {
             1
         );
         resolve_proposal_for_test<TestProposal>(
-            governance_address, proposal_id, is_multi_step, true
+            governance_address,
+            proposal_id,
+            is_multi_step,
+            true
         );
     }
 
@@ -1426,7 +1534,13 @@ module aptos_framework::voting {
 
         // Vote.
         let proof = TestProposal {};
-        vote<TestProposal>(&proof, governance_address, proposal_id, 10, true);
+        vote<TestProposal>(
+            &proof,
+            governance_address,
+            proposal_id,
+            10,
+            true
+        );
         let TestProposal {} = proof;
 
         // Resolve.

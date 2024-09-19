@@ -104,12 +104,7 @@ module aptos_framework::dispatchable_fungible_asset {
             );
             let func = option::borrow(&func_opt);
             function_info::load_module_from_function(func);
-            dispatchable_deposit(
-                store,
-                fa,
-                borrow_transfer_ref(store),
-                func
-            )
+            dispatchable_deposit(store, fa, borrow_transfer_ref(store), func)
         } else {
             fungible_asset::deposit_internal(object::object_address(&store), fa)
         }
@@ -141,7 +136,10 @@ module aptos_framework::dispatchable_fungible_asset {
         let fa = withdraw(sender, from, amount);
         deposit(to, fa);
         let end = fungible_asset::balance(to);
-        assert!(end - start >= expected, error::aborted(EAMOUNT_MISMATCH));
+        assert!(
+            end - start >= expected,
+            error::aborted(EAMOUNT_MISMATCH)
+        );
     }
 
     #[view]

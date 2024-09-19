@@ -113,7 +113,12 @@ module swap::router {
         to_token: Object<Metadata>,
         is_stable: bool
     ): FungibleAsset {
-        swap(coin_wrapper::wrap(in), amount_out_min, to_token, is_stable)
+        swap(
+            coin_wrapper::wrap(in),
+            amount_out_min,
+            to_token,
+            is_stable
+        )
     }
 
     /// Swap an amount of fungible assets for coins. User can specifies the minimum amount they expect to receive.
@@ -196,7 +201,9 @@ module swap::router {
                 let amount_2_optimal =
                     math128::mul_div(amount_1_desired, reserves_2, reserves_1);
                 if (amount_2 <= amount_2_desired) {
-                    assert!(amount_2_optimal >= amount_2_min, EINSUFFICIENT_OUTPUT_AMOUNT);
+                    assert!(
+                        amount_2_optimal >= amount_2_min, EINSUFFICIENT_OUTPUT_AMOUNT
+                    );
                     amount_2 = amount_2_optimal;
                 } else {
                     amount_1 = math128::mul_div(amount_2_desired, reserves_1, reserves_2);
@@ -275,7 +282,9 @@ module swap::router {
                 amount_1_min,
                 amount_2_min
             );
-        let optimal_1 = coin_wrapper::wrap(coin::withdraw<CoinType>(lp, optimal_amount_1));
+        let optimal_1 = coin_wrapper::wrap(
+            coin::withdraw<CoinType>(lp, optimal_amount_1)
+        );
         let optimal_2 = primary_fungible_store::withdraw(lp, token_2, optimal_amount_2);
         add_liquidity(lp, optimal_1, optimal_2, is_stable);
     }
@@ -288,7 +297,12 @@ module swap::router {
         token_2: FungibleAsset,
         is_stable: bool
     ) {
-        add_liquidity(lp, coin_wrapper::wrap(token_1), token_2, is_stable);
+        add_liquidity(
+            lp,
+            coin_wrapper::wrap(token_1),
+            token_2,
+            is_stable
+        );
     }
 
     /// Add two coins as liquidity to a pool. The user specifies the desired amount of each token to add and
@@ -490,9 +504,7 @@ module swap::router {
         amount_2_min: u64
     ): (FungibleAsset, FungibleAsset) {
         let (redeemed_1, redeemed_2) =
-            liquidity_pool::burn(
-                lp, token_1, token_2, is_stable, liquidity
-            );
+            liquidity_pool::burn(lp, token_1, token_2, is_stable, liquidity);
         let amount_1 = fungible_asset::amount(&redeemed_1);
         let amount_2 = fungible_asset::amount(&redeemed_2);
         assert!(

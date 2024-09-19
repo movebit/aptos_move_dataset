@@ -69,7 +69,10 @@ module aptos_token_objects::royalty {
     }
 
     public(friend) fun delete(addr: address) acquires Royalty {
-        assert!(exists<Royalty>(addr), error::not_found(EROYALTY_DOES_NOT_EXIST));
+        assert!(
+            exists<Royalty>(addr),
+            error::not_found(EROYALTY_DOES_NOT_EXIST)
+        );
         move_from<Royalty>(addr);
     }
 

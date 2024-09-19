@@ -14,7 +14,10 @@ module 0x42::Account {
 
     fun deposit(account: address, amount: u64) acquires Account {
         let balance = &mut borrow_global_mut<Account>(account).balance;
-        assert!(*balance <= Limits::max_u64() - amount, errors::limit_exceeded());
+        assert!(
+            *balance <= Limits::max_u64() - amount,
+            errors::limit_exceeded()
+        );
         *balance = *balance + amount;
     }
 

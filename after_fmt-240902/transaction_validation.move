@@ -422,7 +422,8 @@ module aptos_framework::transaction_validation {
         gas_units_remaining: u64
     ) {
         assert!(
-            txn_max_gas_units >= gas_units_remaining, error::invalid_argument(EOUT_OF_GAS)
+            txn_max_gas_units >= gas_units_remaining,
+            error::invalid_argument(EOUT_OF_GAS)
         );
         let gas_used = txn_max_gas_units - gas_units_remaining;
 

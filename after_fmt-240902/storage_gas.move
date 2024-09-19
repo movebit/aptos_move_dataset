@@ -622,7 +622,10 @@ module aptos_framework::storage_gas {
             let i = 0;
             let old_standard_curve_gas = 1;
             while (i <= target + 7) {
-                assert!(calculate_gas(target, i, &constant_curve) == 5, 0);
+                assert!(
+                    calculate_gas(target, i, &constant_curve) == 5,
+                    0
+                );
                 assert!(
                     calculate_gas(target, i, &linear_curve)
                         == (

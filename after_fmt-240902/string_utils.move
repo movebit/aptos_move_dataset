@@ -123,20 +123,37 @@ module aptos_std::string_utils {
                 == std::string::utf8(b"Cons { car: \"My string\", cdr: 2 }"),
             5
         );
-        assert!(to_string(&std::option::none<u64>()) == std::string::utf8(b"None"), 6);
-        assert!(to_string(&std::option::some(1)) == std::string::utf8(b"Some(1)"), 7);
+        assert!(
+            to_string(&std::option::none<u64>()) == std::string::utf8(b"None"),
+            6
+        );
+        assert!(
+            to_string(&std::option::some(1)) == std::string::utf8(b"Some(1)"),
+            7
+        );
     }
 
     #[test]
     fun test_format_list() {
-        let s = format3(&b"a = {} b = {} c = {}", 1, 2, std::string::utf8(b"My string"));
+        let s = format3(
+            &b"a = {} b = {} c = {}",
+            1,
+            2,
+            std::string::utf8(b"My string")
+        );
         assert!(s == std::string::utf8(b"a = 1 b = 2 c = \"My string\""), 1);
     }
 
     #[test]
     #[expected_failure(abort_code = EARGS_MISMATCH)]
     fun test_format_list_to_many_vals() {
-        format4(&b"a = {} b = {} c = {}", 1, 2, 3, 4);
+        format4(
+            &b"a = {} b = {} c = {}",
+            1,
+            2,
+            3,
+            4
+        );
     }
 
     #[test]
@@ -168,24 +185,44 @@ module aptos_std::string_utils {
     #[test]
     #[expected_failure(abort_code = EINVALID_FORMAT)]
     fun test_format_unclosed_braces() {
-        format3(&b"a = {} b = {} c = {", 1, 2, 3);
+        format3(
+            &b"a = {} b = {} c = {",
+            1,
+            2,
+            3
+        );
     }
 
     #[test]
     #[expected_failure(abort_code = EINVALID_FORMAT)]
     fun test_format_unclosed_braces_2() {
-        format3(&b"a = {} b = { c = {}", 1, 2, 3);
+        format3(
+            &b"a = {} b = { c = {}",
+            1,
+            2,
+            3
+        );
     }
 
     #[test]
     #[expected_failure(abort_code = EINVALID_FORMAT)]
     fun test_format_unopened_braces() {
-        format3(&b"a = } b = {} c = {}", 1, 2, 3);
+        format3(
+            &b"a = } b = {} c = {}",
+            1,
+            2,
+            3
+        );
     }
 
     #[test]
     fun test_format_escape_braces_works() {
-        let s = format3(&b"{{a = {} b = {} c = {}}}", 1, 2, 3);
+        let s = format3(
+            &b"{{a = {} b = {} c = {}}}",
+            1,
+            2,
+            3
+        );
         assert!(s == std::string::utf8(b"{a = 1 b = 2 c = 3}"), 1);
     }
 }

@@ -240,6 +240,8 @@ module dao_platform::nft_dao_events {
         nft_dao: address,
         reason: String
     ) {
-        event::emit(AdminResolve { nft_dao, proposal_id, admin, reason });
+        event::emit(
+            AdminResolve { nft_dao, proposal_id, admin, reason }
+        );
     }
 }

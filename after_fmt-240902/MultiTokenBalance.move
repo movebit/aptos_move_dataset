@@ -44,7 +44,10 @@ module ExperimentalFramework::MultiTokenBalance {
     public fun add_to_gallery<TokenType: store>(
         owner: address, token: Token<TokenType>
     ) acquires TokenBalance {
-        assert!(exists<TokenBalance<TokenType>>(owner), EBALANCE_NOT_PUBLISHED);
+        assert!(
+            exists<TokenBalance<TokenType>>(owner),
+            EBALANCE_NOT_PUBLISHED
+        );
         let id = MultiToken::id<TokenType>(&token);
         if (has_token<TokenType>(owner, &id)) {
             // If `owner` already has a token with the same id, remove it from the gallery
@@ -81,7 +84,10 @@ module ExperimentalFramework::MultiTokenBalance {
     fun remove_from_gallery<TokenType: store>(
         owner: address, id: &guid::ID
     ): Token<TokenType> acquires TokenBalance {
-        assert!(exists<TokenBalance<TokenType>>(owner), EBALANCE_NOT_PUBLISHED);
+        assert!(
+            exists<TokenBalance<TokenType>>(owner),
+            EBALANCE_NOT_PUBLISHED
+        );
         let gallery = &mut borrow_global_mut<TokenBalance<TokenType>>(owner).gallery;
         let index_opt = index_of_token<TokenType>(gallery, id);
         assert!(option::is_some(&index_opt), errors::limit_exceeded(EID_NOT_FOUND));
@@ -250,7 +256,10 @@ module ExperimentalFramework::MultiTokenBalance {
             !exists<TokenBalance<TokenType>>(signer::address_of(account)),
             EBALANCE_ALREADY_PUBLISHED
         );
-        move_to(account, TokenBalance<TokenType> { gallery: vector::empty() });
+        move_to(
+            account,
+            TokenBalance<TokenType> { gallery: vector::empty() }
+        );
     }
 
     spec publish_balance {

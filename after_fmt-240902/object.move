@@ -191,8 +191,14 @@ module aptos_framework::object {
 
     /// Produces an ObjectId from the given address. This is not verified.
     public fun address_to_object<T: key>(object: address): Object<T> {
-        assert!(exists<ObjectCore>(object), error::not_found(EOBJECT_DOES_NOT_EXIST));
-        assert!(exists_at<T>(object), error::not_found(ERESOURCE_DOES_NOT_EXIST));
+        assert!(
+            exists<ObjectCore>(object),
+            error::not_found(EOBJECT_DOES_NOT_EXIST)
+        );
+        assert!(
+            exists_at<T>(object),
+            error::not_found(ERESOURCE_DOES_NOT_EXIST)
+        );
         Object<T> { inner: object }
     }
 
@@ -330,7 +336,10 @@ module aptos_framework::object {
     fun create_object_internal(
         creator_address: address, object: address, can_delete: bool
     ): ConstructorRef {
-        assert!(!exists<ObjectCore>(object), error::already_exists(EOBJECT_EXISTS));
+        assert!(
+            !exists<ObjectCore>(object),
+            error::already_exists(EOBJECT_EXISTS)
+        );
 
         let object_signer = create_signer(object);
         let guid_creation_num = INIT_GUID_CREATION_NUM;
@@ -363,7 +372,10 @@ module aptos_framework::object {
 
     /// Generates the TransferRef, which can be used to manage object transfers.
     public fun generate_transfer_ref(ref: &ConstructorRef): TransferRef {
-        assert!(!exists<Untransferable>(ref.self), error::permission_denied(ENOT_MOVABLE));
+        assert!(
+            !exists<Untransferable>(ref.self),
+            error::permission_denied(ENOT_MOVABLE)
+        );
         TransferRef { self: ref.self }
     }
 
@@ -467,7 +479,10 @@ module aptos_framework::object {
 
     /// Enable direct transfer.
     public fun enable_ungated_transfer(ref: &TransferRef) acquires ObjectCore {
-        assert!(!exists<Untransferable>(ref.self), error::permission_denied(ENOT_MOVABLE));
+        assert!(
+            !exists<Untransferable>(ref.self),
+            error::permission_denied(ENOT_MOVABLE)
+        );
         let object = borrow_global_mut<ObjectCore>(ref.self);
         object.allow_ungated_transfer = true;
     }
@@ -477,14 +492,20 @@ module aptos_framework::object {
     public fun generate_linear_transfer_ref(
         ref: &TransferRef
     ): LinearTransferRef acquires ObjectCore {
-        assert!(!exists<Untransferable>(ref.self), error::permission_denied(ENOT_MOVABLE));
+        assert!(
+            !exists<Untransferable>(ref.self),
+            error::permission_denied(ENOT_MOVABLE)
+        );
         let owner = owner(Object<ObjectCore> { inner: ref.self });
         LinearTransferRef { self: ref.self, owner }
     }
 
     /// Transfer to the destination address using a LinearTransferRef.
     public fun transfer_with_ref(ref: LinearTransferRef, to: address) acquires ObjectCore, TombStone {
-        assert!(!exists<Untransferable>(ref.self), error::permission_denied(ENOT_MOVABLE));
+        assert!(
+            !exists<Untransferable>(ref.self),
+            error::permission_denied(ENOT_MOVABLE)
+        );
 
         // Undo soft burn if present as we don't want the original owner to be able to reclaim by calling unburn later.
         if (exists<TombStone>(ref.self)) {
@@ -574,7 +595,9 @@ module aptos_framework::object {
         let count = 0;
         while (owner != current_address) {
             count = count + 1;
-            assert!(count < MAXIMUM_OBJECT_NESTING, error::out_of_range(EMAXIMUM_NESTING));
+            assert!(
+                count < MAXIMUM_OBJECT_NESTING, error::out_of_range(EMAXIMUM_NESTING)
+            );
             // At this point, the first object exists and so the more likely case is that the
             // object's owner is not an object. So we return a more sensible error.
             assert!(
@@ -665,7 +688,9 @@ module aptos_framework::object {
         let count = 0;
         while (owner != current_address) {
             count = count + 1;
-            assert!(count < MAXIMUM_OBJECT_NESTING, error::out_of_range(EMAXIMUM_NESTING));
+            assert!(
+                count < MAXIMUM_OBJECT_NESTING, error::out_of_range(EMAXIMUM_NESTING)
+            );
             if (!exists<ObjectCore>(current_address)) {
                 return false
             };

@@ -111,7 +111,12 @@ module token_offer {
             item_price,
             expiration_time
         );
-        init_coin_holder<CoinType>(purchaser, &offer_signer, fee_schedule, item_price);
+        init_coin_holder<CoinType>(
+            purchaser,
+            &offer_signer,
+            fee_schedule,
+            item_price
+        );
         move_to(
             &offer_signer,
             TokenOfferTokenV1 {
@@ -171,7 +176,12 @@ module token_offer {
             item_price,
             expiration_time
         );
-        init_coin_holder<CoinType>(purchaser, &offer_signer, fee_schedule, item_price);
+        init_coin_holder<CoinType>(
+            purchaser,
+            &offer_signer,
+            fee_schedule,
+            item_price
+        );
         move_to(&offer_signer, TokenOfferTokenV2 { token });
 
         let token_offer_addr = signer::address_of(&offer_signer);
@@ -267,7 +277,12 @@ module token_offer {
         token_name: String,
         property_version: u64
     ) acquires CoinOffer, TokenOffer, TokenOfferTokenV1, TokenOfferTokenV2 {
-        sell_tokenv1<CoinType>(seller, token_offer, token_name, property_version);
+        sell_tokenv1<CoinType>(
+            seller,
+            token_offer,
+            token_name,
+            property_version
+        );
     }
 
     /// Sell a tokenv1 to a token offer.
@@ -384,7 +399,10 @@ module token_offer {
         royalty_numerator: u64,
         token_metadata: events::TokenMetadata
     ) acquires CoinOffer, TokenOffer, TokenOfferTokenV1, TokenOfferTokenV2 {
-        assert!(exists<TokenOffer>(token_offer_addr), error::not_found(ENO_TOKEN_OFFER));
+        assert!(
+            exists<TokenOffer>(token_offer_addr),
+            error::not_found(ENO_TOKEN_OFFER)
+        );
         let token_offer_obj = borrow_global_mut<TokenOffer>(token_offer_addr);
         assert!(
             timestamp::now_seconds() < token_offer_obj.expiration_time,
@@ -406,7 +424,9 @@ module token_offer {
         let fee_schedule = token_offer_obj.fee_schedule;
         let commission_charge = fee_schedule::commission(fee_schedule, price);
         let commission = coin::extract(&mut coins, commission_charge);
-        aptos_account::deposit_coins(fee_schedule::fee_address(fee_schedule), commission);
+        aptos_account::deposit_coins(
+            fee_schedule::fee_address(fee_schedule), commission
+        );
 
         aptos_account::deposit_coins(seller, coins);
 
@@ -617,7 +637,10 @@ module token_offer_tests {
         assert!(coin::balance<AptosCoin>(seller_addr) == 10000, 0);
 
         token_offer::sell_tokenv1<AptosCoin>(
-            seller, token_offer, token_name, property_version
+            seller,
+            token_offer,
+            token_name,
+            property_version
         );
         assert!(coin::balance<AptosCoin>(marketplace_addr) == 6, 0);
         assert!(coin::balance<AptosCoin>(purchaser_addr) == 9499, 0);
@@ -684,7 +707,12 @@ module token_offer_tests {
         seller: &signer,
         purchaser: &signer
     ) {
-        test_utils::setup(aptos_framework, marketplace, seller, purchaser);
+        test_utils::setup(
+            aptos_framework,
+            marketplace,
+            seller,
+            purchaser
+        );
         let token = test_utils::mint_tokenv2(seller);
         let token_offer =
             token_offer::init_for_tokenv2<AptosCoin>(
@@ -707,7 +735,12 @@ module token_offer_tests {
         seller: &signer,
         purchaser: &signer
     ) {
-        test_utils::setup(aptos_framework, marketplace, seller, purchaser);
+        test_utils::setup(
+            aptos_framework,
+            marketplace,
+            seller,
+            purchaser
+        );
         let token_id = test_utils::mint_tokenv1(seller);
         let (creator_addr, collection_name, token_name, property_version) =
             tokenv1::get_token_id_fields(&token_id);
@@ -742,7 +775,12 @@ module token_offer_tests {
         seller: &signer,
         purchaser: &signer
     ) {
-        test_utils::setup(aptos_framework, marketplace, seller, purchaser);
+        test_utils::setup(
+            aptos_framework,
+            marketplace,
+            seller,
+            purchaser
+        );
         let token = test_utils::mint_tokenv2(seller);
         let token_offer =
             token_offer::init_for_tokenv2<AptosCoin>(
@@ -766,7 +804,12 @@ module token_offer_tests {
         seller: &signer,
         purchaser: &signer
     ) {
-        test_utils::setup(aptos_framework, marketplace, seller, purchaser);
+        test_utils::setup(
+            aptos_framework,
+            marketplace,
+            seller,
+            purchaser
+        );
         let token = test_utils::mint_tokenv2(seller);
         let token_offer =
             token_offer::init_for_tokenv2<AptosCoin>(
@@ -790,7 +833,12 @@ module token_offer_tests {
         seller: &signer,
         purchaser: &signer
     ) {
-        test_utils::setup(aptos_framework, marketplace, seller, purchaser);
+        test_utils::setup(
+            aptos_framework,
+            marketplace,
+            seller,
+            purchaser
+        );
         let _token = test_utils::mint_tokenv2(seller);
         let token_2 = test_utils::mint_tokenv2_additional(seller);
 

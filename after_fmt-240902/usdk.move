@@ -265,11 +265,7 @@ module stablecoin::usdk {
 
         let management = borrow_global<Management>(usdk_address());
         let tokens =
-            fungible_asset::withdraw_with_ref(
-                &management.transfer_ref,
-                store,
-                amount
-            );
+            fungible_asset::withdraw_with_ref(&management.transfer_ref, store, amount);
         fungible_asset::burn(&management.burn_ref, tokens);
 
         event::emit(

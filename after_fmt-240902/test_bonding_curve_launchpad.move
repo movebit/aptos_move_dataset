@@ -239,7 +239,11 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         let starting_apt_balance = coin::balance<AptosCoin>(user_address);
         // APT -> FA
         bonding_curve_launchpad::swap(
-            bonding_curve_creator, name, symbol, false, 100_000_000
+            bonding_curve_creator,
+            name,
+            symbol,
+            false,
+            100_000_000
         );
         assert!(
             coin::balance<AptosCoin>(user_address)
@@ -252,7 +256,11 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         );
         // FA -> APT
         bonding_curve_launchpad::swap(
-            bonding_curve_creator, name, symbol, true, 1_602_794
+            bonding_curve_creator,
+            name,
+            symbol,
+            true,
+            1_602_794
         );
         assert!(
             coin::balance<AptosCoin>(user_address) == starting_apt_balance - 26,
@@ -322,7 +330,10 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
                 string::utf8(b"SHEEP")
             );
         primary_fungible_store::transfer(
-            bonding_curve_creator, fa_obj_metadata, @0xcafe, 100
+            bonding_curve_creator,
+            fa_obj_metadata,
+            @0xcafe,
+            100
         );
     }
 
@@ -499,7 +510,10 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
                 string::utf8(b"SHEEP")
             );
         primary_fungible_store::transfer(
-            bonding_curve_creator, fa_obj_metadata, @0xcafe, 10
+            bonding_curve_creator,
+            fa_obj_metadata,
+            @0xcafe,
+            10
         );
     }
 

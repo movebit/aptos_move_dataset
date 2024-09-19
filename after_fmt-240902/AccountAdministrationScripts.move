@@ -433,7 +433,10 @@ module DiemFramework::AccountAdministrationScripts {
         new_key: vector<u8>
     ) {
         RecoveryAddress::rotate_authentication_key(
-            &account, recovery_address, to_recover, new_key
+            &account,
+            recovery_address,
+            to_recover,
+            new_key
         )
     }
 

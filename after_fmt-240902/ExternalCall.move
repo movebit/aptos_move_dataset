@@ -81,7 +81,13 @@ module 0x2::M {
         let to_addr = @5;
         let token_id = u256_from_words(x, y);
         let data = vector::empty<u8>();
-        safe_transfer_form(contract_addr, from_addr, to_addr, token_id, data)
+        safe_transfer_form(
+            contract_addr,
+            from_addr,
+            to_addr,
+            token_id,
+            data
+        )
     }
 
     #[callable]

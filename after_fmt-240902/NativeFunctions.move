@@ -55,7 +55,10 @@ module 0x2::NativeFunctions {
         assert!(concat(b"", b"") == b"", 100);
         assert!(concat(b"1", b"2") == b"12", 101);
         assert!(concat(b"", b"abc") == b"abc", 102);
-        assert!(concat(concat(b"a", b"bc"), b"de") == b"abcde", 103);
+        assert!(
+            concat(concat(b"a", b"bc"), b"de") == b"abcde",
+            103
+        );
         assert!(concat(b"test", b"") == b"test", 104);
     }
 }

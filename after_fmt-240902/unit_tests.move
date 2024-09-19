@@ -41,7 +41,13 @@ module token_lockup::unit_tests {
         owner_2: &signer,
         aptos_framework: &signer
     ) {
-        setup_test(creator, owner_1, owner_2, aptos_framework, TEST_START_TIME);
+        setup_test(
+            creator,
+            owner_1,
+            owner_2,
+            aptos_framework,
+            TEST_START_TIME
+        );
 
         let owner_1_addr = signer::address_of(owner_1);
         let owner_2_addr = signer::address_of(owner_2);
@@ -66,7 +72,10 @@ module token_lockup::unit_tests {
         // ensures that the `last_transfer` for each token is correct
         assert!(token_lockup::view_last_transfer(token_1_obj) == TEST_START_TIME, 0);
         assert!(token_lockup::view_last_transfer(token_2_obj) == TEST_START_TIME, 1);
-        assert!(token_lockup::view_last_transfer(token_3_obj) == TEST_START_TIME + 1, 2);
+        assert!(
+            token_lockup::view_last_transfer(token_3_obj) == TEST_START_TIME + 1,
+            2
+        );
 
         // transfer the first token from owner_1 to owner_2
         token_lockup::transfer(owner_1, token_1_obj, owner_2_addr);
@@ -109,7 +118,13 @@ module token_lockup::unit_tests {
         owner_2: &signer,
         aptos_framework: &signer
     ) {
-        setup_test(creator, owner_1, owner_2, aptos_framework, TEST_START_TIME);
+        setup_test(
+            creator,
+            owner_1,
+            owner_2,
+            aptos_framework,
+            TEST_START_TIME
+        );
 
         let token_1_constructor_ref =
             token_lockup::mint_to(
@@ -134,7 +149,13 @@ module token_lockup::unit_tests {
         owner_2: &signer,
         aptos_framework: &signer
     ) {
-        setup_test(creator, owner_1, owner_2, aptos_framework, TEST_START_TIME);
+        setup_test(
+            creator,
+            owner_1,
+            owner_2,
+            aptos_framework,
+            TEST_START_TIME
+        );
 
         let token_1_constructor_ref =
             token_lockup::mint_to(
@@ -159,7 +180,13 @@ module token_lockup::unit_tests {
         owner_2: &signer,
         aptos_framework: &signer
     ) {
-        setup_test(creator, owner_1, owner_2, aptos_framework, TEST_START_TIME);
+        setup_test(
+            creator,
+            owner_1,
+            owner_2,
+            aptos_framework,
+            TEST_START_TIME
+        );
 
         let token_1_constructor_ref =
             token_lockup::mint_to(

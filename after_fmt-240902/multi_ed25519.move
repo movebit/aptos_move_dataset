@@ -221,7 +221,9 @@ module aptos_std::multi_ed25519 {
     public fun signature_verify_strict(
         multisignature: &Signature, public_key: &UnvalidatedPublicKey, message: vector<u8>
     ): bool {
-        signature_verify_strict_internal(multisignature.bytes, public_key.bytes, message)
+        signature_verify_strict_internal(
+            multisignature.bytes, public_key.bytes, message
+        )
     }
 
     /// This function is used to verify a multi-signature on any BCS-serializable type T. For now, it is used to verify the
@@ -430,8 +432,9 @@ module aptos_std::multi_ed25519 {
         ];
 
         assert!(
-            option::extract(&mut check_and_get_threshold(torsion_point_with_threshold_1)) ==
-            1,
+            option::extract(
+                &mut check_and_get_threshold(torsion_point_with_threshold_1)
+            ) == 1,
             1
         );
 
@@ -475,7 +478,10 @@ module aptos_std::multi_ed25519 {
 
             let obj2 = TestMessage { foo: b"Hello Move!", bar: 64 };
             let sig2 = sign_struct(&sk, copy obj2);
-            assert!(signature_verify_strict_t(&sig2, &upk, copy obj2), 7);
+            assert!(
+                signature_verify_strict_t(&sig2, &upk, copy obj2),
+                7
+            );
 
             test_case_idx = test_case_idx + 1;
         }
@@ -500,6 +506,9 @@ module aptos_std::multi_ed25519 {
         let obj2 = TestMessage { foo: b"Hello Move!", bar: 64 };
         let sig2 = sign_struct(&sk, copy obj2);
         maul_first_signature(&mut sig2);
-        assert!(!signature_verify_strict_t(&sig2, &upk, copy obj2), 7);
+        assert!(
+            !signature_verify_strict_t(&sig2, &upk, copy obj2),
+            7
+        );
     }
 }

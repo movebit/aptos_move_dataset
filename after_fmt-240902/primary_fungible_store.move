@@ -85,7 +85,9 @@ module aptos_framework::primary_fungible_store {
         let metadata_addr = object::object_address(&metadata);
         object::address_to_object<Metadata>(metadata_addr);
         let derive_ref = &borrow_global<DeriveRefPod>(metadata_addr).metadata_derive_ref;
-        let constructor_ref = &object::create_user_derived_object(owner_addr, derive_ref);
+        let constructor_ref = &object::create_user_derived_object(
+            owner_addr, derive_ref
+        );
         // Disable ungated transfer as deterministic stores shouldn't be transferrable.
         let transfer_ref = &object::generate_transfer_ref(constructor_ref);
         object::disable_ungated_transfer(transfer_ref);
@@ -352,7 +354,12 @@ module aptos_framework::primary_fungible_store {
         assert!(is_frozen(aaron_address, metadata), 5);
         let fa = withdraw_with_ref(&transfer_ref, aaron_address, 30);
         deposit_with_ref(&transfer_ref, aaron_address, fa);
-        transfer_with_ref(&transfer_ref, aaron_address, creator_address, 20);
+        transfer_with_ref(
+            &transfer_ref,
+            aaron_address,
+            creator_address,
+            20
+        );
         set_frozen_flag(&transfer_ref, aaron_address, false);
         assert!(!is_frozen(aaron_address, metadata), 6);
         burn(&burn_ref, aaron_address, 50);

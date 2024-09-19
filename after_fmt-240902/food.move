@@ -206,7 +206,9 @@ module knight::food {
             primary_fungible_store::ensure_primary_store_exists(
                 signer::address_of(from), metadata
             );
-        fungible_asset::burn_from(&food_token.fungible_asset_burn_ref, from_store, amount);
+        fungible_asset::burn_from(
+            &food_token.fungible_asset_burn_ref, from_store, amount
+        );
     }
 
     /// Creates the food collection.
@@ -218,11 +220,7 @@ module knight::food {
 
         // Creates the collection with unlimited supply and without establishing any royalty configuration.
         collection::create_unlimited_collection(
-            creator,
-            description,
-            name,
-            option::none(),
-            uri
+            creator, description, name, option::none(), uri
         );
     }
 

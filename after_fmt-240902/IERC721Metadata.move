@@ -37,10 +37,7 @@ module Evm::IERC721Metadata {
     /// Return the interface identifier.
     public fun interfaceId(): vector<u8> {
         bytes_xor(
-            bytes_xor(
-                selector_name(),
-                selector_symbol()
-            ),
+            bytes_xor(selector_name(), selector_symbol()),
             selector_tokenURI()
         )
     }

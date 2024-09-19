@@ -43,7 +43,9 @@ module example_addr::preminted_managed_coin {
     /// Return the address of the metadata that's created when this module is deployed.
     /// This function is optional as a helper function for offline applications.
     public fun get_metadata(): Object<Metadata> {
-        let metadata_address = object::create_object_address(&@example_addr, ASSET_SYMBOL);
+        let metadata_address = object::create_object_address(
+            &@example_addr, ASSET_SYMBOL
+        );
         object::address_to_object<Metadata>(metadata_address)
     }
 
@@ -65,7 +67,10 @@ module example_addr::preminted_managed_coin {
             1
         );
         managed_fungible_asset::mint_to_primary_stores(
-            creator, metadata, vector[creator_address], vector[100]
+            creator,
+            metadata,
+            vector[creator_address],
+            vector[100]
         );
     }
 }

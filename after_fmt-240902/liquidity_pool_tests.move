@@ -15,9 +15,23 @@ module swap::liquidity_pool_tests {
         let (pool, tokens_2, tokens_1) = create_pool(lp_1, is_stable);
 
         // Add liquidity to the pool
-        add_liquidity(lp_1, &mut tokens_1, &mut tokens_2, 100000, 200000, is_stable);
+        add_liquidity(
+            lp_1,
+            &mut tokens_1,
+            &mut tokens_2,
+            100000,
+            200000,
+            is_stable
+        );
         verify_reserves(pool, 100000, 200000);
-        add_liquidity(lp_1, &mut tokens_1, &mut tokens_2, 100000, 100000, is_stable);
+        add_liquidity(
+            lp_1,
+            &mut tokens_1,
+            &mut tokens_2,
+            100000,
+            100000,
+            is_stable
+        );
         verify_reserves(pool, 200000, 300000);
 
         // Swap tokens
@@ -69,8 +83,14 @@ module swap::liquidity_pool_tests {
         // The original LP should still receive the fees for the swap that already happens, which is a bit less due to
         // the min liquidity.
         let (claimed_1, claimed_2) = liquidity_pool::claim_fees(lp_1, pool);
-        assert!(fungible_asset::amount(&claimed_1) == fees_1 - 1, 0);
-        assert!(fungible_asset::amount(&claimed_2) == fees_2 - 1, 0);
+        assert!(
+            fungible_asset::amount(&claimed_1) == fees_1 - 1,
+            0
+        );
+        assert!(
+            fungible_asset::amount(&claimed_2) == fees_2 - 1,
+            0
+        );
         primary_fungible_store::deposit(lp_1_address, claimed_1);
         primary_fungible_store::deposit(lp_1_address, claimed_2);
 
@@ -83,11 +103,17 @@ module swap::liquidity_pool_tests {
         // More swaps happen. Now the new LP should receive fees. Original LP shouldn't receive anymore.
         let (_, fees_1) = swap_and_verify(lp_1, pool, &mut tokens_1, 10000);
         let (claimed_1, claimed_2) = liquidity_pool::claim_fees(lp_2, pool);
-        assert!(fungible_asset::amount(&claimed_1) == fees_1 - 1, 0);
+        assert!(
+            fungible_asset::amount(&claimed_1) == fees_1 - 1,
+            0
+        );
         assert!(fungible_asset::amount(&claimed_2) == 0, 0);
         let (original_claimable_1, original_claimable_2) =
             liquidity_pool::claimable_fees(lp_1_address, pool);
-        assert!(original_claimable_1 == 0 && original_claimable_2 == 0, 0);
+        assert!(
+            original_claimable_1 == 0 && original_claimable_2 == 0,
+            0
+        );
         primary_fungible_store::deposit(lp_1_address, claimed_1);
         primary_fungible_store::deposit(lp_1_address, claimed_2);
 
@@ -100,7 +126,14 @@ module swap::liquidity_pool_tests {
         test_helpers::set_up(lp_1);
         let is_stable = true;
         let (pool, tokens_2, tokens_1) = create_pool(lp_1, is_stable);
-        add_liquidity(lp_1, &mut tokens_1, &mut tokens_2, 100000, 200000, is_stable);
+        add_liquidity(
+            lp_1,
+            &mut tokens_1,
+            &mut tokens_2,
+            100000,
+            200000,
+            is_stable
+        );
         swap_and_verify(lp_1, pool, &mut tokens_2, 10000);
         swap_and_verify(lp_1, pool, &mut tokens_1, 10000);
 
@@ -134,7 +167,10 @@ module swap::liquidity_pool_tests {
         amount_in = amount_in - fees_amount;
         let actual_amount = fungible_asset::amount(&out);
         if (!liquidity_pool::is_stable(pool)) {
-            assert!(actual_amount == amount_in * reserves_2 / (reserves_1 + amount_in), 0);
+            assert!(
+                actual_amount == amount_in * reserves_2 / (reserves_1 + amount_in),
+                0
+            );
         };
         primary_fungible_store::deposit(signer::address_of(lp_1), out);
         (actual_amount, fees_amount)

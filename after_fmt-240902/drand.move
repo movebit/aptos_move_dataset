@@ -77,7 +77,9 @@ module drand::drand {
         let pk = extract(&mut deserialize<G2, FormatG2Compr>(&DRAND_PUBKEY));
         let sig = extract(&mut deserialize<G1, FormatG1Compr>(&signature));
         let msg_hash =
-            hash_to<G1, HashG1XmdSha256SswuRo>(&DRAND_DST, &round_number_to_bytes(round));
+            hash_to<G1, HashG1XmdSha256SswuRo>(
+                &DRAND_DST, &round_number_to_bytes(round)
+            );
         assert!(
             eq(
                 &pairing<G1, G2, Gt>(&msg_hash, &pk),

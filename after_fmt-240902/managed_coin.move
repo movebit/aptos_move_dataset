@@ -118,13 +118,7 @@ module aptos_framework::managed_coin {
         );
         aggregator_factory::initialize_aggregator_factory_for_test(&mod_account);
 
-        initialize<FakeMoney>(
-            &mod_account,
-            b"Fake Money",
-            b"FMD",
-            10,
-            true
-        );
+        initialize<FakeMoney>(&mod_account, b"Fake Money", b"FMD", 10, true);
         assert!(coin::is_coin_initialized<FakeMoney>(), 0);
 
         coin::register<FakeMoney>(&mod_account);

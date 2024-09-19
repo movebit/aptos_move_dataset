@@ -120,7 +120,10 @@ module OneToOneMarket {
     public fun borrow<In: copy + drop + store, Out: copy + drop + store>(
         account: &signer, pool_owner: address, amount: u64
     ): Token::Coin<Out> acquires Price, Pool, DepositRecord, BorrowRecord {
-        assert!(amount <= max_borrow_amount<In, Out>(account, pool_owner), 1025);
+        assert!(
+            amount <= max_borrow_amount<In, Out>(account, pool_owner),
+            1025
+        );
 
         update_borrow_record<In, Out>(account, pool_owner, amount);
 
@@ -153,7 +156,10 @@ module OneToOneMarket {
     ) acquires DepositRecord {
         let sender = signer::address_of(account);
         if (!exists<DepositRecord<In, Out>>(sender)) {
-            move_to(account, DepositRecord<In, Out> { record: Map::empty() })
+            move_to(
+                account,
+                DepositRecord<In, Out> { record: Map::empty() }
+            )
         };
         let record = &mut borrow_global_mut<DepositRecord<In, Out>>(sender).record;
         if (Map::contains_key(record, &pool_owner)) {
@@ -168,7 +174,10 @@ module OneToOneMarket {
     ) acquires BorrowRecord {
         let sender = signer::address_of(account);
         if (!exists<BorrowRecord<In, Out>>(sender)) {
-            move_to(account, BorrowRecord<In, Out> { record: Map::empty() })
+            move_to(
+                account,
+                BorrowRecord<In, Out> { record: Map::empty() }
+            )
         };
         let record = &mut borrow_global_mut<BorrowRecord<In, Out>>(sender).record;
         if (Map::contains_key(record, &pool_owner)) {
@@ -215,9 +224,12 @@ module ToddNickels {
 
     public fun init(account: &signer) {
         assert!(signer::address_of(account) == @0x70DD, 42);
-        move_to(account, Wallet {
-            nickels: Token::create(T {}, 0)
-        })
+        move_to(
+            account,
+            Wallet {
+                nickels: Token::create(T {}, 0)
+            }
+        )
     }
 
     public fun mint(account: &signer): Token::Coin<T> {

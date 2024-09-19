@@ -114,7 +114,9 @@ module message_board::MessageBoardTests {
     public entry fun test_init_messageboard() {
         let (alice, _) = create_two_signers();
         acl_based_mb::message_board_init(&alice);
-        acl_based_mb::send_pinned_message(&alice, signer::address_of(&alice), HELLO_WORLD);
+        acl_based_mb::send_pinned_message(
+            &alice, signer::address_of(&alice), HELLO_WORLD
+        );
     }
 
     #[test]

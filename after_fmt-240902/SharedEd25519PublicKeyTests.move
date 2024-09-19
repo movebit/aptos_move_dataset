@@ -12,7 +12,11 @@ module DiemFramework::SharedEd25519PublicKeyTests {
 
         Genesis::setup(dr, tc);
         DiemAccount::create_parent_vasp_account<XUS>(
-            tc, addr, x"0d3e1bd412376e933a0e794d65b41f97", b"", false
+            tc,
+            addr,
+            x"0d3e1bd412376e933a0e794d65b41f97",
+            b"",
+            false
         );
     }
 

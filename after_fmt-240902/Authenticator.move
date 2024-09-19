@@ -77,10 +77,7 @@ module DiemFramework::Authenticator {
         let i = 0;
         while (i < len) {
             let public_key = *vector::borrow(public_keys, i);
-            vector::append(
-                &mut authentication_key_preimage,
-                public_key
-            );
+            vector::append(&mut authentication_key_preimage, public_key);
             i = i + 1;
         };
         vector::append(&mut authentication_key_preimage, bcs::to_bytes(&k.threshold));

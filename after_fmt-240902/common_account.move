@@ -47,7 +47,9 @@ module common_account::common_account {
 
     /// Creates a new common account by creating a resource account and storing the capability.
     public entry fun create(sender: &signer, seed: vector<u8>) {
-        let (resource_signer, signer_cap) = account::create_resource_account(sender, seed);
+        let (resource_signer, signer_cap) = account::create_resource_account(
+            sender, seed
+        );
 
         move_to(
             &resource_signer,
@@ -77,7 +79,10 @@ module common_account::common_account {
         if (simple_map::contains_key(&management.unclaimed_capabilities, &other)) {
             simple_map::remove(&mut management.unclaimed_capabilities, &other);
         } else {
-            assert!(exists<Capability>(other), error::not_found(ENO_CAPABILITY_FOUND));
+            assert!(
+                exists<Capability>(other),
+                error::not_found(ENO_CAPABILITY_FOUND)
+            );
             move_from<Capability>(other);
         }
     }
@@ -238,7 +243,9 @@ module common_account::common_account {
         let bob_addr = signer::address_of(bob);
         let alice_common_addr =
             account::create_resource_address(&alice_addr, vector::empty());
-        let bob_common_addr = account::create_resource_address(&bob_addr, vector::empty());
+        let bob_common_addr = account::create_resource_address(
+            &bob_addr, vector::empty()
+        );
 
         create(alice, vector::empty());
         create(bob, vector::empty());

@@ -29,8 +29,20 @@ module rewards_pool::rewards_pool_tests {
         increase_alocation(claimer_1, rewards_pool, 60);
         increase_alocation(claimer_2, rewards_pool, 40);
         epoch::fast_forward(1);
-        add_rewards(rewards_pool, &mut asset_rewards_1, &mut asset_rewards_2, 50, 100);
-        add_rewards(rewards_pool, &mut asset_rewards_1, &mut asset_rewards_2, 50, 100);
+        add_rewards(
+            rewards_pool,
+            &mut asset_rewards_1,
+            &mut asset_rewards_2,
+            50,
+            100
+        );
+        add_rewards(
+            rewards_pool,
+            &mut asset_rewards_1,
+            &mut asset_rewards_2,
+            50,
+            100
+        );
         verify_claimer_shares_percentage(claimer_1, rewards_pool, 100, 60);
         verify_claimer_shares_percentage(claimer_2, rewards_pool, 100, 40);
         claim_and_verify_rewards(claimer_1, rewards_pool, 100, vector[60, 120]);
@@ -48,7 +60,13 @@ module rewards_pool::rewards_pool_tests {
         verify_claimer_shares_percentage(claimer_2, rewards_pool, 101, 50);
         verify_claimer_shares_percentage(claimer_3, rewards_pool, 101, 20);
         epoch::fast_forward(1);
-        add_rewards(rewards_pool, &mut asset_rewards_1, &mut asset_rewards_2, 100, 200);
+        add_rewards(
+            rewards_pool,
+            &mut asset_rewards_1,
+            &mut asset_rewards_2,
+            100,
+            200
+        );
         claim_and_verify_rewards(claimer_1, rewards_pool, 101, vector[30, 60]);
         claim_and_verify_rewards(claimer_2, rewards_pool, 101, vector[50, 100]);
         claim_and_verify_rewards(claimer_3, rewards_pool, 101, vector[20, 40]);
@@ -80,7 +98,13 @@ module rewards_pool::rewards_pool_tests {
         verify_claimer_shares_percentage(claimer_2, rewards_pool, 100, 50);
         epoch::fast_forward(1);
         // There's no rewards in the second reward token so both claimers should receive 0 there.
-        add_rewards(rewards_pool, &mut asset_rewards_1, &mut asset_rewards_2, 9, 0);
+        add_rewards(
+            rewards_pool,
+            &mut asset_rewards_1,
+            &mut asset_rewards_2,
+            9,
+            0
+        );
         // Claimer 1 only gets 4 (50% of 9 rounded down).
         claim_and_verify_rewards(claimer_1, rewards_pool, 100, vector[4, 0]);
         // Last claimer also gets rounded up so they get an extra unit.

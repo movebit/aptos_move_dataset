@@ -50,14 +50,7 @@ module marketplace::test_utils {
     }
 
     public fun fee_schedule(seller: &signer): Object<FeeSchedule> {
-        fee_schedule::init(
-            seller,
-            signer::address_of(seller),
-            2,
-            1,
-            100,
-            1
-        )
+        fee_schedule::init(seller, signer::address_of(seller), 2, 1, 100, 1)
     }
 
     public inline fun increment_timestamp(seconds: u64) {

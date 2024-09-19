@@ -14,9 +14,18 @@ module 0xA::type_name_tests {
         assert!(into_string(get<u8>()) == string(b"u8"), 0);
         assert!(into_string(get<u64>()) == string(b"u64"), 0);
         assert!(into_string(get<u128>()) == string(b"u128"), 0);
-        assert!(into_string(get<address>()) == string(b"address"), 0);
-        assert!(into_string(get<signer>()) == string(b"signer"), 0);
-        assert!(into_string(get<vector<u8>>()) == string(b"vector<u8>"), 0)
+        assert!(
+            into_string(get<address>()) == string(b"address"),
+            0
+        );
+        assert!(
+            into_string(get<signer>()) == string(b"signer"),
+            0
+        );
+        assert!(
+            into_string(get<vector<u8>>()) == string(b"vector<u8>"),
+            0
+        )
     }
 
     // Note: these tests assume a 16 byte address length, and will fail on platforms where addresses are 20 or 32 bytes
@@ -70,10 +79,11 @@ module 0xA::type_name_tests {
             0
         );
         assert!(
-            into_string(get<std::option::Option<TestGenerics<u8>>>())
-                == string(
-                    b"0000000000000000000000000000000000000000000000000000000000000001::option::Option<000000000000000000000000000000000000000000000000000000000000000a::type_name_tests::TestGenerics<u8>>"
-                ),
+            into_string(
+                get<std::option::Option<TestGenerics<u8>>>()
+            ) == string(
+                b"0000000000000000000000000000000000000000000000000000000000000001::option::Option<000000000000000000000000000000000000000000000000000000000000000a::type_name_tests::TestGenerics<u8>>"
+            ),
             0
         );
     }

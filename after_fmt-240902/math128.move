@@ -265,7 +265,10 @@ module aptos_std::math128 {
         };
         idx = 1;
         while (idx <= 128) {
-            assert!(floor_log2((((1u256 << idx) - 1) as u128)) == idx - 1, 0);
+            assert!(
+                floor_log2((((1u256 << idx) - 1) as u128)) == idx - 1,
+                0
+            );
             idx = idx + 1;
         };
     }
@@ -275,7 +278,10 @@ module aptos_std::math128 {
         let idx: u8 = 0;
         while (idx < 128) {
             let res = log2(1 << idx);
-            assert!(fixed_point32::get_raw_value(res) == (idx as u64) << 32, 0);
+            assert!(
+                fixed_point32::get_raw_value(res) == (idx as u64) << 32,
+                0
+            );
             idx = idx + 1;
         };
         idx = 10;
@@ -304,7 +310,10 @@ module aptos_std::math128 {
         let idx: u8 = 0;
         while (idx < 128) {
             let res = log2_64(1 << idx);
-            assert!(fixed_point64::get_raw_value(res) == (idx as u128) << 64, 0);
+            assert!(
+                fixed_point64::get_raw_value(res) == (idx as u128) << 64,
+                0
+            );
             idx = idx + 1;
         };
         idx = 10;

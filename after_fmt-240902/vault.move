@@ -216,7 +216,10 @@ module std::vault {
         owner: &signer, initial_content: Content
     ) {
         let addr = signer::address_of(owner);
-        assert!(!exists<Vault<Content>>(addr), error::already_exists(EVAULT));
+        assert!(
+            !exists<Vault<Content>>(addr),
+            error::already_exists(EVAULT)
+        );
         move_to<Vault<Content>>(
             owner,
             Vault { content: option::some(initial_content) }
@@ -227,13 +230,19 @@ module std::vault {
     /// Returns `false` otherwise.
     public fun is_delegation_enabled<Content: store>(owner: &signer): bool {
         let addr = signer::address_of(owner);
-        assert!(exists<Vault<Content>>(addr), error::not_found(EVAULT));
+        assert!(
+            exists<Vault<Content>>(addr),
+            error::not_found(EVAULT)
+        );
         exists<VaultDelegates<Content>>(addr)
     }
 
     /// Enables delegation functionality for this vault. By default, vaults to not support delegation.
     public fun enable_delegation<Content: store>(owner: &signer) {
-        assert!(!is_delegation_enabled<Content>(owner), error::already_exists(EDELEGATE));
+        assert!(
+            !is_delegation_enabled<Content>(owner),
+            error::already_exists(EDELEGATE)
+        );
         move_to<VaultDelegates<Content>>(
             owner, VaultDelegates { delegates: vector::empty() }
         )
@@ -245,8 +254,14 @@ module std::vault {
         owner: &signer, metadata: vector<u8>
     ) {
         let addr = signer::address_of(owner);
-        assert!(exists<Vault<Content>>(addr), error::not_found(EVAULT));
-        assert!(!exists<VaultEvents<Content>>(addr), error::already_exists(EEVENT));
+        assert!(
+            exists<Vault<Content>>(addr),
+            error::not_found(EVAULT)
+        );
+        assert!(
+            !exists<VaultEvents<Content>>(addr),
+            error::already_exists(EEVENT)
+        );
         move_to<VaultEvents<Content>>(
             owner,
             VaultEvents {
@@ -263,7 +278,10 @@ module std::vault {
         owner: &signer
     ): Content acquires Vault, VaultDelegates, VaultDelegate, VaultEvents {
         let addr = signer::address_of(owner);
-        assert!(exists<Vault<Content>>(addr), error::not_found(EVAULT));
+        assert!(
+            exists<Vault<Content>>(addr),
+            error::not_found(EVAULT)
+        );
         let Vault { content } = move_from<Vault<Content>>(addr);
         assert!(option::is_some(&content), error::invalid_state(EACCESSOR_IN_USE));
 
@@ -289,7 +307,9 @@ module std::vault {
     public fun acquire_read_cap<Content: store + drop>(
         requester: &signer
     ): ReadCap<Content> acquires VaultDelegate {
-        let (vault_address, authority) = validate_cap<Content>(requester, read_cap_type());
+        let (vault_address, authority) = validate_cap<Content>(
+            requester, read_cap_type()
+        );
         ReadCap { vault_address, authority }
     }
 
@@ -339,7 +359,10 @@ module std::vault {
             (delegate.vault_address, addr)
         } else {
             // If it is not a delegate, it must be the owner to succeed.
-            assert!(exists<Vault<Content>>(addr), error::not_found(EVAULT));
+            assert!(
+                exists<Vault<Content>>(addr),
+                error::not_found(EVAULT)
+            );
             (addr, addr)
         }
     }
@@ -478,7 +501,10 @@ module std::vault {
             exists<VaultDelegates<Content>>(cap.vault_address),
             error::invalid_state(EDELEGATION_NOT_ENABLED)
         );
-        assert!(exists<VaultDelegate<Content>>(addr), error::not_found(EDELEGATE));
+        assert!(
+            exists<VaultDelegate<Content>>(addr),
+            error::not_found(EDELEGATE)
+        );
 
         let delegate = borrow_global_mut<VaultDelegate<Content>>(addr);
         remove_element(&mut delegate.granted_caps, &cap_type);
@@ -564,9 +590,14 @@ module std::vault {
         cap: &TransferCap<Content>, to_owner: &signer
     ) acquires Vault, VaultEvents, VaultDelegate, VaultDelegates {
         let new_addr = signer::address_of(to_owner);
-        assert!(!exists<Vault<Content>>(new_addr), error::already_exists(EVAULT));
         assert!(
-            option::is_some(&borrow_global<Vault<Content>>(cap.vault_address).content),
+            !exists<Vault<Content>>(new_addr),
+            error::already_exists(EVAULT)
+        );
+        assert!(
+            option::is_some(
+                &borrow_global<Vault<Content>>(cap.vault_address).content
+            ),
             error::invalid_state(EACCESSOR_IN_USE)
         );
 
@@ -594,6 +625,9 @@ module std::vault {
         };
 
         // Move the vault.
-        move_to<Vault<Content>>(to_owner, move_from<Vault<Content>>(cap.vault_address));
+        move_to<Vault<Content>>(
+            to_owner,
+            move_from<Vault<Content>>(cap.vault_address)
+        );
     }
 }

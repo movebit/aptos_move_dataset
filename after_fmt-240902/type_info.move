@@ -111,12 +111,24 @@ module aptos_std::type_info {
         assert!(type_name<u8>() == string::utf8(b"u8"), 1);
         assert!(type_name<u64>() == string::utf8(b"u64"), 2);
         assert!(type_name<u128>() == string::utf8(b"u128"), 3);
-        assert!(type_name<address>() == string::utf8(b"address"), 4);
-        assert!(type_name<signer>() == string::utf8(b"signer"), 5);
+        assert!(
+            type_name<address>() == string::utf8(b"address"),
+            4
+        );
+        assert!(
+            type_name<signer>() == string::utf8(b"signer"),
+            5
+        );
 
         // vector
-        assert!(type_name<vector<u8>>() == string::utf8(b"vector<u8>"), 6);
-        assert!(type_name<vector<vector<u8>>>() == string::utf8(b"vector<vector<u8>>"), 7);
+        assert!(
+            type_name<vector<u8>>() == string::utf8(b"vector<u8>"),
+            6
+        );
+        assert!(
+            type_name<vector<vector<u8>>>() == string::utf8(b"vector<vector<u8>>"),
+            7
+        );
         assert!(
             type_name<vector<vector<TypeInfo>>>()
                 == string::utf8(b"vector<vector<0x1::type_info::TypeInfo>>"),
@@ -124,7 +136,10 @@ module aptos_std::type_info {
         );
 
         // struct
-        assert!(type_name<TypeInfo>() == string::utf8(b"0x1::type_info::TypeInfo"), 9);
+        assert!(
+            type_name<TypeInfo>() == string::utf8(b"0x1::type_info::TypeInfo"),
+            9
+        );
         assert!(
             type_name<Table<TypeInfo, Table<u8, vector<TypeInfo>>>>()
                 == string::utf8(
@@ -216,7 +231,10 @@ module aptos_std::type_info {
             field_6: 0
         }; // Declare a complex struct with another nested inside.
         // Assert size is bytewise sum of components.
-        assert!(size_of_val(&complex_struct) == (1 + 1 + 8 + 16 + 1 + 16), 0);
+        assert!(
+            size_of_val(&complex_struct) == (1 + 1 + 8 + 16 + 1 + 16),
+            0
+        );
         // Declare a struct with two boolean values.
         let two_bools = TwoBools { bool_1: false, bool_2: false };
         // Assert size is two bytes.
@@ -297,24 +315,36 @@ module aptos_std::type_info {
             i = i + 1; // Increment counter.
         };
         // Vector base size is still 1 byte.
-        assert!(size_of_val(&vector_u64) - element_size * i == base_size_1, 0);
+        assert!(
+            size_of_val(&vector_u64) - element_size * i == base_size_1,
+            0
+        );
         // Add another element, exceeding the cutoff.
         vector::push_back(&mut vector_u64, null_element);
         i = i + 1; // Increment counter.
         // Vector base size is now 2 bytes.
-        assert!(size_of_val(&vector_u64) - element_size * i == base_size_2, 0);
+        assert!(
+            size_of_val(&vector_u64) - element_size * i == base_size_2,
+            0
+        );
         while (i < n_elems_cutoff_2) { // Iterate until second cutoff:
             // Add an element.
             vector::push_back(&mut vector_u64, null_element);
             i = i + 1; // Increment counter.
         };
         // Vector base size is still 2 bytes.
-        assert!(size_of_val(&vector_u64) - element_size * i == base_size_2, 0);
+        assert!(
+            size_of_val(&vector_u64) - element_size * i == base_size_2,
+            0
+        );
         // Add another element, exceeding the cutoff.
         vector::push_back(&mut vector_u64, null_element);
         i = i + 1; // Increment counter.
         // Vector base size is now 3 bytes.
-        assert!(size_of_val(&vector_u64) - element_size * i == base_size_3, 0);
+        assert!(
+            size_of_val(&vector_u64) - element_size * i == base_size_3,
+            0
+        );
         // Repeat for custom struct.
         let vector_complex = vector::empty<ComplexStruct<address>>();
         // Declare a null element.

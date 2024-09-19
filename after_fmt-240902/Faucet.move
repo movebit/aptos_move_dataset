@@ -35,12 +35,10 @@ module 0x42::Faucet {
 
     #[receive, payable]
     public fun receive() {
-        emit(
-            DepositEvent {
-                from: sender(),
-                amount: value()
-            }
-        )
+        emit(DepositEvent {
+            from: sender(),
+            amount: value()
+        })
     }
 
     #[callable]
@@ -57,7 +55,10 @@ module 0x42::Faucet {
         );
 
         // Funds must be available.
-        assert!(U256::le(copy amount, balance(self())), errors::limit_exceeded(0));
+        assert!(
+            U256::le(copy amount, balance(self())),
+            errors::limit_exceeded(0)
+        );
 
         // Transfer funds
         transfer(sender(), copy amount);

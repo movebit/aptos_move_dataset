@@ -131,7 +131,9 @@ module 0x42::FixedPointArithmetic {
     fun div_mul(x: u64, y: FixedPoint32): u64 {
         let y_raw_val = fixed_point32::get_raw_value(y);
         let z =
-            fixed_point32::divide_u64(x, fixed_point32::create_from_raw_value(y_raw_val));
+            fixed_point32::divide_u64(
+                x, fixed_point32::create_from_raw_value(y_raw_val)
+            );
         fixed_point32::multiply_u64(z, fixed_point32::create_from_raw_value(y_raw_val))
     }
 
@@ -142,7 +144,9 @@ module 0x42::FixedPointArithmetic {
     fun div_mul_incorrect(x: u64, y: FixedPoint32): u64 {
         let y_raw_val = fixed_point32::get_raw_value(y);
         let z =
-            fixed_point32::divide_u64(x, fixed_point32::create_from_raw_value(y_raw_val));
+            fixed_point32::divide_u64(
+                x, fixed_point32::create_from_raw_value(y_raw_val)
+            );
         fixed_point32::multiply_u64(z, fixed_point32::create_from_raw_value(y_raw_val))
     }
 

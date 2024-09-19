@@ -98,7 +98,10 @@ module 0x2::M {
 
         i = 0;
         while (i < end) {
-            assert!(*vector::borrow(&bytes, (i as u64)) == i, (i as u64));
+            assert!(
+                *vector::borrow(&bytes, (i as u64)) == i,
+                (i as u64)
+            );
             i = i + 1;
         };
 

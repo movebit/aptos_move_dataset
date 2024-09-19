@@ -500,13 +500,17 @@ module defi::locked_coins {
         assert!(claim_time_secs<AptosCoin>(sponsor_addr, recipient_2_addr) == 1000, 0);
         // Extend lockup.
         batch_update_lockup<AptosCoin>(
-            sponsor, vector[recipient_1_addr, recipient_2_addr], 2000
+            sponsor,
+            vector[recipient_1_addr, recipient_2_addr],
+            2000
         );
         assert!(claim_time_secs<AptosCoin>(sponsor_addr, recipient_1_addr) == 2000, 1);
         assert!(claim_time_secs<AptosCoin>(sponsor_addr, recipient_2_addr) == 2000, 1);
         // Reduce lockup.
         batch_update_lockup<AptosCoin>(
-            sponsor, vector[recipient_1_addr, recipient_2_addr], 1500
+            sponsor,
+            vector[recipient_1_addr, recipient_2_addr],
+            1500
         );
         assert!(claim_time_secs<AptosCoin>(sponsor_addr, recipient_1_addr) == 1500, 2);
         assert!(claim_time_secs<AptosCoin>(sponsor_addr, recipient_2_addr) == 1500, 2);

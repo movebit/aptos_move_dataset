@@ -419,7 +419,9 @@ script {
     use aptos_framework::gas_schedule;
 
     fun main(core_resources: &signer) {
-        let core_signer = aptos_governance::get_signer_testnet_only(core_resources, @0x1);
+        let core_signer = aptos_governance::get_signer_testnet_only(
+            core_resources, @0x1
+        );
 
         let framework_signer = &core_signer;
 

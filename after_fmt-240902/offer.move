@@ -82,7 +82,9 @@ module std::offer {
             offer_address, signer::address_of(account)
         );
         ensures !exists<Offer<Offered>>(offer_address);
-        ensures result == old(global<Offer<Offered>>(offer_address).offered);
+        ensures result == old(
+            global<Offer<Offered>>(offer_address).offered
+        );
     }
 
     // Returns true if an offer of type `Offered` exists at `offer_address`.

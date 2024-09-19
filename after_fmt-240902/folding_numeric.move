@@ -104,7 +104,8 @@ script {
         assert!(SHL3 == 0x8000, 42);
         assert!(SHL4 == 0x80000000, 42);
         assert!(
-            SHL5 == 0x8000000000000000000000000000000000000000000000000000000000000000, 42
+            SHL5 == 0x8000000000000000000000000000000000000000000000000000000000000000,
+            42
         );
 
         assert!(SHR0 == 1, 42);
@@ -137,7 +138,8 @@ script {
         assert!(DIV3 == 0x7FFF, 42);
         assert!(DIV4 == 0x7FFFFFFF, 42);
         assert!(
-            DIV5 == 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF, 42
+            DIV5 == 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,
+            42
         );
 
         assert!(MOD0 == 1, 42);
@@ -170,7 +172,8 @@ script {
         assert!(ADD3 == 0xFFFF, 42);
         assert!(ADD4 == 0xFFFFFFFF, 42);
         assert!(
-            ADD5 == 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF, 42
+            ADD5 == 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,
+            42
         );
 
         assert!(SUB0 == 0, 42);

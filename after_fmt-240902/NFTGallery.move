@@ -23,14 +23,14 @@ module 0x1::NFTGallery {
     public fun add_to_gallery<TokenType: copy + store + drop>(
         owner: address, token: Token<TokenType>
     ) acquires NFTGallery {
-        assert!(exists<NFTGallery<TokenType>>(owner), EGALLERY_NOT_PUBLISHED);
+        assert!(
+            exists<NFTGallery<TokenType>>(owner),
+            EGALLERY_NOT_PUBLISHED
+        );
         let gallery = &mut borrow_global_mut<NFTGallery<TokenType>>(owner).gallery;
         if (!NFT::is_data_inlined<TokenType>(&token)) {
             let index_opt =
-                index_of_token<TokenType>(
-                    gallery,
-                    &NFT::id<TokenType>(&token)
-                );
+                index_of_token<TokenType>(gallery, &NFT::id<TokenType>(&token));
             if (option::is_some(&index_opt)) {
                 let prev_token_idx = option::extract(&mut index_opt);
                 // The gallery already has the given token: update its balance
@@ -154,12 +154,7 @@ module 0x1::NFTGallery {
             add_to_gallery<TokenType>(to, split_out_token)
         };
         // Emit transfer event
-        NFT::emit_transfer_event(
-            &id,
-            account,
-            to,
-            amount
-        )
+        NFT::emit_transfer_event(&id, account, to, amount)
     }
 
     public fun publish_gallery<TokenType: copy + store + drop>(
@@ -169,7 +164,10 @@ module 0x1::NFTGallery {
             !exists<NFTGallery<TokenType>>(signer::address_of(account)),
             EGALLERY_ALREADY_PUBLISHED
         );
-        move_to(account, NFTGallery<TokenType> { gallery: vector::empty() });
+        move_to(
+            account,
+            NFTGallery<TokenType> { gallery: vector::empty() }
+        );
     }
 
     /// Finds the index of token with the given id in the gallery.

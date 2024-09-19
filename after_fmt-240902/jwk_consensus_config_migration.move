@@ -16,7 +16,9 @@ script {
         let provider_google =
             jwk_consensus_config::new_oidc_provider(
                 utf8(b"https://accounts.google.com"),
-                utf8(b"https://accounts.google.com/.well-known/openid-configuration")
+                utf8(
+                    b"https://accounts.google.com/.well-known/openid-configuration"
+                )
             );
         let config = jwk_consensus_config::new_v1(vector[provider_google]);
         jwk_consensus_config::initialize(&framework, config);

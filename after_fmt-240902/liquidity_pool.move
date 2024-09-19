@@ -450,8 +450,12 @@ module publisher_address::liquidity_pool {
                 *smart_table::borrow(&fees_accounting.total_fees_at_last_claim_2, lp);
             let delta_1 = current_total_fees_1 - last_total_fees_1;
             let delta_2 = current_total_fees_2 - last_total_fees_2;
-            let claimable_1 = math128::mul_div(delta_1, lp_balance, lp_token_total_supply);
-            let claimable_2 = math128::mul_div(delta_2, lp_balance, lp_token_total_supply);
+            let claimable_1 = math128::mul_div(
+                delta_1, lp_balance, lp_token_total_supply
+            );
+            let claimable_2 = math128::mul_div(
+                delta_2, lp_balance, lp_token_total_supply
+            );
             if (claimable_1 > 0) {
                 let old_claimable_1 =
                     smart_table::borrow_mut_with_default(

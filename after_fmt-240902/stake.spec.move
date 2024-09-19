@@ -351,7 +351,9 @@ spec aptos_framework::stake {
             && vector::length(validator_set.active_validators) < 2;
         aborts_if validator_find_bool
             && vector::length(validator_set.pending_active)
-                <= option::spec_borrow(spec_find_validator(pending_active, pool_address));
+                <= option::spec_borrow(
+                    spec_find_validator(pending_active, pool_address)
+                );
         let post p_validator_set = global<ValidatorSet>(@aptos_framework);
         let validator_stake = (get_next_epoch_voting_power(stake_pool) as u128);
         ensures validator_find_bool
@@ -758,9 +760,7 @@ spec aptos_framework::stake {
         // The suffix of the new `v1` is the same as the reverse of the old `v2`.
         ensures (
             forall i in old(len(v1))..len(v1):
-                v1[i] == old(
-                    v2[len(v2) - (i - len(v1)) - 1]
-                )
+                v1[i] == old(v2[len(v2) - (i - len(v1)) - 1])
         );
     }
 

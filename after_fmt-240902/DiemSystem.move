@@ -87,7 +87,10 @@ module CoreFramework::DiemSystem {
             !exists<ValidatorSetChainMarker<T>>(@CoreResources),
             errors::already_published(ECHAIN_MARKER)
         );
-        assert!(!exists<DiemSystem>(@CoreResources), errors::already_published(ECONFIG));
+        assert!(
+            !exists<DiemSystem>(@CoreResources),
+            errors::already_published(ECONFIG)
+        );
         move_to(account, ValidatorSetChainMarker<T> {});
         move_to(
             account,

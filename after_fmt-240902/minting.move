@@ -425,7 +425,10 @@ module post_mint_reveal_nft::minting {
             error::permission_denied(ENOT_AUTHORIZED)
         );
         whitelist::add_whitelist_addresses(
-            admin, wl_addresses, mint_limit, whitelist_stage
+            admin,
+            wl_addresses,
+            mint_limit,
+            whitelist_stage
         );
     }
 
@@ -468,7 +471,9 @@ module post_mint_reveal_nft::minting {
             &token_uris,
             |i, token_uri| {
                 assert!(
-                    !bucket_table::contains(&collection_config.deduped_tokens, token_uri),
+                    !bucket_table::contains(
+                        &collection_config.deduped_tokens, token_uri
+                    ),
                     error::invalid_argument(EDUPLICATE_TOKEN_URI)
                 );
                 big_vector::push_back(
@@ -480,7 +485,9 @@ module post_mint_reveal_nft::minting {
                         property_types: *vector::borrow(&property_types, i)
                     }
                 );
-                bucket_table::add(&mut collection_config.deduped_tokens, *token_uri, true);
+                bucket_table::add(
+                    &mut collection_config.deduped_tokens, *token_uri, true
+                );
             }
         );
     }
@@ -762,7 +769,9 @@ module post_mint_reveal_nft::minting {
         coin::register<AptosCoin>(public_nft_claimer);
         coin::register<AptosCoin>(treasury_account);
         coin::deposit(signer::address_of(wl_nft_claimer), coin::mint(100, &mint_cap));
-        coin::deposit(signer::address_of(public_nft_claimer), coin::mint(100, &mint_cap));
+        coin::deposit(
+            signer::address_of(public_nft_claimer), coin::mint(100, &mint_cap)
+        );
 
         coin::destroy_burn_cap(burn_cap);
         coin::destroy_mint_cap(mint_cap);
@@ -804,7 +813,10 @@ module post_mint_reveal_nft::minting {
             string::append(&mut token_uri, u64_to_string(i));
             vector::push_back(&mut token_uris, token_uri);
             vector::push_back(&mut property_keys, vector::empty<String>());
-            vector::push_back(&mut property_values, vector::empty<vector<u8>>());
+            vector::push_back(
+                &mut property_values,
+                vector::empty<vector<u8>>()
+            );
             vector::push_back(&mut property_types, vector::empty<String>());
             i = i + 1;
         };
@@ -897,8 +909,14 @@ module post_mint_reveal_nft::minting {
             token::balance_of(signer::address_of(&public_nft_claimer), token_id3) == 1,
             2
         );
-        assert!(coin::balance<AptosCoin>(signer::address_of(&treasury_account)) == 20, 1);
-        assert!(coin::balance<AptosCoin>(signer::address_of(&wl_nft_claimer)) == 90, 2);
+        assert!(
+            coin::balance<AptosCoin>(signer::address_of(&treasury_account)) == 20,
+            1
+        );
+        assert!(
+            coin::balance<AptosCoin>(signer::address_of(&wl_nft_claimer)) == 90,
+            2
+        );
         assert!(
             coin::balance<AptosCoin>(signer::address_of(&public_nft_claimer)) == 90,
             3
@@ -1434,7 +1452,10 @@ module post_mint_reveal_nft::minting {
         while (i < 3) {
             vector::push_back(&mut token_uris, utf8(b"token uri"));
             vector::push_back(&mut property_keys, vector::empty<String>());
-            vector::push_back(&mut property_values, vector::empty<vector<u8>>());
+            vector::push_back(
+                &mut property_values,
+                vector::empty<vector<u8>>()
+            );
             i = i + 1;
         };
         add_tokens(
@@ -1542,7 +1563,9 @@ module post_mint_reveal_nft::minting {
         // setting up stage-2 whitelist
         set_up_whitelist_stage(&admin_account, 101, 200, 6, 1);
         let wl_addresses_stage_2 = vector::empty<address>();
-        vector::push_back(&mut wl_addresses_stage_2, signer::address_of(wl_nft_claimer2));
+        vector::push_back(
+            &mut wl_addresses_stage_2, signer::address_of(wl_nft_claimer2)
+        );
         add_to_whitelist(&admin_account, wl_addresses_stage_2, 1, 1);
     }
 
@@ -1591,7 +1614,10 @@ module post_mint_reveal_nft::minting {
             );
         assert!(token::balance_of(signer::address_of(&wl_nft_claimer), token_id1) == 1, 0);
         assert!(token::balance_of(signer::address_of(&wl_nft_claimer), token_id2) == 1, 1);
-        assert!(coin::balance<AptosCoin>(signer::address_of(&wl_nft_claimer)) == 90, 2);
+        assert!(
+            coin::balance<AptosCoin>(signer::address_of(&wl_nft_claimer)) == 90,
+            2
+        );
 
         timestamp::fast_forward_seconds(50);
         mint_source_certificate(&wl_nft_claimer2, 1);
@@ -1606,7 +1632,10 @@ module post_mint_reveal_nft::minting {
             token::balance_of(signer::address_of(&wl_nft_claimer2), token_id3) == 1,
             3
         );
-        assert!(coin::balance<AptosCoin>(signer::address_of(&wl_nft_claimer2)) == 94, 4);
+        assert!(
+            coin::balance<AptosCoin>(signer::address_of(&wl_nft_claimer2)) == 94,
+            4
+        );
     }
 
     #[

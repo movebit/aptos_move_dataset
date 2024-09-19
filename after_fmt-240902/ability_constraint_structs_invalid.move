@@ -46,7 +46,7 @@ module M {
         let Sc {} = Sc<Box<NoC>> {};
         let Sk {} = Sk<NoK> {};
         let Sk {} = Sk<Cup<u64>> {};
-        let Sk {} = Sk<Box<Cup<u64>> > {};
+        let Sk {} = Sk<Box<Cup<u64>>> {};
         let Scds {} = Scds<NoC> {};
         let Scds {} = Scds<Cup<u64>> {};
         let Scds {} = Scds<Cup<NoC>> {};

@@ -80,12 +80,15 @@ module DiemFramework::VASP {
             errors::already_published(EPARENT_OR_CHILD_VASP)
         );
         let parent_vasp_addr = signer::address_of(parent);
-        assert!(is_parent(parent_vasp_addr), errors::invalid_argument(ENOT_A_PARENT_VASP));
+        assert!(
+            is_parent(parent_vasp_addr), errors::invalid_argument(ENOT_A_PARENT_VASP)
+        );
         let num_children =
             &mut borrow_global_mut<ParentVASP>(parent_vasp_addr).num_children;
         // Abort if creating this child account would put the parent VASP over the limit
         assert!(
-            *num_children < MAX_CHILD_ACCOUNTS, errors::limit_exceeded(ETOO_MANY_CHILDREN)
+            *num_children < MAX_CHILD_ACCOUNTS,
+            errors::limit_exceeded(ETOO_MANY_CHILDREN)
         );
         *num_children = *num_children + 1;
         move_to(child, ChildVASP { parent_vasp_addr });

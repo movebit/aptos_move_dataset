@@ -230,10 +230,22 @@ module aptos_std::ristretto255_bulletproofs {
 
         let (proof, comm) = prove_range_pedersen(&v, &r, num_bits, A_DST);
 
-        assert!(verify_range_proof_pedersen(&comm, &proof, 64, A_DST) == false, 1);
-        assert!(verify_range_proof_pedersen(&comm, &proof, 32, A_DST) == false, 1);
-        assert!(verify_range_proof_pedersen(&comm, &proof, 16, A_DST) == false, 1);
-        assert!(verify_range_proof_pedersen(&comm, &proof, num_bits, A_DST), 1);
+        assert!(
+            verify_range_proof_pedersen(&comm, &proof, 64, A_DST) == false,
+            1
+        );
+        assert!(
+            verify_range_proof_pedersen(&comm, &proof, 32, A_DST) == false,
+            1
+        );
+        assert!(
+            verify_range_proof_pedersen(&comm, &proof, 16, A_DST) == false,
+            1
+        );
+        assert!(
+            verify_range_proof_pedersen(&comm, &proof, num_bits, A_DST),
+            1
+        );
     }
 
     #[test(fx = @std)]

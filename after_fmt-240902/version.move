@@ -48,7 +48,9 @@ module aptos_framework::version {
         chain_status::assert_genesis();
 
         let old_major = borrow_global<Version>(@aptos_framework).major;
-        assert!(old_major < major, error::invalid_argument(EINVALID_MAJOR_VERSION_NUMBER));
+        assert!(
+            old_major < major, error::invalid_argument(EINVALID_MAJOR_VERSION_NUMBER)
+        );
 
         let config = borrow_global_mut<Version>(@aptos_framework);
         config.major = major;
@@ -67,7 +69,9 @@ module aptos_framework::version {
             error::permission_denied(ENOT_AUTHORIZED)
         );
         let old_major = borrow_global<Version>(@aptos_framework).major;
-        assert!(old_major < major, error::invalid_argument(EINVALID_MAJOR_VERSION_NUMBER));
+        assert!(
+            old_major < major, error::invalid_argument(EINVALID_MAJOR_VERSION_NUMBER)
+        );
         config_buffer::upsert(Version { major });
     }
 

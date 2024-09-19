@@ -94,9 +94,8 @@ module std::fixed_point32_tests {
         assert!(not_three == 2, 0);
 
         // Try again with a fraction slightly larger than 1/3.
-        let f = fixed_point32::create_from_raw_value(
-            fixed_point32::get_raw_value(f) + 1
-        );
+        let f = fixed_point32::create_from_raw_value(fixed_point32::get_raw_value(f)
+            + 1);
         let three = fixed_point32::multiply_u64(9, f);
         assert!(three == 3, 1);
     }

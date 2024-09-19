@@ -123,27 +123,27 @@ module M {
         // structs with structs
         let Sc {} = Sc<S> {};
         let Sc {} = Sc<Box<S>> {};
-        let Sc {} = Sc<Pair<Box<S> , S>> {};
+        let Sc {} = Sc<Pair<Box<S>, S>> {};
         let Sd {} = Sd<S> {};
         let Sd {} = Sd<Box<S>> {};
-        let Sd {} = Sd<Pair<Box<S> , S>> {};
+        let Sd {} = Sd<Pair<Box<S>, S>> {};
         let Ss {} = Ss<S> {};
         let Ss {} = Ss<R> {};
         let Ss {} = Ss<Box<S>> {};
         let Ss {} = Ss<Box<R>> {};
-        let Ss {} = Ss<Pair<Box<S> , S>> {};
-        let Ss {} = Ss<Pair<R, Box<Pair<R, S>> >> {};
+        let Ss {} = Ss<Pair<Box<S>, S>> {};
+        let Ss {} = Ss<Pair<R, Box<Pair<R, S>>>> {};
         let Sk {} = Sk<R> {};
         let Sk {} = Sk<Box<R>> {};
-        let Sk {} = Sk<Pair<R, Box<R>> > {};
-        let Sk {} = Sk<Pair<R, Box<Pair<R, S>> >> {};
+        let Sk {} = Sk<Pair<R, Box<R>>> {};
+        let Sk {} = Sk<Pair<R, Box<Pair<R, S>>>> {};
         let Ssk {} = Ssk<R> {};
         let Ssk {} = Ssk<Box<R>> {};
-        let Ssk {} = Ssk<Pair<R, Box<R>> > {};
-        let Ssk {} = Ssk<Pair<R, Box<Pair<R, S>> >> {};
+        let Ssk {} = Ssk<Pair<R, Box<R>>> {};
+        let Ssk {} = Ssk<Pair<R, Box<Pair<R, S>>>> {};
         let Scds {} = Scds<S> {};
         let Scds {} = Scds<Box<S>> {};
-        let Scds {} = Scds<Pair<Box<S> , S>> {};
+        let Scds {} = Scds<Pair<Box<S>, S>> {};
 
     }
 }

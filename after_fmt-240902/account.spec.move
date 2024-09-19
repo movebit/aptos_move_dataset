@@ -232,10 +232,7 @@ spec aptos_framework::account {
         include AssertValidRotationProofSignatureAndGetAuthKeyAbortsIf;
         ensures [abstract] result
             == spec_assert_valid_rotation_proof_signature_and_get_auth_key(
-                scheme,
-                public_key_bytes,
-                signature,
-                challenge
+                scheme, public_key_bytes, signature, challenge
             );
     }
 

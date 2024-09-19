@@ -281,7 +281,9 @@ module aptos_std::smart_table {
             bucket_ref = table_with_length::borrow(buckets_ref, bucket_index);
             bucket_length = vector::length(bucket_ref);
             for (vector_index in starting_vector_index..bucket_length) {
-                vector::push_back(&mut keys, vector::borrow(bucket_ref, vector_index).key);
+                vector::push_back(
+                    &mut keys, vector::borrow(bucket_ref, vector_index).key
+                );
                 num_keys_to_get = num_keys_to_get - 1;
                 if (num_keys_to_get == 0) {
                     vector_index = vector_index + 1;
@@ -483,7 +485,8 @@ module aptos_std::smart_table {
         table: &mut SmartTable<K, V>, target_bucket_size: u64
     ) {
         assert!(
-            target_bucket_size > 0, error::invalid_argument(EINVALID_TARGET_BUCKET_SIZE)
+            target_bucket_size > 0,
+            error::invalid_argument(EINVALID_TARGET_BUCKET_SIZE)
         );
         table.target_bucket_size = target_bucket_size;
     }
@@ -532,7 +535,10 @@ module aptos_std::smart_table {
         table: &SmartTable<K, V1>, f: |&V1| V2
     ): SmartTable<K, V2> {
         let new_table = new<K, V2>();
-        for_each_ref(table, |key, value| add(&mut new_table, *key, f(value)));
+        for_each_ref(
+            table,
+            |key, value| add(&mut new_table, *key, f(value))
+        );
         new_table
     }
 

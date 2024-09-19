@@ -219,13 +219,17 @@ module aptos_token::property_map {
 
     public fun read_u128(map: &PropertyMap, key: &String): u128 {
         let prop = borrow(map, key);
-        assert!(prop.type == string::utf8(b"u128"), error::invalid_state(ETYPE_NOT_MATCH));
+        assert!(
+            prop.type == string::utf8(b"u128"), error::invalid_state(ETYPE_NOT_MATCH)
+        );
         from_bcs::to_u128(prop.value)
     }
 
     public fun read_bool(map: &PropertyMap, key: &String): bool {
         let prop = borrow(map, key);
-        assert!(prop.type == string::utf8(b"bool"), error::invalid_state(ETYPE_NOT_MATCH));
+        assert!(
+            prop.type == string::utf8(b"bool"), error::invalid_state(ETYPE_NOT_MATCH)
+        );
         from_bcs::to_bool(prop.value)
     }
 
@@ -257,7 +261,9 @@ module aptos_token::property_map {
         assert!(
             key_len == val_len, error::invalid_state(EKEY_COUNT_NOT_MATCH_VALUE_COUNT)
         );
-        assert!(key_len == typ_len, error::invalid_state(EKEY_COUNT_NOT_MATCH_TYPE_COUNT));
+        assert!(
+            key_len == typ_len, error::invalid_state(EKEY_COUNT_NOT_MATCH_TYPE_COUNT)
+        );
 
         let i = 0;
         while (i < key_len) {
@@ -297,7 +303,10 @@ module aptos_token::property_map {
             || name == string::utf8(b"0x1::string::String")) {
             create_property_value_raw(bcs::to_bytes<T>(data), name)
         } else {
-            create_property_value_raw(bcs::to_bytes<T>(data), string::utf8(b"vector<u8>"))
+            create_property_value_raw(
+                bcs::to_bytes<T>(data),
+                string::utf8(b"vector<u8>")
+            )
         }
     }
 
@@ -338,17 +347,26 @@ module aptos_token::property_map {
 
     #[test]
     fun test_get_property_keys() {
-        assert!(keys(&create_property_list()) == test_keys(), 0);
+        assert!(
+            keys(&create_property_list()) == test_keys(),
+            0
+        );
     }
 
     #[test]
     fun test_get_property_types() {
-        assert!(types(&create_property_list()) == test_types(), 0);
+        assert!(
+            types(&create_property_list()) == test_types(),
+            0
+        );
     }
 
     #[test]
     fun test_get_property_values() {
-        assert!(values(&create_property_list()) == test_values(), 0);
+        assert!(
+            values(&create_property_list()) == test_values(),
+            0
+        );
     }
 
     #[test]

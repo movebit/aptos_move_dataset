@@ -17,17 +17,28 @@ module CoinSwap::PoolToken {
         from: &signer, to: address, amount: u64
     ) {
         BasicCoin::transfer<PoolToken<CoinType1, CoinType2>>(
-            from, to, amount, PoolToken<CoinType1, CoinType2> {}
+            from,
+            to,
+            amount,
+            PoolToken<CoinType1, CoinType2> {}
         );
     }
 
     public fun mint<CoinType1, CoinType2>(mint_addr: address, amount: u64) {
         // Deposit `total_value` amount of tokens to mint_addr's balance
-        BasicCoin::mint(mint_addr, amount, PoolToken<CoinType1, CoinType2> {});
+        BasicCoin::mint(
+            mint_addr,
+            amount,
+            PoolToken<CoinType1, CoinType2> {}
+        );
     }
 
     public fun burn<CoinType1, CoinType2>(burn_addr: address, amount: u64) {
         // Deposit `total_value` amount of tokens to mint_addr's balance
-        BasicCoin::burn(burn_addr, amount, PoolToken<CoinType1, CoinType2> {});
+        BasicCoin::burn(
+            burn_addr,
+            amount,
+            PoolToken<CoinType1, CoinType2> {}
+        );
     }
 }

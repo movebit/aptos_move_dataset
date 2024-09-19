@@ -60,6 +60,9 @@ module DiemFramework::SignatureTests {
         );
 
         // all three valid
-        assert!(Signature::ed25519_verify(valid_signature, pubkey, message), 9010);
+        assert!(
+            Signature::ed25519_verify(valid_signature, pubkey, message),
+            9010
+        );
     }
 }

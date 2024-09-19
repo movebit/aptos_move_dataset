@@ -71,9 +71,7 @@ spec aptos_token::token {
         //TODO: Complex abort condition in mint_token.
         pragma aborts_if_is_partial;
         let token_data_id = spec_create_token_data_id(
-            token_data_address,
-            collection,
-            name
+            token_data_address, collection, name
         );
         let addr = signer::address_of(account);
         let creator_addr = token_data_id.creator;
@@ -181,7 +179,10 @@ spec aptos_token::token {
         pragma aborts_if_is_partial;
         let creator_address = signer::address_of(creator);
         let token_id = spec_create_token_id_raw(
-            creator_address, collection, name, property_version
+            creator_address,
+            collection,
+            name,
+            property_version
         );
         let creator_addr = token_id.token_data_id.creator;
         let collections = borrow_global_mut<Collections>(creator_address);
@@ -211,7 +212,10 @@ spec aptos_token::token {
         //TODO: Abort condition is complex because of the read_bool in the property_map module.
         pragma aborts_if_is_partial;
         let token_id = spec_create_token_id_raw(
-            creators_address, collection, name, property_version
+            creators_address,
+            collection,
+            name,
+            property_version
         );
         let creator_addr = token_id.token_data_id.creator;
         let collections = borrow_global_mut<Collections>(creator_addr);
@@ -224,7 +228,8 @@ spec aptos_token::token {
         aborts_if !exists<Collections>(creator_addr);
         aborts_if !table::spec_contains(collections.token_data, token_id.token_data_id);
         aborts_if !simple_map::spec_contains_key(
-            token_data.default_properties.map, std::string::spec_utf8(BURNABLE_BY_OWNER)
+            token_data.default_properties.map,
+            std::string::spec_utf8(BURNABLE_BY_OWNER)
         );
         aborts_if !string::spec_internal_check_utf8(BURNABLE_BY_OWNER);
 

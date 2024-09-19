@@ -19,7 +19,11 @@ module 0x42::test {
             mathtest::fun1(
                 2,
                 mathtest::fun1(3, mathtest2::fun2(4, 5, 6), 7),
-                mathtest2::fun2(8, 9, mathtest::fun1(10, mathtest2::fun2(11, 12, 13), 14))
+                mathtest2::fun2(
+                    8,
+                    9,
+                    mathtest::fun1(10, mathtest2::fun2(11, 12, 13), 14)
+                )
             );
         assert!(a == 81911, 0);
     }

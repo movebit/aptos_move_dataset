@@ -142,7 +142,9 @@ module CoreFramework::ValidatorConfig {
             errors::invalid_argument(EINVALID_CONSENSUS_KEY)
         );
         // TODO(valerini): verify the proof of posession for consensus_pubkey
-        assert!(exists_config(validator_addr), errors::not_published(EVALIDATOR_CONFIG));
+        assert!(
+            exists_config(validator_addr), errors::not_published(EVALIDATOR_CONFIG)
+        );
         let t_ref = borrow_global_mut<ValidatorConfig>(validator_addr);
         t_ref.config = option::some(
             Config {
@@ -180,7 +182,10 @@ module CoreFramework::ValidatorConfig {
     /// Get validator's account human name
     /// Aborts if there is no ValidatorConfig resource
     public fun get_human_name(addr: address): vector<u8> acquires ValidatorConfig {
-        assert!(exists<ValidatorConfig>(addr), errors::not_published(EVALIDATOR_CONFIG));
+        assert!(
+            exists<ValidatorConfig>(addr),
+            errors::not_published(EVALIDATOR_CONFIG)
+        );
         let t_ref = borrow_global<ValidatorConfig>(addr);
         *&t_ref.human_name
     }
@@ -189,7 +194,10 @@ module CoreFramework::ValidatorConfig {
     /// Aborts if there is no ValidatorConfig resource or
     /// if the operator_account is unset
     public fun get_operator(addr: address): address acquires ValidatorConfig {
-        assert!(exists<ValidatorConfig>(addr), errors::not_published(EVALIDATOR_CONFIG));
+        assert!(
+            exists<ValidatorConfig>(addr),
+            errors::not_published(EVALIDATOR_CONFIG)
+        );
         let t_ref = borrow_global<ValidatorConfig>(addr);
         assert!(
             option::is_some(&t_ref.operator_account),

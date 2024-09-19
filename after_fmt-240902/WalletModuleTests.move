@@ -145,12 +145,7 @@ module DiemFramework::ColdWallet {
         assert!(amount <= account_balance, 1001);
 
         // obtain the expected serialization of the transaction struct
-        let transaction_bytes = get_transaction_bytes(
-            payer,
-            payee,
-            amount,
-            payer_ref
-        );
+        let transaction_bytes = get_transaction_bytes(payer, payee, amount, payer_ref);
 
         let hash = hash::sha3_256(transaction_bytes);
         let has_authority =

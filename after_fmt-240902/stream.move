@@ -88,7 +88,10 @@ module bcs_stream::bcs_stream {
         let data = &stream.data;
         let cur = stream.cur;
 
-        assert!(cur + 32 <= vector::length(data), error::out_of_range(EOUT_OF_BYTES));
+        assert!(
+            cur + 32 <= vector::length(data),
+            error::out_of_range(EOUT_OF_BYTES)
+        );
         let res = from_bcs::to_address(vector::slice(data, cur, cur + 32));
 
         stream.cur = cur + 32;
@@ -115,7 +118,10 @@ module bcs_stream::bcs_stream {
         let data = &stream.data;
         let cur = stream.cur;
 
-        assert!(cur + 2 <= vector::length(data), error::out_of_range(EOUT_OF_BYTES));
+        assert!(
+            cur + 2 <= vector::length(data),
+            error::out_of_range(EOUT_OF_BYTES)
+        );
         let res =
             (*vector::borrow(data, cur) as u16)
                 | ((*vector::borrow(data, cur + 1) as u16) << 8);
@@ -130,7 +136,10 @@ module bcs_stream::bcs_stream {
         let data = &stream.data;
         let cur = stream.cur;
 
-        assert!(cur + 4 <= vector::length(data), error::out_of_range(EOUT_OF_BYTES));
+        assert!(
+            cur + 4 <= vector::length(data),
+            error::out_of_range(EOUT_OF_BYTES)
+        );
         let res =
             (*vector::borrow(data, cur) as u32)
                 | ((*vector::borrow(data, cur + 1) as u32) << 8)
@@ -147,7 +156,10 @@ module bcs_stream::bcs_stream {
         let data = &stream.data;
         let cur = stream.cur;
 
-        assert!(cur + 8 <= vector::length(data), error::out_of_range(EOUT_OF_BYTES));
+        assert!(
+            cur + 8 <= vector::length(data),
+            error::out_of_range(EOUT_OF_BYTES)
+        );
         let res =
             (*vector::borrow(data, cur) as u64)
                 | ((*vector::borrow(data, cur + 1) as u64) << 8)
@@ -168,7 +180,10 @@ module bcs_stream::bcs_stream {
         let data = &stream.data;
         let cur = stream.cur;
 
-        assert!(cur + 16 <= vector::length(data), error::out_of_range(EOUT_OF_BYTES));
+        assert!(
+            cur + 16 <= vector::length(data),
+            error::out_of_range(EOUT_OF_BYTES)
+        );
         let res =
             (*vector::borrow(data, cur) as u128)
                 | ((*vector::borrow(data, cur + 1) as u128) << 8)
@@ -197,7 +212,10 @@ module bcs_stream::bcs_stream {
         let data = &stream.data;
         let cur = stream.cur;
 
-        assert!(cur + 32 <= vector::length(data), error::out_of_range(EOUT_OF_BYTES));
+        assert!(
+            cur + 32 <= vector::length(data),
+            error::out_of_range(EOUT_OF_BYTES)
+        );
         let res =
             (*vector::borrow(data, cur) as u256)
                 | ((*vector::borrow(data, cur + 1) as u256) << 8)
@@ -269,7 +287,10 @@ module bcs_stream::bcs_stream {
         let data = &stream.data;
         let cur = stream.cur;
 
-        assert!(cur + len <= vector::length(data), error::out_of_range(EOUT_OF_BYTES));
+        assert!(
+            cur + len <= vector::length(data),
+            error::out_of_range(EOUT_OF_BYTES)
+        );
 
         let res = string::utf8(vector::slice(data, cur, cur + len));
         stream.cur = cur + len;

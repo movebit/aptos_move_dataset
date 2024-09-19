@@ -138,7 +138,8 @@ module 0xABCD::resource_groups_example {
             if (exists<ExampleResource0>(owner_address)) {
                 let resource = borrow_global_mut<ExampleResource0>(owner_address);
                 assert!(
-                    resource.value < 1000000000000, error::invalid_state(EVALUE_TOO_LARGE)
+                    resource.value < 1000000000000,
+                    error::invalid_state(EVALUE_TOO_LARGE)
                 );
             } else {
                 let resource = ExampleResource0 {
@@ -151,7 +152,8 @@ module 0xABCD::resource_groups_example {
             if (exists<ExampleResource1>(owner_address)) {
                 let resource = borrow_global_mut<ExampleResource1>(owner_address);
                 assert!(
-                    resource.value < 1000000000000, error::invalid_state(EVALUE_TOO_LARGE)
+                    resource.value < 1000000000000,
+                    error::invalid_state(EVALUE_TOO_LARGE)
                 );
             } else {
                 let resource = ExampleResource1 {
@@ -164,7 +166,8 @@ module 0xABCD::resource_groups_example {
             if (exists<ExampleResource2>(owner_address)) {
                 let resource = borrow_global_mut<ExampleResource2>(owner_address);
                 assert!(
-                    resource.value < 1000000000000, error::invalid_state(EVALUE_TOO_LARGE)
+                    resource.value < 1000000000000,
+                    error::invalid_state(EVALUE_TOO_LARGE)
                 );
             } else {
                 let resource = ExampleResource2 {
@@ -177,7 +180,8 @@ module 0xABCD::resource_groups_example {
             if (exists<ExampleResource3>(owner_address)) {
                 let resource = borrow_global_mut<ExampleResource3>(owner_address);
                 assert!(
-                    resource.value < 1000000000000, error::invalid_state(EVALUE_TOO_LARGE)
+                    resource.value < 1000000000000,
+                    error::invalid_state(EVALUE_TOO_LARGE)
                 );
             } else {
                 let resource = ExampleResource3 {
@@ -190,7 +194,8 @@ module 0xABCD::resource_groups_example {
             if (exists<ExampleResource4>(owner_address)) {
                 let resource = borrow_global_mut<ExampleResource4>(owner_address);
                 assert!(
-                    resource.value < 1000000000000, error::invalid_state(EVALUE_TOO_LARGE)
+                    resource.value < 1000000000000,
+                    error::invalid_state(EVALUE_TOO_LARGE)
                 );
             } else {
                 let resource = ExampleResource4 {
@@ -203,7 +208,8 @@ module 0xABCD::resource_groups_example {
             if (exists<ExampleResource5>(owner_address)) {
                 let resource = borrow_global_mut<ExampleResource5>(owner_address);
                 assert!(
-                    resource.value < 1000000000000, error::invalid_state(EVALUE_TOO_LARGE)
+                    resource.value < 1000000000000,
+                    error::invalid_state(EVALUE_TOO_LARGE)
                 );
             } else {
                 let resource = ExampleResource5 {
@@ -216,7 +222,8 @@ module 0xABCD::resource_groups_example {
             if (exists<ExampleResource6>(owner_address)) {
                 let resource = borrow_global_mut<ExampleResource6>(owner_address);
                 assert!(
-                    resource.value < 1000000000000, error::invalid_state(EVALUE_TOO_LARGE)
+                    resource.value < 1000000000000,
+                    error::invalid_state(EVALUE_TOO_LARGE)
                 );
             } else {
                 let resource = ExampleResource6 {
@@ -229,7 +236,8 @@ module 0xABCD::resource_groups_example {
             if (exists<ExampleResource7>(owner_address)) {
                 let resource = borrow_global_mut<ExampleResource7>(owner_address);
                 assert!(
-                    resource.value < 1000000000000, error::invalid_state(EVALUE_TOO_LARGE)
+                    resource.value < 1000000000000,
+                    error::invalid_state(EVALUE_TOO_LARGE)
                 );
             } else {
                 let resource = ExampleResource7 {

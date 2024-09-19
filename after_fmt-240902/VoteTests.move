@@ -208,7 +208,12 @@ module ExperimentalFramework::VoteTests {
         let (voter1, _voter2, _voter3, ballot_id, proposal) = vote_test_helper(&dr, 10);
         Vote::remove_ballot_internal<TestProposal>(get_proposer(), *(&ballot_id));
         // Vote fails because there is no ballot
-        Vote::vote(&voter1, *(&ballot_id), b"test_proposal", *(&proposal));
+        Vote::vote(
+            &voter1,
+            *(&ballot_id),
+            b"test_proposal",
+            *(&proposal)
+        );
     }
 
     #[test(dr = @CoreResources)]
@@ -217,16 +222,31 @@ module ExperimentalFramework::VoteTests {
         let (voter1, voter2, voter3, ballot_id, proposal) = vote_test_helper(&dr, 10);
         // First vote does not approve the ballot
         assert!(
-            !Vote::vote(&voter1, *(&ballot_id), b"test_proposal", *(&proposal)),
+            !Vote::vote(
+                &voter1,
+                *(&ballot_id),
+                b"test_proposal",
+                *(&proposal)
+            ),
             0
         );
         // Second vote approves the ballot
         assert!(
-            Vote::vote(&voter2, *(&ballot_id), b"test_proposal", *(&proposal)),
+            Vote::vote(
+                &voter2,
+                *(&ballot_id),
+                b"test_proposal",
+                *(&proposal)
+            ),
             0
         );
         // Third vote aborts
-        Vote::vote(&voter3, *(&ballot_id), b"test_proposal", *(&proposal));
+        Vote::vote(
+            &voter3,
+            *(&ballot_id),
+            b"test_proposal",
+            *(&proposal)
+        );
     }
 
     #[test(dr = @CoreResources)]
@@ -261,12 +281,22 @@ module ExperimentalFramework::VoteTests {
 
         // First vote does not approve the ballot
         assert!(
-            !Vote::vote(&voter1, *(&ballot_id), b"test_proposal", *(&proposal)),
+            !Vote::vote(
+                &voter1,
+                *(&ballot_id),
+                b"test_proposal",
+                *(&proposal)
+            ),
             0
         );
         // Second vote approves the ballot
         assert!(
-            Vote::vote(&voter2, *(&ballot_id), b"test_proposal", *(&proposal)),
+            Vote::vote(
+                &voter2,
+                *(&ballot_id),
+                b"test_proposal",
+                *(&proposal)
+            ),
             0
         );
     }
@@ -276,7 +306,12 @@ module ExperimentalFramework::VoteTests {
     fun vote_expired_ts(dr: signer) {
         let (voter1, _voter2, _voter3, ballot_id, proposal) = vote_test_helper(&dr, 0);
         // Ballot has expired
-        Vote::vote(&voter1, *(&ballot_id), b"test_proposal", *(&proposal));
+        Vote::vote(
+            &voter1,
+            *(&ballot_id),
+            b"test_proposal",
+            *(&proposal)
+        );
     }
 
     #[test(dr = @CoreResources)]
@@ -285,11 +320,21 @@ module ExperimentalFramework::VoteTests {
         let (voter1, _voter2, _voter3, ballot_id, proposal) = vote_test_helper(&dr, 10);
         // First vote does not approve the ballot
         assert!(
-            !Vote::vote(&voter1, *(&ballot_id), b"test_proposal", *(&proposal)),
+            !Vote::vote(
+                &voter1,
+                *(&ballot_id),
+                b"test_proposal",
+                *(&proposal)
+            ),
             0
         );
         // Cannot vote again
-        Vote::vote(&voter1, *(&ballot_id), b"test_proposal", *(&proposal));
+        Vote::vote(
+            &voter1,
+            *(&ballot_id),
+            b"test_proposal",
+            *(&proposal)
+        );
     }
 
     #[test(dr = @CoreResources)]
@@ -297,7 +342,12 @@ module ExperimentalFramework::VoteTests {
     fun vote_invalid_proposal_type(dr: signer) {
         let (voter1, _voter2, _voter3, ballot_id, proposal) = vote_test_helper(&dr, 10);
         // Invalid proposal type
-        Vote::vote(&voter1, *(&ballot_id), b"invalid", *(&proposal));
+        Vote::vote(
+            &voter1,
+            *(&ballot_id),
+            b"invalid",
+            *(&proposal)
+        );
     }
 
     #[test(dr = @CoreResources)]
@@ -306,7 +356,12 @@ module ExperimentalFramework::VoteTests {
         let (voter1, _voter2, _voter3, ballot_id, _proposal) = vote_test_helper(&dr, 10);
         let invalid_proposal = TestProposal { test_data: 100 };
         // Invalid proposal
-        Vote::vote(&voter1, *(&ballot_id), b"test_proposal", invalid_proposal);
+        Vote::vote(
+            &voter1,
+            *(&ballot_id),
+            b"test_proposal",
+            invalid_proposal
+        );
     }
 
     #[test(dr = @CoreResources)]
@@ -316,7 +371,12 @@ module ExperimentalFramework::VoteTests {
         let (voter1, _voter2, _voter3, _ballot_id, proposal) = vote_test_helper(&dr, 10);
         let invalid_ballotid = Vote::new_ballot_id(100, signer::address_of(&proposer));
         // Invalid ballotid
-        Vote::vote(&voter1, invalid_ballotid, b"test_proposal", proposal);
+        Vote::vote(
+            &voter1,
+            invalid_ballotid,
+            b"test_proposal",
+            proposal
+        );
     }
 
     #[test(dr = @CoreResources)]
@@ -326,6 +386,11 @@ module ExperimentalFramework::VoteTests {
         let invalid_voter = vector::pop_back(
             &mut unit_test::create_signers_for_testing(4)
         );
-        Vote::vote(&invalid_voter, ballot_id, b"test_proposal", proposal);
+        Vote::vote(
+            &invalid_voter,
+            ballot_id,
+            b"test_proposal",
+            proposal
+        );
     }
 }

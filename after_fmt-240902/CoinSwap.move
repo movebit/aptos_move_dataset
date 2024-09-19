@@ -42,10 +42,16 @@ module CoinSwap::CoinSwap {
 
         // Transfer the initial liquidity of CoinType1 and CoinType2 to the pool under @CoinSwap.
         BasicCoin::transfer<CoinType1>(
-            requester, signer::address_of(coinswap), coin1, witness1
+            requester,
+            signer::address_of(coinswap),
+            coin1,
+            witness1
         );
         BasicCoin::transfer<CoinType2>(
-            requester, signer::address_of(coinswap), coin2, witness2
+            requester,
+            signer::address_of(coinswap),
+            coin2,
+            witness2
         );
 
         // Mint PoolToken and deposit it in the account of requester.
@@ -85,10 +91,16 @@ module CoinSwap::CoinSwap {
         pool.coin2 = pool.coin2 - coin2;
 
         BasicCoin::transfer<CoinType1>(
-            requester, signer::address_of(coinswap), coin1, witness1
+            requester,
+            signer::address_of(coinswap),
+            coin1,
+            witness1
         );
         BasicCoin::transfer<CoinType2>(
-            coinswap, signer::address_of(requester), coin2, witness2
+            coinswap,
+            signer::address_of(requester),
+            coin2,
+            witness2
         );
     }
 
