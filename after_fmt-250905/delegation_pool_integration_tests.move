@@ -135,9 +135,8 @@ module aptos_framework::delegation_pool_integration_tests {
     }
 
     #[test_only]
-    public fun generate_identity(): (
-        bls12381::SecretKey, bls12381::PublicKey, bls12381::ProofOfPossession
-    ) {
+    public fun generate_identity()
+        : (bls12381::SecretKey, bls12381::PublicKey, bls12381::ProofOfPossession) {
         let (sk, pkpop) = bls12381::generate_keys();
         let pop = bls12381::generate_proof_of_possession(&sk);
         let unvalidated_pk = bls12381::public_key_with_pop_to_normal(&pkpop);

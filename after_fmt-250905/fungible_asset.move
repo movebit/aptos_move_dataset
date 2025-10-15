@@ -1131,9 +1131,8 @@ module aptos_framework::fungible_asset {
     }
 
     #[test_only]
-    public fun init_test_metadata(constructor_ref: &ConstructorRef): (
-        MintRef, TransferRef, BurnRef
-    ) {
+    public fun init_test_metadata(constructor_ref: &ConstructorRef)
+        : (MintRef, TransferRef, BurnRef) {
         add_fungibility(
             constructor_ref,
             option::some(100) /* max supply */,

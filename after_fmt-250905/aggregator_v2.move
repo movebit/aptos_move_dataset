@@ -94,8 +94,8 @@ module aptos_framework::aggregator_v2 {
     ///
     /// Currently supported types for IntElement are u64 and u128.
     /// EAGGREGATOR_ELEMENT_TYPE_NOT_SUPPORTED raised if called with a different type.
-    public native fun create_unbounded_aggregator<IntElement: copy + drop>():
-        Aggregator<IntElement>;
+    public native fun create_unbounded_aggregator<IntElement: copy + drop>()
+        : Aggregator<IntElement>;
 
     public fun create_unbounded_aggregator_with_value<IntElement: copy + drop>(
         start_value: IntElement

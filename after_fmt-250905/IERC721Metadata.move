@@ -15,8 +15,8 @@ module Evm::IERC721Metadata {
     public native fun call_symbol(contract: address): Result<String, vector<u8>>;
 
     #[external]
-    public native fun call_tokenURI(contract: address, tokenId: U256):
-        Result<String, vector<u8>>;
+    public native fun call_tokenURI(contract: address, tokenId: U256)
+        : Result<String, vector<u8>>;
 
     #[selector]
     public fun selector_name(): vector<u8> {

@@ -16,13 +16,15 @@ module 0x2::M {
             sig = b"test_uint64_u8_array_3_uint64(uint64,uint8[3],uint64) returns (uint8,uint8[3],uint8)"
         )
     ]
-    fun test_u8_uint_64_array_2(idx_1: u64, v: vector<u8>, idx_2: u64): (u8, vector<u8>, u8) {
+    fun test_u8_uint_64_array_2(idx_1: u64, v: vector<u8>, idx_2: u64)
+        : (u8, vector<u8>, u8) {
         (*vector::borrow(&v, idx_1), v, *vector::borrow(&v, idx_2))
     }
 
     // string, string
     #[callable(sig = b"test_two_strings(string,string) returns (string, string)")]
-    fun test_string_length_sum(str_1: vector<u8>, str_2: vector<u8>): (vector<u8>, vector<u8>) {
+    fun test_string_length_sum(str_1: vector<u8>, str_2: vector<u8>)
+        : (vector<u8>, vector<u8>) {
         (str_2, str_1)
     }
 

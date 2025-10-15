@@ -34,7 +34,8 @@ module 0x1::runtime_checks {
         }
     }
 
-    fun with_snapshot<IntTy: copy + drop>(value: IntTy): StructWithAggregatorSnapshot<IntTy> {
+    fun with_snapshot<IntTy: copy + drop>(value: IntTy)
+        : StructWithAggregatorSnapshot<IntTy> {
         StructWithAggregatorSnapshot { snapshot: aggregator_v2::create_snapshot(value) }
     }
 

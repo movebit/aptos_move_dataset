@@ -512,7 +512,8 @@ module aptos_framework::jwks {
 
     /// Remove the entry of an issuer from a `AllProvidersJWKs` and return the entry, if exists.
     /// Maintains the sorted-by-issuer invariant in `AllProvidersJWKs`.
-    fun remove_issuer(jwks: &mut AllProvidersJWKs, issuer: vector<u8>): Option<ProviderJWKs> {
+    fun remove_issuer(jwks: &mut AllProvidersJWKs, issuer: vector<u8>)
+        : Option<ProviderJWKs> {
         let (found, index) = vector::find(
             &jwks.entries,
             |obj| {

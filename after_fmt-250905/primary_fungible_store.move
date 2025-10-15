@@ -106,8 +106,8 @@ module aptos_framework::primary_fungible_store {
 
     #[view]
     /// Get the primary store object for the given account.
-    public fun primary_store<T: key>(owner: address, metadata: Object<T>):
-        Object<FungibleStore> {
+    public fun primary_store<T: key>(owner: address, metadata: Object<T>)
+        : Object<FungibleStore> {
         let store = primary_store_address(owner, metadata);
         object::address_to_object<FungibleStore>(store)
     }

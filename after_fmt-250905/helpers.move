@@ -40,7 +40,8 @@ module veiled_coin::helpers {
 
     #[test_only]
     /// Returns a random ElGamal keypair
-    public fun generate_elgamal_keypair(): (ristretto255::Scalar, elgamal::CompressedPubkey) {
+    public fun generate_elgamal_keypair()
+        : (ristretto255::Scalar, elgamal::CompressedPubkey) {
         let sk = ristretto255::random_scalar();
         let pk = elgamal::pubkey_from_secret_key(&sk);
         (sk, pk)

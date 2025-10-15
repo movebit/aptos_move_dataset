@@ -152,7 +152,8 @@ module aptos_std::ristretto255 {
 
     /// Creates a new CompressedRistretto point from a sequence of 32 bytes. If those bytes do not represent a valid
     /// point, returns None.
-    public fun new_compressed_point_from_bytes(bytes: vector<u8>): Option<CompressedRistretto> {
+    public fun new_compressed_point_from_bytes(bytes: vector<u8>)
+        : Option<CompressedRistretto> {
         if (point_is_canonical_internal(bytes)) {
             std::option::some(CompressedRistretto { data: bytes })
         } else {
@@ -235,7 +236,8 @@ module aptos_std::ristretto255 {
     }
 
     /// Sets a *= point and returns 'a'.
-    public fun point_mul_assign(point: &mut RistrettoPoint, a: &Scalar): &mut RistrettoPoint {
+    public fun point_mul_assign(point: &mut RistrettoPoint, a: &Scalar)
+        : &mut RistrettoPoint {
         point_mul_internal(point, a.data, true);
         point
     }

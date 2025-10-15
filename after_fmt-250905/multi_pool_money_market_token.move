@@ -32,7 +32,8 @@ module Token {
         coin.value
     }
 
-    public fun split<ATy: copy + drop>(coin: Coin<ATy>, amount: u64): (Coin<ATy>, Coin<ATy>) {
+    public fun split<ATy: copy + drop>(coin: Coin<ATy>, amount: u64)
+        : (Coin<ATy>, Coin<ATy>) {
         let other = withdraw(&mut coin, amount);
         (coin, other)
     }

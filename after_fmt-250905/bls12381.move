@@ -149,7 +149,8 @@ module aptos_std::bls12381 {
     /// Given a vector of public keys with verified PoPs, combines them into an *aggregated* public key which can be used
     /// to verify multisignatures using `verify_multisignature` and aggregate signatures using `verify_aggregate_signature`.
     /// Aborts if no public keys are given as input.
-    public fun aggregate_pubkeys(public_keys: vector<PublicKeyWithPoP>): AggrPublicKeysWithPoP {
+    public fun aggregate_pubkeys(public_keys: vector<PublicKeyWithPoP>)
+        : AggrPublicKeysWithPoP {
         let (bytes, success) = aggregate_pubkeys_internal(public_keys);
         assert!(success, std::error::invalid_argument(EZERO_PUBKEYS));
 
@@ -164,8 +165,8 @@ module aptos_std::bls12381 {
     /// Aggregates the input signatures into an aggregate-or-multi-signature structure, which can be later verified via
     /// `verify_aggregate_signature` or `verify_multisignature`. Returns `None` if zero signatures are given as input
     /// or if some of the signatures are not valid group elements.
-    public fun aggregate_signatures(signatures: vector<Signature>):
-        Option<AggrOrMultiSignature> {
+    public fun aggregate_signatures(signatures: vector<Signature>)
+        : Option<AggrOrMultiSignature> {
         let (bytes, success) = aggregate_signatures_internal(signatures);
         if (success) {
             option::some(AggrOrMultiSignature { bytes })
@@ -311,7 +312,8 @@ module aptos_std::bls12381 {
 
     #[test_only]
     /// Returns a mauled copy of an aggregated signature or a multi-signature.
-    public fun maul_aggr_or_multi_signature(sig: &AggrOrMultiSignature): AggrOrMultiSignature {
+    public fun maul_aggr_or_multi_signature(sig: &AggrOrMultiSignature)
+        : AggrOrMultiSignature {
         AggrOrMultiSignature {
             bytes: maul_bytes(&aggr_or_multi_signature_to_bytes(sig))
         }
@@ -335,7 +337,8 @@ module aptos_std::bls12381 {
 
     #[test_only]
     /// Returns a mauled copy of an aggregated public key.
-    public fun maul_aggregated_public_key(pk: &AggrPublicKeysWithPoP): AggrPublicKeysWithPoP {
+    public fun maul_aggregated_public_key(pk: &AggrPublicKeysWithPoP)
+        : AggrPublicKeysWithPoP {
         AggrPublicKeysWithPoP {
             bytes: maul_bytes(&aggregate_pubkey_to_bytes(pk))
         }

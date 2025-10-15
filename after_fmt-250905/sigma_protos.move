@@ -404,8 +404,8 @@ module veiled_coin::sigma_protos {
     }
 
     /// Deserializes and returns a `TransferSubproof` given its byte representation.
-    public fun deserialize_transfer_subproof(proof_bytes: vector<u8>):
-        Option<TransferSubproof> {
+    public fun deserialize_transfer_subproof(proof_bytes: vector<u8>)
+        : Option<TransferSubproof> {
         if (vector::length<u8>(&proof_bytes) != 384) {
             return std::option::none<TransferSubproof>()
         };

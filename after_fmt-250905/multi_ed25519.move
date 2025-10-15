@@ -123,7 +123,8 @@ module aptos_std::multi_ed25519 {
     /// to reproduce the PK validation logic in Move. We should not have done so in the first place. Instead, we will
     /// leave it as is and continue assuming `UnvalidatedPublicKey` objects could be invalid PKs that will safely be
     /// rejected during signature verification.
-    public fun new_unvalidated_public_key_from_bytes(bytes: vector<u8>): UnvalidatedPublicKey {
+    public fun new_unvalidated_public_key_from_bytes(bytes: vector<u8>)
+        : UnvalidatedPublicKey {
         let len = vector::length(&bytes);
         let num_sub_pks = len / INDIVIDUAL_PUBLIC_KEY_NUM_BYTES;
 
@@ -141,8 +142,8 @@ module aptos_std::multi_ed25519 {
     /// DEPRECATED: Use `new_validated_public_key_from_bytes_v2` instead. See `public_key_validate_internal` comments.
     ///
     /// (Incorrectly) parses the input bytes as a *validated* MultiEd25519 public key.
-    public fun new_validated_public_key_from_bytes(bytes: vector<u8>):
-        Option<ValidatedPublicKey> {
+    public fun new_validated_public_key_from_bytes(bytes: vector<u8>)
+        : Option<ValidatedPublicKey> {
         // Note that `public_key_validate_internal` will check that `vector::length(&bytes) / INDIVIDUAL_PUBLIC_KEY_NUM_BYTES <= MAX_NUMBER_OF_PUBLIC_KEYS`.
         if (vector::length(&bytes) % INDIVIDUAL_PUBLIC_KEY_NUM_BYTES
             == THRESHOLD_SIZE_BYTES && public_key_validate_internal(bytes)) {
@@ -212,7 +213,8 @@ module aptos_std::multi_ed25519 {
 
     /// Takes in an *unvalidated* public key and attempts to validate it.
     /// Returns `Some(ValidatedPublicKey)` if successful and `None` otherwise.
-    public fun public_key_validate_v2(pk: &UnvalidatedPublicKey): Option<ValidatedPublicKey> {
+    public fun public_key_validate_v2(pk: &UnvalidatedPublicKey)
+        : Option<ValidatedPublicKey> {
         new_validated_public_key_from_bytes_v2(pk.bytes)
     }
 
