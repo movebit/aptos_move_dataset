@@ -20,8 +20,7 @@ module 0x42::M {
             map_len = length,
             map_spec_len = spec_len,
             map_spec_get = spec_get,
-            map_spec_set =
-            spec_set;
+            map_spec_set = spec_set;
     }
 
     struct MyTable2<phantom K, phantom V> {}

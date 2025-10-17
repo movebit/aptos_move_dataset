@@ -44,8 +44,7 @@ module A {
 
     // I4: <generic, generic>
     invariant<X, Y>(exists<S::Storage<X, Y>>(@0x25) && exists<S::Storage<X, Y>>(@0x26)) ==>
-
-    global<S::Storage<X, Y>>(@0x25) == global<S::Storage<X, Y>>(@0x26);
+        global<S::Storage<X, Y>>(@0x25) == global<S::Storage<X, Y>>(@0x26);
 
     public fun good(account1: signer, account2: signer) {
         S::publish_x_y<u64, bool>(account1, 1, true);

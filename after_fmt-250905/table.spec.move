@@ -20,8 +20,7 @@ spec extensions::table {
             map_spec_set = spec_set,
             map_spec_del = spec_remove,
             map_spec_len = spec_len,
-            map_spec_has_key =
-            spec_contains;
+            map_spec_has_key = spec_contains;
     }
 
     // Specification functions for tables

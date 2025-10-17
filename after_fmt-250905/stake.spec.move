@@ -527,8 +527,8 @@ spec aptos_framework::stake {
                 && option::spec_borrow(ghost_proposer_idx) < validator_len
         ) ==>
             (
-                post_validator_perf.validators[option::spec_borrow(ghost_proposer_idx)].successful_proposals ==
-                validator_perf.validators[option::spec_borrow(ghost_proposer_idx)].successful_proposals
+                post_validator_perf.validators[option::spec_borrow(ghost_proposer_idx)].successful_proposals
+                == validator_perf.validators[option::spec_borrow(ghost_proposer_idx)].successful_proposals
                 + 1
             );
     }
@@ -715,8 +715,8 @@ spec aptos_framework::stake {
         requires rewards_rate_denominator > 0;
         requires rewards_rate <= rewards_rate_denominator;
         requires num_successful_proposals <= num_total_proposals;
-        ensures [concrete](rewards_rate_denominator * num_total_proposals == 0) ==> result ==
-            0;
+        ensures [concrete](rewards_rate_denominator * num_total_proposals == 0) ==> result
+            == 0;
         ensures [concrete](rewards_rate_denominator * num_total_proposals > 0) ==>
             {
                 let amount =

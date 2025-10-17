@@ -86,8 +86,8 @@ spec aptos_framework::block {
 
         requires chain_status::is_operating();
         requires system_addresses::is_vm(vm);
-        requires event::counter(global<BlockResource>(@aptos_framework).new_block_events) ==
-            0;
+        requires event::counter(global<BlockResource>(@aptos_framework).new_block_events)
+            == 0;
         requires (timestamp::spec_now_microseconds() == 0);
 
         aborts_if false;

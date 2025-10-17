@@ -201,8 +201,8 @@ spec aptos_framework::optional_aggregator {
         aborts_if !exists<aggregator_factory::AggregatorFactory>(@aptos_framework);
         aborts_if len(optional_aggregator.aggregator.vec) != 0;
         ensures is_parallelizable(optional_aggregator);
-        ensures aggregator::spec_get_limit(option::borrow(optional_aggregator.aggregator)) ==
-            limit;
+        ensures aggregator::spec_get_limit(option::borrow(optional_aggregator.aggregator))
+            == limit;
         ensures aggregator::spec_aggregator_get_val(
             option::borrow(optional_aggregator.aggregator)
         ) == 0;
