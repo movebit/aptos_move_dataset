@@ -1,0 +1,26 @@
+thread 'main' panicked at src/syntax_fmt/big_block_fmt.rs:28:87:
+called `Result::unwrap()` on an `Err` value: Diagnostics { diagnostics: [Diagnostic { info: DiagnosticInfo { severity: NonblockingError, category: Syntax, code: 2, message: "unexpected token" }, primary_label: (Loc { file_hash: "0000000000000000000000000000000000000000000000000000000000000000", start: 51, end: 51 }, "Expected '|'"), secondary_labels: [(Loc { file_hash: "0000000000000000000000000000000000000000000000000000000000000000", start: 45, end: 45 }, "To match this '|'")], notes: [] }], severity_count: {NonblockingError: 1} }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+edy@edydeMacBook-Pro-4 after_fmt-2510 % mv bug_16623_a.move ../syntax_err_move 
+edy@edydeMacBook-Pro-4 after_fmt-2510 % movefmt -v --emit="overwrite" --config auto_apply_package=false > ../testlog-251024.txt
+
+
+---
+
+Using movefmt local config file /Users/edy/workspace/movebit/aptos_move_dataset/movefmt.toml for /Users/edy/workspace/movebit/aptos_move_dataset/after_fmt-2510/very_large_1.move
+Formatting /Users/edy/workspace/movebit/aptos_move_dataset/after_fmt-2510/very_large_1.move
+
+
+thread 'main' panicked at src/core/fmt.rs:1497:45:
+called `Option::unwrap()` on a `None` value
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+---
+
+Using movefmt local config file /Users/edy/workspace/movebit/aptos_move_dataset/movefmt.toml for /Users/edy/workspace/movebit/aptos_move_dataset/after_fmt-2510/fv_as_keys.move
+Formatting /Users/edy/workspace/movebit/aptos_move_dataset/after_fmt-2510/fv_as_keys.move
+
+thread 'main' panicked at src/syntax_fmt/big_block_fmt.rs:28:87:
+called `Result::unwrap()` on an `Err` value: Diagnostics { diagnostics: [Diagnostic { info: DiagnosticInfo { severity: NonblockingError, category: Syntax, code: 2, message: "unexpected token" }, primary_label: (Loc { file_hash: "0000000000000000000000000000000000000000000000000000000000000000", start: 502, end: 502 }, "Expected '|'"), secondary_labels: [(Loc { file_hash: "0000000000000000000000000000000000000000000000000000000000000000", start: 496, end: 496 }, "To match this '|'")], notes: [] }], severity_count: {NonblockingError: 1} }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

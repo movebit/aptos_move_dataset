@@ -108,7 +108,8 @@ spec aptos_framework::code {
         );
     }
 
-    spec check_dependencies(publish_address: address, pack: &PackageMetadata): vector<AllowedDep> {
+    spec check_dependencies(publish_address: address, pack: &PackageMetadata): vector<
+        AllowedDep> {
         // TODO: Can't verify 'vector::enumerate' loop.
         pragma verify = false;
     }

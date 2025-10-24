@@ -1,0 +1,3 @@
+script {
+    entry fun main() {}
+}

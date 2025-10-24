@@ -411,7 +411,8 @@ spec aptos_framework::voting {
         ensures result == spec_can_be_resolved_early<ProposalType>(proposal);
     }
 
-    spec fun spec_can_be_resolved_early<ProposalType: store>(proposal: Proposal<ProposalType>): bool {
+    spec fun spec_can_be_resolved_early<ProposalType: store>(proposal: Proposal<
+        ProposalType>): bool {
         if (option::spec_is_some(proposal.early_resolution_vote_threshold)) {
             let early_resolution_threshold =
                 option::spec_borrow(proposal.early_resolution_vote_threshold);
