@@ -7,6 +7,5 @@ module 0x42::A {
 }
 
 module 0x42::B {
-    public(package) fun foo() {
-    }
+    public(package) fun foo() {}
 }

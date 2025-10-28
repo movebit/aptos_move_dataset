@@ -302,11 +302,17 @@ module aptos_framework::storage_gas {
             min_gas,
             max_gas,
             vector[
-                new_point(1000, 2), new_point(2000, 6), new_point(3000, 17), new_point(
-                    4000, 44
-                ), new_point(5000, 109), new_point(6000, 271), new_point(7000, 669), new_point(
-                    8000, 1648
-                ), new_point(9000, 4061), new_point(9500, 6372), new_point(9900, 9138)
+                new_point(1000, 2),
+                new_point(2000, 6),
+                new_point(3000, 17),
+                new_point(4000, 44),
+                new_point(5000, 109),
+                new_point(6000, 271),
+                new_point(7000, 669),
+                new_point(8000, 1648),
+                new_point(9000, 4061),
+                new_point(9500, 6372),
+                new_point(9900, 9138)
             ]
         )
     }

@@ -83,23 +83,23 @@ script {
 //# run --verbose
 script {
     fun main() {
-        let v0: i16 = - 32768i16;
-        assert!((v0 as i16) == - 32768i16);
-        assert!((v0 as i32) == - 32768i32);
-        assert!((v0 as i64) == - 32768i64);
-        assert!((v0 as i128) == - 32768i128);
-        assert!((v0 as i256) == - 32768i256);
+        let v0: i16 = -32768i16;
+        assert!((v0 as i16) == -32768i16);
+        assert!((v0 as i32) == -32768i32);
+        assert!((v0 as i64) == -32768i64);
+        assert!((v0 as i128) == -32768i128);
+        assert!((v0 as i256) == -32768i256);
 
-        let v7 = - 32768i16;
-        let v8 = - 32768i32;
-        let v9 = - 32768i64;
-        let v10 = - 32768i128;
-        let v11 = - 32768i256;
-        assert!((v7 as i16) == - 32768i16);
-        assert!((v8 as i16) == - 32768i16);
-        assert!((v9 as i16) == - 32768i16);
-        assert!((v10 as i16) == - 32768i16);
-        assert!((v11 as i16) == - 32768i16);
+        let v7 = -32768i16;
+        let v8 = -32768i32;
+        let v9 = -32768i64;
+        let v10 = -32768i128;
+        let v11 = -32768i256;
+        assert!((v7 as i16) == -32768i16);
+        assert!((v8 as i16) == -32768i16);
+        assert!((v9 as i16) == -32768i16);
+        assert!((v10 as i16) == -32768i16);
+        assert!((v11 as i16) == -32768i16);
     }
 }
 
@@ -184,7 +184,7 @@ script {
 //# run --verbose
 script {
     fun main() {
-        let v0 = - 32769i32;
+        let v0 = -32769i32;
         let v2 = v0 as i16; // expect to abort
     }
 }
@@ -192,7 +192,7 @@ script {
 //# run --verbose
 script {
     fun main() {
-        let v0 = - 32769i64;
+        let v0 = -32769i64;
         let v2 = v0 as i16; // expect to abort
     }
 }
@@ -200,7 +200,7 @@ script {
 //# run --verbose
 script {
     fun main() {
-        let v0 = - 32769i128;
+        let v0 = -32769i128;
         let v2 = v0 as i16; // expect to abort
     }
 }
@@ -208,7 +208,7 @@ script {
 //# run --verbose
 script {
     fun main() {
-        let v0 = - 32769i256;
+        let v0 = -32769i256;
         let v2 = v0 as i16; // expect to abort
     }
 }

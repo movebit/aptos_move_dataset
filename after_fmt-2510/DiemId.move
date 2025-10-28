@@ -149,9 +149,7 @@ module DiemFramework::DiemId {
     /// However, since domains are case insensitive, it is possible by error that two same domains in
     /// different lowercase and uppercase format gets added.
     public fun add_diem_id_domain(
-        tc_account: &signer,
-        address: address,
-        domain: vector<u8>
+        tc_account: &signer, address: address, domain: vector<u8>
     ) acquires DiemIdDomainManager, DiemIdDomains {
         Roles::assert_treasury_compliance(tc_account);
         assert!(
@@ -218,9 +216,7 @@ module DiemFramework::DiemId {
 
     /// Remove a DiemIdDomain from a parent VASP's DiemIdDomains resource.
     public fun remove_diem_id_domain(
-        tc_account: &signer,
-        address: address,
-        domain: vector<u8>
+        tc_account: &signer, address: address, domain: vector<u8>
     ) acquires DiemIdDomainManager, DiemIdDomains {
         Roles::assert_treasury_compliance(tc_account);
         assert!(

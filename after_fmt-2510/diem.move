@@ -328,9 +328,7 @@ module DiemFramework::Diem {
     /// there is not a `Preburn` request in the `PreburnQueue` that does not
     /// equal `amount`.
     public fun burn<CoinType>(
-        account: &signer,
-        preburn_address: address,
-        amount: u64
+        account: &signer, preburn_address: address, amount: u64
     ) acquires BurnCapability, CurrencyInfo, PreburnQueue {
         let addr = signer::address_of(account);
         assert!(
@@ -377,9 +375,7 @@ module DiemFramework::Diem {
     /// outstanding in the `PreburnQueue` resource under `preburn_address` with
     /// a value equal to `amount`.
     public fun cancel_burn<CoinType>(
-        account: &signer,
-        preburn_address: address,
-        amount: u64
+        account: &signer, preburn_address: address, amount: u64
     ): Diem<CoinType> acquires BurnCapability, CurrencyInfo, PreburnQueue {
         assert_is_currency<CoinType>();
         let addr = signer::address_of(account);
@@ -497,9 +493,7 @@ module DiemFramework::Diem {
     /// being preburned is a synthetic currency (`is_synthetic = true`) then no
     /// `PreburnEvent` will be emitted.
     fun preburn_with_resource<CoinType>(
-        coin: Diem<CoinType>,
-        preburn: &mut Preburn<CoinType>,
-        preburn_address: address
+        coin: Diem<CoinType>, preburn: &mut Preburn<CoinType>, preburn_address: address
     ) acquires CurrencyInfo {
         let coin_value = value(&coin);
         // Throw if already occupied
@@ -952,9 +946,7 @@ module DiemFramework::Diem {
     /// resource under `preburn_address`, or, if there is no preburn request in
     /// the preburn queue with a `to_burn` amount equal to `amount`.
     public(friend) fun burn_with_capability<CoinType>(
-        preburn_address: address,
-        capability: &BurnCapability<CoinType>,
-        amount: u64
+        preburn_address: address, capability: &BurnCapability<CoinType>, amount: u64
     ) acquires CurrencyInfo, PreburnQueue {
 
         // Remove the preburn request
@@ -1068,9 +1060,7 @@ module DiemFramework::Diem {
     /// `BurnCapability<CoinType>`, and will fail if the `PreburnQueue<CoinType>` resource
     /// at `preburn_address` does not contain a preburn request of the right amount.
     fun cancel_burn_with_capability<CoinType>(
-        preburn_address: address,
-        _capability: &BurnCapability<CoinType>,
-        amount: u64
+        preburn_address: address, _capability: &BurnCapability<CoinType>, amount: u64
     ): Diem<CoinType> acquires CurrencyInfo, PreburnQueue {
 
         // destroy the coin in the preburn area

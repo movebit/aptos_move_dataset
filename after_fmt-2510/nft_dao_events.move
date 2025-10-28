@@ -173,14 +173,7 @@ module dao_platform::nft_dao_events {
         property_versions: vector<u64>
     ) {
         event::emit(
-            Vote {
-                nft_dao,
-                voter,
-                proposal_id,
-                vote,
-                token_names,
-                property_versions
-            }
+            Vote { nft_dao, voter, proposal_id, vote, token_names, property_versions }
         );
     }
 
@@ -217,25 +210,19 @@ module dao_platform::nft_dao_events {
     public(friend) fun emit_change_threshold_event(
         old_threshold: u64, new_threshold: u64, nft_dao: address
     ) {
-        event::emit(
-            DAOThresholdChange { nft_dao, old_threshold, new_threshold }
-        );
+        event::emit(DAOThresholdChange { nft_dao, old_threshold, new_threshold });
     }
 
     public(friend) fun emit_change_duration_event(
         old_duration: u64, new_duration: u64, nft_dao: address
     ) {
-        event::emit(
-            DAOVoteDurationChange { nft_dao, old_duration, new_duration }
-        );
+        event::emit(DAOVoteDurationChange { nft_dao, old_duration, new_duration });
     }
 
     public(friend) fun emit_change_voting_power_event(
         old_power: u64, new_power: u64, nft_dao: address
     ) {
-        event::emit(
-            DAOReqiredVotingPowerChange { nft_dao, old_power, new_power }
-        );
+        event::emit(DAOReqiredVotingPowerChange { nft_dao, old_power, new_power });
     }
 
     public(friend) fun emit_admin_veto_event(
@@ -244,9 +231,7 @@ module dao_platform::nft_dao_events {
         nft_dao: address,
         reason: String
     ) {
-        event::emit(
-            AdminVeto { nft_dao, proposal_id, admin, reason }
-        );
+        event::emit(AdminVeto { nft_dao, proposal_id, admin, reason });
     }
 
     public(friend) fun emit_admin_resolve_event(

@@ -713,9 +713,9 @@ module aptos_std::ristretto255_bulletproofs {
         let comms =
             values.zip_map(
                 blinders,
-                |val, blinder| {
-                    pedersen::new_commitment_for_bulletproof(&val, &blinder)
-                }
+                |val, blinder| { pedersen::new_commitment_for_bulletproof(
+                    &val, &blinder
+                ) }
             );
 
         assert!(

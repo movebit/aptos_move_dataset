@@ -368,9 +368,7 @@ module tic_tac_toe::ttt {
 
     #[test(player_x = @0x123, player_o = @0x223, game_addr = @0x123)]
     fun test_valid_game(
-        player_x: &signer,
-        player_o: &signer,
-        game_addr: address
+        player_x: &signer, player_o: &signer, game_addr: address
     ) acquires Game {
         create_account_for_test(signer::address_of(player_x));
         start_game(player_x);
@@ -389,9 +387,7 @@ module tic_tac_toe::ttt {
     #[test(player_x = @0x123, player_o = @0x223, game_addr = @0x123)]
     #[expected_failure]
     fun test_out_of_bound_move(
-        player_x: &signer,
-        player_o: &signer,
-        game_addr: address
+        player_x: &signer, player_o: &signer, game_addr: address
     ) acquires Game {
         create_account_for_test(signer::address_of(player_x));
         start_game(player_x);
@@ -405,9 +401,7 @@ module tic_tac_toe::ttt {
 
     #[test(player_x = @0x123, player_o = @0x223, game_addr = @0x123)]
     fun test_forfeit(
-        player_x: &signer,
-        player_o: &signer,
-        game_addr: address
+        player_x: &signer, player_o: &signer, game_addr: address
     ) acquires Game {
         create_account_for_test(signer::address_of(player_x));
         start_game(player_x);

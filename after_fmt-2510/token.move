@@ -606,7 +606,10 @@ module aptos_token_objects::token {
     #[view]
     /// Generates the token's address based upon the creator's address, the collection object and the token's name and seed.
     public fun create_token_address_with_seed(
-        creator: address, collection: String, name: String, seed: String
+        creator: address,
+        collection: String,
+        name: String,
+        seed: String
     ): address {
         let seed = create_token_name_with_seed(&collection, &name, &seed);
         object::create_object_address(&creator, seed)
@@ -1554,9 +1557,7 @@ module aptos_token_objects::token {
 
     #[test_only]
     fun create_fixed_collection_as_collection_owner(
-        creator: &signer,
-        collection_name: String,
-        max_supply: u64
+        creator: &signer, collection_name: String, max_supply: u64
     ): ConstructorRef {
         collection::create_fixed_collection_as_owner(
             creator,
@@ -1645,9 +1646,7 @@ module aptos_token_objects::token {
 
     #[test_only]
     fun create_token_with_mutation_ref(
-        creator: &signer,
-        collection_name: String,
-        token_name: String
+        creator: &signer, collection_name: String, token_name: String
     ): MutatorRef {
         let constructor_ref = create_token_helper(creator, collection_name, token_name);
         generate_mutator_ref(&constructor_ref)

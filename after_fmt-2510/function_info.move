@@ -25,9 +25,7 @@ module aptos_framework::function_info {
 
     /// Creates a new function info from names.
     public fun new_function_info(
-        module_signer: &signer,
-        module_name: String,
-        function_name: String
+        module_signer: &signer, module_name: String, function_name: String
     ): FunctionInfo {
         new_function_info_from_address(
             signer::address_of(module_signer),
@@ -37,9 +35,7 @@ module aptos_framework::function_info {
     }
 
     public fun new_function_info_from_address(
-        module_address: address,
-        module_name: String,
-        function_name: String
+        module_address: address, module_name: String, function_name: String
     ): FunctionInfo {
         assert!(
             is_identifier(string::bytes(&module_name)),

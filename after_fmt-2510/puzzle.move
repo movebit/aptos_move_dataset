@@ -4,7 +4,14 @@ module 0x42::Puzzle {
     }
 
     fun puzzle(
-        a: u64, b: u64, c: u64, d: u64, e: u64, f: u64, g: u64, h: u64
+        a: u64,
+        b: u64,
+        c: u64,
+        d: u64,
+        e: u64,
+        f: u64,
+        g: u64,
+        h: u64
     ) {
         assert0(1 <= a && a <= 9); // 1 <= a <= 9
         assert0(1 <= b && b <= 9); // 1 <= b <= 9

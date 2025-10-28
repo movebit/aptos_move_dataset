@@ -62,9 +62,9 @@ module 0x42::valid_struct {
     }
 
     fun test2(): S3<i64> {
-        let s1 = S1 { x: 1, y: - 1, z: - 2 };
-        let s2 = S2 { x: s1, y: - 1, z: - 2 };
-        let s3 = S3<i64> { x: - 1, y: s1, z: s2 };
+        let s1 = S1 { x: 1, y: -1, z: -2 };
+        let s2 = S2 { x: s1, y: -1, z: -2 };
+        let s3 = S3<i64> { x: -1, y: s1, z: s2 };
         s3
     }
 
@@ -76,37 +76,37 @@ module 0x42::valid_struct {
     }
 
     fun test4(): S3<i128> {
-        let s1 = S1 { x: 1, y: - 1, z: - 2 };
-        let s2 = S2 { x: s1, y: - 1, z: - 2 };
-        let s3 = S3<i128> { x: - 1, y: s1, z: s2 };
+        let s1 = S1 { x: 1, y: -1, z: -2 };
+        let s2 = S2 { x: s1, y: -1, z: -2 };
+        let s3 = S3<i128> { x: -1, y: s1, z: s2 };
         s3
     }
 
     fun test5(): E1 {
-        let s1 = S1 { x: 1, y: - 1, z: - 2 };
+        let s1 = S1 { x: 1, y: -1, z: -2 };
         let e = E1::V1 { s: s1 };
         e
     }
 
     fun test6(): E2 {
-        let s1 = S1 { x: 1, y: - 1, z: - 2 };
-        let s2 = S2 { x: s1, y: - 1, z: - 2 };
+        let s1 = S1 { x: 1, y: -1, z: -2 };
+        let s2 = S2 { x: s1, y: -1, z: -2 };
         let e = E2::V2 { s: s2 };
         e
     }
 
     fun test7(): E3<i64> {
-        let s1 = S1 { x: 1, y: - 1, z: - 2 };
-        let s2 = S2 { x: s1, y: - 1, z: - 2 };
-        let s3 = S3<i64> { x: - 1, y: s1, z: s2 };
+        let s1 = S1 { x: 1, y: -1, z: -2 };
+        let s2 = S2 { x: s1, y: -1, z: -2 };
+        let s3 = S3<i64> { x: -1, y: s1, z: s2 };
         let e = E3::V3 { s: s3 };
         e
     }
 
     fun test8(): E3<i128> {
-        let s1 = S1 { x: 1, y: - 1, z: - 2 };
-        let s2 = S2 { x: s1, y: - 1, z: - 2 };
-        let s3 = S3<i128> { x: - 1, y: s1, z: s2 };
+        let s1 = S1 { x: 1, y: -1, z: -2 };
+        let s2 = S2 { x: s1, y: -1, z: -2 };
+        let s3 = S3<i128> { x: -1, y: s1, z: s2 };
         let e = E3::V3 { s: s3 };
         e
     }

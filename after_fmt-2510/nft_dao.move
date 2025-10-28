@@ -552,7 +552,10 @@ module dao_platform::nft_dao {
 
     /// Admin can veto an active proposal
     public entry fun admin_veto_proposal(
-        admin: &signer, proposal_id: u64, nft_dao: address, reason: String
+        admin: &signer,
+        proposal_id: u64,
+        nft_dao: address,
+        reason: String
     ) acquires DAO, Proposals {
         assert!(
             exists<DAO>(nft_dao),
@@ -587,7 +590,10 @@ module dao_platform::nft_dao {
 
     /// DAO admin can directly resolve a proposal
     public entry fun admin_resolve(
-        admin: &signer, proposal_id: u64, nft_dao: address, reason: String
+        admin: &signer,
+        proposal_id: u64,
+        nft_dao: address,
+        reason: String
     ) acquires DAO, Proposals, ProposalVotingStatistics {
         let resolver = signer::address_of(admin);
         // assert the proposal voting ended

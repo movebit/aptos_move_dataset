@@ -30,7 +30,7 @@ script {
 //# run --verbose
 script {
     fun main() {
-        let v0 = - 1i8;
+        let v0 = -1i8;
         let _ = v0 as u64; // expect to abort
     }
 }
@@ -38,7 +38,7 @@ script {
 //# run --verbose
 script {
     fun main() {
-        let v0 = - 1i16;
+        let v0 = -1i16;
         let _ = v0 as u64; // expect to abort
     }
 }
@@ -46,7 +46,7 @@ script {
 //# run --verbose
 script {
     fun main() {
-        let v0 = - 1i32;
+        let v0 = -1i32;
         let _ = v0 as u64; // expect to abort
     }
 }
@@ -54,7 +54,7 @@ script {
 //# run --verbose
 script {
     fun main() {
-        let v0 = - 1i64;
+        let v0 = -1i64;
         let _ = v0 as u64; // expect to abort
     }
 }
@@ -62,7 +62,7 @@ script {
 //# run --verbose
 script {
     fun main() {
-        let v0 = - 1i128;
+        let v0 = -1i128;
         let _ = v0 as u64; // expect to abort
     }
 }
@@ -70,7 +70,7 @@ script {
 //# run --verbose
 script {
     fun main() {
-        let v0 = - 1i256;
+        let v0 = -1i256;
         let _ = v0 as u64; // expect to abort
     }
 }

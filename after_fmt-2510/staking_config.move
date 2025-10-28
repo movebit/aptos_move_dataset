@@ -303,9 +303,7 @@ module aptos_framework::staking_config {
     /// Update the min and max stake amounts.
     /// Can only be called as part of the Aptos governance proposal process established by the AptosGovernance module.
     public fun update_required_stake(
-        aptos_framework: &signer,
-        minimum_stake: u64,
-        maximum_stake: u64
+        aptos_framework: &signer, minimum_stake: u64, maximum_stake: u64
     ) acquires StakingConfig {
         system_addresses::assert_aptos_framework(aptos_framework);
         validate_required_stake(minimum_stake, maximum_stake);
@@ -335,9 +333,7 @@ module aptos_framework::staking_config {
     /// Update the rewards rate.
     /// Can only be called as part of the Aptos governance proposal process established by the AptosGovernance module.
     public fun update_rewards_rate(
-        aptos_framework: &signer,
-        new_rewards_rate: u64,
-        new_rewards_rate_denominator: u64
+        aptos_framework: &signer, new_rewards_rate: u64, new_rewards_rate_denominator: u64
     ) acquires StakingConfig {
         assert!(
             !features::periodical_reward_rate_decrease_enabled(),

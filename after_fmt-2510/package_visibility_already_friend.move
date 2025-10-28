@@ -28,6 +28,5 @@ module 0x42::C {
         bar()
     }
 
-    public(package) fun bar() {
-    }
+    public(package) fun bar() {}
 }

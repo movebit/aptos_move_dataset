@@ -92,9 +92,7 @@ module DiemFramework::DualAttestation {
     /// the `created` account must send a transaction that invokes `rotate_base_url` and
     /// `rotate_compliance_public_key` to set these fields to a valid URL/public key.
     public(friend) fun publish_credential(
-        created: &signer,
-        creator: &signer,
-        human_name: vector<u8>
+        created: &signer, creator: &signer, human_name: vector<u8>
     ) {
         Roles::assert_parent_vasp_or_designated_dealer(created);
         Roles::assert_treasury_compliance(creator);

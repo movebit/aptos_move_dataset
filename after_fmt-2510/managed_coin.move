@@ -80,9 +80,7 @@ module aptos_framework::managed_coin {
 
     /// Create new coins `CoinType` and deposit them into dst_addr's account.
     public entry fun mint<CoinType>(
-        account: &signer,
-        dst_addr: address,
-        amount: u64
+        account: &signer, dst_addr: address, amount: u64
     ) acquires Capabilities {
         let account_addr = signer::address_of(account);
 

@@ -105,30 +105,30 @@ module 0x42::valid_fv {
     }
 
     fun test9(fv: |E1| i64 has copy + drop, a: i64, b: i128): i64 {
-        let s1 = S1 { x: 1, y: - 1, z: - 2 };
+        let s1 = S1 { x: 1, y: -1, z: -2 };
         let e = E1::V1 { s: s1 };
         fv(e)
     }
 
     fun test10(fv: |E2| i64 has copy + drop, a: i64, b: i128): i64 {
-        let s1 = S1 { x: 1, y: - 1, z: - 2 };
-        let s2 = S2 { x: s1, y: - 1, z: - 2 };
+        let s1 = S1 { x: 1, y: -1, z: -2 };
+        let s2 = S2 { x: s1, y: -1, z: -2 };
         let e = E2::V2 { s: s2 };
         fv(e)
     }
 
     fun test11(fv: |E3<i64>| i64 has copy + drop, a: i64, b: i128): i64 {
-        let s1 = S1 { x: 1, y: - 1, z: - 2 };
-        let s2 = S2 { x: s1, y: - 1, z: - 2 };
-        let s3 = S3<i64> { x: - 1, y: s1, z: s2 };
+        let s1 = S1 { x: 1, y: -1, z: -2 };
+        let s2 = S2 { x: s1, y: -1, z: -2 };
+        let s3 = S3<i64> { x: -1, y: s1, z: s2 };
         let e = E3::V3 { s: s3 };
         fv(e)
     }
 
     fun test12(fv: |E3<i128>| i64 has copy + drop, a: i64, b: i128): i64 {
-        let s1 = S1 { x: 1, y: - 1, z: - 2 };
-        let s2 = S2 { x: s1, y: - 1, z: - 2 };
-        let s3 = S3<i128> { x: - 1, y: s1, z: s2 };
+        let s1 = S1 { x: 1, y: -1, z: -2 };
+        let s2 = S2 { x: s1, y: -1, z: -2 };
+        let s3 = S3<i128> { x: -1, y: s1, z: s2 };
         let e = E3::V3 { s: s3 };
         fv(e)
     }

@@ -89,26 +89,26 @@ script {
 //# run --verbose
 script {
     fun main() {
-        let v0: i8 = - 128i8;
-        assert!((v0 as i8) == - 128i8);
-        assert!((v0 as i16) == - 128i16);
-        assert!((v0 as i32) == - 128i32);
-        assert!((v0 as i64) == - 128i64);
-        assert!((v0 as i128) == - 128i128);
-        assert!((v0 as i256) == - 128i256);
+        let v0: i8 = -128i8;
+        assert!((v0 as i8) == -128i8);
+        assert!((v0 as i16) == -128i16);
+        assert!((v0 as i32) == -128i32);
+        assert!((v0 as i64) == -128i64);
+        assert!((v0 as i128) == -128i128);
+        assert!((v0 as i256) == -128i256);
 
-        let v7 = - 128i8;
-        let v8 = - 128i16;
-        let v9 = - 128i32;
-        let v10 = - 128i64;
-        let v11 = - 128i128;
-        let v12 = - 128i256;
-        assert!((v7 as i8) == - 128i8);
-        assert!((v8 as i8) == - 128i8);
-        assert!((v9 as i8) == - 128i8);
-        assert!((v10 as i8) == - 128i8);
-        assert!((v11 as i8) == - 128i8);
-        assert!((v12 as i8) == - 128i8);
+        let v7 = -128i8;
+        let v8 = -128i16;
+        let v9 = -128i32;
+        let v10 = -128i64;
+        let v11 = -128i128;
+        let v12 = -128i256;
+        assert!((v7 as i8) == -128i8);
+        assert!((v8 as i8) == -128i8);
+        assert!((v9 as i8) == -128i8);
+        assert!((v10 as i8) == -128i8);
+        assert!((v11 as i8) == -128i8);
+        assert!((v12 as i8) == -128i8);
     }
 }
 
@@ -207,7 +207,7 @@ script {
 //# run --verbose
 script {
     fun main() {
-        let v0 = - 129i16;
+        let v0 = -129i16;
         let v2 = v0 as i8; // expect to abort
     }
 }
@@ -215,7 +215,7 @@ script {
 //# run --verbose
 script {
     fun main() {
-        let v0 = - 129i32;
+        let v0 = -129i32;
         let v2 = v0 as i8; // expect to abort
     }
 }
@@ -223,7 +223,7 @@ script {
 //# run --verbose
 script {
     fun main() {
-        let v0 = - 129i64;
+        let v0 = -129i64;
         let v2 = v0 as i8; // expect to abort
     }
 }
@@ -231,7 +231,7 @@ script {
 //# run --verbose
 script {
     fun main() {
-        let v0 = - 129i128;
+        let v0 = -129i128;
         let v2 = v0 as i8; // expect to abort
     }
 }
@@ -239,7 +239,7 @@ script {
 //# run --verbose
 script {
     fun main() {
-        let v0 = - 129i256;
+        let v0 = -129i256;
         let v2 = v0 as i8; // expect to abort
     }
 }

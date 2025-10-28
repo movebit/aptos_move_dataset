@@ -13,7 +13,7 @@ module 0x42::test {
     }
 
     fun test_closure_2(x: u64): u64 {
-        (| y | y + x) (1)
+        (|y| y + x) (1)
     }
 
     spec test_closure_2 {
@@ -21,7 +21,7 @@ module 0x42::test {
     }
 
     fun test_closure_3(x: u64): u64 {
-        (| y | y + x) (1)
+        (|y| y + x) (1)
     }
 
     spec test_closure_3 {
@@ -37,7 +37,7 @@ module 0x42::test {
     }
 
     spec test_closure_4 {
-        ensures and(x, false) == (| y | y && x) (false);
+        ensures and(x, false) == (|y| y && x) (false);
     }
 
     struct S<T: copy + drop> has copy, drop {
@@ -49,6 +49,6 @@ module 0x42::test {
     }
 
     spec test_closure_5 {
-        ensures and(x.f, false) == (| s: S<bool> | s.f && x.f) (S { f: false });
+        ensures and(x.f, false) == (|s: S<bool>| s.f && x.f) (S { f: false });
     }
 }

@@ -70,9 +70,7 @@ module DiemFramework::DiemVMConfig {
 
     /// Initialize the table under the diem root account
     public fun initialize(
-        dr_account: &signer,
-        instruction_schedule: vector<u8>,
-        native_schedule: vector<u8>
+        dr_account: &signer, instruction_schedule: vector<u8>, native_schedule: vector<u8>
     ) {
         DiemTimestamp::assert_genesis();
 

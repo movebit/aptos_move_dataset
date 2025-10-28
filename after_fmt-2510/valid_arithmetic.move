@@ -150,10 +150,10 @@ module 0x42::valid_arithmetic {
     }
 
     fun test_neg1(x: i64, y: i64): i64 {
-        (- x) + y - (- x) * (- y) / (- x) % (- y)
+        (-x) + y - (-x) * (-y) / (-x) % (-y)
     }
 
     fun test_neg2(x: i128, y: i128): i128 {
-        (- x) + y - (- x) * (- y) / (- x) % (- y)
+        (-x) + y - (-x) * (-y) / (-x) % (-y)
     }
 }

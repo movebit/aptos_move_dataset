@@ -476,7 +476,7 @@ module DiemFramework::DiemSystem {
         pragma opaque;
         include DiemConfig::AbortsIfNotPublished<DiemSystem>;
         aborts_if !spec_is_validator(addr) with errors::INVALID_ARGUMENT;
-        ensures exists info in DiemConfig::get<DiemSystem> ().validators where info.addr
+        ensures exists info in DiemConfig::get<DiemSystem>().validators where info.addr
             == addr: result == info.config;
     }
 
@@ -678,7 +678,7 @@ module DiemFramework::DiemSystem {
             (
                 forall addr: address:
                     (
-                        exists i in 0..len(DiemConfig::get<DiemSystem> ().validators) where old(
+                        exists i in 0..len(DiemConfig::get<DiemSystem>().validators) where old(
                             DiemConfig::get<DiemSystem>().validators[i].addr == addr
                         ):
                             old(

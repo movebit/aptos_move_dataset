@@ -11,8 +11,7 @@ module 0x42::Test {
         let _x = Impotent {};
         // if we simplify the CFG with constant folding
         // this would compile
-        while (true) {
-        }
+        while (true) {}
     }
 
     fun test2(b: bool) {

@@ -34,9 +34,11 @@ module addr::token_v1 {
             bcs::to_bytes<u64>(&5),
             bcs::to_bytes<bool>(&true)
         ];
-        let default_types = vector<String>[string::utf8(b"u64"), string::utf8(b"u64"), string::utf8(
-            b"bool"
-        )];
+        let default_types = vector<String>[
+            string::utf8(b"u64"),
+            string::utf8(b"u64"),
+            string::utf8(b"bool")
+        ];
         let mutate_setting = vector<bool>[true, true, true, true, true];
 
         let amount = 10;

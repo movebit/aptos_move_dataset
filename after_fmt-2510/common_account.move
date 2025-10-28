@@ -65,9 +65,7 @@ module common_account::common_account {
     /// Add the other account to the list of accounts eligible to claim a capability for this
     /// common_account
     public entry fun add_account(
-        sender: &signer,
-        common_account: address,
-        other: address
+        sender: &signer, common_account: address, other: address
     ) acquires Management {
         let management = assert_is_admin(sender, common_account);
         simple_map::add(&mut management.unclaimed_capabilities, other, Empty {});
@@ -75,9 +73,7 @@ module common_account::common_account {
 
     /// Remove an account from the management group.
     public entry fun remove_account(
-        admin: &signer,
-        common_account: address,
-        other: address
+        admin: &signer, common_account: address, other: address
     ) acquires Capability, Management {
         let management = assert_is_admin(admin, common_account);
         if (simple_map::contains_key(&management.unclaimed_capabilities, &other)) {

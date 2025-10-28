@@ -9,7 +9,10 @@ module 0x42::sort {
     }
 
     public fun incorrect_sort_recursive<T: copy>(
-        arr: &mut vector<T>, low: u64, high: u64, a_less_b: |T, T| bool
+        arr: &mut vector<T>,
+        low: u64,
+        high: u64,
+        a_less_b: |T, T| bool
     ) {
         if (low < high) {
             let pi = low + high / 2;

@@ -226,9 +226,7 @@ module aptos_framework::code {
             vector::push_back(packages, pack)
         };
 
-        event::emit(
-            PublishPackage { code_address: addr, is_upgrade: upgrade_number > 0 }
-        );
+        event::emit(PublishPackage { code_address: addr, is_upgrade: upgrade_number > 0 });
 
         // Request publish
         if (features::code_dependency_check_enabled())

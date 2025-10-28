@@ -569,9 +569,7 @@ module aptos_framework::voting {
     /// @param proposal_id The proposal id.
     /// @param next_execution_hash The next execution hash if the given proposal is multi-step.
     public fun resolve_proposal_v2<ProposalType: store>(
-        voting_forum_address: address,
-        proposal_id: u64,
-        next_execution_hash: vector<u8>
+        voting_forum_address: address, proposal_id: u64, next_execution_hash: vector<u8>
     ) acquires VotingForum {
         is_proposal_resolvable<ProposalType>(voting_forum_address, proposal_id);
 
@@ -703,9 +701,7 @@ module aptos_framework::voting {
 
     #[view]
     public fun get_proposal_metadata_value<ProposalType: store>(
-        voting_forum_address: address,
-        proposal_id: u64,
-        metadata_key: String
+        voting_forum_address: address, proposal_id: u64, metadata_key: String
     ): vector<u8> acquires VotingForum {
         let proposal = get_proposal<ProposalType>(voting_forum_address, proposal_id);
         *simple_map::borrow(&proposal.metadata, &metadata_key)
@@ -1503,9 +1499,7 @@ module aptos_framework::voting {
 
     #[test_only]
     public entry fun test_cannot_set_min_threshold_higher_than_early_resolution_generic(
-        aptos_framework: &signer,
-        governance: &signer,
-        is_multi_step: bool
+        aptos_framework: &signer, governance: &signer, is_multi_step: bool
     ) acquires VotingForum {
         account::create_account_for_test(@aptos_framework);
         timestamp::set_time_has_started_for_testing(aptos_framework);

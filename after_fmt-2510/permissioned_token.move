@@ -47,9 +47,7 @@ module 0xcafe::permissioned_token {
     }
 
     public fun withdraw<T: key>(
-        store: Object<T>,
-        amount: u64,
-        transfer_ref: &TransferRef
+        store: Object<T>, amount: u64, transfer_ref: &TransferRef
     ): FungibleAsset acquires AllowlistStore {
         assert!(
             vector::contains(

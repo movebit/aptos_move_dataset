@@ -258,9 +258,7 @@ module ExperimentalFramework::ExperimentalAccount {
     }
 
     fun writeset_epilogue(
-        dr_account: signer,
-        _txn_sequence_number: u64,
-        should_trigger_reconfiguration: bool
+        dr_account: signer, _txn_sequence_number: u64, should_trigger_reconfiguration: bool
     ) {
         Account::writeset_epilogue(
             &dr_account, should_trigger_reconfiguration, &ExperimentalAccountMarker {}

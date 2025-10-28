@@ -464,7 +464,9 @@ module aptos_std::smart_vector {
     }
 
     public inline fun zip<T1: store, T2: store>(
-        self: SmartVector<T1>, v2: SmartVector<T2>, f: |T1, T2|
+        self: SmartVector<T1>,
+        v2: SmartVector<T2>,
+        f: |T1, T2|
     ) {
         // We need to reverse the vectors to consume it efficiently
         self.reverse();

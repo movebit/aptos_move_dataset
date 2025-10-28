@@ -91,9 +91,7 @@ module aptos_framework::aptos_coin {
     /// Only callable in tests and testnets where the core resources account exists.
     /// Create new coins and deposit them into dst_addr's account.
     public entry fun mint(
-        account: &signer,
-        dst_addr: address,
-        amount: u64
+        account: &signer, dst_addr: address, amount: u64
     ) acquires MintCapStore {
         let account_addr = signer::address_of(account);
 

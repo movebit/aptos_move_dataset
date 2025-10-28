@@ -448,11 +448,9 @@ module aptos_experimental::order_book_client_order_id {
             std::string::utf8(b"1002"),
             std::string::utf8(b"1003")
         ];
-        let order_ids = vector[
-            new_order_id_type(1),
-            new_order_id_type(2),
-            new_order_id_type(3)
-        ];
+        let order_ids = vector[new_order_id_type(1), new_order_id_type(2), new_order_id_type(
+            3
+        )];
 
         // Place all maker orders
         let i = 0;

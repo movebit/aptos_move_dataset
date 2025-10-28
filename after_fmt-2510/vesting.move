@@ -547,9 +547,7 @@ module aptos_framework::vesting {
 
     /// Create a vesting schedule with the given schedule of distributions, a vesting start time and period duration.
     public fun create_vesting_schedule(
-        schedule: vector<FixedPoint32>,
-        start_timestamp_secs: u64,
-        period_duration: u64
+        schedule: vector<FixedPoint32>, start_timestamp_secs: u64, period_duration: u64
     ): VestingSchedule {
         assert!(
             vector::length(&schedule) > 0,
@@ -1015,9 +1013,7 @@ module aptos_framework::vesting {
     }
 
     public entry fun update_operator_with_same_commission(
-        admin: &signer,
-        contract_address: address,
-        new_operator: address
+        admin: &signer, contract_address: address, new_operator: address
     ) acquires VestingContract {
         let commission_percentage = operator_commission_percentage(contract_address);
         update_operator(
@@ -1029,9 +1025,7 @@ module aptos_framework::vesting {
     }
 
     public entry fun update_commission_percentage(
-        admin: &signer,
-        contract_address: address,
-        new_commission_percentage: u64
+        admin: &signer, contract_address: address, new_commission_percentage: u64
     ) acquires VestingContract {
         let operator = operator(contract_address);
         let vesting_contract = borrow_global_mut<VestingContract>(contract_address);
@@ -1046,9 +1040,7 @@ module aptos_framework::vesting {
     }
 
     public entry fun update_voter(
-        admin: &signer,
-        contract_address: address,
-        new_voter: address
+        admin: &signer, contract_address: address, new_voter: address
     ) acquires VestingContract {
         let vesting_contract = borrow_global_mut<VestingContract>(contract_address);
         verify_admin(admin, vesting_contract);
@@ -1168,9 +1160,7 @@ module aptos_framework::vesting {
     /// Remove the beneficiary for the given shareholder. All distributions will sent directly to the shareholder
     /// account.
     public entry fun reset_beneficiary(
-        account: &signer,
-        contract_address: address,
-        shareholder: address
+        account: &signer, contract_address: address, shareholder: address
     ) acquires VestingAccountManagement, VestingContract {
         check_vest_permission(account);
         let vesting_contract = borrow_global_mut<VestingContract>(contract_address);
@@ -1218,9 +1208,7 @@ module aptos_framework::vesting {
     }
 
     public entry fun set_beneficiary_resetter(
-        admin: &signer,
-        contract_address: address,
-        beneficiary_resetter: address
+        admin: &signer, contract_address: address, beneficiary_resetter: address
     ) acquires VestingAccountManagement, VestingContract {
         set_management_role(
             admin,
@@ -1758,9 +1746,7 @@ module aptos_framework::vesting {
 
     #[test(aptos_framework = @0x1, admin = @0x123, shareholder = @0x234)]
     public entry fun test_vest_twice_should_not_double_count(
-        aptos_framework: &signer,
-        admin: &signer,
-        shareholder: &signer
+        aptos_framework: &signer, admin: &signer, shareholder: &signer
     ) acquires AdminStore, VestingContract {
         let admin_address = signer::address_of(admin);
         let shareholder_address = signer::address_of(shareholder);
@@ -1809,9 +1795,7 @@ module aptos_framework::vesting {
 
     #[test(aptos_framework = @0x1, admin = @0x123, shareholder = @0x234)]
     public entry fun test_unlock_rewards_twice_should_not_double_count(
-        aptos_framework: &signer,
-        admin: &signer,
-        shareholder: &signer
+        aptos_framework: &signer, admin: &signer, shareholder: &signer
     ) acquires AdminStore, VestingContract {
         let admin_address = signer::address_of(admin);
         let shareholder_address = signer::address_of(shareholder);
@@ -2003,9 +1987,7 @@ module aptos_framework::vesting {
 
     #[test(aptos_framework = @0x1, admin = @0x123, operator = @0x345)]
     public entry fun test_update_operator_with_same_commission(
-        aptos_framework: &signer,
-        admin: &signer,
-        operator: &signer
+        aptos_framework: &signer, admin: &signer, operator: &signer
     ) acquires AdminStore, VestingContract {
         let admin_address = signer::address_of(admin);
         let operator_address = signer::address_of(operator);
@@ -2225,9 +2207,7 @@ module aptos_framework::vesting {
     #[test(aptos_framework = @0x1, admin = @0x123, shareholder = @0x234)]
     #[expected_failure(abort_code = 0x30008, location = Self)]
     public entry fun test_cannot_unlock_rewards_after_contract_is_terminated(
-        aptos_framework: &signer,
-        admin: &signer,
-        shareholder: &signer
+        aptos_framework: &signer, admin: &signer, shareholder: &signer
     ) acquires AdminStore, VestingContract {
         let admin_address = signer::address_of(admin);
         let shareholder_address = signer::address_of(shareholder);
@@ -2248,9 +2228,7 @@ module aptos_framework::vesting {
 
     #[test(aptos_framework = @0x1, admin = @0x123, shareholder = @0x234)]
     public entry fun test_vesting_contract_with_zero_vestings(
-        aptos_framework: &signer,
-        admin: &signer,
-        shareholder: &signer
+        aptos_framework: &signer, admin: &signer, shareholder: &signer
     ) acquires AdminStore, VestingContract {
         let admin_address = signer::address_of(admin);
         let shareholder_address = signer::address_of(shareholder);
@@ -2314,9 +2292,7 @@ module aptos_framework::vesting {
 
     #[test(aptos_framework = @0x1, admin = @0x123, shareholder = @0x234)]
     public entry fun test_last_vest_should_distribute_remaining_amount(
-        aptos_framework: &signer,
-        admin: &signer,
-        shareholder: &signer
+        aptos_framework: &signer, admin: &signer, shareholder: &signer
     ) acquires AdminStore, VestingContract {
         let admin_address = signer::address_of(admin);
         let shareholder_address = signer::address_of(shareholder);
@@ -2370,9 +2346,7 @@ module aptos_framework::vesting {
     #[test(aptos_framework = @0x1, admin = @0x123, shareholder = @0x234)]
     #[expected_failure(abort_code = 0x30008, location = Self)]
     public entry fun test_cannot_vest_after_contract_is_terminated(
-        aptos_framework: &signer,
-        admin: &signer,
-        shareholder: &signer
+        aptos_framework: &signer, admin: &signer, shareholder: &signer
     ) acquires AdminStore, VestingContract {
         let admin_address = signer::address_of(admin);
         let shareholder_address = signer::address_of(shareholder);
@@ -2394,9 +2368,7 @@ module aptos_framework::vesting {
     #[test(aptos_framework = @0x1, admin = @0x123, shareholder = @0x234)]
     #[expected_failure(abort_code = 0x30008, location = Self)]
     public entry fun test_cannot_terminate_twice(
-        aptos_framework: &signer,
-        admin: &signer,
-        shareholder: &signer
+        aptos_framework: &signer, admin: &signer, shareholder: &signer
     ) acquires AdminStore, VestingContract {
         let admin_address = signer::address_of(admin);
         let shareholder_address = signer::address_of(shareholder);
@@ -2418,9 +2390,7 @@ module aptos_framework::vesting {
     #[test(aptos_framework = @0x1, admin = @0x123, shareholder = @0x234)]
     #[expected_failure(abort_code = 0x30009, location = Self)]
     public entry fun test_cannot_call_admin_withdraw_if_contract_is_not_terminated(
-        aptos_framework: &signer,
-        admin: &signer,
-        shareholder: &signer
+        aptos_framework: &signer, admin: &signer, shareholder: &signer
     ) acquires AdminStore, VestingContract {
         let admin_address = signer::address_of(admin);
         let shareholder_address = signer::address_of(shareholder);
@@ -2570,9 +2540,7 @@ module aptos_framework::vesting {
 
     #[test(aptos_framework = @0x1, admin = @0x123, resetter = @0x234)]
     public entry fun test_reset_beneficiary_with_resetter_role(
-        aptos_framework: &signer,
-        admin: &signer,
-        resetter: &signer
+        aptos_framework: &signer, admin: &signer, resetter: &signer
     ) acquires AdminStore, VestingAccountManagement, VestingContract {
         let admin_address = signer::address_of(admin);
         setup(

@@ -475,7 +475,9 @@ module aptos_std::big_ordered_map {
     /// This function cannot be inline, due to iter_modify requiring actual function value.
     /// This also is why we return a value
     public inline fun modify_and_return<K: drop + copy + store, V: store, R>(
-        self: &mut BigOrderedMap<K, V>, key: &K, f: |&mut V| R
+        self: &mut BigOrderedMap<K, V>,
+        key: &K,
+        f: |&mut V| R
     ): R {
         let iter = self.internal_find(key);
         assert!(!iter.iter_is_end(self), error::invalid_argument(EKEY_NOT_FOUND));
@@ -550,7 +552,9 @@ module aptos_std::big_ordered_map {
     /// Add multiple key/value pairs to the map. The keys must not already exist.
     /// Aborts with EKEY_ALREADY_EXISTS if key already exist, or duplicate keys are passed in.
     public fun add_all<K: drop + copy + store, V: store>(
-        self: &mut BigOrderedMap<K, V>, keys: vector<K>, values: vector<V>
+        self: &mut BigOrderedMap<K, V>,
+        keys: vector<K>,
+        values: vector<V>
     ) {
         // TODO: Can be optimized, both in insertion order (largest first, then from smallest),
         // as well as on initializing inner_max_degree/leaf_max_degree better
@@ -701,7 +705,9 @@ module aptos_std::big_ordered_map {
     }
 
     public inline fun get_and_map<K: drop + copy + store, V: copy + store, R>(
-        self: &BigOrderedMap<K, V>, key: &K, f: |&V| R has drop
+        self: &BigOrderedMap<K, V>,
+        key: &K,
+        f: |&V| R has drop
     ): Option<R> {
         let iter = self.internal_find(key);
         if (iter.iter_is_end(self)) {
@@ -970,7 +976,9 @@ module aptos_std::big_ordered_map {
     }
 
     public fun iter_modify<K: drop + store, V: store, R>(
-        self: IteratorPtr<K>, map: &mut BigOrderedMap<K, V>, f: |&mut V| R
+        self: IteratorPtr<K>,
+        map: &mut BigOrderedMap<K, V>,
+        f: |&mut V| R
     ): R {
         assert!(!self.iter_is_end(map), error::invalid_argument(EITER_OUT_OF_BOUNDS));
         let IteratorPtr::Some { node_index, child_iter, key } = self;
@@ -1228,7 +1236,9 @@ module aptos_std::big_ordered_map {
     }
 
     fun validate_size_and_init_max_degrees<K: store, V: store>(
-        self: &mut BigOrderedMap<K, V>, key_size: u64, value_size: u64
+        self: &mut BigOrderedMap<K, V>,
+        key_size: u64,
+        value_size: u64
     ) {
         let entry_size = key_size + value_size;
 
@@ -1648,7 +1658,9 @@ module aptos_std::big_ordered_map {
     }
 
     fun remove_at<K: drop + copy + store, V: store>(
-        self: &mut BigOrderedMap<K, V>, path_to_node: vector<u64>, key: &K
+        self: &mut BigOrderedMap<K, V>,
+        path_to_node: vector<u64>,
+        key: &K
     ): Child<V> {
         // Last node in the path is one where we need to remove the child from.
         let node_index = path_to_node.pop_back();
@@ -1923,7 +1935,9 @@ module aptos_std::big_ordered_map {
 
     #[test_only]
     fun print_map_for_node<K: store + copy + drop, V: store>(
-        self: &BigOrderedMap<K, V>, node_index: u64, level: u64
+        self: &BigOrderedMap<K, V>,
+        node_index: u64,
+        level: u64
     ) {
         let node = self.borrow_node(node_index);
 

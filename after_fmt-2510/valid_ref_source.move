@@ -38,14 +38,14 @@ module 0x42::valid_ref_resource {
     }
 
     fun test_move_to(account: &signer, addr: address) {
-        let s1 = S1 { x: 1, y: - 1, z: - 2 };
+        let s1 = S1 { x: 1, y: -1, z: -2 };
         if (!exists<S1>(addr)) {
             move_to<S1>(account, s1)
         }
     }
 
     fun test_move_from(account: &signer, addr: address): i64 {
-        let s1 = S1 { x: 1, y: - 1, z: - 2 };
+        let s1 = S1 { x: 1, y: -1, z: -2 };
         if (exists<S1>(addr)) {
             move_from<S1>(signer::address_of(account)).y
         } else { s1.y }

@@ -18,7 +18,10 @@ module 0xABCD::vector_example {
     }
 
     public entry fun test_trim_append(
-        vec_len: u64, element_len: u64, index: u64, repeats: u64
+        vec_len: u64,
+        element_len: u64,
+        index: u64,
+        repeats: u64
     ) {
         let vec = generate_vec(vec_len, element_len);
 
@@ -29,7 +32,10 @@ module 0xABCD::vector_example {
     }
 
     public entry fun test_remove_insert(
-        vec_len: u64, element_len: u64, index: u64, repeats: u64
+        vec_len: u64,
+        element_len: u64,
+        index: u64,
+        repeats: u64
     ) {
         let vec = generate_vec(vec_len, element_len);
 

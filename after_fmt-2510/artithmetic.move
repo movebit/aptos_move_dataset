@@ -108,7 +108,7 @@ module 0x42::TestSintArithmetic {
 
     // succeeds.
     fun underflow(): i64 {
-        let x = - 9223372036854775808;
+        let x = -9223372036854775808;
         x - 1
     }
 

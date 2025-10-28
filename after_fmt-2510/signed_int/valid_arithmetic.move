@@ -1,26 +1,56 @@
 module 0x42::valid_arithmetic {
-    struct S1  has copy, drop { x: u64, y: i64, z: i128 }
+    struct S1 has copy, drop {
+        x: u64,
+        y: i64,
+        z: i128
+    }
 
-    struct S2 has copy, drop { x: S1, y: i64, z: i128  }
+    struct S2 has copy, drop {
+        x: S1,
+        y: i64,
+        z: i128
+    }
 
-    struct S3<T>  has copy, drop { x: T, y: S1, z: S2 }
+    struct S3<T> has copy, drop {
+        x: T,
+        y: S1,
+        z: S2
+    }
 
     enum E1 has copy, drop {
-        V1 {s: S1},
-        V2 {s: S2},
-        V3 {s: S3<i64>},
+        V1 {
+            s: S1
+        },
+        V2 {
+            s: S2
+        },
+        V3 {
+            s: S3<i64>
+        }
     }
 
     enum E2 has copy, drop {
-        V1 {s: S1},
-        V2 {s: S2},
-        V3 {s: S3<i128>},
+        V1 {
+            s: S1
+        },
+        V2 {
+            s: S2
+        },
+        V3 {
+            s: S3<i128>
+        }
     }
 
     enum E3<T> has copy, drop {
-        V1 {s: S1},
-        V2 {s: S2},
-        V3 {s: S3<T>},
+        V1 {
+            s: S1
+        },
+        V2 {
+            s: S2
+        },
+        V3 {
+            s: S3<T>
+        }
     }
 
     fun test_add1(x: i64): i64 {

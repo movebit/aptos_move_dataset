@@ -187,7 +187,10 @@ module knight::food {
     }
 
     public entry fun transfer_food(
-        from: &signer, food: Object<FoodToken>, to: address, amount: u64
+        from: &signer,
+        food: Object<FoodToken>,
+        to: address,
+        amount: u64
     ) {
         let metadata = object::convert<FoodToken, Metadata>(food);
         primary_fungible_store::transfer(from, metadata, to, amount);
@@ -217,11 +220,7 @@ module knight::food {
 
         // Creates the collection with unlimited supply and without establishing any royalty configuration.
         collection::create_unlimited_collection(
-            creator,
-            description,
-            name,
-            option::none(),
-            uri
+            creator, description, name, option::none(), uri
         );
     }
 

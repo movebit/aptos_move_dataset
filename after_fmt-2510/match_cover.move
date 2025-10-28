@@ -241,7 +241,10 @@ module 0xc0ffee::o_fail {
     public fun test3(e: E) {
         match(e) {
             E::V1 { b: G::G1 { .. }, a: F::F1 } => {},
-            E::V1 { b: G::G2 { .. }, a: F::F2 { .. } } => {},
+            E::V1 {
+                b: G::G2 { .. },
+                a: F::F2 { .. }
+            } => {},
             E::V1 { a: F::F2 { .. },.. } => {},
             E::V1 { b: _, a: F::F1 } => {},
             E::V1 { .. } => {}

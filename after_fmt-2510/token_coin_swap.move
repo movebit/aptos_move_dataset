@@ -148,9 +148,7 @@ module aptos_token::token_coin_swap {
 
     /// Cancel token listing for a fixed amount
     public fun cancel_token_listing<CoinType>(
-        _token_owner: &signer,
-        _token_id: TokenId,
-        _token_amount: u64
+        _token_owner: &signer, _token_id: TokenId, _token_amount: u64
     ) {
         abort error::invalid_argument(EDEPRECATED_MODULE)
     }

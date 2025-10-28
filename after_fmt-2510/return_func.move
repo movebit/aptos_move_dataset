@@ -69,7 +69,9 @@ module 0x42::test {
         }
     }
 
-    public fun test_functions(choose_function: |u64| (|u64| u64 has store)) {
+    public fun test_functions(
+        choose_function: |u64| (|u64| u64 has store)
+    ) {
         let sum = vector<u64>[];
         let x = 3;
         vector::push_back(&mut sum, (choose_function(0)) (x));

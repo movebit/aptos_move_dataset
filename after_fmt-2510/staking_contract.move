@@ -121,9 +121,11 @@ module aptos_framework::staking_contract {
         new_commission_percentage: u64
     }
 
-    #[resource_group_member(
-        group = aptos_framework::staking_contract::StakingGroupContainer
-    )]
+    #[
+        resource_group_member(
+            group = aptos_framework::staking_contract::StakingGroupContainer
+        )
+    ]
     struct StakingGroupUpdateCommissionEvent has key {
         update_commission_events: EventHandle<UpdateCommissionEvent>
     }
@@ -369,9 +371,7 @@ module aptos_framework::staking_contract {
     #[view]
     /// Return the address of the stake pool to be created with the provided staker, operator and seed.
     public fun get_expected_stake_pool_address(
-        staker: address,
-        operator: address,
-        contract_creation_seed: vector<u8>
+        staker: address, operator: address, contract_creation_seed: vector<u8>
     ): address {
         let seed = create_resource_account_seed(staker, operator, contract_creation_seed);
         account::create_resource_address(&staker, seed)
@@ -808,9 +808,7 @@ module aptos_framework::staking_contract {
 
     /// Allows staker to switch operator without going through the lenghthy process to unstake, without resetting commission.
     public entry fun switch_operator_with_same_commission(
-        staker: &signer,
-        old_operator: address,
-        new_operator: address
+        staker: &signer, old_operator: address, new_operator: address
     ) acquires Store, BeneficiaryForOperator {
         let staker_address = signer::address_of(staker);
         assert_staking_contract_exists(staker_address, old_operator);
@@ -1139,9 +1137,7 @@ module aptos_framework::staking_contract {
 
     /// Create the seed to derive the resource account address.
     fun create_resource_account_seed(
-        staker: address,
-        operator: address,
-        contract_creation_seed: vector<u8>
+        staker: address, operator: address, contract_creation_seed: vector<u8>
     ): vector<u8> {
         let seed = bcs::to_bytes(&staker);
         vector::append(&mut seed, bcs::to_bytes(&operator));
@@ -1533,9 +1529,7 @@ module aptos_framework::staking_contract {
     #[test(aptos_framework = @0x1, staker = @0x123, operator = @0x234)]
     #[expected_failure(abort_code = 0x80006, location = Self)]
     public entry fun test_staker_cannot_create_same_staking_contract_multiple_times(
-        aptos_framework: &signer,
-        staker: &signer,
-        operator: &signer
+        aptos_framework: &signer, staker: &signer, operator: &signer
     ) acquires Store {
         setup_staking_contract(
             aptos_framework,
@@ -1559,9 +1553,7 @@ module aptos_framework::staking_contract {
     #[test(aptos_framework = @0x1, staker = @0x123, operator = @0x234)]
     #[expected_failure(abort_code = 0x10002, location = Self)]
     public entry fun test_staker_cannot_create_staking_contract_with_invalid_commission(
-        aptos_framework: &signer,
-        staker: &signer,
-        operator: &signer
+        aptos_framework: &signer, staker: &signer, operator: &signer
     ) acquires Store {
         setup_staking_contract(
             aptos_framework,
@@ -1575,18 +1567,14 @@ module aptos_framework::staking_contract {
     #[test(aptos_framework = @0x1, staker = @0x123, operator = @0x234)]
     #[expected_failure(abort_code = 0x10001, location = Self)]
     public entry fun test_staker_cannot_create_staking_contract_with_less_than_min_stake_required(
-        aptos_framework: &signer,
-        staker: &signer,
-        operator: &signer
+        aptos_framework: &signer, staker: &signer, operator: &signer
     ) acquires Store {
         setup_staking_contract(aptos_framework, staker, operator, 50, 100);
     }
 
     #[test(aptos_framework = @0x1, staker = @0x123, operator = @0x234)]
     public entry fun test_update_voter(
-        aptos_framework: &signer,
-        staker: &signer,
-        operator: &signer
+        aptos_framework: &signer, staker: &signer, operator: &signer
     ) acquires Store {
         setup_staking_contract(
             aptos_framework,
@@ -1607,9 +1595,7 @@ module aptos_framework::staking_contract {
 
     #[test(aptos_framework = @0x1, staker = @0x123, operator = @0x234)]
     public entry fun test_reset_lockup(
-        aptos_framework: &signer,
-        staker: &signer,
-        operator: &signer
+        aptos_framework: &signer, staker: &signer, operator: &signer
     ) acquires Store {
         setup_staking_contract(
             aptos_framework,
@@ -1627,9 +1613,14 @@ module aptos_framework::staking_contract {
         assert!(origin_lockup_expiration < stake::get_lockup_secs(pool_address), 0);
     }
 
-    #[test(
-        aptos_framework = @0x1, staker = @0x123, operator_1 = @0x234, operator_2 = @0x345
-    )]
+    #[
+        test(
+            aptos_framework = @0x1,
+            staker = @0x123,
+            operator_1 = @0x234,
+            operator_2 = @0x345
+        )
+    ]
     public entry fun test_staker_can_switch_operator(
         aptos_framework: &signer,
         staker: &signer,
@@ -1747,9 +1738,14 @@ module aptos_framework::staking_contract {
         stake::assert_stake_pool(pool_address, new_balance, 0, 0, 0);
     }
 
-    #[test(
-        aptos_framework = @0x1, staker = @0x123, operator_1 = @0x234, operator_2 = @0x345
-    )]
+    #[
+        test(
+            aptos_framework = @0x1,
+            staker = @0x123,
+            operator_1 = @0x234,
+            operator_2 = @0x345
+        )
+    ]
     public entry fun test_staker_can_switch_operator_with_same_commission(
         aptos_framework: &signer,
         staker: &signer,

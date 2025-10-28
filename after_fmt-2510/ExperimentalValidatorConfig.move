@@ -12,9 +12,7 @@ module ExperimentalFramework::ExperimentalValidatorConfig {
     }
 
     public(friend) fun publish(
-        root_account: &signer,
-        validator_account: &signer,
-        human_name: vector<u8>
+        root_account: &signer, validator_account: &signer, human_name: vector<u8>
     ) {
         ValidatorConfig::publish(
             validator_account,

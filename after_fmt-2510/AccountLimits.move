@@ -77,9 +77,7 @@ module DiemFramework::AccountLimits {
     /// account at `addr` is amenable with their account limits.
     /// Returns false if this deposit violates the account limits.
     public fun update_deposit_limits<CoinType>(
-        amount: u64,
-        addr: address,
-        _cap: &AccountLimitMutationCapability
+        amount: u64, addr: address, _cap: &AccountLimitMutationCapability
     ): bool acquires LimitsDefinition, Window {
         assert!(
             exists<Window<CoinType>>(addr),
@@ -127,9 +125,7 @@ module DiemFramework::AccountLimits {
     /// the account at `addr` would violate the account limits for that account.
     /// Returns `false` if this withdrawal violates account limits.
     public fun update_withdrawal_limits<CoinType>(
-        amount: u64,
-        addr: address,
-        _cap: &AccountLimitMutationCapability
+        amount: u64, addr: address, _cap: &AccountLimitMutationCapability
     ): bool acquires LimitsDefinition, Window {
         assert!(
             exists<Window<CoinType>>(addr),
@@ -169,9 +165,7 @@ module DiemFramework::AccountLimits {
     /// Root accounts for multi-account entities will hold this resource at
     /// their root/parent account.
     public fun publish_window<CoinType>(
-        dr_account: &signer,
-        to_limit: &signer,
-        limit_address: address
+        dr_account: &signer, to_limit: &signer, limit_address: address
     ) {
         Roles::assert_diem_root(dr_account);
         assert!(

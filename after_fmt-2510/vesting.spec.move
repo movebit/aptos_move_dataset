@@ -408,9 +408,7 @@ spec aptos_framework::vesting {
         pragma verify = false;
     }
 
-    spec update_voter(
-        admin: &signer, contract_address: address, new_voter: address
-    ) {
+    spec update_voter(admin: &signer, contract_address: address, new_voter: address) {
         // TODO: set because of timeout (property proved)
         pragma verify_duration_estimate = 300;
         include VerifyAdminAbortsIf;
@@ -455,12 +453,12 @@ spec aptos_framework::vesting {
         // aborts_if !coin::spec_is_account_registered<AptosCoin>(new_beneficiary);
         include VerifyAdminAbortsIf;
         let post vesting_contract = global<VestingContract>(contract_address);
-        ensures simple_map::spec_contains_key(vesting_contract.beneficiaries, shareholder);
+        ensures simple_map::spec_contains_key(
+            vesting_contract.beneficiaries, shareholder
+        );
     }
 
-    spec reset_beneficiary(
-        account: &signer, contract_address: address, shareholder: address
-    ) {
+    spec reset_beneficiary(account: &signer, contract_address: address, shareholder: address) {
         aborts_if !exists<VestingContract>(contract_address);
 
         let addr = signer::address_of(account);

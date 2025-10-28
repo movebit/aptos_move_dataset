@@ -346,9 +346,7 @@ module collection_offer {
 
     /// Sell a tokenv2 to a collection offer.
     public entry fun sell_tokenv2<CoinType>(
-        seller: &signer,
-        collection_offer: Object<CollectionOffer>,
-        token: Object<TokenV2>
+        seller: &signer, collection_offer: Object<CollectionOffer>, token: Object<TokenV2>
     ) acquires CoinOffer, CollectionOffer, CollectionOfferTokenV1, CollectionOfferTokenV2 {
         let collection_offer_addr = object::object_address(&collection_offer);
         assert!(
@@ -576,9 +574,14 @@ module collection_offer_tests {
     use marketplace::listing;
     use marketplace::test_utils;
 
-    #[test(
-        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
-    )]
+    #[
+        test(
+            aptos_framework = @0x1,
+            marketplace = @0x111,
+            seller = @0x222,
+            purchaser = @0x333
+        )
+    ]
     fun test_token_v2(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -631,9 +634,14 @@ module collection_offer_tests {
         assert!(!collection_offer::exists_at(collection_offer), 0);
     }
 
-    #[test(
-        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
-    )]
+    #[
+        test(
+            aptos_framework = @0x1,
+            marketplace = @0x111,
+            seller = @0x222,
+            purchaser = @0x333
+        )
+    ]
     fun test_token_v2_high_royalty(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -681,9 +689,14 @@ module collection_offer_tests {
         assert!(!collection_offer::exists_at(collection_offer), 0);
     }
 
-    #[test(
-        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
-    )]
+    #[
+        test(
+            aptos_framework = @0x1,
+            marketplace = @0x111,
+            seller = @0x222,
+            purchaser = @0x333
+        )
+    ]
     fun test_token_v1_direct_deposit(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -747,9 +760,14 @@ module collection_offer_tests {
         assert!(!collection_offer::exists_at(collection_offer), 0);
     }
 
-    #[test(
-        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
-    )]
+    #[
+        test(
+            aptos_framework = @0x1,
+            marketplace = @0x111,
+            seller = @0x222,
+            purchaser = @0x333
+        )
+    ]
     fun test_token_v1_indirect(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -793,9 +811,14 @@ module collection_offer_tests {
         assert!(!collection_offer::exists_at(collection_offer), 0);
     }
 
-    #[test(
-        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
-    )]
+    #[
+        test(
+            aptos_framework = @0x1,
+            marketplace = @0x111,
+            seller = @0x222,
+            purchaser = @0x333
+        )
+    ]
     #[expected_failure(abort_code = 0x50004, location = aptos_framework::object)]
     fun test_token_v2_has_none(
         aptos_framework: &signer,
@@ -822,9 +845,14 @@ module collection_offer_tests {
         collection_offer::sell_tokenv2<AptosCoin>(marketplace, collection_offer, token);
     }
 
-    #[test(
-        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
-    )]
+    #[
+        test(
+            aptos_framework = @0x1,
+            marketplace = @0x111,
+            seller = @0x222,
+            purchaser = @0x333
+        )
+    ]
     #[expected_failure(abort_code = 0x10005, location = aptos_token::token)]
     fun test_token_v1_has_none(
         aptos_framework: &signer,
@@ -861,9 +889,14 @@ module collection_offer_tests {
         );
     }
 
-    #[test(
-        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
-    )]
+    #[
+        test(
+            aptos_framework = @0x1,
+            marketplace = @0x111,
+            seller = @0x222,
+            purchaser = @0x333
+        )
+    ]
     #[expected_failure(abort_code = 0x30006, location = marketplace::collection_offer)]
     fun test_token_v2_expired(
         aptos_framework: &signer,
@@ -891,9 +924,14 @@ module collection_offer_tests {
         collection_offer::sell_tokenv2<AptosCoin>(seller, collection_offer, token);
     }
 
-    #[test(
-        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
-    )]
+    #[
+        test(
+            aptos_framework = @0x1,
+            marketplace = @0x111,
+            seller = @0x222,
+            purchaser = @0x333
+        )
+    ]
     #[expected_failure(abort_code = 0x60003, location = marketplace::collection_offer)]
     fun test_token_v2_exhausted(
         aptos_framework: &signer,
@@ -922,9 +960,14 @@ module collection_offer_tests {
         collection_offer::sell_tokenv2<AptosCoin>(purchaser, collection_offer, token);
     }
 
-    #[test(
-        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
-    )]
+    #[
+        test(
+            aptos_framework = @0x1,
+            marketplace = @0x111,
+            seller = @0x222,
+            purchaser = @0x333
+        )
+    ]
     #[expected_failure(abort_code = 0x10005, location = marketplace::collection_offer)]
     fun test_token_v2_other_collection(
         aptos_framework: &signer,
@@ -961,9 +1004,14 @@ module collection_offer_tests {
         collection_offer::sell_tokenv2<AptosCoin>(marketplace, collection_offer, token);
     }
 
-    #[test(
-        aptos_framework = @0x1, marketplace = @0x111, seller = @0x222, purchaser = @0x333
-    )]
+    #[
+        test(
+            aptos_framework = @0x1,
+            marketplace = @0x111,
+            seller = @0x222,
+            purchaser = @0x333
+        )
+    ]
     #[expected_failure(abort_code = 0x10005, location = aptos_token::token)]
     fun test_token_v1_other_collection(
         aptos_framework: &signer,

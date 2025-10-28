@@ -285,9 +285,7 @@ module aptos_experimental::market_bulk_order_tests {
 
     #[test(admin = @0x1, market_signer = @0x123, maker = @0x456)]
     public fun test_bulk_order_cancellation_event_fields(
-        admin: &signer,
-        market_signer: &signer,
-        maker: &signer
+        admin: &signer, market_signer: &signer, maker: &signer
     ) {
         use aptos_experimental::market_types::{
             BulkOrderModifiedEvent,

@@ -297,7 +297,10 @@ module aptos_token_objects::property_map {
     // Mutators
     /// Add a property, already bcs encoded as a `vector<u8>`
     public fun add(
-        ref: &MutatorRef, key: String, type: String, value: vector<u8>
+        ref: &MutatorRef,
+        key: String,
+        type: String,
+        value: vector<u8>
     ) acquires PropertyMap {
         let new_type = to_internal_type(type);
         validate_type(new_type, value);
@@ -311,7 +314,10 @@ module aptos_token_objects::property_map {
     }
 
     inline fun add_internal(
-        ref: &MutatorRef, key: String, type: u8, value: vector<u8>
+        ref: &MutatorRef,
+        key: String,
+        type: u8,
+        value: vector<u8>
     ) {
         assert_exists(ref.self);
         let property_map = &mut PropertyMap[ref.self];
@@ -320,7 +326,10 @@ module aptos_token_objects::property_map {
 
     /// Updates a property in place already bcs encoded
     public fun update(
-        ref: &MutatorRef, key: &String, type: String, value: vector<u8>
+        ref: &MutatorRef,
+        key: &String,
+        type: String,
+        value: vector<u8>
     ) acquires PropertyMap {
         let new_type = to_internal_type(type);
         validate_type(new_type, value);
@@ -336,7 +345,10 @@ module aptos_token_objects::property_map {
     }
 
     inline fun update_internal(
-        ref: &MutatorRef, key: &String, type: u8, value: vector<u8>
+        ref: &MutatorRef,
+        key: &String,
+        type: u8,
+        value: vector<u8>
     ) {
         assert_exists(ref.self);
         let property_map = &mut PropertyMap[ref.self];

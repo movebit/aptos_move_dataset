@@ -271,7 +271,10 @@ module 0xABCD::resource_groups_example {
     }
 
     public entry fun set_and_read(
-        owner: &signer, set_index: u64, read_index: u64, name: String
+        owner: &signer,
+        set_index: u64,
+        read_index: u64,
+        name: String
     ) acquires ExampleResource0, ExampleResource1, ExampleResource2, ExampleResource3, ExampleResource4, ExampleResource5, ExampleResource6, ExampleResource7 {
         set(owner, set_index, name);
         read_or_init(owner, read_index);

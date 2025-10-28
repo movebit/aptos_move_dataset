@@ -29,8 +29,6 @@ module 0xcafe::native_dispatch_token {
     }
 
     public native fun withdraw<T: key>(
-        store: Object<T>,
-        _amount: u64,
-        transfer_ref: &TransferRef
+        store: Object<T>, _amount: u64, transfer_ref: &TransferRef
     ): FungibleAsset;
 }

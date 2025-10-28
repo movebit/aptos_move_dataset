@@ -193,9 +193,7 @@ module aptos_framework::aptos_governance {
     /// Can be called during genesis or by the governance itself.
     /// Stores the signer capability for a given address.
     public fun store_signer_cap(
-        aptos_framework: &signer,
-        signer_address: address,
-        signer_cap: SignerCapability
+        aptos_framework: &signer, signer_address: address, signer_cap: SignerCapability
     ) acquires GovernanceResponsbility {
         system_addresses::assert_aptos_framework(aptos_framework);
         system_addresses::assert_framework_reserved(signer_address);

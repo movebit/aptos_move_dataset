@@ -1020,9 +1020,7 @@ module aptos_framework::multisig_account {
 
     /// Create a multisig transaction, which will have one approval initially (from the creator).
     public entry fun create_transaction(
-        owner: &signer,
-        multisig_account: address,
-        payload: vector<u8>
+        owner: &signer, multisig_account: address, payload: vector<u8>
     ) acquires MultisigAccount {
         assert!(
             vector::length(&payload) > 0,
@@ -1047,9 +1045,7 @@ module aptos_framework::multisig_account {
     /// This means the payload will be stored off chain for gas saving. Later, during execution, the executor will need
     /// to provide the full payload, which will be validated against the hash stored on-chain.
     public entry fun create_transaction_with_hash(
-        owner: &signer,
-        multisig_account: address,
-        payload_hash: vector<u8>
+        owner: &signer, multisig_account: address, payload_hash: vector<u8>
     ) acquires MultisigAccount {
         // Payload hash is a sha3-256 hash, so it must be exactly 32 bytes.
         assert!(
@@ -1223,9 +1219,7 @@ module aptos_framework::multisig_account {
 
     /// Remove the next transactions until the final_sequence_number if they have sufficient owner rejections.
     public entry fun execute_rejected_transactions(
-        owner: &signer,
-        multisig_account: address,
-        final_sequence_number: u64
+        owner: &signer, multisig_account: address, final_sequence_number: u64
     ) acquires MultisigAccount {
         assert!(
             features::multisig_v2_enhancement_feature_enabled(),
@@ -1299,9 +1293,7 @@ module aptos_framework::multisig_account {
     /// Post-execution cleanup for a successful multisig transaction execution.
     /// This function is private so no other code can call this beside the VM itself as part of MultisigTransaction.
     fun successful_transaction_execution_cleanup(
-        executor: address,
-        multisig_account: address,
-        transaction_payload: vector<u8>
+        executor: address, multisig_account: address, transaction_payload: vector<u8>
     ) acquires MultisigAccount {
         let num_approvals =
             transaction_execution_cleanup_common(executor, multisig_account);
@@ -2800,9 +2792,7 @@ module aptos_framework::multisig_account {
 
     #[test_only]
     fun create_transaction_with_eviction(
-        owner: &signer,
-        multisig_account: address,
-        payload: vector<u8>
+        owner: &signer, multisig_account: address, payload: vector<u8>
     ) acquires MultisigAccount {
         while (available_transaction_queue_capacity(multisig_account) == 0) {
             execute_rejected_transaction(owner, multisig_account)

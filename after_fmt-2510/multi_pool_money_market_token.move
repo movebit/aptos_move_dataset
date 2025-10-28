@@ -119,9 +119,7 @@ module OneToOneMarket {
     }
 
     public fun borrow<In: copy + drop + store, Out: copy + drop + store>(
-        account: &signer,
-        pool_owner: address,
-        amount: u64
+        account: &signer, pool_owner: address, amount: u64
     ): Token::Coin<Out> acquires Price, Pool, DepositRecord, BorrowRecord {
         assert!(
             amount <= max_borrow_amount<In, Out>(account, pool_owner),
@@ -229,7 +227,9 @@ module ToddNickels {
         assert!(signer::address_of(account) == @0x70DD, 42);
         move_to(
             account,
-            Wallet { nickels: Token::create(T {}, 0) }
+            Wallet {
+                nickels: Token::create(T {}, 0)
+            }
         )
     }
 

@@ -49,9 +49,7 @@ module aptos_framework::simple_token_pfs_tests {
     }
 
     #[test(user_1 = @0xcafe, user_2 = @0xface)]
-    fun test_withdraw_from_burnt_store(
-        user_1: &signer, user_2: &signer
-    ) {
+    fun test_withdraw_from_burnt_store(user_1: &signer, user_2: &signer) {
         let (creator_ref, metadata) = create_test_token(user_1);
         let (mint_ref, _, _) =
             init_test_metadata_with_primary_store_enabled(&creator_ref);

@@ -17,8 +17,7 @@ module 0x42::freeze_mut_ref {
         return v
     }
 
-    struct S has drop {
-    }
+    struct S has drop {}
 
     fun t0() {
         let x: &u64 = &mut 0;

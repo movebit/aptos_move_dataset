@@ -18,11 +18,7 @@ module DiemFramework::ApprovalGroup {
     }
 
     // create a new approval group
-    public fun create(
-        pk1: vector<u8>,
-        pk2: vector<u8>,
-        pk3: vector<u8>
-    ): ApprovalGroup {
+    public fun create(pk1: vector<u8>, pk2: vector<u8>, pk3: vector<u8>): ApprovalGroup {
         ApprovalGroup { pk1, pk2, pk3, threshold: 2 }
     }
 

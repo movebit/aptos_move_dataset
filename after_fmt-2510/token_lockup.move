@@ -39,11 +39,7 @@ module token_lockup::token_lockup {
         );
     }
 
-    public fun mint_to(
-        creator: &signer,
-        token_name: String,
-        to: address
-    ): ConstructorRef {
+    public fun mint_to(creator: &signer, token_name: String, to: address): ConstructorRef {
         let token_constructor_ref =
             token::create_named_token(
                 creator,
@@ -74,9 +70,7 @@ module token_lockup::token_lockup {
     }
 
     public entry fun transfer(
-        from: &signer,
-        token: Object<Token>,
-        to: address
+        from: &signer, token: Object<Token>, to: address
     ) acquires LockupConfig {
         // redundant error checking for clear error message
         assert!(

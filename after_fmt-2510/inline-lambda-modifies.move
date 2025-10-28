@@ -17,10 +17,10 @@ module A {
                 s.x = 2;
             }
             spec {
-                modifies global<S> (addr);
+                modifies global<S>(addr);
                 pragma opaque;
-                aborts_if !exists<S> (addr);
-                ensures global<S> (addr).x == 2;
+                aborts_if !exists<S>(addr);
+                ensures global<S>(addr).x == 2;
             }
         )
     }
@@ -41,8 +41,8 @@ module A {
             }
             spec {
                 pragma opaque;
-                aborts_if !exists<S> (addr);
-                ensures global<S> (addr).x == 2;
+                aborts_if !exists<S>(addr);
+                ensures global<S>(addr).x == 2;
             }
         )
     }
@@ -56,9 +56,9 @@ module A {
             }
             spec {
                 pragma opaque;
-                modifies global<S> (addr);
-                aborts_if !exists<S> (addr);
-                ensures global<S> (addr).x == 2;
+                modifies global<S>(addr);
+                aborts_if !exists<S>(addr);
+                ensures global<S>(addr).x == 2;
             }
         )
     }
