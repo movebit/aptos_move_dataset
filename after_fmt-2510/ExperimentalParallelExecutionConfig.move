@@ -8,8 +8,7 @@ module ExperimentalFramework::ExperimentalParallelExecutionConfig {
         ParallelExecutionConfig::initialize_parallel_execution<
             ExperimentalParallelExecutionConfig>(account);
         capability::create<ExperimentalParallelExecutionConfig>(
-            account,
-            &ExperimentalParallelExecutionConfig {}
+            account, &ExperimentalParallelExecutionConfig {}
         );
     }
 

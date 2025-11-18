@@ -11,7 +11,12 @@
 /// and `r, r'` are random scalars.
 module aptos_experimental::ristretto255_twisted_elgamal {
     use std::option::Option;
-    use aptos_std::ristretto255::{Self, CompressedRistretto, RistrettoPoint, Scalar};
+    use aptos_std::ristretto255::{
+        Self,
+        CompressedRistretto,
+        RistrettoPoint,
+        Scalar
+    };
 
     //
     // Structs
@@ -211,8 +216,7 @@ module aptos_experimental::ristretto255_twisted_elgamal {
         if (sk_invert.is_some()) {
             let point =
                 ristretto255::point_mul(
-                    &ristretto255::hash_to_point_base(),
-                    &sk_invert.extract()
+                    &ristretto255::hash_to_point_base(), &sk_invert.extract()
                 );
 
             std::option::some(

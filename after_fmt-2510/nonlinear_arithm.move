@@ -111,9 +111,7 @@ module 0x42::TestNonlinearArithmetic {
     }
 
     // fails.
-    fun overflow_u128_mul_4_incorrect(
-        a: u128, b: u128, c: u128, d: u128
-    ): u128 {
+    fun overflow_u128_mul_4_incorrect(a: u128, b: u128, c: u128, d: u128): u128 {
         a * b * c * d
     }
 
@@ -159,9 +157,7 @@ module 0x42::TestNonlinearArithmetic {
     }
 
     // fails.
-    fun overflow_u64_mul_5_incorrect(
-        a: u64, b: u64, c: u64, d: u64, e: u64
-    ): u64 {
+    fun overflow_u64_mul_5_incorrect(a: u64, b: u64, c: u64, d: u64, e: u64): u64 {
         a * b * c * d * e
     }
 

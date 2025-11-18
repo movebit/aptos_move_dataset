@@ -34,7 +34,9 @@ spec aptos_std::string_utils {
         ensures result == spec_native_format_list(fmt, list3(a, b, c));
     }
 
-    spec format4<T0: drop, T1: drop, T2: drop, T3: drop>(fmt: &vector<u8>, a: T0, b: T1, c: T2, d: T3): String {
+    spec format4<T0: drop, T1: drop, T2: drop, T3: drop>(
+        fmt: &vector<u8>, a: T0, b: T1, c: T2, d: T3
+    ): String {
         aborts_if args_mismatch_or_invalid_format(fmt, list4(a, b, c, d));
         ensures result == spec_native_format_list(fmt, list4(a, b, c, d));
     }

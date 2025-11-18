@@ -36,7 +36,8 @@ module staking::oracle {
         let config = &OracleConfig[@staking];
         let price =
             pyth::get_price_no_older_than(
-                price_identifier::from_byte_vec(PYTH_APT_ID), config.max_age_secs
+                price_identifier::from_byte_vec(PYTH_APT_ID),
+                config.max_age_secs
             );
         let raw_price = i64::get_magnitude_if_positive(&price::get_price(&price));
         let expo = price::get_expo(&price);

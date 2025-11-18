@@ -115,8 +115,7 @@ module std::fixed_point32 {
         assert!(scaled_denominator != 0, EDENOMINATOR);
         let quotient = scaled_numerator / scaled_denominator;
         assert!(
-            quotient != 0 || numerator == 0,
-            ERATIO_OUT_OF_RANGE
+            quotient != 0 || numerator == 0, ERATIO_OUT_OF_RANGE
         );
         // Return the quotient as a fixed-point number. We first need to check whether the cast
         // can succeed.

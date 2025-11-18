@@ -353,13 +353,13 @@ module aptos_framework::aggregator_v2 {
         let snapshot = create_snapshot(42);
         let derived =
             derive_string_concat(
-                std::string::utf8(b"before"), &snapshot, std::string::utf8(b"after")
+                std::string::utf8(b"before"),
+                &snapshot,
+                std::string::utf8(b"after")
             );
         spec {
             assert spec_read_derived_string(derived).bytes
-                == concat(
-                    b"before", concat(spec_get_string_value(snapshot).bytes, b"after")
-                );
+                == concat(b"before", concat(spec_get_string_value(snapshot).bytes, b"after"));
         };
     }
 
@@ -505,7 +505,9 @@ module aptos_framework::aggregator_v2 {
         let snapshot = create_snapshot(42);
         let derived =
             derive_string_concat(
-                std::string::utf8(b"before"), &snapshot, std::string::utf8(b"after")
+                std::string::utf8(b"before"),
+                &snapshot,
+                std::string::utf8(b"after")
             );
         assert!(read_derived_string(&derived) == std::string::utf8(b"before42after"), 0);
     }

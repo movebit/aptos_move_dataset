@@ -73,9 +73,7 @@ module 0xCAFE::test {
     }
 
     public entry fun pass_optional_vector_optional_string(
-        o: Object<ModuleData>,
-        x: Option<vector<Option<String>>>,
-        i: u64
+        o: Object<ModuleData>, x: Option<vector<Option<String>>>, i: u64
     ) acquires ModuleData {
         let addr = aptos_std::object::object_address(&o);
         let s;

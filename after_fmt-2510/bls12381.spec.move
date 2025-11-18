@@ -12,10 +12,8 @@ spec aptos_std::bls12381 {
         pragma opaque;
         aborts_if false;
         ensures spec_verify_proof_of_possession_internal(pk_bytes, pop.bytes) ==>
-            (
-                std::option::is_some(result)
-                    && std::option::borrow(result).bytes == pk_bytes
-            );
+            (std::option::is_some(result)
+                && std::option::borrow(result).bytes == pk_bytes);
         ensures !spec_verify_proof_of_possession_internal(pk_bytes, pop.bytes) ==>
             std::option::is_none(result);
         ensures [abstract] result == spec_public_key_from_bytes_with_pop(pk_bytes, pop);

@@ -120,7 +120,9 @@ module staking::commission {
         let seconds_passed = now_secs - config.last_update_secs;
         let commission_earned =
             math64::mul_div(
-                seconds_passed, config.yearly_commission_amount, ONE_YEAR_IN_SECONDS
+                seconds_passed,
+                config.yearly_commission_amount,
+                ONE_YEAR_IN_SECONDS
             );
 
         commission_earned + config.commission_debt
@@ -246,7 +248,9 @@ module staking::commission {
         let apt_price = oracle::get_apt_price();
         // Amount in APT octas = amount * number of octas in one APT / APT price.
         math128::mul_div(
-            (usd_amount as u128) * OCTAS_IN_ONE_APT, oracle::precision(), apt_price
+            (usd_amount as u128) * OCTAS_IN_ONE_APT,
+            oracle::precision(),
+            apt_price
         ) as u64
     }
 
@@ -254,7 +258,9 @@ module staking::commission {
         let apt_price = oracle::get_apt_price();
         // Amount in USD = amount * APT price / precision / number of octas in one APT.
         math128::mul_div(
-            (apt_amount as u128), apt_price, oracle::precision() * OCTAS_IN_ONE_APT
+            (apt_amount as u128),
+            apt_price,
+            oracle::precision() * OCTAS_IN_ONE_APT
         ) as u64
     }
 

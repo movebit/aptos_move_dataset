@@ -155,8 +155,7 @@ module aptos_std::crypto_algebra {
     ///
     /// Abort with code `std::error::invalid_argument(E_NON_EQUAL_LENGTHS)` if the sizes of `elements` and `scalars` do not match.
     public fun multi_scalar_mul<G, S>(
-        elements: &vector<Element<G>>,
-        scalars: &vector<Element<S>>
+        elements: &vector<Element<G>>, scalars: &vector<Element<S>>
     ): Element<G> {
         let element_handles = handles_from_elements(elements);
         let scalar_handles = handles_from_elements(scalars);
@@ -185,8 +184,7 @@ module aptos_std::crypto_algebra {
     /// NOTE: we are viewing the target group `Gt` of the pairing as an additive group,
     /// rather than a multiplicative one (which is typically the case).
     public fun multi_pairing<G1, G2, Gt>(
-        g1_elements: &vector<Element<G1>>,
-        g2_elements: &vector<Element<G2>>
+        g1_elements: &vector<Element<G1>>, g2_elements: &vector<Element<G2>>
     ): Element<Gt> {
         abort_unless_cryptography_algebra_natives_enabled();
         let g1_handles = handles_from_elements(g1_elements);
@@ -317,9 +315,7 @@ module aptos_std::crypto_algebra {
     native fun downcast_internal<L, S>(handle: u64): (bool, u64);
     native fun from_u64_internal<S>(value: u64): u64;
     native fun eq_internal<S>(handle_1: u64, handle_2: u64): bool;
-    native fun hash_to_internal<S, H>(
-        dst: &vector<u8>, bytes: &vector<u8>
-    ): u64;
+    native fun hash_to_internal<S, H>(dst: &vector<u8>, bytes: &vector<u8>): u64;
     native fun inv_internal<F>(handle: u64): (bool, u64);
     #[test_only]
     native fun rand_insecure_internal<S>(): u64;

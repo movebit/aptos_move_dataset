@@ -8,7 +8,13 @@ module aptos_token_objects::property_map {
     use aptos_std::from_bcs;
     use aptos_std::simple_map::{Self, SimpleMap};
     use aptos_std::type_info;
-    use aptos_framework::object::{Self, ConstructorRef, Object, ExtendRef, ObjectCore};
+    use aptos_framework::object::{
+        Self,
+        ConstructorRef,
+        Object,
+        ExtendRef,
+        ObjectCore
+    };
 
     // Errors
     /// The property map does not exist
@@ -82,9 +88,7 @@ module aptos_token_objects::property_map {
 
     /// Helper for external entry functions to produce a valid container for property values.
     public fun prepare_input(
-        keys: vector<String>,
-        types: vector<String>,
-        values: vector<vector<u8>>
+        keys: vector<String>, types: vector<String>, values: vector<vector<u8>>
     ): PropertyMap {
         let length = keys.length();
         assert!(
@@ -96,7 +100,8 @@ module aptos_token_objects::property_map {
             error::invalid_argument(EKEY_VALUE_COUNT_MISMATCH)
         );
         assert!(
-            length == types.length(), error::invalid_argument(EKEY_TYPE_COUNT_MISMATCH)
+            length == types.length(),
+            error::invalid_argument(EKEY_TYPE_COUNT_MISMATCH)
         );
 
         let container = simple_map::create<String, PropertyValue>();
@@ -155,9 +160,8 @@ module aptos_token_objects::property_map {
         else if (type == string::utf8(b"u64")) { U64 }
         else if (type == string::utf8(b"u128")) { U128 }
         else if (type == string::utf8(b"u256")) { U256 }
-        else if (type == string::utf8(b"address")) {
-            ADDRESS
-        } else if (type == string::utf8(b"vector<u8>")) {
+        else if (type == string::utf8(b"address")) { ADDRESS }
+        else if (type == string::utf8(b"vector<u8>")) {
             BYTE_VECTOR
         } else if (type == string::utf8(b"0x1::string::String")) { STRING }
         else {
@@ -199,7 +203,9 @@ module aptos_token_objects::property_map {
     }
 
     public fun generate_mutator_ref(ref: &ConstructorRef): MutatorRef {
-        MutatorRef { self: object::address_from_constructor_ref(ref) }
+        MutatorRef {
+            self: object::address_from_constructor_ref(ref)
+        }
     }
 
     // Accessors
@@ -297,10 +303,7 @@ module aptos_token_objects::property_map {
     // Mutators
     /// Add a property, already bcs encoded as a `vector<u8>`
     public fun add(
-        ref: &MutatorRef,
-        key: String,
-        type: String,
-        value: vector<u8>
+        ref: &MutatorRef, key: String, type: String, value: vector<u8>
     ) acquires PropertyMap {
         let new_type = to_internal_type(type);
         validate_type(new_type, value);
@@ -314,10 +317,7 @@ module aptos_token_objects::property_map {
     }
 
     inline fun add_internal(
-        ref: &MutatorRef,
-        key: String,
-        type: u8,
-        value: vector<u8>
+        ref: &MutatorRef, key: String, type: u8, value: vector<u8>
     ) {
         assert_exists(ref.self);
         let property_map = &mut PropertyMap[ref.self];
@@ -326,10 +326,7 @@ module aptos_token_objects::property_map {
 
     /// Updates a property in place already bcs encoded
     public fun update(
-        ref: &MutatorRef,
-        key: &String,
-        type: String,
-        value: vector<u8>
+        ref: &MutatorRef, key: &String, type: String, value: vector<u8>
     ) acquires PropertyMap {
         let new_type = to_internal_type(type);
         validate_type(new_type, value);
@@ -345,10 +342,7 @@ module aptos_token_objects::property_map {
     }
 
     inline fun update_internal(
-        ref: &MutatorRef,
-        key: &String,
-        type: u8,
-        value: vector<u8>
+        ref: &MutatorRef, key: &String, type: u8, value: vector<u8>
     ) {
         assert_exists(ref.self);
         let property_map = &mut PropertyMap[ref.self];
@@ -578,7 +572,9 @@ module aptos_token_objects::property_map {
         update_typed<u256>(mutator, &string::utf8(b"u256"), 0x26);
         update_typed<vector<u8>>(mutator, &string::utf8(b"vector<u8>"), vector[0x02]);
         update_typed<String>(
-            mutator, &string::utf8(b"0x1::string::String"), string::utf8(b"ha")
+            mutator,
+            &string::utf8(b"0x1::string::String"),
+            string::utf8(b"ha")
         );
 
         assert!(!read_bool(object, &string::utf8(b"bool")), 10);
@@ -612,7 +608,9 @@ module aptos_token_objects::property_map {
         add_typed<u256>(mutator, string::utf8(b"u256"), 0x26);
         add_typed<vector<u8>>(mutator, string::utf8(b"vector<u8>"), vector[0x02]);
         add_typed<String>(
-            mutator, string::utf8(b"0x1::string::String"), string::utf8(b"ha")
+            mutator,
+            string::utf8(b"0x1::string::String"),
+            string::utf8(b"ha")
         );
 
         assert!(!read_bool(object, &string::utf8(b"bool")), 21);

@@ -912,7 +912,8 @@ module aptos_framework::stake {
             staking_config::get_required_stake(&staking_config::get());
         let voting_power = get_next_epoch_voting_power(stake_pool);
         assert!(
-            voting_power <= maximum_stake, error::invalid_argument(ESTAKE_EXCEEDS_MAX)
+            voting_power <= maximum_stake,
+            error::invalid_argument(ESTAKE_EXCEEDS_MAX)
         );
 
         if (std::features::module_event_migration_enabled()) {
@@ -1531,10 +1532,8 @@ module aptos_framework::stake {
 
             vector::push_back(
                 &mut validator_perf.validators,
-                IndividualValidatorPerformance {
-                    successful_proposals: 0,
-                    failed_proposals: 0
-                }
+                IndividualValidatorPerformance { successful_proposals: 0, failed_proposals:
+                    0 }
             );
 
             // Automatically renew a validator's lockup for validators that will still be in the validator set in the
@@ -1623,8 +1622,8 @@ module aptos_framework::stake {
                     vector::borrow(&cur_validator_set.active_validators, candidate_idx)
                 } else {
                     vector::borrow(
-                        &cur_validator_set.pending_active,
-                        candidate_idx - num_cur_actives
+                        &cur_validator_set.pending_active, candidate_idx
+                            - num_cur_actives
                     )
                 };
             let stake_pool = borrow_global<StakePool>(candidate.addr);
@@ -1728,7 +1727,8 @@ module aptos_framework::stake {
             idx < total
         }) {
             vector::push_back(
-                &mut validator_consensus_infos, validator_consensus_info::default()
+                &mut validator_consensus_infos,
+                validator_consensus_info::default()
             );
             idx = idx + 1;
         };
@@ -1757,9 +1757,7 @@ module aptos_framework::stake {
                     &mut validator_consensus_infos, vi.config.validator_index
                 );
                 *vci = validator_consensus_info::new(
-                    vi.addr,
-                    vi.config.consensus_pubkey,
-                    vi.voting_power
+                    vi.addr, vi.config.consensus_pubkey, vi.voting_power
                 );
                 spec {
                     assert len(validator_consensus_infos)
@@ -1783,9 +1781,7 @@ module aptos_framework::stake {
                     &mut validator_consensus_infos, vi.config.validator_index
                 );
                 *vci = validator_consensus_info::new(
-                    vi.addr,
-                    vi.config.consensus_pubkey,
-                    vi.voting_power
+                    vi.addr, vi.config.consensus_pubkey, vi.voting_power
                 );
                 spec {
                     assert len(validator_consensus_infos)
@@ -1799,13 +1795,10 @@ module aptos_framework::stake {
     }
 
     fun addresses_from_validator_infos(infos: &vector<ValidatorInfo>): vector<address> {
-        vector::map_ref(
-            infos,
-            |obj| {
-                let info: &ValidatorInfo = obj;
-                info.addr
-            }
-        )
+        vector::map_ref(infos, |obj| {
+            let info: &ValidatorInfo = obj;
+            info.addr
+        })
     }
 
     /// Calculate the stake amount of a stake pool for the next epoch.
@@ -1911,7 +1904,8 @@ module aptos_framework::stake {
         let rewards_amount = rewards_active + rewards_pending_inactive;
         // Pending active stake can now be active.
         coin::merge(
-            &mut stake_pool.active, coin::extract_all(&mut stake_pool.pending_active)
+            &mut stake_pool.active,
+            coin::extract_all(&mut stake_pool.pending_active)
         );
 
         // Pending inactive stake is only fully unlocked and moved into inactive if the current lockup cycle has expired
@@ -2042,9 +2036,7 @@ module aptos_framework::stake {
     fun update_voting_power_increase(increase_amount: u64) acquires ValidatorSet {
         let validator_set = borrow_global_mut<ValidatorSet>(@aptos_framework);
         let voting_power_increase_limit =
-            (
-                staking_config::get_voting_power_increase_limit(&staking_config::get()) as u128
-            );
+            (staking_config::get_voting_power_increase_limit(&staking_config::get()) as u128);
         validator_set.total_joining_power =
             validator_set.total_joining_power + (increase_amount as u128);
 
@@ -2642,7 +2634,8 @@ module aptos_framework::stake {
 
         // Check that voting power increase is tracked.
         assert!(
-            borrow_global<ValidatorSet>(@aptos_framework).total_joining_power == 100, 0
+            borrow_global<ValidatorSet>(@aptos_framework).total_joining_power == 100,
+            0
         );
 
         // Leave the validator set immediately.
@@ -2651,7 +2644,8 @@ module aptos_framework::stake {
 
         // Check that voting power increase has been decreased when the pending active validator leaves.
         assert!(
-            borrow_global<ValidatorSet>(@aptos_framework).total_joining_power == 0, 1
+            borrow_global<ValidatorSet>(@aptos_framework).total_joining_power == 0,
+            1
         );
     }
 
@@ -2984,14 +2978,12 @@ module aptos_framework::stake {
         mint_and_add_stake(validator_1, 51);
     }
 
-    #[
-        test(
-            aptos_framework = @0x1,
-            validator_1 = @0x123,
-            validator_2 = @0x234,
-            validator_3 = @0x345
-        )
-    ]
+    #[test(
+        aptos_framework = @0x1,
+        validator_1 = @0x123,
+        validator_2 = @0x234,
+        validator_3 = @0x345
+    )]
     public entry fun test_multiple_validators_join_and_leave(
         aptos_framework: &signer,
         validator_1: &signer,
@@ -3070,8 +3062,7 @@ module aptos_framework::stake {
         );
         assert!(
             vector::borrow(
-                &borrow_global<ValidatorSet>(@aptos_framework).pending_active,
-                0
+                &borrow_global<ValidatorSet>(@aptos_framework).pending_active, 0
             ).addr == validator_3_address,
             0
         );
@@ -3106,7 +3097,8 @@ module aptos_framework::stake {
         timestamp::fast_forward_seconds(LOCKUP_CYCLE_SECONDS);
         end_epoch();
         assert!(
-            get_validator_state(validator_1_address) == VALIDATOR_STATUS_INACTIVE, 11
+            get_validator_state(validator_1_address) == VALIDATOR_STATUS_INACTIVE,
+            11
         );
     }
 

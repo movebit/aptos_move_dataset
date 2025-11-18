@@ -403,7 +403,8 @@ module aptos_framework::vesting {
     ): address acquires VestingContract {
         assert_vesting_contract_exists(vesting_contract_address);
         get_beneficiary(
-            borrow_global<VestingContract>(vesting_contract_address), shareholder
+            borrow_global<VestingContract>(vesting_contract_address),
+            shareholder
         )
     }
 
@@ -554,7 +555,8 @@ module aptos_framework::vesting {
             error::invalid_argument(EEMPTY_VESTING_SCHEDULE)
         );
         assert!(
-            period_duration > 0, error::invalid_argument(EZERO_VESTING_SCHEDULE_PERIOD)
+            period_duration > 0,
+            error::invalid_argument(EZERO_VESTING_SCHEDULE_PERIOD)
         );
         assert!(
             start_timestamp_secs >= timestamp::now_seconds(),
@@ -589,7 +591,8 @@ module aptos_framework::vesting {
         );
         assert_account_is_registered_for_apt(withdrawal_address);
         assert!(
-            vector::length(shareholders) > 0, error::invalid_argument(ENO_SHAREHOLDERS)
+            vector::length(shareholders) > 0,
+            error::invalid_argument(ENO_SHAREHOLDERS)
         );
         assert!(
             simple_map::length(&buy_ins) == vector::length(shareholders),
@@ -899,8 +902,9 @@ module aptos_framework::vesting {
 
         let vesting_contract = borrow_global_mut<VestingContract>(contract_address);
         verify_admin(admin, vesting_contract);
-        let (active_stake, _, pending_active_stake, _) =
-            stake::get_stake(vesting_contract.staking.pool_address);
+        let (
+            active_stake, _, pending_active_stake, _
+        ) = stake::get_stake(vesting_contract.staking.pool_address);
         assert!(pending_active_stake == 0, error::invalid_state(EPENDING_STAKE_FOUND));
 
         // Unlock all remaining active stake.
@@ -1234,7 +1238,8 @@ module aptos_framework::vesting {
         );
         let roles = &borrow_global<VestingAccountManagement>(contract_address).roles;
         assert!(
-            simple_map::contains_key(roles, &role), error::not_found(EROLE_NOT_FOUND)
+            simple_map::contains_key(roles, &role),
+            error::not_found(EROLE_NOT_FOUND)
         );
         *simple_map::borrow(roles, &role)
     }
@@ -1324,9 +1329,7 @@ module aptos_framework::vesting {
         coin::withdraw<AptosCoin>(contract_signer, withdrawn_coins)
     }
 
-    fun get_beneficiary(
-        contract: &VestingContract, shareholder: address
-    ): address {
+    fun get_beneficiary(contract: &VestingContract, shareholder: address): address {
         if (simple_map::contains_key(&contract.beneficiaries, &shareholder)) {
             *simple_map::borrow(&contract.beneficiaries, &shareholder)
         } else {
@@ -1361,9 +1364,7 @@ module aptos_framework::vesting {
     const VALIDATOR_STATUS_INACTIVE: u64 = 4;
 
     #[test_only]
-    public fun setup(
-        aptos_framework: &signer, accounts: &vector<address>
-    ) {
+    public fun setup(aptos_framework: &signer, accounts: &vector<address>) {
         use aptos_framework::aptos_account::create_account;
 
         stake::initialize_for_test_custom(
@@ -1561,12 +1562,10 @@ module aptos_framework::vesting {
         let shareholder_2_bal = coin::balance<AptosCoin>(shareholder_2_address);
         // Distribution goes by the shares of the vesting contract.
         assert!(
-            shareholder_1_bal == rewards / 4,
-            shareholder_1_bal
+            shareholder_1_bal == rewards / 4, shareholder_1_bal
         );
         assert!(
-            shareholder_2_bal == rewards * 3 / 4,
-            shareholder_2_bal
+            shareholder_2_bal == rewards * 3 / 4, shareholder_2_bal
         );
 
         // Fast forward time to the vesting start.
@@ -1827,7 +1826,10 @@ module aptos_framework::vesting {
     }
 
     #[test(
-        aptos_framework = @0x1, admin = @0x123, shareholder = @0x234, operator = @0x345
+        aptos_framework = @0x1,
+        admin = @0x123,
+        shareholder = @0x234,
+        operator = @0x345
     )]
     public entry fun test_unlock_rewards_should_pay_commission_first(
         aptos_framework: &signer,
@@ -1897,13 +1899,15 @@ module aptos_framework::vesting {
             0
         );
         assert!(
-            coin::balance<AptosCoin>(operator_address) == commission - 1,
-            1
+            coin::balance<AptosCoin>(operator_address) == commission - 1, 1
         );
     }
 
     #[test(
-        aptos_framework = @0x1, admin = @0x123, shareholder = @0x234, operator = @0x345
+        aptos_framework = @0x1,
+        admin = @0x123,
+        shareholder = @0x234,
+        operator = @0x345
     )]
     public entry fun test_request_commission_should_not_lock_rewards_for_shareholders(
         aptos_framework: &signer,
@@ -1980,8 +1984,7 @@ module aptos_framework::vesting {
             0
         );
         assert!(
-            coin::balance<AptosCoin>(operator_address) == commission - 1,
-            1
+            coin::balance<AptosCoin>(operator_address) == commission - 1, 1
         );
     }
 
@@ -2009,7 +2012,10 @@ module aptos_framework::vesting {
     }
 
     #[test(
-        aptos_framework = @0x1, admin = @0x123, shareholder = @0x234, operator = @0x345
+        aptos_framework = @0x1,
+        admin = @0x123,
+        shareholder = @0x234,
+        operator = @0x345
     )]
     public entry fun test_commission_percentage_change(
         aptos_framework: &signer,
@@ -2200,7 +2206,8 @@ module aptos_framework::vesting {
         // Assert that the rewards go to operator2, and the balance of the operator1's beneficiay remains the same.
         assert!(coin::balance<AptosCoin>(operator_address2) >= expected_commission, 1);
         assert!(
-            coin::balance<AptosCoin>(beneficiary_address) == old_beneficiay_balance, 1
+            coin::balance<AptosCoin>(beneficiary_address) == old_beneficiay_balance,
+            1
         );
     }
 
@@ -2644,7 +2651,8 @@ module aptos_framework::vesting {
     #[test_only]
     fun fraction(total: u64, numerator: u64, denominator: u64): u64 {
         fixed_point32::multiply_u64(
-            total, fixed_point32::create_from_rational(numerator, denominator)
+            total,
+            fixed_point32::create_from_rational(numerator, denominator)
         )
     }
 }

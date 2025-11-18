@@ -135,9 +135,7 @@ spec aptos_framework::gas_schedule {
         aborts_if false;
     }
 
-    spec set_storage_gas_config(
-        aptos_framework: &signer, config: storage_gas::StorageGasConfig
-    ) {
+    spec set_storage_gas_config(aptos_framework: &signer, config: storage_gas::StorageGasConfig) {
         include system_addresses::AbortsIfNotAptosFramework { account: aptos_framework };
         aborts_if !exists<storage_gas::StorageGasConfig>(@aptos_framework);
     }

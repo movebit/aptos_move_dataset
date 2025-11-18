@@ -28,7 +28,10 @@ module aptos_framework::permissioned_signer_tests {
         assert!(signer::address_of(&perm_signer) == signer::address_of(creator), 1);
 
         permissioned_signer::authorize_increase(
-            creator, &perm_signer, 100, OnePermission {}
+            creator,
+            &perm_signer,
+            100,
+            OnePermission {}
         );
         assert!(
             permissioned_signer::capacity(&perm_signer, OnePermission {})
@@ -114,7 +117,10 @@ module aptos_framework::permissioned_signer_tests {
         assert!(signer::address_of(&perm_signer) == signer::address_of(creator), 1);
 
         permissioned_signer::authorize_increase(
-            creator, &perm_signer, 100, OnePermission {}
+            creator,
+            &perm_signer,
+            100,
+            OnePermission {}
         );
         assert!(
             permissioned_signer::capacity(&perm_signer, OnePermission {})
@@ -171,11 +177,7 @@ module aptos_framework::permissioned_signer_tests {
     }
 
     #[test(creator = @0xcafe)]
-    #[
-        expected_failure(
-            abort_code = 0x50005, location = aptos_framework::permissioned_signer
-        )
-    ]
+    #[expected_failure(abort_code = 0x50005, location = aptos_framework::permissioned_signer)]
     fun test_permission_expiration(creator: &signer) {
         let aptos_framework = create_signer_for_test(@0x1);
         timestamp::set_time_has_started_for_testing(&aptos_framework);
@@ -197,11 +199,7 @@ module aptos_framework::permissioned_signer_tests {
     // 2. permissioned signer is a master signer
     // 3. permissioned and main signer address mismatch
     #[test(creator = @0xcafe)]
-    #[
-        expected_failure(
-            abort_code = 0x50002, location = aptos_framework::permissioned_signer
-        )
-    ]
+    #[expected_failure(abort_code = 0x50002, location = aptos_framework::permissioned_signer)]
     fun test_auth_1(creator: &signer) {
         let aptos_framework = create_signer_for_test(@0x1);
         timestamp::set_time_has_started_for_testing(&aptos_framework);
@@ -220,21 +218,13 @@ module aptos_framework::permissioned_signer_tests {
     }
 
     #[test(creator = @0xcafe)]
-    #[
-        expected_failure(
-            abort_code = 0x50002, location = aptos_framework::permissioned_signer
-        )
-    ]
+    #[expected_failure(abort_code = 0x50002, location = aptos_framework::permissioned_signer)]
     fun test_auth_2(creator: &signer) {
         permissioned_signer::authorize_increase(creator, creator, 100, OnePermission {});
     }
 
     #[test(creator = @0xcafe, creator2 = @0xbeef)]
-    #[
-        expected_failure(
-            abort_code = 0x50002, location = aptos_framework::permissioned_signer
-        )
-    ]
+    #[expected_failure(abort_code = 0x50002, location = aptos_framework::permissioned_signer)]
     fun test_auth_3(creator: &signer, creator2: &signer) {
         let aptos_framework = create_signer_for_test(@0x1);
         timestamp::set_time_has_started_for_testing(&aptos_framework);
@@ -244,7 +234,10 @@ module aptos_framework::permissioned_signer_tests {
             permissioned_signer::signer_from_permissioned_handle(&perm_handle);
 
         permissioned_signer::authorize_increase(
-            creator2, &perm_signer, 100, OnePermission {}
+            creator2,
+            &perm_signer,
+            100,
+            OnePermission {}
         );
         permissioned_signer::destroy_permissioned_handle(perm_handle);
     }
@@ -285,11 +278,7 @@ module aptos_framework::permissioned_signer_tests {
 
     // creating permission using a permissioned signer
     #[test(creator = @0xcafe)]
-    #[
-        expected_failure(
-            abort_code = 0x50001, location = aptos_framework::permissioned_signer
-        )
-    ]
+    #[expected_failure(abort_code = 0x50001, location = aptos_framework::permissioned_signer)]
     fun test_invalid_creation(creator: &signer) {
         let aptos_framework = create_signer_for_test(@0x1);
         timestamp::set_time_has_started_for_testing(&aptos_framework);
@@ -314,7 +303,8 @@ module aptos_framework::permissioned_signer_tests {
             permissioned_signer::signer_from_storable_permissioned_handle(&perm_handle);
 
         permissioned_signer::revoke_permission_storage_address(
-            creator, permissioned_signer::permissions_storage_address(&perm_handle)
+            creator,
+            permissioned_signer::permissions_storage_address(&perm_handle)
         );
 
         permissioned_signer::destroy_storable_permissioned_handle(perm_handle);
@@ -343,11 +333,7 @@ module aptos_framework::permissioned_signer_tests {
     }
 
     #[test(creator = @0xcafe)]
-    #[
-        expected_failure(
-            abort_code = 0x50007, location = aptos_framework::permissioned_signer
-        )
-    ]
+    #[expected_failure(abort_code = 0x50007, location = aptos_framework::permissioned_signer)]
     fun test_permission_revocation_and_access(creator: &signer) {
         let aptos_framework = create_signer_for_test(@0x1);
         timestamp::set_time_has_started_for_testing(&aptos_framework);
@@ -358,7 +344,8 @@ module aptos_framework::permissioned_signer_tests {
             permissioned_signer::signer_from_storable_permissioned_handle(&perm_handle);
 
         permissioned_signer::revoke_permission_storage_address(
-            creator, permissioned_signer::permissions_storage_address(&perm_handle)
+            creator,
+            permissioned_signer::permissions_storage_address(&perm_handle)
         );
         let _perm_signer =
             permissioned_signer::signer_from_storable_permissioned_handle(&perm_handle);
@@ -367,11 +354,7 @@ module aptos_framework::permissioned_signer_tests {
     }
 
     #[test(creator1 = @0xcafe, creator2 = @0xbafe)]
-    #[
-        expected_failure(
-            abort_code = 0x50008, location = aptos_framework::permissioned_signer
-        )
-    ]
+    #[expected_failure(abort_code = 0x50008, location = aptos_framework::permissioned_signer)]
     fun test_permission_revoke_other(
         creator1: &signer, creator2: &signer
     ) {

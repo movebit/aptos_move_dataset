@@ -25,9 +25,7 @@ module 0x1::NFTTests {
     const ECOLLECTION_FAILED: u64 = 2;
 
     #[test(admin = @0xa550c18, creator = @0x42, user = @0x43)]
-    public entry fun test_all(
-        admin: signer, creator: signer, user: signer
-    ) {
+    public entry fun test_all(admin: signer, creator: signer, user: signer) {
         /*
         ===============================================================
             Initialization + preparation
@@ -198,7 +196,11 @@ module 0x1::NFTTests {
 
         // Transfer all 6 units of token1 from user to creator
         NFTGallery::transfer_token_between_galleries_impl<Game>(
-            &user, creator_addr, 6, creator_addr, 0
+            &user,
+            creator_addr,
+            6,
+            creator_addr,
+            0
         );
         assert!(!NFTGallery::has_token<Game>(user_addr, &token1_id), ETRANSFER_FAILED); // user doesn't have token1 anymore
         assert!(

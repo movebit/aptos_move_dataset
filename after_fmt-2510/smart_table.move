@@ -146,7 +146,8 @@ module aptos_std::smart_table {
         let bucket = self.buckets.borrow_mut(index);
         // We set a per-bucket limit here with a upper bound (10000) that nobody should normally reach.
         assert!(
-            bucket.length() <= 10000, error::permission_denied(EEXCEED_MAX_BUCKET_SIZE)
+            bucket.length() <= 10000,
+            error::permission_denied(EEXCEED_MAX_BUCKET_SIZE)
         );
         assert!(
             bucket.all(
@@ -174,9 +175,7 @@ module aptos_std::smart_table {
 
     /// Add multiple key/value pairs to the smart table. The keys must not already exist.
     public fun add_all<K, V>(
-        self: &mut SmartTable<K, V>,
-        keys: vector<K>,
-        values: vector<V>
+        self: &mut SmartTable<K, V>, keys: vector<K>, values: vector<V>
     ) {
         keys.zip(values, |key, value| {
             self.add(key, value);
@@ -348,9 +347,8 @@ module aptos_std::smart_table {
     public fun borrow_with_default<K: copy + drop, V>(
         self: &SmartTable<K, V>, key: K, default: &V
     ): &V {
-        if (!self.contains(copy key)) {
-            default
-        } else {
+        if (!self.contains(copy key)) { default }
+        else {
             self.borrow(copy key)
         }
     }
@@ -375,9 +373,7 @@ module aptos_std::smart_table {
     /// Acquire a mutable reference to the value which `key` maps to.
     /// Insert the pair (`key`, `default`) first if there is no entry for `key`.
     public fun borrow_mut_with_default<K: copy + drop, V: drop>(
-        self: &mut SmartTable<K, V>,
-        key: K,
-        default: V
+        self: &mut SmartTable<K, V>, key: K, default: V
     ): &mut V {
         if (!self.contains(copy key)) {
             self.add(copy key, default)
@@ -458,9 +454,7 @@ module aptos_std::smart_table {
     }
 
     /// Apply the function to a reference of each key-value pair in the table.
-    public inline fun for_each_ref<K, V>(
-        self: &SmartTable<K, V>, f: |&K, &V|
-    ) {
+    public inline fun for_each_ref<K, V>(self: &SmartTable<K, V>, f: |&K, &V|) {
         for (i in 0..self.num_buckets()) {
             self.borrow_buckets().borrow(i).for_each_ref(
                 |elem| {
@@ -669,11 +663,7 @@ module aptos_std::smart_table {
         let starting_bucket_index = 0;
         let starting_vector_index = 0;
         let (keys, starting_bucket_index_r, starting_vector_index_r) =
-            table.keys_paginated(
-                starting_bucket_index,
-                starting_vector_index,
-                0
-            );
+            table.keys_paginated(starting_bucket_index, starting_vector_index, 0);
         assert!(starting_bucket_index_r == option::some(starting_bucket_index), 0);
         assert!(starting_vector_index_r == option::some(starting_vector_index), 0);
         assert!(keys.is_empty(), 0);
@@ -755,9 +745,7 @@ module aptos_std::smart_table {
         let starting_bucket_index = starting_bucket_index_r.destroy_some();
         let starting_vector_index = starting_vector_index_r.destroy_some();
         (keys, starting_bucket_index_r, starting_vector_index_r) = table.keys_paginated(
-            starting_bucket_index,
-            starting_vector_index,
-            0
+            starting_bucket_index, starting_vector_index, 0
         );
         assert!(keys == vector[], 0);
         assert!(starting_bucket_index_r == option::some(starting_bucket_index), 0);

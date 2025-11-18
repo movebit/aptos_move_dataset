@@ -54,7 +54,9 @@ module 0x1::aggregator_v2_test {
         let snapshot = aggregator_v2::create_snapshot(42);
         let snapshot2 =
             aggregator_v2::derive_string_concat(
-                std::string::utf8(b"before"), &snapshot, std::string::utf8(b"after")
+                std::string::utf8(b"before"),
+                &snapshot,
+                std::string::utf8(b"after")
             );
         let val = aggregator_v2::read_derived_string(&snapshot2);
 
@@ -205,10 +207,7 @@ module 0x1::aggregator_v2_test {
     }
 
     inline fun for_element_ref<Agg: store + drop, R>(
-        account_addr: address,
-        use_type: u32,
-        i: u64,
-        f: |&Agg| R
+        account_addr: address, use_type: u32, i: u64, f: |&Agg| R
     ): R acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         assert!(
             use_type == USE_RESOURCE_TYPE
@@ -250,10 +249,7 @@ module 0x1::aggregator_v2_test {
     }
 
     inline fun for_element_mut<Agg: store + drop, R>(
-        account_addr: address,
-        use_type: u32,
-        i: u64,
-        f: |&mut Agg| R
+        account_addr: address, use_type: u32, i: u64, f: |&mut Agg| R
     ): R acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         assert!(
             use_type == USE_RESOURCE_TYPE
@@ -361,32 +357,21 @@ module 0x1::aggregator_v2_test {
     /// Checks that the ith aggregator has expected value. Useful to inject into
     /// transaction block to verify successful and correct execution.
     public entry fun check<Element: store + drop>(
-        addr: address,
-        use_type: u32,
-        i: u64,
-        expected: Element
+        addr: address, use_type: u32, i: u64, expected: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         let actual = call_read<Element>(addr, use_type, i);
         assert!(actual == expected, ENOT_EQUAL)
     }
 
     public entry fun new_add<Element: drop + copy + store>(
-        addr: address,
-        use_type: u32,
-        i: u64,
-        limit: Element,
-        a: Element
+        addr: address, use_type: u32, i: u64, limit: Element, a: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         new(addr, use_type, i, limit);
         add(addr, use_type, i, a);
     }
 
     public entry fun sub_add<Element: store + drop>(
-        addr: address,
-        use_type: u32,
-        i: u64,
-        a: Element,
-        b: Element
+        addr: address, use_type: u32, i: u64, a: Element, b: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         for_element_mut<Aggregator<Element>, bool>(
             addr,
@@ -401,11 +386,7 @@ module 0x1::aggregator_v2_test {
     }
 
     public entry fun add_if_at_least<Element: store + drop>(
-        addr: address,
-        use_type: u32,
-        i: u64,
-        a: Element,
-        b: Element
+        addr: address, use_type: u32, i: u64, a: Element, b: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         let is_at_least =
             for_element_ref<Aggregator<Element>, bool>(
@@ -429,11 +410,7 @@ module 0x1::aggregator_v2_test {
     }
 
     public entry fun add_sub<Element: store + drop>(
-        addr: address,
-        use_type: u32,
-        i: u64,
-        a: Element,
-        b: Element
+        addr: address, use_type: u32, i: u64, a: Element, b: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         for_element_mut<Aggregator<Element>, bool>(
             addr,
@@ -578,10 +555,7 @@ module 0x1::aggregator_v2_test {
     }
 
     public entry fun check_snapshot<Element: store + drop>(
-        addr: address,
-        use_type: u32,
-        i: u64,
-        expected: Element
+        addr: address, use_type: u32, i: u64, expected: Element
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         let actual =
             for_element_ref<AggregatorSnapshot<Element>, Element>(
@@ -594,10 +568,7 @@ module 0x1::aggregator_v2_test {
     }
 
     public entry fun check_derived<Element: store + drop>(
-        addr: address,
-        use_type: u32,
-        i: u64,
-        expected: String
+        addr: address, use_type: u32, i: u64, expected: String
     ) acquires AggregatorInResource, AggregatorInTable, AggregatorInResourceGroup {
         let actual =
             for_element_ref<DerivedStringSnapshot, String>(

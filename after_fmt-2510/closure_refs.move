@@ -44,9 +44,7 @@ module 0x42::test {
         &mut s.b
     }
 
-    fun update_indirect(
-        s: &mut S, borrow: |&mut S| &mut u64, new_value: u64
-    ) {
+    fun update_indirect(s: &mut S, borrow: |&mut S| &mut u64, new_value: u64) {
         *borrow(s) = new_value
     }
 

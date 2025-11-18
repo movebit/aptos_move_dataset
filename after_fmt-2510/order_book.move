@@ -192,10 +192,7 @@ module aptos_experimental::order_book {
     }
 
     public fun get_single_match_for_taker<M: store + copy + drop>(
-        self: &mut OrderBook<M>,
-        price: u64,
-        size: u64,
-        is_bid: bool
+        self: &mut OrderBook<M>, price: u64, size: u64, is_bid: bool
     ): OrderMatch<M> {
         let result = self.price_time_idx.get_single_match_result(price, size, is_bid);
         let book_type = result.get_active_matched_book_type();

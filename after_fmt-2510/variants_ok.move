@@ -113,11 +113,7 @@ module 0x815::m {
 
     fun t6_construct(self: Color): Color {
         match(self) {
-            Color::RGB { red, green, blue } => Color::RGB {
-                red: red + 1,
-                green: green - 1,
-                blue
-            },
+            Color::RGB { red, green, blue } => Color::RGB { red: red + 1, green: green - 1, blue },
             _ => self
         }
     }

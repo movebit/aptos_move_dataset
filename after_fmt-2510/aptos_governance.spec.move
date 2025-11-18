@@ -801,9 +801,7 @@ spec aptos_framework::aptos_governance {
         }
     }
 
-    spec fun spec_has_entirely_voted(
-        stake_pool: address, proposal_id: u64, record_key: RecordKey
-    ): bool {
+    spec fun spec_has_entirely_voted(stake_pool: address, proposal_id: u64, record_key: RecordKey): bool {
         let voting_records = global<VotingRecords>(@aptos_framework);
         table::spec_contains(voting_records.votes, record_key)
     }
@@ -1035,7 +1033,10 @@ spec aptos_framework::aptos_governance {
     }
 
     spec batch_vote(
-        voter: &signer, stake_pools: vector<address>, proposal_id: u64, should_pass: bool
+        voter: &signer,
+        stake_pools: vector<address>,
+        proposal_id: u64,
+        should_pass: bool
     ) {
         // TODO: Temporary mockup. Specify the `for_each` statement.
         pragma verify = false;

@@ -167,7 +167,11 @@ module tic_tac_toe::ttt {
         };
 
         Game {
-            board: Board { vec: v, row: WIDTH_AND_HEIGHT, col: WIDTH_AND_HEIGHT },
+            board: Board {
+                vec: v,
+                row: WIDTH_AND_HEIGHT,
+                col: WIDTH_AND_HEIGHT
+            },
             player_x: option::none(),
             player_o: option::none(),
             is_player_x_turn: true,
@@ -180,7 +184,8 @@ module tic_tac_toe::ttt {
     */
     fun choose_player_x(game: &mut Game, user: address) {
         assert!(
-            !game.is_game_over, error::invalid_argument(EGAME_HAS_ALREADY_FINISHED)
+            !game.is_game_over,
+            error::invalid_argument(EGAME_HAS_ALREADY_FINISHED)
         );
         assert!(option::is_none(&game.player_x), error::already_exists(EPLAYER_TAKEN));
 
@@ -192,7 +197,8 @@ module tic_tac_toe::ttt {
     */
     fun choose_player_o(game: &mut Game, user: address) {
         assert!(
-            !game.is_game_over, error::invalid_argument(EGAME_HAS_ALREADY_FINISHED)
+            !game.is_game_over,
+            error::invalid_argument(EGAME_HAS_ALREADY_FINISHED)
         );
         assert!(option::is_none(&game.player_o), error::already_exists(EPLAYER_TAKEN));
 
@@ -205,18 +211,21 @@ module tic_tac_toe::ttt {
     fun place_move(game: &mut Game, x: u64, y: u64, player: Player) {
         // validate game state
         assert!(
-            !game.is_game_over, error::invalid_argument(EGAME_HAS_ALREADY_FINISHED)
+            !game.is_game_over,
+            error::invalid_argument(EGAME_HAS_ALREADY_FINISHED)
         );
 
         // validate player move
         let player_type = player.type;
         if (game.is_player_x_turn) {
             assert!(
-                player_type == PLAYER_X_TYPE, error::unauthenticated(EOUT_OF_TURN_MOVE)
+                player_type == PLAYER_X_TYPE,
+                error::unauthenticated(EOUT_OF_TURN_MOVE)
             );
         } else {
             assert!(
-                player_type == PLAYER_O_TYPE, error::unauthenticated(EOUT_OF_TURN_MOVE)
+                player_type == PLAYER_O_TYPE,
+                error::unauthenticated(EOUT_OF_TURN_MOVE)
             );
         };
 
@@ -425,13 +434,11 @@ module tic_tac_toe::ttt {
 
         let player_x =
             option::get_with_default(
-                &game.player_x,
-                Player { type: PLAYER_X_TYPE, owner: user1 }
+                &game.player_x, Player { type: PLAYER_X_TYPE, owner: user1 }
             );
         let player_o =
             option::get_with_default(
-                &game.player_o,
-                Player { type: PLAYER_O_TYPE, owner: user2 }
+                &game.player_o, Player { type: PLAYER_O_TYPE, owner: user2 }
             );
 
         place_move(&mut game, 0, 0, player_x);
@@ -454,13 +461,11 @@ module tic_tac_toe::ttt {
 
         let player_x =
             option::get_with_default(
-                &game.player_x,
-                Player { type: PLAYER_X_TYPE, owner: user1 }
+                &game.player_x, Player { type: PLAYER_X_TYPE, owner: user1 }
             );
         let player_o =
             option::get_with_default(
-                &game.player_o,
-                Player { type: PLAYER_O_TYPE, owner: user2 }
+                &game.player_o, Player { type: PLAYER_O_TYPE, owner: user2 }
             );
 
         place_move(&mut game, 1, 0, player_x);
@@ -483,13 +488,11 @@ module tic_tac_toe::ttt {
 
         let player_x =
             option::get_with_default(
-                &game.player_x,
-                Player { type: PLAYER_X_TYPE, owner: user1 }
+                &game.player_x, Player { type: PLAYER_X_TYPE, owner: user1 }
             );
         let player_o =
             option::get_with_default(
-                &game.player_o,
-                Player { type: PLAYER_O_TYPE, owner: user2 }
+                &game.player_o, Player { type: PLAYER_O_TYPE, owner: user2 }
             );
 
         place_move(&mut game, 2, 0, player_x);
@@ -512,13 +515,11 @@ module tic_tac_toe::ttt {
 
         let player_x =
             option::get_with_default(
-                &game.player_x,
-                Player { type: PLAYER_X_TYPE, owner: user1 }
+                &game.player_x, Player { type: PLAYER_X_TYPE, owner: user1 }
             );
         let player_o =
             option::get_with_default(
-                &game.player_o,
-                Player { type: PLAYER_O_TYPE, owner: user2 }
+                &game.player_o, Player { type: PLAYER_O_TYPE, owner: user2 }
             );
 
         place_move(&mut game, 0, 0, player_x);
@@ -541,13 +542,11 @@ module tic_tac_toe::ttt {
 
         let player_x =
             option::get_with_default(
-                &game.player_x,
-                Player { type: PLAYER_X_TYPE, owner: user1 }
+                &game.player_x, Player { type: PLAYER_X_TYPE, owner: user1 }
             );
         let player_o =
             option::get_with_default(
-                &game.player_o,
-                Player { type: PLAYER_O_TYPE, owner: user2 }
+                &game.player_o, Player { type: PLAYER_O_TYPE, owner: user2 }
             );
 
         place_move(&mut game, 0, 0, player_x);
@@ -571,13 +570,11 @@ module tic_tac_toe::ttt {
 
         let player_x =
             option::get_with_default(
-                &game.player_x,
-                Player { type: PLAYER_X_TYPE, owner: user1 }
+                &game.player_x, Player { type: PLAYER_X_TYPE, owner: user1 }
             );
         let player_o =
             option::get_with_default(
-                &game.player_o,
-                Player { type: PLAYER_O_TYPE, owner: user2 }
+                &game.player_o, Player { type: PLAYER_O_TYPE, owner: user2 }
             );
 
         place_move(&mut game, 0, 0, player_x);
@@ -601,13 +598,11 @@ module tic_tac_toe::ttt {
 
         let player_x =
             option::get_with_default(
-                &game.player_x,
-                Player { type: PLAYER_X_TYPE, owner: user1 }
+                &game.player_x, Player { type: PLAYER_X_TYPE, owner: user1 }
             );
         let player_o =
             option::get_with_default(
-                &game.player_o,
-                Player { type: PLAYER_O_TYPE, owner: user2 }
+                &game.player_o, Player { type: PLAYER_O_TYPE, owner: user2 }
             );
 
         place_move(&mut game, 0, 0, player_x);
@@ -630,13 +625,11 @@ module tic_tac_toe::ttt {
 
         let player_x =
             option::get_with_default(
-                &game.player_x,
-                Player { type: PLAYER_X_TYPE, owner: user1 }
+                &game.player_x, Player { type: PLAYER_X_TYPE, owner: user1 }
             );
         let player_o =
             option::get_with_default(
-                &game.player_o,
-                Player { type: PLAYER_O_TYPE, owner: user2 }
+                &game.player_o, Player { type: PLAYER_O_TYPE, owner: user2 }
             );
 
         place_move(&mut game, 0, 2, player_x);
@@ -680,8 +673,7 @@ module tic_tac_toe::ttt {
 
         let player_x =
             option::get_with_default(
-                &game.player_x,
-                Player { type: PLAYER_X_TYPE, owner: user1 }
+                &game.player_x, Player { type: PLAYER_X_TYPE, owner: user1 }
             );
         place_move(&mut game, 0, 0, player_x);
         place_move(&mut game, 0, 1, player_x);
@@ -700,13 +692,11 @@ module tic_tac_toe::ttt {
 
         let player_x =
             option::get_with_default(
-                &game.player_x,
-                Player { type: PLAYER_X_TYPE, owner: user1 }
+                &game.player_x, Player { type: PLAYER_X_TYPE, owner: user1 }
             );
         let player_o =
             option::get_with_default(
-                &game.player_o,
-                Player { type: PLAYER_O_TYPE, owner: user2 }
+                &game.player_o, Player { type: PLAYER_O_TYPE, owner: user2 }
             );
 
         place_move(&mut game, 0, 0, player_x);
@@ -732,13 +722,11 @@ module tic_tac_toe::ttt {
 
         let player_x =
             option::get_with_default(
-                &game.player_x,
-                Player { type: PLAYER_X_TYPE, owner: user1 }
+                &game.player_x, Player { type: PLAYER_X_TYPE, owner: user1 }
             );
         let player_o =
             option::get_with_default(
-                &game.player_o,
-                Player { type: PLAYER_O_TYPE, owner: user2 }
+                &game.player_o, Player { type: PLAYER_O_TYPE, owner: user2 }
             );
 
         place_move(&mut game, 0, 0, player_x);

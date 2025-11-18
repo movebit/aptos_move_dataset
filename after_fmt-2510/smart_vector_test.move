@@ -132,14 +132,11 @@ module aptos_std::smart_vector_test {
         let v1 = make_smart_vector(100);
         let v2 = make_smart_vector(100);
         let s = 0;
-        v1.zip(
-            v2,
-            |e1, e2| {
-                let e1: u64 = e1;
-                let e2: u64 = e2;
-                s += e1 / e2
-            }
-        );
+        v1.zip(v2, |e1, e2| {
+            let e1: u64 = e1;
+            let e2: u64 = e2;
+            s += e1 / e2
+        });
         assert!(s == 100, 0);
     }
 
@@ -150,14 +147,11 @@ module aptos_std::smart_vector_test {
         let v1 = make_smart_vector(100);
         let v2 = make_smart_vector(99);
         let s = 0;
-        v1.zip(
-            v2,
-            |e1, e2| {
-                let e1: u64 = e1;
-                let e2: u64 = e2;
-                s += e1 / e2
-            }
-        );
+        v1.zip(v2, |e1, e2| {
+            let e1: u64 = e1;
+            let e2: u64 = e2;
+            s += e1 / e2
+        });
     }
 
     #[test]

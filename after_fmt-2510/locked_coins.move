@@ -207,10 +207,7 @@ module defi::locked_coins {
     /// There's no restriction on unlock timestamp so sponsors could technically add coins for an unlocked time in the
     /// past, which means the coins are immediately unlocked.
     public entry fun add_locked_coins<CoinType>(
-        sponsor: &signer,
-        recipient: address,
-        amount: u64,
-        unlock_time_secs: u64
+        sponsor: &signer, recipient: address, amount: u64, unlock_time_secs: u64
     ) acquires Locks {
         let sponsor_address = signer::address_of(sponsor);
         assert!(
@@ -254,7 +251,8 @@ module defi::locked_coins {
         locks.total_locks = locks.total_locks - 1;
         let now_secs = timestamp::now_seconds();
         assert!(
-            now_secs >= unlock_time_secs, error::invalid_state(ELOCKUP_HAS_NOT_EXPIRED)
+            now_secs >= unlock_time_secs,
+            error::invalid_state(ELOCKUP_HAS_NOT_EXPIRED)
         );
 
         let amount = coin::value(&coins);
@@ -458,14 +456,12 @@ module defi::locked_coins {
         coin::destroy_burn_cap(burn_cap);
     }
 
-    #[
-        test(
-            aptos_framework = @0x1,
-            sponsor = @0x123,
-            recipient_1 = @0x234,
-            recipient_2 = @0x345
-        )
-    ]
+    #[test(
+        aptos_framework = @0x1,
+        sponsor = @0x123,
+        recipient_1 = @0x234,
+        recipient_2 = @0x345
+    )]
     public entry fun test_sponsor_can_batch_update_lockup(
         aptos_framework: &signer,
         sponsor: &signer,
@@ -508,14 +504,12 @@ module defi::locked_coins {
         coin::destroy_burn_cap(burn_cap);
     }
 
-    #[
-        test(
-            aptos_framework = @0x1,
-            sponsor = @0x123,
-            recipient = @0x234,
-            withdrawal = @0x345
-        )
-    ]
+    #[test(
+        aptos_framework = @0x1,
+        sponsor = @0x123,
+        recipient = @0x234,
+        withdrawal = @0x345
+    )]
     public entry fun test_sponsor_can_cancel_lockup(
         aptos_framework: &signer,
         sponsor: &signer,
@@ -585,14 +579,12 @@ module defi::locked_coins {
         coin::destroy_burn_cap(burn_cap);
     }
 
-    #[
-        test(
-            aptos_framework = @0x1,
-            sponsor = @0x123,
-            recipient = @0x234,
-            withdrawal = @0x456
-        )
-    ]
+    #[test(
+        aptos_framework = @0x1,
+        sponsor = @0x123,
+        recipient = @0x234,
+        withdrawal = @0x456
+    )]
     #[expected_failure(abort_code = 0x30005, location = Self)]
     public entry fun test_cannot_change_withdrawal_address_if_active_locks_exist(
         aptos_framework: &signer,
@@ -612,14 +604,12 @@ module defi::locked_coins {
         coin::destroy_burn_cap(burn_cap);
     }
 
-    #[
-        test(
-            aptos_framework = @0x1,
-            sponsor = @0x123,
-            recipient = @0x234,
-            withdrawal = @0x456
-        )
-    ]
+    #[test(
+        aptos_framework = @0x1,
+        sponsor = @0x123,
+        recipient = @0x234,
+        withdrawal = @0x456
+    )]
     public entry fun test_can_change_withdrawal_address_if_no_active_locks_exist(
         aptos_framework: &signer,
         sponsor: &signer,

@@ -85,10 +85,7 @@ module ring_deque::ring_deque {
                     rd_ref_mut.front - 1
                 };
         };
-        option::fill(
-            vector::borrow_mut(&mut rd_ref_mut.data, rd_ref_mut.front),
-            value
-        );
+        option::fill(vector::borrow_mut(&mut rd_ref_mut.data, rd_ref_mut.front), value);
         rd_ref_mut.length = rd_ref_mut.length + 1;
     }
 
@@ -102,10 +99,7 @@ module ring_deque::ring_deque {
                     rd_ref_mut.back + 1
                 };
         };
-        option::fill(
-            vector::borrow_mut(&mut rd_ref_mut.data, rd_ref_mut.back),
-            value
-        );
+        option::fill(vector::borrow_mut(&mut rd_ref_mut.data, rd_ref_mut.back), value);
         rd_ref_mut.length = rd_ref_mut.length + 1;
     }
 

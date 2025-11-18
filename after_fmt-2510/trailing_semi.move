@@ -34,9 +34,7 @@ script {
     fun main(cond: bool) {
         {
             if (cond) { return }
-            else {
-                abort 0
-            };
+            else { abort 0 };
         }
     }
 }

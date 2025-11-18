@@ -12,12 +12,10 @@ module 0xc0ffee::m {
                 {
                     x = inc(&mut x);
                     add3(
-                        x,
-                        {
+                        x, {
                             x = x + 1;
                             x
-                        },
-                        {
+                        }, {
                             x = x + 1;
                             x
                         }
@@ -29,9 +27,7 @@ module 0xc0ffee::m {
                         {
                             x = x + 1;
                             x
-                        },
-                        x,
-                        {
+                        }, x, {
                             x = x + 1;
                             x
                         }
@@ -61,12 +57,10 @@ module 0xc0ffee::m {
                 {
                     x = inc_by(&mut x, 3);
                     add3(
-                        x,
-                        {
+                        x, {
                             x = x + 1;
                             x
-                        },
-                        {
+                        }, {
                             x = x + 1;
                             x
                         }
@@ -78,9 +72,7 @@ module 0xc0ffee::m {
                         {
                             x = x + 1;
                             x
-                        },
-                        x,
-                        {
+                        }, x, {
                             x = x + 1;
                             x
                         }

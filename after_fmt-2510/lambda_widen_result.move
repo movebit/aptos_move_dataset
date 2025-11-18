@@ -13,9 +13,7 @@ module 0x8675309::M {
         action(vector::borrow_mut(v, 0))
     }
 
-    public inline fun pass_mut3_ref<T>(
-        v: &mut vector<T>, action: |&mut T| &T
-    ): &T {
+    public inline fun pass_mut3_ref<T>(v: &mut vector<T>, action: |&mut T| &T): &T {
         action(vector::borrow_mut(v, 0))
     }
 

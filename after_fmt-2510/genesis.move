@@ -109,16 +109,10 @@ module DiemFramework::Genesis {
         DiemAccount::restore_key_rotation_capability(tc_rotate_key_cap);
 
         DiemTransactionPublishingOption::initialize(
-            dr_account,
-            initial_script_allow_list,
-            is_open_module
+            dr_account, initial_script_allow_list, is_open_module
         );
 
-        DiemVMConfig::initialize(
-            dr_account,
-            instruction_schedule,
-            native_schedule
-        );
+        DiemVMConfig::initialize(dr_account, instruction_schedule, native_schedule);
 
         DiemConsensusConfig::set(dr_account, consensus_config);
 

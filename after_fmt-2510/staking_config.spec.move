@@ -159,9 +159,8 @@ spec aptos_framework::staking_config {
         include StakingRewardsConfigRequirement;
         ensures (
             features::spec_periodical_reward_rate_decrease_enabled()
-                && (
-                    global<StakingRewardsConfig>(@aptos_framework).rewards_rate.value as u64
-                ) != 0
+                && (global<StakingRewardsConfig>(@aptos_framework).rewards_rate.value as u64)
+                != 0
         ) ==>
             result_1 <= MAX_REWARDS_RATE
                 && result_2 <= MAX_U64;
@@ -173,9 +172,8 @@ spec aptos_framework::staking_config {
         include StakingRewardsConfigRequirement;
         ensures (
             features::spec_periodical_reward_rate_decrease_enabled()
-                && (
-                    global<StakingRewardsConfig>(@aptos_framework).rewards_rate.value as u64
-                ) != 0
+                && (global<StakingRewardsConfig>(@aptos_framework).rewards_rate.value as u64)
+                != 0
         ) ==>
             result_1 <= MAX_REWARDS_RATE
                 && result_2 <= MAX_U64;
@@ -198,9 +196,7 @@ spec aptos_framework::staking_config {
     /// Caller must be @aptos_framework.
     /// The maximum_stake must be greater than maximum_stake in the range of Specified stake and the maximum_stake greater than zero.
     /// The StakingConfig is under @aptos_framework.
-    spec update_required_stake(
-        aptos_framework: &signer, minimum_stake: u64, maximum_stake: u64
-    ) {
+    spec update_required_stake(aptos_framework: &signer, minimum_stake: u64, maximum_stake: u64) {
         use std::signer;
         let addr = signer::address_of(aptos_framework);
         /// [high-level-req-1.3]

@@ -10,8 +10,7 @@ module 0xc0ffee::m {
             {
                 x = x - 1;
                 x + 8
-            },
-            {
+            }, {
                 x = x + 3;
                 x - 3
             }
@@ -19,8 +18,7 @@ module 0xc0ffee::m {
             {
                 x = x * 2;
                 x * 2
-            },
-            {
+            }, {
                 x = x + 1;
                 x
             }

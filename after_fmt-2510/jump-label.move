@@ -24,8 +24,6 @@ module 0x42::test {
         } else if (y == string::utf8(b"u64")) {
             let z = baz(x);
             return bar<T>(z)
-        } else {
-            abort 0
-        }
+        } else { abort 0 }
     }
 }

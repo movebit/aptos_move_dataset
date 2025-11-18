@@ -47,9 +47,7 @@ module message_board::cap_based_mb {
 
     /// create the message board and move the resource to signer
     public entry fun message_board_init(account: &signer) {
-        let board = CapBasedMB {
-            pinned_post: vector::empty<u8>()
-        };
+        let board = CapBasedMB { pinned_post: vector::empty<u8>() };
         let board_addr = signer::address_of(account);
         move_to(account, board);
         let notice_cap = MessageChangeCapability { board: board_addr };

@@ -225,10 +225,7 @@ module aptos_std::ristretto255_elgamal {
     /// Returns a ciphertext (v * point + r * pubkey, r * point) where `point` is *any* Ristretto255 point,
     /// `pubkey` is the public key and `r` is the randomness.
     public fun new_ciphertext(
-        v: &Scalar,
-        point: &RistrettoPoint,
-        r: &Scalar,
-        pubkey: &CompressedPubkey
+        v: &Scalar, point: &RistrettoPoint, r: &Scalar, pubkey: &CompressedPubkey
     ): Ciphertext {
         Ciphertext {
             left: ristretto255::double_scalar_mul(v, point, r, &pubkey_to_point(pubkey)),

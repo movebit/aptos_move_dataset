@@ -22,9 +22,7 @@ module 0x42::test {
         y: U
     }
 
-    struct S7(
-        u8, u16, u32, u64
-    );
+    struct S7(u8, u16, u32, u64);
 
     enum E1 has drop {
         A(u8, bool),
@@ -138,10 +136,7 @@ module 0x42::test {
     }
 
     fun simple_4_ref(x: &E1): &u8 {
-        match(x) {
-            E1::A(x,..) => { x }
-            E1::B(x) => { x }
-        }
+        match(x) { E1::A(x,..) => { x } E1::B(x) => { x } }
     }
 
     fun simple_5(x: E1): u8 {
@@ -157,9 +152,7 @@ module 0x42::test {
 
     fun simple_6(x: &S7) {
         let S7(_w,.., _z) = x;
-        let S7(
-            _w, _x,.., _y, _z
-        ) = x;
+        let S7(_w, _x,.., _y, _z) = x;
     }
 
     inline fun lambda_param(f: |S2| bool): bool {

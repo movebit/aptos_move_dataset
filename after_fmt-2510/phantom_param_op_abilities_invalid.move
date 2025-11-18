@@ -37,7 +37,9 @@ module 0x42::M {
     // `copy` requires copy
     fun f4(
         x: HasCopy<NoAbilities, NoAbilities>
-    ): (HasCopy<NoAbilities, NoAbilities>, HasCopy<NoAbilities, NoAbilities>) {
+    ): (
+        HasCopy<NoAbilities, NoAbilities>, HasCopy<NoAbilities, NoAbilities>
+    ) {
         (copy x, x)
     }
 
@@ -58,8 +60,6 @@ module 0x42::M {
 
     // Explicit store constraint
     fun f8(): RequireStore<HasStore<NoAbilities, NoAbilities>> {
-        RequireStore<HasStore<NoAbilities, NoAbilities>> {
-            a: HasStore { a: NoAbilities {} }
-        }
+        RequireStore<HasStore<NoAbilities, NoAbilities>> { a: HasStore { a: NoAbilities {} } }
     }
 }

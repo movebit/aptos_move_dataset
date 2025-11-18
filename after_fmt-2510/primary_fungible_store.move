@@ -150,10 +150,7 @@ module aptos_framework::primary_fungible_store {
     }
 
     public fun grant_permission<T: key>(
-        master: &signer,
-        permissioned: &signer,
-        metadata: Object<T>,
-        amount: u64
+        master: &signer, permissioned: &signer, metadata: Object<T>, amount: u64
     ) {
         fungible_asset::grant_permission_by_address(
             master,
@@ -244,10 +241,7 @@ module aptos_framework::primary_fungible_store {
 
     /// Transfer `amount` of fungible asset from sender's primary store to receiver's primary store.
     public entry fun transfer<T: key>(
-        sender: &signer,
-        metadata: Object<T>,
-        recipient: address,
-        amount: u64
+        sender: &signer, metadata: Object<T>, recipient: address, amount: u64
     ) acquires DeriveRefPod {
         let sender_store =
             ensure_primary_store_exists(signer::address_of(sender), metadata);
@@ -255,7 +249,10 @@ module aptos_framework::primary_fungible_store {
         may_be_unburn(sender, sender_store);
         let recipient_store = ensure_primary_store_exists(recipient, metadata);
         dispatchable_fungible_asset::transfer(
-            sender, sender_store, recipient_store, amount
+            sender,
+            sender_store,
+            recipient_store,
+            amount
         );
     }
 
@@ -324,18 +321,14 @@ module aptos_framework::primary_fungible_store {
     ) acquires DeriveRefPod {
         let to_primary_store =
             ensure_primary_store_exists(
-                owner,
-                fungible_asset::transfer_ref_metadata(transfer_ref)
+                owner, fungible_asset::transfer_ref_metadata(transfer_ref)
             );
         fungible_asset::deposit_with_ref(transfer_ref, to_primary_store, fa);
     }
 
     /// Transfer `amount` of FA from the primary store of `from` to that of `to` ignoring frozen flag.
     public fun transfer_with_ref(
-        transfer_ref: &TransferRef,
-        from: address,
-        to: address,
-        amount: u64
+        transfer_ref: &TransferRef, from: address, to: address, amount: u64
     ) acquires DeriveRefPod {
         let from_primary_store =
             primary_store(from, fungible_asset::transfer_ref_metadata(transfer_ref));

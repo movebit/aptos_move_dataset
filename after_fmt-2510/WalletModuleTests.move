@@ -24,10 +24,7 @@ module DiemFramework::ApprovalGroup {
 
     // helper function to evaluate the threshold policy
     fun verify_sig(
-        group: &ApprovalGroup,
-        pk: vector<u8>,
-        sig: vector<u8>,
-        hash: vector<u8>
+        group: &ApprovalGroup, pk: vector<u8>, sig: vector<u8>, hash: vector<u8>
     ): bool {
         (copy pk == *&group.pk1
             || copy pk == *&group.pk2
@@ -82,7 +79,11 @@ module DiemFramework::ColdWallet {
         account: &signer, genesis_group: ApprovalGroup::ApprovalGroup
     ) {
         let zero_balance = Diem::zero();
-        let wallet = ColdWallet { balance: zero_balance, sequence_num: 0, genesis_group };
+        let wallet = ColdWallet {
+            balance: zero_balance,
+            sequence_num: 0,
+            genesis_group
+        };
         move_to<ColdWallet>(account, wallet);
     }
 
@@ -101,10 +102,7 @@ module DiemFramework::ColdWallet {
     // helper to get the expected serialization of a transaction
     // serialization format: 'prefix' || payee_address || amount || sequence_number
     fun get_transaction_bytes(
-        payer: address,
-        payee: address,
-        amount: u64,
-        wallet: &mut ColdWallet
+        payer: address, payee: address, amount: u64, wallet: &mut ColdWallet
     ): vector<u8> {
         // TODO: consider moving into resource
         // TODO: Move doesn't support string now. As a workaround,
@@ -181,13 +179,8 @@ module DiemFramework::WalletModuleTests {
     use DiemFramework::ColdWallet;
 
     // private-key: 2f2bbeb071948c4ca586b0fa0f3663520fc3053056e79955059520d626117cdb
-    #[
-        test(
-            dr = @DiemRoot,
-            tc = @TreasuryCompliance,
-            account = @0xc2422587142d78bdf5a8068b8f9a2859
-        )
-    ]
+    #[test(dr = @DiemRoot, tc = @TreasuryCompliance, account =
+    @0xc2422587142d78bdf5a8068b8f9a2859)]
     fun wallet_module_test(dr: signer, tc: signer, account: signer) {
         Genesis::setup(&dr, &tc);
         DiemAccount::create_parent_vasp_account<XUS>(

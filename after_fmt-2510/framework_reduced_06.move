@@ -8,13 +8,7 @@ module 0xc0ffee::m {
         (1, 1)
     }
 
-    fun f2(
-        _r1: address,
-        _r2: &mut S,
-        _r3: address,
-        _r4: u64,
-        _r5: &mut S
-    ) {}
+    fun f2(_r1: address, _r2: &mut S, _r3: address, _r4: u64, _r5: &mut S) {}
 
     fun f3(_r1: u64, _r2: &u64) {}
 

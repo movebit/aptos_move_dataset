@@ -151,8 +151,7 @@ module aptos_framework::reconfiguration {
             event::emit(NewEpoch { epoch: config_ref.epoch });
         };
         event::emit_event<NewEpochEvent>(
-            &mut config_ref.events,
-            NewEpochEvent { epoch: config_ref.epoch }
+            &mut config_ref.events, NewEpochEvent { epoch: config_ref.epoch }
         );
 
         reconfiguration_state::on_reconfig_finish();
@@ -180,8 +179,7 @@ module aptos_framework::reconfiguration {
             event::emit(NewEpoch { epoch: config_ref.epoch });
         };
         event::emit_event<NewEpochEvent>(
-            &mut config_ref.events,
-            NewEpochEvent { epoch: config_ref.epoch }
+            &mut config_ref.events, NewEpochEvent { epoch: config_ref.epoch }
         );
     }
 

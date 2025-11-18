@@ -27,10 +27,7 @@ module 0x42::m {
 
     /// Simple matching
     public fun inner_value(self: Inner): u64 {
-        match(self) {
-            Inner1 { x } => x,
-            Inner2 { x, y } => x + y
-        }
+        match(self) { Inner1 { x } => x, Inner2 { x, y } => x + y }
     }
 
     /// Matching with wildcard and reference
@@ -119,10 +116,9 @@ module 0x42::m {
     }
 
     fun select_common_fields(s: CommonFields): u64 {
-        s.x + (match(s) {
-            Foo { x: _, y } => y,
-            Bar { z, x: _ } => z
-        })
+        s.x + (
+            match(s) { Foo { x: _, y } => y, Bar { z, x: _ } => z }
+        )
     }
 
     // -------------------
@@ -150,10 +146,7 @@ module 0x42::m {
 
     fun t3_outer_value(): u64 {
         outer_value(
-            Outer::Two {
-                i: Inner::Inner1 { x: 1 },
-                b: Box { x: 7 }
-            }
+            Outer::Two { i: Inner::Inner1 { x: 1 }, b: Box { x: 7 } }
         )
     }
 
@@ -163,10 +156,7 @@ module 0x42::m {
 
     fun t2_outer_value_nested(): u64 {
         outer_value_nested(
-            Outer::Two {
-                i: Inner::Inner1 { x: 5 },
-                b: Box { x: 7 }
-            }
+            Outer::Two { i: Inner::Inner1 { x: 5 }, b: Box { x: 7 } }
         )
     }
 

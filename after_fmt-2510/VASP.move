@@ -81,7 +81,8 @@ module DiemFramework::VASP {
         );
         let parent_vasp_addr = signer::address_of(parent);
         assert!(
-            is_parent(parent_vasp_addr), errors::invalid_argument(ENOT_A_PARENT_VASP)
+            is_parent(parent_vasp_addr),
+            errors::invalid_argument(ENOT_A_PARENT_VASP)
         );
         let num_children =
             &mut borrow_global_mut<ParentVASP>(parent_vasp_addr).num_children;

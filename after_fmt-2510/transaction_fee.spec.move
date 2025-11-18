@@ -147,9 +147,8 @@ spec aptos_framework::transaction_fee {
 
     /// Ensure caller is admin.
     /// Aborts if `AptosCoinCapabilities` already exists.
-    spec store_aptos_coin_burn_cap(
-        aptos_framework: &signer, burn_cap: BurnCapability<AptosCoin>
-    ) {
+    spec store_aptos_coin_burn_cap(aptos_framework: &signer, burn_cap: BurnCapability<
+        AptosCoin>) {
         use std::signer;
 
         // TODO(fa_migration)
@@ -167,9 +166,8 @@ spec aptos_framework::transaction_fee {
 
     /// Ensure caller is admin.
     /// Aborts if `AptosCoinMintCapability` already exists.
-    spec store_aptos_coin_mint_cap(
-        aptos_framework: &signer, mint_cap: MintCapability<AptosCoin>
-    ) {
+    spec store_aptos_coin_mint_cap(aptos_framework: &signer, mint_cap: MintCapability<
+        AptosCoin>) {
         use std::signer;
         let addr = signer::address_of(aptos_framework);
         aborts_if !system_addresses::is_aptos_framework_address(addr);

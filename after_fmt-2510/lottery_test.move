@@ -34,23 +34,16 @@ module drand::lottery_test {
         coin::deposit(to_addr, coins);
     }
 
-    #[
-        test(
-            myself = @drand,
-            fx = @aptos_framework,
-            u1 = @0xA001,
-            u2 = @0xA002,
-            u3 = @0xA003,
-            u4 = @0xA004
-        )
-    ]
+    #[test(
+        myself = @drand,
+        fx = @aptos_framework,
+        u1 = @0xA001,
+        u2 = @0xA002,
+        u3 = @0xA003,
+        u4 = @0xA004
+    )]
     fun test_lottery(
-        myself: signer,
-        fx: signer,
-        u1: signer,
-        u2: signer,
-        u3: signer,
-        u4: signer
+        myself: signer, fx: signer, u1: signer, u2: signer, u3: signer, u4: signer
     ) {
         enable_cryptography_algebra_natives(&fx);
         timestamp::set_time_has_started_for_testing(&fx);

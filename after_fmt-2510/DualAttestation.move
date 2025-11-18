@@ -395,9 +395,7 @@ module DiemFramework::DualAttestation {
     }
 
     /// Helper functions which simulates `Self::dual_attestation_required`.
-    spec fun spec_dual_attestation_required<Token>(
-        payer: address, payee: address, deposit_value: u64
-    ): bool {
+    spec fun spec_dual_attestation_required<Token>(payer: address, payee: address, deposit_value: u64): bool {
         Diem::spec_approx_xdx_for_value<Token>(deposit_value)
             >= spec_get_cur_microdiem_limit()
             && payer != payee
@@ -429,9 +427,7 @@ module DiemFramework::DualAttestation {
 
     /// Uninterpreted function for `Self::dual_attestation_message`. The actual value does not matter for
     /// the verification of callers.
-    spec fun spec_dual_attestation_message(
-        payer: address, metadata: vector<u8>, deposit_value: u64
-    ): vector<u8>;
+    spec fun spec_dual_attestation_message(payer: address, metadata: vector<u8>, deposit_value: u64): vector<u8>;
 
     /// Helper function to check validity of a signature when dual attestion is required.
     fun assert_signature_is_valid(
@@ -525,10 +521,9 @@ module DiemFramework::DualAttestation {
         metadata: vector<u8>,
         metadata_signature: vector<u8>
     ) acquires Credential, Limit {
-        if (
-            !vector::is_empty(&metadata_signature)
-                || // allow opt-in dual attestation
-                dual_attestation_required<Currency>(payer, payee, value)) {
+        if (!vector::is_empty(&metadata_signature)
+            || // allow opt-in dual attestation
+            dual_attestation_required<Currency>(payer, payee, value)) {
             assert_signature_is_valid(
                 payer,
                 payee,
@@ -575,10 +570,7 @@ module DiemFramework::DualAttestation {
             (INITIAL_DUAL_ATTESTATION_LIMIT as u128)
                 * (Diem::scaling_factor<XDX>() as u128);
         assert!(initial_limit <= MAX_U64, errors::limit_exceeded(ELIMIT));
-        move_to(
-            dr_account,
-            Limit { micro_xdx_limit: (initial_limit as u64) }
-        )
+        move_to(dr_account, Limit { micro_xdx_limit: (initial_limit as u64) })
     }
 
     spec initialize {

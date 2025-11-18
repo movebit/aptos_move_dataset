@@ -86,7 +86,8 @@ module swap::router {
         let pool = liquidity_pool::liquidity_pool(from_token, to_token, is_stable);
         let out = liquidity_pool::swap(pool, in);
         assert!(
-            fungible_asset::amount(&out) >= amount_out_min, EINSUFFICIENT_OUTPUT_AMOUNT
+            fungible_asset::amount(&out) >= amount_out_min,
+            EINSUFFICIENT_OUTPUT_AMOUNT
         );
         out
     }

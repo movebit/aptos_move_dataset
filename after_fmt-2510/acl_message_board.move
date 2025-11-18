@@ -61,7 +61,8 @@ module message_board::acl_based_mb {
     ) acquires ACLBasedMB {
         let board = borrow_global_mut<ACLBasedMB>(signer::address_of(&account));
         assert!(
-            signer::address_of(&account) != participant, ECANNOT_REMOVE_ADMIN_FROM_ACL
+            signer::address_of(&account) != participant,
+            ECANNOT_REMOVE_ADMIN_FROM_ACL
         );
         acl::remove(&mut board.participants, participant);
     }
@@ -80,7 +81,11 @@ module message_board::acl_based_mb {
         board.pinned_post = message;
 
         let send_acct = signer::address_of(account);
-        event::emit(MessageChange { board: board_addr, message, participant: send_acct });
+        event::emit(MessageChange {
+            board: board_addr,
+            message,
+            participant: send_acct
+        });
     }
 
     /// an account can send events containing message

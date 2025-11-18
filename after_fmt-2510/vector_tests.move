@@ -501,8 +501,7 @@ module std::vector_tests {
 
         test_natives_with_type<Droppable>(Droppable {}, Droppable {});
         (NotDroppable {}, NotDroppable {}) = test_natives_with_type<NotDroppable>(
-            NotDroppable {},
-            NotDroppable {}
+            NotDroppable {}, NotDroppable {}
         );
     }
 

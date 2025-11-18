@@ -47,9 +47,7 @@ module 0x8675309::M {
         loop {
             let y = &x;
             _ = move y;
-            if (cond) {
-                _ = move x
-            };
+            if (cond) { _ = move x };
             break
         }
     }

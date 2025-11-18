@@ -171,8 +171,7 @@ module aptos_std::iterable_table {
 
     /// Remove all items from v2 and append to v1.
     public fun append<K: copy + store + drop, V: store>(
-        v1: &mut IterableTable<K, V>,
-        v2: &mut IterableTable<K, V>
+        v1: &mut IterableTable<K, V>, v2: &mut IterableTable<K, V>
     ) {
         let key = head_key(v2);
         while (option::is_some(&key)) {

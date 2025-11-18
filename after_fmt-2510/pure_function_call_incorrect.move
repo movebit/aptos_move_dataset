@@ -34,9 +34,7 @@ module 0x42::TestPureFun {
 
     /// impure function
     public fun impure_f_0(): u64 {
-        if (true) {
-            abort 42
-        };
+        if (true) { abort 42 };
         0
     }
 

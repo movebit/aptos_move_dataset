@@ -17,21 +17,25 @@ module DiemFramework::AuthenticatorTests {
         vector::push_back(&mut keys, pubkey2);
         t = Authenticator::create_multi_ed25519(copy keys, 1);
         assert!(
-            Authenticator::multi_ed25519_authentication_key(&t) != copy auth_key, 3006
+            Authenticator::multi_ed25519_authentication_key(&t) != copy auth_key,
+            3006
         );
         t = Authenticator::create_multi_ed25519(copy keys, 2);
         assert!(
-            Authenticator::multi_ed25519_authentication_key(&t) != copy auth_key, 3007
+            Authenticator::multi_ed25519_authentication_key(&t) != copy auth_key,
+            3007
         );
 
         vector::push_back(&mut keys, copy pubkey3);
         t = Authenticator::create_multi_ed25519(copy keys, 1);
         assert!(
-            Authenticator::multi_ed25519_authentication_key(&t) != copy auth_key, 3008
+            Authenticator::multi_ed25519_authentication_key(&t) != copy auth_key,
+            3008
         );
         t = Authenticator::create_multi_ed25519(copy keys, 2);
         assert!(
-            Authenticator::multi_ed25519_authentication_key(&t) != copy auth_key, 3009
+            Authenticator::multi_ed25519_authentication_key(&t) != copy auth_key,
+            3009
         );
         // check that auth key matches expect result
         assert!(
@@ -44,7 +48,8 @@ module DiemFramework::AuthenticatorTests {
         vector::push_back(&mut keys, pubkey3);
         t = Authenticator::create_multi_ed25519(copy keys, 3);
         assert!(
-            Authenticator::multi_ed25519_authentication_key(&t) != copy auth_key, 3012
+            Authenticator::multi_ed25519_authentication_key(&t) != copy auth_key,
+            3012
         );
 
         assert!(Authenticator::threshold(&t) == 3, 3013);

@@ -44,7 +44,9 @@ module aptos_experimental::bulk_order_book_tests {
     }
 
     fun setup_test(): (
-        BulkOrderBook<TestMetadata>, price_time_index::PriceTimeIndex, AscendingIdGenerator
+        BulkOrderBook<TestMetadata>,
+        price_time_index::PriceTimeIndex,
+        AscendingIdGenerator
     ) {
         let order_book = new_bulk_order_book<TestMetadata>();
         let price_time_idx = price_time_index::new_price_time_idx();
@@ -242,7 +244,9 @@ module aptos_experimental::bulk_order_book_tests {
             _sequence_number,
             _metadata
         ) = matched_order.destroy_bulk_order_match_details();
-        (account, price, 0, matched_size, remaining_size, is_bid)
+        (
+            account, price, 0, matched_size, remaining_size, is_bid
+        )
     }
 
     // ===== HELPER FUNCTIONS TO REDUCE DUPLICATION =====
@@ -417,10 +421,7 @@ module aptos_experimental::bulk_order_book_tests {
 
     /// Helper to create an ExpectedMatch struct
     fun create_expected_match(
-        account: address,
-        price: u64,
-        matched_size: u64,
-        is_bid: bool
+        account: address, price: u64, matched_size: u64, is_bid: bool
     ): ExpectedMatch {
         ExpectedMatch { account, price, matched_size, is_bid }
     }

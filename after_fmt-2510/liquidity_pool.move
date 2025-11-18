@@ -342,7 +342,11 @@ module publisher_address::liquidity_pool {
         let k_after = calculate_constant_k(pool_data);
         assert!(k_before <= k_after, EK_BEFORE_SWAP_GREATER_THAN_EK_AFTER_SWAP);
 
-        event::emit(Swap { pool: object::object_address(&pool), from_token, amount_in });
+        event::emit(Swap {
+            pool: object::object_address(&pool),
+            from_token,
+            amount_in
+        });
         out
     }
 
@@ -414,10 +418,7 @@ module publisher_address::liquidity_pool {
     /// Transfer a given amount of LP tokens from the sender to the receiver. This must be called for all transfers as
     /// fungible_asset::transfer or primary_fungible_store::transfer would not work for LP tokens.
     public entry fun transfer(
-        from: &signer,
-        lp_token: Object<LiquidityPool>,
-        to: address,
-        amount: u64
+        from: &signer, lp_token: Object<LiquidityPool>, to: address, amount: u64
     ) acquires FeesAccounting, LiquidityPool {
         assert!(amount > 0, EZERO_AMOUNT);
         let from_address = signer::address_of(from);
@@ -473,10 +474,14 @@ module publisher_address::liquidity_pool {
         };
 
         smart_table::upsert(
-            &mut fees_accounting.total_fees_at_last_claim_1, lp, current_total_fees_1
+            &mut fees_accounting.total_fees_at_last_claim_1,
+            lp,
+            current_total_fees_1
         );
         smart_table::upsert(
-            &mut fees_accounting.total_fees_at_last_claim_2, lp, current_total_fees_2
+            &mut fees_accounting.total_fees_at_last_claim_2,
+            lp,
+            current_total_fees_2
         );
     }
 
@@ -658,13 +663,9 @@ module publisher_address::liquidity_pool {
                 y = y - dy;
             };
             if (y > y_prev) {
-                if (y - y_prev <= 1) {
-                    return y
-                }
+                if (y - y_prev <= 1) { return y }
             } else {
-                if (y_prev - y <= 1) {
-                    return y
-                }
+                if (y_prev - y <= 1) { return y }
             };
             i = i + 1;
         };

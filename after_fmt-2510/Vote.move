@@ -343,9 +343,7 @@ module ExperimentalFramework::Vote {
         while ({
             spec {
                 invariant unique_ballots(ballots);
-                invariant no_expired_ballots(
-                    ballots, DiemTimestamp::spec_now_seconds(), i
-                );
+                invariant no_expired_ballots(ballots, DiemTimestamp::spec_now_seconds(), i);
                 invariant vector_subset(ballots, old(ballot_data).ballots);
                 invariant i <= len(ballots);
                 invariant 0 <= i;
@@ -466,9 +464,8 @@ module ExperimentalFramework::Vote {
     /// CAUTION: Returns a arbitrary value if it's not there.
     spec fun get_ballot<Proposal>(ballot_address: address, ballot_id: BallotID): Ballot<Proposal> {
         let ballots = global<Ballots<Proposal>>(ballot_address).ballots;
-        get_ballots<Proposal>(ballot_address)[
-            choose min i in 0..len(ballots) where ballots[i].ballot_id == ballot_id
-        ]
+        get_ballots<Proposal>(ballot_address)[choose min i in 0..len(ballots) where ballots[i]
+        .ballot_id == ballot_id]
     }
 
     /// Tests whether ballot_id is represented in the ballots vector. Returns false if there is no
@@ -535,9 +532,7 @@ module ExperimentalFramework::Vote {
 
     /// Returns "true" iff there are no ballots in v at indices less than i whose
     /// expiration time is less than or equal to the current time.
-    spec fun no_expired_ballots<Proposal>(
-        ballots: vector<Ballot<Proposal>>, now_seconds: u64, i: u64
-    ): bool {
+    spec fun no_expired_ballots<Proposal>(ballots: vector<Ballot<Proposal>>, now_seconds: u64, i: u64): bool {
         forall j in 0..i: ballots[j].expiration_timestamp_secs >= now_seconds
     }
 
@@ -558,7 +553,9 @@ module ExperimentalFramework::Vote {
         ensures vector_subset(post_ballots, pre_ballots);
         /// All expired ballots are removed
         ensures no_expired_ballots<Proposal>(
-            post_ballots, DiemTimestamp::spec_now_seconds(), len(post_ballots)
+            post_ballots,
+            DiemTimestamp::spec_now_seconds(),
+            len(post_ballots)
         );
     }
 

@@ -10,10 +10,7 @@ module aptos_experimental::pre_cancellation_tests {
         test_market_callbacks,
         new_test_order_metadata
     };
-    use aptos_experimental::market_test_utils::{
-        place_order_and_verify,
-        verify_cancel_event
-    };
+    use aptos_experimental::market_test_utils::{place_order_and_verify, verify_cancel_event};
     use aptos_experimental::event_utils;
     use aptos_experimental::market_types::{new_market, new_market_config};
 

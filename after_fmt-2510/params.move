@@ -17,9 +17,6 @@ module 0x42::Test {
     }
 
     public fun test_param(
-        _simple_R: R,
-        _ref_R: &R,
-        _simple_S: S,
-        _mut_R: &mut R
+        _simple_R: R, _ref_R: &R, _simple_S: S, _mut_R: &mut R
     ) {}
 }

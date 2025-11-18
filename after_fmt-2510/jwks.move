@@ -460,9 +460,7 @@ module aptos_framework::jwks {
     }
 
     /// Create a `JWK` of variant `RSA_JWK`.
-    public fun new_rsa_jwk(
-        kid: String, alg: String, e: String, n: String
-    ): JWK {
+    public fun new_rsa_jwk(kid: String, alg: String, e: String, n: String): JWK {
         JWK {
             variant: copyable_any::pack(RSA_JWK { kid, kty: utf8(b"RSA"), e, n, alg })
         }
@@ -951,7 +949,11 @@ module aptos_framework::jwks {
         upsert_into_observed_jwks(fx, vector[key_level_update_1]);
         let expected = AllProvidersJWKs {
             entries: vector[
-                ProviderJWKs { issuer: b"alice", version: 3, jwks: vector[mandatory_jwk] }
+                ProviderJWKs {
+                    issuer: b"alice",
+                    version: 3,
+                    jwks: vector[mandatory_jwk]
+                }
             ]
         };
         assert!(expected == borrow_global<PatchedJWKs>(@aptos_framework).jwks, 999);
@@ -1115,8 +1117,16 @@ module aptos_framework::jwks {
         upsert_into_observed_jwks(
             &aptos_framework,
             vector[
-                ProviderJWKs { issuer: b"alice", version: 111, jwks: vector[jwk_0, jwk_1] },
-                ProviderJWKs { issuer: b"bob", version: 222, jwks: vector[jwk_2, jwk_3] }
+                ProviderJWKs {
+                    issuer: b"alice",
+                    version: 111,
+                    jwks: vector[jwk_0, jwk_1]
+                },
+                ProviderJWKs {
+                    issuer: b"bob",
+                    version: 222,
+                    jwks: vector[jwk_2, jwk_3]
+                }
             ]
         );
         assert!(jwk_3 == get_patched_jwk(b"bob", b"key_id_3"), 1);
@@ -1127,10 +1137,7 @@ module aptos_framework::jwks {
         assert!(option::none() == try_get_patched_jwk(b"bob", b"key_id_3"), 1);
 
         // Update one of Bob's key..
-        set_patches(
-            &aptos_framework,
-            vector[new_patch_upsert_jwk(b"bob", jwk_3b)]
-        );
+        set_patches(&aptos_framework, vector[new_patch_upsert_jwk(b"bob", jwk_3b)]);
         assert!(jwk_3b == get_patched_jwk(b"bob", b"key_id_3"), 1);
         assert!(option::some(jwk_3b) == try_get_patched_jwk(b"bob", b"key_id_3"), 1);
 

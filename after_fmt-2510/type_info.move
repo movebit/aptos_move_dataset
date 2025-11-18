@@ -236,8 +236,7 @@ module aptos_std::type_info {
         }; // Declare a complex struct with another nested inside.
         // Assert size is bytewise sum of components.
         assert!(
-            size_of_val(&complex_struct) == (1 + 1 + 8 + 16 + 1 + 16),
-            0
+            size_of_val(&complex_struct) == (1 + 1 + 8 + 16 + 1 + 16), 0
         );
         // Declare a struct with two boolean values.
         let two_bools = TwoBools { bool_1: false, bool_2: false };
@@ -320,16 +319,14 @@ module aptos_std::type_info {
         };
         // Vector base size is still 1 byte.
         assert!(
-            size_of_val(&vector_u64) - element_size * i == base_size_1,
-            0
+            size_of_val(&vector_u64) - element_size * i == base_size_1, 0
         );
         // Add another element, exceeding the cutoff.
         vector_u64.push_back(null_element);
         i += 1; // Increment counter.
         // Vector base size is now 2 bytes.
         assert!(
-            size_of_val(&vector_u64) - element_size * i == base_size_2,
-            0
+            size_of_val(&vector_u64) - element_size * i == base_size_2, 0
         );
         while (i < n_elems_cutoff_2) { // Iterate until second cutoff:
             // Add an element.
@@ -338,16 +335,14 @@ module aptos_std::type_info {
         };
         // Vector base size is still 2 bytes.
         assert!(
-            size_of_val(&vector_u64) - element_size * i == base_size_2,
-            0
+            size_of_val(&vector_u64) - element_size * i == base_size_2, 0
         );
         // Add another element, exceeding the cutoff.
         vector_u64.push_back(null_element);
         i += 1; // Increment counter.
         // Vector base size is now 3 bytes.
         assert!(
-            size_of_val(&vector_u64) - element_size * i == base_size_3,
-            0
+            size_of_val(&vector_u64) - element_size * i == base_size_3, 0
         );
         // Repeat for custom struct.
         let vector_complex = vector::empty<ComplexStruct<address>>();

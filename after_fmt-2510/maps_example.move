@@ -30,9 +30,7 @@ module 0xABCD::maps_example {
             add(x);
 
             x = x + OFFSET;
-            if (x > MOD) {
-                x = x - MOD
-            };
+            if (x > MOD) { x = x - MOD };
             // doing plus and minus instead of something like:
             // x = (x * 92717) % 262139;
             // because multiplications and divisions become costly.
@@ -43,13 +41,9 @@ module 0xABCD::maps_example {
             remove(y);
 
             x = x + OFFSET;
-            if (x > MOD) {
-                x = x - MOD
-            };
+            if (x > MOD) { x = x - MOD };
             y = y + OFFSET;
-            if (y > MOD) {
-                y = y - MOD
-            };
+            if (y > MOD) { y = y - MOD };
         };
     }
 

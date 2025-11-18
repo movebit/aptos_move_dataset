@@ -53,11 +53,7 @@ module example_addr::preminted_managed_coin {
     use std::option;
 
     #[test(creator = @example_addr)]
-    #[
-        expected_failure(
-            abort_code = 0x60004, location = example_addr::managed_fungible_asset
-        )
-    ]
+    #[expected_failure(abort_code = 0x60004, location = example_addr::managed_fungible_asset)]
     fun test_basic_flow(creator: &signer) {
         init_module(creator);
         let creator_address = signer::address_of(creator);

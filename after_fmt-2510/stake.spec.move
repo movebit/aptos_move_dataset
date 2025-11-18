@@ -821,7 +821,10 @@ spec aptos_framework::stake {
     }
 
     spec initialize_stake_owner(
-        owner: &signer, initial_stake_amount: u64, operator: address, voter: address
+        owner: &signer,
+        initial_stake_amount: u64,
+        operator: address,
+        voter: address
     ) {
         // TODO: These function failed in github CI
         pragma verify_duration_estimate = 120;
@@ -1075,9 +1078,8 @@ spec aptos_framework::stake {
                         staking_config::MAX_REWARDS_RATE, epoch_rewards_rate
                     );
                 let denominator =
-                    if (denominator_0 > MAX_U64) {
-                        MAX_U64
-                    } else {
+                    if (denominator_0 > MAX_U64) { MAX_U64 }
+                    else {
                         denominator_0
                     };
                 let nominator =
@@ -1102,9 +1104,8 @@ spec aptos_framework::stake {
                         staking_config::MAX_REWARDS_RATE, epoch_rewards_rate
                     );
                 let denominator =
-                    if (denominator_0 > MAX_U64) {
-                        MAX_U64
-                    } else {
+                    if (denominator_0 > MAX_U64) { MAX_U64 }
+                    else {
                         denominator_0
                     };
                 denominator

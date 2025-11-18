@@ -102,10 +102,7 @@ module marketplace::fee_schedule {
             commission_numerator <= commission_denominator,
             error::invalid_argument(EEXCEEDS_MAXIMUM)
         );
-        assert!(
-            commission_denominator != 0,
-            error::out_of_range(EDENOMINATOR_IS_ZERO)
-        );
+        assert!(commission_denominator != 0, error::out_of_range(EDENOMINATOR_IS_ZERO));
 
         let (constructor_ref, fee_schedule_signer) = empty_init(creator, fee_address);
         move_to(&fee_schedule_signer, FixedRateBiddingFee { bidding_fee });
@@ -148,7 +145,10 @@ module marketplace::fee_schedule {
         let fee_schedule_obj = borrow_global_mut<FeeSchedule>(fee_schedule_addr);
         fee_schedule_obj.fee_address = fee_address;
         let updated_resource = string::utf8(b"fee_address");
-        event::emit(Mutation { marketplace: fee_schedule_addr, updated_resource });
+        event::emit(Mutation {
+            marketplace: fee_schedule_addr,
+            updated_resource
+        });
     }
 
     /// Remove any existing listing fees and set a fixed rate listing fee.
@@ -227,14 +227,8 @@ module marketplace::fee_schedule {
         denominator: u64,
         numerator: u64
     ) acquires FeeSchedule, FixedRateCommission, PercentageRateCommission {
-        assert!(
-            numerator <= denominator,
-            error::invalid_argument(EEXCEEDS_MAXIMUM)
-        );
-        assert!(
-            denominator != 0,
-            error::out_of_range(EDENOMINATOR_IS_ZERO)
-        );
+        assert!(numerator <= denominator, error::invalid_argument(EEXCEEDS_MAXIMUM));
+        assert!(denominator != 0, error::out_of_range(EDENOMINATOR_IS_ZERO));
 
         let fee_schedule_signer = remove_commission(creator, marketplace);
         move_to(&fee_schedule_signer, PercentageRateCommission { denominator, numerator });

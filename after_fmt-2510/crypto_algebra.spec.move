@@ -49,9 +49,7 @@ spec aptos_std::crypto_algebra {
         pragma opaque;
     }
 
-    spec multi_scalar_mul_internal<G, S>(
-        element_handles: vector<u64>, scalar_handles: vector<u64>
-    ): u64 {
+    spec multi_scalar_mul_internal<G, S>(element_handles: vector<u64>, scalar_handles: vector<u64>): u64 {
         pragma opaque;
     }
 

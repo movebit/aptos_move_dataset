@@ -62,8 +62,7 @@ module aptos_experimental::confidential_balance {
             chunks: vector::range(0, PENDING_BALANCE_CHUNKS).map(
                 |_| {
                     twisted_elgamal::ciphertext_from_points(
-                        ristretto255::point_identity(),
-                        ristretto255::point_identity()
+                        ristretto255::point_identity(), ristretto255::point_identity()
                     )
                 }
             )
@@ -76,8 +75,7 @@ module aptos_experimental::confidential_balance {
             chunks: vector::range(0, ACTUAL_BALANCE_CHUNKS).map(
                 |_| {
                     twisted_elgamal::ciphertext_from_points(
-                        ristretto255::point_identity(),
-                        ristretto255::point_identity()
+                        ristretto255::point_identity(), ristretto255::point_identity()
                     )
                 }
             )
@@ -117,7 +115,9 @@ module aptos_experimental::confidential_balance {
     public fun new_pending_balance_u64_no_randonmess(amount: u64): ConfidentialBalance {
         ConfidentialBalance {
             chunks: split_into_chunks_u64(amount).map(
-                |chunk| { twisted_elgamal::new_ciphertext_no_randomness(&chunk) }
+                |chunk| {
+                    twisted_elgamal::new_ciphertext_no_randomness(&chunk)
+                }
             )
         }
     }
@@ -132,9 +132,8 @@ module aptos_experimental::confidential_balance {
 
         let chunks = vector::range(0, PENDING_BALANCE_CHUNKS).map(
             |i| {
-                twisted_elgamal::new_ciphertext_from_bytes(
-                    bytes.slice(i * 64, (i + 1) * 64)
-                )
+                twisted_elgamal::new_ciphertext_from_bytes(bytes.slice(i * 64, (i + 1) *
+                64))
             }
         );
 
@@ -159,9 +158,8 @@ module aptos_experimental::confidential_balance {
 
         let chunks = vector::range(0, ACTUAL_BALANCE_CHUNKS).map(
             |i| {
-                twisted_elgamal::new_ciphertext_from_bytes(
-                    bytes.slice(i * 64, (i + 1) * 64)
-                )
+                twisted_elgamal::new_ciphertext_from_bytes(bytes.slice(i * 64, (i + 1) *
+                64))
             }
         );
 
@@ -320,8 +318,7 @@ module aptos_experimental::confidential_balance {
                 twisted_elgamal::ciphertext_equals(
                     chunk,
                     &twisted_elgamal::ciphertext_from_points(
-                        ristretto255::point_identity(),
-                        ristretto255::point_identity()
+                        ristretto255::point_identity(), ristretto255::point_identity()
                     )
                 )
             }

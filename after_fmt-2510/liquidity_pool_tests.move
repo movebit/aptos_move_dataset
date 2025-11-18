@@ -40,12 +40,16 @@ module swap::liquidity_pool_tests {
         let expected_total_reserves_1 = ((200000 - amount_out_1 - fees_1 + 10000) as u128);
         let expected_total_reserves_2 = ((300000 - amount_out_2 - fees_2 + 10000) as u128);
         verify_reserves(
-            pool, (expected_total_reserves_1 as u64), (expected_total_reserves_2 as u64)
+            pool,
+            (expected_total_reserves_1 as u64),
+            (expected_total_reserves_2 as u64)
         );
 
         // Remove half of the liquidity. Should receive the proportional amounts of tokens back.
         let lp_tokens_to_withdraw =
-            ((primary_fungible_store::balance(signer::address_of(lp_1), pool) / 2) as u128);
+            (
+                (primary_fungible_store::balance(signer::address_of(lp_1), pool) / 2) as u128
+            );
         let total_lp_supply = liquidity_pool::lp_token_supply(pool);
         let expected_liq_1 =
             expected_total_reserves_1 * lp_tokens_to_withdraw / total_lp_supply;
@@ -82,12 +86,10 @@ module swap::liquidity_pool_tests {
         // the min liquidity.
         let (claimed_1, claimed_2) = liquidity_pool::claim_fees(lp_1, pool);
         assert!(
-            fungible_asset::amount(&claimed_1) == fees_1 - 1,
-            0
+            fungible_asset::amount(&claimed_1) == fees_1 - 1, 0
         );
         assert!(
-            fungible_asset::amount(&claimed_2) == fees_2 - 1,
-            0
+            fungible_asset::amount(&claimed_2) == fees_2 - 1, 0
         );
         primary_fungible_store::deposit(lp_1_address, claimed_1);
         primary_fungible_store::deposit(lp_1_address, claimed_2);
@@ -102,15 +104,13 @@ module swap::liquidity_pool_tests {
         let (_, fees_1) = swap_and_verify(lp_1, pool, &mut tokens_1, 10000);
         let (claimed_1, claimed_2) = liquidity_pool::claim_fees(lp_2, pool);
         assert!(
-            fungible_asset::amount(&claimed_1) == fees_1 - 1,
-            0
+            fungible_asset::amount(&claimed_1) == fees_1 - 1, 0
         );
         assert!(fungible_asset::amount(&claimed_2) == 0, 0);
         let (original_claimable_1, original_claimable_2) =
             liquidity_pool::claimable_fees(lp_1_address, pool);
         assert!(
-            original_claimable_1 == 0 && original_claimable_2 == 0,
-            0
+            original_claimable_1 == 0 && original_claimable_2 == 0, 0
         );
         primary_fungible_store::deposit(lp_1_address, claimed_1);
         primary_fungible_store::deposit(lp_1_address, claimed_2);
@@ -166,8 +166,7 @@ module swap::liquidity_pool_tests {
         let actual_amount = fungible_asset::amount(&out);
         if (!liquidity_pool::is_stable(pool)) {
             assert!(
-                actual_amount == amount_in * reserves_2 / (reserves_1 + amount_in),
-                0
+                actual_amount == amount_in * reserves_2 / (reserves_1 + amount_in), 0
             );
         };
         primary_fungible_store::deposit(signer::address_of(lp_1), out);

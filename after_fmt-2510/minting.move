@@ -48,7 +48,11 @@
 // 2. Exchange the source certificate token to a destination token
 // exchange()
 module post_mint_reveal_nft::minting {
-    use aptos_framework::account::{Self, SignerCapability, create_signer_with_capability};
+    use aptos_framework::account::{
+        Self,
+        SignerCapability,
+        create_signer_with_capability
+    };
     use aptos_framework::aptos_coin::AptosCoin;
     use aptos_framework::coin;
     use aptos_framework::event;
@@ -513,11 +517,12 @@ module post_mint_reveal_nft::minting {
         let now = timestamp::now_seconds();
         let price = public_mint_config.public_mint_price;
         let (
-            whitelist_price, whitelist_stage, user_currently_eligible_for_whitelist_minting
+            whitelist_price,
+            whitelist_stage,
+            user_currently_eligible_for_whitelist_minting
         ) =
             whitelist::is_user_currently_eligible_for_whitelisted_minting(
-                @post_mint_reveal_nft,
-                signer::address_of(nft_claimer)
+                @post_mint_reveal_nft, signer::address_of(nft_claimer)
             );
         let is_public_minting_time =
             now >= public_mint_config.public_minting_start_time
@@ -655,7 +660,10 @@ module post_mint_reveal_nft::minting {
         let token_id = token::mint_token(&resource_signer, token_data_id, 1);
         token::direct_transfer(&resource_signer, nft_claimer, token_id, 1);
         event::emit(
-            Exchange { token_receiver_address: signer::address_of(nft_claimer), token_id }
+            Exchange {
+                token_receiver_address: signer::address_of(nft_claimer),
+                token_id
+            }
         );
     }
 
@@ -773,7 +781,8 @@ module post_mint_reveal_nft::minting {
         coin::register<AptosCoin>(treasury_account);
         coin::deposit(signer::address_of(wl_nft_claimer), coin::mint(100, &mint_cap));
         coin::deposit(
-            signer::address_of(public_nft_claimer), coin::mint(100, &mint_cap)
+            signer::address_of(public_nft_claimer),
+            coin::mint(100, &mint_cap)
         );
 
         coin::destroy_burn_cap(burn_cap);
@@ -1632,7 +1641,8 @@ module post_mint_reveal_nft::minting {
                 0
             );
         assert!(
-            token::balance_of(signer::address_of(&wl_nft_claimer2), token_id3) == 1, 3
+            token::balance_of(signer::address_of(&wl_nft_claimer2), token_id3) == 1,
+            3
         );
         assert!(
             coin::balance<AptosCoin>(signer::address_of(&wl_nft_claimer2)) == 94,

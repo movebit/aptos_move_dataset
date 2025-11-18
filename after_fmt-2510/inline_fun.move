@@ -1,9 +1,7 @@
 module 0x42::Test {
     use std::vector;
 
-    public inline fun filter<X: drop>(
-        v: &mut vector<X>, predicate: |&X| bool
-    ) {
+    public inline fun filter<X: drop>(v: &mut vector<X>, predicate: |&X| bool) {
         let i = 0;
         while ({
             spec {

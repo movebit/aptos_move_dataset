@@ -43,7 +43,9 @@ spec aptos_std::smart_table {
         pragma verify = false;
     }
 
-    spec borrow_with_default<K: copy + drop, V>(self: &SmartTable<K, V>, key: K, default: &V): &V {
+    spec borrow_with_default<K: copy + drop, V>(
+        self: &SmartTable<K, V>, key: K, default: &V
+    ): &V {
         pragma verify = false;
     }
 
@@ -68,13 +70,13 @@ spec aptos_std::smart_table {
         pragma verify = false;
     }
 
-    spec add_all<K, V>(self: &mut SmartTable<K, V>, keys: vector<K>, values: vector<V>) {
+    spec add_all<K, V>(
+        self: &mut SmartTable<K, V>, keys: vector<K>, values: vector<V>
+    ) {
         pragma verify = false;
     }
 
-    spec update_split_load_threshold<K, V>(
-        self: &mut SmartTable<K, V>, split_load_threshold: u8
-    ) {
+    spec update_split_load_threshold<K, V>(self: &mut SmartTable<K, V>, split_load_threshold: u8) {
         pragma verify = false;
     }
 

@@ -210,8 +210,7 @@ module NFT {
         assert!(option::is_none(&token.token_data), EINLINE_DATA_OP);
         assert!(*&token.id == id, EWRONG_TOKEN_ID);
         assert!(
-            MAX_U64 - token.balance >= balance,
-            ETOKEN_BALANCE_OVERFLOWS
+            MAX_U64 - token.balance >= balance, ETOKEN_BALANCE_OVERFLOWS
         );
         token.balance = token.balance + balance;
     }
@@ -225,7 +224,11 @@ module NFT {
         assert!(option::is_none(&token.token_data), EINLINE_DATA_OP);
 
         token.balance = token.balance - amount;
-        Token { id: *&token.id, balance: amount, token_data: option::none() }
+        Token {
+            id: *&token.id,
+            balance: amount,
+            token_data: option::none()
+        }
     }
 
     /// Create an NFT on behalf of the given user, in case a user explicitly approved this delegation for the given
@@ -309,7 +312,11 @@ module NFT {
         };
         if (amount == 1) {
             // inline token data
-            Token { id, balance: amount, token_data: option::some(token_data) }
+            Token {
+                id,
+                balance: amount,
+                token_data: option::some(token_data)
+            }
         } else {
             // keep token data in the collection of the creator
             let token_data_collection =
@@ -358,10 +365,7 @@ module NFT {
     }
 
     public fun emit_transfer_event(
-        guid: &guid::ID,
-        account: &signer,
-        to: address,
-        amount: u64
+        guid: &guid::ID, account: &signer, to: address, amount: u64
     ) acquires Admin {
         event::emit_event(
             &mut borrow_global_mut<Admin>(ADMIN).transfer_events,

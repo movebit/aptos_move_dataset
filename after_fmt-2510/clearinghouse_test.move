@@ -101,9 +101,7 @@ module aptos_experimental::clearinghouse_test {
         user_positions.borrow(user).size
     }
 
-    fun update_position(
-        position: &mut Position, size: u64, is_bid: bool
-    ) {
+    fun update_position(position: &mut Position, size: u64, is_bid: bool) {
         if (position.is_long != is_bid) {
             if (size > position.size) {
                 position.size = size - position.size;
@@ -117,21 +115,14 @@ module aptos_experimental::clearinghouse_test {
     }
 
     public(package) fun settle_trade(
-        taker: address,
-        maker: address,
-        size: u64,
-        is_taker_long: bool
+        taker: address, maker: address, size: u64, is_taker_long: bool
     ): SettleTradeResult<u64> acquires GlobalState {
         let user_positions = &mut borrow_global_mut<GlobalState>(@0x1).user_positions;
         let taker_position =
-            user_positions.borrow_mut_with_default(
-                taker, Position { size: 0, is_long: true }
-            );
+            user_positions.borrow_mut_with_default(taker, Position { size: 0, is_long: true });
         update_position(taker_position, size, is_taker_long);
         let maker_position =
-            user_positions.borrow_mut_with_default(
-                maker, Position { size: 0, is_long: true }
-            );
+            user_positions.borrow_mut_with_default(maker, Position { size: 0, is_long: true });
         update_position(maker_position, size, !is_taker_long);
         new_settle_trade_result(
             size,
@@ -190,10 +181,7 @@ module aptos_experimental::clearinghouse_test {
     }
 
     public(package) fun settle_trade_with_taker_cancelled(
-        _taker: address,
-        _maker: address,
-        size: u64,
-        _is_taker_long: bool
+        _taker: address, _maker: address, size: u64, _is_taker_long: bool
     ): SettleTradeResult<u64> {
         new_settle_trade_result(
             size / 2,

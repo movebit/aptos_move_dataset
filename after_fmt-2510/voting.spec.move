@@ -256,7 +256,8 @@ spec aptos_framework::voting {
         aborts_if proposal.is_resolved;
         aborts_if !std::string::spec_internal_check_utf8(RESOLVABLE_TIME_METADATA_KEY);
         aborts_if !simple_map::spec_contains_key(
-            proposal.metadata, std::string::spec_utf8(RESOLVABLE_TIME_METADATA_KEY)
+            proposal.metadata,
+            std::string::spec_utf8(RESOLVABLE_TIME_METADATA_KEY)
         );
         aborts_if !from_bcs::deserializable<u64>(
             simple_map::spec_get(
@@ -460,9 +461,7 @@ spec aptos_framework::voting {
         proposal.expiration_secs
     }
 
-    spec get_proposal_state<ProposalType: store>(
-        voting_forum_address: address, proposal_id: u64
-    ): u64 {
+    spec get_proposal_state<ProposalType: store>(voting_forum_address: address, proposal_id: u64): u64 {
 
         use aptos_framework::chain_status;
 
@@ -512,9 +511,7 @@ spec aptos_framework::voting {
         ensures result == proposal.resolution_time_secs;
     }
 
-    spec get_execution_hash<ProposalType: store>(
-        voting_forum_address: address, proposal_id: u64
-    ): vector<u8> {
+    spec get_execution_hash<ProposalType: store>(voting_forum_address: address, proposal_id: u64): vector<u8> {
         include AbortsIfNotContainProposalID<ProposalType>;
         let voting_forum = global<VotingForum<ProposalType>>(voting_forum_address);
         let proposal = table::spec_get(voting_forum.proposals, proposal_id);
@@ -539,9 +536,7 @@ spec aptos_framework::voting {
         ensures result == proposal.early_resolution_vote_threshold;
     }
 
-    spec get_proposal_metadata<ProposalType: store>(
-        voting_forum_address: address, proposal_id: u64
-    ): SimpleMap<String, vector<u8>> {
+    spec get_proposal_metadata<ProposalType: store>(voting_forum_address: address, proposal_id: u64): SimpleMap<String, vector<u8>> {
         include AbortsIfNotContainProposalID<ProposalType>;
         let voting_forum = global<VotingForum<ProposalType>>(voting_forum_address);
         let proposal = table::spec_get(voting_forum.proposals, proposal_id);
@@ -558,9 +553,7 @@ spec aptos_framework::voting {
         ensures result == simple_map::spec_get(proposal.metadata, metadata_key);
     }
 
-    spec get_votes<ProposalType: store>(voting_forum_address: address, proposal_id: u64): (
-        u128, u128
-    ) {
+    spec get_votes<ProposalType: store>(voting_forum_address: address, proposal_id: u64): (u128, u128) {
         include AbortsIfNotContainProposalID<ProposalType>;
         let voting_forum = global<VotingForum<ProposalType>>(voting_forum_address);
         let proposal = table::spec_get(voting_forum.proposals, proposal_id);

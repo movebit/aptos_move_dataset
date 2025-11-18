@@ -50,7 +50,11 @@ module 0xcafe::deflation_token_tests {
         assert!(fungible_asset::balance(aaron_store) == 25, 42);
 
         dispatchable_fungible_asset::transfer_assert_minimum_deposit(
-            creator, creator_store, aaron_store, 10, 10
+            creator,
+            creator_store,
+            aaron_store,
+            10,
+            10
         );
         assert!(fungible_asset::balance(creator_store) == 62, 42);
         assert!(fungible_asset::balance(aaron_store) == 35, 42);
@@ -81,7 +85,11 @@ module 0xcafe::deflation_token_tests {
         dispatchable_fungible_asset::deposit(creator_store, fa);
 
         dispatchable_fungible_asset::transfer_assert_minimum_deposit(
-            creator, creator_store, aaron_store, 10, 11
+            creator,
+            creator_store,
+            aaron_store,
+            10,
+            11
         );
     }
 

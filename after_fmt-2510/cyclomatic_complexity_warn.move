@@ -822,9 +822,7 @@ module 0xc0ffee::complexity {
     }
 
     // complexity: 16
-    public fun maximum_complexity_test(
-        a: u64, b: u64, c: u64, flag: bool
-    ): u64 {
+    public fun maximum_complexity_test(a: u64, b: u64, c: u64, flag: bool): u64 {
         let x = a;
         let y = b;
         let z = c;

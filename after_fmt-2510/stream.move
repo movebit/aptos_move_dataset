@@ -89,8 +89,7 @@ module bcs_stream::bcs_stream {
         let cur = stream.cur;
 
         assert!(
-            cur + 32 <= vector::length(data),
-            error::out_of_range(EOUT_OF_BYTES)
+            cur + 32 <= vector::length(data), error::out_of_range(EOUT_OF_BYTES)
         );
         let res = from_bcs::to_address(vector::slice(data, cur, cur + 32));
 
@@ -119,8 +118,7 @@ module bcs_stream::bcs_stream {
         let cur = stream.cur;
 
         assert!(
-            cur + 2 <= vector::length(data),
-            error::out_of_range(EOUT_OF_BYTES)
+            cur + 2 <= vector::length(data), error::out_of_range(EOUT_OF_BYTES)
         );
         let res =
             (*vector::borrow(data, cur) as u16)
@@ -137,8 +135,7 @@ module bcs_stream::bcs_stream {
         let cur = stream.cur;
 
         assert!(
-            cur + 4 <= vector::length(data),
-            error::out_of_range(EOUT_OF_BYTES)
+            cur + 4 <= vector::length(data), error::out_of_range(EOUT_OF_BYTES)
         );
         let res =
             (*vector::borrow(data, cur) as u32)
@@ -157,8 +154,7 @@ module bcs_stream::bcs_stream {
         let cur = stream.cur;
 
         assert!(
-            cur + 8 <= vector::length(data),
-            error::out_of_range(EOUT_OF_BYTES)
+            cur + 8 <= vector::length(data), error::out_of_range(EOUT_OF_BYTES)
         );
         let res =
             (*vector::borrow(data, cur) as u64)
@@ -181,8 +177,7 @@ module bcs_stream::bcs_stream {
         let cur = stream.cur;
 
         assert!(
-            cur + 16 <= vector::length(data),
-            error::out_of_range(EOUT_OF_BYTES)
+            cur + 16 <= vector::length(data), error::out_of_range(EOUT_OF_BYTES)
         );
         let res =
             (*vector::borrow(data, cur) as u128)
@@ -213,8 +208,7 @@ module bcs_stream::bcs_stream {
         let cur = stream.cur;
 
         assert!(
-            cur + 32 <= vector::length(data),
-            error::out_of_range(EOUT_OF_BYTES)
+            cur + 32 <= vector::length(data), error::out_of_range(EOUT_OF_BYTES)
         );
         let res =
             (*vector::borrow(data, cur) as u256)

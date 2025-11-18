@@ -26,10 +26,7 @@ module 0xc0ffee::m {
 
     /// Simple matching
     public fun inner_value(self: Inner): u64 {
-        match(self) {
-            Inner1 { x } => x,
-            Inner2 { x, y } => x + y
-        }
+        match(self) { Inner1 { x } => x, Inner2 { x, y } => x + y }
     }
 
     /// Matching with wildcard and reference
@@ -118,10 +115,9 @@ module 0xc0ffee::m {
     }
 
     fun select_common_fields(s: CommonFields): u64 {
-        s.x + (match(s) {
-            Foo { x: _, y } => y,
-            Bar { z, x: _ } => z
-        })
+        s.x + (
+            match(s) { Foo { x: _, y } => y, Bar { z, x: _ } => z }
+        )
     }
 
     enum CommonFieldsAtDifferentOffset has drop {

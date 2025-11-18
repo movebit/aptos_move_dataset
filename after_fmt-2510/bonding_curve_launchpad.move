@@ -58,10 +58,7 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
             object::generate_extend_ref(
                 &object::create_named_object(account, b"FA Generator")
             );
-        move_to(
-            account,
-            LaunchPad { permissioned_withdraw, fa_generator_extend_ref }
-        );
+        move_to(account, LaunchPad { permissioned_withdraw, fa_generator_extend_ref });
     }
 
     //---------------------------Views---------------------------
@@ -274,9 +271,6 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
             object::generate_extend_ref(
                 &object::create_named_object(deployer, b"FA Generator")
             );
-        move_to(
-            deployer,
-            LaunchPad { permissioned_withdraw, fa_generator_extend_ref }
-        );
+        move_to(deployer, LaunchPad { permissioned_withdraw, fa_generator_extend_ref });
     }
 }

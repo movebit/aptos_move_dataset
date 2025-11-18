@@ -683,7 +683,14 @@ module aptos_experimental::sigma_protos {
         let alpha3 = ristretto255::scalar_mul(&rho, sender_sk);
         ristretto255::scalar_add_assign(&mut alpha3, &x3);
 
-        WithdrawalSubproof { x1: big_x1, x2: big_x2, x3: big_x3, alpha1, alpha2, alpha3 }
+        WithdrawalSubproof {
+            x1: big_x1,
+            x2: big_x2,
+            x3: big_x3,
+            alpha1,
+            alpha2,
+            alpha3
+        }
     }
 
     #[test_only]

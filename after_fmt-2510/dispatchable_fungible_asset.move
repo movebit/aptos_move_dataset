@@ -116,10 +116,7 @@ module aptos_framework::dispatchable_fungible_asset {
     /// Transfer an `amount` of fungible asset from `from_store`, which should be owned by `sender`, to `receiver`.
     /// Note: it does not move the underlying object.
     public entry fun transfer<T: key>(
-        sender: &signer,
-        from: Object<T>,
-        to: Object<T>,
-        amount: u64
+        sender: &signer, from: Object<T>, to: Object<T>, amount: u64
     ) acquires TransferRefStore {
         let fa = withdraw(sender, from, amount);
         deposit(to, fa);
@@ -129,19 +126,14 @@ module aptos_framework::dispatchable_fungible_asset {
     /// The recipient is guranteed to receive asset greater than the expected amount.
     /// Note: it does not move the underlying object.
     public entry fun transfer_assert_minimum_deposit<T: key>(
-        sender: &signer,
-        from: Object<T>,
-        to: Object<T>,
-        amount: u64,
-        expected: u64
+        sender: &signer, from: Object<T>, to: Object<T>, amount: u64, expected: u64
     ) acquires TransferRefStore {
         let start = fungible_asset::balance(to);
         let fa = withdraw(sender, from, amount);
         deposit(to, fa);
         let end = fungible_asset::balance(to);
         assert!(
-            end - start >= expected,
-            error::aborted(EAMOUNT_MISMATCH)
+            end - start >= expected, error::aborted(EAMOUNT_MISMATCH)
         );
     }
 

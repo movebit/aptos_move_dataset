@@ -16,8 +16,7 @@ script {
             b"https://accounts.google.com/.well-known/openid-configuration"
         );
         jwks::remove_oidc_provider_for_next_epoch(
-            framework_signer,
-            b"https://www.facebook.com"
+            framework_signer, b"https://www.facebook.com"
         );
         aptos_governance::reconfigure(framework_signer);
     }

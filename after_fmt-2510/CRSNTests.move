@@ -111,9 +111,7 @@ module DiemFramework::CRSNTests {
     }
 
     #[test(a = @0xCAFE, tc = @TreasuryCompliance, dr = @DiemRoot)]
-    public fun record_too_high_low_accept(
-        a: signer, tc: signer, dr: signer
-    ) {
+    public fun record_too_high_low_accept(a: signer, tc: signer, dr: signer) {
         setup(&dr, &tc, &a);
         CRSN::test_publish(&a, 100, 10);
         assert!(!CRSN::test_record(&a, 110), 0);
@@ -136,9 +134,7 @@ module DiemFramework::CRSNTests {
     }
 
     #[test(a = @0xCAFE, tc = @TreasuryCompliance, dr = @DiemRoot)]
-    public fun prevent_replay_with_shift(
-        a: signer, tc: signer, dr: signer
-    ) {
+    public fun prevent_replay_with_shift(a: signer, tc: signer, dr: signer) {
         setup(&dr, &tc, &a);
         CRSN::test_publish(&a, 100, 10);
         assert!(CRSN::test_record(&a, 100), 0);
@@ -148,9 +144,7 @@ module DiemFramework::CRSNTests {
     }
 
     #[test(a = @0xCAFE, tc = @TreasuryCompliance, dr = @DiemRoot)]
-    public fun multiple_shifts_of_window(
-        a: signer, tc: signer, dr: signer
-    ) {
+    public fun multiple_shifts_of_window(a: signer, tc: signer, dr: signer) {
         setup(&dr, &tc, &a);
         let addr = signer::address_of(&a);
         CRSN::test_publish(&a, 100, 10);
@@ -216,9 +210,7 @@ module DiemFramework::CRSNTests {
     }
 
     #[test(a = @0xCAFE, tc = @TreasuryCompliance, dr = @DiemRoot)]
-    public fun force_expire_past_set_bits(
-        a: signer, tc: signer, dr: signer
-    ) {
+    public fun force_expire_past_set_bits(a: signer, tc: signer, dr: signer) {
         setup(&dr, &tc, &a);
         let addr = signer::address_of(&a);
         CRSN::test_publish(&a, 0, 100);

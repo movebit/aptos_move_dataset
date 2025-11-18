@@ -39,13 +39,14 @@ module aptos_experimental::order_operations {
         if (order.is_some()) {
             // Order is already placed in the order book, so we can cancel it
             return cancel_single_order_helper(
-                market, order.destroy_some(), true, callbacks
+                market,
+                order.destroy_some(),
+                true,
+                callbacks
             );
         };
         pre_cancel_order_for_tracker(
-            market.get_pre_cancellation_tracker_mut(),
-            user,
-            client_order_id
+            market.get_pre_cancellation_tracker_mut(), user, client_order_id
         );
     }
 

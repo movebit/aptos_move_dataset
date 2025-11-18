@@ -74,15 +74,11 @@ module FACoin::fa_coin {
         // This is OPTIONAL. It is an advanced feature and we don't NEED a global state to pause the FA coin.
         let deposit =
             function_info::new_function_info(
-                admin,
-                string::utf8(b"fa_coin"),
-                string::utf8(b"deposit")
+                admin, string::utf8(b"fa_coin"), string::utf8(b"deposit")
             );
         let withdraw =
             function_info::new_function_info(
-                admin,
-                string::utf8(b"fa_coin"),
-                string::utf8(b"withdraw")
+                admin, string::utf8(b"fa_coin"), string::utf8(b"withdraw")
             );
         dispatchable_fungible_asset::register_dispatch_functions(
             constructor_ref,
@@ -131,10 +127,7 @@ module FACoin::fa_coin {
 
     /// Transfer as the owner of metadata object ignoring `frozen` field.
     public entry fun transfer(
-        admin: &signer,
-        from: address,
-        to: address,
-        amount: u64
+        admin: &signer, from: address, to: address, amount: u64
     ) acquires ManagedFungibleAsset, State {
         let asset = get_metadata();
         let transfer_ref = &authorized_borrow_refs(admin, asset).transfer_ref;

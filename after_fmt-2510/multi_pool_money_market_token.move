@@ -227,9 +227,7 @@ module ToddNickels {
         assert!(signer::address_of(account) == @0x70DD, 42);
         move_to(
             account,
-            Wallet {
-                nickels: Token::create(T {}, 0)
-            }
+            Wallet { nickels: Token::create(T {}, 0) }
         )
     }
 

@@ -69,10 +69,7 @@ module 0xABCD::fungible_asset_example {
     }
 
     public entry fun transfer(
-        from: &signer,
-        admin_address: address,
-        to: address,
-        amount: u64
+        from: &signer, admin_address: address, to: address, amount: u64
     ) {
         let asset = get_metadata(admin_address);
         let from_address = signer::address_of(from);

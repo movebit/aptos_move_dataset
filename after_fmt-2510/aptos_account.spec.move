@@ -150,8 +150,10 @@ spec aptos_framework::aptos_account {
                         || recipients[i] == @aptos_token
                 );
         ensures forall i in 0..len(recipients):
-            (!account::spec_exists_at(recipients[i]) ==>
-                !length_judgment(recipients[i]))
+            (
+                !account::spec_exists_at(recipients[i]) ==>
+                    !length_judgment(recipients[i])
+            )
                 && (
                     !account::spec_exists_at(recipients[i]) ==>
                         (
@@ -227,8 +229,10 @@ spec aptos_framework::aptos_account {
                         || recipients[i] == @aptos_token
                 );
         ensures forall i in 0..len(recipients):
-            (!account::spec_exists_at(recipients[i]) ==>
-                !length_judgment(recipients[i]))
+            (
+                !account::spec_exists_at(recipients[i]) ==>
+                    !length_judgment(recipients[i])
+            )
                 && (
                     !account::spec_exists_at(recipients[i]) ==>
                         (

@@ -106,10 +106,7 @@ module aptos_token::token_transfers {
     }
 
     public fun offer(
-        sender: &signer,
-        receiver: address,
-        token_id: TokenId,
-        amount: u64
+        sender: &signer, receiver: address, token_id: TokenId, amount: u64
     ) acquires PendingClaims {
         let sender_addr = signer::address_of(sender);
         if (!exists<PendingClaims>(sender_addr)) {
@@ -128,7 +125,12 @@ module aptos_token::token_transfers {
 
         if (std::features::module_event_migration_enabled()) {
             event::emit(
-                Offer { account: sender_addr, to_address: receiver, token_id, amount }
+                Offer {
+                    account: sender_addr,
+                    to_address: receiver,
+                    token_id,
+                    amount
+                }
             )
         } else {
             event::emit_event<TokenOfferEvent>(
@@ -151,9 +153,7 @@ module aptos_token::token_transfers {
         claim(&receiver, sender, token_id);
     }
 
-    public fun claim(
-        receiver: &signer, sender: address, token_id: TokenId
-    ) acquires PendingClaims {
+    public fun claim(receiver: &signer, sender: address, token_id: TokenId) acquires PendingClaims {
         assert!(exists<PendingClaims>(sender), ETOKEN_OFFER_NOT_EXIST);
         let pending_claims = &mut PendingClaims[sender].pending_claims;
         let token_offer_id = create_token_offer_id(
@@ -215,7 +215,12 @@ module aptos_token::token_transfers {
 
         if (std::features::module_event_migration_enabled()) {
             event::emit(
-                CancelOffer { account: sender_addr, to_address: receiver, token_id, amount }
+                CancelOffer {
+                    account: sender_addr,
+                    to_address: receiver,
+                    token_id,
+                    amount
+                }
             )
         } else {
             event::emit_event<TokenCancelOfferEvent>(

@@ -521,10 +521,7 @@ module aptos_framework::object {
         };
 
         let object = borrow_global_mut<ObjectCore>(ref.self);
-        assert!(
-            object.owner == ref.owner,
-            error::permission_denied(ENOT_OBJECT_OWNER)
-        );
+        assert!(object.owner == ref.owner, error::permission_denied(ENOT_OBJECT_OWNER));
         if (std::features::module_event_migration_enabled()) {
             event::emit(Transfer { object: ref.self, from: object.owner, to });
         } else {
@@ -612,7 +609,8 @@ module aptos_framework::object {
         while (owner != current_address) {
             count = count + 1;
             assert!(
-                count < MAXIMUM_OBJECT_NESTING, error::out_of_range(EMAXIMUM_NESTING)
+                count < MAXIMUM_OBJECT_NESTING,
+                error::out_of_range(EMAXIMUM_NESTING)
             );
             // At this point, the first object exists and so the more likely case is that the
             // object's owner is not an object. So we return a more sensible error.
@@ -725,7 +723,8 @@ module aptos_framework::object {
         while (owner != current_address) {
             count = count + 1;
             assert!(
-                count < MAXIMUM_OBJECT_NESTING, error::out_of_range(EMAXIMUM_NESTING)
+                count < MAXIMUM_OBJECT_NESTING,
+                error::out_of_range(EMAXIMUM_NESTING)
             );
             if (!exists<ObjectCore>(current_address)) {
                 return false
@@ -764,8 +763,7 @@ module aptos_framework::object {
         permissioned_signer: &signer, ref: &TransferRef
     ) {
         permissioned_signer::grant_unlimited_with_permissioned_signer(
-            permissioned_signer,
-            TransferPermission { object: ref.self }
+            permissioned_signer, TransferPermission { object: ref.self }
         )
     }
 
@@ -859,8 +857,7 @@ module aptos_framework::object {
         let hero = borrow_global_mut<Hero>(object_address(&hero));
         option::extract(&mut hero.weapon);
         event::emit_event(
-            &mut hero.equip_events,
-            HeroEquipEvent { weapon_id: option::none() }
+            &mut hero.equip_events, HeroEquipEvent { weapon_id: option::none() }
         );
     }
 

@@ -906,9 +906,7 @@ module aptos_framework::multisig_account {
 
     /// Swap owners in and out, without changing required signatures.
     entry fun swap_owners(
-        multisig_account: &signer,
-        to_swap_in: vector<address>,
-        to_swap_out: vector<address>
+        multisig_account: &signer, to_swap_in: vector<address>, to_swap_out: vector<address>
     ) acquires MultisigAccount {
         update_owner_schema(
             address_of(multisig_account),
@@ -1119,7 +1117,12 @@ module aptos_framework::multisig_account {
 
         if (std::features::module_event_migration_enabled()) {
             emit(
-                Vote { multisig_account, owner: owner_addr, sequence_number, approved }
+                Vote {
+                    multisig_account,
+                    owner: owner_addr,
+                    sequence_number,
+                    approved
+                }
             );
         } else {
             emit_event(
@@ -1427,7 +1430,9 @@ module aptos_framework::multisig_account {
         let sequence_number = multisig_account_resource.next_sequence_number;
         multisig_account_resource.next_sequence_number = sequence_number + 1;
         table::add(
-            &mut multisig_account_resource.transactions, sequence_number, transaction
+            &mut multisig_account_resource.transactions,
+            sequence_number,
+            transaction
         );
         if (std::features::module_event_migration_enabled()) {
             emit(
@@ -1602,10 +1607,7 @@ module aptos_framework::multisig_account {
         // If new owners provided, try to add them and emit an event.
         if (vector::length(&new_owners) > 0) {
             vector::append(&mut multisig_account_ref_mut.owners, new_owners);
-            validate_owners(
-                &multisig_account_ref_mut.owners,
-                multisig_address
-            );
+            validate_owners(&multisig_account_ref_mut.owners, multisig_address);
             if (std::features::module_event_migration_enabled()) {
                 emit(
                     AddOwners {
@@ -1632,8 +1634,9 @@ module aptos_framework::multisig_account {
                     );
                     if (found) {
                         vector::push_back(
-                            &mut owners_removed,
-                            vector::swap_remove(owners_ref_mut, index)
+                            &mut owners_removed, vector::swap_remove(
+                                owners_ref_mut, index
+                            )
                         );
                     }
                 }
@@ -1642,7 +1645,10 @@ module aptos_framework::multisig_account {
             if (vector::length(&owners_removed) > 0) {
                 if (std::features::module_event_migration_enabled()) {
                     emit(
-                        RemoveOwners { multisig_account: multisig_address, owners_removed }
+                        RemoveOwners {
+                            multisig_account: multisig_address,
+                            owners_removed
+                        }
                     );
                 } else {
                     emit_event(
@@ -2592,7 +2598,8 @@ module aptos_framework::multisig_account {
         assert!(can_be_executed(multisig_account, 1), 1);
         assert!(
             table::contains(
-                &borrow_global<MultisigAccount>(multisig_account).transactions, 1
+                &borrow_global<MultisigAccount>(multisig_account).transactions,
+                1
             ),
             0
         );
@@ -2625,7 +2632,8 @@ module aptos_framework::multisig_account {
         assert!(can_be_executed(multisig_account, 1), 1);
         assert!(
             table::contains(
-                &borrow_global<MultisigAccount>(multisig_account).transactions, 1
+                &borrow_global<MultisigAccount>(multisig_account).transactions,
+                1
             ),
             0
         );
@@ -2661,7 +2669,8 @@ module aptos_framework::multisig_account {
         assert!(can_be_executed(multisig_account, 1), 1);
         assert!(
             table::contains(
-                &borrow_global<MultisigAccount>(multisig_account).transactions, 1
+                &borrow_global<MultisigAccount>(multisig_account).transactions,
+                1
             ),
             0
         );
@@ -2692,7 +2701,8 @@ module aptos_framework::multisig_account {
         assert!(can_be_rejected(multisig_account, 1), 1);
         assert!(
             table::contains(
-                &borrow_global<MultisigAccount>(multisig_account).transactions, 1
+                &borrow_global<MultisigAccount>(multisig_account).transactions,
+                1
             ),
             0
         );

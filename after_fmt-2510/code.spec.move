@@ -79,9 +79,7 @@ spec aptos_framework::code {
         aborts_if !permissioned_signer::spec_check_permission_exists(s, perm);
     }
 
-    spec initialize(
-        aptos_framework: &signer, package_owner: &signer, metadata: PackageMetadata
-    ) {
+    spec initialize(aptos_framework: &signer, package_owner: &signer, metadata: PackageMetadata) {
         let aptos_addr = signer::address_of(aptos_framework);
         let owner_addr = signer::address_of(package_owner);
         aborts_if !system_addresses::is_aptos_framework_address(aptos_addr);
@@ -104,9 +102,7 @@ spec aptos_framework::code {
     }
 
     spec check_upgradability(
-        old_pack: &PackageMetadata,
-        new_pack: &PackageMetadata,
-        new_modules: &vector<String>
+        old_pack: &PackageMetadata, new_pack: &PackageMetadata, new_modules: &vector<String>
     ) {
         // TODO: Can't verify 'vector::enumerate' loop.
         pragma aborts_if_is_partial;

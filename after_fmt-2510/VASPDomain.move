@@ -153,7 +153,8 @@ module DiemFramework::VASPDomain {
     ) acquires VASPDomainManager, VASPDomains {
         Roles::assert_treasury_compliance(tc_account);
         assert!(
-            tc_domain_manager_exists(), errors::not_published(EVASP_DOMAIN_MANAGER)
+            tc_domain_manager_exists(),
+            errors::not_published(EVASP_DOMAIN_MANAGER)
         );
         assert!(
             exists<VASPDomains>(address),
@@ -205,7 +206,11 @@ module DiemFramework::VASPDomain {
         address: address;
         domain: vector<u8>;
         let handle = global<VASPDomainManager>(@TreasuryCompliance).vasp_domain_events;
-        let msg = VASPDomainEvent { removed: false, domain: VASPDomain { domain }, address };
+        let msg = VASPDomainEvent {
+            removed: false,
+            domain: VASPDomain { domain },
+            address
+        };
         emits msg to handle;
     }
 
@@ -215,7 +220,8 @@ module DiemFramework::VASPDomain {
     ) acquires VASPDomainManager, VASPDomains {
         Roles::assert_treasury_compliance(tc_account);
         assert!(
-            tc_domain_manager_exists(), errors::not_published(EVASP_DOMAIN_MANAGER)
+            tc_domain_manager_exists(),
+            errors::not_published(EVASP_DOMAIN_MANAGER)
         );
         assert!(
             exists<VASPDomains>(address),
@@ -234,7 +240,11 @@ module DiemFramework::VASPDomain {
 
         event::emit_event(
             &mut borrow_global_mut<VASPDomainManager>(@TreasuryCompliance).vasp_domain_events,
-            VASPDomainEvent { removed: true, domain: vasp_domain, address: address }
+            VASPDomainEvent {
+                removed: true,
+                domain: vasp_domain,
+                address: address
+            }
         );
     }
 
@@ -268,7 +278,11 @@ module DiemFramework::VASPDomain {
         address: address;
         domain: vector<u8>;
         let handle = global<VASPDomainManager>(@TreasuryCompliance).vasp_domain_events;
-        let msg = VASPDomainEvent { removed: true, domain: VASPDomain { domain }, address };
+        let msg = VASPDomainEvent {
+            removed: true,
+            domain: VASPDomain { domain },
+            address
+        };
         emits msg to handle;
     }
 

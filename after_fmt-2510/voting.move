@@ -427,14 +427,17 @@ module aptos_framework::voting {
             error::invalid_state(EPROPOSAL_VOTING_ALREADY_ENDED)
         );
         assert!(
-            !proposal.is_resolved, error::invalid_state(EPROPOSAL_ALREADY_RESOLVED)
+            !proposal.is_resolved,
+            error::invalid_state(EPROPOSAL_ALREADY_RESOLVED)
         );
         // Assert this proposal is single-step, or if the proposal is multi-step, it is not in execution yet.
         assert!(
             !simple_map::contains_key(
-                &proposal.metadata, &utf8(IS_MULTI_STEP_PROPOSAL_IN_EXECUTION_KEY)
+                &proposal.metadata,
+                &utf8(IS_MULTI_STEP_PROPOSAL_IN_EXECUTION_KEY)
             ) || *simple_map::borrow(
-                &proposal.metadata, &utf8(IS_MULTI_STEP_PROPOSAL_IN_EXECUTION_KEY)
+                &proposal.metadata,
+                &utf8(IS_MULTI_STEP_PROPOSAL_IN_EXECUTION_KEY)
             ) == to_bytes(&false),
             error::invalid_state(EMULTI_STEP_PROPOSAL_IN_EXECUTION)
         );
@@ -479,7 +482,8 @@ module aptos_framework::voting {
             borrow_global_mut<VotingForum<ProposalType>>(voting_forum_address);
         let proposal = table::borrow_mut(&mut voting_forum.proposals, proposal_id);
         assert!(
-            !proposal.is_resolved, error::invalid_state(EPROPOSAL_ALREADY_RESOLVED)
+            !proposal.is_resolved,
+            error::invalid_state(EPROPOSAL_ALREADY_RESOLVED)
         );
 
         // We need to make sure that the resolution is happening in
@@ -582,8 +586,7 @@ module aptos_framework::voting {
         if (simple_map::contains_key(&proposal.metadata, &multi_step_in_execution_key)) {
             let is_multi_step_proposal_in_execution_value =
                 simple_map::borrow_mut(
-                    &mut proposal.metadata,
-                    &multi_step_in_execution_key
+                    &mut proposal.metadata, &multi_step_in_execution_key
                 );
             *is_multi_step_proposal_in_execution_value = to_bytes(&true);
         };
@@ -614,8 +617,7 @@ module aptos_framework::voting {
             if (is_multi_step) {
                 let is_multi_step_proposal_in_execution_value =
                     simple_map::borrow_mut(
-                        &mut proposal.metadata,
-                        &multi_step_in_execution_key
+                        &mut proposal.metadata, &multi_step_in_execution_key
                     );
                 *is_multi_step_proposal_in_execution_value = to_bytes(&false);
             };
@@ -1423,7 +1425,10 @@ module aptos_framework::voting {
             1
         );
         resolve_proposal_for_test<TestProposal>(
-            governance_address, proposal_id, true, false
+            governance_address,
+            proposal_id,
+            true,
+            false
         );
         vote<TestProposal>(
             &proof,

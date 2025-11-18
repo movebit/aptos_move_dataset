@@ -406,7 +406,8 @@ module aptos_experimental::veiled_coin {
 
         let comm_amount = pedersen::new_commitment_from_bytes(comm_amount);
         assert!(
-            comm_amount.is_some(), error::invalid_argument(EDESERIALIZATION_FAILED)
+            comm_amount.is_some(),
+            error::invalid_argument(EDESERIALIZATION_FAILED)
         );
 
         let transfer_subproof =
@@ -805,10 +806,7 @@ module aptos_experimental::veiled_coin {
     /// Returns true if the balance at address `owner` equals `value`.
     /// Requires the ElGamal encryption randomness `r` and public key `pk` as auxiliary inputs.
     public fun verify_opened_balance<CoinType>(
-        owner: address,
-        value: u32,
-        r: &Scalar,
-        pk: &elgamal::CompressedPubkey
+        owner: address, value: u32, r: &Scalar, pk: &elgamal::CompressedPubkey
     ): bool acquires VeiledCoinStore {
         // compute the expected encrypted balance
         let value = ristretto255::new_scalar_from_u32(value);

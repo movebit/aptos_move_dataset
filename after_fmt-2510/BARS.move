@@ -89,10 +89,7 @@ module 0x1::BARSToken {
         admin = @DiemRoot, bars_account = @BARS, artist = @0x42, collector = @0x43
     )]
     public entry fun test_bars(
-        admin: signer,
-        bars_account: signer,
-        artist: signer,
-        collector: signer
+        admin: signer, bars_account: signer, artist: signer, collector: signer
     ) {
         NFT::nft_initialize(admin);
 

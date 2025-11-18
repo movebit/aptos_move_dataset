@@ -377,9 +377,7 @@ module aptos_framework::randomness {
     fun safe_add_mod_for_verification(a: u256, b: u256, m: u256): u256 {
         let neg_b = m - b;
         if (a < neg_b) { a + b }
-        else {
-            a - neg_b
-        }
+        else { a - neg_b }
     }
 
     /// Fetches and increments a transaction-specific 32-byte randomness-related counter.

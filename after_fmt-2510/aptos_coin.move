@@ -90,9 +90,7 @@ module aptos_framework::aptos_coin {
 
     /// Only callable in tests and testnets where the core resources account exists.
     /// Create new coins and deposit them into dst_addr's account.
-    public entry fun mint(
-        account: &signer, dst_addr: address, amount: u64
-    ) acquires MintCapStore {
+    public entry fun mint(account: &signer, dst_addr: address, amount: u64) acquires MintCapStore {
         let account_addr = signer::address_of(account);
 
         assert!(
@@ -107,9 +105,7 @@ module aptos_framework::aptos_coin {
 
     /// Only callable in tests and testnets where the core resources account exists.
     /// Create delegated token for the address so the account could claim MintCapability later.
-    public entry fun delegate_mint_capability(
-        account: signer, to: address
-    ) acquires Delegations {
+    public entry fun delegate_mint_capability(account: signer, to: address) acquires Delegations {
         system_addresses::assert_core_resource(&account);
         let delegations = &mut borrow_global_mut<Delegations>(@core_resources).inner;
         vector::for_each_ref(
@@ -163,10 +159,7 @@ module aptos_framework::aptos_coin {
     public fun mint_apt_fa_for_test(amount: u64): FungibleAsset acquires MintCapStore {
         ensure_initialized_with_apt_fa_metadata_for_test();
         coin::coin_to_fungible_asset(
-            coin::mint(
-                amount,
-                &borrow_global<MintCapStore>(@aptos_framework).mint_cap
-            )
+            coin::mint(amount, &borrow_global<MintCapStore>(@aptos_framework).mint_cap)
         )
     }
 

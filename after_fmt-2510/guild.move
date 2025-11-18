@@ -102,7 +102,8 @@ module guild::guild {
         admin: &signer, guild_master: address
     ) acquires Config {
         assert!(
-            signer::address_of(admin) == guild_collection_manager_owner(), ENOT_ADMIN
+            signer::address_of(admin) == guild_collection_manager_owner(),
+            ENOT_ADMIN
         );
         let config = borrow_global_mut<Config>(@guild);
         smart_vector::push_back(&mut config.whitelist, guild_master);
@@ -172,7 +173,8 @@ module guild::guild {
     ) acquires GuildToken {
         // Checks if the guild master is the owner of the guild token.
         assert!(
-            object::owner(guild_token) == signer::address_of(guild_master), ENOT_OWNER
+            object::owner(guild_token) == signer::address_of(guild_master),
+            ENOT_OWNER
         );
 
         let guild = borrow_global<GuildToken>(object::object_address(&guild_token));
@@ -249,7 +251,11 @@ module guild::guild {
 
         // Creates the collection with unlimited supply and without establishing any royalty configuration.
         collection::create_unlimited_collection(
-            admin, description, name, option::none(), uri
+            admin,
+            description,
+            name,
+            option::none(),
+            uri
         );
     }
 
@@ -330,7 +336,8 @@ module guild::guild {
         // ------------------------------------------------
         let member_token_addr = member_token_address(guild_token, token_name);
         burn_member(
-            guild_master, object::address_to_object<MemberToken>(member_token_addr)
+            guild_master,
+            object::address_to_object<MemberToken>(member_token_addr)
         );
     }
 }

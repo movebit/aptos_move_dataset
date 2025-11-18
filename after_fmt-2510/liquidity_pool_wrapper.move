@@ -43,15 +43,18 @@ module publisher_address::liquidity_pool_wrapper {
         let token_2 = fungible_asset::mint_ref_metadata(&token_2_mint);
         move_to(
             publisher,
-            Addresses { pool: pool, token_1_mint, token_2_mint, token_1, token_2 }
+            Addresses {
+                pool: pool,
+                token_1_mint,
+                token_2_mint,
+                token_1,
+                token_2
+            }
         )
     }
 
     public entry fun swap(
-        user: &signer,
-        publisher: &signer,
-        amount_in: u64,
-        from_1: bool
+        user: &signer, publisher: &signer, amount_in: u64, from_1: bool
     ) acquires Addresses {
         assert!(signer::address_of(publisher) == @publisher_address, ENOT_PUBLISHER);
         assert!(exists<Addresses>(@publisher_address), EADDRESSES_NOT_FOUND);

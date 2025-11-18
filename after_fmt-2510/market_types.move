@@ -177,7 +177,9 @@ module aptos_experimental::market_types {
         }
     }
 
-    public fun new_validation_result(cancellation_reason: Option<String>): ValidationResult {
+    public fun new_validation_result(
+        cancellation_reason: Option<String>
+    ): ValidationResult {
         ValidationResult::V1 { cancellation_reason }
     }
 
@@ -212,8 +214,10 @@ module aptos_experimental::market_types {
             vector<u64>,
             M
         | bool has drop + copy,
-        place_maker_order_f: |MarketClearinghouseOrderInfo<M>, u64| PlaceMakerOrderResult<R> has drop
-        + copy,
+        place_maker_order_f: |
+            MarketClearinghouseOrderInfo<M>,
+            u64
+        | PlaceMakerOrderResult<R> has drop + copy,
         cleanup_order_f: |
             MarketClearinghouseOrderInfo<M>,
             u64,
@@ -337,7 +341,9 @@ module aptos_experimental::market_types {
         settled_price: u64,
         settled_size: u64
     ): SettleTradeResult<R> {
-        (self.settle_trade_f) (market, taker, maker, fill_id, settled_price, settled_size)
+        (self.settle_trade_f) (
+            market, taker, maker, fill_id, settled_price, settled_size
+        )
     }
 
     public fun validate_order_placement<M: store + copy + drop, R: store + copy + drop>(
@@ -358,7 +364,12 @@ module aptos_experimental::market_types {
         order_metadata: M
     ): bool {
         (self.validate_bulk_order_placement_f) (
-            account, bids_prices, bids_sizes, asks_prices, asks_sizes, order_metadata
+            account,
+            bids_prices,
+            bids_sizes,
+            asks_prices,
+            asks_sizes,
+            order_metadata
         )
     }
 
@@ -611,7 +622,9 @@ module aptos_experimental::market_types {
         self.order_book.is_taker_order(price, is_bid, trigger_condition)
     }
 
-    public fun is_allowed_self_trade<M: store + copy + drop>(self: &Market<M>): bool {
+    public fun is_allowed_self_trade<M: store + copy + drop>(
+        self: &Market<M>
+    ): bool {
         self.config.allow_self_trade
     }
 
@@ -655,10 +668,7 @@ module aptos_experimental::market_types {
     /// Sets the order metadata for an order by client id. It is up to the caller to perform necessary permissions checks
     /// around ownership of the order.
     public fun set_order_metadata_by_client_id<M: store + copy + drop>(
-        self: &mut Market<M>,
-        user: address,
-        client_order_id: String,
-        metadata: M
+        self: &mut Market<M>, user: address, client_order_id: String, metadata: M
     ) {
         let order_id = self.order_book.get_order_id_by_client_id(user, client_order_id);
         assert!(order_id.is_some(), EORDER_DOES_NOT_EXIST);

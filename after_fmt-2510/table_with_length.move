@@ -43,9 +43,7 @@ module aptos_std::table_with_length {
 
     /// Acquire an immutable reference to the value which `key` maps to.
     /// Aborts if there is no entry for `key`.
-    public fun borrow<K: copy + drop, V>(
-        self: &TableWithLength<K, V>, key: K
-    ): &V {
+    public fun borrow<K: copy + drop, V>(self: &TableWithLength<K, V>, key: K): &V {
         self.inner.borrow(key)
     }
 

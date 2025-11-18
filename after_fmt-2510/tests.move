@@ -40,16 +40,15 @@ module bcs_stream::tests {
             e: bcs_stream::deserialize_u128(stream),
             f: bcs_stream::deserialize_u256(stream),
             g: bcs_stream::deserialize_bool(stream),
-            h: bcs_stream::deserialize_vector(
-                stream, |stream| { deserialize_Bar(stream) }
-            ),
+            h: bcs_stream::deserialize_vector(stream, |stream| { deserialize_Bar(stream) }),
             i: bcs_stream::deserialize_address(stream),
             j: bcs_stream::deserialize_string(stream),
             k: bcs_stream::deserialize_option<vector<Bar>>(
                 stream,
                 |stream| {
                     bcs_stream::deserialize_vector(
-                        stream, |stream_| { deserialize_Bar(stream_) }
+                        stream,
+                        |stream_| { deserialize_Bar(stream_) }
                     )
                 }
             )
@@ -426,10 +425,7 @@ module bcs_stream::tests {
     fun test_string_empty() {
         let data = x"00";
         let stream = bcs_stream::new(data);
-        assert!(
-            bcs_stream::deserialize_string(&mut stream) == string::utf8(b""),
-            0
-        );
+        assert!(bcs_stream::deserialize_string(&mut stream) == string::utf8(b""), 0);
     }
 
     #[test]

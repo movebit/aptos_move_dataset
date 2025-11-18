@@ -111,7 +111,9 @@ module aptos_framework::managed_coin {
     /// Removes capabilities from the account to be stored or destroyed elsewhere
     public fun remove_caps<CoinType>(
         account: &signer
-    ): (BurnCapability<CoinType>, FreezeCapability<CoinType>, MintCapability<CoinType>) acquires Capabilities {
+    ): (
+        BurnCapability<CoinType>, FreezeCapability<CoinType>, MintCapability<CoinType>
+    ) acquires Capabilities {
         let account_addr = signer::address_of(account);
         assert!(
             exists<Capabilities<CoinType>>(account_addr),
@@ -136,14 +138,12 @@ module aptos_framework::managed_coin {
     #[test_only]
     struct FakeMoney {}
 
-    #[
-        test(
-            framework = @aptos_framework,
-            source = @0xa11ce,
-            destination = @0xb0b,
-            mod_account = @0x1
-        )
-    ]
+    #[test(
+        framework = @aptos_framework,
+        source = @0xa11ce,
+        destination = @0xb0b,
+        mod_account = @0x1
+    )]
     public entry fun test_end_to_end(
         framework: signer,
         source: signer,
@@ -223,14 +223,12 @@ module aptos_framework::managed_coin {
         coin::destroy_burn_cap(burn_cap);
     }
 
-    #[
-        test(
-            framework = @aptos_framework,
-            source = @0xa11ce,
-            destination = @0xb0b,
-            mod_account = @0x1
-        )
-    ]
+    #[test(
+        framework = @aptos_framework,
+        source = @0xa11ce,
+        destination = @0xb0b,
+        mod_account = @0x1
+    )]
     #[expected_failure(abort_code = 0x60001, location = Self)]
     public entry fun fail_mint(
         framework: signer,
@@ -258,14 +256,12 @@ module aptos_framework::managed_coin {
         mint<FakeMoney>(&destination, source_addr, 100);
     }
 
-    #[
-        test(
-            framework = @aptos_framework,
-            source = @0xa11ce,
-            destination = @0xb0b,
-            mod_account = @0x1
-        )
-    ]
+    #[test(
+        framework = @aptos_framework,
+        source = @0xa11ce,
+        destination = @0xb0b,
+        mod_account = @0x1
+    )]
     #[expected_failure(abort_code = 0x60001, location = Self)]
     public entry fun fail_burn(
         framework: signer,

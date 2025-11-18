@@ -16,8 +16,10 @@ spec aptos_framework::storage_gas {
         /// Invariant 3: The x-coordinate increases monotonically and the y-coordinate increasing strictly monotonically,
         /// that is, the gas-curve is a monotonically increasing function.
         invariant (len(points) > 0 ==> points[0].x > 0)
-            && (len(points) > 0 ==>
-                points[len(points) - 1].x < BASIS_POINT_DENOMINATION)
+            && (
+                len(points) > 0 ==>
+                    points[len(points) - 1].x < BASIS_POINT_DENOMINATION
+            )
             && (
                 forall i in 0..len(points) - 1:
                     (points[i].x < points[i + 1].x
@@ -110,7 +112,12 @@ spec aptos_framework::storage_gas {
         aborts_if target_usage > MAX_U64 / BASIS_POINT_DENOMINATION;
         /// [high-level-req-4]
         ensures result
-            == UsageGasConfig { target_usage, read_curve, create_curve, write_curve };
+            == UsageGasConfig {
+                target_usage,
+                read_curve,
+                create_curve,
+                write_curve
+            };
     }
 
     spec new_storage_gas_config(item_config: UsageGasConfig, byte_config: UsageGasConfig): StorageGasConfig {

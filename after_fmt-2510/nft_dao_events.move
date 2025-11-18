@@ -173,7 +173,14 @@ module dao_platform::nft_dao_events {
         property_versions: vector<u64>
     ) {
         event::emit(
-            Vote { nft_dao, voter, proposal_id, vote, token_names, property_versions }
+            Vote {
+                nft_dao,
+                voter,
+                proposal_id,
+                vote,
+                token_names,
+                property_versions
+            }
         );
     }
 
@@ -226,19 +233,13 @@ module dao_platform::nft_dao_events {
     }
 
     public(friend) fun emit_admin_veto_event(
-        proposal_id: u64,
-        admin: address,
-        nft_dao: address,
-        reason: String
+        proposal_id: u64, admin: address, nft_dao: address, reason: String
     ) {
         event::emit(AdminVeto { nft_dao, proposal_id, admin, reason });
     }
 
     public(friend) fun emit_admin_resolve_event(
-        proposal_id: u64,
-        admin: address,
-        nft_dao: address,
-        reason: String
+        proposal_id: u64, admin: address, nft_dao: address, reason: String
     ) {
         event::emit(
             AdminResolve { nft_dao, proposal_id, admin, reason }

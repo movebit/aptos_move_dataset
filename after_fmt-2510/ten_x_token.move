@@ -44,16 +44,12 @@ module 0xcafe::ten_x_token {
 
         let withdraw =
             function_info::new_function_info(
-                account,
-                string::utf8(b"ten_x_token"),
-                string::utf8(b"withdraw")
+                account, string::utf8(b"ten_x_token"), string::utf8(b"withdraw")
             );
 
         let deposit =
             function_info::new_function_info(
-                account,
-                string::utf8(b"ten_x_token"),
-                string::utf8(b"deposit")
+                account, string::utf8(b"ten_x_token"), string::utf8(b"deposit")
             );
 
         dispatchable_fungible_asset::register_dispatch_functions(
@@ -70,8 +66,7 @@ module 0xcafe::ten_x_token {
     public fun derived_balance<T: key>(store: Object<T>): u64 acquires BalanceStore {
         // Derived value is always 10x!
         fungible_asset::balance_with_ref(
-            &borrow_global<BalanceStore>(@0xcafe).balance_ref,
-            store
+            &borrow_global<BalanceStore>(@0xcafe).balance_ref, store
         ) * 10
     }
 
@@ -80,8 +75,7 @@ module 0xcafe::ten_x_token {
         option::some(
             option::extract(
                 &mut fungible_asset::supply_with_ref(
-                    &borrow_global<BalanceStore>(@0xcafe).supply_ref,
-                    metadata
+                    &borrow_global<BalanceStore>(@0xcafe).supply_ref, metadata
                 )
             ) * 10
         )

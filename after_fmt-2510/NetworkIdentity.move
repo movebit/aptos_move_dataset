@@ -272,10 +272,7 @@ module DiemFramework::NetworkIdentity {
         ensures [concrete] true;
 
         aborts_if false;
-        include AddMembersInternalEnsures<T> {
-            old_members: old(members),
-            new_members: members
-        };
+        include AddMembersInternalEnsures<T> { old_members: old(members), new_members: members };
         // ensures that the `members` argument is and remains a set
         include UniqueMembers<T>;
         // returns whether a new element is added to the set

@@ -98,9 +98,7 @@ spec aptos_std::pool_u64_unbound {
             self.shares == table::spec_set(old(self.shares), shareholder, new_shares);
     }
 
-    spec fun spec_amount_to_shares_with_total_coins(
-        pool: Pool, coins_amount: u64, total_coins: u64
-    ): u128 {
+    spec fun spec_amount_to_shares_with_total_coins(pool: Pool, coins_amount: u64, total_coins: u64): u128 {
         if (pool.total_coins == 0 || pool.total_shares == 0) {
             coins_amount * pool.scaling_factor
         } else {
@@ -136,9 +134,7 @@ spec aptos_std::pool_u64_unbound {
         }
     }
 
-    spec multiply_then_divide(
-        self: &Pool, x: u128, y: u128, z: u128
-    ): u128 {
+    spec multiply_then_divide(self: &Pool, x: u128, y: u128, z: u128): u128 {
         aborts_if z == 0;
         aborts_if (x * y) / z > MAX_U128;
         ensures result == (x * y) / z;
@@ -173,8 +169,10 @@ spec aptos_std::pool_u64_unbound {
         aborts_if spec_shares(self, shareholder_1) < shares_to_transfer;
         ensures shareholder_1 == shareholder_2 ==>
             spec_shares(old(self), shareholder_1) == spec_shares(self, shareholder_1);
-        ensures ((shareholder_1 != shareholder_2)
-            && (spec_shares(old(self), shareholder_1) == shares_to_transfer)) ==>
+        ensures (
+            (shareholder_1 != shareholder_2)
+                && (spec_shares(old(self), shareholder_1) == shares_to_transfer)
+        ) ==>
             !spec_contains(self, shareholder_1);
         ensures (shareholder_1 != shareholder_2 && shares_to_transfer > 0) ==>
             (spec_contains(self, shareholder_2));
@@ -197,8 +195,10 @@ spec aptos_std::pool_u64_unbound {
                     && spec_shares(self, shareholder_2)
                         == spec_shares(old(self), shareholder_2) + shares_to_transfer
             );
-        ensures ((shareholder_1 != shareholder_2)
-            && (spec_shares(old(self), shareholder_1) > shares_to_transfer)) ==>
+        ensures (
+            (shareholder_1 != shareholder_2)
+                && (spec_shares(old(self), shareholder_1) > shares_to_transfer)
+        ) ==>
             (
                 spec_contains(self, shareholder_1)
                     && (

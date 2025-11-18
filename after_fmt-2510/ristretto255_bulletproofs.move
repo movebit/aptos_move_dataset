@@ -194,10 +194,7 @@ module aptos_std::ristretto255_bulletproofs {
     /// commitment key; see `pedersen::new_commitment_for_bulletproof`. Returns the said commitment too.
     ///  Only works for `num_bits` in `{8, 16, 32, 64}`.
     public fun prove_range_pedersen(
-        val: &Scalar,
-        r: &Scalar,
-        num_bits: u64,
-        dst: vector<u8>
+        val: &Scalar, r: &Scalar, num_bits: u64, dst: vector<u8>
     ): (RangeProof, pedersen::Commitment) {
         prove_range(
             val,
@@ -713,9 +710,9 @@ module aptos_std::ristretto255_bulletproofs {
         let comms =
             values.zip_map(
                 blinders,
-                |val, blinder| { pedersen::new_commitment_for_bulletproof(
-                    &val, &blinder
-                ) }
+                |val, blinder| {
+                    pedersen::new_commitment_for_bulletproof(&val, &blinder)
+                }
             );
 
         assert!(

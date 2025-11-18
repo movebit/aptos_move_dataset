@@ -43,10 +43,7 @@ module std::ascii {
     /// `bytes` contains non-ASCII characters.
     public fun string(bytes: vector<u8>): String {
         let x = try_string(bytes);
-        assert!(
-            option::is_some(&x),
-            EINVALID_ASCII_CHARACTER
-        );
+        assert!(option::is_some(&x), EINVALID_ASCII_CHARACTER);
         option::destroy_some(x)
     }
 
@@ -103,7 +100,9 @@ module std::ascii {
 
     spec all_characters_printable {
         ensures result ==>
-            (forall j in 0..len(string.bytes): is_printable_char(string.bytes[j]));
+            (
+                forall j in 0..len(string.bytes): is_printable_char(string.bytes[j])
+            );
     }
 
     public fun push_char(string: &mut String, char: Char) {

@@ -51,7 +51,10 @@ module confidential_asset_example::deposit_example {
         // so we just check if the passed amount is correct for simplicity.
         assert!(
             confidential_asset::verify_pending_balance(
-                bob_addr, token, &bob_dk, bob_amount
+                bob_addr,
+                token,
+                &bob_dk,
+                bob_amount
             )
         );
 
@@ -60,7 +63,10 @@ module confidential_asset_example::deposit_example {
 
         assert!(
             confidential_asset::verify_pending_balance(
-                alice_addr, token, &alice_dk, alice_amount
+                alice_addr,
+                token,
+                &alice_dk,
+                alice_amount
             )
         );
     }

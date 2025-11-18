@@ -94,10 +94,7 @@ module bonding_curve_launchpad::liquidity_pairs {
     // For higher emphasize on rewarding early adopters, this can be modified to support a sub-linear trading function.
     #[view]
     public fun get_amount_out(
-        fa_reserves: u128,
-        apt_reserves: u128,
-        swap_to_apt: bool,
-        amount_in: u64
+        fa_reserves: u128, apt_reserves: u128, swap_to_apt: bool, amount_in: u64
     ): (u64, u64, u128, u128) {
         if (swap_to_apt) {
             let divisor = fa_reserves + (amount_in as u128);
@@ -106,7 +103,9 @@ module bonding_curve_launchpad::liquidity_pairs {
             let fa_updated_reserves = fa_reserves + (amount_in as u128);
             let apt_updated_reserves = apt_reserves - (apt_gained as u128);
             assert!(apt_gained > 0, ELIQUIDITY_PAIR_SWAP_AMOUNTOUT_INSIGNIFICANT);
-            (amount_in, apt_gained, fa_updated_reserves, apt_updated_reserves)
+            (
+                amount_in, apt_gained, fa_updated_reserves, apt_updated_reserves
+            )
         } else {
             let divisor = apt_reserves + (amount_in as u128);
             let fa_gained =
@@ -114,7 +113,9 @@ module bonding_curve_launchpad::liquidity_pairs {
             let fa_updated_reserves = fa_reserves - (fa_gained as u128);
             let apt_updated_reserves = apt_reserves + (amount_in as u128);
             assert!(fa_gained > 0, ELIQUIDITY_PAIR_SWAP_AMOUNTOUT_INSIGNIFICANT);
-            (fa_gained, amount_in, fa_updated_reserves, apt_updated_reserves)
+            (
+                fa_gained, amount_in, fa_updated_reserves, apt_updated_reserves
+            )
         }
     }
 
@@ -231,7 +232,9 @@ module bonding_curve_launchpad::liquidity_pairs {
             borrow_global_mut<LiquidityPair>(get_pair_obj_address(name, symbol));
         assert!(liquidity_pair.is_enabled, ELIQUIDITY_PAIR_DISABLED);
         // Determine the amount received of APT, when given swapper-supplied amount_in of FA.
-        let (fa_given, apt_gained, fa_updated_reserves, apt_updated_reserves) =
+        let (
+            fa_given, apt_gained, fa_updated_reserves, apt_updated_reserves
+        ) =
             get_amount_out(
                 liquidity_pair.fa_reserves,
                 liquidity_pair.apt_reserves,
@@ -298,7 +301,9 @@ module bonding_curve_launchpad::liquidity_pairs {
             borrow_global_mut<LiquidityPair>(get_pair_obj_address(name, symbol));
         assert!(liquidity_pair.is_enabled, ELIQUIDITY_PAIR_DISABLED);
         // Determine the amount received of FA, when given swapper-supplied amount_in of APT.
-        let (fa_gained, apt_given, fa_updated_reserves, apt_updated_reserves) =
+        let (
+            fa_gained, apt_given, fa_updated_reserves, apt_updated_reserves
+        ) =
             get_amount_out(
                 liquidity_pair.fa_reserves,
                 liquidity_pair.apt_reserves,

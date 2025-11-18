@@ -18,8 +18,7 @@ module DiemFramework::DiemVersion {
         DiemTimestamp::assert_genesis();
         Roles::assert_diem_root(dr_account);
         DiemConfig::publish_new_config<DiemVersion>(
-            dr_account,
-            DiemVersion { major: initial_version }
+            dr_account, DiemVersion { major: initial_version }
         );
     }
 

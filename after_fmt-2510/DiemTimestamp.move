@@ -99,13 +99,11 @@ module DiemFramework::DiemTimestamp {
         ensures post_now == timestamp;
 
         /// Conditions we only check for the implementation, but do not pass to the caller.
-        aborts_if [concrete](
-            if (proposer == @VMReserved) {
-                now != timestamp
-            } else {
-                now >= timestamp
-            }
-        ) with errors::INVALID_ARGUMENT;
+        aborts_if [concrete](if (proposer == @VMReserved) {
+            now != timestamp
+        } else {
+            now >= timestamp
+        }) with errors::INVALID_ARGUMENT;
     }
 
     /// Gets the current time in microseconds.

@@ -187,7 +187,9 @@ module aptos_std::multi_ed25519 {
     }
 
     /// Serializes an UnvalidatedPublicKey struct to 32-bytes.
-    public fun unvalidated_public_key_to_bytes(pk: &UnvalidatedPublicKey): vector<u8> {
+    public fun unvalidated_public_key_to_bytes(
+        pk: &UnvalidatedPublicKey
+    ): vector<u8> {
         pk.bytes
     }
 
@@ -434,7 +436,8 @@ module aptos_std::multi_ed25519 {
         ];
 
         assert!(
-            check_and_get_threshold(torsion_point_with_threshold_1).extract() == 1, 1
+            check_and_get_threshold(torsion_point_with_threshold_1).extract() == 1,
+            1
         );
 
         // Try deserializing a MultiEd25519 `ValidatedPublicKey` with 1 Ed25519 sub-PKs and 1 threshold byte, as it should,

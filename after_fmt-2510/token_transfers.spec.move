@@ -36,7 +36,10 @@ spec aptos_token::token_transfers {
     ) {
         pragma verify = false;
         let token_id = token::create_token_id_raw(
-            creator, collection, name, property_version
+            creator,
+            collection,
+            name,
+            property_version
         );
     }
 
@@ -94,7 +97,10 @@ spec aptos_token::token_transfers {
         pragma aborts_if_is_partial;
 
         let token_id = token::create_token_id_raw(
-            creator, collection, name, property_version
+            creator,
+            collection,
+            name,
+            property_version
         );
         aborts_if !exists<PendingClaims>(sender);
         let pending_claims = global<PendingClaims>(sender).pending_claims;
@@ -152,7 +158,10 @@ spec aptos_token::token_transfers {
         pragma aborts_if_is_partial;
 
         let token_id = token::create_token_id_raw(
-            creator, collection, name, property_version
+            creator,
+            collection,
+            name,
+            property_version
         );
 
         let sender_addr = signer::address_of(sender);

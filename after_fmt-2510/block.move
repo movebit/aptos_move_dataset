@@ -93,7 +93,8 @@ module aptos_framework::block {
     ) {
         system_addresses::assert_aptos_framework(aptos_framework);
         assert!(
-            epoch_interval_microsecs > 0, error::invalid_argument(EZERO_EPOCH_INTERVAL)
+            epoch_interval_microsecs > 0,
+            error::invalid_argument(EZERO_EPOCH_INTERVAL)
         );
 
         move_to<CommitHistory>(
@@ -124,7 +125,11 @@ module aptos_framework::block {
         assert!(max_capacity > 0, error::invalid_argument(EZERO_MAX_CAPACITY));
         move_to<CommitHistory>(
             fx,
-            CommitHistory { max_capacity, next_idx: 0, table: table_with_length::new() }
+            CommitHistory {
+                max_capacity,
+                next_idx: 0,
+                table: table_with_length::new()
+            }
         );
     }
 

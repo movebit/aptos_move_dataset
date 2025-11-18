@@ -31,7 +31,10 @@ module confidential_asset_example::rollover_example {
 
         assert!(
             confidential_asset::verify_pending_balance(
-                bob_addr, token, &bob_dk, bob_amount
+                bob_addr,
+                token,
+                &bob_dk,
+                bob_amount
             )
         );
         assert!(
@@ -54,24 +57,22 @@ module confidential_asset_example::rollover_example {
         );
         assert!(
             confidential_asset::verify_actual_balance(
-                bob_addr, token, &bob_dk, (bob_amount as u128)
+                bob_addr,
+                token,
+                &bob_dk,
+                (bob_amount as u128)
             )
         );
     }
 
-    #[
-        test(
-            confidential_asset = @aptos_experimental,
-            aptos_fx = @aptos_framework,
-            fa = @0xfa,
-            bob = @0xb0
-        )
-    ]
+    #[test(
+        confidential_asset = @aptos_experimental,
+        aptos_fx = @aptos_framework,
+        fa = @0xfa,
+        bob = @0xb0
+    )]
     fun rollover_example_test(
-        confidential_asset: signer,
-        aptos_fx: signer,
-        fa: signer,
-        bob: signer
+        confidential_asset: signer, aptos_fx: signer, fa: signer, bob: signer
     ) {
         let token =
             confidential_asset_tests::set_up_for_confidential_asset_test(

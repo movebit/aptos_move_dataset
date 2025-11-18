@@ -25,10 +25,7 @@
 
 module aptos_framework::ethereum_derivable_account {
     use aptos_framework::auth_data::AbstractionAuthData;
-    use aptos_framework::common_account_abstractions_utils::{
-        network_name,
-        daa_authenticate
-    };
+    use aptos_framework::common_account_abstractions_utils::{network_name, daa_authenticate};
     use aptos_framework::base16::base16_utf8_to_vec_u8;
     use aptos_std::secp256k1;
     use aptos_std::aptos_hash;
@@ -98,10 +95,7 @@ module aptos_framework::ethereum_derivable_account {
                 bcs_stream::deserialize_vector<u8>(&mut stream, |x| deserialize_u8(x));
             let signature =
                 bcs_stream::deserialize_vector<u8>(&mut stream, |x| deserialize_u8(x));
-            SIWEAbstractSignature::MessageV1 {
-                issued_at: string::utf8(issued_at),
-                signature
-            }
+            SIWEAbstractSignature::MessageV1 { issued_at: string::utf8(issued_at), signature }
         } else if (signature_type == 0x01) {
             let scheme =
                 bcs_stream::deserialize_vector<u8>(&mut stream, |x| deserialize_u8(x));
@@ -182,10 +176,7 @@ module aptos_framework::ethereum_derivable_account {
 
         let maybe_recovered = secp256k1::ecdsa_recover(*message, v - 27, &signature);
 
-        assert!(
-            maybe_recovered.is_some(),
-            EINVALID_SIGNATURE
-        );
+        assert!(maybe_recovered.is_some(), EINVALID_SIGNATURE);
 
         let pubkey = maybe_recovered.borrow();
 
@@ -299,7 +290,9 @@ module aptos_framework::ethereum_derivable_account {
         ];
         let abstract_signature =
             create_raw_signature(
-                utf8(b"https"), utf8(b"2025-01-01T00:00:00.000Z"), signature_bytes
+                utf8(b"https"),
+                utf8(b"2025-01-01T00:00:00.000Z"),
+                signature_bytes
             );
         let siwe_abstract_signature = deserialize_abstract_signature(&abstract_signature);
         assert!(siwe_abstract_signature is SIWEAbstractSignature::MessageV2);

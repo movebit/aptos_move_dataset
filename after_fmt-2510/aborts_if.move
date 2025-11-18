@@ -118,9 +118,7 @@ module 0x42::TestAbortsIf {
     }
 
     fun multi_abort5_incorrect(x: u64) {
-        if (x == 0) {
-            abort 1
-        };
+        if (x == 0) { abort 1 };
     }
 
     spec multi_abort5_incorrect {

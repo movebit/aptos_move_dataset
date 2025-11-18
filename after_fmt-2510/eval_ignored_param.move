@@ -1,12 +1,7 @@
 //# publish
 module 0x42::Test {
     fun foo(
-        f: |u64, u64, u64| u64,
-        g: |u64, u64, u64| u64,
-        x: u64,
-        _: u64,
-        y: u64,
-        z: u64
+        f: |u64, u64, u64| u64, g: |u64, u64, u64| u64, x: u64, _: u64, y: u64, z: u64
     ): u64 {
         let r1 = f(
             {

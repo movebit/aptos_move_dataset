@@ -153,15 +153,11 @@ module stablecoin::usdk {
         // checks.
         let deposit =
             function_info::new_function_info(
-                usdk_signer,
-                string::utf8(b"usdk"),
-                string::utf8(b"deposit")
+                usdk_signer, string::utf8(b"usdk"), string::utf8(b"deposit")
             );
         let withdraw =
             function_info::new_function_info(
-                usdk_signer,
-                string::utf8(b"usdk"),
-                string::utf8(b"withdraw")
+                usdk_signer, string::utf8(b"usdk"), string::utf8(b"withdraw")
             );
         dispatchable_fungible_asset::register_dispatch_functions(
             constructor_ref,
@@ -286,7 +282,10 @@ module stablecoin::usdk {
         if (state.paused == paused) { return };
         state.paused = paused;
 
-        event::emit(Pause { pauser: signer::address_of(pauser), is_paused: paused });
+        event::emit(Pause {
+            pauser: signer::address_of(pauser),
+            is_paused: paused
+        });
     }
 
     /// Add an account to the denylist. This checks that the caller is the denylister.
@@ -298,7 +297,10 @@ module stablecoin::usdk {
         let freeze_ref = &borrow_global<Management>(usdk_address()).transfer_ref;
         primary_fungible_store::set_frozen_flag(freeze_ref, account, true);
 
-        event::emit(Denylist { denylister: signer::address_of(denylister), account });
+        event::emit(Denylist {
+            denylister: signer::address_of(denylister),
+            account
+        });
     }
 
     /// Remove an account from the denylist. This checks that the caller is the denylister.
@@ -310,7 +312,10 @@ module stablecoin::usdk {
         let freeze_ref = &borrow_global<Management>(usdk_address()).transfer_ref;
         primary_fungible_store::set_frozen_flag(freeze_ref, account, false);
 
-        event::emit(Denylist { denylister: signer::address_of(denylister), account });
+        event::emit(Denylist {
+            denylister: signer::address_of(denylister),
+            account
+        });
     }
 
     /// Add a new minter. This checks that the caller is the master minter and the account is not already a minter.

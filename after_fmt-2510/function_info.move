@@ -28,23 +28,15 @@ module aptos_framework::function_info {
         module_signer: &signer, module_name: String, function_name: String
     ): FunctionInfo {
         new_function_info_from_address(
-            signer::address_of(module_signer),
-            module_name,
-            function_name
+            signer::address_of(module_signer), module_name, function_name
         )
     }
 
     public fun new_function_info_from_address(
         module_address: address, module_name: String, function_name: String
     ): FunctionInfo {
-        assert!(
-            is_identifier(string::bytes(&module_name)),
-            EINVALID_IDENTIFIER
-        );
-        assert!(
-            is_identifier(string::bytes(&function_name)),
-            EINVALID_IDENTIFIER
-        );
+        assert!(is_identifier(string::bytes(&module_name)), EINVALID_IDENTIFIER);
+        assert!(is_identifier(string::bytes(&function_name)), EINVALID_IDENTIFIER);
         FunctionInfo { module_address, module_name, function_name }
     }
 

@@ -360,7 +360,8 @@ module aptos_std::bls12381_algebra {
             1
         );
         assert!(
-            G1_GENERATOR_SERIALIZED_COMP == serialize<G1, FormatG1Compr>(&generator), 1
+            G1_GENERATOR_SERIALIZED_COMP == serialize<G1, FormatG1Compr>(&generator),
+            1
         );
         let generator_from_comp =
             deserialize<G1, FormatG1Compr>(&G1_GENERATOR_SERIALIZED_COMP).extract();
@@ -576,7 +577,8 @@ module aptos_std::bls12381_algebra {
 
         // Serialization/deserialization.
         assert!(
-            G2_GENERATOR_SERIALIZED_COMP == serialize<G2, FormatG2Compr>(&generator), 1
+            G2_GENERATOR_SERIALIZED_COMP == serialize<G2, FormatG2Compr>(&generator),
+            1
         );
         assert!(
             G2_GENERATOR_SERIALIZED_UNCOMP
@@ -939,7 +941,8 @@ module aptos_std::bls12381_algebra {
         // Negation.
         let val_minus_7 = neg(&val_7);
         assert!(
-            FR_VAL_7_NEG_SERIALIZED_LSB == serialize<Fr, FormatFrLsb>(&val_minus_7), 1
+            FR_VAL_7_NEG_SERIALIZED_LSB == serialize<Fr, FormatFrLsb>(&val_minus_7),
+            1
         );
 
         // Addition.

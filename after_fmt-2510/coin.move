@@ -435,7 +435,8 @@ module aptos_framework::coin {
     inline fun assert_paired_metadata_exists<CoinType>(): Object<Metadata> {
         let metadata_opt = paired_metadata<CoinType>();
         assert!(
-            option::is_some(&metadata_opt), error::not_found(EPAIRED_FUNGIBLE_ASSET)
+            option::is_some(&metadata_opt),
+            error::not_found(EPAIRED_FUNGIBLE_ASSET)
         );
         option::destroy_some(metadata_opt)
     }
@@ -672,8 +673,7 @@ module aptos_framework::coin {
                     destroy_zero(coin);
                 } else {
                     fungible_asset::unchecked_deposit_with_no_events(
-                        object_address(&store),
-                        coin_to_fungible_asset(coin)
+                        object_address(&store), coin_to_fungible_asset(coin)
                     );
                 };
 
@@ -766,9 +766,7 @@ module aptos_framework::coin {
         let left_amount = amount - coin_balance;
         if (option::is_some(&paired_metadata)) {
             primary_fungible_store::is_balance_at_least(
-                owner,
-                option::extract(&mut paired_metadata),
-                left_amount
+                owner, option::extract(&mut paired_metadata), left_amount
             )
         } else { false }
     }
@@ -1009,7 +1007,9 @@ module aptos_framework::coin {
         symbol: string::String,
         decimals: u8,
         monitor_supply: bool
-    ): (BurnCapability<CoinType>, FreezeCapability<CoinType>, MintCapability<CoinType>) acquires CoinInfo, CoinConversionMap {
+    ): (
+        BurnCapability<CoinType>, FreezeCapability<CoinType>, MintCapability<CoinType>
+    ) acquires CoinInfo, CoinConversionMap {
         initialize_internal(
             account,
             name,
@@ -1027,7 +1027,9 @@ module aptos_framework::coin {
         symbol: string::String,
         decimals: u8,
         monitor_supply: bool
-    ): (BurnCapability<CoinType>, FreezeCapability<CoinType>, MintCapability<CoinType>) acquires CoinInfo, CoinConversionMap {
+    ): (
+        BurnCapability<CoinType>, FreezeCapability<CoinType>, MintCapability<CoinType>
+    ) acquires CoinInfo, CoinConversionMap {
         system_addresses::assert_aptos_framework(account);
         initialize_internal(
             account,
@@ -1046,7 +1048,9 @@ module aptos_framework::coin {
         decimals: u8,
         monitor_supply: bool,
         parallelizable: bool
-    ): (BurnCapability<CoinType>, FreezeCapability<CoinType>, MintCapability<CoinType>) acquires CoinInfo, CoinConversionMap {
+    ): (
+        BurnCapability<CoinType>, FreezeCapability<CoinType>, MintCapability<CoinType>
+    ) acquires CoinInfo, CoinConversionMap {
         let account_addr = signer::address_of(account);
         assert_signer_has_permission<CoinType>(account);
 
@@ -1069,7 +1073,8 @@ module aptos_framework::coin {
             error::invalid_argument(ECOIN_SYMBOL_TOO_LONG)
         );
         assert!(
-            decimals <= MAX_DECIMALS, error::invalid_argument(ECOIN_DECIMALS_TOO_LARGE)
+            decimals <= MAX_DECIMALS,
+            error::invalid_argument(ECOIN_DECIMALS_TOO_LARGE)
         );
 
         let coin_info = CoinInfo<CoinType> {
@@ -1257,7 +1262,9 @@ module aptos_framework::coin {
     #[test_only]
     fun initialize_fake_money(
         account: &signer, decimals: u8, monitor_supply: bool
-    ): (BurnCapability<FakeMoney>, FreezeCapability<FakeMoney>, MintCapability<FakeMoney>) acquires CoinInfo, CoinConversionMap {
+    ): (
+        BurnCapability<FakeMoney>, FreezeCapability<FakeMoney>, MintCapability<FakeMoney>
+    ) acquires CoinInfo, CoinConversionMap {
         aggregator_factory::initialize_aggregator_factory_for_test(account);
         initialize<FakeMoney>(
             account,
@@ -1271,7 +1278,9 @@ module aptos_framework::coin {
     #[test_only]
     public fun initialize_and_register_fake_money(
         account: &signer, decimals: u8, monitor_supply: bool
-    ): (BurnCapability<FakeMoney>, FreezeCapability<FakeMoney>, MintCapability<FakeMoney>) acquires CoinInfo, CoinConversionMap {
+    ): (
+        BurnCapability<FakeMoney>, FreezeCapability<FakeMoney>, MintCapability<FakeMoney>
+    ) acquires CoinInfo, CoinConversionMap {
         let (burn_cap, freeze_cap, mint_cap) =
             initialize_fake_money(account, decimals, monitor_supply);
         create_coin_conversion_map(account);
@@ -2083,7 +2092,10 @@ module aptos_framework::coin {
         let permissioned_signer =
             permissioned_signer::signer_from_permissioned_handle(&permissioned_handle);
         primary_fungible_store::grant_permission(
-            account, &permissioned_signer, metadata, 10
+            account,
+            &permissioned_signer,
+            metadata,
+            10
         );
 
         // Withdraw from permissioned signer with proper permissions.
@@ -2096,7 +2108,10 @@ module aptos_framework::coin {
             coin_to_fungible_asset(mint<FakeMoney>(100, &mint_cap))
         );
         primary_fungible_store::grant_permission(
-            account, &permissioned_signer, metadata, 100
+            account,
+            &permissioned_signer,
+            metadata,
+            100
         );
         let coin_2 = withdraw<FakeMoney>(&permissioned_signer, 100);
         burn(coin_2, &burn_cap);
@@ -2104,7 +2119,10 @@ module aptos_framework::coin {
         // Withdraw funds from PFS only.
         assert!(coin_balance<FakeMoney>(account_addr) == 0, 1);
         primary_fungible_store::grant_permission(
-            account, &permissioned_signer, metadata, 10
+            account,
+            &permissioned_signer,
+            metadata,
+            10
         );
         let coin_2 = withdraw<FakeMoney>(&permissioned_signer, 10);
         burn(coin_2, &burn_cap);
@@ -2135,7 +2153,10 @@ module aptos_framework::coin {
         let permissioned_signer =
             permissioned_signer::signer_from_permissioned_handle(&permissioned_handle);
         primary_fungible_store::grant_permission(
-            account, &permissioned_signer, metadata, 10
+            account,
+            &permissioned_signer,
+            metadata,
+            10
         );
 
         let coin_2 = withdraw<FakeMoney>(&permissioned_signer, 20);
@@ -2167,7 +2188,10 @@ module aptos_framework::coin {
         let permissioned_signer =
             permissioned_signer::signer_from_permissioned_handle(&permissioned_handle);
         primary_fungible_store::grant_permission(
-            account, &permissioned_signer, metadata, 10
+            account,
+            &permissioned_signer,
+            metadata,
+            10
         );
 
         // Withdraw from permissioned signer with proper permissions.
@@ -2180,7 +2204,10 @@ module aptos_framework::coin {
             coin_to_fungible_asset(mint<FakeMoney>(100, &mint_cap))
         );
         primary_fungible_store::grant_permission(
-            account, &permissioned_signer, metadata, 90
+            account,
+            &permissioned_signer,
+            metadata,
+            90
         );
         let coin_2 = withdraw<FakeMoney>(&permissioned_signer, 100);
         burn(coin_2, &burn_cap);
@@ -2214,7 +2241,10 @@ module aptos_framework::coin {
             coin_to_fungible_asset(mint<FakeMoney>(100, &mint_cap))
         );
         primary_fungible_store::grant_permission(
-            account, &permissioned_signer, metadata, 90
+            account,
+            &permissioned_signer,
+            metadata,
+            90
         );
         let coin_2 = withdraw<FakeMoney>(&permissioned_signer, 100);
         burn(coin_2, &burn_cap);

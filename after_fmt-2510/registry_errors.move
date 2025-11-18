@@ -33,12 +33,10 @@ module 0x42::test {
         let done = false;
         vector::for_each_mut(
             v,
-            |f: &mut Function| {
-                if (f.key == k) {
-                    f.f = f;
-                    done = true;
-                }
-            }
+            |f: &mut Function| { if (f.key == k) {
+                f.f = f;
+                done = true;
+            } }
         );
         if (!done) {
             let new_record = Function { f: f, key: k };

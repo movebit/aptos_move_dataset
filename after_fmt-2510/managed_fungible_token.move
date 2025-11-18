@@ -53,8 +53,7 @@ module example_addr::managed_fungible_token {
         let token_name: String = utf8(b"test token name");
         let asset_address =
             object::create_object_address(
-                &@example_addr,
-                create_token_seed(&collection_name, &token_name)
+                &@example_addr, create_token_seed(&collection_name, &token_name)
             );
         object::address_to_object<Metadata>(asset_address)
     }

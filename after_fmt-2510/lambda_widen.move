@@ -1,9 +1,7 @@
 module 0x8675309::M {
     use std::vector;
 
-    public inline fun use_mut_ref<T>(
-        v: &mut vector<T>, action: |&mut T| T
-    ): T {
+    public inline fun use_mut_ref<T>(v: &mut vector<T>, action: |&mut T| T): T {
         action(vector::borrow_mut(v, 0))
     }
 

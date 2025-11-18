@@ -121,7 +121,11 @@ module ambassador::ambassador {
 
         // Creates the collection with unlimited supply and without establishing any royalty configuration.
         collection::create_unlimited_collection(
-            creator, description, name, option::none(), uri
+            creator,
+            description,
+            name,
+            option::none(),
+            uri
         );
     }
 
@@ -167,10 +171,7 @@ module ambassador::ambassador {
     /// Uses multisig to mint to user, with creator permissions.
     /// Uses users address as unique name of the soulbound token.
     public entry fun mint_ambassador_token_by_user(
-        user: &signer,
-        creator: &signer,
-        description: String,
-        uri: String
+        user: &signer, creator: &signer, description: String, uri: String
     ) {
         let user_addr = signer::address_of(user);
         mint_ambassador_token(
@@ -282,8 +283,12 @@ module ambassador::ambassador {
     ) acquires AmbassadorToken, AmbassadorLevel {
         authorize_creator(creator, &token);
         let ambassador_token = move_from<AmbassadorToken>(object::object_address(&token));
-        let AmbassadorToken { mutator_ref: _, burn_ref, property_mutator_ref, base_uri: _ } =
-            ambassador_token;
+        let AmbassadorToken {
+            mutator_ref: _,
+            burn_ref,
+            property_mutator_ref,
+            base_uri: _
+        } = ambassador_token;
 
         let AmbassadorLevel { ambassador_level: _ } =
             move_from<AmbassadorLevel>(object::object_address(&token));
@@ -354,7 +359,9 @@ module ambassador::ambassador {
         let property_mutator_ref = &ambassador_token.property_mutator_ref;
         // Updates the rank in the property map.
         property_map::update_typed(
-            property_mutator_ref, &string::utf8(b"Rank"), string::utf8(new_rank)
+            property_mutator_ref,
+            &string::utf8(b"Rank"),
+            string::utf8(new_rank)
         );
         // Updates the token URI based on the new rank.
         let uri = ambassador_token.base_uri;
@@ -403,9 +410,7 @@ module ambassador::ambassador {
         let collection_name = string::utf8(COLLECTION_NAME);
         let token_address =
             token::create_token_address(
-                &signer::address_of(creator),
-                &collection_name,
-                &token_name
+                &signer::address_of(creator), &collection_name, &token_name
             );
         let token = object::address_to_object<AmbassadorToken>(token_address);
         // Asserts that the owner of the token is User1.

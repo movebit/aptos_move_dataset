@@ -63,9 +63,7 @@ module DiemFramework::RolesTests {
 
     #[test(tc = @TreasuryCompliance, dr = @DiemRoot)]
     #[expected_failure(abort_code = 1, location = DiemFramework::DiemTimestamp)]
-    fun grant_diem_root_correct_addr_post_genesis(
-        tc: signer, dr: signer
-    ) {
+    fun grant_diem_root_correct_addr_post_genesis(tc: signer, dr: signer) {
         Genesis::setup(&dr, &tc);
         Roles::grant_diem_root_role(&dr);
     }
@@ -294,9 +292,7 @@ module DiemFramework::RolesTests {
     }
 
     #[test(tc = @TreasuryCompliance, dr = @DiemRoot)]
-    fun grant_child_vasp_role_parent_vasp_granter(
-        tc: signer, dr: signer
-    ) {
+    fun grant_child_vasp_role_parent_vasp_granter(tc: signer, dr: signer) {
         Genesis::setup(&dr, &tc);
         let (account, pvasp) = {
             let accounts = unit_test::create_signers_for_testing(2);
@@ -348,7 +344,11 @@ module DiemFramework::RolesTests {
     fun role_ids(tc: signer, dr: signer) {
         Genesis::setup(&dr, &tc);
         let (
-            validator_account, validator_operator_account, dd_account, child_account, pvasp
+            validator_account,
+            validator_operator_account,
+            dd_account,
+            child_account,
+            pvasp
         ) = {
             let accounts = unit_test::create_signers_for_testing(5);
             (
@@ -371,7 +371,8 @@ module DiemFramework::RolesTests {
         assert!(Roles::get_role_id(signer::address_of(&dd_account)) == 2, 2);
         assert!(Roles::get_role_id(signer::address_of(&validator_account)) == 3, 3);
         assert!(
-            Roles::get_role_id(signer::address_of(&validator_operator_account)) == 4, 4
+            Roles::get_role_id(signer::address_of(&validator_operator_account)) == 4,
+            4
         );
         assert!(Roles::get_role_id(signer::address_of(&pvasp)) == 5, 5);
         assert!(Roles::get_role_id(signer::address_of(&child_account)) == 6, 6);

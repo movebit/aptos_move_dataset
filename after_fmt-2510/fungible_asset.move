@@ -5,7 +5,13 @@ module aptos_framework::fungible_asset {
     use aptos_framework::create_signer;
     use aptos_framework::event;
     use aptos_framework::function_info::{Self, FunctionInfo};
-    use aptos_framework::object::{Self, Object, ConstructorRef, DeleteRef, ExtendRef};
+    use aptos_framework::object::{
+        Self,
+        Object,
+        ConstructorRef,
+        DeleteRef,
+        ExtendRef
+    };
     use aptos_framework::permissioned_signer;
     use std::string;
     use std::features;
@@ -340,10 +346,7 @@ module aptos_framework::fungible_asset {
                 }
             );
         } else {
-            move_to(
-                metadata_object_signer,
-                Supply { current: 0, maximum: maximum_supply }
-            );
+            move_to(metadata_object_signer, Supply { current: 0, maximum: maximum_supply });
         };
 
         object::object_from_constructor_ref<Metadata>(constructor_ref)
@@ -386,8 +389,7 @@ module aptos_framework::fungible_asset {
 
                 assert!(
                     function_info::check_dispatch_type_compatibility(
-                        &dispatcher_withdraw_function_info,
-                        withdraw_function
+                        &dispatcher_withdraw_function_info, withdraw_function
                     ),
                     error::invalid_argument(EWITHDRAW_FUNCTION_SIGNATURE_MISMATCH)
                 );
@@ -406,8 +408,7 @@ module aptos_framework::fungible_asset {
                 // Verify that caller type matches callee type so wrongly typed function cannot be registered.
                 assert!(
                     function_info::check_dispatch_type_compatibility(
-                        &dispatcher_deposit_function_info,
-                        deposit_function
+                        &dispatcher_deposit_function_info, deposit_function
                     ),
                     error::invalid_argument(EDEPOSIT_FUNCTION_SIGNATURE_MISMATCH)
                 );
@@ -426,8 +427,7 @@ module aptos_framework::fungible_asset {
                 // Verify that caller type matches callee type so wrongly typed function cannot be registered.
                 assert!(
                     function_info::check_dispatch_type_compatibility(
-                        &dispatcher_derived_balance_function_info,
-                        balance_function
+                        &dispatcher_derived_balance_function_info, balance_function
                     ),
                     error::invalid_argument(
                         EDERIVED_BALANCE_FUNCTION_SIGNATURE_MISMATCH
@@ -540,7 +540,9 @@ module aptos_framework::fungible_asset {
     /// Creates a balance ref that can be used to access raw balance of fungible assets from the given fungible
     /// object's constructor ref.
     /// This can only be called at object creation time as constructor_ref is only available then.
-    public fun generate_raw_balance_ref(constructor_ref: &ConstructorRef): RawBalanceRef {
+    public fun generate_raw_balance_ref(
+        constructor_ref: &ConstructorRef
+    ): RawBalanceRef {
         let metadata = object::object_from_constructor_ref<Metadata>(constructor_ref);
         RawBalanceRef { metadata }
     }
@@ -879,10 +881,7 @@ module aptos_framework::fungible_asset {
     ///       This function can be in-place replaced by `dispatchable_fungible_asset::transfer`. You should use
     ///       that function unless you DO NOT want to support fungible assets with dispatchable hooks.
     public entry fun transfer<T: key>(
-        sender: &signer,
-        from: Object<T>,
-        to: Object<T>,
-        amount: u64
+        sender: &signer, from: Object<T>, to: Object<T>, amount: u64
     ) acquires FungibleStore, DispatchFunctionStore, ConcurrentFungibleBalance {
         let fa = withdraw(sender, from, amount);
         deposit(to, fa);
@@ -896,7 +895,11 @@ module aptos_framework::fungible_asset {
         let store_obj = &object::generate_signer(constructor_ref);
         move_to(
             store_obj,
-            FungibleStore { metadata: object::convert(metadata), balance: 0, frozen: false }
+            FungibleStore {
+                metadata: object::convert(metadata),
+                balance: 0,
+                frozen: false
+            }
         );
 
         if (is_untransferable(metadata)) {
@@ -968,9 +971,7 @@ module aptos_framework::fungible_asset {
             permissioned_signer::check_permission_consume(
                 owner,
                 amount as u256,
-                WithdrawPermission::ByStore {
-                    store_address: object::object_address(&store)
-                }
+                WithdrawPermission::ByStore { store_address: object::object_address(&store) }
             ),
             error::permission_denied(EWITHDRAW_PERMISSION_DENIED)
         );
@@ -982,9 +983,7 @@ module aptos_framework::fungible_asset {
     ) {
         assert!(
             permissioned_signer::check_permission_consume(
-                owner,
-                amount as u256,
-                WithdrawPermission::ByStore { store_address }
+                owner, amount as u256, WithdrawPermission::ByStore { store_address }
             ),
             error::permission_denied(EWITHDRAW_PERMISSION_DENIED)
         );
@@ -994,11 +993,7 @@ module aptos_framework::fungible_asset {
     public(friend) fun withdraw_sanity_check<T: key>(
         owner: &signer, store: Object<T>, abort_on_dispatch: bool
     ) acquires FungibleStore, DispatchFunctionStore {
-        withdraw_sanity_check_impl(
-            signer::address_of(owner),
-            store,
-            abort_on_dispatch
-        )
+        withdraw_sanity_check_impl(signer::address_of(owner), store, abort_on_dispatch)
     }
 
     inline fun withdraw_sanity_check_impl<T: key>(
@@ -1137,10 +1132,7 @@ module aptos_framework::fungible_asset {
 
     /// Transfer `amount` of the fungible asset with `TransferRef` even it is frozen.
     public fun transfer_with_ref<T: key>(
-        transfer_ref: &TransferRef,
-        from: Object<T>,
-        to: Object<T>,
-        amount: u64
+        transfer_ref: &TransferRef, from: Object<T>, to: Object<T>, amount: u64
     ) acquires FungibleStore, ConcurrentFungibleBalance {
         let fa = withdraw_with_ref(transfer_ref, from, amount);
         deposit_with_ref(transfer_ref, to, fa);
@@ -1472,10 +1464,7 @@ module aptos_framework::fungible_asset {
     ///
     /// Master signer grant permissioned signer ability to withdraw a given amount of fungible asset.
     public fun grant_permission_by_store<T: key>(
-        master: &signer,
-        permissioned: &signer,
-        store: Object<T>,
-        amount: u64
+        master: &signer, permissioned: &signer, store: Object<T>, amount: u64
     ) {
         permissioned_signer::authorize_increase(
             master,
@@ -1539,7 +1528,9 @@ module aptos_framework::fungible_asset {
     #[test_only]
     public fun init_test_metadata(
         constructor_ref: &ConstructorRef
-    ): (MintRef, TransferRef, BurnRef, MutateMetadataRef) {
+    ): (
+        MintRef, TransferRef, BurnRef, MutateMetadataRef
+    ) {
         add_fungibility(
             constructor_ref,
             option::some(100) /* max supply */,
@@ -1553,16 +1544,24 @@ module aptos_framework::fungible_asset {
         let burn_ref = generate_burn_ref(constructor_ref);
         let transfer_ref = generate_transfer_ref(constructor_ref);
         let mutate_metadata_ref = generate_mutate_metadata_ref(constructor_ref);
-        (mint_ref, transfer_ref, burn_ref, mutate_metadata_ref)
+        (
+            mint_ref, transfer_ref, burn_ref, mutate_metadata_ref
+        )
     }
 
     #[test_only]
     public fun create_fungible_asset(
         creator: &signer
-    ): (MintRef, TransferRef, BurnRef, MutateMetadataRef, Object<Metadata>) {
+    ): (
+        MintRef, TransferRef, BurnRef, MutateMetadataRef, Object<Metadata>
+    ) {
         let (creator_ref, token_object) = create_test_token(creator);
-        let (mint, transfer, burn, mutate_metadata) = init_test_metadata(&creator_ref);
-        (mint, transfer, burn, mutate_metadata, object::convert(token_object))
+        let (
+            mint, transfer, burn, mutate_metadata
+        ) = init_test_metadata(&creator_ref);
+        (
+            mint, transfer, burn, mutate_metadata, object::convert(token_object)
+        )
     }
 
     #[test_only]
@@ -1638,8 +1637,9 @@ module aptos_framework::fungible_asset {
     fun test_e2e_basic_flow(
         creator: &signer, aaron: &signer
     ) acquires FungibleStore, Supply, ConcurrentSupply, DispatchFunctionStore, ConcurrentFungibleBalance, Metadata {
-        let (mint_ref, transfer_ref, burn_ref, mutate_metadata_ref, test_token) =
-            create_fungible_asset(creator);
+        let (
+            mint_ref, transfer_ref, burn_ref, mutate_metadata_ref, test_token
+        ) = create_fungible_asset(creator);
         let metadata = mint_ref.metadata;
         let creator_store = create_test_store(creator, metadata);
         let aaron_store = create_test_store(aaron, metadata);
@@ -1691,8 +1691,9 @@ module aptos_framework::fungible_asset {
     fun test_frozen(
         creator: &signer
     ) acquires FungibleStore, Supply, ConcurrentSupply, DispatchFunctionStore, ConcurrentFungibleBalance {
-        let (mint_ref, transfer_ref, _burn_ref, _mutate_metadata_ref, _) =
-            create_fungible_asset(creator);
+        let (
+            mint_ref, transfer_ref, _burn_ref, _mutate_metadata_ref, _
+        ) = create_fungible_asset(creator);
 
         let creator_store = create_test_store(creator, mint_ref.metadata);
         let fa = mint(&mint_ref, 100);
@@ -1705,8 +1706,9 @@ module aptos_framework::fungible_asset {
     fun test_mint_to_frozen(
         creator: &signer
     ) acquires FungibleStore, ConcurrentFungibleBalance, Supply, ConcurrentSupply, DispatchFunctionStore {
-        let (mint_ref, transfer_ref, _burn_ref, _mutate_metadata_ref, _) =
-            create_fungible_asset(creator);
+        let (
+            mint_ref, transfer_ref, _burn_ref, _mutate_metadata_ref, _
+        ) = create_fungible_asset(creator);
 
         let creator_store = create_test_store(creator, mint_ref.metadata);
         set_frozen_flag(&transfer_ref, creator_store, true);
@@ -1728,8 +1730,9 @@ module aptos_framework::fungible_asset {
     fun test_transfer_with_ref(
         creator: &signer, aaron: &signer
     ) acquires FungibleStore, Supply, ConcurrentSupply, ConcurrentFungibleBalance, DispatchFunctionStore {
-        let (mint_ref, transfer_ref, _burn_ref, _mutate_metadata_ref, _) =
-            create_fungible_asset(creator);
+        let (
+            mint_ref, transfer_ref, _burn_ref, _mutate_metadata_ref, _
+        ) = create_fungible_asset(creator);
         let metadata = mint_ref.metadata;
         let creator_store = create_test_store(creator, metadata);
         let aaron_store = create_test_store(aaron, metadata);
@@ -1747,8 +1750,9 @@ module aptos_framework::fungible_asset {
 
     #[test(creator = @0xcafe)]
     fun test_mutate_metadata(creator: &signer) acquires Metadata {
-        let (mint_ref, _transfer_ref, _burn_ref, mutate_metadata_ref, _) =
-            create_fungible_asset(creator);
+        let (
+            mint_ref, _transfer_ref, _burn_ref, mutate_metadata_ref, _
+        ) = create_fungible_asset(creator);
         let metadata = mint_ref.metadata;
 
         mutate_metadata(
@@ -1783,8 +1787,9 @@ module aptos_framework::fungible_asset {
 
     #[test(creator = @0xcafe)]
     fun test_partial_mutate_metadata(creator: &signer) acquires Metadata {
-        let (mint_ref, _transfer_ref, _burn_ref, mutate_metadata_ref, _) =
-            create_fungible_asset(creator);
+        let (
+            mint_ref, _transfer_ref, _burn_ref, mutate_metadata_ref, _
+        ) = create_fungible_asset(creator);
         let metadata = mint_ref.metadata;
 
         mutate_metadata(
@@ -1811,8 +1816,9 @@ module aptos_framework::fungible_asset {
     #[test(creator = @0xcafe)]
     #[expected_failure(abort_code = 0x2000f, location = Self)]
     fun test_mutate_metadata_name_over_maximum_length(creator: &signer) acquires Metadata {
-        let (_mint_ref, _transfer_ref, _burn_ref, mutate_metadata_ref, _) =
-            create_fungible_asset(creator);
+        let (
+            _mint_ref, _transfer_ref, _burn_ref, mutate_metadata_ref, _
+        ) = create_fungible_asset(creator);
 
         mutate_metadata(
             &mutate_metadata_ref,
@@ -1833,8 +1839,9 @@ module aptos_framework::fungible_asset {
     fun test_mutate_metadata_symbol_over_maximum_length(
         creator: &signer
     ) acquires Metadata {
-        let (_mint_ref, _transfer_ref, _burn_ref, mutate_metadata_ref, _) =
-            create_fungible_asset(creator);
+        let (
+            _mint_ref, _transfer_ref, _burn_ref, mutate_metadata_ref, _
+        ) = create_fungible_asset(creator);
 
         mutate_metadata(
             &mutate_metadata_ref,
@@ -1855,8 +1862,9 @@ module aptos_framework::fungible_asset {
     fun test_mutate_metadata_decimals_over_maximum_amount(
         creator: &signer
     ) acquires Metadata {
-        let (_mint_ref, _transfer_ref, _burn_ref, mutate_metadata_ref, _) =
-            create_fungible_asset(creator);
+        let (
+            _mint_ref, _transfer_ref, _burn_ref, mutate_metadata_ref, _
+        ) = create_fungible_asset(creator);
 
         mutate_metadata(
             &mutate_metadata_ref,
@@ -1886,8 +1894,9 @@ module aptos_framework::fungible_asset {
     fun test_mutate_metadata_icon_uri_over_maximum_length(
         creator: &signer
     ) acquires Metadata {
-        let (_mint_ref, _transfer_ref, _burn_ref, mutate_metadata_ref, _) =
-            create_fungible_asset(creator);
+        let (
+            _mint_ref, _transfer_ref, _burn_ref, mutate_metadata_ref, _
+        ) = create_fungible_asset(creator);
         let too_long_of_uri = create_exceedingly_long_uri();
         mutate_metadata(
             &mutate_metadata_ref,
@@ -1904,8 +1913,9 @@ module aptos_framework::fungible_asset {
     fun test_mutate_metadata_project_uri_over_maximum_length(
         creator: &signer
     ) acquires Metadata {
-        let (_mint_ref, _transfer_ref, _burn_ref, mutate_metadata_ref, _) =
-            create_fungible_asset(creator);
+        let (
+            _mint_ref, _transfer_ref, _burn_ref, mutate_metadata_ref, _
+        ) = create_fungible_asset(creator);
         let too_long_of_uri = create_exceedingly_long_uri();
         mutate_metadata(
             &mutate_metadata_ref,
@@ -1919,8 +1929,9 @@ module aptos_framework::fungible_asset {
 
     #[test(creator = @0xcafe)]
     fun test_merge_and_exact(creator: &signer) acquires Supply, ConcurrentSupply {
-        let (mint_ref, _transfer_ref, burn_ref, _mutate_metadata_ref, _) =
-            create_fungible_asset(creator);
+        let (
+            mint_ref, _transfer_ref, burn_ref, _mutate_metadata_ref, _
+        ) = create_fungible_asset(creator);
         let fa = mint(&mint_ref, 100);
         let cash = extract(&mut fa, 80);
         assert!(fa.amount == 20, 1);
@@ -1969,8 +1980,9 @@ module aptos_framework::fungible_asset {
         );
 
         let (creator_ref, token_object) = create_test_token(creator);
-        let (mint_ref, transfer_ref, _burn, _mutate_metadata_ref) =
-            init_test_metadata(&creator_ref);
+        let (
+            mint_ref, transfer_ref, _burn, _mutate_metadata_ref
+        ) = init_test_metadata(&creator_ref);
         let test_token = object::convert<TestToken, Metadata>(token_object);
         assert!(
             exists<Supply>(object::object_address(&test_token)),
@@ -2061,8 +2073,9 @@ module aptos_framework::fungible_asset {
         );
 
         let (creator_ref, token_object) = create_test_token(creator);
-        let (mint_ref, transfer_ref, _burn, _mutate_metadata_ref) =
-            init_test_metadata(&creator_ref);
+        let (
+            mint_ref, transfer_ref, _burn, _mutate_metadata_ref
+        ) = init_test_metadata(&creator_ref);
         let test_token = object::convert<TestToken, Metadata>(token_object);
         assert!(
             !exists<Supply>(object::object_address(&test_token)),

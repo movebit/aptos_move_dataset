@@ -12,10 +12,7 @@ module 0x66::fv_enum_basic {
 
     fun call_square(x: u64) {
         let act = Action::Call(square);
-        let v = match(act) {
-            Action::Call(f) => f(x),
-            _ => 0
-        };
+        let v = match(act) { Action::Call(f) => f(x), _ => 0 };
         assert!(v == 49);
     }
 

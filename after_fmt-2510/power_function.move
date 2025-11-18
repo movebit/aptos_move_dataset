@@ -1,9 +1,8 @@
 //# publish
 module 0x42::power_function {
     public fun pow(base: u64, exponent: u64): u64 {
-        if (exponent == 0) {
-            return 1
-        } else {
+        if (exponent == 0) { return 1 }
+        else {
             let result = base;
             let i = 1;
             while (i < exponent) {

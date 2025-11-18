@@ -38,8 +38,10 @@ spec aptos_std::comparator {
         let right_length = len(right);
 
         ensures (result.inner == EQUAL) ==>
-            ((left_length == right_length)
-                && (forall i: u64 where i < left_length: left[i] == right[i]));
+            (
+                (left_length == right_length)
+                    && (forall i: u64 where i < left_length: left[i] == right[i])
+            );
 
         ensures (result.inner == SMALLER) ==>
             (

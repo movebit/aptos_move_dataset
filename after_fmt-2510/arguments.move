@@ -21,7 +21,9 @@ module deploy_address::number {
     #[view]
     public fun get_number(
         addr: address
-    ): (u8, u16, u32, u64, u128, u256, vector<u256>) acquires NumberHolder {
+    ): (
+        u8, u16, u32, u64, u128, u256, vector<u256>
+    ) acquires NumberHolder {
         assert!(
             exists<NumberHolder>(addr),
             error::not_found(ENOT_INITIALIZED)

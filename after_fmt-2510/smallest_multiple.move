@@ -1,9 +1,8 @@
 //# publish
 module 0xc0ffee::smallest_multiple {
     public fun gcd(a: u64, b: u64): u64 {
-        if (b == 0) {
-            return a
-        } else {
+        if (b == 0) { return a }
+        else {
             gcd(b, a % b)
         }
     }

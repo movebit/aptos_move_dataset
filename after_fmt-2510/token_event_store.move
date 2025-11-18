@@ -244,10 +244,7 @@ module aptos_token::token_event_store {
     /// Emit the collection uri mutation event
     friend
     fun emit_collection_uri_mutate_event(
-        creator: &signer,
-        collection: String,
-        old_uri: String,
-        new_uri: String
+        creator: &signer, collection: String, old_uri: String, new_uri: String
     ) acquires TokenEventStoreV1 {
         let event = CollectionUriMutateEvent {
             creator_addr: signer::address_of(creator),
@@ -268,8 +265,7 @@ module aptos_token::token_event_store {
             );
         } else {
             event::emit_event<CollectionUriMutateEvent>(
-                &mut token_event_store.collection_uri_mutate_events,
-                event
+                &mut token_event_store.collection_uri_mutate_events, event
             );
         };
     }
@@ -310,10 +306,7 @@ module aptos_token::token_event_store {
     /// Emit the collection maximum mutation event
     friend
     fun emit_collection_maximum_mutate_event(
-        creator: &signer,
-        collection: String,
-        old_maximum: u64,
-        new_maximum: u64
+        creator: &signer, collection: String, old_maximum: u64, new_maximum: u64
     ) acquires TokenEventStoreV1 {
         let event = CollectionMaxiumMutateEvent {
             creator_addr: signer::address_of(creator),
@@ -334,8 +327,7 @@ module aptos_token::token_event_store {
             );
         } else {
             event::emit_event<CollectionMaxiumMutateEvent>(
-                &mut token_event_store.collection_maximum_mutate_events,
-                event
+                &mut token_event_store.collection_maximum_mutate_events, event
             );
         };
     }
@@ -348,12 +340,14 @@ module aptos_token::token_event_store {
         let token_event_store = &mut TokenEventStoreV1[signer::address_of(account)];
         if (std::features::module_event_migration_enabled()) {
             event::emit(
-                OptInTransfer { account_address: signer::address_of(account), opt_in }
+                OptInTransfer {
+                    account_address: signer::address_of(account),
+                    opt_in
+                }
             );
         } else {
             event::emit_event<OptInTransferEvent>(
-                &mut token_event_store.opt_in_events,
-                opt_in_event
+                &mut token_event_store.opt_in_events, opt_in_event
             );
         }
     }
@@ -381,12 +375,17 @@ module aptos_token::token_event_store {
         let token_event_store = &mut TokenEventStoreV1[creator_addr];
         if (std::features::module_event_migration_enabled()) {
             event::emit(
-                UriMutation { creator: creator_addr, collection, token, old_uri, new_uri }
+                UriMutation {
+                    creator: creator_addr,
+                    collection,
+                    token,
+                    old_uri,
+                    new_uri
+                }
             );
         } else {
             event::emit_event<UriMutationEvent>(
-                &mut token_event_store.uri_mutate_events,
-                event
+                &mut token_event_store.uri_mutate_events, event
             );
         };
     }
@@ -427,8 +426,7 @@ module aptos_token::token_event_store {
             );
         } else {
             event::emit_event<DefaultPropertyMutateEvent>(
-                &mut token_event_store.default_property_mutate_events,
-                event
+                &mut token_event_store.default_property_mutate_events, event
             );
         };
     }
@@ -466,8 +464,7 @@ module aptos_token::token_event_store {
             );
         } else {
             event::emit_event<DescriptionMutateEvent>(
-                &mut token_event_store.description_mutate_events,
-                event
+                &mut token_event_store.description_mutate_events, event
             );
         };
     }
@@ -516,8 +513,7 @@ module aptos_token::token_event_store {
             );
         } else {
             event::emit_event<RoyaltyMutateEvent>(
-                &mut token_event_store.royalty_mutate_events,
-                event
+                &mut token_event_store.royalty_mutate_events, event
             );
         };
     }
@@ -555,8 +551,7 @@ module aptos_token::token_event_store {
             );
         } else {
             event::emit_event<MaxiumMutateEvent>(
-                &mut token_event_store.maximum_mutate_events,
-                event
+                &mut token_event_store.maximum_mutate_events, event
             );
         };
     }

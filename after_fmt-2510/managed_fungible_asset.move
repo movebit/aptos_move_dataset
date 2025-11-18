@@ -150,8 +150,7 @@ module example_addr::managed_fungible_asset {
         amounts: vector<u64>
     ) acquires ManagingRefs {
         let sender_primary_stores = vector::map(
-            from,
-            |addr| primary_fungible_store::primary_store(addr, asset)
+            from, |addr| primary_fungible_store::primary_store(addr, asset)
         );
         let receiver_primary_stores = vector::map(
             to,
@@ -204,8 +203,7 @@ module example_addr::managed_fungible_asset {
         amounts: vector<u64>
     ) acquires ManagingRefs {
         let primary_stores = vector::map(
-            from,
-            |addr| primary_fungible_store::primary_store(addr, asset)
+            from, |addr| primary_fungible_store::primary_store(addr, asset)
         );
         burn(admin, asset, primary_stores, amounts);
     }
@@ -243,7 +241,9 @@ module example_addr::managed_fungible_asset {
     ) acquires ManagingRefs {
         let primary_stores = vector::map(
             accounts,
-            |acct| { primary_fungible_store::ensure_primary_store_exists(acct, asset) }
+            |acct| {
+                primary_fungible_store::ensure_primary_store_exists(acct, asset)
+            }
         );
         set_frozen_status(admin, asset, primary_stores, frozen);
     }
@@ -272,8 +272,7 @@ module example_addr::managed_fungible_asset {
         amounts: vector<u64>
     ): FungibleAsset acquires ManagingRefs {
         let primary_stores = vector::map(
-            from,
-            |addr| primary_fungible_store::primary_store(addr, asset)
+            from, |addr| primary_fungible_store::primary_store(addr, asset)
         );
         withdraw(admin, asset, primary_stores, amounts)
     }
@@ -378,7 +377,8 @@ module example_addr::managed_fungible_asset {
     ): &TransferRef acquires ManagingRefs {
         let refs = authorized_borrow_refs(owner, asset);
         assert!(
-            option::is_some(&refs.transfer_ref), error::not_found(ERR_TRANSFER_REF)
+            option::is_some(&refs.transfer_ref),
+            error::not_found(ERR_TRANSFER_REF)
         );
         option::borrow(&refs.transfer_ref)
     }

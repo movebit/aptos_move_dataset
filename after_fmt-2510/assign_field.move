@@ -34,9 +34,8 @@ module 0x42::test {
     fun assign1(x: S1): u64 {
         let count = 0;
         while (x.1) {
-            let y = if (x.0 > 0) {
-                x.0 - 1
-            } else { 0 };
+            let y = if (x.0 > 0) { x.0 - 1 }
+            else { 0 };
             x = S1(y, y >= 1);
             count = count + 1;
         };

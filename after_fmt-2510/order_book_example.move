@@ -4,11 +4,7 @@ module 0xABCD::order_book_example {
     use std::option;
     use std::vector;
     use std::table::{Self, Table};
-    use aptos_experimental::order_book_types::{
-        OrderIdType,
-        good_till_cancelled,
-        OrderMatch
-    };
+    use aptos_experimental::order_book_types::{OrderIdType, good_till_cancelled, OrderMatch};
     use aptos_experimental::order_book;
     use aptos_experimental::order_book::OrderBook;
 
@@ -25,10 +21,7 @@ module 0xABCD::order_book_example {
     // Create the global `Dex`.
     // Stored under the module publisher address.
     fun init_module(publisher: &signer) {
-        assert!(
-            signer::address_of(publisher) == @publisher_address,
-            ENOT_AUTHORIZED
-        );
+        assert!(signer::address_of(publisher) == @publisher_address, ENOT_AUTHORIZED);
 
         let order_books = table::new();
         for (i in 0..10) {

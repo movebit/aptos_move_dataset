@@ -47,9 +47,7 @@ module 0x42::VerifyVector {
     }
 
     // Get mutable reference to the ith element in the vector, abort if out of bound.
-    fun verify_model_borrow_mut<Element>(
-        v: &mut vector<Element>, i: u64
-    ): &mut Element {
+    fun verify_model_borrow_mut<Element>(v: &mut vector<Element>, i: u64): &mut Element {
         vector::borrow_mut(v, i) // inlining the built-in Boogie procedure
     }
 
@@ -81,9 +79,7 @@ module 0x42::VerifyVector {
     }
 
     // Swaps the elements at the i'th and j'th indices in the vector.
-    fun verify_model_swap<Element>(
-        v: &mut vector<Element>, i: u64, j: u64
-    ) {
+    fun verify_model_swap<Element>(v: &mut vector<Element>, i: u64, j: u64) {
         vector::swap(v, i, j); // inlining the built-in Boogie procedure
     }
 
@@ -448,9 +444,7 @@ module 0x42::VerifyVector {
     // Remove the `i`th element E of the vector by swapping it with the last element,
     // and then popping it off
     // It is O(1), but does not preserve ordering
-    fun verify_model_swap_remove<Element>(
-        v: &mut vector<Element>, i: u64
-    ): Element {
+    fun verify_model_swap_remove<Element>(v: &mut vector<Element>, i: u64): Element {
         vector::swap_remove(v, i) // inlining the built-in Boogie procedure.
     }
 

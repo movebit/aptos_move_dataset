@@ -100,7 +100,8 @@ module CoreFramework::Account {
     ): vector<u8> {
         let authentication_key = auth_key_prefix;
         vector::append(
-            &mut authentication_key, bcs::to_bytes(signer::borrow_address(account))
+            &mut authentication_key,
+            bcs::to_bytes(signer::borrow_address(account))
         );
         /*
         assert!(

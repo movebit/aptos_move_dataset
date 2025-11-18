@@ -290,9 +290,7 @@ spec aptos_framework::vesting {
         contract_address: address;
 
         // Cause timeout here
-        include TotalAccumulatedRewardsAbortsIf {
-            vesting_contract_address: contract_address
-        };
+        include TotalAccumulatedRewardsAbortsIf { vesting_contract_address: contract_address };
 
         let vesting_contract = global<VestingContract>(contract_address);
         let operator = vesting_contract.staking.operator;
@@ -379,10 +377,7 @@ spec aptos_framework::vesting {
         let vesting_contract = global<VestingContract>(contract_address);
         let acc = vesting_contract.signer_cap.account;
         let old_operator = vesting_contract.staking.operator;
-        include staking_contract::ContractExistsAbortsIf {
-            staker: acc,
-            operator: old_operator
-        };
+        include staking_contract::ContractExistsAbortsIf { staker: acc, operator: old_operator };
         let store = global<staking_contract::Store>(acc);
         let staking_contracts = store.staking_contracts;
         aborts_if simple_map::spec_contains_key(staking_contracts, new_operator);
@@ -481,7 +476,10 @@ spec aptos_framework::vesting {
     }
 
     spec set_management_role(
-        admin: &signer, contract_address: address, role: String, role_holder: address
+        admin: &signer,
+        contract_address: address,
+        role: String,
+        role_holder: address
     ) {
         pragma aborts_if_is_partial;
         include SetManagementRoleAbortsIf;
@@ -613,10 +611,7 @@ spec aptos_framework::vesting {
         contract_address: address;
 
         let operator = vesting_contract.staking.operator;
-        include staking_contract::ContractExistsAbortsIf {
-            staker: contract_address,
-            operator
-        };
+        include staking_contract::ContractExistsAbortsIf { staker: contract_address, operator };
 
         // verify staking_contract::distribute_internal()
         let store = global<staking_contract::Store>(contract_address);

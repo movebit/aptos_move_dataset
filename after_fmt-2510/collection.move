@@ -367,9 +367,7 @@ module aptos_token_objects::collection {
     }
 
     /// Generates the collections address based upon the creators address and the collection's name
-    public fun create_collection_address(
-        creator: &address, name: &String
-    ): address {
+    public fun create_collection_address(creator: &address, name: &String): address {
         object::create_object_address(creator, create_collection_seed(name))
     }
 
@@ -505,8 +503,7 @@ module aptos_token_objects::collection {
                 );
             } else {
                 event::emit_event(
-                    &mut supply.burn_events,
-                    BurnEvent { index: *index.borrow(), token }
+                    &mut supply.burn_events, BurnEvent { index: *index.borrow(), token }
                 );
             };
         } else if (exists<UnlimitedSupply>(collection_addr)) {
@@ -523,8 +520,7 @@ module aptos_token_objects::collection {
                 );
             } else {
                 event::emit_event(
-                    &mut supply.burn_events,
-                    BurnEvent { index: *index.borrow(), token }
+                    &mut supply.burn_events, BurnEvent { index: *index.borrow(), token }
                 );
             };
         }
@@ -540,7 +536,9 @@ module aptos_token_objects::collection {
         let metadata_object_address = object::address_from_extend_ref(ref);
         let metadata_object_signer = object::generate_signer_for_extending(ref);
 
-        let (supply, current_supply, total_minted, burn_events, mint_events) =
+        let (
+            supply, current_supply, total_minted, burn_events, mint_events
+        ) =
             if (exists<FixedSupply>(metadata_object_address)) {
                 let FixedSupply {
                     current_supply,
@@ -554,7 +552,9 @@ module aptos_token_objects::collection {
                     current_supply: aggregator_v2::create_aggregator(max_supply),
                     total_minted: aggregator_v2::create_unbounded_aggregator()
                 };
-                (supply, current_supply, total_minted, burn_events, mint_events)
+                (
+                    supply, current_supply, total_minted, burn_events, mint_events
+                )
             } else if (exists<UnlimitedSupply>(metadata_object_address)) {
                 let UnlimitedSupply {
                     current_supply,
@@ -567,7 +567,9 @@ module aptos_token_objects::collection {
                     current_supply: aggregator_v2::create_unbounded_aggregator(),
                     total_minted: aggregator_v2::create_unbounded_aggregator()
                 };
-                (supply, current_supply, total_minted, burn_events, mint_events)
+                (
+                    supply, current_supply, total_minted, burn_events, mint_events
+                )
             } else {
                 // untracked collection is already concurrent, and other variants too.
                 abort error::invalid_argument(EALREADY_CONCURRENT)
@@ -692,7 +694,9 @@ module aptos_token_objects::collection {
         } else {
             event::emit_event(
                 &mut collection.mutation_events,
-                MutationEvent { mutated_field_name: string::utf8(b"description") }
+                MutationEvent {
+                    mutated_field_name: string::utf8(b"description")
+                }
             );
         };
         collection.description = description;
@@ -748,9 +752,11 @@ module aptos_token_objects::collection {
             abort error::invalid_argument(ENO_MAX_SUPPLY_IN_COLLECTION)
         };
 
-        event::emit(
-            SetMaxSupply { collection, old_max_supply, new_max_supply: max_supply }
-        );
+        event::emit(SetMaxSupply {
+            collection,
+            old_max_supply,
+            new_max_supply: max_supply
+        });
     }
 
     // Tests
@@ -1176,7 +1182,9 @@ module aptos_token_objects::collection {
     #[test_only]
     /// Get all data from Burn event
     public fun get_burn_event_data(event: &Burn): (address, u64, address, address) {
-        (event.collection, event.index, event.token, event.previous_owner)
+        (
+            event.collection, event.index, event.token, event.previous_owner
+        )
     }
 
     #[test_only]

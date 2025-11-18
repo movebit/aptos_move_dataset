@@ -42,9 +42,7 @@ module aptos_experimental::pre_cancellation_tracker {
 
     fun new_default_big_ordered_map<K: store, V: store>(): BigOrderedMap<K, V> {
         big_ordered_map::new_with_config(
-            BIG_MAP_INNER_DEGREE,
-            BIG_MAP_LEAF_DEGREE,
-            true
+            BIG_MAP_INNER_DEGREE, BIG_MAP_LEAF_DEGREE, true
         )
     }
 

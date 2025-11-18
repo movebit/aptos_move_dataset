@@ -415,8 +415,12 @@ module aptos_token_objects::aptos_token {
         );
         move aptos_token;
         let aptos_token = move_from<AptosToken>(object::object_address(&token));
-        let AptosToken { burn_ref, transfer_ref: _, mutator_ref: _, property_mutator_ref } =
-            aptos_token;
+        let AptosToken {
+            burn_ref,
+            transfer_ref: _,
+            mutator_ref: _,
+            property_mutator_ref
+        } = aptos_token;
         property_map::burn(property_mutator_ref);
         token::burn(burn_ref.extract());
     }
@@ -459,10 +463,7 @@ module aptos_token_objects::aptos_token {
     public entry fun set_name<T: key>(
         creator: &signer, token: Object<T>, name: String
     ) acquires AptosCollection, AptosToken {
-        assert!(
-            is_mutable_name(token),
-            error::permission_denied(EFIELD_NOT_MUTABLE)
-        );
+        assert!(is_mutable_name(token), error::permission_denied(EFIELD_NOT_MUTABLE));
         let aptos_token = authorized_borrow(&token, creator);
         token::set_name(aptos_token.mutator_ref.borrow(), name);
     }
@@ -470,10 +471,7 @@ module aptos_token_objects::aptos_token {
     public entry fun set_uri<T: key>(
         creator: &signer, token: Object<T>, uri: String
     ) acquires AptosCollection, AptosToken {
-        assert!(
-            is_mutable_uri(token),
-            error::permission_denied(EFIELD_NOT_MUTABLE)
-        );
+        assert!(is_mutable_uri(token), error::permission_denied(EFIELD_NOT_MUTABLE));
         let aptos_token = authorized_borrow(&token, creator);
         token::set_uri(aptos_token.mutator_ref.borrow(), uri);
     }
@@ -500,10 +498,7 @@ module aptos_token_objects::aptos_token {
     }
 
     public entry fun add_typed_property<T: key, V: drop>(
-        creator: &signer,
-        token: Object<T>,
-        key: String,
-        value: V
+        creator: &signer, token: Object<T>, key: String, value: V
     ) acquires AptosCollection, AptosToken {
         let aptos_token = authorized_borrow(&token, creator);
         assert!(
@@ -548,10 +543,7 @@ module aptos_token_objects::aptos_token {
     }
 
     public entry fun update_typed_property<T: key, V: drop>(
-        creator: &signer,
-        token: Object<T>,
-        key: String,
-        value: V
+        creator: &signer, token: Object<T>, key: String, value: V
     ) acquires AptosCollection, AptosToken {
         let aptos_token = authorized_borrow(&token, creator);
         assert!(

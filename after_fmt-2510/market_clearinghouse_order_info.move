@@ -74,7 +74,16 @@ module aptos_experimental::market_clearinghouse_order_info {
 
     public fun into_inner<M: copy + drop>(
         self: MarketClearinghouseOrderInfo<M>
-    ): (address, OrderIdType, bool, u64, Option<String>, TimeInForce, OrderType, M) {
+    ): (
+        address,
+        OrderIdType,
+        bool,
+        u64,
+        Option<String>,
+        TimeInForce,
+        OrderType,
+        M
+    ) {
         (
             self.account,
             self.order_id,

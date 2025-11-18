@@ -25,7 +25,11 @@ module post_mint_reveal_nft::big_vector {
     /// Create an empty vector.
     public fun empty<T: store>(bucket_size: u64): BigVector<T> {
         assert!(bucket_size > 0, error::invalid_argument(EZERO_BUCKET_SIZE));
-        BigVector { buckets: table_with_length::new(), end_index: 0, bucket_size }
+        BigVector {
+            buckets: table_with_length::new(),
+            end_index: 0,
+            bucket_size
+        }
     }
 
     /// Create a vector of length 1 containing the passed in element.
@@ -66,9 +70,7 @@ module post_mint_reveal_nft::big_vector {
     /// Empty and destroy the other vector, and push each of the elements in the other vector onto the lhs vector in the
     /// same order as they occurred in other.
     /// Disclaimer: This function is costly. Use it at your own discretion.
-    public fun append<T: store>(
-        lhs: &mut BigVector<T>, other: BigVector<T>
-    ) {
+    public fun append<T: store>(lhs: &mut BigVector<T>, other: BigVector<T>) {
         let other_len = length(&other);
         let half_other_len = other_len / 2;
         let i = 0;

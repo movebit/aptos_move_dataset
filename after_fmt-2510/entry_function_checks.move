@@ -19,11 +19,7 @@ module alice::foo {
     entry fun one_signer_later(_x: u64, _s: &signer) {}
 
     entry fun multiple_signers_later(
-        _x: u64,
-        _y: u64,
-        _s1: &signer,
-        _z: u64,
-        _s2: &signer
+        _x: u64, _y: u64, _s1: &signer, _z: u64, _s2: &signer
     ) {}
 }
 

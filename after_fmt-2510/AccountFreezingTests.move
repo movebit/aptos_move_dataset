@@ -107,9 +107,7 @@ module DiemFramework::AccountFreezingTests {
     }
 
     #[test(a = @0x2, tc = @TreasuryCompliance, dr = @DiemRoot)]
-    fun account_unfrozen_after_unfreeze(
-        a: signer, tc: signer, dr: signer
-    ) {
+    fun account_unfrozen_after_unfreeze(a: signer, tc: signer, dr: signer) {
         let a_addr = signer::address_of(&a);
         Genesis::setup(&dr, &tc);
 

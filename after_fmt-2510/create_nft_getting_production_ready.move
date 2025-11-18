@@ -232,7 +232,8 @@ module mint_nft::create_nft_getting_production_ready {
             error::permission_denied(ECOLLECTION_EXPIRED)
         );
         assert!(
-            module_data.minting_enabled, error::permission_denied(EMINTING_DISABLED)
+            module_data.minting_enabled,
+            error::permission_denied(EMINTING_DISABLED)
         );
 
         // verify that the `mint_proof_signature` is valid against the admin's public key

@@ -132,8 +132,9 @@ module aptos_experimental::bulk_order_book {
         active_matched_order: ActiveMatchedOrder,
         is_bid: bool
     ): OrderMatch<M> {
-        let (order_id, matched_size, remaining_size, order_book_type) =
-            active_matched_order.destroy_active_matched_order();
+        let (
+            order_id, matched_size, remaining_size, order_book_type
+        ) = active_matched_order.destroy_active_matched_order();
         assert!(order_book_type == bulk_order_type(), ENOT_BULK_ORDER);
         let order_address = self.order_id_to_address.get(&order_id).destroy_some();
         let order = self.orders.remove(&order_address);
@@ -263,7 +264,9 @@ module aptos_experimental::bulk_order_book {
         cancel_active_orders(price_time_idx, &order);
         order.reinsert_order(&reinsert_order);
         activate_first_price_levels(
-            price_time_idx, &order, reinsert_order.get_order_id_from_match_details()
+            price_time_idx,
+            &order,
+            reinsert_order.get_order_id_from_match_details()
         );
         self.orders.add(account, order);
     }

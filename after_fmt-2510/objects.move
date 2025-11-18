@@ -50,9 +50,7 @@ module 0x42::objects {
     // ================================================
     // Basic Operations, inlined in the object definition context
 
-    public inline fun create<T: key>(
-        signer: &signer, _ref: &OwnerRef, val: T
-    ) {
+    public inline fun create<T: key>(signer: &signer, _ref: &OwnerRef, val: T) {
         // In reality, we should get the signer via the ref
         move_to<T>(signer, val)
     }

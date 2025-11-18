@@ -154,9 +154,7 @@ module aptos_std::pool_u64 {
 
     /// Add the number of shares directly for `shareholder` in `self`.
     /// This would dilute other shareholders if the pool's balance of coins didn't change.
-    fun add_shares(
-        self: &mut Pool, shareholder: address, new_shares: u64
-    ): u64 {
+    fun add_shares(self: &mut Pool, shareholder: address, new_shares: u64): u64 {
         if (self.contains(shareholder)) {
             let existing_shares = self.shares.borrow_mut(&shareholder);
             let current_shares = *existing_shares;
@@ -353,8 +351,7 @@ module aptos_std::pool_u64 {
         assert!(pool.redeem_shares(@1, 500) == expected_value_per_500_shares, 14);
         assert!(pool.redeem_shares(@1, 500) == expected_value_per_500_shares, 15);
         assert!(
-            pool.redeem_shares(@2, 2000) == expected_value_per_500_shares * 4,
-            16
+            pool.redeem_shares(@2, 2000) == expected_value_per_500_shares * 4, 16
         );
 
         // Due to a very small rounding error of 1, shareholder 3 actually has 1 more coin.
@@ -390,8 +387,7 @@ module aptos_std::pool_u64 {
         assert!(pool.total_coins() == MAX_U64, 3);
         assert!(pool.redeem_shares(@1, shares_1) == half_max_u64, 4);
         assert!(
-            pool.redeem_shares(@2, shares_2) == half_max_u64 + 1,
-            5
+            pool.redeem_shares(@2, shares_2) == half_max_u64 + 1, 5
         );
         pool.destroy_empty();
     }
@@ -403,8 +399,7 @@ module aptos_std::pool_u64 {
         let coins_amount = MAX_U64 / 100;
         let shares = pool.buy_in(@1, coins_amount);
         assert!(
-            pool.total_shares() == coins_amount * scaling_factor,
-            0
+            pool.total_shares() == coins_amount * scaling_factor, 0
         );
         assert!(pool.total_coins() == coins_amount, 1);
         assert!(pool.redeem_shares(@1, shares) == coins_amount, 2);
@@ -434,8 +429,7 @@ module aptos_std::pool_u64 {
         pool.update_total_coins(total_coins * 6 / 5);
         // Minus 1 due to rounding error.
         assert!(
-            pool.balance(@1) == 100000000000000000 * 6 / 5 - 1,
-            1
+            pool.balance(@1) == 100000000000000000 * 6 / 5 - 1, 1
         );
         assert!(pool.balance(@2) == 1, 2);
         pool.destroy_pool();

@@ -63,9 +63,7 @@ spec aptos_framework::resource_account {
         pragma aborts_if_is_partial;
     }
 
-    spec create_resource_account(
-        origin: &signer, seed: vector<u8>, optional_auth_key: vector<u8>
-    ) {
+    spec create_resource_account(origin: &signer, seed: vector<u8>, optional_auth_key: vector<u8>) {
         use aptos_framework::create_signer;
         let source_addr = signer::address_of(origin);
         let resource_addr = account::spec_create_resource_address(source_addr, seed);
@@ -74,7 +72,10 @@ spec aptos_framework::resource_account {
     }
 
     spec create_resource_account_and_fund(
-        origin: &signer, seed: vector<u8>, optional_auth_key: vector<u8>, fund_amount: u64
+        origin: &signer,
+        seed: vector<u8>,
+        optional_auth_key: vector<u8>,
+        fund_amount: u64
     ) {
         use aptos_framework::aptos_account;
         // TODO(fa_migration)
@@ -83,10 +84,7 @@ spec aptos_framework::resource_account {
         let resource_addr = account::spec_create_resource_address(source_addr, seed);
         let coin_store_resource = global<coin::CoinStore<AptosCoin>>(resource_addr);
 
-        include aptos_account::WithdrawAbortsIf<AptosCoin> {
-            from: origin,
-            amount: fund_amount
-        };
+        include aptos_account::WithdrawAbortsIf<AptosCoin> { from: origin, amount: fund_amount };
         include aptos_account::GuidAbortsIf<AptosCoin> { to: resource_addr };
         include RotateAccountAuthenticationKeyAndStoreCapabilityAbortsIfWithoutAccountLimit;
 

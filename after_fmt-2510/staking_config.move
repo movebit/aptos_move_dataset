@@ -237,7 +237,9 @@ module aptos_framework::staking_config {
                     denominator = MAX_U64
                 };
                 let nominator =
-                    (fixed_point64::multiply_u128(denominator, epoch_rewards_rate) as u64);
+                    (
+                        fixed_point64::multiply_u128(denominator, epoch_rewards_rate) as u64
+                    );
                 (nominator, (denominator as u64))
             }
         } else {

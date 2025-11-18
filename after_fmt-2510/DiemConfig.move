@@ -349,8 +349,7 @@ module DiemFramework::DiemConfig {
         config_ref.epoch = config_ref.epoch + 1;
 
         event::emit_event<NewEpochEvent>(
-            &mut config_ref.events,
-            NewEpochEvent { epoch: config_ref.epoch }
+            &mut config_ref.events, NewEpochEvent { epoch: config_ref.epoch }
         );
     }
 
@@ -434,8 +433,7 @@ module DiemFramework::DiemConfig {
         config_ref.epoch = 1;
 
         event::emit_event<NewEpochEvent>(
-            &mut config_ref.events,
-            NewEpochEvent { epoch: config_ref.epoch }
+            &mut config_ref.events, NewEpochEvent { epoch: config_ref.epoch }
         );
     }
 

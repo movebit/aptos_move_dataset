@@ -145,7 +145,9 @@ module aptos_experimental::bulk_order_book_types {
         order_req: BulkOrderRequest<M>,
         best_bid_price: Option<u64>,
         best_ask_price: Option<u64>
-    ): (BulkOrder<M>, vector<u64>, vector<u64>, vector<u64>, vector<u64>) {
+    ): (
+        BulkOrder<M>, vector<u64>, vector<u64>, vector<u64>, vector<u64>
+    ) {
         let BulkOrderRequest::V1 {
             account,
             order_sequence_number,
@@ -177,7 +179,9 @@ module aptos_experimental::bulk_order_book_types {
                     post_only_bid_sizes
                 )
             } else {
-                (vector::empty<u64>(), vector::empty<u64>(), bid_prices, bid_sizes)
+                (
+                    vector::empty<u64>(), vector::empty<u64>(), bid_prices, bid_sizes
+                )
             };
         let (
             cancelled_ask_prices,
@@ -195,7 +199,9 @@ module aptos_experimental::bulk_order_book_types {
                     post_only_ask_sizes
                 )
             } else {
-                (vector::empty<u64>(), vector::empty<u64>(), ask_prices, ask_sizes)
+                (
+                    vector::empty<u64>(), vector::empty<u64>(), ask_prices, ask_sizes
+                )
             };
         let bulk_order = BulkOrder::V1 {
             order_id,
@@ -446,7 +452,9 @@ module aptos_experimental::bulk_order_book_types {
 
     public fun destroy_bulk_order_request_response<M: store + copy + drop>(
         response: BulkOrderRequestResponse<M>
-    ): (option::Option<BulkOrderRequest<M>>, option::Option<std::string::String>) {
+    ): (
+        option::Option<BulkOrderRequest<M>>, option::Option<std::string::String>
+    ) {
         let BulkOrderRequestResponse { request, rejection_reason } = response;
         (request, rejection_reason)
     }

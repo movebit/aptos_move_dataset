@@ -67,14 +67,18 @@ module aptos_std::ristretto255_pedersen {
         r: &Scalar,
         rand_base: &RistrettoPoint
     ): Commitment {
-        Commitment { point: ristretto255::double_scalar_mul(v, val_base, r, rand_base) }
+        Commitment {
+            point: ristretto255::double_scalar_mul(v, val_base, r, rand_base)
+        }
     }
 
     /// Returns a commitment `v * G + r * rand_base` where `G` is the Ristretto255 basepoint.
     public fun new_commitment_with_basepoint(
         v: &Scalar, r: &Scalar, rand_base: &RistrettoPoint
     ): Commitment {
-        Commitment { point: ristretto255::basepoint_double_mul(r, rand_base, v) }
+        Commitment {
+            point: ristretto255::basepoint_double_mul(r, rand_base, v)
+        }
     }
 
     /// Returns a commitment `v * G + r * H` where `G` is the Ristretto255 basepoint and `H` is the default randomness
@@ -84,13 +88,17 @@ module aptos_std::ristretto255_pedersen {
             ristretto255::new_point_from_bytes(BULLETPROOF_DEFAULT_PEDERSEN_RAND_BASE);
         let rand_base = rand_base.extract();
 
-        Commitment { point: ristretto255::basepoint_double_mul(r, &rand_base, v) }
+        Commitment {
+            point: ristretto255::basepoint_double_mul(r, &rand_base, v)
+        }
     }
 
     /// Homomorphically combines two commitments `lhs` and `rhs` as `lhs + rhs`.
     /// Useful for re-randomizing the commitment or updating the committed value.
     public fun commitment_add(lhs: &Commitment, rhs: &Commitment): Commitment {
-        Commitment { point: ristretto255::point_add(&lhs.point, &rhs.point) }
+        Commitment {
+            point: ristretto255::point_add(&lhs.point, &rhs.point)
+        }
     }
 
     /// Like `commitment_add` but assigns `lhs = lhs + rhs`.
@@ -103,7 +111,9 @@ module aptos_std::ristretto255_pedersen {
     /// Homomorphically combines two commitments `lhs` and `rhs` as `lhs - rhs`.
     /// Useful for re-randomizing the commitment or updating the committed value.
     public fun commitment_sub(lhs: &Commitment, rhs: &Commitment): Commitment {
-        Commitment { point: ristretto255::point_sub(&lhs.point, &rhs.point) }
+        Commitment {
+            point: ristretto255::point_sub(&lhs.point, &rhs.point)
+        }
     }
 
     /// Like `commitment_add` but assigns `lhs = lhs - rhs`.

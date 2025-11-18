@@ -4,7 +4,9 @@ module 0xc0ffee::m {
     }
 
     fun multi(): (u64, u64, u64, u64, u64, u64) {
-        (one(), one(), one(), one(), one(), one())
+        (
+            one(), one(), one(), one(), one(), one()
+        )
     }
 
     fun consume(_a: u64, _b: u64, _c: u64, _d: u64, _e: u64, _f: u64) {}

@@ -22,7 +22,11 @@ module aptos_framework::aptos_governance {
     use aptos_std::smart_table::{Self, SmartTable};
     use aptos_std::table::{Self, Table};
 
-    use aptos_framework::account::{Self, SignerCapability, create_signer_with_capability};
+    use aptos_framework::account::{
+        Self,
+        SignerCapability,
+        create_signer_with_capability
+    };
     use aptos_framework::coin;
     use aptos_framework::event::{Self, EventHandle};
     use aptos_framework::governance_proposal::{Self, GovernanceProposal};
@@ -339,15 +343,11 @@ module aptos_framework::aptos_governance {
         // The voter's stake needs to be locked up at least as long as the proposal's expiration.
         // Also no one can vote on a expired proposal.
         if (proposal_expiration > lockup_until
-            || timestamp::now_seconds() > proposal_expiration) {
-            return 0
-        };
+            || timestamp::now_seconds() > proposal_expiration) { return 0 };
 
         // If a stake pool has already voted on a proposal before partial governance voting is enabled, the stake pool
         // cannot vote on the proposal even after partial governance voting is enabled.
-        if (has_entirely_voted(stake_pool, proposal_id)) {
-            return 0
-        };
+        if (has_entirely_voted(stake_pool, proposal_id)) { return 0 };
         let record_key = RecordKey { stake_pool, proposal_id };
         let used_voting_power =
             *VotingRecordsV2[@aptos_framework].votes.borrow_with_default(record_key, &0);
@@ -550,10 +550,7 @@ module aptos_framework::aptos_governance {
 
     /// Vote on proposal with `proposal_id` and all voting power from `stake_pool`.
     public entry fun vote(
-        voter: &signer,
-        stake_pool: address,
-        proposal_id: u64,
-        should_pass: bool
+        voter: &signer, stake_pool: address, proposal_id: u64, should_pass: bool
     ) acquires ApprovedExecutionHashes, VotingRecords, VotingRecordsV2, GovernanceEvents {
         vote_internal(
             voter,
@@ -809,8 +806,9 @@ module aptos_framework::aptos_governance {
         let allow_validator_set_change =
             staking_config::get_allow_validator_set_change(&staking_config::get());
         if (allow_validator_set_change) {
-            let (active, _, pending_active, pending_inactive) =
-                stake::get_stake(pool_address);
+            let (
+                active, _, pending_active, pending_inactive
+            ) = stake::get_stake(pool_address);
             // We calculate the voting power as total non-inactive stakes of the pool. Even if the validator is not in the
             // active validator set, as long as they have a lockup (separately checked in create_proposal and voting), their
             // stake would still count in their voting power for governance proposals.
@@ -984,14 +982,12 @@ module aptos_framework::aptos_governance {
         assert!(!simple_map::contains_key(&approved_hashes, &0), 3);
     }
 
-    #[
-        test(
-            aptos_framework = @aptos_framework,
-            proposer = @0x123,
-            yes_voter = @0x234,
-            no_voter = @345
-        )
-    ]
+    #[test(
+        aptos_framework = @aptos_framework,
+        proposer = @0x123,
+        yes_voter = @0x234,
+        no_voter = @345
+    )]
     public entry fun test_voting(
         aptos_framework: signer,
         proposer: signer,
@@ -1008,14 +1004,12 @@ module aptos_framework::aptos_governance {
         );
     }
 
-    #[
-        test(
-            aptos_framework = @aptos_framework,
-            proposer = @0x123,
-            yes_voter = @0x234,
-            no_voter = @345
-        )
-    ]
+    #[test(
+        aptos_framework = @aptos_framework,
+        proposer = @0x123,
+        yes_voter = @0x234,
+        no_voter = @345
+    )]
     public entry fun test_voting_multi_step(
         aptos_framework: signer,
         proposer: signer,
@@ -1032,14 +1026,12 @@ module aptos_framework::aptos_governance {
         );
     }
 
-    #[
-        test(
-            aptos_framework = @aptos_framework,
-            proposer = @0x123,
-            yes_voter = @0x234,
-            no_voter = @345
-        )
-    ]
+    #[test(
+        aptos_framework = @aptos_framework,
+        proposer = @0x123,
+        yes_voter = @0x234,
+        no_voter = @345
+    )]
     #[expected_failure(abort_code = 0x5000a, location = aptos_framework::voting)]
     public entry fun test_voting_multi_step_cannot_use_single_step_resolve(
         aptos_framework: signer,
@@ -1057,14 +1049,12 @@ module aptos_framework::aptos_governance {
         );
     }
 
-    #[
-        test(
-            aptos_framework = @aptos_framework,
-            proposer = @0x123,
-            yes_voter = @0x234,
-            no_voter = @345
-        )
-    ]
+    #[test(
+        aptos_framework = @aptos_framework,
+        proposer = @0x123,
+        yes_voter = @0x234,
+        no_voter = @345
+    )]
     public entry fun test_voting_single_step_can_use_generic_resolve_function(
         aptos_framework: signer,
         proposer: signer,
@@ -1138,14 +1128,12 @@ module aptos_framework::aptos_governance {
         assert!(!simple_map::contains_key(&approved_hashes, &0), 1);
     }
 
-    #[
-        test(
-            aptos_framework = @aptos_framework,
-            proposer = @0x123,
-            yes_voter = @0x234,
-            no_voter = @345
-        )
-    ]
+    #[test(
+        aptos_framework = @aptos_framework,
+        proposer = @0x123,
+        yes_voter = @0x234,
+        no_voter = @345
+    )]
     public entry fun test_can_remove_approved_hash_if_executed_directly_via_voting(
         aptos_framework: signer,
         proposer: signer,
@@ -1161,14 +1149,12 @@ module aptos_framework::aptos_governance {
         );
     }
 
-    #[
-        test(
-            aptos_framework = @aptos_framework,
-            proposer = @0x123,
-            yes_voter = @0x234,
-            no_voter = @345
-        )
-    ]
+    #[test(
+        aptos_framework = @aptos_framework,
+        proposer = @0x123,
+        yes_voter = @0x234,
+        no_voter = @345
+    )]
     public entry fun test_can_remove_approved_hash_if_executed_directly_via_voting_multi_step(
         aptos_framework: signer,
         proposer: signer,
@@ -1184,14 +1170,12 @@ module aptos_framework::aptos_governance {
         );
     }
 
-    #[
-        test(
-            aptos_framework = @aptos_framework,
-            proposer = @0x123,
-            voter_1 = @0x234,
-            voter_2 = @345
-        )
-    ]
+    #[test(
+        aptos_framework = @aptos_framework,
+        proposer = @0x123,
+        voter_1 = @0x234,
+        voter_2 = @345
+    )]
     #[expected_failure(abort_code = 65541, location = aptos_framework::aptos_governance)]
     public entry fun test_cannot_double_vote(
         aptos_framework: signer,
@@ -1229,14 +1213,12 @@ module aptos_framework::aptos_governance {
         );
     }
 
-    #[
-        test(
-            aptos_framework = @aptos_framework,
-            proposer = @0x123,
-            voter_1 = @0x234,
-            voter_2 = @345
-        )
-    ]
+    #[test(
+        aptos_framework = @aptos_framework,
+        proposer = @0x123,
+        voter_1 = @0x234,
+        voter_2 = @345
+    )]
     #[expected_failure(abort_code = 65551, location = aptos_framework::aptos_governance)]
     public entry fun test_cannot_vote_for_expired_proposal(
         aptos_framework: signer,
@@ -1271,14 +1253,12 @@ module aptos_framework::aptos_governance {
         );
     }
 
-    #[
-        test(
-            aptos_framework = @aptos_framework,
-            proposer = @0x123,
-            voter_1 = @0x234,
-            voter_2 = @0x345
-        )
-    ]
+    #[test(
+        aptos_framework = @aptos_framework,
+        proposer = @0x123,
+        voter_1 = @0x234,
+        voter_2 = @0x345
+    )]
     #[expected_failure(abort_code = 65539, location = aptos_framework::aptos_governance)]
     public entry fun test_cannot_vote_due_to_insufficient_stake_lockup(
         aptos_framework: signer,
@@ -1310,14 +1290,12 @@ module aptos_framework::aptos_governance {
         );
     }
 
-    #[
-        test(
-            aptos_framework = @aptos_framework,
-            proposer = @0x123,
-            voter_1 = @0x234,
-            voter_2 = @345
-        )
-    ]
+    #[test(
+        aptos_framework = @aptos_framework,
+        proposer = @0x123,
+        voter_1 = @0x234,
+        voter_2 = @345
+    )]
     #[expected_failure(abort_code = 65541, location = aptos_framework::aptos_governance)]
     public entry fun test_cannot_double_vote_with_different_voter_addresses(
         aptos_framework: signer,
@@ -1356,14 +1334,12 @@ module aptos_framework::aptos_governance {
         );
     }
 
-    #[
-        test(
-            aptos_framework = @aptos_framework,
-            proposer = @0x123,
-            voter_1 = @0x234,
-            voter_2 = @345
-        )
-    ]
+    #[test(
+        aptos_framework = @aptos_framework,
+        proposer = @0x123,
+        voter_1 = @0x234,
+        voter_2 = @345
+    )]
     public entry fun test_stake_pool_can_vote_on_partial_voting_proposal_many_times(
         aptos_framework: signer,
         proposer: signer,
@@ -1394,14 +1370,12 @@ module aptos_framework::aptos_governance {
         test_resolving_proposal_generic(aptos_framework, true, execution_hash);
     }
 
-    #[
-        test(
-            aptos_framework = @aptos_framework,
-            proposer = @0x123,
-            voter_1 = @0x234,
-            voter_2 = @345
-        )
-    ]
+    #[test(
+        aptos_framework = @aptos_framework,
+        proposer = @0x123,
+        voter_1 = @0x234,
+        voter_2 = @345
+    )]
     #[expected_failure(abort_code = 0x3, location = Self)]
     public entry fun test_stake_pool_can_vote_with_partial_voting_power(
         aptos_framework: signer,
@@ -1432,14 +1406,12 @@ module aptos_framework::aptos_governance {
         test_resolving_proposal_generic(aptos_framework, true, execution_hash);
     }
 
-    #[
-        test(
-            aptos_framework = @aptos_framework,
-            proposer = @0x123,
-            voter_1 = @0x234,
-            voter_2 = @345
-        )
-    ]
+    #[test(
+        aptos_framework = @aptos_framework,
+        proposer = @0x123,
+        voter_1 = @0x234,
+        voter_2 = @345
+    )]
     public entry fun test_batch_vote(
         aptos_framework: signer,
         proposer: signer,
@@ -1471,14 +1443,12 @@ module aptos_framework::aptos_governance {
         test_resolving_proposal_generic(aptos_framework, true, execution_hash);
     }
 
-    #[
-        test(
-            aptos_framework = @aptos_framework,
-            proposer = @0x123,
-            voter_1 = @0x234,
-            voter_2 = @345
-        )
-    ]
+    #[test(
+        aptos_framework = @aptos_framework,
+        proposer = @0x123,
+        voter_1 = @0x234,
+        voter_2 = @345
+    )]
     public entry fun test_batch_partial_vote(
         aptos_framework: signer,
         proposer: signer,
@@ -1511,14 +1481,12 @@ module aptos_framework::aptos_governance {
         test_resolving_proposal_generic(aptos_framework, true, execution_hash);
     }
 
-    #[
-        test(
-            aptos_framework = @aptos_framework,
-            proposer = @0x123,
-            voter_1 = @0x234,
-            voter_2 = @345
-        )
-    ]
+    #[test(
+        aptos_framework = @aptos_framework,
+        proposer = @0x123,
+        voter_1 = @0x234,
+        voter_2 = @345
+    )]
     public entry fun test_stake_pool_can_vote_only_with_its_own_voting_power(
         aptos_framework: signer,
         proposer: signer,
@@ -1549,14 +1517,12 @@ module aptos_framework::aptos_governance {
         test_resolving_proposal_generic(aptos_framework, true, execution_hash);
     }
 
-    #[
-        test(
-            aptos_framework = @aptos_framework,
-            proposer = @0x123,
-            voter_1 = @0x234,
-            voter_2 = @345
-        )
-    ]
+    #[test(
+        aptos_framework = @aptos_framework,
+        proposer = @0x123,
+        voter_1 = @0x234,
+        voter_2 = @345
+    )]
     public entry fun test_no_remaining_voting_power_about_proposal_expiration_time(
         aptos_framework: signer,
         proposer: signer,
@@ -1612,9 +1578,8 @@ module aptos_framework::aptos_governance {
         account::create_account_for_test(signer::address_of(no_voter));
 
         // Initialize the governance.
-        staking_config::initialize_for_test(
-            aptos_framework, 0, 1000, 2000, true, 0, 1, 100
-        );
+        staking_config::initialize_for_test(aptos_framework, 0, 1000, 2000, true, 0, 1,
+        100);
         initialize(aptos_framework, 10, 100, 1000);
         store_signer_cap(
             aptos_framework,
@@ -1682,9 +1647,7 @@ module aptos_framework::aptos_governance {
         account::create_account_for_test(signer::address_of(no_voter));
 
         // Initialize the governance.
-        stake::initialize_for_test_custom(
-            aptos_framework, 0, 1000, 2000, true, 0, 1, 1000
-        );
+        stake::initialize_for_test_custom(aptos_framework, 0, 1000, 2000, true, 0, 1, 1000);
         initialize(aptos_framework, 10, 100, 1000);
         store_signer_cap(
             aptos_framework,
@@ -1721,7 +1684,10 @@ module aptos_framework::aptos_governance {
         no_voter: &signer
     ) acquires GovernanceResponsbility {
         setup_voting_with_initialized_stake(
-            aptos_framework, proposer, yes_voter, no_voter
+            aptos_framework,
+            proposer,
+            yes_voter,
+            no_voter
         );
     }
 
@@ -1758,14 +1724,12 @@ module aptos_framework::aptos_governance {
         update_governance_config(&account, 10, 20, 30);
     }
 
-    #[
-        test(
-            aptos_framework = @aptos_framework,
-            proposer = @0x123,
-            yes_voter = @0x234,
-            no_voter = @345
-        )
-    ]
+    #[test(
+        aptos_framework = @aptos_framework,
+        proposer = @0x123,
+        yes_voter = @0x234,
+        no_voter = @345
+    )]
     public entry fun test_replace_execution_hash(
         aptos_framework: signer,
         proposer: signer,
@@ -1815,10 +1779,7 @@ module aptos_framework::aptos_governance {
 
         let approved_hashes =
             borrow_global<ApprovedExecutionHashes>(@aptos_framework).hashes;
-        assert!(
-            *simple_map::borrow(&approved_hashes, &0) == vector[10u8],
-            1
-        );
+        assert!(*simple_map::borrow(&approved_hashes, &0) == vector[10u8], 1);
     }
 
     #[test_only]

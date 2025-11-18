@@ -326,8 +326,7 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         );
         let fa_obj_metadata =
             bonding_curve_launchpad::get_metadata(
-                string::utf8(b"SheepyCoin"),
-                string::utf8(b"SHEEP")
+                string::utf8(b"SheepyCoin"), string::utf8(b"SHEEP")
             );
         primary_fungible_store::transfer(
             bonding_curve_creator,
@@ -506,8 +505,7 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         );
         let fa_obj_metadata =
             bonding_curve_launchpad::get_metadata(
-                string::utf8(b"SheepyCoin"),
-                string::utf8(b"SHEEP")
+                string::utf8(b"SheepyCoin"), string::utf8(b"SHEEP")
             );
         primary_fungible_store::transfer(
             bonding_curve_creator,

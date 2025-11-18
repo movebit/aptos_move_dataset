@@ -406,8 +406,9 @@ module aptos_experimental::single_order_book {
     public(friend) fun get_single_match_for_taker<M: store + copy + drop>(
         self: &mut SingleOrderBook<M>, active_matched_order: ActiveMatchedOrder
     ): OrderMatch<M> {
-        let (order_id, matched_size, remaining_size, order_book_type) =
-            active_matched_order.destroy_active_matched_order();
+        let (
+            order_id, matched_size, remaining_size, order_book_type
+        ) = active_matched_order.destroy_active_matched_order();
         assert!(order_book_type == single_order_type(), ENOT_SINGLE_ORDER_BOOK);
 
         let order_with_state =
@@ -776,9 +777,7 @@ module aptos_experimental::single_order_book {
     }
 
     #[test_only]
-    public fun set_up_test(): (
-        SingleOrderBook<TestMetadata>, PriceTimeIndex, AscendingIdGenerator
-    ) {
+    public fun set_up_test(): (SingleOrderBook<TestMetadata>, PriceTimeIndex, AscendingIdGenerator) {
         let order_book = new_single_order_book<TestMetadata>();
         let price_time_idx = new_price_time_idx();
         let ascending_id_generator = new_ascending_id_generator();
@@ -881,7 +880,17 @@ module aptos_experimental::single_order_book {
         let order_state = *order_book.orders.borrow(&order_id);
         let (order, is_active) = order_state.destroy_order_from_state();
         let (
-            account, _order_id, client_order_id, _, price, orig_size, size, is_bid, _, _, _
+            account,
+            _order_id,
+            client_order_id,
+            _,
+            price,
+            orig_size,
+            size,
+            is_bid,
+            _,
+            _,
+            _
         ) = order.destroy_single_order();
         assert!(is_active == true);
         assert!(account == expected_account);
@@ -1757,7 +1766,12 @@ module aptos_experimental::single_order_book {
         // Place an active order
         let order_req =
             create_simple_test_order_request(
-                @0xAA, new_order_id_type(1), 100, 1000, false, 1
+                @0xAA,
+                new_order_id_type(1),
+                100,
+                1000,
+                false,
+                1
             );
         order_book.place_maker_order(
             &mut price_time_idx, &mut ascending_id_generator, order_req

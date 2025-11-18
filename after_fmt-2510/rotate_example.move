@@ -37,7 +37,10 @@ module confidential_asset_example::rotate_example {
 
         assert!(
             confidential_asset::verify_actual_balance(
-                bob_addr, token, &bob_current_dk, bob_amount
+                bob_addr,
+                token,
+                &bob_current_dk,
+                bob_amount
             )
         );
 
@@ -75,24 +78,22 @@ module confidential_asset_example::rotate_example {
         // Note that here we use the new decryption key to verify the actual balance.
         assert!(
             confidential_asset::verify_actual_balance(
-                bob_addr, token, &bob_new_dk, bob_amount
+                bob_addr,
+                token,
+                &bob_new_dk,
+                bob_amount
             )
         );
     }
 
-    #[
-        test(
-            confidential_asset = @aptos_experimental,
-            aptos_fx = @aptos_framework,
-            fa = @0xfa,
-            bob = @0xb0
-        )
-    ]
+    #[test(
+        confidential_asset = @aptos_experimental,
+        aptos_fx = @aptos_framework,
+        fa = @0xfa,
+        bob = @0xb0
+    )]
     fun rotate_example_test(
-        confidential_asset: signer,
-        aptos_fx: signer,
-        fa: signer,
-        bob: signer
+        confidential_asset: signer, aptos_fx: signer, fa: signer, bob: signer
     ) {
         let token =
             confidential_asset_tests::set_up_for_confidential_asset_test(

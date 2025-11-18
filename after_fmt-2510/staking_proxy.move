@@ -393,7 +393,8 @@ module aptos_framework::staking_proxy {
             staking_contract::stake_pool_address(owner_address, operator_2_address);
         assert!(stake::get_delegated_voter(stake_pool_address_1) == new_voter_address, 1);
         assert!(
-            stake::get_delegated_voter(stake_pool_address_2) == operator_2_address, 2
+            stake::get_delegated_voter(stake_pool_address_2) == operator_2_address,
+            2
         );
         // Vesting contract 1's voter has been updated while vesting contract 2's stays unchanged.
         assert!(vesting::voter(vesting_contract_1) == new_voter_address, 3);

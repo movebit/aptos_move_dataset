@@ -163,9 +163,7 @@ module knight::food {
     }
 
     /// Transfers the given amount of the corn token from the given sender to the given receiver.
-    public entry fun transfer_corn(
-        from: &signer, to: address, amount: u64
-    ) {
+    public entry fun transfer_corn(from: &signer, to: address, amount: u64) {
         transfer_food(
             from,
             object::address_to_object<FoodToken>(corn_token_address()),
@@ -175,9 +173,7 @@ module knight::food {
     }
 
     /// Transfers the given amount of the meat token from the given sender to the given receiver.
-    public entry fun transfer_meat(
-        from: &signer, to: address, amount: u64
-    ) {
+    public entry fun transfer_meat(from: &signer, to: address, amount: u64) {
         transfer_food(
             from,
             object::address_to_object<FoodToken>(meat_token_address()),
@@ -187,10 +183,7 @@ module knight::food {
     }
 
     public entry fun transfer_food(
-        from: &signer,
-        food: Object<FoodToken>,
-        to: address,
-        amount: u64
+        from: &signer, food: Object<FoodToken>, to: address, amount: u64
     ) {
         let metadata = object::convert<FoodToken, Metadata>(food);
         primary_fungible_store::transfer(from, metadata, to, amount);
@@ -220,7 +213,11 @@ module knight::food {
 
         // Creates the collection with unlimited supply and without establishing any royalty configuration.
         collection::create_unlimited_collection(
-            creator, description, name, option::none(), uri
+            creator,
+            description,
+            name,
+            option::none(),
+            uri
         );
     }
 
@@ -324,9 +321,7 @@ module knight::food {
     }
 
     #[test(creator = @knight, user1 = @0x456, user2 = @0x789)]
-    public fun test_food(
-        creator: &signer, user1: &signer, user2: &signer
-    ) acquires FoodToken {
+    public fun test_food(creator: &signer, user1: &signer, user2: &signer) acquires FoodToken {
         // This test assumes that the creator's address is equal to @knight.
         assert!(signer::address_of(creator) == @knight, 0);
 

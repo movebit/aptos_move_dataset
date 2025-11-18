@@ -402,9 +402,7 @@ module DiemFramework::Diem {
         ensures exists<PreburnQueue<CoinType>>(preburn_address);
         ensures post_currency_info
             == update_field(
-                currency_info,
-                preburn_value,
-                post_currency_info.preburn_value
+                currency_info, preburn_value, post_currency_info.preburn_value
             );
         ensures result.value == amount;
         ensures result.value > 0;
@@ -440,8 +438,7 @@ module DiemFramework::Diem {
         // change the total value of fiat currencies held on-chain.
         if (!info.is_synthetic) {
             event::emit_event(
-                &mut info.mint_events,
-                MintEvent { amount: value, currency_code }
+                &mut info.mint_events, MintEvent { amount: value, currency_code }
             );
         };
 
@@ -481,7 +478,10 @@ module DiemFramework::Diem {
         value: u64;
         let currency_info = global<CurrencyInfo<CoinType>>(@CurrencyInfo);
         let handle = currency_info.mint_events;
-        let msg = MintEvent { amount: value, currency_code: currency_info.currency_code };
+        let msg = MintEvent {
+            amount: value,
+            currency_code: currency_info.currency_code
+        };
         emits msg to handle if !currency_info.is_synthetic;
     }
 
@@ -513,7 +513,11 @@ module DiemFramework::Diem {
         if (!info.is_synthetic) {
             event::emit_event(
                 &mut info.preburn_events,
-                PreburnEvent { amount: coin_value, currency_code, preburn_address }
+                PreburnEvent {
+                    amount: coin_value,
+                    currency_code,
+                    preburn_address
+                }
             );
         };
     }
@@ -1002,7 +1006,8 @@ module DiemFramework::Diem {
         assert_is_currency<CoinType>();
         let info = borrow_global_mut<CurrencyInfo<CoinType>>(@CurrencyInfo);
         assert!(
-            info.total_value >= (value as u128), errors::limit_exceeded(ECURRENCY_INFO)
+            info.total_value >= (value as u128),
+            errors::limit_exceeded(ECURRENCY_INFO)
         );
         info.total_value = info.total_value - (value as u128);
         assert!(info.preburn_value >= value, errors::limit_exceeded(EPREBURN));
@@ -1050,8 +1055,11 @@ module DiemFramework::Diem {
         let info = spec_currency_info<CoinType>();
         let currency_code = spec_currency_code<CoinType>();
         let handle = info.burn_events;
-        emits BurnEvent { amount: preburn.to_burn.value, currency_code, preburn_address } to handle if !info
-            .is_synthetic;
+        emits BurnEvent {
+            amount: preburn.to_burn.value,
+            currency_code,
+            preburn_address
+        } to handle if !info.is_synthetic;
     }
 
     /// Cancels the oldest preburn request held in the `PreburnQueue` resource under
@@ -1289,8 +1297,7 @@ module DiemFramework::Diem {
     ) {
         let Diem { value } = check;
         assert!(
-            MAX_U64 - coin.value >= value,
-            errors::limit_exceeded(ECOIN)
+            MAX_U64 - coin.value >= value, errors::limit_exceeded(ECOIN)
         );
         coin.value = coin.value + value;
     }
@@ -1857,8 +1864,10 @@ module DiemFramework::Diem {
         ///       process is complete this additional existence check can be removed.
         ensures forall addr: address:
             old(
-                !(exists<PreburnQueue<CoinType>>(addr)
-                    || exists<Preburn<CoinType>>(addr))
+                !(
+                    exists<PreburnQueue<CoinType>>(addr)
+                        || exists<Preburn<CoinType>>(addr)
+                )
             ) ==>
                 !exists<PreburnQueue<CoinType>>(addr);
     }
@@ -1937,19 +1946,23 @@ module DiemFramework::Diem {
     spec module {
         /// Only TreasuryCompliance can change the exchange rate [[H5]][PERMISSION].
         invariant<CoinType> update old(spec_is_currency<CoinType>()) ==>
-            ((
-                spec_xdx_exchange_rate<CoinType>()
-                    != old(spec_xdx_exchange_rate<CoinType>())
-            ) ==>
-                Roles::spec_signed_by_treasury_compliance_role());
+            (
+                (
+                    spec_xdx_exchange_rate<CoinType>()
+                        != old(spec_xdx_exchange_rate<CoinType>())
+                ) ==>
+                    Roles::spec_signed_by_treasury_compliance_role()
+            );
     }
 
     /// ## Enable/disable minting
     spec module {
         /// Only TreasuryCompliance can enable/disable minting [[H2]][PERMISSION].
         invariant<CoinType> update old(spec_is_currency<CoinType>()) ==>
-            ((spec_can_mint<CoinType>() != old(spec_can_mint<CoinType>())) ==>
-                Roles::spec_signed_by_treasury_compliance_role());
+            (
+                (spec_can_mint<CoinType>() != old(spec_can_mint<CoinType>())) ==>
+                    Roles::spec_signed_by_treasury_compliance_role()
+            );
     }
 
     /// ## Register new currency

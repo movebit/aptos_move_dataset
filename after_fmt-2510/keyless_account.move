@@ -84,7 +84,13 @@ module aptos_framework::keyless_account {
         delta_g2: vector<u8>,
         gamma_abc_g1: vector<vector<u8>>
     ): Groth16VerificationKey {
-        Groth16VerificationKey { alpha_g1, beta_g2, gamma_g2, delta_g2, gamma_abc_g1 }
+        Groth16VerificationKey {
+            alpha_g1,
+            beta_g2,
+            gamma_g2,
+            delta_g2,
+            gamma_abc_g1
+        }
     }
 
     public fun new_configuration(
@@ -181,9 +187,7 @@ module aptos_framework::keyless_account {
     }
 
     #[deprecated]
-    public fun update_training_wheels(
-        fx: &signer, pk: Option<vector<u8>>
-    ) acquires Configuration {
+    public fun update_training_wheels(fx: &signer, pk: Option<vector<u8>>) acquires Configuration {
         system_addresses::assert_aptos_framework(fx);
         chain_status::assert_genesis();
 

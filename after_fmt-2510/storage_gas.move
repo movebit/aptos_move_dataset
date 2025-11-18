@@ -356,7 +356,12 @@ module aptos_framework::storage_gas {
             target_usage <= MAX_U64 / BASIS_POINT_DENOMINATION,
             error::invalid_argument(ETARGET_USAGE_TOO_BIG)
         );
-        UsageGasConfig { target_usage, read_curve, create_curve, write_curve }
+        UsageGasConfig {
+            target_usage,
+            read_curve,
+            create_curve,
+            write_curve
+        }
     }
 
     public fun new_storage_gas_config(
@@ -415,10 +420,7 @@ module aptos_framework::storage_gas {
             create_curve: base_8192_exponential_curve(5 * k, 5 * k * 100),
             write_curve: base_8192_exponential_curve(5 * k, 5 * k * 100)
         };
-        move_to(
-            aptos_framework,
-            StorageGasConfig { item_config, byte_config }
-        );
+        move_to(aptos_framework, StorageGasConfig { item_config, byte_config });
 
         assert!(
             !exists<StorageGas>(@aptos_framework),
@@ -474,7 +476,10 @@ module aptos_framework::storage_gas {
                 };
             let next =
                 if (i == len) {
-                    &Point { x: BASIS_POINT_DENOMINATION, y: BASIS_POINT_DENOMINATION }
+                    &Point {
+                        x: BASIS_POINT_DENOMINATION,
+                        y: BASIS_POINT_DENOMINATION
+                    }
                 } else {
                     vector::borrow(points, i)
                 };
@@ -486,9 +491,7 @@ module aptos_framework::storage_gas {
         }
     }
 
-    fun calculate_gas(
-        max_usage: u64, current_usage: u64, curve: &GasCurve
-    ): u64 {
+    fun calculate_gas(max_usage: u64, current_usage: u64, curve: &GasCurve): u64 {
         let capped_current_usage =
             if (current_usage > max_usage) max_usage else current_usage;
         let points = &curve.points;
@@ -501,14 +504,22 @@ module aptos_framework::storage_gas {
             if (num_points == 0) {
                 (
                     &Point { x: 0, y: 0 },
-                    &Point { x: BASIS_POINT_DENOMINATION, y: BASIS_POINT_DENOMINATION }
+                    &Point {
+                        x: BASIS_POINT_DENOMINATION,
+                        y: BASIS_POINT_DENOMINATION
+                    }
                 )
             } else if (current_usage_bps < vector::borrow(points, 0).x) {
-                (&Point { x: 0, y: 0 }, vector::borrow(points, 0))
+                (
+                    &Point { x: 0, y: 0 }, vector::borrow(points, 0)
+                )
             } else if (vector::borrow(points, num_points - 1).x <= current_usage_bps) {
                 (
                     vector::borrow(points, num_points - 1),
-                    &Point { x: BASIS_POINT_DENOMINATION, y: BASIS_POINT_DENOMINATION }
+                    &Point {
+                        x: BASIS_POINT_DENOMINATION,
+                        y: BASIS_POINT_DENOMINATION
+                    }
                 )
             } else {
                 let (i, j) = (0, num_points - 2);
@@ -536,7 +547,9 @@ module aptos_framework::storage_gas {
                         i = mid;
                     };
                 };
-                (vector::borrow(points, i), vector::borrow(points, i + 1))
+                (
+                    vector::borrow(points, i), vector::borrow(points, i + 1)
+                )
             };
         let y_interpolated = interpolate(
             left.x,

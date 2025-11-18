@@ -195,7 +195,8 @@ module DiemFramework::ValidatorConfig {
         );
         // TODO(valerini): verify the proof of posession for consensus_pubkey
         assert!(
-            exists_config(validator_addr), errors::not_published(EVALIDATOR_CONFIG)
+            exists_config(validator_addr),
+            errors::not_published(EVALIDATOR_CONFIG)
         );
         let t_ref = borrow_global_mut<ValidatorConfig>(validator_addr);
         t_ref.config = option::some(

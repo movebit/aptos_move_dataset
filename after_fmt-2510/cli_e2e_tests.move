@@ -76,10 +76,7 @@ module addr::cli_e2e_tests {
     }
 
     fun create(
-        creator: &signer,
-        description: String,
-        name: String,
-        uri: String
+        creator: &signer, description: String, name: String, uri: String
     ): ConstructorRef acquires OnChainConfig {
         let on_chain_config = borrow_global<OnChainConfig>(signer::address_of(creator));
         token::create_named_token(
@@ -148,7 +145,11 @@ module addr::cli_e2e_tests {
         let constructor_ref = create(creator, description, name, uri);
         let token_signer = object::generate_signer(&constructor_ref);
 
-        let gem = Gem { attack_modifier, defense_modifier, magic_attribute };
+        let gem = Gem {
+            attack_modifier,
+            defense_modifier,
+            magic_attribute
+        };
         move_to(&token_signer, gem);
 
         object::address_to_object(signer::address_of(&token_signer))
@@ -217,15 +218,10 @@ module addr::cli_e2e_tests {
     ) {}
 
     public entry fun set_hero_description(
-        creator: &signer,
-        collection: String,
-        name: String,
-        description: String
+        creator: &signer, collection: String, name: String, description: String
     ) acquires Hero {
         let (hero_obj, hero) = get_hero(
-            &signer::address_of(creator),
-            &collection,
-            &name
+            &signer::address_of(creator), &collection, &name
         );
         let creator_addr = token::creator(hero_obj);
         assert!(
@@ -237,9 +233,7 @@ module addr::cli_e2e_tests {
 
     // View functions
     #[view]
-    public fun view_hero(
-        creator: address, collection: String, name: String
-    ): Hero acquires Hero {
+    public fun view_hero(creator: address, collection: String, name: String): Hero acquires Hero {
         let token_address = token::create_token_address(&creator, &collection, &name);
         move_from<Hero>(token_address)
     }

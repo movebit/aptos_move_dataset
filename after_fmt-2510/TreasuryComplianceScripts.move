@@ -569,8 +569,7 @@ module DiemFramework::TreasuryComplianceScripts {
         SlidingNonce::record_nonce_or_abort(&tc_account, sliding_nonce);
         let rate =
             fixed_point32::create_from_rational(
-                new_exchange_rate_numerator,
-                new_exchange_rate_denominator
+                new_exchange_rate_numerator, new_exchange_rate_denominator
             );
         Diem::update_xdx_exchange_rate<Currency>(&tc_account, rate);
     }
@@ -590,8 +589,7 @@ module DiemFramework::TreasuryComplianceScripts {
             denominator: new_exchange_rate_denominator
         };
         let rate = fixed_point32::spec_create_from_rational(
-            new_exchange_rate_numerator,
-            new_exchange_rate_denominator
+            new_exchange_rate_numerator, new_exchange_rate_denominator
         );
         include Diem::UpdateXDXExchangeRateAbortsIf<Currency>;
         include Diem::UpdateXDXExchangeRateEnsures<Currency> { xdx_exchange_rate: rate };

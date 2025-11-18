@@ -56,10 +56,7 @@ module aptos_framework::aggregator_factory {
 
         // Only Aptos Framework (0x1) account can call this for now.
         system_addresses::assert_aptos_framework(account);
-        assert!(
-            limit == MAX_U128,
-            error::invalid_argument(EAGG_V1_LIMIT_DEPRECATED)
-        );
+        assert!(limit == MAX_U128, error::invalid_argument(EAGG_V1_LIMIT_DEPRECATED));
         create_aggregator_internal()
     }
 

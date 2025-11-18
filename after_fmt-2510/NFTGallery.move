@@ -121,7 +121,11 @@ module 0x1::NFTGallery {
         creation_num: u64
     ) acquires NFTGallery {
         transfer_token_between_galleries_impl<TokenType>(
-            &account, to, amount, creator, creation_num
+            &account,
+            to,
+            amount,
+            creator,
+            creation_num
         )
     }
 

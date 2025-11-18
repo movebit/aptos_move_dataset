@@ -143,8 +143,7 @@ module extensions::table_tests {
         let entry_mut_ref = T::borrow_mut(global_t, @0xCD);
         *&mut entry_mut_ref.value = entry_mut_ref.value - 1;
         assert!(
-            *&T::borrow(global_t, @0xCD).value == val_2 - 1,
-            105
+            *&T::borrow(global_t, @0xCD).value == val_2 - 1, 105
         );
 
         let Balance { value } = T::remove(global_t, @0xAB);

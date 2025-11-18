@@ -13,7 +13,8 @@ module 0x42::m {
             }
         );
         let _y: vector<u64> = vector::map<u64, u64>(
-            *vector::borrow(&VALUES, 0), |v| { (v + 3u64) }
+            *vector::borrow(&VALUES, 0),
+            |v| { (v + 3u64) }
         );
     }
 }

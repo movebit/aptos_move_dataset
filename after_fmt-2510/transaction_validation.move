@@ -196,9 +196,7 @@ module aptos_framework::transaction_validation {
         if (!skip_gas_payment(is_simulation, gas_payer_address)) {
             assert!(
                 permissioned_signer::check_permission_capacity_above(
-                    gas_payer,
-                    (max_transaction_fee as u256),
-                    GasPermission {}
+                    gas_payer, (max_transaction_fee as u256), GasPermission {}
                 ),
                 error::permission_denied(PROLOGUE_PERMISSIONED_GAS_LIMIT_INSUFFICIENT)
             );
@@ -672,7 +670,9 @@ module aptos_framework::transaction_validation {
         is_simulation: bool, auth_key: &Option<vector<u8>>
     ): bool {
         is_simulation
-            && (option::is_none(auth_key) || vector::is_empty(option::borrow(auth_key)))
+            && (
+                option::is_none(auth_key) || vector::is_empty(option::borrow(auth_key))
+            )
     }
 
     inline fun skip_gas_payment(is_simulation: bool, gas_payer: address): bool {
@@ -895,17 +895,13 @@ module aptos_framework::transaction_validation {
                 let burn_amount = transaction_fee_amount - storage_fee_refunded;
                 transaction_fee::burn_fee(gas_payer_address, burn_amount);
                 permissioned_signer::check_permission_consume(
-                    &gas_payer,
-                    (burn_amount as u256),
-                    GasPermission {}
+                    &gas_payer, (burn_amount as u256), GasPermission {}
                 );
             } else if (transaction_fee_amount < storage_fee_refunded) {
                 let mint_amount = storage_fee_refunded - transaction_fee_amount;
                 transaction_fee::mint_and_refund(gas_payer_address, mint_amount);
                 permissioned_signer::increase_limit(
-                    &gas_payer,
-                    (mint_amount as u256),
-                    GasPermission {}
+                    &gas_payer, (mint_amount as u256), GasPermission {}
                 );
             };
         };

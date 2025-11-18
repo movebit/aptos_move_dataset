@@ -4,7 +4,11 @@ module MoonCoin::moon_coin {
 
     fun init_module(sender: &signer) {
         aptos_framework::managed_coin::initialize<MoonCoin>(
-            sender, b"Moon Coin", b"MOON", 6, false
+            sender,
+            b"Moon Coin",
+            b"MOON",
+            6,
+            false
         );
     }
 }

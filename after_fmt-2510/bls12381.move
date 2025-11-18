@@ -185,7 +185,8 @@ module aptos_std::bls12381 {
     /// Deserializes an aggregate-or-multi-signature from 96 bytes.
     public fun aggr_or_multi_signature_from_bytes(bytes: vector<u8>): AggrOrMultiSignature {
         assert!(
-            bytes.length() == SIGNATURE_SIZE, std::error::invalid_argument(EWRONG_SIZE)
+            bytes.length() == SIGNATURE_SIZE,
+            std::error::invalid_argument(EWRONG_SIZE)
         );
 
         AggrOrMultiSignature { bytes }
@@ -246,7 +247,9 @@ module aptos_std::bls12381 {
     public fun sign_arbitrary_bytes(
         signing_key: &SecretKey, message: vector<u8>
     ): Signature {
-        Signature { bytes: sign_internal(signing_key.bytes, message) }
+        Signature {
+            bytes: sign_internal(signing_key.bytes, message)
+        }
     }
 
     #[test_only]
@@ -346,7 +349,9 @@ module aptos_std::bls12381 {
     #[test_only]
     /// Generates a proof-of-possession (PoP) for the public key associated with the secret key `sk`.
     public fun generate_proof_of_possession(sk: &SecretKey): ProofOfPossession {
-        ProofOfPossession { bytes: generate_proof_of_possession_internal(sk.bytes) }
+        ProofOfPossession {
+            bytes: generate_proof_of_possession_internal(sk.bytes)
+        }
     }
 
     //

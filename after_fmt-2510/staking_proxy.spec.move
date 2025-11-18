@@ -70,16 +70,12 @@ spec aptos_framework::staking_proxy {
         include SetStakePoolVoterAbortsIf;
     }
 
-    spec set_vesting_contract_operator(
-        owner: &signer, old_operator: address, new_operator: address
-    ) {
+    spec set_vesting_contract_operator(owner: &signer, old_operator: address, new_operator: address) {
         // TODO: Can't verify `update_voter` in while loop.
         pragma verify = false;
     }
 
-    spec set_staking_contract_operator(
-        owner: &signer, old_operator: address, new_operator: address
-    ) {
+    spec set_staking_contract_operator(owner: &signer, old_operator: address, new_operator: address) {
         pragma aborts_if_is_partial;
         pragma verify = false;
         // TODO: Verify timeout and can't verify `staking_contract::switch_operator`.

@@ -57,7 +57,8 @@ module DiemFramework::CoreAddresses {
     /// Assert that the signer has the VM reserved address.
     public fun assert_vm(account: &signer) {
         assert!(
-            signer::address_of(account) == @VMReserved, errors::requires_address(EVM)
+            signer::address_of(account) == @VMReserved,
+            errors::requires_address(EVM)
         )
     }
 

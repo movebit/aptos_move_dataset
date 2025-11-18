@@ -283,7 +283,9 @@ module aptos_framework::code {
         owner: &signer, metadata_serialized: vector<u8>, code: vector<vector<u8>>
     ) acquires PackageRegistry {
         publish_package(
-            owner, util::from_bytes<PackageMetadata>(metadata_serialized), code
+            owner,
+            util::from_bytes<PackageMetadata>(metadata_serialized),
+            code
         )
     }
 
@@ -292,9 +294,7 @@ module aptos_framework::code {
 
     /// Checks whether the given package is upgradable, and returns true if a compatibility check is needed.
     fun check_upgradability(
-        old_pack: &PackageMetadata,
-        new_pack: &PackageMetadata,
-        new_modules: &vector<String>
+        old_pack: &PackageMetadata, new_pack: &PackageMetadata, new_modules: &vector<String>
     ) {
         assert!(
             old_pack.upgrade_policy.policy < upgrade_policy_immutable().policy,
@@ -311,10 +311,7 @@ module aptos_framework::code {
         vector::for_each_ref(
             &old_modules,
             |old_module| {
-                assert!(
-                    vector::contains(new_modules, old_module),
-                    EMODULE_MISSING
-                );
+                assert!(vector::contains(new_modules, old_module), EMODULE_MISSING);
             }
         );
     }
@@ -332,8 +329,7 @@ module aptos_framework::code {
                 while (j < vector::length(new_modules)) {
                     let name = vector::borrow(new_modules, j);
                     assert!(
-                        &old_mod.name != name,
-                        error::already_exists(EMODULE_NAME_CLASH)
+                        &old_mod.name != name, error::already_exists(EMODULE_NAME_CLASH)
                     );
                     j = j + 1;
                 };

@@ -7,7 +7,9 @@ spec aptos_token::property_map {
         let MAX_PROPERTY_NAME_LENGTH = 128;
     }
 
-    spec new(keys: vector<String>, values: vector<vector<u8>>, types: vector<String>): PropertyMap {
+    spec new(
+        keys: vector<String>, values: vector<vector<u8>>, types: vector<String>
+    ): PropertyMap {
         // TODO: Can't handle abort in loop.
         pragma aborts_if_is_partial;
         let length = len(keys);

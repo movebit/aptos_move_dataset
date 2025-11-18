@@ -143,11 +143,7 @@ module rewards_pool::rewards_pool_tests {
         increase_alocation(claimer_1, rewards_pool, 50);
         increase_alocation(claimer_2, rewards_pool, 50);
         epoch::fast_forward(1);
-        rewards_pool::add_rewards(
-            rewards_pool,
-            vector[asset_rewards],
-            epoch::now() - 1
-        );
+        rewards_pool::add_rewards(rewards_pool, vector[asset_rewards], epoch::now() - 1);
         verify_claimer_shares_percentage(claimer_1, rewards_pool, 100, 50);
         verify_claimer_shares_percentage(claimer_2, rewards_pool, 100, 50);
         rewards_pool::claim_rewards_entry(claimer_1, rewards_pool, 100);
@@ -168,9 +164,7 @@ module rewards_pool::rewards_pool_tests {
             rewards_pool::create(vector[fungible_asset::asset_metadata(&asset_rewards)]);
 
         rewards_pool::add_rewards(
-            rewards_pool,
-            vector[non_reward_assets],
-            epoch::now() - 1
+            rewards_pool, vector[non_reward_assets], epoch::now() - 1
         );
         test_helpers::clean_up(vector[asset_rewards]);
     }
@@ -184,11 +178,7 @@ module rewards_pool::rewards_pool_tests {
         let rewards_pool =
             rewards_pool::create(vector[fungible_asset::asset_metadata(&asset_rewards)]);
 
-        rewards_pool::add_rewards(
-            rewards_pool,
-            vector[asset_rewards],
-            epoch::now()
-        );
+        rewards_pool::add_rewards(rewards_pool, vector[asset_rewards], epoch::now());
         rewards_pool::claim_rewards_entry(claimer, rewards_pool, 100);
     }
 

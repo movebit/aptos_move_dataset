@@ -156,10 +156,7 @@ module 0x42::TestEmits {
     }
 
     public fun conditional_multiple(
-        b0: bool,
-        b1: bool,
-        b2: bool,
-        handle: &mut EventHandle<DummyEvent>
+        b0: bool, b1: bool, b2: bool, handle: &mut EventHandle<DummyEvent>
     ) {
         if (b0) {
             event::emit_event(handle, DummyEvent { msg: 0 });
@@ -195,10 +192,7 @@ module 0x42::TestEmits {
     }
 
     public fun conditional_multiple_same(
-        b0: bool,
-        b1: bool,
-        b2: bool,
-        handle: &mut EventHandle<DummyEvent>
+        b0: bool, b1: bool, b2: bool, handle: &mut EventHandle<DummyEvent>
     ) {
         if (b0) {
             event::emit_event(handle, DummyEvent { msg: 0 });

@@ -13,11 +13,7 @@ module 0xc0ffee::m {
 
     public fun test(): u64 {
         let x = 1;
-        let s = S {
-            x,
-            y: inc(&mut x),
-            z: inc(&mut x)
-        };
+        let s = S { x, y: inc(&mut x), z: inc(&mut x) };
         let x;
         let y;
         let z;

@@ -220,10 +220,7 @@ module std::vault {
             !exists<Vault<Content>>(addr),
             error::already_exists(EVAULT)
         );
-        move_to<Vault<Content>>(
-            owner,
-            Vault { content: option::some(initial_content) }
-        )
+        move_to<Vault<Content>>(owner, Vault { content: option::some(initial_content) })
     }
 
     /// Returns `true` if the delegation functionality has been enabled.
@@ -290,8 +287,11 @@ module std::vault {
             revoke_all(&delegate_cap);
         };
         if (exists<VaultEvents<Content>>(addr)) {
-            let VaultEvents { metadata: _metadata, delegate_events, transfer_events } =
-                move_from<VaultEvents<Content>>(addr);
+            let VaultEvents {
+                metadata: _metadata,
+                delegate_events,
+                transfer_events
+            } = move_from<VaultEvents<Content>>(addr);
             event::destroy_handle(delegate_events);
             event::destroy_handle(transfer_events);
         };
@@ -511,8 +511,10 @@ module std::vault {
 
         // If the granted caps of this delegate drop to zero, remove it.
         if (vector::is_empty(&delegate.granted_caps)) {
-            let VaultDelegate { vault_address: _owner, granted_caps: _granted_caps } =
-                move_from<VaultDelegate<Content>>(addr);
+            let VaultDelegate {
+                vault_address: _owner,
+                granted_caps: _granted_caps
+            } = move_from<VaultDelegate<Content>>(addr);
             let vault_delegates =
                 borrow_global_mut<VaultDelegates<Content>>(cap.vault_address);
             remove_element(&mut vault_delegates.delegates, &addr);

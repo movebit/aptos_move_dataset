@@ -147,10 +147,7 @@ module aptos_experimental::veiled_coin_tests {
         )
     ]
     fun veil_test(
-        veiled_coin: signer,
-        aptos_fx: signer,
-        sender: signer,
-        recipient: signer
+        veiled_coin: signer, aptos_fx: signer, sender: signer, recipient: signer
     ) {
         println(b"Starting veil_test()...");
         println(b"@veiled_coin:");
@@ -221,7 +218,9 @@ module aptos_experimental::veiled_coin_tests {
 
         let curr_balance_ct =
             elgamal::new_ciphertext_with_basepoint(
-                &recipient_curr_balance, &ristretto255::scalar_zero(), &recipient_pk
+                &recipient_curr_balance,
+                &ristretto255::scalar_zero(),
+                &recipient_pk
             );
         let new_balance_comm =
             pedersen::new_commitment_for_bulletproof(
@@ -269,12 +268,8 @@ module aptos_experimental::veiled_coin_tests {
         );
     }
 
-    #[test(
-        veiled_coin = @aptos_experimental, aptos_fx = @aptos_framework, sender = @0x1337
-    )]
-    fun unveil_test(
-        veiled_coin: signer, aptos_fx: signer, sender: signer
-    ) {
+    #[test(veiled_coin = @aptos_experimental, aptos_fx = @aptos_framework, sender = @0x1337)]
+    fun unveil_test(veiled_coin: signer, aptos_fx: signer, sender: signer) {
         println(b"Starting unveil_test()...");
         println(b"@veiled_coin:");
         print(&@aptos_experimental);
@@ -386,10 +381,7 @@ module aptos_experimental::veiled_coin_tests {
         )
     ]
     fun basic_viability_test(
-        veiled_coin: signer,
-        aptos_fx: signer,
-        sender: signer,
-        recipient: signer
+        veiled_coin: signer, aptos_fx: signer, sender: signer, recipient: signer
     ) {
         set_up_for_veiled_coin_test(
             &veiled_coin,
@@ -413,7 +405,8 @@ module aptos_experimental::veiled_coin_tests {
         // Make sure we are correctly keeping track of the normal coins veiled in this module
         let total_veiled_coins = veiled_coin::cast_u32_to_u64_amount(150);
         assert!(
-            veiled_coin::total_veiled_coins<coin::FakeMoney>() == total_veiled_coins, 1
+            veiled_coin::total_veiled_coins<coin::FakeMoney>() == total_veiled_coins,
+            1
         );
 
         // Transfer `v = 50` of these veiled coins to the recipient
@@ -555,7 +548,8 @@ module aptos_experimental::veiled_coin_tests {
         );
 
         assert!(
-            veiled_coin::total_veiled_coins<coin::FakeMoney>() == total_veiled_coins, 1
+            veiled_coin::total_veiled_coins<coin::FakeMoney>() == total_veiled_coins,
+            1
         );
 
         // Drain the whole remaining balance of the sender
@@ -609,7 +603,8 @@ module aptos_experimental::veiled_coin_tests {
 
         let total_veiled_coins = veiled_coin::cast_u32_to_u64_amount(50);
         assert!(
-            veiled_coin::total_veiled_coins<coin::FakeMoney>() == total_veiled_coins, 1
+            veiled_coin::total_veiled_coins<coin::FakeMoney>() == total_veiled_coins,
+            1
         );
 
         // Sanity check veiled balances

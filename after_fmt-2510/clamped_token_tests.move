@@ -17,7 +17,8 @@ module aptos_framework::clamped_token_tests {
         clamped_token::initialize(creator, &creator_ref);
 
         assert!(
-            dispatchable_fungible_asset::derived_supply(metadata) == option::some(0), 2
+            dispatchable_fungible_asset::derived_supply(metadata) == option::some(0),
+            2
         );
         // Mint
         let fa = fungible_asset::mint(&mint, 100);
@@ -45,7 +46,8 @@ module aptos_framework::clamped_token_tests {
         clamped_token::initialize(creator, &creator_ref);
 
         assert!(
-            dispatchable_fungible_asset::derived_supply(metadata) == option::some(0), 2
+            dispatchable_fungible_asset::derived_supply(metadata) == option::some(0),
+            2
         );
         // Mint
         let fa = fungible_asset::mint(&mint, 100);

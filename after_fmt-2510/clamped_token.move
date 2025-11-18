@@ -53,9 +53,7 @@ module 0xcafe::clamped_token {
 
         let deposit =
             function_info::new_function_info(
-                account,
-                string::utf8(b"clamped_token"),
-                string::utf8(b"deposit")
+                account, string::utf8(b"clamped_token"), string::utf8(b"deposit")
             );
 
         dispatchable_fungible_asset::register_dispatch_functions(
@@ -71,8 +69,7 @@ module 0xcafe::clamped_token {
 
     public fun derived_balance<T: key>(store: Object<T>): u64 acquires BalanceStore {
         fungible_asset::balance_with_ref(
-            &borrow_global<BalanceStore>(@0xcafe).balance_ref,
-            store
+            &borrow_global<BalanceStore>(@0xcafe).balance_ref, store
         )
     }
 
@@ -80,8 +77,7 @@ module 0xcafe::clamped_token {
         option::some(
             option::extract(
                 &mut fungible_asset::supply_with_ref(
-                    &borrow_global<BalanceStore>(@0xcafe).supply_ref,
-                    metadata
+                    &borrow_global<BalanceStore>(@0xcafe).supply_ref, metadata
                 )
             )
         )

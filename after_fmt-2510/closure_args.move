@@ -71,9 +71,7 @@ module 0x42::mod1 {
                 |x| both_fun(a_both, x)
             } else if (key == 7) {
                 |x| both_fun2(x, a_both)
-            } else {
-                |x| x * 2
-            };
+            } else { |x| x * 2 };
         f(x)
     }
 
@@ -100,9 +98,7 @@ module 0x42::mod1 {
                 |x| both_fun(a_both, x)
             } else if (key == 7) {
                 |x| both_fun2(x, a_both)
-            } else {
-                |x| x * 2
-            };
+            } else { |x| x * 2 };
         f
     }
 
@@ -130,9 +126,7 @@ module 0x42::mod1 {
                 |x| both_fun(a_both, x)
             } else if (key == 7) {
                 |x| both_fun2(x, a_both)
-            } else {
-                |x| x * 2
-            };
+            } else { |x| x * 2 };
         f(x)
     }
 
@@ -159,9 +153,7 @@ module 0x42::mod1 {
                 |x| both_fun(a_both, x)
             } else if (key == 7) {
                 |x| both_fun2(x, a_both)
-            } else {
-                |x| x * 2
-            };
+            } else { |x| x * 2 };
         f
     }
 
@@ -189,9 +181,7 @@ module 0x42::mod1 {
                 |x| both_fun(a_both, x)
             } else if (key == 7) {
                 |x| both_fun2(x, a_both)
-            } else {
-                |x| x * 2
-            };
+            } else { |x| x * 2 };
         f(x)
     }
 
@@ -218,9 +208,7 @@ module 0x42::mod1 {
                 |x| both_fun(a_both, x)
             } else if (key == 7) {
                 |x| both_fun2(x, a_both)
-            } else {
-                |x| x * 2
-            };
+            } else { |x| x * 2 };
         f
     }
 
@@ -248,9 +236,7 @@ module 0x42::mod1 {
                 |x| both_fun(a_both, x)
             } else if (key == 7) {
                 |x| both_fun2(x, a_both)
-            } else {
-                |x| x * 2
-            };
+            } else { |x| x * 2 };
         f(x)
     }
 
@@ -277,9 +263,7 @@ module 0x42::mod1 {
                 |x| both_fun(a_both, x)
             } else if (key == 7) {
                 |x| both_fun2(x, a_both)
-            } else {
-                |x| x * 2
-            };
+            } else { |x| x * 2 };
         f
     }
 }

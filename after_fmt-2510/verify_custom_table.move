@@ -41,9 +41,7 @@ module 0x42::table {
     ): &mut V;
     public native fun length<K: copy + drop, V>(table: &Table<K, V>): u64;
     public native fun empty<K: copy + drop, V>(table: &Table<K, V>): bool;
-    public native fun remove<K: copy + drop, V>(
-        table: &mut Table<K, V>, key: K
-    ): V;
+    public native fun remove<K: copy + drop, V>(table: &mut Table<K, V>, key: K): V;
     public native fun remove_return_key<K: copy + drop, V>(
         table: &mut Table<K, V>, key: K
     ): (K, V);
@@ -64,7 +62,13 @@ module 0x42::table {
 
 module 0x42::VerifyTable {
     use 0x42::table::{Self, Table};
-    use 0x42::table::{spec_new, spec_get, spec_set, spec_len, spec_contains};
+    use 0x42::table::{
+        spec_new,
+        spec_get,
+        spec_set,
+        spec_len,
+        spec_contains
+    };
 
     // TODO: test precise aborts behavior of all table functions
 
@@ -155,7 +159,9 @@ module 0x42::VerifyTable {
         let t = table::new<u8, u64>();
         table::add(&mut t, 1, 2);
         table::add(&mut t, 2, 3);
-        (table::contains(&t, 1), table::contains(&t, 3), table::length(&t), t)
+        (
+            table::contains(&t, 1), table::contains(&t, 3), table::length(&t), t
+        )
     }
 
     spec contains_and_length {

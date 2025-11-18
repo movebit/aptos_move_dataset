@@ -142,10 +142,9 @@ module 0xABCD::resource_groups_example {
                     error::invalid_state(EVALUE_TOO_LARGE)
                 );
             } else {
-                let resource = ExampleResource0 {
-                    value: 0,
-                    name: string::utf8(b"init_name")
-                };
+                let resource = ExampleResource0 { value: 0, name: string::utf8(
+                    b"init_name"
+                ) };
                 move_to(owner, resource);
             }
         } else if (index == 1) {
@@ -156,10 +155,9 @@ module 0xABCD::resource_groups_example {
                     error::invalid_state(EVALUE_TOO_LARGE)
                 );
             } else {
-                let resource = ExampleResource1 {
-                    value: 0,
-                    name: string::utf8(b"init_name")
-                };
+                let resource = ExampleResource1 { value: 0, name: string::utf8(
+                    b"init_name"
+                ) };
                 move_to(owner, resource);
             }
         } else if (index == 2) {
@@ -170,10 +168,9 @@ module 0xABCD::resource_groups_example {
                     error::invalid_state(EVALUE_TOO_LARGE)
                 );
             } else {
-                let resource = ExampleResource2 {
-                    value: 0,
-                    name: string::utf8(b"init_name")
-                };
+                let resource = ExampleResource2 { value: 0, name: string::utf8(
+                    b"init_name"
+                ) };
                 move_to(owner, resource);
             }
         } else if (index == 3) {
@@ -184,10 +181,9 @@ module 0xABCD::resource_groups_example {
                     error::invalid_state(EVALUE_TOO_LARGE)
                 );
             } else {
-                let resource = ExampleResource3 {
-                    value: 0,
-                    name: string::utf8(b"init_name")
-                };
+                let resource = ExampleResource3 { value: 0, name: string::utf8(
+                    b"init_name"
+                ) };
                 move_to(owner, resource);
             }
         } else if (index == 4) {
@@ -198,10 +194,9 @@ module 0xABCD::resource_groups_example {
                     error::invalid_state(EVALUE_TOO_LARGE)
                 );
             } else {
-                let resource = ExampleResource4 {
-                    value: 0,
-                    name: string::utf8(b"init_name")
-                };
+                let resource = ExampleResource4 { value: 0, name: string::utf8(
+                    b"init_name"
+                ) };
                 move_to(owner, resource);
             }
         } else if (index == 5) {
@@ -212,10 +207,9 @@ module 0xABCD::resource_groups_example {
                     error::invalid_state(EVALUE_TOO_LARGE)
                 );
             } else {
-                let resource = ExampleResource5 {
-                    value: 0,
-                    name: string::utf8(b"init_name")
-                };
+                let resource = ExampleResource5 { value: 0, name: string::utf8(
+                    b"init_name"
+                ) };
                 move_to(owner, resource);
             }
         } else if (index == 6) {
@@ -226,10 +220,9 @@ module 0xABCD::resource_groups_example {
                     error::invalid_state(EVALUE_TOO_LARGE)
                 );
             } else {
-                let resource = ExampleResource6 {
-                    value: 0,
-                    name: string::utf8(b"init_name")
-                };
+                let resource = ExampleResource6 { value: 0, name: string::utf8(
+                    b"init_name"
+                ) };
                 move_to(owner, resource);
             }
         } else if (index == 7) {
@@ -240,30 +233,22 @@ module 0xABCD::resource_groups_example {
                     error::invalid_state(EVALUE_TOO_LARGE)
                 );
             } else {
-                let resource = ExampleResource7 {
-                    value: 0,
-                    name: string::utf8(b"init_name")
-                };
+                let resource = ExampleResource7 { value: 0, name: string::utf8(
+                    b"init_name"
+                ) };
                 move_to(owner, resource);
             }
         };
     }
 
     public entry fun set_p(
-        _delegated_signer: &signer,
-        owner: &signer,
-        index: u64,
-        name: String
+        _delegated_signer: &signer, owner: &signer, index: u64, name: String
     ) acquires ExampleResource0, ExampleResource1, ExampleResource2, ExampleResource3, ExampleResource4, ExampleResource5, ExampleResource6, ExampleResource7 {
         set(owner, index, name);
     }
 
     public entry fun set_3(
-        owner: &signer,
-        index1: u64,
-        index2: u64,
-        index3: u64,
-        name: String
+        owner: &signer, index1: u64, index2: u64, index3: u64, name: String
     ) acquires ExampleResource0, ExampleResource1, ExampleResource2, ExampleResource3, ExampleResource4, ExampleResource5, ExampleResource6, ExampleResource7 {
         set(owner, index1, name);
         set(owner, index2, name);
@@ -271,10 +256,7 @@ module 0xABCD::resource_groups_example {
     }
 
     public entry fun set_and_read(
-        owner: &signer,
-        set_index: u64,
-        read_index: u64,
-        name: String
+        owner: &signer, set_index: u64, read_index: u64, name: String
     ) acquires ExampleResource0, ExampleResource1, ExampleResource2, ExampleResource3, ExampleResource4, ExampleResource5, ExampleResource6, ExampleResource7 {
         set(owner, set_index, name);
         read_or_init(owner, read_index);

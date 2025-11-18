@@ -122,7 +122,9 @@ module DiemFramework::XDX {
     spec fun spec_is_xdx<CoinType>(): bool {
         Diem::spec_is_currency<CoinType>()
             && Diem::spec_is_currency<XDX>()
-            && (Diem::spec_currency_code<CoinType>() == Diem::spec_currency_code<XDX>())
+            && (
+                Diem::spec_currency_code<CoinType>() == Diem::spec_currency_code<XDX>()
+            )
     }
 
     /// Return the account address where the globally unique XDX::Reserve resource is stored

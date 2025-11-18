@@ -75,9 +75,7 @@ module DiemFramework::CRSN {
     }
 
     /// Publish a DSN under `account`. Cannot already have a DSN published.
-    public(friend) fun publish(
-        account: &signer, min_nonce: u64, size: u64
-    ) {
+    public(friend) fun publish(account: &signer, min_nonce: u64, size: u64) {
         assert!(
             !has_crsn(signer::address_of(account)),
             errors::invalid_state(EHAS_CRSN)
@@ -148,10 +146,12 @@ module DiemFramework::CRSN {
 
         // Don't accept if it's outside of the window
         if ((sequence_nonce < crsn.min_nonce)
-            || ((sequence_nonce as u128)
-                >= (crsn.min_nonce as u128) + (bit_vector::length(&crsn.slots) as u128))) {
-            false
-        } else {
+            || (
+                (sequence_nonce as u128)
+                    >= (crsn.min_nonce as u128)
+                        + (bit_vector::length(&crsn.slots) as u128)
+            )) { false }
+        else {
             // scaled nonce is the index in the window
             let scaled_nonce = sequence_nonce - crsn.min_nonce;
 
@@ -174,18 +174,14 @@ module DiemFramework::CRSN {
         include has_crsn(addr)
             && (sequence_nonce >= crsn.min_nonce)
             && (sequence_nonce + crsn.min_nonce < bit_vector::length(crsn.slots)) ==>
-            bit_vector::IsIndexSetAbortsIf {
-                bitvector: crsn.slots,
-                bit_index: scaled_nonce
-            };
+            bit_vector::IsIndexSetAbortsIf { bitvector: crsn.slots, bit_index: scaled_nonce };
     }
 
     spec fun spec_check(addr: address, sequence_nonce: u64): bool {
         let crsn = global<CRSN>(addr);
         if ((sequence_nonce < crsn.min_nonce)
-            || (sequence_nonce >= crsn.min_nonce + bit_vector::length(crsn.slots))) {
-            false
-        } else {
+            || (sequence_nonce >= crsn.min_nonce + bit_vector::length(crsn.slots))) { false }
+        else {
             let scaled_nonce = sequence_nonce - crsn.min_nonce;
             !bit_vector::spec_is_index_set(crsn.slots, scaled_nonce)
         }

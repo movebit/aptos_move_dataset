@@ -240,7 +240,11 @@ module DiemFramework::DiemId {
 
         event::emit_event(
             &mut borrow_global_mut<DiemIdDomainManager>(@TreasuryCompliance).diem_id_domain_events,
-            DiemIdDomainEvent { removed: true, domain: diem_id_domain, address: address }
+            DiemIdDomainEvent {
+                removed: true,
+                domain: diem_id_domain,
+                address: address
+            }
         );
     }
 

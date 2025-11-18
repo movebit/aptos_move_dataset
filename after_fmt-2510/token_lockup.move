@@ -63,7 +63,10 @@ module token_lockup::token_lockup {
 
         move_to(
             &token_signer,
-            LockupConfig { last_transfer: timestamp::now_seconds(), transfer_ref }
+            LockupConfig {
+                last_transfer: timestamp::now_seconds(),
+                transfer_ref
+            }
         );
 
         token_constructor_ref

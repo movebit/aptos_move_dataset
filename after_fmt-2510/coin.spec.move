@@ -268,9 +268,7 @@ spec aptos_framework::coin {
         modifies global<CoinInfo<CoinType>>(addr);
     }
 
-    spec burn_from<CoinType>(
-        account_addr: address, amount: u64, burn_cap: &BurnCapability<CoinType>
-    ) {
+    spec burn_from<CoinType>(account_addr: address, amount: u64, burn_cap: &BurnCapability<CoinType>) {
         // TODO(fa_migration)
         pragma verify = false;
         let addr = type_info::type_of<CoinType>().account_address;
@@ -416,16 +414,15 @@ spec aptos_framework::coin {
         symbol: string::String,
         decimals: u8,
         monitor_supply: bool
-    ): (BurnCapability<CoinType>, FreezeCapability<CoinType>, MintCapability<CoinType>) {
+    ): (
+        BurnCapability<CoinType>, FreezeCapability<CoinType>, MintCapability<CoinType>
+    ) {
         use aptos_framework::aggregator_factory;
         let addr = signer::address_of(account);
         aborts_if addr != @aptos_framework;
         aborts_if monitor_supply
             && !exists<aggregator_factory::AggregatorFactory>(@aptos_framework);
-        include InitializeInternalSchema<CoinType> {
-            name: name.bytes,
-            symbol: symbol.bytes
-        };
+        include InitializeInternalSchema<CoinType> { name: name.bytes, symbol: symbol.bytes };
         ensures exists<CoinInfo<CoinType>>(addr);
     }
 
@@ -450,11 +447,10 @@ spec aptos_framework::coin {
         decimals: u8,
         monitor_supply: bool,
         parallelizable: bool
-    ): (BurnCapability<CoinType>, FreezeCapability<CoinType>, MintCapability<CoinType>) {
-        include InitializeInternalSchema<CoinType> {
-            name: name.bytes,
-            symbol: symbol.bytes
-        };
+    ): (
+        BurnCapability<CoinType>, FreezeCapability<CoinType>, MintCapability<CoinType>
+    ) {
+        include InitializeInternalSchema<CoinType> { name: name.bytes, symbol: symbol.bytes };
         let account_addr = signer::address_of(account);
         let post coin_info = global<CoinInfo<CoinType>>(account_addr);
         let post supply = option::borrow(coin_info.supply);

@@ -13,9 +13,7 @@ module 0xc0ffee::m {
         move_to(s, Wrapper { value: f });
     }
 
-    public fun compare(
-        other: |u64| u64 has copy + store + drop, s: &signer
-    ): bool {
+    public fun compare(other: |u64| u64 has copy + store + drop, s: &signer): bool {
         let this = Wrapper<|u64| u64 has copy + store + drop>[std::signer::address_of(s)].value;
         this == other
     }

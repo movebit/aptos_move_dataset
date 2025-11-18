@@ -18,8 +18,7 @@ script {
 
         let coin_second =
             coin::extract(
-                &mut coin_first,
-                amount_first + amount_second - deposit_first
+                &mut coin_first, amount_first + amount_second - deposit_first
             );
 
         coin::deposit(dst_first, coin_first);

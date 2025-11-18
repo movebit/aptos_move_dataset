@@ -456,7 +456,9 @@ module 0x42::TestVector {
     fun option_type(): (u64, u64) {
         let n = none<u64>();
         let s = some<u64>(42);
-        (unwrap_or<u64>(n, 0), unwrap_or<u64>(s, 0))
+        (
+            unwrap_or<u64>(n, 0), unwrap_or<u64>(s, 0)
+        )
     }
 
     spec option_type {

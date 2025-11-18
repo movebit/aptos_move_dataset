@@ -183,7 +183,9 @@ module aptos_std::ristretto255 {
 
     /// Hashes the input to a uniformly-at-random RistrettoPoint via SHA2-512.
     public fun new_point_from_sha2_512(sha2_512_input: vector<u8>): RistrettoPoint {
-        RistrettoPoint { handle: new_point_from_sha512_internal(sha2_512_input) }
+        RistrettoPoint {
+            handle: new_point_from_sha512_internal(sha2_512_input)
+        }
     }
 
     /// Samples a uniformly-at-random RistrettoPoint given a sequence of 64 uniformly-at-random bytes. This function
@@ -191,7 +193,9 @@ module aptos_std::ristretto255 {
     public fun new_point_from_64_uniform_bytes(bytes: vector<u8>): Option<RistrettoPoint> {
         if (bytes.length() == 64) {
             std::option::some(
-                RistrettoPoint { handle: new_point_from_64_uniform_bytes_internal(bytes) }
+                RistrettoPoint {
+                    handle: new_point_from_64_uniform_bytes_internal(bytes)
+                }
             )
         } else {
             std::option::none<RistrettoPoint>()
@@ -243,7 +247,9 @@ module aptos_std::ristretto255 {
     public fun basepoint_double_mul(
         a: &Scalar, a_base: &RistrettoPoint, b: &Scalar
     ): RistrettoPoint {
-        RistrettoPoint { handle: basepoint_double_mul_internal(a.data, a_base, b.data) }
+        RistrettoPoint {
+            handle: basepoint_double_mul_internal(a.data, a_base, b.data)
+        }
     }
 
     /// Returns a + b
@@ -252,9 +258,8 @@ module aptos_std::ristretto255 {
     }
 
     /// Sets a += b and returns 'a'.
-    public fun point_add_assign(
-        a: &mut RistrettoPoint, b: &RistrettoPoint
-    ): &mut RistrettoPoint {
+    public fun point_add_assign(a: &mut RistrettoPoint, b: &RistrettoPoint)
+        : &mut RistrettoPoint {
         point_add_internal(a, b, true);
         a
     }
@@ -265,9 +270,8 @@ module aptos_std::ristretto255 {
     }
 
     /// Sets a -= b and returns 'a'.
-    public fun point_sub_assign(
-        a: &mut RistrettoPoint, b: &RistrettoPoint
-    ): &mut RistrettoPoint {
+    public fun point_sub_assign(a: &mut RistrettoPoint, b: &RistrettoPoint)
+        : &mut RistrettoPoint {
         point_sub_internal(a, b, true);
         a
     }
@@ -348,7 +352,9 @@ module aptos_std::ristretto255 {
 
     /// Hashes the input to a uniformly-at-random Scalar via SHA2-512
     public fun new_scalar_from_sha2_512(sha2_512_input: vector<u8>): Scalar {
-        Scalar { data: scalar_from_sha512_internal(sha2_512_input) }
+        Scalar {
+            data: scalar_from_sha512_internal(sha2_512_input)
+        }
     }
 
     /// Creates a Scalar from an u8.
@@ -379,7 +385,9 @@ module aptos_std::ristretto255 {
     public fun new_scalar_reduced_from_32_bytes(bytes: vector<u8>): Option<Scalar> {
         if (bytes.length() == 32) {
             std::option::some(
-                Scalar { data: scalar_reduced_from_32_bytes_internal(bytes) }
+                Scalar {
+                    data: scalar_reduced_from_32_bytes_internal(bytes)
+                }
             )
         } else {
             std::option::none()
@@ -391,7 +399,9 @@ module aptos_std::ristretto255 {
     public fun new_scalar_uniform_from_64_bytes(bytes: vector<u8>): Option<Scalar> {
         if (bytes.length() == 64) {
             std::option::some(
-                Scalar { data: scalar_uniform_from_64_bytes_internal(bytes) }
+                Scalar {
+                    data: scalar_uniform_from_64_bytes_internal(bytes)
+                }
             )
         } else {
             std::option::none()
@@ -495,7 +505,9 @@ module aptos_std::ristretto255 {
     //
 
     // NOTE: This was supposed to be more clearly named with *_sha2_512_*.
-    native fun new_point_from_sha512_internal(sha2_512_input: vector<u8>): u64;
+    native fun new_point_from_sha512_internal(
+        sha2_512_input: vector<u8>
+    ): u64;
 
     native fun new_point_from_64_uniform_bytes_internal(
         bytes: vector<u8>
@@ -533,10 +545,7 @@ module aptos_std::ristretto255 {
     native fun point_neg_internal(a: &RistrettoPoint, in_place: bool): u64;
 
     native fun double_scalar_mul_internal(
-        point1: u64,
-        point2: u64,
-        scalar1: vector<u8>,
-        scalar2: vector<u8>
+        point1: u64, point2: u64, scalar1: vector<u8>, scalar2: vector<u8>
     ): u64;
 
     /// The generic arguments are needed to deal with some Move VM peculiarities which prevent us from borrowing the
@@ -835,8 +844,7 @@ module aptos_std::ristretto255 {
         assert!(a.handle == before_a_gap, 1);
         assert!(b.handle == 1 + before_a_gap + before_b_gap, 1);
         assert!(
-            a_plus_b.handle == 2 + before_a_gap + before_b_gap,
-            1
+            a_plus_b.handle == 2 + before_a_gap + before_b_gap, 1
         );
 
         assert!(!point_equals(&a, &b), 1);
@@ -1167,18 +1175,12 @@ module aptos_std::ristretto255 {
     fun test_scalar_from_sha2_512() {
         // Test a specific message hashes correctly to the field
         let str: vector<u8> = vector[];
-        str.append(
-            b"To really appreciate architecture, you may even need to commit a murder."
-        );
+        str.append(b"To really appreciate architecture, you may even need to commit a murder.");
         str.append(
             b"While the programs used for The Manhattan Transcripts are of the most extreme"
         );
-        str.append(
-            b"nature, they also parallel the most common formula plot: the archetype of"
-        );
-        str.append(
-            b"murder. Other phantasms were occasionally used to underline the fact that"
-        );
+        str.append(b"nature, they also parallel the most common formula plot: the archetype of");
+        str.append(b"murder. Other phantasms were occasionally used to underline the fact that");
         str.append(
             b"perhaps all architecture, rather than being about functional standards, is"
         );
@@ -1347,9 +1349,7 @@ module aptos_std::ristretto255 {
 
         // Reducing the all 1's bit vector yields $(2^256 - 1) \mod \ell$
         let biggest = new_scalar_reduced_from_32_bytes(NON_CANONICAL_ALL_ONES).extract();
-        assert!(
-            scalar_equals(&biggest, &Scalar { data: REDUCED_2_256_MINUS_1_SCALAR }), 1
-        );
+        assert!(scalar_equals(&biggest, &Scalar { data: REDUCED_2_256_MINUS_1_SCALAR }), 1);
     }
 
     #[test]

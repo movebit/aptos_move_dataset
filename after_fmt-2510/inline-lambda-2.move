@@ -14,9 +14,7 @@ module 0x42::m {
         entries: vector<T>
     }
 
-    public inline fun find<Element>(
-        v: &vector<Element>, f: |&Element| bool
-    ): (bool, u64) {
+    public inline fun find<Element>(v: &vector<Element>, f: |&Element| bool): (bool, u64) {
         let find = false;
         let found_index = 0;
         let i = 0;

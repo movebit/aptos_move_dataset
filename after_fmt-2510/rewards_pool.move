@@ -57,7 +57,9 @@ module rewards_pool::rewards_pool {
     }
 
     /// Create a new rewards pool with the given reward tokens (fungible assets only)
-    public entry fun create_entry(reward_tokens: vector<Object<Metadata>>) {
+    public entry fun create_entry(
+        reward_tokens: vector<Object<Metadata>>
+    ) {
         create(reward_tokens);
     }
 
@@ -93,7 +95,10 @@ module rewards_pool::rewards_pool {
         );
         move_to(
             rewards_pool_signer,
-            RewardsPool { epoch_rewards: smart_table::new(), reward_stores }
+            RewardsPool {
+                epoch_rewards: smart_table::new(),
+                reward_stores
+            }
         );
         object::object_from_constructor_ref(rewards_pool_constructor_ref)
     }
@@ -232,9 +237,7 @@ module rewards_pool::rewards_pool {
 
     /// Add rewards to the specified rewards pool. This can be called with multiple reward tokens.
     public fun add_rewards(
-        rewards_pool: Object<RewardsPool>,
-        fungible_assets: vector<FungibleAsset>,
-        epoch: u64
+        rewards_pool: Object<RewardsPool>, fungible_assets: vector<FungibleAsset>, epoch: u64
     ) acquires RewardsPool {
         let rewards_data = unchecked_mut_rewards_pool_data(&rewards_pool);
         let reward_stores = &rewards_data.reward_stores;
@@ -299,9 +302,7 @@ module rewards_pool::rewards_pool {
         epoch: u64
     ): u64 {
         // No rewards (in any tokens) have been added for this epoch.
-        if (!smart_table::contains(&rewards_pool_data.epoch_rewards, epoch)) {
-            return 0
-        };
+        if (!smart_table::contains(&rewards_pool_data.epoch_rewards, epoch)) { return 0 };
         let epoch_rewards = smart_table::borrow(&rewards_pool_data.epoch_rewards, epoch);
         // No rewards have been added for this reward token.
         if (!simple_map::contains_key(&epoch_rewards.total_amounts, &reward_token)) {

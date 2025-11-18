@@ -243,10 +243,7 @@ module aptos_experimental::confidential_asset {
     /// However, tokens within the protocol become obfuscated through confidential transfers, ensuring privacy in
     /// subsequent transactions.
     public entry fun deposit_to(
-        sender: &signer,
-        token: Object<Metadata>,
-        to: address,
-        amount: u64
+        sender: &signer, token: Object<Metadata>, to: address, amount: u64
     ) acquires ConfidentialAssetStore, FAController, FAConfig {
         deposit_to_internal(sender, token, to, amount)
     }
@@ -746,10 +743,7 @@ module aptos_experimental::confidential_asset {
 
     /// Implementation of the `deposit_to` entry function.
     public fun deposit_to_internal(
-        sender: &signer,
-        token: Object<Metadata>,
-        to: address,
-        amount: u64
+        sender: &signer, token: Object<Metadata>, to: address, amount: u64
     ) acquires ConfidentialAssetStore, FAController, FAConfig {
         assert!(is_token_allowed(token), error::invalid_argument(ETOKEN_DISABLED));
         assert!(!is_frozen(to, token), error::invalid_state(EALREADY_FROZEN));
@@ -764,7 +758,10 @@ module aptos_experimental::confidential_asset {
             );
 
         dispatchable_fungible_asset::transfer(
-            sender, sender_fa_store, ca_fa_store, amount
+            sender,
+            sender_fa_store,
+            ca_fa_store,
+            amount
         );
 
         let ca_store =
@@ -1288,10 +1285,7 @@ module aptos_experimental::confidential_asset {
 
     #[test_only]
     public fun verify_pending_balance(
-        user: address,
-        token: Object<Metadata>,
-        user_dk: &Scalar,
-        amount: u64
+        user: address, token: Object<Metadata>, user_dk: &Scalar, amount: u64
     ): bool acquires ConfidentialAssetStore {
         let ca_store =
             borrow_global<ConfidentialAssetStore>(get_user_address(user, token));
@@ -1303,10 +1297,7 @@ module aptos_experimental::confidential_asset {
 
     #[test_only]
     public fun verify_actual_balance(
-        user: address,
-        token: Object<Metadata>,
-        user_dk: &Scalar,
-        amount: u128
+        user: address, token: Object<Metadata>, user_dk: &Scalar, amount: u128
     ): bool acquires ConfidentialAssetStore {
         let ca_store =
             borrow_global<ConfidentialAssetStore>(get_user_address(user, token));

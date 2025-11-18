@@ -267,11 +267,7 @@ module aptos_framework::account_abstraction {
             );
             current_map.add(auth_function, true);
             event::emit(
-                UpdateDispatchableAuthenticator {
-                    account: addr,
-                    update: b"add",
-                    auth_function
-                }
+                UpdateDispatchableAuthenticator { account: addr, update: b"add", auth_function }
             );
         } else {
             assert!(

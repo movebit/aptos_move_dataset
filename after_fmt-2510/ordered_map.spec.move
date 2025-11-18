@@ -188,8 +188,10 @@ spec aptos_std::ordered_map {
         ensures [abstract] spec_contains_key(self, key);
         ensures [abstract] spec_get(self, key) == value;
         ensures [abstract] spec_contains_key(old(self), key) ==>
-            ((option::is_some(result))
-                && (option::borrow(result) == spec_get(old(self), key)));
+            (
+                (option::is_some(result))
+                    && (option::borrow(result) == spec_get(old(self), key))
+            );
         ensures [abstract]!spec_contains_key(old(self), key) ==>
             spec_len(old(self)) + 1 == spec_len(self);
         ensures [abstract] spec_contains_key(old(self), key) ==>

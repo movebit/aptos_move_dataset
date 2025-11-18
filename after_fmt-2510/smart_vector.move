@@ -72,8 +72,12 @@ module aptos_std::smart_vector {
     /// Aborts if `self` is not empty.
     public fun destroy_empty<T>(self: SmartVector<T>) {
         assert!(self.is_empty(), error::invalid_argument(EVECTOR_NOT_EMPTY));
-        let SmartVector { inline_vec, big_vec, inline_capacity: _, bucket_size: _ } =
-            self;
+        let SmartVector {
+            inline_vec,
+            big_vec,
+            inline_capacity: _,
+            bucket_size: _
+        } = self;
         inline_vec.destroy_empty();
         big_vec.destroy_none();
     }
@@ -137,9 +141,7 @@ module aptos_std::smart_vector {
     }
 
     /// Add multiple values to the vector at once.
-    public fun add_all<T: store>(
-        self: &mut SmartVector<T>, vals: vector<T>
-    ) {
+    public fun add_all<T: store>(self: &mut SmartVector<T>, vals: vector<T>) {
         vals.for_each(|val| {
             self.push_back(val);
         })
@@ -380,9 +382,7 @@ module aptos_std::smart_vector {
     }
 
     /// Apply the function to a mutable reference to each T in the vector.
-    public inline fun for_each_mut<T>(
-        self: &mut SmartVector<T>, f: |&mut T|
-    ) {
+    public inline fun for_each_mut<T>(self: &mut SmartVector<T>, f: |&mut T|) {
         let len = self.length();
         for (i in 0..len) {
             f(self.borrow_mut(i));
@@ -390,9 +390,7 @@ module aptos_std::smart_vector {
     }
 
     /// Apply the function to a reference of each T in the vector with its index.
-    public inline fun enumerate_ref<T>(
-        self: &SmartVector<T>, f: |u64, &T|
-    ) {
+    public inline fun enumerate_ref<T>(self: &SmartVector<T>, f: |u64, &T|) {
         let len = self.length();
         for (i in 0..len) {
             f(i, self.borrow(i));
@@ -412,9 +410,7 @@ module aptos_std::smart_vector {
     /// Fold the function over the Ts. For example, `fold(vector[1,2,3], 0, f)` will execute
     /// `f(f(f(0, 1), 2), 3)`
     public inline fun fold<Accumulator, T: store>(
-        self: SmartVector<T>,
-        init: Accumulator,
-        f: |Accumulator, T| Accumulator
+        self: SmartVector<T>, init: Accumulator, f: |Accumulator, T| Accumulator
     ): Accumulator {
         let accu = init;
         self.for_each(|elem| accu = f(accu, elem));
@@ -424,9 +420,7 @@ module aptos_std::smart_vector {
     /// Fold right like fold above but working right to left. For example, `fold(vector[1,2,3], 0, f)` will execute
     /// `f(1, f(2, f(3, 0)))`
     public inline fun foldr<Accumulator, T>(
-        self: SmartVector<T>,
-        init: Accumulator,
-        f: |T, Accumulator| Accumulator
+        self: SmartVector<T>, init: Accumulator, f: |T, Accumulator| Accumulator
     ): Accumulator {
         let accu = init;
         self.for_each_reverse(|elem| accu = f(elem, accu));
@@ -464,9 +458,7 @@ module aptos_std::smart_vector {
     }
 
     public inline fun zip<T1: store, T2: store>(
-        self: SmartVector<T1>,
-        v2: SmartVector<T2>,
-        f: |T1, T2|
+        self: SmartVector<T1>, v2: SmartVector<T2>, f: |T1, T2|
     ) {
         // We need to reverse the vectors to consume it efficiently
         self.reverse();
@@ -477,9 +469,7 @@ module aptos_std::smart_vector {
     /// Apply the function to each pair of elements in the two given vectors in the reverse order, consuming them.
     /// This errors out if the vectors are not of the same length.
     public inline fun zip_reverse<T1, T2>(
-        self: SmartVector<T1>,
-        v2: SmartVector<T2>,
-        f: |T1, T2|
+        self: SmartVector<T1>, v2: SmartVector<T2>, f: |T1, T2|
     ) {
         let len = self.length();
         // We can't use the constant ESMART_VECTORS_LENGTH_MISMATCH here as all calling code would then need to define it
@@ -496,9 +486,7 @@ module aptos_std::smart_vector {
     /// Apply the function to the references of each pair of elements in the two given vectors.
     /// This errors out if the vectors are not of the same length.
     public inline fun zip_ref<T1, T2>(
-        self: &SmartVector<T1>,
-        v2: &SmartVector<T2>,
-        f: |&T1, &T2|
+        self: &SmartVector<T1>, v2: &SmartVector<T2>, f: |&T1, &T2|
     ) {
         let len = self.length();
         // We can't use the constant ESMART_VECTORS_LENGTH_MISMATCH here as all calling code would then need to define it
@@ -512,9 +500,7 @@ module aptos_std::smart_vector {
     /// Apply the function to mutable references to each pair of elements in the two given vectors.
     /// This errors out if the vectors are not of the same length.
     public inline fun zip_mut<T1, T2>(
-        self: &mut SmartVector<T1>,
-        v2: &mut SmartVector<T2>,
-        f: |&mut T1, &mut T2|
+        self: &mut SmartVector<T1>, v2: &mut SmartVector<T2>, f: |&mut T1, &mut T2|
     ) {
         let len = self.length();
         // We can't use the constant ESMART_VECTORS_LENGTH_MISMATCH here as all calling code would then need to define it
@@ -527,9 +513,7 @@ module aptos_std::smart_vector {
 
     /// Map the function over the element pairs of the two vectors, producing a new vector.
     public inline fun zip_map<T1: store, T2: store, NewT: store>(
-        self: SmartVector<T1>,
-        v2: SmartVector<T2>,
-        f: |T1, T2| NewT
+        self: SmartVector<T1>, v2: SmartVector<T2>, f: |T1, T2| NewT
     ): SmartVector<NewT> {
         // We can't use the constant ESMART_VECTORS_LENGTH_MISMATCH here as all calling code would then need to define it
         // due to how inline functions work.
@@ -543,9 +527,7 @@ module aptos_std::smart_vector {
     /// Map the function over the references of the element pairs of two vectors, producing a new vector from the return
     /// values without modifying the original vectors.
     public inline fun zip_map_ref<T1, T2, NewT: store>(
-        self: &SmartVector<T1>,
-        v2: &SmartVector<T2>,
-        f: |&T1, &T2| NewT
+        self: &SmartVector<T1>, v2: &SmartVector<T2>, f: |&T1, &T2| NewT
     ): SmartVector<NewT> {
         // We can't use the constant ESMART_VECTORS_LENGTH_MISMATCH here as all calling code would then need to define it
         // due to how inline functions work.

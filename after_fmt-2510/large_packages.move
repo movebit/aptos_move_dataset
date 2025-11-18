@@ -215,10 +215,7 @@ module aptos_experimental::large_packages {
         let code = vector[];
         let i = 0;
         while (i <= last_module_idx) {
-            vector::push_back(
-                &mut code,
-                *smart_table::borrow(&staging_area.code, i)
-            );
+            vector::push_back(&mut code, *smart_table::borrow(&staging_area.code, i));
             i = i + 1;
         };
         code

@@ -161,10 +161,7 @@ module DiemFramework::TransactionFee {
         include Diem::AbortsIfNoBurnCapability<CoinType> { account: tc_account };
 
         let fees = spec_transaction_fee<CoinType>();
-        include Diem::BurnNowAbortsIf<CoinType> {
-            coin: fees.balance,
-            preburn: fees.preburn
-        };
+        include Diem::BurnNowAbortsIf<CoinType> { coin: fees.balance, preburn: fees.preburn };
 
         /// tc_account retrieves BurnCapability [[H3]][PERMISSION].
         /// BurnCapability is not transferrable [[J3]][PERMISSION].

@@ -82,7 +82,9 @@ module knight::knight {
     /// Returns the knight token address by name
     public fun knight_token_address(knight_token_name: String): address {
         token::create_token_address(
-            &@knight, &string::utf8(KNIGHT_COLLECTION_NAME), &knight_token_name
+            &@knight,
+            &string::utf8(KNIGHT_COLLECTION_NAME),
+            &knight_token_name
         )
     }
 
@@ -226,7 +228,11 @@ module knight::knight {
 
         // Creates the collection with unlimited supply and without establishing any royalty configuration.
         collection::create_unlimited_collection(
-            creator, description, name, option::none(), uri
+            creator,
+            description,
+            name,
+            option::none(),
+            uri
         );
     }
 
@@ -276,8 +282,7 @@ module knight::knight {
         feed_food(user1, corn_token, knight_token, 3);
         // Asserts that the corn balance decreases by 3.
         assert!(
-            food::food_balance(user1_addr, corn_token) == old_corn_balance - 3,
-            0
+            food::food_balance(user1_addr, corn_token) == old_corn_balance - 3, 0
         );
         // Asserts that the health point increases by 15 (= amount * restoration_value = 3 * 5).
         assert!(health_point(knight_token) == 16, 2);
@@ -287,8 +292,7 @@ module knight::knight {
         feed_food(user1, meat_token, knight_token, 2);
         // Asserts that the corn balance decreases by 3.
         assert!(
-            food::food_balance(user1_addr, meat_token) == old_meat_balance - 2,
-            0
+            food::food_balance(user1_addr, meat_token) == old_meat_balance - 2, 0
         );
         // Asserts that the health point increases by 40 (= amount * restoration_value = 2 * 20).
         assert!(health_point(knight_token) == 56, 3);

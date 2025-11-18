@@ -14,10 +14,7 @@ module Alice::hello_world {
     }
 
     public entry fun initialize(sender: &signer) {
-        move_to(
-            sender,
-            ModuleData { global_counter: 0, state: string::utf8(b"init") }
-        );
+        move_to(sender, ModuleData { global_counter: 0, state: string::utf8(b"init") });
     }
 
     public fun foo(addr: address): u64 {

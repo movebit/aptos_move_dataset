@@ -158,12 +158,7 @@ module 0x99::lambda_inline {
 
 module 0x99::lambda_inline1 {
     inline fun foo(
-        f: |u64, u64, u64| u64,
-        g: |u64, u64, u64| u64,
-        x: u64,
-        _: u64,
-        y: u64,
-        z: u64
+        f: |u64, u64, u64| u64, g: |u64, u64, u64| u64, x: u64, _: u64, y: u64, z: u64
     ): u64 {
         let r1 = f(
             {

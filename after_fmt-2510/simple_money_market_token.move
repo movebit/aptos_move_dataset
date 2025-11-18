@@ -29,9 +29,7 @@ module Token {
         Coin { type: *&coin.type, value: amount }
     }
 
-    public fun join<ATy: copy + drop + store>(
-        xus: Coin<ATy>, coin2: Coin<ATy>
-    ): Coin<ATy> {
+    public fun join<ATy: copy + drop + store>(xus: Coin<ATy>, coin2: Coin<ATy>): Coin<ATy> {
         deposit(&mut xus, coin2);
         xus
     }
@@ -190,9 +188,7 @@ module ToddNickels {
         assert!(signer::address_of(account) == @0x70DD, 42);
         move_to(
             account,
-            Wallet {
-                nickels: Token::create(T {}, 0)
-            }
+            Wallet { nickels: Token::create(T {}, 0) }
         )
     }
 

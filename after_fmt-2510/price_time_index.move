@@ -14,10 +14,7 @@ module aptos_experimental::price_time_index {
         OrderType
     };
     use aptos_experimental::single_order_types::{get_slippage_pct_precision};
-    use aptos_experimental::order_book_types::{
-        new_active_matched_order,
-        ActiveMatchedOrder
-    };
+    use aptos_experimental::order_book_types::{new_active_matched_order, ActiveMatchedOrder};
     #[test_only]
     use std::vector;
     #[test_only]
@@ -317,10 +314,7 @@ module aptos_experimental::price_time_index {
     }
 
     public(friend) fun get_single_match_result(
-        self: &mut PriceTimeIndex,
-        price: u64,
-        size: u64,
-        is_bid: bool
+        self: &mut PriceTimeIndex, price: u64, size: u64, is_bid: bool
     ): ActiveMatchedOrder {
         if (is_bid) {
             self.get_single_match_for_buy_order(price, size)
@@ -341,17 +335,13 @@ module aptos_experimental::price_time_index {
         let key = PriceTime { price, tie_breaker };
         if (is_bid) {
             modify_order_data(
-                &mut self.buys,
-                &key,
-                |order_data| {
+                &mut self.buys, &key, |order_data| {
                     order_data.size += size_delta;
                 }
             );
         } else {
             modify_order_data(
-                &mut self.sells,
-                &key,
-                |order_data| {
+                &mut self.sells, &key, |order_data| {
                     order_data.size += size_delta;
                 }
             );
@@ -370,17 +360,13 @@ module aptos_experimental::price_time_index {
         let key = PriceTime { price, tie_breaker };
         if (is_bid) {
             modify_order_data(
-                &mut self.buys,
-                &key,
-                |order_data| {
+                &mut self.buys, &key, |order_data| {
                     order_data.size -= size_delta;
                 }
             );
         } else {
             modify_order_data(
-                &mut self.sells,
-                &key,
-                |order_data| {
+                &mut self.sells, &key, |order_data| {
                     order_data.size -= size_delta;
                 }
             );

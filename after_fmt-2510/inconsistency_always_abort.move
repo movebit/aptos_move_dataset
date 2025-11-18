@@ -13,9 +13,8 @@ module 0x42::Inconsistency {
 
     // Hiding the function behind some trivial if-else branch does not work
     fun always_abort_if_else(x: u64): bool {
-        if (x == x) {
-            abort 0
-        } else {
+        if (x == x) { abort 0 }
+        else {
             return true
         }
     }

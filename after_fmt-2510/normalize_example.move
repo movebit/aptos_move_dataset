@@ -42,7 +42,10 @@ module confidential_asset_example::normalize_example {
 
         let (proof, new_balance) =
             confidential_proof::prove_normalization(
-                &bob_dk, &bob_ek, bob_amount, &current_balance
+                &bob_dk,
+                &bob_ek,
+                bob_amount,
+                &current_balance
             );
 
         let (sigma_proof, zkrp_new_balance) =
@@ -59,7 +62,10 @@ module confidential_asset_example::normalize_example {
         assert!(confidential_asset::is_normalized(bob_addr, token));
         assert!(
             confidential_asset::verify_actual_balance(
-                bob_addr, token, &bob_dk, bob_amount
+                bob_addr,
+                token,
+                &bob_dk,
+                bob_amount
             )
         );
 
@@ -70,19 +76,14 @@ module confidential_asset_example::normalize_example {
         confidential_asset::rollover_pending_balance(bob, token);
     }
 
-    #[
-        test(
-            confidential_asset = @aptos_experimental,
-            aptos_fx = @aptos_framework,
-            fa = @0xfa,
-            bob = @0xb0
-        )
-    ]
+    #[test(
+        confidential_asset = @aptos_experimental,
+        aptos_fx = @aptos_framework,
+        fa = @0xfa,
+        bob = @0xb0
+    )]
     fun normalize_example_test(
-        confidential_asset: signer,
-        aptos_fx: signer,
-        fa: signer,
-        bob: signer
+        confidential_asset: signer, aptos_fx: signer, fa: signer, bob: signer
     ) {
         let token =
             confidential_asset_tests::set_up_for_confidential_asset_test(

@@ -7,14 +7,12 @@ module stablecoin::usdk_tests {
     use stablecoin::usdk;
     use aptos_framework::object;
 
-    #[
-        test(
-            creator = @0xcafe,
-            minter = @0xface,
-            master_minter = @0xbab,
-            denylister = @0xcade
-        )
-    ]
+    #[test(
+        creator = @0xcafe,
+        minter = @0xface,
+        master_minter = @0xbab,
+        denylister = @0xcade
+    )]
     fun test_basic_flow(
         creator: &signer,
         minter: &signer,

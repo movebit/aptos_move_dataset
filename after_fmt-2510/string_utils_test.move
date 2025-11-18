@@ -65,9 +65,8 @@ module 0x1::string_utils_test {
 
         let v = vector[Test { x: 1 }, Test { x: 2 }];
         let f7: |u16| has drop = |a| test2(10, a, @0x123, v);
-        assert_eq(
-            &f7, b"0x1::string_utils_test::test2(10, _, @0x123, [ { 1 }, { 2 } ], ..)", 7
-        );
+        assert_eq(&f7, b"0x1::string_utils_test::test2(10, _, @0x123, [ { 1 }, { 2 } ], ..)",
+        7);
 
         // === With type arguments === //
 

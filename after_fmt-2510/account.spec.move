@@ -255,7 +255,10 @@ spec aptos_framework::account {
         include AssertValidRotationProofSignatureAndGetAuthKeyAbortsIf;
         ensures [abstract] result
             == spec_assert_valid_rotation_proof_signature_and_get_auth_key(
-                scheme, public_key_bytes, signature, challenge
+                scheme,
+                public_key_bytes,
+                signature,
+                challenge
             );
     }
 
@@ -308,9 +311,7 @@ spec aptos_framework::account {
 
         /// [high-level-req-6.1]
         include from_scheme == ED25519_SCHEME ==>
-            ed25519::NewUnvalidatedPublicKeyFromBytesAbortsIf {
-                bytes: from_public_key_bytes
-            };
+            ed25519::NewUnvalidatedPublicKeyFromBytesAbortsIf { bytes: from_public_key_bytes };
         aborts_if from_scheme == ED25519_SCHEME
             && ({
                 let expected_auth_key =
@@ -413,7 +414,8 @@ spec aptos_framework::account {
         };
         /// [high-level-req-6.2]
         aborts_if !option::spec_contains(
-            offerer_account_resource.rotation_capability_offer.for, delegate_address
+            offerer_account_resource.rotation_capability_offer.for,
+            delegate_address
         );
         /// [high-level-req-9.1]
         include AssertValidRotationProofSignatureAndGetAuthKeyAbortsIf {
@@ -626,7 +628,8 @@ spec aptos_framework::account {
         let account_resource = global<Account>(addr);
         aborts_if !exists<Account>(addr);
         aborts_if !option::spec_contains(
-            account_resource.signer_capability_offer.for, to_be_revoked_address
+            account_resource.signer_capability_offer.for,
+            to_be_revoked_address
         );
         modifies global<Account>(addr);
         ensures exists<Account>(to_be_revoked_address);
@@ -646,7 +649,8 @@ spec aptos_framework::account {
         let account_resource = global<Account>(addr);
         aborts_if !exists<Account>(addr);
         aborts_if !option::spec_contains(
-            account_resource.rotation_capability_offer.for, to_be_revoked_address
+            account_resource.rotation_capability_offer.for,
+            to_be_revoked_address
         );
         modifies global<Account>(addr);
         ensures exists<Account>(to_be_revoked_address);

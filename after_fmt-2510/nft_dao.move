@@ -24,7 +24,10 @@
 /// 1. The DAO creator can call `reclaim_signer_capability` to remove their DAO from the platform and get back her
 /// resource account's signercapability
 module dao_platform::nft_dao {
-    use aptos_framework::account::{SignerCapability, create_signer_with_capability};
+    use aptos_framework::account::{
+        SignerCapability,
+        create_signer_with_capability
+    };
     use aptos_framework::account;
     use aptos_framework::aptos_coin::AptosCoin;
     use aptos_framework::coin;
@@ -206,9 +209,7 @@ module dao_platform::nft_dao {
 
     #[view]
     /// Get the proposal resolution result
-    public fun get_proposal_resolution(
-        proposal_id: u64, nft_dao: address
-    ): u8 acquires Proposals {
+    public fun get_proposal_resolution(proposal_id: u64, nft_dao: address): u8 acquires Proposals {
         let proposal = get_proposal(proposal_id, nft_dao);
         proposal.resolution
     }
@@ -217,7 +218,9 @@ module dao_platform::nft_dao {
     /// Unpack the DAO fields
     public fun unpack_dao(
         nft_dao: address
-    ): (String, u64, address, String, u64, u64, u64, address, Option<address>) acquires DAO {
+    ): (
+        String, u64, address, String, u64, u64, u64, address, Option<address>
+    ) acquires DAO {
         let dao = borrow_global<DAO>(nft_dao);
         (
             dao.name,
@@ -294,15 +297,9 @@ module dao_platform::nft_dao {
                 pending_admin: option::none()
             }
         );
-        move_to(
-            &res_signer,
-            Proposals { proposals: table::new() }
-        );
+        move_to(&res_signer, Proposals { proposals: table::new() });
 
-        move_to(
-            &res_signer,
-            ProposalVotingStatistics { proposals: table::new() }
-        );
+        move_to(&res_signer, ProposalVotingStatistics { proposals: table::new() });
 
         let dao_addr = signer::address_of(&res_signer);
 
@@ -552,10 +549,7 @@ module dao_platform::nft_dao {
 
     /// Admin can veto an active proposal
     public entry fun admin_veto_proposal(
-        admin: &signer,
-        proposal_id: u64,
-        nft_dao: address,
-        reason: String
+        admin: &signer, proposal_id: u64, nft_dao: address, reason: String
     ) acquires DAO, Proposals {
         assert!(
             exists<DAO>(nft_dao),
@@ -590,10 +584,7 @@ module dao_platform::nft_dao {
 
     /// DAO admin can directly resolve a proposal
     public entry fun admin_resolve(
-        admin: &signer,
-        proposal_id: u64,
-        nft_dao: address,
-        reason: String
+        admin: &signer, proposal_id: u64, nft_dao: address, reason: String
     ) acquires DAO, Proposals, ProposalVotingStatistics {
         let resolver = signer::address_of(admin);
         // assert the proposal voting ended
@@ -689,7 +680,8 @@ module dao_platform::nft_dao {
         } else {
             // Otherwise, only the new admin can finalize the transfer.
             assert!(
-                new_admin == caller_address, error::not_found(EADMIN_OFFER_NOT_EXIST)
+                new_admin == caller_address,
+                error::not_found(EADMIN_OFFER_NOT_EXIST)
             );
         };
 
@@ -739,7 +731,8 @@ module dao_platform::nft_dao {
             error::not_found(EDAO_NOT_EXIST)
         );
         assert!(
-            string::length(&new_name) < 128, error::invalid_argument(ESTRING_TOO_LONG)
+            string::length(&new_name) < 128,
+            error::invalid_argument(ESTRING_TOO_LONG)
         );
         let admin_addr = signer::address_of(admin);
         let dao_config = borrow_global_mut<DAO>(dao);
@@ -827,7 +820,8 @@ module dao_platform::nft_dao {
         );
         let dao_config = borrow_global_mut<DAO>(dao);
         assert!(
-            dao_config.admin == addr, error::permission_denied(EINVALID_ADMIN_ACCOUNT)
+            dao_config.admin == addr,
+            error::permission_denied(EINVALID_ADMIN_ACCOUNT)
         );
         let DAO {
             name: _,
@@ -846,7 +840,9 @@ module dao_platform::nft_dao {
     /// Unpack the proposal fields
     public fun unpack_proposal(
         proposal: &Proposal
-    ): (String, String, vector<String>, vector<PropertyMap>, u64, u8) {
+    ): (
+        String, String, vector<String>, vector<PropertyMap>, u64, u8
+    ) {
         (
             proposal.name,
             proposal.description,

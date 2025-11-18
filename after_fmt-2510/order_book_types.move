@@ -62,15 +62,16 @@ module aptos_experimental::order_book_types {
     }
 
     public fun is_single_order_type(order_type: &OrderType): bool {
-        match(order_type) { OrderType::SingleOrder => true, OrderType::BulkOrder => false }
+        match(order_type) {
+            OrderType::SingleOrder => true,
+            OrderType::BulkOrder => false
+        }
     }
 
     public(friend) fun new_default_big_ordered_map<K: store, V: store>()
         : BigOrderedMap<K, V> {
         big_ordered_map::new_with_config(
-            BIG_MAP_INNER_DEGREE,
-            BIG_MAP_LEAF_DEGREE,
-            true
+            BIG_MAP_INNER_DEGREE, BIG_MAP_LEAF_DEGREE, true
         )
     }
 
@@ -285,7 +286,9 @@ module aptos_experimental::order_book_types {
 
     public(friend) fun destroy_bulk_order_match_details<M: store + copy + drop>(
         self: OrderMatchDetails<M>
-    ): (OrderIdType, address, UniqueIdxType, u64, u64, bool, u64, M) {
+    ): (
+        OrderIdType, address, UniqueIdxType, u64, u64, bool, u64, M
+    ) {
         let OrderMatchDetails::BulkOrder {
             order_id,
             account,
@@ -556,16 +559,28 @@ module aptos_experimental::order_book_types {
         remaining_size: u64,
         order_book_type: OrderType
     ): ActiveMatchedOrder {
-        ActiveMatchedOrder { order_id, matched_size, remaining_size, order_book_type }
+        ActiveMatchedOrder {
+            order_id,
+            matched_size,
+            remaining_size,
+            order_book_type
+        }
     }
 
     public(friend) fun destroy_active_matched_order(
         self: ActiveMatchedOrder
     ): (OrderIdType, u64, u64, OrderType) {
-        (self.order_id, self.matched_size, self.remaining_size, self.order_book_type)
+        (
+            self.order_id,
+            self.matched_size,
+            self.remaining_size,
+            self.order_book_type
+        )
     }
 
-    public(friend) fun get_active_matched_size(self: &ActiveMatchedOrder): u64 {
+    public(friend) fun get_active_matched_size(
+        self: &ActiveMatchedOrder
+    ): u64 {
         self.matched_size
     }
 

@@ -41,9 +41,7 @@ module 0x42::UnusedGlobalInvariant {
     }
 
     fun check_r4() {
-        if (exists<R4>(@0x2)) {
-            abort 42
-        }
+        if (exists<R4>(@0x2)) { abort 42 }
     }
 
     spec module {

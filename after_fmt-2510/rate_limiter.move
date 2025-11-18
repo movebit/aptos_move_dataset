@@ -29,9 +29,7 @@ module aptos_framework::rate_limiter {
     }
 
     // Public function to request a transaction from the bucket
-    public fun request(
-        limiter: &mut RateLimiter, num_token_requested: u64
-    ): bool {
+    public fun request(limiter: &mut RateLimiter, num_token_requested: u64): bool {
         refill(limiter);
         if (limiter.current_amount >= num_token_requested) {
             limiter.current_amount = limiter.current_amount - num_token_requested;

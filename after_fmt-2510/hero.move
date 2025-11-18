@@ -76,10 +76,7 @@ module hero::hero {
     }
 
     fun create(
-        creator: &signer,
-        description: String,
-        name: String,
-        uri: String
+        creator: &signer, description: String, name: String, uri: String
     ): ConstructorRef acquires OnChainConfig {
         let on_chain_config = borrow_global<OnChainConfig>(signer::address_of(creator));
         token::create_named_token(
@@ -148,7 +145,11 @@ module hero::hero {
         let constructor_ref = create(creator, description, name, uri);
         let token_signer = object::generate_signer(&constructor_ref);
 
-        let gem = Gem { attack_modifier, defense_modifier, magic_attribute };
+        let gem = Gem {
+            attack_modifier,
+            defense_modifier,
+            magic_attribute
+        };
         move_to(&token_signer, gem);
 
         object::address_to_object(signer::address_of(&token_signer))
@@ -204,15 +205,10 @@ module hero::hero {
     }
 
     entry fun set_hero_description(
-        creator: &signer,
-        collection: String,
-        name: String,
-        description: String
+        creator: &signer, collection: String, name: String, description: String
     ) acquires Hero {
         let (hero_obj, hero) = get_hero(
-            &signer::address_of(creator),
-            &collection,
-            &name
+            &signer::address_of(creator), &collection, &name
         );
         let creator_addr = token::creator(hero_obj);
         assert!(

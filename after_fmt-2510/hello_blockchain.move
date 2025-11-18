@@ -60,9 +60,6 @@ module hello_blockchain::message {
         aptos_framework::account::create_account_for_test(addr);
         set_message(account, string::utf8(b"Hello, Blockchain"));
 
-        assert!(
-            get_message(addr) == string::utf8(b"Hello, Blockchain"),
-            ENO_MESSAGE
-        );
+        assert!(get_message(addr) == string::utf8(b"Hello, Blockchain"), ENO_MESSAGE);
     }
 }

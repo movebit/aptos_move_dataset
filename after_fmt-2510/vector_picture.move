@@ -74,12 +74,7 @@ module 0xABCD::vector_picture {
 
     /// Update an element in the vector.
     public entry fun update(
-        palette_addr: address,
-        palette_index: u64,
-        index: u64,
-        r: u8,
-        g: u8,
-        b: u8
+        palette_addr: address, palette_index: u64, index: u64, r: u8, g: u8, b: u8
     ) acquires Palette, AllPalettes {
         let all_palettes = borrow_global<AllPalettes>(palette_addr);
         let palette_addr = all_palettes.all.borrow(palette_index);

@@ -88,9 +88,7 @@ module 0x42::object {
         };
     }
 
-    public entry fun burn<T: key>(
-        owner: &signer, object: Object<T>, a1: bool
-    ) acquires ObjectCore {
+    public entry fun burn<T: key>(owner: &signer, object: Object<T>, a1: bool) acquires ObjectCore {
         let original_owner = signer::address_of(owner);
         assert!(is_owner(object, original_owner), ENOT_OBJECT_OWNER);
         let object_addr = object.inner;
@@ -99,10 +97,7 @@ module 0x42::object {
     }
 
     public fun owner<T: key>(object: Object<T>): address acquires ObjectCore {
-        assert!(
-            exists<ObjectCore>(object.inner),
-            EOBJECT_DOES_NOT_EXIST
-        );
+        assert!(exists<ObjectCore>(object.inner), EOBJECT_DOES_NOT_EXIST);
         borrow_global<ObjectCore>(object.inner).owner
     }
 

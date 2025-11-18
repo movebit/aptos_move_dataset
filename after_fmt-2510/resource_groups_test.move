@@ -46,10 +46,7 @@ module 0x1::resource_groups_test {
     }
 
     public entry fun set_resource(
-        main_account: address,
-        index: u32,
-        name: String,
-        value: u32
+        main_account: address, index: u32, name: String, value: u32
     ) acquires MainResource, MyResource1, MyResource2, MyResource3, MyResource4 {
         let main_resource = borrow_global_mut<MainResource>(main_account);
         let owner = account::create_signer_with_capability(&main_resource.signer_cap);
@@ -97,10 +94,7 @@ module 0x1::resource_groups_test {
     }
 
     public entry fun check(
-        main_account: address,
-        index: u32,
-        name: String,
-        value: u32
+        main_account: address, index: u32, name: String, value: u32
     ) acquires MainResource, MyResource1, MyResource2, MyResource3, MyResource4 {
         let main_resource = borrow_global_mut<MainResource>(main_account);
         let owner_address =

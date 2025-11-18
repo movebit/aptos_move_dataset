@@ -39,9 +39,7 @@ module 0x42::M {
                 == &x);
             if (is_found) {
                 vector::borrow_mut(positions, index)
-            } else {
-                abort 1
-            }
+            } else { abort 1 }
         }
     }
 
@@ -54,9 +52,7 @@ module 0x42::M {
                 == &x);
             if (is_found) {
                 vector::borrow(positions, index)
-            } else {
-                abort 1
-            }
+            } else { abort 1 }
         }
     }
 

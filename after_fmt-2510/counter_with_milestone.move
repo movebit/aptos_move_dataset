@@ -36,10 +36,7 @@ module aggregator_examples::counter_with_milestone {
     // Create the global `MilestoneCounter`.
     // Stored under the module publisher address.
     public entry fun create(publisher: &signer, milestone_every: u64) {
-        assert!(
-            signer::address_of(publisher) == @aggregator_examples,
-            ENOT_AUTHORIZED
-        );
+        assert!(signer::address_of(publisher) == @aggregator_examples, ENOT_AUTHORIZED);
 
         move_to<MilestoneCounter>(
             publisher,

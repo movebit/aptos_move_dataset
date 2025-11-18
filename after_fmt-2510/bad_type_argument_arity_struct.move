@@ -11,12 +11,10 @@ module M {
         s3: S<bool, u64>
     }
 
-    fun foo(
-        s1: S,
-        s2: S<>,
-        s3: S<u64, bool>,
-        s4: S<S<u64, bool>>
-    ): (S, S<>, S<u64, address>, S<S<u64, u8>>) {
+    fun foo(s1: S, s2: S<>, s3: S<u64, bool>, s4: S<S<u64, bool>>)
+        : (
+        S, S<>, S<u64, address>, S<S<u64, u8>>
+    ) {
         s1.f;
         s2.f;
         s3.f;

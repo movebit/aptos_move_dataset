@@ -62,11 +62,9 @@ module staking::commission_tests {
     }
 
     #[test(manager = @0x123)]
-    #[
-        expected_failure(
-            abort_code = staking::commission::EINSUFFICIENT_BALANCE_FOR_DISTRIBUTION
-        )
-    ]
+    #[expected_failure(
+        abort_code = staking::commission::EINSUFFICIENT_BALANCE_FOR_DISTRIBUTION
+    )]
     fun test_distribution_with_insufficient_balance(manager: &signer) {
         set_up();
         commission::set_yearly_commission_amount(manager, 100000);

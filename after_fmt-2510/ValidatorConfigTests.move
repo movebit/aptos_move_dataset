@@ -74,9 +74,7 @@ module DiemFramework::ValidatorConfigTests {
 
     #[test(tc = @TreasuryCompliance, dr = @DiemRoot)]
     #[expected_failure(abort_code = 5, location = DiemFramework::Roles)]
-    fun set_operator_no_validator_config_has_role(
-        tc: signer, dr: signer
-    ) {
+    fun set_operator_no_validator_config_has_role(tc: signer, dr: signer) {
         Genesis::setup(&dr, &tc);
         let validator = signer_at(0);
         let operator = signer_at(1);

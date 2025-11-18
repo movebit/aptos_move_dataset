@@ -18,11 +18,7 @@ module 0x42::Test {
     }
 
     public inline fun quux(
-        f: |u64, u64| u64,
-        g: |u64| u64,
-        i: |u8| u8,
-        a: u64,
-        b: u64
+        f: |u64, u64| u64, g: |u64| u64, i: |u8| u8, a: u64, b: u64
     ): u64 {
         use 0x42::OtherModule::h;
         f(a, b) * g(a, b) * h(a, b)

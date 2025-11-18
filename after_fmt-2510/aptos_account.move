@@ -172,10 +172,7 @@ module aptos_framework::aptos_account {
     /// Convenient function to deposit fungible asset into a recipient account that might not exist.
     /// This would create the recipient account first to receive the fungible assets.
     public entry fun transfer_fungible_assets(
-        from: &signer,
-        metadata: Object<Metadata>,
-        to: address,
-        amount: u64
+        from: &signer, metadata: Object<Metadata>, to: address, amount: u64
     ) {
         deposit_fungible_assets(
             to,
@@ -226,9 +223,7 @@ module aptos_framework::aptos_account {
             } else {
                 emit_event(
                     &mut direct_transfer_config.update_coin_transfer_events,
-                    DirectCoinTransferConfigUpdatedEvent {
-                        new_allow_direct_transfers: allow
-                    }
+                    DirectCoinTransferConfigUpdatedEvent { new_allow_direct_transfers: allow }
                 );
             };
         } else {
@@ -247,9 +242,7 @@ module aptos_framework::aptos_account {
             } else {
                 emit_event(
                     &mut direct_transfer_config.update_coin_transfer_events,
-                    DirectCoinTransferConfigUpdatedEvent {
-                        new_allow_direct_transfers: allow
-                    }
+                    DirectCoinTransferConfigUpdatedEvent { new_allow_direct_transfers: allow }
                 );
             };
             move_to(account, direct_transfer_config);
@@ -299,7 +292,8 @@ module aptos_framework::aptos_account {
             source, sender_store, amount
         );
         fungible_asset::unchecked_deposit(
-            recipient_store, fungible_asset::unchecked_withdraw(sender_store, amount)
+            recipient_store,
+            fungible_asset::unchecked_withdraw(sender_store, amount)
         );
     }
 
@@ -330,7 +324,8 @@ module aptos_framework::aptos_account {
         } else {
             object::object_address(
                 &primary_fungible_store::create_primary_store(
-                    owner, object::address_to_object<Metadata>(@aptos_fungible_asset)
+                    owner,
+                    object::address_to_object<Metadata>(@aptos_fungible_asset)
                 )
             )
         }
@@ -425,10 +420,7 @@ module aptos_framework::aptos_account {
         from = @0x123, core = @0x1, recipient_1 = @0x124, recipient_2 = @0x125
     )]
     public fun test_batch_transfer(
-        from: &signer,
-        core: &signer,
-        recipient_1: &signer,
-        recipient_2: &signer
+        from: &signer, core: &signer, recipient_1: &signer, recipient_2: &signer
     ) {
         let (burn_cap, mint_cap) = aptos_framework::aptos_coin::initialize_for_test(core);
         create_account(signer::address_of(from));
@@ -544,7 +536,8 @@ module aptos_framework::aptos_account {
 
         ensure_primary_fungible_store_exists(user_addr);
         assert!(
-            primary_fungible_store::primary_store_exists(user_addr, apt_metadata), 2
+            primary_fungible_store::primary_store_exists(user_addr, apt_metadata),
+            2
         );
     }
 }

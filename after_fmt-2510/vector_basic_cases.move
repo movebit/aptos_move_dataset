@@ -25,6 +25,8 @@ module 0x42::Test {
         (vector[X {}, X {}]: vector<X>);
 
         (vector[vector[], vector[]]: vector<vector<address>>);
-        (vector[vector[vector[], vector[]], vector[]]: vector<vector<vector<address>>>);
+        (
+            vector[vector[vector[], vector[]], vector[]]: vector<vector<vector<address>>>
+        );
     }
 }

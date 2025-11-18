@@ -28,9 +28,7 @@ module 0x8675309::M {
                     1
                 }
             )
-        } else {
-            x = x + 1
-        };
+        } else { x = x + 1 };
         assert!(x == 4, 0);
     }
 

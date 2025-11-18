@@ -221,9 +221,7 @@ module 0xc0ffee::m {
     // Pattern: (a && b) || (a && c) should simplify to a && (b || c)
     // Pattern: (a || b) && (a || c) should simplify to a || (b && c)
 
-    public fun test_distributive_law_parameters(
-        a: bool, b: bool, c: bool
-    ) {
+    public fun test_distributive_law_parameters(a: bool, b: bool, c: bool) {
         if ((a && b) || (a && c)) ();
         if ((a || b) && (a || c)) ();
     }

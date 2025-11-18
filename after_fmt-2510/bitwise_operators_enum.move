@@ -12,8 +12,10 @@ module M {
         let x = (a.f1 & 0) | (b.a.f1 & 1) | (c.b ^ 2);
         spec {
             assert x
-                == (((((1 as u64) & (0 as u64)) as u64) | (((1 as u64) & (1 as u64)) as u64) as u64)
-                | (((1 as u64) ^ (2 as u64)) as u64) as u64);
+                == (
+                    ((((1 as u64) & (0 as u64)) as u64) | (((1 as u64) & (1 as u64)) as u64) as u64)
+                        | (((1 as u64) ^ (2 as u64)) as u64) as u64
+                );
         };
         let _b = B::VB2 { a: a, a2: 2 };
         spec {
@@ -25,8 +27,10 @@ module M {
     spec foo {
         pragma bv_ret = b"0";
         ensures result
-            == (((((1 as u64) & (0 as u64)) as u64) | (((1 as u64) & (1 as u64)) as u64) as u64)
-            | (((1 as u64) ^ (2 as u64)) as u64) as u64);
+            == (
+                ((((1 as u64) & (0 as u64)) as u64) | (((1 as u64) & (1 as u64)) as u64) as u64)
+                    | (((1 as u64) ^ (2 as u64)) as u64) as u64
+            );
     }
 
     enum A has copy, drop {

@@ -18,13 +18,7 @@ module 0xc0ffee::m {
     }
 
     fun cons_7(
-        _x: vector<u8>,
-        _a: u64,
-        _b: u64,
-        _c: u64,
-        _d: u64,
-        _e: u64,
-        _f: u64
+        _x: vector<u8>, _a: u64, _b: u64, _c: u64, _d: u64, _e: u64, _f: u64
     ): u64 {
         0
     }

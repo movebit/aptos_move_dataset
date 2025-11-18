@@ -21,9 +21,7 @@ module 0x42::Test {
         };
     }
 
-    inline fun inline_1(
-        x: u64, f: |u64| bool, g: |u64| bool, e: |u64| bool
-    ): bool {
+    inline fun inline_1(x: u64, f: |u64| bool, g: |u64| bool, e: |u64| bool): bool {
         let y = f(x);
         let z = g(x);
         let w = e(x);

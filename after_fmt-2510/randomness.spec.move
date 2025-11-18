@@ -31,7 +31,10 @@ spec aptos_framework::randomness {
     }
 
     spec on_new_block(
-        vm: &signer, epoch: u64, round: u64, seed_for_new_block: Option<vector<u8>>
+        vm: &signer,
+        epoch: u64,
+        round: u64,
+        seed_for_new_block: Option<vector<u8>>
     ) {
         use std::signer;
         aborts_if signer::address_of(vm) != @vm;
@@ -146,8 +149,6 @@ spec aptos_framework::randomness {
 
     spec fun spec_safe_add_mod(a: u256, b: u256, m: u256): u256 {
         if (a < m - b) { a + b }
-        else {
-            a - (m - b)
-        }
+        else { a - (m - b) }
     }
 }

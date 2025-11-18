@@ -174,8 +174,7 @@ spec aptos_token::token {
         let creator_addr = token_id.token_data_id.creator;
         let collections = borrow_global_mut<Collections>(creator_address);
         let token_data = table::spec_get(
-            collections.token_data,
-            token_id.token_data_id
+            collections.token_data, token_id.token_data_id
         );
         aborts_if amount <= 0;
         aborts_if !exists<Collections>(creator_addr);
@@ -207,8 +206,7 @@ spec aptos_token::token {
         let creator_addr = token_id.token_data_id.creator;
         let collections = borrow_global_mut<Collections>(creator_addr);
         let token_data = table::spec_get(
-            collections.token_data,
-            token_id.token_data_id
+            collections.token_data, token_id.token_data_id
         );
         include CreateTokenDataIdAbortsIf { creator: creators_address };
         aborts_if amount <= 0;
@@ -312,9 +310,7 @@ spec aptos_token::token {
     }
 
     /// The token royalty is mutable
-    spec mutate_tokendata_royalty(
-        creator: &signer, token_data_id: TokenDataId, royalty: Royalty
-    ) {
+    spec mutate_tokendata_royalty(creator: &signer, token_data_id: TokenDataId, royalty: Royalty) {
         include AssertTokendataExistsAbortsIf;
         let addr = signer::address_of(creator);
         let account = global<account::Account>(addr);
@@ -482,9 +478,9 @@ spec aptos_token::token {
         };
     }
 
-    spec partial_withdraw_with_capability(
-        withdraw_proof: WithdrawCapability, withdraw_amount: u64
-    ): (Token, Option<WithdrawCapability>) {
+    spec partial_withdraw_with_capability(withdraw_proof: WithdrawCapability, withdraw_amount: u64): (
+        Token, Option<WithdrawCapability>
+    ) {
         let now_seconds = global<timestamp::CurrentTimeMicroseconds>(@aptos_framework).microseconds;
         aborts_if !exists<timestamp::CurrentTimeMicroseconds>(@aptos_framework);
         aborts_if now_seconds / timestamp::MICRO_CONVERSION_FACTOR
@@ -672,7 +668,8 @@ spec aptos_token::token {
         mutate_setting: vector<bool>;
         aborts_if len(mutate_setting) < 3;
         aborts_if !vector::spec_contains(
-            mutate_setting, mutate_setting[COLLECTION_DESCRIPTION_MUTABLE_IND]
+            mutate_setting,
+            mutate_setting[COLLECTION_DESCRIPTION_MUTABLE_IND]
         );
         aborts_if !vector::spec_contains(
             mutate_setting, mutate_setting[COLLECTION_URI_MUTABLE_IND]
@@ -727,7 +724,10 @@ spec aptos_token::token {
     }
 
     spec mint_token_to(
-        account: &signer, receiver: address, token_data_id: TokenDataId, amount: u64
+        account: &signer,
+        receiver: address,
+        token_data_id: TokenDataId,
+        amount: u64
     ) {
         let addr = signer::address_of(account);
         let opt_in_transfer = global<TokenStore>(receiver).direct_transfer;

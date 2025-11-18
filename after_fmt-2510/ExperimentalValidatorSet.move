@@ -16,9 +16,7 @@ module ExperimentalFramework::ExperimentalValidatorSet {
         );
     }
 
-    public fun remove_validator(
-        account: &signer, validator_addr: address
-    ) {
+    public fun remove_validator(account: &signer, validator_addr: address) {
         DiemSystem::remove_validator(
             validator_addr,
             capability::acquire(account, &ExperimentalValidatorSet {})

@@ -29,9 +29,9 @@ spec aptos_framework::config_buffer {
         let configs = global<PendingConfigs>(@aptos_framework);
         let key = type_info::type_name<T>();
         aborts_if !simple_map::spec_contains_key(configs.configs, key);
-        include any::UnpackAbortsIf<T> { self: simple_map::spec_get(
-            configs.configs, key
-        ) };
+        include any::UnpackAbortsIf<T> {
+            self: simple_map::spec_get(configs.configs, key)
+        };
     }
 
     spec schema SetForNextEpochAbortsIf {

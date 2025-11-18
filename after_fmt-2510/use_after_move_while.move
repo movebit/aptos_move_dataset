@@ -45,9 +45,7 @@ module 0x8675309::M {
         while (cond) {
             let y = &x;
             _ = move y;
-            if (cond) {
-                _ = move x
-            };
+            if (cond) { _ = move x };
             break
         };
     }

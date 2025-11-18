@@ -9,12 +9,8 @@ module 0x42::TestAbortsIfWithCode {
 
     // Basic tests for error codes.
     fun conditional_abort(x: u64, y: u64): u64 {
-        if (x == 1) {
-            abort 2
-        };
-        if (y == 2) {
-            abort 3
-        };
+        if (x == 1) { abort 2 };
+        if (y == 2) { abort 3 };
         // This one can also abort on overflow, with execution failure (code = -1).
         x + y
     }
@@ -28,12 +24,8 @@ module 0x42::TestAbortsIfWithCode {
 
     // Basic test of wrong codes, failing verification.
     fun conditional_abort_invalid(x: u64, y: u64): u64 {
-        if (x == 1) {
-            abort 2
-        };
-        if (y == 2) {
-            abort 3
-        };
+        if (x == 1) { abort 2 };
+        if (y == 2) { abort 3 };
         x
     }
 

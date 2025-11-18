@@ -23,8 +23,7 @@ module DiemFramework::RegisteredCurrencies {
         DiemTimestamp::assert_genesis();
         Roles::assert_diem_root(dr_account);
         DiemConfig::publish_new_config(
-            dr_account,
-            RegisteredCurrencies { currency_codes: vector::empty() }
+            dr_account, RegisteredCurrencies { currency_codes: vector::empty() }
         );
     }
 

@@ -1,6 +1,11 @@
 // This module provides an interface to burn or collect and redistribute transaction fees.
 module aptos_framework::transaction_fee {
-    use aptos_framework::coin::{Self, AggregatableCoin, BurnCapability, MintCapability};
+    use aptos_framework::coin::{
+        Self,
+        AggregatableCoin,
+        BurnCapability,
+        MintCapability
+    };
     use aptos_framework::aptos_account;
     use aptos_framework::aptos_coin::AptosCoin;
     use aptos_framework::fungible_asset::BurnRef;

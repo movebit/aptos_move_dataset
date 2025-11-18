@@ -33,9 +33,7 @@ module extensions::table {
     /// Add a new entry to the table. Aborts if an entry for this
     /// key already exists. The entry itself is not stored in the
     /// table, and cannot be discovered from it.
-    public fun add<K: copy + drop, V>(
-        table: &mut Table<K, V>, key: K, val: V
-    ) {
+    public fun add<K: copy + drop, V>(table: &mut Table<K, V>, key: K, val: V) {
         add_box<K, V, Box<V>>(table, key, Box { val });
         table.length = table.length + 1
     }
@@ -111,9 +109,7 @@ module extensions::table {
         table: &mut Table<K, V>, key: K
     ): &mut Box<V>;
     native fun contains_box<K: copy + drop, V, B>(table: &Table<K, V>, key: K): bool;
-    native fun remove_box<K: copy + drop, V, B>(
-        table: &mut Table<K, V>, key: K
-    ): Box<V>;
+    native fun remove_box<K: copy + drop, V, B>(table: &mut Table<K, V>, key: K): Box<V>;
     native fun destroy_empty_box<K: copy + drop, V, B>(table: &Table<K, V>);
     native fun drop_unchecked_box<K: copy + drop, V, B>(table: Table<K, V>);
 }

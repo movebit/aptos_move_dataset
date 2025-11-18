@@ -43,7 +43,10 @@ module confidential_asset_example::withdraw_example {
         print(&utf8(b"Bob's actual balance before the withdrawal is 500"));
         assert!(
             confidential_asset::verify_actual_balance(
-                bob_addr, token, &bob_dk, bob_current_amount
+                bob_addr,
+                token,
+                &bob_dk,
+                bob_current_amount
             )
         );
 
@@ -83,7 +86,10 @@ module confidential_asset_example::withdraw_example {
         print(&utf8(b"Bob's actual balance after the withdrawal is 450"));
         assert!(
             confidential_asset::verify_actual_balance(
-                bob_addr, token, &bob_dk, bob_new_amount
+                bob_addr,
+                token,
+                &bob_dk,
+                bob_new_amount
             )
         );
     }

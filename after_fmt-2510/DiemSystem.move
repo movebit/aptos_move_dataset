@@ -101,8 +101,7 @@ module DiemFramework::DiemSystem {
 
         let cap =
             DiemConfig::publish_new_config_and_get_capability<DiemSystem>(
-                dr_account,
-                DiemSystem { scheme: 0, validators: vector::empty() }
+                dr_account, DiemSystem { scheme: 0, validators: vector::empty() }
             );
         assert!(
             !exists<CapabilityHolder>(@DiemRoot),
@@ -136,8 +135,7 @@ module DiemFramework::DiemSystem {
         );
         // Updates the DiemConfig<DiemSystem> and emits a reconfigure event.
         DiemConfig::set_with_capability_and_reconfigure<DiemSystem>(
-            &borrow_global<CapabilityHolder>(@DiemRoot).cap,
-            value
+            &borrow_global<CapabilityHolder>(@DiemRoot).cap, value
         )
     }
 
@@ -165,9 +163,7 @@ module DiemFramework::DiemSystem {
     ///////////////////////////////////////////////////////////////////////////
 
     /// Adds a new validator to the validator set.
-    public fun add_validator(
-        dr_account: &signer, validator_addr: address
-    ) acquires CapabilityHolder {
+    public fun add_validator(dr_account: &signer, validator_addr: address) acquires CapabilityHolder {
         DiemTimestamp::assert_operating();
         Roles::assert_diem_root(dr_account);
 
@@ -467,7 +463,8 @@ module DiemFramework::DiemSystem {
         );
         *&(
             vector::borrow(
-                &diem_system_config.validators, *option::borrow(&validator_index_vec)
+                &diem_system_config.validators,
+                *option::borrow(&validator_index_vec)
             )
         ).config
     }

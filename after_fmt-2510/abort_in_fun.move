@@ -1,11 +1,9 @@
 module 0x42::TestAbortInFunction {
 
     fun aborts_with (x: u64, y: u64): u64 {
-        if (x == 1) {
-            abort 2
-        } else if (y == 2) {
-            abort 3
-        } else { x }
+        if (x == 1) { abort 2 }
+        else if (y == 2) { abort 3 }
+        else { x }
     }
 
     spec aborts_with {
@@ -23,9 +21,8 @@ module 0x42::TestAbortInFunction {
     }
 
     fun abort_generic<Element: copy + drop>(x: Element, y: Element): Element {
-        if (x == y) {
-            abort 0
-        } else { x }
+        if (x == y) { abort 0 }
+        else { x }
     }
 
     fun call_aborts_generic(): u64 {
@@ -43,17 +40,15 @@ module 0x42::TestAbortInFunction {
     fun abort_generic_struct<Element: copy + drop>(
         x: S<Element>, y: S<Element>
     ): S<Element> {
-        if (x == y) {
-            abort 0
-        } else { x }
+        if (x == y) { abort 0 }
+        else { x }
     }
 
     fun spec_abort_generic_struct<Element: copy + drop>(
         x: S<Element>, y: S<Element>
     ): S<Element> {
-        if (x == y) {
-            abort 0
-        } else { x }
+        if (x == y) { abort 0 }
+        else { x }
     }
 
     fun call_abort_generic_struct<Element: copy + drop>(

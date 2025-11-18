@@ -47,24 +47,10 @@ module 0xcafe::ConstantFailure {
         // We can at least check that Simplifier doesn't remove the
         // first one, anyway, and maybe scrutinize the bytecode
         // output.
-        let fail_u8 = vector<u8>[
-            1 << 8,
-            0 >> 8,
-            1 / 0,
-            1 % 0,
-            255 + 255,
-            0 - 1,
-            ((256: u64) as u8)
-        ];
-        let fail_u16 = vector<u16>[
-            1 << 16,
-            0 >> 16,
-            1 / 0,
-            1 % 0,
-            65535 + 65535,
-            0 - 1,
-            ((65536: u64) as u16)
-        ];
+        let fail_u8 = vector<u8>[1 << 8, 0 >> 8, 1 / 0, 1 % 0, 255 + 255, 0 - 1, ((256: u64) as u8)];
+        let fail_u16 = vector<u16>[1 << 16, 0 >> 16, 1 / 0, 1 % 0, 65535 + 65535, 0 - 1, (
+            (65536: u64) as u16
+        )];
         let fail_u32 = vector<u32>[
             1 << 32,
             (1u8 << 8 as u32),

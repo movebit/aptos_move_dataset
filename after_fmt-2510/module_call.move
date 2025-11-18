@@ -34,7 +34,9 @@ module M {
     fun t0() {
         (X::foo(): u64);
         (X::bar(0): (address, u64));
-        (X::baz(@0x0, 0): (bool, address, u64));
+        (
+            X::baz(@0x0, 0): (bool, address, u64)
+        );
         (X::bing(false, @0x0, 0): ());
     }
 

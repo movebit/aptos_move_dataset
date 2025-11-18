@@ -190,9 +190,7 @@ module DiemFramework::SlidingNonce {
     /// Tries to record this nonce in the account.
     /// Returns 0 if a nonce was recorded and non-0 otherwise
     public fun try_record_nonce(account: &signer, seq_nonce: u64): u64 acquires SlidingNonce {
-        if (seq_nonce == 0) {
-            return 0
-        };
+        if (seq_nonce == 0) { return 0 };
         assert!(
             exists<SlidingNonce>(signer::address_of(account)),
             errors::not_published(ESLIDING_NONCE)

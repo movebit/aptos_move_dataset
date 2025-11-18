@@ -14,8 +14,7 @@ module ExperimentalFramework::ExperimentalVersion {
     /// Updates the major version to a larger version.
     public fun set(account: &signer, major: u64) {
         DiemVersion::set<ExperimentalVersion>(
-            major,
-            &capability::acquire(account, &ExperimentalVersion {})
+            major, &capability::acquire(account, &ExperimentalVersion {})
         );
     }
 }

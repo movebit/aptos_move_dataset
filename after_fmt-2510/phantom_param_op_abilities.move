@@ -36,7 +36,9 @@ module 0x42::M {
 
     // `copy` requires copy
     fun f4(x: HasCopy<NoAbilities, u64>)
-        : (HasCopy<NoAbilities, u64>, HasCopy<NoAbilities, u64>) {
+        : (
+        HasCopy<NoAbilities, u64>, HasCopy<NoAbilities, u64>
+    ) {
         (copy x, x)
     }
 

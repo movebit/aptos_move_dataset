@@ -109,7 +109,9 @@ module aptos_std::ed25519 {
     }
 
     /// Serializes an UnvalidatedPublicKey struct to 32-bytes.
-    public fun unvalidated_public_key_to_bytes(pk: &UnvalidatedPublicKey): vector<u8> {
+    public fun unvalidated_public_key_to_bytes(
+        pk: &UnvalidatedPublicKey
+    ): vector<u8> {
         pk.bytes
     }
 

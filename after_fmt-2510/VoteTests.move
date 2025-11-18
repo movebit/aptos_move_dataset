@@ -17,7 +17,9 @@ module ExperimentalFramework::VoteTests {
         vector::pop_back(&mut unit_test::create_signers_for_testing(1))
     }
 
-    fun get_three_voters(): (signer, address, signer, address, signer, address) {
+    fun get_three_voters(): (
+        signer, address, signer, address, signer, address
+    ) {
         let signers = &mut unit_test::create_signers_for_testing(3);
         let voter1 = vector::pop_back(signers);
         let voter2 = vector::pop_back(signers);
@@ -25,23 +27,31 @@ module ExperimentalFramework::VoteTests {
         let voter1_address = signer::address_of(&voter1);
         let voter2_address = signer::address_of(&voter2);
         let voter3_address = signer::address_of(&voter3);
-        (voter1, voter1_address, voter2, voter2_address, voter3, voter3_address)
+        (
+            voter1, voter1_address, voter2, voter2_address, voter3, voter3_address
+        )
     }
 
     fun vote_test_helper(
         dr: &signer, expiration_timestamp_secs: u64
-    ): (signer, signer, signer, Vote::BallotID, TestProposal) {
-        let (voter1, voter1_address, voter2, voter2_address, voter3, voter3_address) =
-            get_three_voters();
+    ): (
+        signer, signer, signer, Vote::BallotID, TestProposal
+    ) {
+        let (
+            voter1, voter1_address, voter2, voter2_address, voter3, voter3_address
+        ) = get_three_voters();
         let approvers = vector::empty();
         vector::push_back(
-            &mut approvers, Vote::new_weighted_voter(1, bcs::to_bytes(&voter1_address))
+            &mut approvers,
+            Vote::new_weighted_voter(1, bcs::to_bytes(&voter1_address))
         );
         vector::push_back(
-            &mut approvers, Vote::new_weighted_voter(1, bcs::to_bytes(&voter2_address))
+            &mut approvers,
+            Vote::new_weighted_voter(1, bcs::to_bytes(&voter2_address))
         );
         vector::push_back(
-            &mut approvers, Vote::new_weighted_voter(1, bcs::to_bytes(&voter3_address))
+            &mut approvers,
+            Vote::new_weighted_voter(1, bcs::to_bytes(&voter3_address))
         );
 
         let (proposer, _addr, _addr_bcs) = ballot_setup(dr);
@@ -55,7 +65,9 @@ module ExperimentalFramework::VoteTests {
                 approvers, // allowed_voters
                 expiration_timestamp_secs // expiration_timestamp_secs
             );
-        (voter1, voter2, voter3, ballot_id, proposal)
+        (
+            voter1, voter2, voter3, ballot_id, proposal
+        )
     }
 
     fun ballot_setup(dr: &signer): (signer, address, vector<u8>) {
@@ -165,12 +177,8 @@ module ExperimentalFramework::VoteTests {
         DiemTimestamp::update_global_time(&vm, @0xCAFE, 3000000);
         let remove_ballots = Vote::gc_test_helper<TestProposal>(addr);
         assert!(vector::length(&remove_ballots) == 2, 0);
-        assert!(
-            &vector::pop_back(&mut remove_ballots) == &Vote::new_ballot_id(1, addr), 0
-        );
-        assert!(
-            &vector::pop_back(&mut remove_ballots) == &Vote::new_ballot_id(0, addr), 0
-        );
+        assert!(&vector::pop_back(&mut remove_ballots) == &Vote::new_ballot_id(1, addr), 0);
+        assert!(&vector::pop_back(&mut remove_ballots) == &Vote::new_ballot_id(0, addr), 0);
     }
 
     // TODO: test disabled due to timeout
@@ -200,7 +208,9 @@ module ExperimentalFramework::VoteTests {
     #[test(dr = @CoreResources)]
     #[expected_failure(abort_code = 769, location = Vote)]
     fun remove_ballot(dr: signer) {
-        let (voter1, _voter2, _voter3, ballot_id, proposal) = vote_test_helper(&dr, 10);
+        let (
+            voter1, _voter2, _voter3, ballot_id, proposal
+        ) = vote_test_helper(&dr, 10);
         Vote::remove_ballot_internal<TestProposal>(get_proposer(), *(&ballot_id));
         // Vote fails because there is no ballot
         Vote::vote(
@@ -214,7 +224,9 @@ module ExperimentalFramework::VoteTests {
     #[test(dr = @CoreResources)]
     #[expected_failure(abort_code = 769, location = Vote)]
     fun vote_simple(dr: signer) {
-        let (voter1, voter2, voter3, ballot_id, proposal) = vote_test_helper(&dr, 10);
+        let (
+            voter1, voter2, voter3, ballot_id, proposal
+        ) = vote_test_helper(&dr, 10);
         // First vote does not approve the ballot
         assert!(
             !Vote::vote(
@@ -246,17 +258,21 @@ module ExperimentalFramework::VoteTests {
 
     #[test(dr = @CoreResources)]
     fun vote_weighted(dr: signer) {
-        let (voter1, voter1_address, voter2, voter2_address, _voter3, voter3_address) =
-            get_three_voters();
+        let (
+            voter1, voter1_address, voter2, voter2_address, _voter3, voter3_address
+        ) = get_three_voters();
         let approvers = vector::empty();
         vector::push_back(
-            &mut approvers, Vote::new_weighted_voter(3, bcs::to_bytes(&voter1_address))
+            &mut approvers,
+            Vote::new_weighted_voter(3, bcs::to_bytes(&voter1_address))
         );
         vector::push_back(
-            &mut approvers, Vote::new_weighted_voter(4, bcs::to_bytes(&voter2_address))
+            &mut approvers,
+            Vote::new_weighted_voter(4, bcs::to_bytes(&voter2_address))
         );
         vector::push_back(
-            &mut approvers, Vote::new_weighted_voter(2, bcs::to_bytes(&voter3_address))
+            &mut approvers,
+            Vote::new_weighted_voter(2, bcs::to_bytes(&voter3_address))
         );
 
         let (proposer, _addr, _addr_bcs) = ballot_setup(&dr);
@@ -296,7 +312,9 @@ module ExperimentalFramework::VoteTests {
     #[test(dr = @CoreResources)]
     #[expected_failure(abort_code = 263, location = Vote)]
     fun vote_expired_ts(dr: signer) {
-        let (voter1, _voter2, _voter3, ballot_id, proposal) = vote_test_helper(&dr, 0);
+        let (
+            voter1, _voter2, _voter3, ballot_id, proposal
+        ) = vote_test_helper(&dr, 0);
         // Ballot has expired
         Vote::vote(
             &voter1,
@@ -309,7 +327,9 @@ module ExperimentalFramework::VoteTests {
     #[test(dr = @CoreResources)]
     #[expected_failure(abort_code = 2049, location = Vote)]
     fun vote_repeat(dr: signer) {
-        let (voter1, _voter2, _voter3, ballot_id, proposal) = vote_test_helper(&dr, 10);
+        let (
+            voter1, _voter2, _voter3, ballot_id, proposal
+        ) = vote_test_helper(&dr, 10);
         // First vote does not approve the ballot
         assert!(
             !Vote::vote(
@@ -332,7 +352,9 @@ module ExperimentalFramework::VoteTests {
     #[test(dr = @CoreResources)]
     #[expected_failure(abort_code = 1031, location = Vote)]
     fun vote_invalid_proposal_type(dr: signer) {
-        let (voter1, _voter2, _voter3, ballot_id, proposal) = vote_test_helper(&dr, 10);
+        let (
+            voter1, _voter2, _voter3, ballot_id, proposal
+        ) = vote_test_helper(&dr, 10);
         // Invalid proposal type
         Vote::vote(
             &voter1,
@@ -345,7 +367,9 @@ module ExperimentalFramework::VoteTests {
     #[test(dr = @CoreResources)]
     #[expected_failure(abort_code = 1031, location = Vote)]
     fun vote_invalid_proposal(dr: signer) {
-        let (voter1, _voter2, _voter3, ballot_id, _proposal) = vote_test_helper(&dr, 10);
+        let (
+            voter1, _voter2, _voter3, ballot_id, _proposal
+        ) = vote_test_helper(&dr, 10);
         let invalid_proposal = TestProposal { test_data: 100 };
         // Invalid proposal
         Vote::vote(
@@ -360,7 +384,9 @@ module ExperimentalFramework::VoteTests {
     #[expected_failure(abort_code = 769, location = Vote)]
     fun vote_invalid_ballotid(dr: signer) {
         let proposer = get_proposer();
-        let (voter1, _voter2, _voter3, _ballot_id, proposal) = vote_test_helper(&dr, 10);
+        let (
+            voter1, _voter2, _voter3, _ballot_id, proposal
+        ) = vote_test_helper(&dr, 10);
         let invalid_ballotid = Vote::new_ballot_id(100, signer::address_of(&proposer));
         // Invalid ballotid
         Vote::vote(
@@ -374,7 +400,9 @@ module ExperimentalFramework::VoteTests {
     #[test(dr = @CoreResources)]
     #[expected_failure(abort_code = 1281, location = Vote)]
     fun vote_invalid_voter(dr: signer) {
-        let (_voter1, _voter2, _voter3, ballot_id, proposal) = vote_test_helper(&dr, 10);
+        let (
+            _voter1, _voter2, _voter3, ballot_id, proposal
+        ) = vote_test_helper(&dr, 10);
         let invalid_voter = vector::pop_back(
             &mut unit_test::create_signers_for_testing(4)
         );

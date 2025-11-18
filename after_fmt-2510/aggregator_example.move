@@ -32,15 +32,14 @@ module 0xABCD::aggregator_example {
     // Create the global `Counter`.
     // Stored under the module publisher address.
     fun init_module(publisher: &signer) {
-        assert!(
-            signer::address_of(publisher) == @publisher_address,
-            ENOT_AUTHORIZED
-        );
+        assert!(signer::address_of(publisher) == @publisher_address, ENOT_AUTHORIZED);
 
         move_to<Counter>(publisher, Counter { count: 0 });
         move_to<CounterAggV2>(
             publisher,
-            CounterAggV2 { count: aggregator_v2::create_unbounded_aggregator() }
+            CounterAggV2 {
+                count: aggregator_v2::create_unbounded_aggregator()
+            }
         );
         move_to<BoundedAggV2>(
             publisher,

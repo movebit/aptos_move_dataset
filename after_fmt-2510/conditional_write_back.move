@@ -15,11 +15,8 @@ module 0x42::Test {
     public fun diff_field(cond: bool): S {
         let s = S { x: 0, y: 0 };
 
-        let f = if (cond) {
-            &mut s.x
-        } else {
-            &mut s.y
-        };
+        let f = if (cond) { &mut s.x }
+        else { &mut s.y };
         *f = 1;
 
         s
@@ -108,11 +105,8 @@ module 0x42::Test {
         let v1 = 0;
         let v2 = 0;
 
-        let r = if (cond) {
-            &mut v1
-        } else {
-            &mut v2
-        };
+        let r = if (cond) { &mut v1 }
+        else { &mut v2 };
         *r = 1;
 
         spec {

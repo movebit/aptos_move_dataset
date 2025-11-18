@@ -14,9 +14,7 @@ module ExperimentalFramework::MultiTokenTests {
     const ETRANSFER_FAILED: u64 = 1;
 
     #[test(admin = @0xa550c18, creator = @0x42, user = @0x43)]
-    public entry fun test_all(
-        admin: signer, creator: signer, user: signer
-    ) {
+    public entry fun test_all(admin: signer, creator: signer, user: signer) {
         /*
         ===============================================================
             Initialization + preparation
@@ -51,7 +49,8 @@ module ExperimentalFramework::MultiTokenTests {
 
         // Assert creator has the right number of tokens and supply is 10.
         assert!(
-            MultiTokenBalance::has_token<Game>(creator_addr, &token1_id), EMINT_FAILED
+            MultiTokenBalance::has_token<Game>(creator_addr, &token1_id),
+            EMINT_FAILED
         );
         assert!(
             MultiTokenBalance::get_token_balance<Game>(creator_addr, &token1_id) == 10,
@@ -68,7 +67,8 @@ module ExperimentalFramework::MultiTokenTests {
             );
         MultiTokenBalance::add_to_gallery<Game>(creator_addr, token2);
         assert!(
-            MultiTokenBalance::has_token<Game>(creator_addr, &token2_id), EMINT_FAILED
+            MultiTokenBalance::has_token<Game>(creator_addr, &token2_id),
+            EMINT_FAILED
         );
         assert!(
             MultiTokenBalance::get_token_balance<Game>(creator_addr, &token2_id) == 233,
@@ -116,7 +116,11 @@ module ExperimentalFramework::MultiTokenTests {
 
         // Transfer all 6 units of token1 from user to creator
         MultiTokenBalance::transfer_multi_token_between_galleries<Game>(
-            user, creator_addr, 6, creator_addr, 0
+            user,
+            creator_addr,
+            6,
+            creator_addr,
+            0
         );
         assert!(
             !MultiTokenBalance::has_token<Game>(user_addr, &token1_id),

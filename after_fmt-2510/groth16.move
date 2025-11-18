@@ -104,7 +104,10 @@ module groth16_example::groth16 {
     }
 
     #[test_only]
-    use aptos_std::crypto_algebra::{deserialize, enable_cryptography_algebra_natives};
+    use aptos_std::crypto_algebra::{
+        deserialize,
+        enable_cryptography_algebra_natives
+    };
     #[test_only]
     use aptos_std::bls12381_algebra::{
         Fr,

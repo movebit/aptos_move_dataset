@@ -30,19 +30,14 @@ module confidential_asset_example::register_example {
         print(&confidential_asset::encryption_key(bob_addr, token));
     }
 
-    #[
-        test(
-            confidential_asset = @aptos_experimental,
-            aptos_fx = @aptos_framework,
-            fa = @0xfa,
-            bob = @0xb0
-        )
-    ]
+    #[test(
+        confidential_asset = @aptos_experimental,
+        aptos_fx = @aptos_framework,
+        fa = @0xfa,
+        bob = @0xb0
+    )]
     fun register_example_test(
-        confidential_asset: signer,
-        aptos_fx: signer,
-        fa: signer,
-        bob: signer
+        confidential_asset: signer, aptos_fx: signer, fa: signer, bob: signer
     ) {
         let token =
             confidential_asset_tests::set_up_for_confidential_asset_test(

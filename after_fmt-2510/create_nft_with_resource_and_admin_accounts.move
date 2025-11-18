@@ -214,7 +214,8 @@ module mint_nft::create_nft_with_resource_and_admin_accounts {
             error::permission_denied(ECOLLECTION_EXPIRED)
         );
         assert!(
-            module_data.minting_enabled, error::permission_denied(EMINTING_DISABLED)
+            module_data.minting_enabled,
+            error::permission_denied(EMINTING_DISABLED)
         );
 
         let resource_signer =

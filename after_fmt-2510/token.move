@@ -606,10 +606,7 @@ module aptos_token_objects::token {
     #[view]
     /// Generates the token's address based upon the creator's address, the collection object and the token's name and seed.
     public fun create_token_address_with_seed(
-        creator: address,
-        collection: String,
-        name: String,
-        seed: String
+        creator: address, collection: String, name: String, seed: String
     ): address {
         let seed = create_token_name_with_seed(&collection, &name, &seed);
         object::create_object_address(&creator, seed)
@@ -631,7 +628,8 @@ module aptos_token_objects::token {
         collection: &String, name: &String, seed: &String
     ): vector<u8> {
         assert!(
-            seed.length() <= MAX_TOKEN_SEED_LENGTH, error::out_of_range(ESEED_TOO_LONG)
+            seed.length() <= MAX_TOKEN_SEED_LENGTH,
+            error::out_of_range(ESEED_TOO_LONG)
         );
         let seeds = create_token_seed(collection, name);
         seeds.append(*seed.bytes());
@@ -731,9 +729,8 @@ module aptos_token_objects::token {
     public fun royalty<T: key>(token: Object<T>): Option<Royalty> acquires Token {
         borrow(&token);
         let royalty = royalty::get(token);
-        if (royalty.is_some()) {
-            royalty
-        } else {
+        if (royalty.is_some()) { royalty }
+        else {
             let creator = creator(token);
             let collection_name = collection_name(token);
             let collection_address =

@@ -63,10 +63,7 @@ module aptos_std::multi_key {
         single_keys: vector<single_key::AnyPublicKey>, signatures_required: u8
     ): MultiKey {
         let num_keys = single_keys.length();
-        assert!(
-            num_keys > 0,
-            error::invalid_argument(E_INVALID_MULTI_KEY_NO_KEYS)
-        );
+        assert!(num_keys > 0, error::invalid_argument(E_INVALID_MULTI_KEY_NO_KEYS));
         assert!(
             num_keys <= MAX_NUMBER_OF_PUBLIC_KEYS,
             error::invalid_argument(E_INVALID_MULTI_KEY_TOO_MANY_KEYS)

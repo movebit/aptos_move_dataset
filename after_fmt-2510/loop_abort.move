@@ -16,9 +16,8 @@ module 0x42::Test {
 
     fun test2(b: bool) {
         let _x = Impotent {};
-        if (b) {
-            loop {}
-        } else {
+        if (b) { loop {} }
+        else {
             abort(42)
         }
     }

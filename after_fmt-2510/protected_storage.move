@@ -44,14 +44,11 @@ module 0x66::app {
     }
 
     fun increment(s: &signer): u64 {
-        protected::modify(
-            s,
-            |data: &mut Data| {
-                let cur = data.0;
-                data.0 += 1;
-                cur
-            }
-        )
+        protected::modify(s, |data: &mut Data| {
+            let cur = data.0;
+            data.0 += 1;
+            cur
+        })
     }
 }
 

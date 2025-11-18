@@ -3,11 +3,7 @@ module resource_groups_secondary::secondary {
     use std::signer;
     use resource_groups_primary::primary;
 
-    #[
-        resource_group_member(
-            group = resource_groups_primary::primary::ResourceGroupContainer
-        )
-    ]
+    #[resource_group_member(group = resource_groups_primary::primary::ResourceGroupContainer)]
     struct Secondary has drop, key {
         value: u32
     }

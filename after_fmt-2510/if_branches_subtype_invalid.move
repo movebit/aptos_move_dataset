@@ -5,13 +5,7 @@ module 0x8675309::M {
         let _: &mut u64 = if (cond) u else u;
     }
 
-    fun t1(
-        cond: bool,
-        u: &u64,
-        u_mut: &mut u64,
-        b: &bool,
-        b_mut: &mut bool
-    ) {
+    fun t1(cond: bool, u: &u64, u_mut: &mut u64, b: &bool, b_mut: &mut bool) {
         let _: &u64 = if (cond) u else b;
         let _: &u64 = if (cond) b else u;
 

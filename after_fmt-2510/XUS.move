@@ -174,7 +174,9 @@ module DiemFramework::XUS {
         /// Only DesignatedDealer can has the "preburn" permission [[H4]][PERMISSION].
         /// If an account has PreburnQueue<XUS> or Preburn<XUS>, it is a DesignatedDealer account.
         invariant forall a: address:
-            (Diem::spec_has_preburn_queue<XUS>(a) || Diem::spec_has_preburn<XUS>(a)) ==>
+            (
+                Diem::spec_has_preburn_queue<XUS>(a) || Diem::spec_has_preburn<XUS>(a)
+            ) ==>
                 Roles::spec_has_designated_dealer_role_addr(a);
 
         /// Only the owner of PreburnQueue<XUS> can preburn XUS [[H4]][PERMISSION].

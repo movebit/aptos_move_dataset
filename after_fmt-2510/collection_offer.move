@@ -119,9 +119,7 @@ module collection_offer {
             fee_schedule,
             item_price * amount
         );
-        move_to(
-            &offer_signer, CollectionOfferTokenV1 { creator_address, collection_name }
-        );
+        move_to(&offer_signer, CollectionOfferTokenV1 { creator_address, collection_name });
 
         let collection_offer_addr = signer::address_of(&offer_signer);
         events::emit_collection_offer_placed(
@@ -257,8 +255,7 @@ module collection_offer {
                 let offer_info =
                     borrow_global<CollectionOfferTokenV1>(collection_offer_addr);
                 events::collection_metadata_for_tokenv1(
-                    offer_info.creator_address,
-                    offer_info.collection_name
+                    offer_info.creator_address, offer_info.collection_name
                 )
             };
 
@@ -574,14 +571,12 @@ module collection_offer_tests {
     use marketplace::listing;
     use marketplace::test_utils;
 
-    #[
-        test(
-            aptos_framework = @0x1,
-            marketplace = @0x111,
-            seller = @0x222,
-            purchaser = @0x333
-        )
-    ]
+    #[test(
+        aptos_framework = @0x1,
+        marketplace = @0x111,
+        seller = @0x222,
+        purchaser = @0x333
+    )]
     fun test_token_v2(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -634,14 +629,12 @@ module collection_offer_tests {
         assert!(!collection_offer::exists_at(collection_offer), 0);
     }
 
-    #[
-        test(
-            aptos_framework = @0x1,
-            marketplace = @0x111,
-            seller = @0x222,
-            purchaser = @0x333
-        )
-    ]
+    #[test(
+        aptos_framework = @0x1,
+        marketplace = @0x111,
+        seller = @0x222,
+        purchaser = @0x333
+    )]
     fun test_token_v2_high_royalty(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -689,14 +682,12 @@ module collection_offer_tests {
         assert!(!collection_offer::exists_at(collection_offer), 0);
     }
 
-    #[
-        test(
-            aptos_framework = @0x1,
-            marketplace = @0x111,
-            seller = @0x222,
-            purchaser = @0x333
-        )
-    ]
+    #[test(
+        aptos_framework = @0x1,
+        marketplace = @0x111,
+        seller = @0x222,
+        purchaser = @0x333
+    )]
     fun test_token_v1_direct_deposit(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -716,8 +707,9 @@ module collection_offer_tests {
         let token_id = test_utils::mint_tokenv1(seller);
         assert!(tokenv1::balance_of(seller_addr, token_id) == 1, 0);
 
-        let (creator_addr, collection_name, token_name, property_version) =
-            tokenv1::get_token_id_fields(&token_id);
+        let (
+            creator_addr, collection_name, token_name, property_version
+        ) = tokenv1::get_token_id_fields(&token_id);
 
         let collection_offer =
             collection_offer::init_for_tokenv1<AptosCoin>(
@@ -760,14 +752,12 @@ module collection_offer_tests {
         assert!(!collection_offer::exists_at(collection_offer), 0);
     }
 
-    #[
-        test(
-            aptos_framework = @0x1,
-            marketplace = @0x111,
-            seller = @0x222,
-            purchaser = @0x333
-        )
-    ]
+    #[test(
+        aptos_framework = @0x1,
+        marketplace = @0x111,
+        seller = @0x222,
+        purchaser = @0x333
+    )]
     fun test_token_v1_indirect(
         aptos_framework: &signer,
         marketplace: &signer,
@@ -785,8 +775,9 @@ module collection_offer_tests {
         let token_id = test_utils::mint_tokenv1(seller);
         assert!(tokenv1::balance_of(seller_addr, token_id) == 1, 0);
 
-        let (creator_addr, collection_name, token_name, property_version) =
-            tokenv1::get_token_id_fields(&token_id);
+        let (
+            creator_addr, collection_name, token_name, property_version
+        ) = tokenv1::get_token_id_fields(&token_id);
 
         let collection_offer =
             collection_offer::init_for_tokenv1<AptosCoin>(
@@ -811,14 +802,12 @@ module collection_offer_tests {
         assert!(!collection_offer::exists_at(collection_offer), 0);
     }
 
-    #[
-        test(
-            aptos_framework = @0x1,
-            marketplace = @0x111,
-            seller = @0x222,
-            purchaser = @0x333
-        )
-    ]
+    #[test(
+        aptos_framework = @0x1,
+        marketplace = @0x111,
+        seller = @0x222,
+        purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x50004, location = aptos_framework::object)]
     fun test_token_v2_has_none(
         aptos_framework: &signer,
@@ -845,14 +834,12 @@ module collection_offer_tests {
         collection_offer::sell_tokenv2<AptosCoin>(marketplace, collection_offer, token);
     }
 
-    #[
-        test(
-            aptos_framework = @0x1,
-            marketplace = @0x111,
-            seller = @0x222,
-            purchaser = @0x333
-        )
-    ]
+    #[test(
+        aptos_framework = @0x1,
+        marketplace = @0x111,
+        seller = @0x222,
+        purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x10005, location = aptos_token::token)]
     fun test_token_v1_has_none(
         aptos_framework: &signer,
@@ -867,8 +854,9 @@ module collection_offer_tests {
             purchaser
         );
         let token_id = test_utils::mint_tokenv1(seller);
-        let (creator_addr, collection_name, token_name, property_version) =
-            tokenv1::get_token_id_fields(&token_id);
+        let (
+            creator_addr, collection_name, token_name, property_version
+        ) = tokenv1::get_token_id_fields(&token_id);
 
         let collection_offer =
             collection_offer::init_for_tokenv1<AptosCoin>(
@@ -889,14 +877,12 @@ module collection_offer_tests {
         );
     }
 
-    #[
-        test(
-            aptos_framework = @0x1,
-            marketplace = @0x111,
-            seller = @0x222,
-            purchaser = @0x333
-        )
-    ]
+    #[test(
+        aptos_framework = @0x1,
+        marketplace = @0x111,
+        seller = @0x222,
+        purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x30006, location = marketplace::collection_offer)]
     fun test_token_v2_expired(
         aptos_framework: &signer,
@@ -924,14 +910,12 @@ module collection_offer_tests {
         collection_offer::sell_tokenv2<AptosCoin>(seller, collection_offer, token);
     }
 
-    #[
-        test(
-            aptos_framework = @0x1,
-            marketplace = @0x111,
-            seller = @0x222,
-            purchaser = @0x333
-        )
-    ]
+    #[test(
+        aptos_framework = @0x1,
+        marketplace = @0x111,
+        seller = @0x222,
+        purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x60003, location = marketplace::collection_offer)]
     fun test_token_v2_exhausted(
         aptos_framework: &signer,
@@ -960,14 +944,12 @@ module collection_offer_tests {
         collection_offer::sell_tokenv2<AptosCoin>(purchaser, collection_offer, token);
     }
 
-    #[
-        test(
-            aptos_framework = @0x1,
-            marketplace = @0x111,
-            seller = @0x222,
-            purchaser = @0x333
-        )
-    ]
+    #[test(
+        aptos_framework = @0x1,
+        marketplace = @0x111,
+        seller = @0x222,
+        purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x10005, location = marketplace::collection_offer)]
     fun test_token_v2_other_collection(
         aptos_framework: &signer,
@@ -1004,14 +986,12 @@ module collection_offer_tests {
         collection_offer::sell_tokenv2<AptosCoin>(marketplace, collection_offer, token);
     }
 
-    #[
-        test(
-            aptos_framework = @0x1,
-            marketplace = @0x111,
-            seller = @0x222,
-            purchaser = @0x333
-        )
-    ]
+    #[test(
+        aptos_framework = @0x1,
+        marketplace = @0x111,
+        seller = @0x222,
+        purchaser = @0x333
+    )]
     #[expected_failure(abort_code = 0x10005, location = aptos_token::token)]
     fun test_token_v1_other_collection(
         aptos_framework: &signer,
@@ -1048,8 +1028,9 @@ module collection_offer_tests {
             );
 
         let token_id = test_utils::mint_tokenv1(seller);
-        let (_creator_addr, _collection_name, token_name, property_version) =
-            tokenv1::get_token_id_fields(&token_id);
+        let (
+            _creator_addr, _collection_name, token_name, property_version
+        ) = tokenv1::get_token_id_fields(&token_id);
         collection_offer::sell_tokenv1<AptosCoin>(
             marketplace,
             collection_offer,

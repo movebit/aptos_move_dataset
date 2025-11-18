@@ -69,11 +69,7 @@ module aptos_experimental::order_placement {
         OrderType
     };
     use aptos_experimental::order_book_types::TriggerCondition;
-    use aptos_experimental::order_book_types::{
-        TimeInForce,
-        immediate_or_cancel,
-        post_only
-    };
+    use aptos_experimental::order_book_types::{TimeInForce, immediate_or_cancel, post_only};
     use aptos_experimental::market_types::{
         Self,
         MarketClearinghouseCallbacks,
@@ -109,7 +105,14 @@ module aptos_experimental::order_placement {
 
     public fun destroy_order_match_result<R: store + copy + drop>(
         self: OrderMatchResult<R>
-    ): (OrderIdType, u64, Option<OrderCancellationReason>, vector<R>, vector<u64>, u32) {
+    ): (
+        OrderIdType,
+        u64,
+        Option<OrderCancellationReason>,
+        vector<R>,
+        vector<u64>,
+        u32
+    ) {
         let OrderMatchResult {
             order_id,
             remaining_size,
@@ -169,7 +172,9 @@ module aptos_experimental::order_placement {
         return cancel_reason == OrderCancellationReason::MaxFillLimitViolation
     }
 
-    public fun get_order_id<R: store + copy + drop>(self: OrderMatchResult<R>): OrderIdType {
+    public fun get_order_id<R: store + copy + drop>(
+        self: OrderMatchResult<R>
+    ): OrderIdType {
         self.order_id
     }
 
@@ -248,9 +253,8 @@ module aptos_experimental::order_placement {
         place_order_with_order_id(
             market,
             signer::address_of(user),
-            if (is_bid) {
-                U64_MAX
-            } else { 1 },
+            if (is_bid) { U64_MAX }
+            else { 1 },
             orig_size,
             orig_size,
             is_bid,
@@ -430,8 +434,9 @@ module aptos_experimental::order_placement {
         );
 
         let modified_order = market.get_order_book().get_bulk_order(maker_address);
-        let (_, _, _, _, bid_sizes, bid_prices, ask_sizes, ask_prices, _) =
-            modified_order.destroy_bulk_order();
+        let (
+            _, _, _, _, bid_sizes, bid_prices, ask_sizes, ask_prices, _
+        ) = modified_order.destroy_bulk_order();
         market.emit_event_for_bulk_order_modified(
             order_id,
             sequence_number,
@@ -843,8 +848,7 @@ module aptos_experimental::order_placement {
         callbacks: &MarketClearinghouseCallbacks<M, R>
     ): OrderMatchResult<R> {
         assert!(
-            orig_size > 0 && remaining_size > 0,
-            EINVALID_ORDER
+            orig_size > 0 && remaining_size > 0, EINVALID_ORDER
         );
         if (order_id.is_none()) {
             // If order id is not provided, generate a new order id

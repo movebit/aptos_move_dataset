@@ -33,10 +33,8 @@ module 0xc0ffee::Example {
                 };
 
             // Assert that the validation passed
-            assert!(
-                is_valid_a,
-                if (is_positive) E_CONDITION_B else E_CONDITION_C
-            );
+            assert!(is_valid_a, if (is_positive) E_CONDITION_B
+            else E_CONDITION_C);
         };
 
         // Check and validate param_b if it exists
@@ -56,10 +54,8 @@ module 0xc0ffee::Example {
                 };
 
             // Assert that the validation passed
-            assert!(
-                is_valid_b,
-                if (is_positive) E_CONDITION_C else E_CONDITION_D
-            );
+            assert!(is_valid_b, if (is_positive) E_CONDITION_C
+            else E_CONDITION_D);
 
             // Additional validation against the threshold value if it exists
             if (threshold_value > 0) {

@@ -21,9 +21,11 @@ module 0x8675309::M {
             };
             r
         }: R);
-        ({
-            let x = 0;
-            (x, false, false)
-        }: (u64, bool));
+        (
+            {
+                let x = 0;
+                (x, false, false)
+            }: (u64, bool)
+        );
     }
 }
