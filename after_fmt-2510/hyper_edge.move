@@ -1,5 +1,4 @@
 // dep: ../../move-stdlib/sources/vector.move
-
 module 0x2::Collection {
     use std::vector;
 

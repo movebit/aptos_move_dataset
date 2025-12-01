@@ -37,7 +37,6 @@ module DiemFramework::AccountAdministrationScripts {
     /// * `AccountCreationScripts::create_child_vasp_account`
     /// * `AccountCreationScripts::create_parent_vasp_account`
     /// * `PaymentScripts::peer_to_peer_with_metadata`
-
     public entry fun add_currency_to_account<Currency>(account: signer) {
         DiemAccount::add_currency<Currency>(&account);
     }

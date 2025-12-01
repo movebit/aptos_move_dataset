@@ -11,6 +11,7 @@ module X {
 
 module M {
     use 0x2::X;
+
     struct S {}
 
     public fun foo(a: address, u: u64, s: S) {}

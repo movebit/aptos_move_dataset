@@ -10,7 +10,6 @@ module 0x42::objects {
 
     // Need to have public accessors for all of them so they can be accessed from outside this module
     // in inlining context
-
     struct OwnerRef has drop { // Hot potato -- cannot be stored
         addr: address // This should be a SignerCapability, in reality
     }
@@ -49,7 +48,6 @@ module 0x42::objects {
 
     // ================================================
     // Basic Operations, inlined in the object definition context
-
     public inline fun create<T: key>(signer: &signer, _ref: &OwnerRef, val: T) {
         // In reality, we should get the signer via the ref
         move_to<T>(signer, val)
@@ -108,6 +106,7 @@ module 0x42::token {
 //# run --signers 0x42
 script {
     use 0x42::token;
+
     fun main(s: signer) {
         let or = 0x42::objects::make_owner_ref(@0x42);
         token::create(&s, &or, 22);

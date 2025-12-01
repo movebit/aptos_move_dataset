@@ -1,5 +1,4 @@
 /// A generic module for role-based access control (RBAC).
-
 module std::role {
     use std::error;
     use std::signer;

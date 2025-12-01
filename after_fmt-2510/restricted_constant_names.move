@@ -36,5 +36,6 @@ script {
     const assert: u64 = 0;
     // restricted
     const Self: u64 = 0;
+
     fun main() {}
 }

@@ -665,7 +665,6 @@ module aptos_token_objects::token {
     }
 
     // Accessors
-
     inline fun borrow<T: key>(token: &Object<T>): &Token {
         let token_address = object::object_address(token);
         assert!(
@@ -707,7 +706,6 @@ module aptos_token_objects::token {
     //         aggregator_v2::create_snapshot(borrow(token).name)
     //     }
     // }
-
     #[view]
     /// Avoid this method in the same transaction as the token is minted
     /// as that would prohibit transactions to be executed in parallel.
@@ -753,7 +751,6 @@ module aptos_token_objects::token {
     //         aggregator_v2::create_snapshot(borrow(token).index)
     //     }
     // }
-
     #[view]
     /// Avoid this method in the same transaction as the token is minted
     /// as that would prohibit transactions to be executed in parallel.
@@ -767,7 +764,6 @@ module aptos_token_objects::token {
     }
 
     // Mutators
-
     inline fun borrow_mut(mutator_ref: &MutatorRef): &mut Token {
         assert!(
             exists<Token>(mutator_ref.self),

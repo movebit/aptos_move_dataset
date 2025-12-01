@@ -22,7 +22,6 @@
 /// - OKX
 /// - Exodus
 /// - Backpack
-
 module aptos_framework::ethereum_derivable_account {
     use aptos_framework::auth_data::AbstractionAuthData;
     use aptos_framework::common_account_abstractions_utils::{network_name, daa_authenticate};
@@ -246,10 +245,13 @@ module aptos_framework::ethereum_derivable_account {
 
     #[test_only]
     use std::bcs;
+
     #[test_only]
     use std::string::utf8;
+
     #[test_only]
     use aptos_framework::auth_data::{create_derivable_auth_data};
+
     #[test_only]
     fun create_abstract_public_key(
         ethereum_address: vector<u8>, domain: vector<u8>

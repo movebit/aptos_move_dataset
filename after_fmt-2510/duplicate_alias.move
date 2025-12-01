@@ -1,5 +1,6 @@
 address 0x2 {
 module X {}
+
 module Y {}
 
 module M {

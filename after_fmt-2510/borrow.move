@@ -1,5 +1,4 @@
 module 0x42::borrow {
-
     struct S {
         f: u64
     }

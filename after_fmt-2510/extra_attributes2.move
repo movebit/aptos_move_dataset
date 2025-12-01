@@ -1,5 +1,6 @@
 // tests non-abort related execution failures with errors in attributes
 module 0x1::n {}
+
 module 0x1::m {
     #[test]
     #[expected_failure(arithmetic_error, location = Self)]

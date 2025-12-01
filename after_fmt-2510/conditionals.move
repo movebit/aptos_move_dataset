@@ -1,5 +1,4 @@
 module 0x815::m {
-
     fun if_else_1(c: bool): u8 {
         if (c) 1 else 2
     }

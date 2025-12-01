@@ -76,7 +76,6 @@ module coin_listing {
     }
 
     // Init functions
-
     public entry fun init_fixed_price<CoinType>(
         seller: &signer,
         object: Object<ObjectCore>,
@@ -559,7 +558,6 @@ module coin_listing {
     }
 
     // View
-
     #[view]
     public fun price<CoinType>(
         object: Object<Listing>
@@ -1313,7 +1311,6 @@ module listing_tests {
     }
 
     // Objects and TokenV2 stuff
-
     inline fun fixed_price_listing(
         marketplace: &signer, seller: &signer
     ): (Object<Token>, Object<FeeSchedule>, Object<Listing>) {
@@ -1357,7 +1354,6 @@ module listing_tests {
     }
 
     // TokenV1
-
     #[test(
         aptos_framework = @0x1,
         marketplace = @0x111,

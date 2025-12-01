@@ -1,5 +1,4 @@
 module 0x42::TestConst {
-
     struct T {
         x: u64,
         b: bool,
@@ -62,6 +61,7 @@ module 0x42::TestConst {
     public fun array_in_fun() {
         let v1 = vector<address>[@0x1, @0x2, @0x3];
         let v2 = vector<bool>[false, true, false];
+
         spec {
             assert v2[0] == false && v2[1] == true && v2[2] == false;
             assert v1[0] == @0x1 && v1[1] == @0x2 && v1[2] == @0x3;
@@ -70,6 +70,7 @@ module 0x42::TestConst {
 
     public fun array_in_fun_incorrect() {
         let v1 = vector<address>[@0x1, @0x2, @0x3];
+
         spec {
             assert v1[0] == @0x111 && v1[1] == @0x222 && v1[2] == @0x333;
         };
@@ -77,6 +78,7 @@ module 0x42::TestConst {
 
     public fun array_in_fun_incorrect_bool() {
         let v1 = vector<bool>[false, true, false];
+
         spec {
             assert v1[0] == false && v1[1] == false && v1[2] == false;
         };

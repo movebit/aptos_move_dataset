@@ -5,6 +5,7 @@ module Map {
     native public fun empty<K, V>(): T<K, V>;
 
     native public fun get<K, V>(m: &T<K, V>, k: &K): &V;
+
     native public fun get_mut<K, V>(m: &mut T<K, V>, k: &K): &mut V;
 
     native public fun contains_key<K, V>(m: &T<K, V>, k: &K): bool;
@@ -17,7 +18,6 @@ module Map {
 
 address 0x2 {
 module Token {
-
     struct Coin<AssetType: copy + drop> has store {
         type: AssetType,
         value: u64

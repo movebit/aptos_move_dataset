@@ -11,7 +11,6 @@ module 0x42::SimpleIsTxnSigner {
     // ----------------------------------------
     // Simple examples for `is_txn_signer_addr`
     // ----------------------------------------
-
     public fun f1_incorrect() {
         spec {
             assert signer::is_txn_signer_addr(@0x7);
@@ -26,6 +25,7 @@ module 0x42::SimpleIsTxnSigner {
 
     public fun f3(account: &signer) {
         assert!(signer::address_of(account) == @0x7, 1);
+
         spec {
             assert signer::is_txn_signer_addr(@0x7);
         }
@@ -34,6 +34,7 @@ module 0x42::SimpleIsTxnSigner {
 
     public fun f4_incorrect(account: &signer) {
         assert!(signer::address_of(account) == @0x3, 1);
+
         spec {
             assert signer::is_txn_signer_addr(@0x7);
         }
@@ -63,7 +64,6 @@ module 0x42::SimpleIsTxnSigner {
     // -----------------------------------
     // Access control for Counter resource
     // -----------------------------------
-
     struct Counter has key {
         i: u64
     }

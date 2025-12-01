@@ -5,6 +5,7 @@ module X {
 
 module M {
     use 0x2::X::{Self, C};
+
     fun foo() {
         X::C;
         C;

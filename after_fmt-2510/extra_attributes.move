@@ -1,5 +1,6 @@
 // tests non-abort related execution failures
 module 0x1::n {}
+
 module 0x1::m {
     #[test_only]
     use 0x1::n;

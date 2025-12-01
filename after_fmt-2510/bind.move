@@ -1,5 +1,4 @@
 module 0x42::m {
-
     struct S {
         x: u64,
         y: u8

@@ -14,6 +14,7 @@ module aptos_framework::gas_schedule {
     use aptos_framework::util::from_bytes;
     use aptos_framework::storage_gas::StorageGasConfig;
     use aptos_framework::storage_gas;
+
     #[test_only]
     use std::bcs::to_bytes;
 

@@ -1,5 +1,4 @@
 module 0x42::m {
-
     fun f(_x: u64, _y: bool) {}
 
     fun g(_x: &u64, _y: &mut bool) {}

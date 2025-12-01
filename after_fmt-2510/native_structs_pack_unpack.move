@@ -5,6 +5,7 @@ module C {
 
 module B {
     use 0x42::C;
+
     public fun foo(): C::T {
         C::T {}
     }

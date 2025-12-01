@@ -150,8 +150,10 @@ module aptos_framework::aptos_coin {
 
     #[test_only]
     use aptos_framework::account;
+
     #[test_only]
     use aptos_framework::aggregator_factory;
+
     #[test_only]
     use aptos_framework::fungible_asset::FungibleAsset;
 

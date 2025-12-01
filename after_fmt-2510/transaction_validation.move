@@ -682,7 +682,6 @@ module aptos_framework::transaction_validation {
     ///////////////////////////////////////////////////////////
     /// new set of functions
     ///////////////////////////////////////////////////////////
-
     fun unified_prologue(
         sender: signer,
         // None means no need to check, i.e. either AA (where it is already checked) or simulation
@@ -768,7 +767,6 @@ module aptos_framework::transaction_validation {
     ///////////////////////////////////////////////////////////
     /// new set of functions to support txn payload v2 format and orderless transactions
     ///////////////////////////////////////////////////////////
-
     fun unified_prologue_v2(
         sender: signer,
         txn_sender_public_key: Option<vector<u8>>,

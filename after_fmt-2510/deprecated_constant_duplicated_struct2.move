@@ -4,6 +4,7 @@ module mod1 {
 
     #[deprecated]
     const C: u64 = 0;
+
     public fun mod1() {}
 }
 }

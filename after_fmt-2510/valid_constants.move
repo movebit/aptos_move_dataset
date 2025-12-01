@@ -61,7 +61,6 @@ module 0x42::constants {
         57896044618658097711785492504343953926634992332820282019728792003956564819967i256; // constant with annotated type and annotated, max value
     const V8_256: i256 = -57896044618658097711785492504343953926634992332820282019728792003956564819968; // constant with annotated type but non-annotated, min value
     const V9_256: i256 = -57896044618658097711785492504343953926634992332820282019728792003956564819968i256; // constant with annotated type and annotated, min value
-
     public fun test_i8(): i8 {
         let a_ann = 0i8; // constant with non-annotated type but annotated value
         let b_ann = 1i8; // constant with non-annotated type but annotated value

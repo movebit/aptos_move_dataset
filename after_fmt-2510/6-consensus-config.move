@@ -23,7 +23,6 @@
 //         max_failed_authors_to_store: 10,
 //     },
 // )
-
 script {
     use aptos_framework::aptos_governance;
     use aptos_framework::consensus_config;

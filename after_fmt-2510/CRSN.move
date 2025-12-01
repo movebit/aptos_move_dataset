@@ -1,7 +1,6 @@
 /// A module implementing conflict-resistant sequence numbers (CRSNs).
 /// The specification, and formal description of the acceptance and rejection
 /// criteria, force expiration and window shifting of CRSNs are described in DIP-168.
-
 module DiemFramework::CRSN {
     use DiemFramework::Roles;
     use std::bit_vector::{Self, BitVector};

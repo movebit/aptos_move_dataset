@@ -38,7 +38,6 @@ module 0x42::freeze_mut_ref {
     //     let y: &u64;
     //     (x, y) = t2(&mut 3, &mut 4);
     // }
-
     public fun t4() {
         let x: &u64;
         let y: &u64;

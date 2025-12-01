@@ -1,11 +1,9 @@
 module 0x42::m {
-
     struct S {
         x: u64
     }
 
     // Call styles
-
     fun receiver(self: S, y: u64): u64 {
         self.x + y
     }

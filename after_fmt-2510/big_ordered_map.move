@@ -1077,7 +1077,6 @@ module aptos_std::big_ordered_map {
     }
 
     // ====================== Internal Implementations ========================
-
     inline fun for_each_leaf_node_ref<K: store, V: store>(
         self: &BigOrderedMap<K, V>, f: |&Node<K, V>|
     ) {
@@ -2785,6 +2784,7 @@ module aptos_std::big_ordered_map {
 
     #[test_only]
     const OFFSET: u64 = 270001;
+
     #[test_only]
     const MOD: u64 = 1000000;
 
@@ -2954,7 +2954,6 @@ module aptos_std::big_ordered_map {
     // fun test_large_data_set_order_6_3_false() {
     //     test_large_data_set_helper(6, 3, false);
     // }
-
     #[test]
     fun test_large_data_set_order_6_3_true() {
         test_large_data_set_helper(6, 3, true);
@@ -3019,13 +3018,13 @@ module aptos_std::big_ordered_map {
     // fun test_large_data_set_order_32_true() {
     //     test_large_data_set_helper(32, 32, true);
     // }
-
     #[verify_only]
     fun test_verify_borrow_front_key() {
         let keys: vector<u64> = vector[1, 2, 3];
         let values: vector<u64> = vector[4, 5, 6];
         let map = new_from(keys, values);
         let (_key, _value) = map.borrow_front();
+
         spec {
             assert keys[0] == 1;
             assert vector::spec_contains(keys, 1);
@@ -3049,6 +3048,7 @@ module aptos_std::big_ordered_map {
         let values: vector<u64> = vector[4, 5, 6];
         let map = new_from(keys, values);
         let (key, value) = map.borrow_back();
+
         spec {
             assert keys[2] == 3;
             assert vector::spec_contains(keys, 3);
@@ -3073,12 +3073,14 @@ module aptos_std::big_ordered_map {
         let map = new_from(keys, values);
         let (_key, _value) = map.borrow_back();
         let result_1 = map.upsert(4, 5);
+
         spec {
             assert spec_contains_key(map, 4);
             assert spec_get(map, 4) == 5;
             assert option::is_none(result_1);
         };
         let result_2 = map.upsert(4, 6);
+
         spec {
             assert spec_contains_key(map, 4);
             assert spec_get(map, 4) == 6;
@@ -3086,18 +3088,21 @@ module aptos_std::big_ordered_map {
             assert option::borrow(result_2) == 5;
             assert!spec_contains_key(map, 10);
         };
+
         spec {
             assert keys[0] == 1;
             assert spec_contains_key(map, 1);
             assert spec_get(map, 1) == 4;
         };
         let v = map.remove(&1);
+
         spec {
             assert v == 4;
         };
         map.remove(&2);
         map.remove(&3);
         map.remove(&4);
+
         spec {
             assert!spec_contains_key(map, 1);
             assert!spec_contains_key(map, 2);
@@ -3118,10 +3123,12 @@ module aptos_std::big_ordered_map {
         let values: vector<u64> = vector[4, 5, 6];
         let map = new_from(keys, values);
         let result_1 = map.next_key(&3);
+
         spec {
             assert option::is_none(result_1);
         };
         let result_2 = map.next_key(&1);
+
         spec {
             assert keys[0] == 1;
             assert spec_contains_key(map, 1);
@@ -3146,10 +3153,12 @@ module aptos_std::big_ordered_map {
         let values: vector<u64> = vector[4, 5, 6];
         let map = new_from(keys, values);
         let result_1 = map.prev_key(&1);
+
         spec {
             assert option::is_none(result_1);
         };
         let result_2 = map.prev_key(&3);
+
         spec {
             assert keys[0] == 1;
             assert spec_contains_key(map, 1);
@@ -3172,6 +3181,7 @@ module aptos_std::big_ordered_map {
         let keys: vector<u64> = vector[1, 2, 3];
         let values: vector<u64> = vector[4, 5, 6];
         let map = new_from(keys, values);
+
         spec {
             assert keys[1] == 2;
             assert vector::spec_contains(keys, 2);
@@ -3180,6 +3190,7 @@ module aptos_std::big_ordered_map {
             assert spec_len(map) == 3;
         };
         let v = map.remove(&1);
+
         spec {
             assert v == 4;
             assert spec_contains_key(map, 2);
@@ -3200,6 +3211,7 @@ module aptos_std::big_ordered_map {
     fun test_aborts_if_new_from_1(): BigOrderedMap<u64, u64> {
         let keys: vector<u64> = vector[1, 2, 3, 1];
         let values: vector<u64> = vector[4, 5, 6, 7];
+
         spec {
             assert keys[0] == 1;
             assert keys[3] == 1;

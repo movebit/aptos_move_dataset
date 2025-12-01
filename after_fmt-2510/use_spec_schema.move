@@ -11,6 +11,7 @@ module X {
 
 module M {
     use 0x2::X::{Foo, Bar as Baz};
+
     struct S {}
 
     fun t() {}

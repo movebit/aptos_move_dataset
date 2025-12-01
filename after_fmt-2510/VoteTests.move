@@ -204,7 +204,6 @@ module ExperimentalFramework::VoteTests {
             }
         }
     */
-
     #[test(dr = @CoreResources)]
     #[expected_failure(abort_code = 769, location = Vote)]
     fun remove_ballot(dr: signer) {

@@ -1,5 +1,4 @@
 module 0x42::M {
-
     struct S {
         x: u64,
         y: bool
@@ -25,6 +24,7 @@ module 0x42::M {
                 less10a(c, x)
             } else { x < 10 }
         }
+
         fun less10a(c: bool, x: num): bool {
             less10(!c, x)
         }

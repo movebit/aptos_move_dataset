@@ -164,6 +164,7 @@ module G {
         another_b
     }
 }
+
 module H {
     struct S<phantom T> {
         f1: u64

@@ -15,7 +15,6 @@ module aptos_experimental::pre_cancellation_tests {
     use aptos_experimental::market_types::{new_market, new_market_config};
 
     const PRE_CANCEL_WINDOW_SECS: u64 = 1; // 1 second
-
     #[test(
         aptos_framework = @0x1, admin = @0x1, market_signer = @0x123, maker1 = @0x456
     )]

@@ -3,9 +3,9 @@
 ///     The minimum-pubkey-size variant of [Boneh-Lynn-Shacham (BLS) signatures](https://en.wikipedia.org/wiki/BLS_digital_signature),
 ///     where public keys are BLS12-381 elliptic-curve points in $\mathbb{G}_1$ and signatures are in $\mathbb{G}_2$,
 ///     as per the [IETF BLS draft standard](https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-bls-signature#section-2.1).
-
 module aptos_std::bls12381 {
     use std::option::{Self, Option};
+
     #[test_only]
     use std::error::invalid_argument;
 
@@ -26,7 +26,6 @@ module aptos_std::bls12381 {
 
     // TODO: Performance would increase if structs in this module are implemented natively via handles (similar to Table and
     // RistrettoPoint). This will avoid unnecessary (de)serialization. We would need to allow storage of these structs too.
-
     #[test_only]
     struct SecretKey has copy, drop {
         bytes: vector<u8>
@@ -478,7 +477,6 @@ module aptos_std::bls12381 {
     //
     // Tests
     //
-
     #[test_only]
     fun get_random_aggsig(): AggrOrMultiSignature {
         assert!(signature_subgroup_check_internal(RANDOM_SIGNATURE), 1);

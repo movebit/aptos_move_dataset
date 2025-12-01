@@ -19,6 +19,7 @@ module M {
         let x = 0;
         let s: signer = abort 0;
         let b = B { f: 0 };
+
         spec {};
         &x;
         &mut x;
@@ -53,6 +54,7 @@ module M {
         FLAG;
         0
     };
+
     public fun f_public() {}
 
     public(friend) fun f_friend() {}

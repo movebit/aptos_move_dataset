@@ -1,5 +1,4 @@
 module 0x42::m {
-
     struct S has store {}
 
     struct R has store {}

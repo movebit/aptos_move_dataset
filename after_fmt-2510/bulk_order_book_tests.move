@@ -1434,7 +1434,6 @@ module aptos_experimental::bulk_order_book_tests {
     }
 
     // ===== MULTI-ACCOUNT TESTS =====
-
     #[test]
     fun test_two_accounts_same_price_level() {
         // Test two accounts placing orders at the same price level

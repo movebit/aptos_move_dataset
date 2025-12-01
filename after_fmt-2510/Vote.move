@@ -15,6 +15,7 @@ module ExperimentalFramework::Vote {
     use std::signer;
     use std::vector;
     use CoreFramework::DiemTimestamp;
+
     #[test_only]
     friend ExperimentalFramework::VoteTests;
 

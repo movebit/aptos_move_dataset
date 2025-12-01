@@ -1,5 +1,4 @@
 module 0x42::M {
-
     struct S has key {
         x: u64
     }
@@ -19,6 +18,7 @@ module 0x42::M {
                 spec_var > 0
             }
         }
+
         fun rec_fun2(c: bool): bool {
             rec_fun(!c)
         }

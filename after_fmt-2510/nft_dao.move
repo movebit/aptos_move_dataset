@@ -191,7 +191,6 @@ module dao_platform::nft_dao {
     }
 
     //////////////////// All view functions ////////////////////////////////
-
     #[view]
     /// Get the proposal
     public fun get_proposal(proposal_id: u64, nft_dao: address): Proposal acquires Proposals {
@@ -1066,8 +1065,10 @@ module dao_platform::nft_dao {
 
     #[test_only]
     use aptos_token::token::create_token_script;
+
     #[test_only]
     use aptos_framework::aptos_account::transfer_coins;
+
     #[test_only]
     use aptos_framework::aptos_coin;
     use aptos_token::token_transfers;

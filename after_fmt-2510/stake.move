@@ -577,6 +577,7 @@ module aptos_framework::stake {
         let validator_set = borrow_global_mut<ValidatorSet>(@aptos_framework);
         let active_validators = &mut validator_set.active_validators;
         let pending_inactive = &mut validator_set.pending_inactive;
+
         spec {
             update ghost_active_num = len(active_validators);
             update ghost_pending_inactive_num = len(pending_inactive);
@@ -603,6 +604,7 @@ module aptos_framework::stake {
                     active_validators, *option::borrow(&validator_index)
                 );
                 vector::push_back(pending_inactive, validator_info);
+
                 spec {
                     update ghost_active_num = ghost_active_num - 1;
                     update ghost_pending_inactive_num = ghost_pending_inactive_num + 1;
@@ -1380,6 +1382,7 @@ module aptos_framework::stake {
                 let validator = vector::borrow_mut(
                     &mut validator_perf.validators, cur_proposer_index
                 );
+
                 spec {
                     assume validator.successful_proposals + 1 <= MAX_U64;
                 };
@@ -1409,6 +1412,7 @@ module aptos_framework::stake {
                 let validator = vector::borrow_mut(
                     &mut validator_perf.validators, validator_index
                 );
+
                 spec {
                     assume validator.failed_proposals + 1 <= MAX_U64;
                 };
@@ -1600,6 +1604,7 @@ module aptos_framework::stake {
         let new_total_power = 0;
         let num_cur_actives = vector::length(&cur_validator_set.active_validators);
         let num_cur_pending_actives = vector::length(&cur_validator_set.pending_active);
+
         spec {
             assume num_cur_actives + num_cur_pending_actives <= MAX_U64;
         };
@@ -1640,6 +1645,7 @@ module aptos_framework::stake {
                     let cur_perf = vector::borrow(
                         &validator_perf.validators, candidate.config.validator_index
                     );
+
                     spec {
                         assume cur_perf.successful_proposals
                             + cur_perf.failed_proposals <= MAX_U64;
@@ -1655,6 +1661,7 @@ module aptos_framework::stake {
 
             let lockup_expired =
                 get_reconfig_start_time_secs() >= stake_pool.locked_until_secs;
+
             spec {
                 assume cur_active + cur_pending_active + cur_reward <= MAX_U64;
                 assume cur_active + cur_pending_inactive + cur_pending_active
@@ -1707,6 +1714,7 @@ module aptos_framework::stake {
 
         let num_active = vector::length(&validator_set.active_validators);
         let num_pending_inactive = vector::length(&validator_set.pending_inactive);
+
         spec {
             assume num_active + num_pending_inactive <= MAX_U64;
         };
@@ -1732,6 +1740,7 @@ module aptos_framework::stake {
             );
             idx = idx + 1;
         };
+
         spec {
             assert len(validator_consensus_infos)
                 == len(validator_set.active_validators)
@@ -1747,6 +1756,7 @@ module aptos_framework::stake {
             &validator_set.active_validators,
             |obj| {
                 let vi: &ValidatorInfo = obj;
+
                 spec {
                     assume len(validator_consensus_infos)
                         == len(validator_set.active_validators)
@@ -1759,6 +1769,7 @@ module aptos_framework::stake {
                 *vci = validator_consensus_info::new(
                     vi.addr, vi.config.consensus_pubkey, vi.voting_power
                 );
+
                 spec {
                     assert len(validator_consensus_infos)
                         == len(validator_set.active_validators)
@@ -1771,6 +1782,7 @@ module aptos_framework::stake {
             &validator_set.pending_inactive,
             |obj| {
                 let vi: &ValidatorInfo = obj;
+
                 spec {
                     assume len(validator_consensus_infos)
                         == len(validator_set.active_validators)
@@ -1783,6 +1795,7 @@ module aptos_framework::stake {
                 *vci = validator_consensus_info::new(
                     vi.addr, vi.config.consensus_pubkey, vi.voting_power
                 );
+
                 spec {
                     assert len(validator_consensus_infos)
                         == len(validator_set.active_validators)
@@ -1879,6 +1892,7 @@ module aptos_framework::stake {
                 rewards_rate,
                 rewards_rate_denominator
             );
+
         spec {
             assume rewards_active + rewards_pending_inactive <= MAX_U64;
         };
@@ -2026,6 +2040,7 @@ module aptos_framework::stake {
         let value_pending_active = coin::value(&stake_pool.pending_active);
         let value_active = coin::value(&stake_pool.active);
         let value_pending_inactive = coin::value(&stake_pool.pending_inactive);
+
         spec {
             assume value_pending_active + value_active + value_pending_inactive
                 <= MAX_U64;
@@ -2106,6 +2121,7 @@ module aptos_framework::stake {
     use aptos_framework::reconfiguration_state;
     use aptos_framework::validator_consensus_info;
     use aptos_framework::validator_consensus_info::ValidatorConsensusInfo;
+
     #[test_only]
     use aptos_std::fixed_point64;
 

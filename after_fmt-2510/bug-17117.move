@@ -72,6 +72,7 @@ module 0x42::M {
 
     fun test_input_param_as_mut_ref(r: &mut S) {
         let y = &mut r.x;
+
         spec {
             assert r.x == y;
         };

@@ -4,8 +4,11 @@ module 0x42::M {
     struct MyTable1<phantom K, phantom V> {}
 
     native fun new<K, V>(): MyTable1<K, V>;
+
     native fun destroy_empty<K, V>(t: MyTable1<K, V>);
+
     native fun borrow_mut<K, V>(t: &mut MyTable1<K, V>, k: K): &mut V;
+
     native fun length<K, V>(t: &MyTable1<K, V>): u64;
 
     spec native fun spec_len<K, V>(t: MyTable1<K, V>): num;

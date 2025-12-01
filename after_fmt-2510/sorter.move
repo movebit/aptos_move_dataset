@@ -67,6 +67,7 @@ module 0x42::heap {
 //# run
 script {
     use 0x42::heap::main;
+
     fun mymain() {
         main();
     }

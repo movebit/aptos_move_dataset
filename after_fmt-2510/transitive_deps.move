@@ -10,6 +10,7 @@ module 0x42::X {
 //# publish
 module 0x42::Y {
     use 0x42::X;
+
     public fun foo(): X::T {
         X::new()
     }

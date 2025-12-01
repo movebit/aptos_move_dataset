@@ -1,5 +1,6 @@
 module poc::fv_ref {
     use std::debug;
+
     struct DropCopy has drop, copy;
 
     public fun assn<T: drop>(ref: &mut T, x: T) {

@@ -1,5 +1,4 @@
 // dep: ../../move-stdlib/sources/vector.move
-
 module 0x1::TestMutRef {
     use std::vector;
 
@@ -70,7 +69,6 @@ module 0x1::TestMutRef {
     }
 
     // Different path into one vector
-
     fun return_ref_different_path_vec(b: bool, x: &mut V): &mut u64 {
         if (b) vector::borrow_mut(&mut x.is, 1)
         else vector::borrow_mut(&mut x.is, 0)

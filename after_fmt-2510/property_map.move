@@ -209,7 +209,6 @@ module aptos_token_objects::property_map {
     }
 
     // Accessors
-
     public fun contains_key<T: key>(object: &Object<T>, key: &String): bool acquires PropertyMap {
         assert_exists(object::object_address(object));
         let property_map = &PropertyMap[object::object_address(object)];

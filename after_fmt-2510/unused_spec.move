@@ -6,6 +6,7 @@ module 0xCAFE::Module0 {
 
     public fun test_1() {
         let z;
+
         spec {
             assert z == 3;
         };
@@ -14,6 +15,7 @@ module 0xCAFE::Module0 {
 
     public fun test_2() {
         let z;
+
         spec {
             update y = z;
         };

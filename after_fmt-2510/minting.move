@@ -680,7 +680,6 @@ module post_mint_reveal_nft::minting {
     // ======================================================================
     //   private helper functions //
     // ======================================================================
-
     fun mint_source_certificate_internal(
         nft_claimer: &signer, price: u64, amount: u64
     ) acquires NFTMintConfig, SourceToken, CollectionConfig {

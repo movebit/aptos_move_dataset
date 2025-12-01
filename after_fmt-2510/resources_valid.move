@@ -1,5 +1,4 @@
 module 0x42::objects {
-
     struct ReaderRef<phantom T: key> has store {
         addr: address
     }

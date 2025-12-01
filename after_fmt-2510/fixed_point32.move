@@ -1,6 +1,5 @@
 /// Defines a fixed-point numeric type with a 32-bit integer part and
 /// a 32-bit fractional part.
-
 module std::fixed_point32 {
 
     /// Define a fixed-point numeric type with 32 fractional bits.

@@ -2,6 +2,7 @@
 module 0xA::type_name_tests {
     #[test_only]
     use std::type_name::{get, into_string};
+
     #[test_only]
     use std::ascii::string;
 

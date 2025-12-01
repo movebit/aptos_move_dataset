@@ -1,5 +1,4 @@
 module 0x815::m {
-
     fun while_1(c: u64) {
         while (c > 0) c = c - 1;
     }

@@ -2,6 +2,7 @@
 module 0x42::AddressQuant {
 
     use std::signer;
+
     struct R has key {
         x: u64
     }
@@ -16,6 +17,7 @@ module 0x42::AddressQuant {
             forall a: address,
             b: address where exists<R>(a) && exists<R>(b): a == b
         }
+
         fun atLeastOne(): bool {
             exists a: address: exists<R>(a)
         }

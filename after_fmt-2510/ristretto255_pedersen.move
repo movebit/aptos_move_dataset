@@ -2,7 +2,6 @@
 /// Bulletproofs module.
 ///
 /// A Pedersen commitment to a value `v` under _commitment key_ `(g, h)` is `v * g + r * h`, for a random scalar `r`.
-
 module aptos_std::ristretto255_pedersen {
     use aptos_std::ristretto255::{
         Self,

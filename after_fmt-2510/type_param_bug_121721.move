@@ -48,7 +48,6 @@
 // are comments about invariants where the # parameter is different in the comment
 // and in the generated code.  This makes me worry that the generated code may be
 // wrong (maybe related to this error, or maybe not).
-
 module 0x2::Bug7 {
 
     use std::signer;

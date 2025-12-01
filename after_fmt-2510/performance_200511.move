@@ -1,5 +1,4 @@
 // A test case which reproduces a performance/non-termination problem. See the spec of fun create for details.
-
 module 0x42::Test {
     use std::bcs;
     use std::signer;

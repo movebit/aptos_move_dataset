@@ -28,7 +28,6 @@ module aptos_experimental::market_bulk_order_tests {
     };
 
     const PRE_CANCEL_WINDOW_MICROS: u64 = 1000000; // 1 second
-
     #[test(
         admin = @0x1, market_signer = @0x123, maker = @0x456, taker = @0x789
     )]

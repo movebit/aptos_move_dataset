@@ -1,6 +1,7 @@
 // tests non-abort related execution failures
 // invalid assignment
 module 0x1::n {}
+
 module 0x1::m {
     #[test_only]
     use 0x1::n;

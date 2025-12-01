@@ -1,5 +1,4 @@
 module 0x42::test {
-
     fun no_optimize_vector() {
         use std::vector;
         let x = vector[vector[1, 2]];

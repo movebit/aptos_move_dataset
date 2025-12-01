@@ -114,7 +114,6 @@ module 0x42::TestInvariants {
     // -----------------------
     // Lifetime analysis tests
     // -----------------------
-
     fun lifetime_invalid_R(): R {
         let r = R { x: 3 };
         let r_ref = &mut r;

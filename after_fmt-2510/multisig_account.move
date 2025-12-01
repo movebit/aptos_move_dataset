@@ -336,7 +336,6 @@ module aptos_framework::multisig_account {
     }
 
     ////////////////////////// View functions ///////////////////////////////
-
     #[view]
     /// Return the multisig account's metadata.
     public fun metadata(
@@ -1363,7 +1362,6 @@ module aptos_framework::multisig_account {
     }
 
     ////////////////////////// Private functions ///////////////////////////////
-
     inline fun transaction_execution_cleanup_common(
         executor: address, multisig_account: address
     ): u64 {
@@ -1700,29 +1698,37 @@ module aptos_framework::multisig_account {
     }
 
     ////////////////////////// Tests ///////////////////////////////
-
     #[test_only]
     use aptos_framework::aptos_account::create_account;
+
     #[test_only]
     use aptos_framework::timestamp;
+
     #[test_only]
     use aptos_std::from_bcs;
+
     #[test_only]
     use aptos_std::multi_ed25519;
+
     #[test_only]
     use std::string::utf8;
     use std::features;
+
     #[test_only]
     use aptos_framework::aptos_coin;
+
     #[test_only]
     use aptos_framework::coin::{destroy_mint_cap, destroy_burn_cap};
 
     #[test_only]
     const PAYLOAD: vector<u8> = vector[1, 2, 3];
+
     #[test_only]
     const ERROR_TYPE: vector<u8> = b"MoveAbort";
+
     #[test_only]
     const ABORT_LOCATION: vector<u8> = b"abort_location";
+
     #[test_only]
     const ERROR_CODE: u64 = 10;
 

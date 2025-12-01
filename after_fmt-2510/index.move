@@ -1,5 +1,4 @@
 module 0x42::test {
-
     struct R has key, drop {
         value: bool
     }
@@ -20,8 +19,9 @@ module 0x42::test {
 
     struct X<M> has copy, drop, store {
         value: M
-    } struct Y<T> has key, drop {
+    }
 
+    struct Y<T> has key, drop {
         field: T
     }
 

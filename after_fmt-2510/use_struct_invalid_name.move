@@ -5,6 +5,7 @@ module X {
 
 module M {
     use 0x2::X::u;
+
     struct X {
         f: u
     }

@@ -28,6 +28,7 @@ module 0x42::m {
             };
             i = i + x;
         };
+
         spec {
             assert find ==> f(v[found_index]);
         };

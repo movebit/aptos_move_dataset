@@ -1,6 +1,5 @@
 //# publish
 module 0x42::test {
-
     struct R<T> has key, drop {
         value: T
     }

@@ -1,6 +1,5 @@
 //# run
 script {
-
     fun main() {
         assert!(b"" == x"", 0);
         assert!(b"Diem" == x"4469656D", 1);

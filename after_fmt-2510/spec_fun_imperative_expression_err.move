@@ -13,6 +13,7 @@ module 0x42::M {
 
     fun m() {
         let _z = 2;
+
         spec {
             assert _z == sequential();
         };

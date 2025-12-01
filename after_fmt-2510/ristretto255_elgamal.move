@@ -7,7 +7,6 @@
 /// Note that we place the value `v` "in the exponent" of `G` so that ciphertexts are additively homomorphic: i.e., so
 /// that `Enc_Y(v, r) + Enc_Y(v', r') = Enc_Y(v + v', r + r')` where `v, v'` are plaintext messages, `Y` is a public key and `r, r'`
 /// are the randomness of the ciphertexts.
-
 module aptos_std::ristretto255_elgamal {
     use aptos_std::ristretto255::{
         Self,
@@ -213,7 +212,6 @@ module aptos_std::ristretto255_elgamal {
     //
     // Test-only functions
     //
-
     #[test_only]
     /// Given an ElGamal secret key `sk`, returns the corresponding ElGamal public key as `sk * G`.
     public fun pubkey_from_secret_key(sk: &Scalar): CompressedPubkey {

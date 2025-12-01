@@ -16,6 +16,7 @@ module M {
         fun S(): bool {
             false
         }
+
         fun R(): bool {
             false
         }

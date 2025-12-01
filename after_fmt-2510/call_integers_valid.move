@@ -28,6 +28,7 @@ module 0x42::m {
 //# publish
 module 0x42::m_test {
     use 0x42::m;
+
     public fun test8() {
         m::plus8(1u8);
     }

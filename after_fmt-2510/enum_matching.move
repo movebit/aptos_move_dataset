@@ -123,7 +123,6 @@ module 0x42::m {
 
     // -------------------
     // Test entry points
-
     fun t1_is_inner1(): bool {
         is_inner1(&Inner::Inner1 { x: 2 })
     }

@@ -1,5 +1,4 @@
 module 0x42::operator_drop {
-
     fun equality<T>(x: T, y: T): bool {
         x == y
     }

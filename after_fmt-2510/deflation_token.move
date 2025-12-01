@@ -52,6 +52,7 @@ module 0xcafe::deflation_token {
 
     #[test_only]
     use aptos_framework::object;
+
     #[test_only]
     use aptos_framework::fungible_asset::{Metadata, TestToken};
 

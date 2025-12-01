@@ -1,5 +1,4 @@
 module 0x42::TestAbortInFunction {
-
     fun aborts_with (x: u64, y: u64): u64 {
         if (x == 1) { abort 2 }
         else if (y == 2) { abort 3 }

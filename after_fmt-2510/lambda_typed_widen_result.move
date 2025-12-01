@@ -26,7 +26,6 @@ module 0x8675309::M {
     }
 
     // 1
-
     public fun consume_mut_mut() {
         let v = vector[1, 2, 3];
         let r = pass_mut_ref(&mut v, |x: &mut u64| x);
@@ -48,7 +47,6 @@ module 0x8675309::M {
     }
 
     // 2
-
     public fun consume_mut2_mut() {
         let v = vector[1, 2, 3];
         let r = pass_mut2_ref(&mut v, |x: &mut u64| x);
@@ -70,7 +68,6 @@ module 0x8675309::M {
     }
 
     // 3
-
     public fun consume_mut3_mut() {
         let v = vector[1, 2, 3];
         let r = pass_mut3_ref(&mut v, |x: &mut u64| x);
@@ -92,7 +89,6 @@ module 0x8675309::M {
     }
 
     // 4
-
     public fun consume_mut4_mut() {
         let v = vector[1, 2, 3];
         let r = pass_mut4_ref(&mut v, |x: &mut u64| x);
@@ -114,7 +110,6 @@ module 0x8675309::M {
     }
 
     // imm
-
     public fun consume_imm_mut() {
         let v = vector[1, 2, 3];
         let r = pass_imm_ref(&mut v, |x: &mut u64| x);

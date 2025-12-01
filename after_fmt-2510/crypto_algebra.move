@@ -271,7 +271,6 @@ module aptos_std::crypto_algebra {
     // (Public functions end here.)
     // Private functions begin.
     //
-
     fun abort_unless_cryptography_algebra_natives_enabled() {
         if (features::cryptography_algebra_enabled()) return;
         abort(std::error::not_implemented(0))
@@ -307,43 +306,63 @@ module aptos_std::crypto_algebra {
     // (Private functions end here.)
     // Native functions begin.
     //
-
     native fun add_internal<S>(handle_1: u64, handle_2: u64): u64;
+
     native fun deserialize_internal<S, F>(bytes: &vector<u8>): (bool, u64);
+
     native fun div_internal<F>(handle_1: u64, handle_2: u64): (bool, u64);
+
     native fun double_internal<G>(element_handle: u64): u64;
+
     native fun downcast_internal<L, S>(handle: u64): (bool, u64);
+
     native fun from_u64_internal<S>(value: u64): u64;
+
     native fun eq_internal<S>(handle_1: u64, handle_2: u64): bool;
+
     native fun hash_to_internal<S, H>(dst: &vector<u8>, bytes: &vector<u8>): u64;
+
     native fun inv_internal<F>(handle: u64): (bool, u64);
+
     #[test_only]
     native fun rand_insecure_internal<S>(): u64;
+
     native fun mul_internal<F>(handle_1: u64, handle_2: u64): u64;
+
     native fun multi_pairing_internal<G1, G2, Gt>(
         g1_handles: vector<u64>, g2_handles: vector<u64>
     ): u64;
+
     native fun multi_scalar_mul_internal<G, S>(
         element_handles: vector<u64>, scalar_handles: vector<u64>
     ): u64;
+
     native fun neg_internal<F>(handle: u64): u64;
+
     native fun one_internal<S>(): u64;
+
     native fun order_internal<G>(): vector<u8>;
+
     native fun pairing_internal<G1, G2, Gt>(g1_handle: u64, g2_handle: u64): u64;
+
     native fun scalar_mul_internal<G, S>(
         element_handle: u64, scalar_handle: u64
     ): u64;
+
     native fun serialize_internal<S, F>(handle: u64): vector<u8>;
+
     native fun sqr_internal<G>(handle: u64): u64;
+
     native fun sub_internal<G>(handle_1: u64, handle_2: u64): u64;
+
     native fun upcast_internal<S, L>(handle: u64): u64;
+
     native fun zero_internal<S>(): u64;
 
     //
     // (Native functions end here.)
     // Tests begin.
     //
-
     #[test_only]
     struct MysteriousGroup {}
 

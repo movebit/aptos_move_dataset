@@ -1,5 +1,4 @@
 module 0x42::valid_struct {
-
     struct S1 has copy, drop {
         x: u64,
         y: i64,

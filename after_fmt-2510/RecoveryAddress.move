@@ -128,6 +128,7 @@ module DiemFramework::RecoveryAddress {
             };
             i = i + 1
         };
+
         spec {
             assert i == len;
             assert forall j in 0..len: caps[j].account_address != to_recover;

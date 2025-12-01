@@ -53,7 +53,6 @@ module marketplace::events {
     }
 
     // CollectionMetadata and helpers
-
     struct CollectionMetadata has drop, store {
         creator_address: address,
         collection_name: String,
@@ -81,7 +80,6 @@ module marketplace::events {
     }
 
     // Listing events
-
     #[event]
     /// An event triggered upon each bid.
     struct AuctionBid has drop, store {
@@ -222,7 +220,6 @@ module marketplace::events {
     }
 
     // Collection offer events
-
     #[event]
     struct CollectionOfferPlaced has drop, store {
         marketplace: address,

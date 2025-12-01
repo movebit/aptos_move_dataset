@@ -1,6 +1,5 @@
 address 0x42 {
 module M {
-
     struct Cup<T> has drop {
         f: T
     }

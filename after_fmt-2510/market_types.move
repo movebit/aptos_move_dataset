@@ -20,6 +20,7 @@ module aptos_experimental::market_types {
     use aptos_experimental::order_book_types::AscendingIdGenerator;
 
     use aptos_experimental::order_book_types::{new_ascending_id_generator};
+
     #[test_only]
     use aptos_experimental::pre_cancellation_tracker::destroy_tracker;
 

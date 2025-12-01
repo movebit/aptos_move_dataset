@@ -1,8 +1,6 @@
 // Do not include stdlib for this test:
 // no-stdlib
-
 module 0x1::vector { // must be this module
-
     fun receiver<T>(self: vector<T>, _y: T) {}
 
     fun receiver_ref<T>(self: &vector<T>, _y: T) {}

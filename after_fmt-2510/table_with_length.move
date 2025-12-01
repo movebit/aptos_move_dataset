@@ -1,5 +1,4 @@
 /// Extends Table and provides functions such as length and the ability to be destroyed
-
 module aptos_std::table_with_length {
     use std::error;
     use aptos_std::table::{Self, Table};

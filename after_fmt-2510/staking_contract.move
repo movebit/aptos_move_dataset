@@ -1163,6 +1163,7 @@ module aptos_framework::staking_contract {
 
     #[test_only]
     const VALIDATOR_STATUS_ACTIVE: u64 = 2;
+
     #[test_only]
     const VALIDATOR_STATUS_INACTIVE: u64 = 4;
 
@@ -1171,10 +1172,8 @@ module aptos_framework::staking_contract {
 
     #[test_only]
     const INITIAL_BALANCE: u64 = 100000000000000; // 1M APT coins with 8 decimals.
-
     #[test_only]
     const MAXIMUM_STAKE: u64 = 100000000000000000; // 1B APT coins with 8 decimals.
-
     #[test_only]
     public fun setup(
         aptos_framework: &signer,

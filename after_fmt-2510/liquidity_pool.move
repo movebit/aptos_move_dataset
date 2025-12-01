@@ -192,7 +192,6 @@ module publisher_address::liquidity_pool {
     //     let token_2_addr = object::object_address(&token_2);
     //     comparator::is_smaller_than(&comparator::compare(&token_1_addr, &token_2_addr))
     // }
-
     #[view]
     public fun is_stable(pool: Object<LiquidityPool>): bool acquires LiquidityPool {
         liquidity_pool_data(&pool).is_stable
@@ -275,7 +274,6 @@ module publisher_address::liquidity_pool {
     }
 
     /////////////////////////////////////////////////// USERS /////////////////////////////////////////////////////////
-
     #[view]
     /// Return the amount of tokens received for a swap with the given amount in and the liquidity pool.
     public fun get_amount_out(
@@ -528,7 +526,6 @@ module publisher_address::liquidity_pool {
     }
 
     /////////////////////////////////////////////////// OPERATIONS /////////////////////////////////////////////////////
-
     inline fun create_lp_token(
         publisher: &signer,
         token_1: Object<Metadata>,

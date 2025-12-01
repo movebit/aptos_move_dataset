@@ -34,7 +34,6 @@ module 0x1::aggregator_test {
     //
     // Testing scripts.
     //
-
     public entry fun new(account: &signer, i: u64, limit: u128) acquires AggregatorStore {
         let addr = signer::address_of(account);
         let aggregators = &mut borrow_global_mut<AggregatorStore>(addr).aggregators;

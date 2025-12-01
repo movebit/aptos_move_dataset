@@ -1,5 +1,4 @@
 /// This module implements ECDSA signatures based on the prime-order secp256k1 ellptic curve (i.e., cofactor is 1).
-
 module aptos_std::secp256k1 {
     use std::option::Option;
 
@@ -106,7 +105,6 @@ module aptos_std::secp256k1 {
     //
     // Tests
     //
-
     #[test]
     #[expected_failure(abort_code = 65538, location = Self)]
     /// Tests that bad recovery IDs get rejected

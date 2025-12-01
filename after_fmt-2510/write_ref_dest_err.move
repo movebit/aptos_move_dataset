@@ -1,5 +1,4 @@
 module 0x42::m {
-
     struct S has key, drop {}
 
     fun g(s: &S): &S {

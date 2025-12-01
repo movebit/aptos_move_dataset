@@ -1,5 +1,6 @@
 module 0x99::m {
     use std::option;
+
     struct Store<T: store + drop + copy> has copy, drop, store {
         o: T
     }

@@ -8,12 +8,14 @@ module 0x42::Test {
 
     public fun test_apply(x: u64) {
         let r1 = apply(x, |v| v >= 0);
+
         spec {
             assert r1;
         };
         assert!(r1, 1);
 
         let r2 = apply(x, |v| v != 0);
+
         spec {
             assert r2;
         };

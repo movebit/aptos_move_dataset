@@ -1,5 +1,4 @@
 module 0x8675309::M1 {
-
     struct R<phantom T> has key, store, copy, drop {
         x: u64
     }

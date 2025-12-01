@@ -413,7 +413,6 @@
 //     aptos_framework.object.exists_at.per_item_loaded                        : 1470
 //     aptos_framework.string_utils.format.base                                : 1102
 //     aptos_framework.string_utils.format.per_byte                            : 3
-
 script {
     use aptos_framework::aptos_governance;
     use aptos_framework::gas_schedule;

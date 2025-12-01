@@ -1,5 +1,6 @@
 module 0x99::m {
     use std::option;
+
     struct OptionStore has copy, drop, store {
         o: option::Option<u64>
     }

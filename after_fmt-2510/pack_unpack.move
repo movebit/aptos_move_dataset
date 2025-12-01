@@ -1,5 +1,4 @@
 module 0x42::pack_unpack {
-
     struct S {
         f: u64,
         g: T

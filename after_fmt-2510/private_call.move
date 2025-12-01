@@ -1,5 +1,4 @@
 module 0x42::m {
-
     public inline fun foo(): u64 {
         bar()
     }

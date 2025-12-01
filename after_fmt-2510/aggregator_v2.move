@@ -231,7 +231,6 @@ module aptos_framework::aggregator_v2 {
     ): DerivedStringSnapshot;
 
     // ===== DEPRECATE/NOT YET IMPLEMENTED ====
-
     #[deprecated]
     /// NOT YET IMPLEMENTED, always raises EAGGREGATOR_FUNCTION_NOT_YET_SUPPORTED.
     public native fun copy_snapshot<IntElement: copy + drop>(
@@ -247,34 +246,40 @@ module aptos_framework::aggregator_v2 {
     #[verify_only]
     fun verify_aggregator_try_add_sub(): Aggregator<u64> {
         let agg = create_aggregator(10);
+
         spec {
             assert spec_get_max_value(agg) == 10;
             assert spec_get_value(agg) == 0;
         };
         let x = try_add(&mut agg, 5);
+
         spec {
             assert x;
             assert is_at_least(agg, 5);
         };
         let y = try_sub(&mut agg, 6);
+
         spec {
             assert!y;
             assert spec_get_value(agg) == 5;
             assert spec_get_max_value(agg) == 10;
         };
         let y = try_sub(&mut agg, 4);
+
         spec {
             assert y;
             assert spec_get_value(agg) == 1;
             assert spec_get_max_value(agg) == 10;
         };
         let x = try_add(&mut agg, 11);
+
         spec {
             assert!x;
             assert spec_get_value(agg) == 1;
             assert spec_get_max_value(agg) == 10;
         };
         let x = try_add(&mut agg, 9);
+
         spec {
             assert x;
             assert spec_get_value(agg) == 10;
@@ -293,10 +298,12 @@ module aptos_framework::aggregator_v2 {
     fun verify_aggregator_add_sub(sub_value: u64, add_value: u64) {
         let agg = create_aggregator(10);
         add(&mut agg, add_value);
+
         spec {
             assert spec_get_value(agg) == add_value;
         };
         sub(&mut agg, sub_value);
+
         spec {
             assert spec_get_value(agg) == add_value - sub_value;
         };
@@ -311,10 +318,12 @@ module aptos_framework::aggregator_v2 {
     #[verify_only]
     fun verify_correct_read() {
         let snapshot = create_snapshot(42);
+
         spec {
             assert spec_read_snapshot(snapshot) == 42;
         };
         let derived = create_derived_string(std::string::utf8(b"42"));
+
         spec {
             assert spec_read_derived_string(derived).bytes == b"42";
         };
@@ -357,6 +366,7 @@ module aptos_framework::aggregator_v2 {
                 &snapshot,
                 std::string::utf8(b"after")
             );
+
         spec {
             assert spec_read_derived_string(derived).bytes
                 == concat(b"before", concat(spec_get_string_value(snapshot).bytes, b"after"));
@@ -450,10 +460,12 @@ module aptos_framework::aggregator_v2 {
     #[verify_only]
     fun verify_aggregator_valid_type() {
         let _agg_1 = create_unbounded_aggregator<u64>();
+
         spec {
             assert spec_get_max_value(_agg_1) == MAX_U64;
         };
         let _agg_2 = create_unbounded_aggregator<u128>();
+
         spec {
             assert spec_get_max_value(_agg_2) == MAX_U128;
         };

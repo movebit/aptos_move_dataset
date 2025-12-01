@@ -18,7 +18,6 @@ module Z {
 }
 
 module M {
-
     struct A {
         f1: XS,
         f2: S,

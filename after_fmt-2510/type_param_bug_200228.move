@@ -1,5 +1,4 @@
 module 0x42::Test {
-
     struct Balance<phantom Token> has key {}
 
     struct EventHandle<phantom Token> has key {}

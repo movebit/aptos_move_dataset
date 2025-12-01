@@ -1,6 +1,8 @@
 address 0x42 {
 module A {}
+
 module B {}
+
 module C {}
 
 module M {

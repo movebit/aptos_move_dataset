@@ -242,7 +242,6 @@ module DiemFramework::AccountFreezing {
 
     /// # Helper Functions
     spec module {
-
         fun spec_account_is_frozen(addr: address): bool {
             exists<FreezingBit>(addr) && global<FreezingBit>(addr).is_frozen
         }

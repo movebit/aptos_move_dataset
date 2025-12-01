@@ -11,6 +11,7 @@ module A {
 
 module B {
     use 0x2::C;
+
     public fun b() {
         C::c()
     }

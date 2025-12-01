@@ -8,6 +8,7 @@ module 0x1::A {
     use 0x2::m as x;
 
     const C0: u64 = 0;
+
     #[test_only]
     const C1: u64 = 0;
 

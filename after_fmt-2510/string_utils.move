@@ -100,6 +100,7 @@ module aptos_std::string_utils {
         single_line: bool,
         include_int_types: bool
     ): String;
+
     native fun native_format_list<T>(fmt: &vector<u8>, val: &T): String;
 
     #[test]

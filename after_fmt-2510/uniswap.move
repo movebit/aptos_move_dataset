@@ -57,6 +57,7 @@ module defi::uniswap {
         assert!(coin1_in > 0, 1);
         let fee = coin1_in * 3 / 1000; // 0.3%
         let pool = borrow_global_mut<Pool>(PoolAddr);
+
         spec {
             assume pool.coin1 > 0;
             assume pool.coin2 > 0;
@@ -82,6 +83,7 @@ module defi::uniswap {
     public fun add_liquidity(coin1_in: u64, coin2_in: u64): u64 // returns liquidity share
     acquires Pool {
         let pool = borrow_global_mut<Pool>(PoolAddr);
+
         spec {
             assume pool.coin1 > 0;
             assume pool.coin2 > 0;

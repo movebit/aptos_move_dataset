@@ -43,7 +43,6 @@ module marketplace::listing {
     const ENOT_OWNER: u64 = 4;
 
     // Core data structures
-
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
     /// Corner-stone for all listings, represents the core utility layer including object
     /// cleanup.
@@ -75,7 +74,6 @@ module marketplace::listing {
     }
 
     // Init functions
-
     public(friend) fun init(
         creator: &signer,
         object: Object<ObjectCore>,
@@ -219,7 +217,6 @@ module marketplace::listing {
     }
 
     // View
-
     #[view]
     public fun seller(object: Object<Listing>): address acquires Listing {
         let listing = borrow_listing(object);

@@ -421,7 +421,6 @@ module aptos_framework::permissioned_signer {
     ///
     /// Authorizes `permissioned` with the given permission. This requires to have access to the `master`
     /// signer.
-
     inline fun map_or<PermKey: copy + drop + store, T>(
         permissioned: &signer,
         perm: PermKey,

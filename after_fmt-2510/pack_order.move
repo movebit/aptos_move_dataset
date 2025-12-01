@@ -1,5 +1,4 @@
 module 0x42::pack_unpack {
-
     struct S {
         f1: u8,
         f2: u8,

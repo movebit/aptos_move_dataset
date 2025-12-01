@@ -102,6 +102,7 @@ module mint_nft::create_nft_getting_production_ready {
     use aptos_std::ed25519;
     use aptos_token::token::{Self, TokenDataId};
     use aptos_framework::resource_account;
+
     #[test_only]
     use aptos_framework::account::create_account_for_test;
     use aptos_std::ed25519::ValidatedPublicKey;
@@ -332,7 +333,6 @@ module mint_nft::create_nft_getting_production_ready {
     //
     // Tests
     //
-
     #[test_only]
     public fun set_up_test(
         origin_account: signer,

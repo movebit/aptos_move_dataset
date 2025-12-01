@@ -1511,7 +1511,6 @@ module aptos_framework::fungible_asset {
 
     #[test_only]
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
-
     struct TestToken has key {}
 
     #[test_only]

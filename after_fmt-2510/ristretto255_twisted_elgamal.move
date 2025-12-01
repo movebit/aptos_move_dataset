@@ -206,7 +206,6 @@ module aptos_experimental::ristretto255_twisted_elgamal {
     //
     // Test-only functions
     //
-
     #[test_only]
     /// Derives a public key from a given secret key using the formula `Y = sk^(-1) * H`.
     /// Returns `Some(CompressedPubkey)` if the secret key inversion succeeds, otherwise `None`.

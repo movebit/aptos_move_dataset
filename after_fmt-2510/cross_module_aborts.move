@@ -10,7 +10,6 @@ module M {
 }
 
 module B {
-
     #[test_only]
     use 0x1::M;
 

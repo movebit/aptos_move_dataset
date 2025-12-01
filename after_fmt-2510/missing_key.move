@@ -1,5 +1,4 @@
 module 0x42::ability {
-
     inline fun move_from_no_key<T>(addr: address) {
         move_from<T>(addr);
     }

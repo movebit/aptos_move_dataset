@@ -29,6 +29,7 @@ module M {
 
 module N {
     use 0x42::M;
+
     public fun t<T>() {
         M::t0<M::Box<T>>()
     }

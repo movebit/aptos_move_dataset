@@ -14,10 +14,13 @@ module DiemFramework::Roles {
 
     #[test_only]
     friend DiemFramework::RolesTests;
+
     #[test_only]
     friend DiemFramework::ValidatorOperatorConfigTests;
+
     #[test_only]
     friend DiemFramework::ValidatorConfigTests;
+
     #[test_only]
     friend DiemFramework::AccountLimitsTests;
 

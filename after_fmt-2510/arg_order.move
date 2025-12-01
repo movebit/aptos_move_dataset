@@ -9,6 +9,7 @@ module 0x42::test {
 //# run
 script {
     use 0x42::test::two_args;
+
     fun mymain() {
         assert!(two_args(42, true) == 42, 1);
     }

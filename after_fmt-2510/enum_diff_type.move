@@ -59,6 +59,7 @@ module 0x815::m {
                 x: vector[2],
                 y: vector[_common_fields]
             };
+
         spec {
             assert _common_vector_2.y[0] == CommonFields::Bar { x: 30, y: 40, z: 50 };
         };
@@ -67,6 +68,7 @@ module 0x815::m {
                 x: vector[2],
                 y: vector[_common_fields]
             };
+
         spec {
             assert _common_vector_2 == _common_vector_3;
         };

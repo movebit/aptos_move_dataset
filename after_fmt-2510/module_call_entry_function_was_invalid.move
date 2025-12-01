@@ -4,6 +4,7 @@ address 0x2 {
 // These have been removed
 module X {
     friend 0x2::M;
+
     fun f_private() {}
 
     public entry fun f_script() {}

@@ -1,7 +1,6 @@
 /// The `DiemAccount` module manages accounts. It defines the `DiemAccount` resource and
 /// numerous auxiliary data structures. It also defines the prolog and epilog that run
 /// before and after every transaction.
-
 module DiemFramework::DiemAccount {
     use DiemFramework::AccountFreezing;
     use DiemFramework::CoreAddresses;
@@ -1564,6 +1563,7 @@ module DiemFramework::DiemAccount {
         VASPDomain::publish_vasp_domains(&new_account);
         make_account(&new_account, auth_key_prefix);
         add_currencies_for_account<Token>(&new_account, add_all_currencies);
+
         spec {
             assert exists<VASPDomain::VASPDomains>(signer::address_of(new_account));
             assert Roles::spec_has_treasury_compliance_role_addr(

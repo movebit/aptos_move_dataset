@@ -1,5 +1,4 @@
 module 0xcafe::m {
-
     struct R<phantom T> has key, copy, drop {}
 
     fun reads_any_R(addr: address) reads R {

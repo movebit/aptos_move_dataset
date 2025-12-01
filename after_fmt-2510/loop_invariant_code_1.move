@@ -1,6 +1,5 @@
 //# publish
 module 0xc0ffee::m {
-
     public fun test(p: u64): u64 {
         let a = p;
         let count = 0;

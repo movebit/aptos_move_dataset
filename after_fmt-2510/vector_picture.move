@@ -1,6 +1,5 @@
 // Copyright Aptos Foundation
 // SPDX-License-Identifier: Apache-2.0
-
 module 0xABCD::vector_picture {
     use std::error;
     use std::signer;

@@ -1,5 +1,4 @@
 module 0x42::m {
-
     struct S has key {}
 
     struct R has key {}

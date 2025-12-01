@@ -8,6 +8,7 @@ module 0x42::callee {
 //# publish
 module 0x42::caller {
     use 0x42::callee;
+
     struct R has key, copy, drop {
         count: u64
     }

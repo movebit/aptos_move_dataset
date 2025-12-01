@@ -1,5 +1,4 @@
 module 0xc0ffee::m {
-
     struct S {}
 
     struct G has drop {}

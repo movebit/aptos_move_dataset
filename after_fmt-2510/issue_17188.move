@@ -65,6 +65,7 @@ module 0xc0ffee::m {
     }
 
     native fun foo();
+
     #[test]
     public fun non_existent_native() {
         let x: u8 = 0;

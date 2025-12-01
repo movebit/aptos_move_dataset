@@ -1,7 +1,6 @@
 module 0x42::test {
 
     // Immut refs
-
     fun exec_ref(f: |&u64| u64, x: u64): u64 {
         f(&x)
     }

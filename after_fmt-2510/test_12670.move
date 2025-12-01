@@ -1,5 +1,6 @@
 module 0x1::Test {
     use std::vector::for_each_ref;
+
     struct S has drop {
         x: u8
     }

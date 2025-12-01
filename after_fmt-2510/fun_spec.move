@@ -1,6 +1,5 @@
 // Contains tests for treatment of function specifications.
 module 0x42::Test {
-
     fun implicit_and_explicit_abort(a: u64, b: u64): u64 {
         if (b != 0) abort(22);
         a / b

@@ -7,6 +7,7 @@ module X {
 
 module M {
     use 0x2::X::Foo;
+
     fun t(): Foo<u64> {
         abort 0
     }

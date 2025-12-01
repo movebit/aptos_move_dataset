@@ -9,8 +9,10 @@ module aptos_framework::jwk_consensus_config {
     use aptos_std::simple_map;
     use aptos_framework::config_buffer;
     use aptos_framework::system_addresses;
+
     #[test_only]
     use std::string;
+
     #[test_only]
     use std::string::utf8;
 

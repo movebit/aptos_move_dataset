@@ -5,6 +5,7 @@ module X {
 
 module Y {
     friend 0x2::M;
+
     public(friend) fun f_friend() {}
 }
 

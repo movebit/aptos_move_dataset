@@ -1,6 +1,5 @@
 //# publish
 module 0x42::m {
-
     struct Foo has key {
         f1: bool,
         f2: address,

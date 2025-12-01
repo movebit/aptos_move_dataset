@@ -1,10 +1,13 @@
 module raffle::raffle_test {
     #[test_only]
     use aptos_framework::account;
+
     #[test_only]
     use aptos_framework::aptos_coin::{Self, AptosCoin};
+
     #[test_only]
     use aptos_framework::coin;
+
     #[test_only]
     use aptos_framework::coin::MintCapability;
 
@@ -13,8 +16,10 @@ module raffle::raffle_test {
 
     #[test_only]
     use std::signer;
+
     #[test_only]
     use std::string;
+
     #[test_only]
     use std::vector;
 
@@ -23,6 +28,7 @@ module raffle::raffle_test {
 
     #[test_only]
     use aptos_std::crypto_algebra::enable_cryptography_algebra_natives;
+
     #[test_only]
     use aptos_framework::randomness;
 

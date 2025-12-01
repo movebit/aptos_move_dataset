@@ -1,5 +1,4 @@
 module 0x42::M {
-
     struct S has drop {
         x: u64,
         y: bool,
@@ -24,7 +23,6 @@ module 0x42::M {
     }
 
     spec module {
-
         fun struct_access(s: S): u64 {
             s.x
         }

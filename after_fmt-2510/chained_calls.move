@@ -1,5 +1,4 @@
 module 0x66::test {
-
     fun add_some(x: u64): |u64| u64 {
         |y| x + y
     }

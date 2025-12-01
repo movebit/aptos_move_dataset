@@ -1,6 +1,7 @@
 script {
     use aptos_framework::jwks;
     use std::string::utf8;
+
     fun main(account: &signer) {
         {
             let iss = b"test.oidc.provider";

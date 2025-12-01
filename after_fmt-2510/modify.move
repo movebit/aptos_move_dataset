@@ -1,5 +1,4 @@
 module 0xcafe::m {
-
     struct S {
         x: u64
     }

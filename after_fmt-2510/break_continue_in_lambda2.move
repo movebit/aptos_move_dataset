@@ -1,5 +1,4 @@
 module 0xc0ffee::m {
-
     inline fun brk2(f: ||) {
         f();
     }

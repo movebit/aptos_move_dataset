@@ -626,7 +626,6 @@ module aptos_experimental::sigma_protos {
     //
     // Test-only serialization & proving functions
     //
-
     #[test_only]
     /// Proves the $\Sigma$-protocol used for veiled-to-unveiled coin transfers.
     /// See top-level comments for a detailed description of the $\Sigma$-protocol
@@ -875,7 +874,6 @@ module aptos_experimental::sigma_protos {
     //
     // Sigma proof verification tests
     //
-
     #[test_only]
     fun verify_transfer_subproof_test(maul_proof: bool) {
         // Pick a keypair for the sender, and one for the recipient
@@ -1015,7 +1013,6 @@ module aptos_experimental::sigma_protos {
     //
     // Sigma proof deserialization tests
     //
-
     #[test]
     fun serialize_transfer_subproof_test() {
         let (sender_sk, sender_pk) = generate_elgamal_keypair();

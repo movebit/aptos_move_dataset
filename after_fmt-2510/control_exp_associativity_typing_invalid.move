@@ -1,7 +1,6 @@
 // tests that control structures are right associative when not immediately followed by a block
 
 // these cases do not type check
-
 module 0x42::M {
     fun foo() {}
 

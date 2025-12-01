@@ -1,6 +1,5 @@
 //# publish
 module 0x42::test {
-
     fun if_then(c: bool, t: u64, f: u64): u64 {
         if (c) t else f
     }

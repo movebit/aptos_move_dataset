@@ -2,7 +2,6 @@
 // dep: ../../move-stdlib/sources/vector.move
 
 // Regression test for a bug in handling generic mutual borrow, as well as parameter types of native functions.
-
 address 0x1 {
 module Diem {
     use std::signer;

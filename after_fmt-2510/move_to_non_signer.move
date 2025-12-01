@@ -8,7 +8,6 @@ module 0x8675309::M {
     }
 }
 // check: MOVETO_TYPE_MISMATCH_ERROR
-
 module 0x8675309::N {
     struct R<T> has key {
         f: T

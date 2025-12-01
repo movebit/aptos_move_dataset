@@ -1,5 +1,4 @@
 module 0x1::m {
-
     struct R has key, drop {
         value: bool
     }

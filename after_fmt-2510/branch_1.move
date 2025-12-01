@@ -1,5 +1,4 @@
 module 0xc0ffee::m {
-
     fun foo(b: bool, p: u64): u64 {
         let a = p;
         if (b) {

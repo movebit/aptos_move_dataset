@@ -153,7 +153,6 @@ module aptos_framework::transaction_fee {
     }
 
     // DEPRECATED section:
-
     #[deprecated]
     /// DEPRECATED: Stores information about the block proposer and the amount of fees
     /// collected when executing the block.

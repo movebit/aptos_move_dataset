@@ -1,5 +1,6 @@
 module 0x8675309::A {
     use std::signer;
+
     struct T1 has key {
         v: u64
     }

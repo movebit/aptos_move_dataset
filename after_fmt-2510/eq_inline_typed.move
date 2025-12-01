@@ -1,5 +1,4 @@
 module 0x42::m {
-
     inline fun foo(f: |&u64|) {}
 
     fun g() {

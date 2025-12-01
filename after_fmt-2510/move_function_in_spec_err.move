@@ -21,6 +21,7 @@ module 0x42::move_function_in_spec_err {
     fun foo<T>() {
         let type_info = type_of<T>();
         let account_address = type_info.account_address;
+
         spec {
             assert change(account_address, account_address);
             assert no_change(account_address, account_address);

@@ -1,6 +1,5 @@
 address 0x42 {
 module M {
-
     struct S<T> has drop, copy {
         f: T
     }

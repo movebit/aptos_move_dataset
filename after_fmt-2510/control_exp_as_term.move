@@ -1,5 +1,4 @@
 module 0x42::M {
-
     fun foo(_: &u64) {}
 
     fun t(cond: bool) {

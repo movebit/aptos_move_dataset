@@ -3,6 +3,7 @@ module aptos_std::multi_key_tests {
     use aptos_std::single_key;
     use aptos_std::multi_key;
     use std::bcs;
+
     #[test]
     fun test_construct_multi_key() {
         let pk1 =

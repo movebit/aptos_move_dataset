@@ -361,10 +361,13 @@ module defi::locked_coins {
 
     #[test_only]
     use aptos_framework::account;
+
     #[test_only]
     use aptos_framework::coin::BurnCapability;
+
     #[test_only]
     use aptos_framework::aptos_coin::{Self, AptosCoin};
+
     #[test_only]
     use aptos_framework::aptos_account;
 

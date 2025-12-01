@@ -52,7 +52,6 @@ module aptos_framework::aptos_account {
     ///////////////////////////////////////////////////////////////////////////
     /// Basic account creation methods.
     ///////////////////////////////////////////////////////////////////////////
-
     public entry fun create_account(auth_key: address) {
         let account_signer = account::create_account(auth_key);
         register_apt(&account_signer);
@@ -130,6 +129,7 @@ module aptos_framework::aptos_account {
     ) acquires DirectTransferConfig {
         if (!account::exists_at(to)) {
             create_account(to);
+
             spec {
                 // TODO(fa_migration)
                 // assert coin::spec_is_account_registered<AptosCoin>(to);
@@ -337,11 +337,12 @@ module aptos_framework::aptos_account {
     }
 
     // tests
-
     #[test_only]
     use aptos_std::from_bcs;
+
     #[test_only]
     use std::string::utf8;
+
     #[test_only]
     use aptos_framework::account::create_account_for_test;
 

@@ -21,6 +21,7 @@ module 0x42::TestGlobalVars {
     public fun init(s: &signer) {
         let t = T { i: 0 };
         move_to<T>(s, t);
+
         spec {
             update sum_table = table::spec_new();
             update sum_table = table::spec_set(sum_table, signer::address_of(s), 0);
@@ -35,6 +36,7 @@ module 0x42::TestGlobalVars {
         let b = c + 2;
         let bor = borrow_global_mut<T>(signer::address_of(s));
         bor.i = bor.i + b;
+
         spec {
             update sum_table = table::spec_set(
                 sum_table,
@@ -52,6 +54,7 @@ module 0x42::TestGlobalVars {
     fun sub(s: &signer) acquires T {
         let bor = borrow_global_mut<T>(signer::address_of(s));
         bor.i = bor.i - 1;
+
         spec {
             update sum_table = table::spec_set(
                 sum_table,

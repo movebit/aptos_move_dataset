@@ -10,7 +10,6 @@ module 0x8675309::M {
 // check: POSITIVE_STACK_SIZE_AT_BLOCK_END
 
 //! new-transaction
-
 module 0x8675309::N {
     struct R<T> has key {
         f: T

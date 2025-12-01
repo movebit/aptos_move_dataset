@@ -1,5 +1,6 @@
 module 0x42::create_signer {
     friend 0x42::object;
+
     public(friend) native fun create_signer(addr: address): signer;
 }
 

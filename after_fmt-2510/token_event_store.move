@@ -242,8 +242,7 @@ module aptos_token::token_event_store {
     }
 
     /// Emit the collection uri mutation event
-    friend
-    fun emit_collection_uri_mutate_event(
+    friend fun emit_collection_uri_mutate_event(
         creator: &signer, collection: String, old_uri: String, new_uri: String
     ) acquires TokenEventStoreV1 {
         let event = CollectionUriMutateEvent {
@@ -271,8 +270,7 @@ module aptos_token::token_event_store {
     }
 
     /// Emit the collection description mutation event
-    friend
-    fun emit_collection_description_mutate_event(
+    friend fun emit_collection_description_mutate_event(
         creator: &signer,
         collection: String,
         old_description: String,
@@ -304,8 +302,7 @@ module aptos_token::token_event_store {
     }
 
     /// Emit the collection maximum mutation event
-    friend
-    fun emit_collection_maximum_mutate_event(
+    friend fun emit_collection_maximum_mutate_event(
         creator: &signer, collection: String, old_maximum: u64, new_maximum: u64
     ) acquires TokenEventStoreV1 {
         let event = CollectionMaxiumMutateEvent {
@@ -333,8 +330,7 @@ module aptos_token::token_event_store {
     }
 
     /// Emit the direct opt-in event
-    friend
-    fun emit_token_opt_in_event(account: &signer, opt_in: bool) acquires TokenEventStoreV1 {
+    friend fun emit_token_opt_in_event(account: &signer, opt_in: bool) acquires TokenEventStoreV1 {
         let opt_in_event = OptInTransferEvent { opt_in };
         initialize_token_event_store(account);
         let token_event_store = &mut TokenEventStoreV1[signer::address_of(account)];
@@ -353,8 +349,7 @@ module aptos_token::token_event_store {
     }
 
     /// Emit URI mutation event
-    friend
-    fun emit_token_uri_mutate_event(
+    friend fun emit_token_uri_mutate_event(
         creator: &signer,
         collection: String,
         token: String,
@@ -391,8 +386,7 @@ module aptos_token::token_event_store {
     }
 
     /// Emit tokendata property map mutation event
-    friend
-    fun emit_default_property_mutate_event(
+    friend fun emit_default_property_mutate_event(
         creator: &signer,
         collection: String,
         token: String,
@@ -432,8 +426,7 @@ module aptos_token::token_event_store {
     }
 
     /// Emit description mutation event
-    friend
-    fun emit_token_descrition_mutate_event(
+    friend fun emit_token_descrition_mutate_event(
         creator: &signer,
         collection: String,
         token: String,
@@ -470,8 +463,7 @@ module aptos_token::token_event_store {
     }
 
     /// Emit royalty mutation event
-    friend
-    fun emit_token_royalty_mutate_event(
+    friend fun emit_token_royalty_mutate_event(
         creator: &signer,
         collection: String,
         token: String,
@@ -519,8 +511,7 @@ module aptos_token::token_event_store {
     }
 
     /// Emit maximum mutation event
-    friend
-    fun emit_token_maximum_mutate_event(
+    friend fun emit_token_maximum_mutate_event(
         creator: &signer,
         collection: String,
         token: String,

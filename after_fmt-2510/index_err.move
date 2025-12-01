@@ -1,5 +1,4 @@
 module 0x42::test {
-
     struct R has key, drop {
         value: bool
     }

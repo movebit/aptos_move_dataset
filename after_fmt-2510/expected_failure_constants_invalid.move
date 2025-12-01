@@ -4,7 +4,6 @@ module 0x2::m {
 
 // check invalid constant usage
 module 0x1::A {
-
     #[test]
     #[expected_failure(abort_code = 0x2::m::C)]
     fun not_u64() {}

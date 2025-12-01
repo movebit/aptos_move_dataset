@@ -1,6 +1,5 @@
 //# publish
 module 0x42::m {
-
     struct Cap1 has copy, store {
         x: address
     }

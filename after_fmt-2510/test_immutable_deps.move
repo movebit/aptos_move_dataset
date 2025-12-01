@@ -1,5 +1,4 @@
 module object_immutable_deps::test_immutable_deps {
-
     struct State has key {
         value: u64
     }

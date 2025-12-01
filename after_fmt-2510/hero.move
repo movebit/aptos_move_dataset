@@ -90,7 +90,6 @@ module hero::hero {
     }
 
     // Creation methods
-
     public fun create_hero(
         creator: &signer,
         description: String,
@@ -156,7 +155,6 @@ module hero::hero {
     }
 
     // Transfer wrappers
-
     public fun hero_equip_weapon(
         owner: &signer, hero: Object<Hero>, weapon: Object<Weapon>
     ) acquires Hero {
@@ -192,7 +190,6 @@ module hero::hero {
     }
 
     // Entry functions
-
     entry fun mint_hero(
         account: &signer,
         description: String,

@@ -24,7 +24,6 @@ module 0xc0ffee::m {
 
     // ===== DOUBLE NEGATION LAW TESTS (should trigger lint) =====
     // Pattern: !!a should simplify to just a
-
     public fun test_double_negation_parameters(a: bool) {
         if (!!a) ();
     }
@@ -57,7 +56,6 @@ module 0xc0ffee::m {
     // ===== ABSORPTION LAW TESTS (should trigger lint) =====
     // Pattern: a && b || a should simplify to just a
     // Pattern: a || a && b should simplify to just a
-
     public fun test_absorption_law_parameters(a: bool, b: bool) {
         if (a && b || a) ();
         if (a || a && b) ();
@@ -111,7 +109,6 @@ module 0xc0ffee::m {
     // ===== IDEMPOTENCE LAW TESTS (should trigger lint) =====
     // Pattern: a && a should simplify to just a
     // Pattern: a || a should simplify to just a
-
     public fun test_idempotence_parameters(a: bool) {
         if (!!a && !a) ();
         if (a && a) ();
@@ -161,7 +158,6 @@ module 0xc0ffee::m {
     // Pattern: !a && a should simplify to just false
     // Pattern: a || !a should simplify to just true
     // Pattern: !a || a should simplify to just true
-
     public fun test_contradiction_tautology_parameters(a: bool) {
         if (a && !a) ();
         if (!a && a) ();
@@ -220,7 +216,6 @@ module 0xc0ffee::m {
     // ===== DISTRIBUTIVE LAW TESTS (should trigger lint) =====
     // Pattern: (a && b) || (a && c) should simplify to a && (b || c)
     // Pattern: (a || b) && (a || c) should simplify to a || (b && c)
-
     public fun test_distributive_law_parameters(a: bool, b: bool, c: bool) {
         if ((a && b) || (a && c)) ();
         if ((a || b) && (a || c)) ();
@@ -270,7 +265,6 @@ module 0xc0ffee::m {
     }
 
     // ===== LINT SKIP TESTS =====
-
     #[lint::skip(simpler_bool_expression)]
     public fun test_skipped_simplifiable() {
         let a = true;
@@ -282,7 +276,6 @@ module 0xc0ffee::m {
     }
 
     // ===== NEGATIVE TESTS (should NOT trigger lint) =====
-
     public fun test_parameters_no_lint(a: bool, b: bool, c: bool) {
         if (a && b || c) ();
         if (c || a && b) ();
@@ -332,7 +325,6 @@ module 0xc0ffee::m {
 
     // ===== THE FOLLOWING TEST DOES NOT TRIGGER THE LINT, BUT IS INCLUDED FOR FUTURE REFERENCE =====
     // Detecting these patterns is not yet supported.
-
     public fun test_vector_no_lint() {
         let new_vec = vector[true, false];
 

@@ -528,6 +528,7 @@ module DiemFramework::DiemSystem {
             };
             i = i + 1;
         };
+
         spec {
             assert i == size;
             assert forall j in 0..size: validators[j].addr != addr;

@@ -1,5 +1,6 @@
 module poc::fv_any {
     use std::any;
+
     struct A {}
 
     public fun make_potato(): A {

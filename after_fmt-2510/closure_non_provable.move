@@ -1,5 +1,4 @@
 module 0x42::test {
-
     struct S(u64) has key;
 
     fun exec(f: |u64| u64, x: u64): u64 {

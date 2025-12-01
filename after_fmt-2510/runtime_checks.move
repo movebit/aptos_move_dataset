@@ -16,7 +16,6 @@ module 0x1::runtime_checks {
     //
     // Structs and constructors.
     //
-
     struct StructWithAggregator<IntTy: copy + drop> has drop {
         aggregator: Aggregator<IntTy>
     }
@@ -55,7 +54,6 @@ module 0x1::runtime_checks {
     //
     // Equality.
     //
-
     public entry fun test_equality_with_aggregators_I() {
         let a = with_aggregator<u64>();
         let b = with_aggregator<u64>();
@@ -111,7 +109,6 @@ module 0x1::runtime_checks {
     //
     // Serialization.
     //
-
     public entry fun test_serialization_with_aggregators() {
         let a = with_aggregator<u64>();
         let _ = bcs::to_bytes(&a);
@@ -150,7 +147,6 @@ module 0x1::runtime_checks {
     //   - debug_string
     //
     // TODO[agg_v2]: consider formats of lists?
-
     public entry fun test_to_string_with_option_aggregators() {
         let a = with_aggregator<u64>();
         let _ = string_utils::to_string(&option::some(a));

@@ -8,6 +8,7 @@ module 0x42::bit_vector_infer {
         };
         let bit_field = vector::empty();
         vector::push_back(&mut bit_field, false);
+
         spec {
             assert len(bit_field) == 0;
         };

@@ -3,6 +3,7 @@ module hello_blockchain::message {
     use std::signer;
     use std::string;
     use aptos_framework::event;
+
     #[test_only]
     use std::debug;
 
@@ -12,7 +13,6 @@ module hello_blockchain::message {
     }
 
     //<:!:resource
-
     #[event]
     struct MessageChange has drop, store {
         account: address,

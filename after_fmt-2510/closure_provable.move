@@ -1,12 +1,10 @@
 module 0x42::test {
-
     fun exec(f: |u64| u64, x: u64): u64 {
         f(x)
     }
 
     // We can prove the functions below because `exec` is inlined in Boogie and
     // the function value is known in the inlining context.
-
     fun call_exec1_ok(x: u64): u64 {
         exec(|y| x + y, 3)
     }

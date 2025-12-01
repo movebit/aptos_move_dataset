@@ -1,5 +1,4 @@
 module 0x42::a {
-
     struct MyList {
         len: u64
     }
@@ -10,7 +9,6 @@ module 0x42::a {
 }
 
 module 0x42::b {
-
     struct MyOtherList {
         len: u64
     }

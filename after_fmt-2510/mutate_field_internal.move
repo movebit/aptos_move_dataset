@@ -11,6 +11,7 @@ module X {
 
 module M {
     use 0x2::X;
+
     fun t0() {
         X::s().f = 0;
         let s = &mut X::s();

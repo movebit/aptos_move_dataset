@@ -2,13 +2,16 @@
 module 0x42::VectorExists {
 
     use std::vector;
+
     spec module {
         fun e_in_v_vec(e: u64, v: vector<u64>): bool {
             exists x in v: x == e
         }
+
         fun e_in_v_range(e: u64, v: vector<u64>): bool {
             exists i in 0..len(v): v[i] == e
         }
+
         fun e_in_v_u64(e: u64, v: vector<u64>): bool {
             exists i: u64 where 0 <= i && i < len(v): v[i] == e
         }

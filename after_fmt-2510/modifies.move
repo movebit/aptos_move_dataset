@@ -41,6 +41,7 @@ module B {
         let t = borrow_global_mut<T>(addr1);
         t.x = 2;
         let x1 = A::read_at(addr2);
+
         spec {
             assert x0 == x1;
         };
@@ -55,6 +56,7 @@ module B {
         let x0 = A::read_at(addr2);
         move_to<T>(account, T { x: 2 });
         let x1 = A::read_at(addr2);
+
         spec {
             assert x0 == x1;
         };
@@ -69,6 +71,7 @@ module B {
         let x0 = A::read_at(addr2);
         let v = move_from<T>(addr1);
         let x1 = A::read_at(addr2);
+
         spec {
             assert x0 == x1;
         };
@@ -84,6 +87,7 @@ module B {
         let x0 = A::read_at(addr2);
         A::mutate_at(addr1);
         let x1 = A::read_at(addr2);
+
         spec {
             assert x0 == x1;
         };
@@ -98,6 +102,7 @@ module B {
         let x0 = A::read_at(addr);
         A::mutate_at(addr);
         let x1 = A::read_at(addr);
+
         spec {
             assert x0 == x1;
         };

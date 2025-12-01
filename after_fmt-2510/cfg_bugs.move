@@ -1,5 +1,6 @@
 module 0x99::return_test {
     use std::vector;
+
     public fun contains(e: u64, v: vector<u64>): bool {
         let i = 0;
         let len = vector::length(&v);

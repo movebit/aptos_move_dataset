@@ -8,7 +8,6 @@ module 0x8675309::M {
     }
 }
 // check: NEGATIVE_STACK_SIZE_WITHIN_BLOCK
-
 module 0x8675309::N {
     struct R<T> has key {
         f: T

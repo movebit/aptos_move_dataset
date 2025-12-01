@@ -9,7 +9,6 @@
 /// Long winded text that goes on and on and on
 /// Long winded text that goes on and on and on
 module large_package_example::eight {
-
     struct State has key {
         value: u64
     }

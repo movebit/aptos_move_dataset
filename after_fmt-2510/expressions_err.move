@@ -1,5 +1,4 @@
 module 0x42::M {
-
     struct S {
         x: u64,
         y: bool
@@ -36,6 +35,7 @@ module 0x42::M {
         fun wrongly_typed_callee(x: num, y: bool): num {
             x
         }
+
         fun wrongly_typed_caller(): num {
             wrongly_typed_callee(1, 1)
         }
@@ -44,6 +44,7 @@ module 0x42::M {
         fun wrongly_typed_fun_arg_callee(f: |num| num): num {
             0
         }
+
         fun wrongly_typed_fun_arg_caller(): num {
             wrongly_typed_fun_arg_callee(|x| false)
         }
@@ -52,6 +53,7 @@ module 0x42::M {
         fun wrong_instantiation<T1, T2>(x: T1): T1 {
             x
         }
+
         fun wrong_instantiation_caller(x: u64): u64 {
             wrong_instantiation<u64>(x)
         }

@@ -1,5 +1,4 @@
 module 0x42::bitset128 {
-
     struct BitSet128 has drop {
         s: u128
     }

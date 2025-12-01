@@ -1,5 +1,4 @@
 module 0x8675309::M {
-
     public inline fun foreach_caller2<T>(_v: &vector<T>, _action: || (|&T|)) {
         abort(1)
     }

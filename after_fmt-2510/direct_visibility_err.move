@@ -1,6 +1,5 @@
 module 0x815::b {
-    friend
-    fun f() {}
+    friend fun f() {}
 }
 
 module 0x815::c {

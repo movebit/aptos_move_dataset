@@ -1,6 +1,5 @@
 //# publish
 module 0x42::t {
-
     struct Ints has key, drop {
         f8: u8,
         f16: u16,

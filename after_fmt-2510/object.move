@@ -772,6 +772,7 @@ module aptos_framework::object {
 
     #[test_only]
     const EHERO_DOES_NOT_EXIST: u64 = 0x100;
+
     #[test_only]
     const EWEAPON_DOES_NOT_EXIST: u64 = 0x101;
 

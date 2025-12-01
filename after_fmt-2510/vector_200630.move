@@ -1,5 +1,6 @@
 module 0x42::TestVector {
     use std::vector;
+
     struct T {
         x: u64
     }
@@ -14,6 +15,7 @@ module 0x42::TestVector {
         let int_ref = &mut elem.x;
 
         *int_ref = 42;
+
         spec {
             assert 42u64 == v[i].x;
         };

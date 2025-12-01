@@ -9,7 +9,9 @@ module extensions::type_info {
 
     // these are mocks of the type reflection scheme
     public native fun type_of<T>(): TypeInfo;
+
     public native fun type_name<T>(): string::String;
+
     spec native fun spec_is_struct<T>(): bool;
 
     public fun account_address(type_info: &TypeInfo): address {

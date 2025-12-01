@@ -6,8 +6,8 @@ module 0x815::a {
 
 module 0x815::b {
     friend 0x815::c;
-    friend
-    fun f() {}
+
+    friend fun f() {}
 }
 
 module 0x815::c {

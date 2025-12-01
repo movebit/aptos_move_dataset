@@ -1,6 +1,5 @@
 //# run
 script {
-
     fun main() {
         assert!(true || true && false, 99); // "&&" has precedence over "||"
         assert!(true != false && false != true, 100); // "&&" has precedence over comparisons

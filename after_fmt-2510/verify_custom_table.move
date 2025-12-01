@@ -25,26 +25,37 @@ module 0x42::table {
     }
 
     public native fun new<K: copy + drop, V: store>(): Table<K, V>;
+
     public native fun destroy_empty<K: copy + drop, V>(table: Table<K, V>);
+
     public native fun add<K: copy + drop, V>(
         table: &mut Table<K, V>, key: K, val: V
     );
+
     public native fun upsert<K: copy + drop, V>(
         table: &mut Table<K, V>, key: K, val: V
     );
+
     public native fun borrow<K: copy + drop, V>(table: &Table<K, V>, key: K): &V;
+
     public native fun borrow_mut<K: copy + drop, V>(
         table: &mut Table<K, V>, key: K
     ): &mut V;
+
     public native fun borrow_mut_with_default<K: copy + drop, V>(
         table: &mut Table<K, V>, key: K, default: V
     ): &mut V;
+
     public native fun length<K: copy + drop, V>(table: &Table<K, V>): u64;
+
     public native fun empty<K: copy + drop, V>(table: &Table<K, V>): bool;
+
     public native fun remove<K: copy + drop, V>(table: &mut Table<K, V>, key: K): V;
+
     public native fun remove_return_key<K: copy + drop, V>(
         table: &mut Table<K, V>, key: K
     ): (K, V);
+
     public native fun contains<K: copy + drop, V>(table: &Table<K, V>, key: K): bool;
 
     spec native fun spec_new<K, V>(): Table<K, V>;
@@ -71,7 +82,6 @@ module 0x42::VerifyTable {
     };
 
     // TODO: test precise aborts behavior of all table functions
-
     fun add(): Table<u8, u64> {
         let t = table::new<u8, u64>();
         table::add(&mut t, 1, 2);
@@ -142,6 +152,7 @@ module 0x42::VerifyTable {
     fun remove_return_key(): Table<u8, u64> {
         let t = add();
         let (k, v) = table::remove_return_key(&mut t, 2);
+
         spec {
             assert(k == 2) && (v == 3);
         };

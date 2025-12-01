@@ -17,12 +17,15 @@ module aptos_framework::account_abstraction {
     use aptos_framework::auth_data::AbstractionAuthData;
     use aptos_framework::system_addresses;
     use aptos_framework::permissioned_signer::is_permissioned_signer;
+
     #[test_only]
     use aptos_framework::account::create_account_for_test;
+
     #[test_only]
     use aptos_framework::auth_data;
 
     friend aptos_framework::transaction_validation;
+
     #[test_only]
     friend aptos_framework::account_abstraction_tests;
 

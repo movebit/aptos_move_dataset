@@ -2,6 +2,7 @@ address 0x42 {
 module X {
     struct S {}
 }
+
 module M {
     use 0x42::X;
     use 0x42::X::S as X;

@@ -44,7 +44,6 @@ module swap::router {
     }
 
     /////////////////////////////////////////////////// USERS /////////////////////////////////////////////////////////
-
     #[view]
     /// Return the expected amount out for a given amount in of tokens to swap via the given liquidity pool.
     public fun get_amount_out(
@@ -167,7 +166,6 @@ module swap::router {
     }
 
     /////////////////////////////////////////////////// LPs ///////////////////////////////////////////////////////////
-
     #[view]
     /// Returns the optimal amounts of tokens to provide as liquidity given the desired amount of each token to add.
     /// The returned values are the amounts of token 1, token 2, and LP tokens received.

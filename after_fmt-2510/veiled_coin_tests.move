@@ -5,43 +5,52 @@
 module aptos_experimental::veiled_coin_tests {
     #[test_only]
     use std::features;
+
     #[test_only]
     use std::signer;
+
     #[test_only]
     use std::string::utf8;
 
     #[test_only]
     use aptos_std::ristretto255_bulletproofs as bulletproofs;
+
     #[test_only]
     use aptos_std::debug::print;
+
     #[test_only]
     use aptos_std::ristretto255_elgamal as elgamal;
+
     #[test_only]
     use aptos_std::ristretto255;
+
     #[test_only]
     use aptos_std::ristretto255_pedersen as pedersen;
 
     #[test_only]
     use aptos_framework::account;
+
     #[test_only]
     use aptos_framework::coin;
 
     #[test_only]
     use aptos_experimental::veiled_coin;
+
     #[test_only]
     use aptos_experimental::helpers::generate_elgamal_keypair;
+
     #[test_only]
     use aptos_experimental::sigma_protos::{
         serialize_withdrawal_subproof,
         prove_withdrawal
     };
+
     #[test_only]
     use aptos_experimental::sigma_protos;
 
     //
     // Test-only functions
     //
-
     #[test_only]
     /// Initializes the `veiled_coin` module and sets up a `sender` account with `sender_amount` + `recipient_amount`
     /// of `FakeCoin`'s. Then, sends `recipient_amount` of coins from `sender` to `recipient`.
@@ -137,7 +146,6 @@ module aptos_experimental::veiled_coin_tests {
     //
     // Tests
     //
-
     #[
         test(
             veiled_coin = @aptos_experimental,

@@ -381,8 +381,7 @@ module aptos_token_objects::collection {
     }
 
     /// Called by token on mint to increment supply if there's an appropriate Supply struct.
-    friend
-    fun increment_supply(
+    friend fun increment_supply(
         collection: &Object<Collection>, token: address
     ): Option<AggregatorSnapshot<u64>> acquires FixedSupply, UnlimitedSupply, ConcurrentSupply {
         let collection_addr = object::object_address(collection);
@@ -469,8 +468,7 @@ module aptos_token_objects::collection {
     }
 
     /// Called by token on burn to decrement supply if there's an appropriate Supply struct.
-    friend
-    fun decrement_supply(
+    friend fun decrement_supply(
         collection: &Object<Collection>,
         token: address,
         index: Option<u64>,
@@ -585,7 +583,6 @@ module aptos_token_objects::collection {
     }
 
     // Accessors
-
     inline fun check_collection_exists(addr: address) {
         assert!(
             exists<Collection>(addr),
@@ -645,7 +642,6 @@ module aptos_token_objects::collection {
     }
 
     // Mutators
-
     inline fun borrow_mut(mutator_ref: &MutatorRef): &mut Collection {
         check_collection_exists(mutator_ref.self);
         &mut Collection[mutator_ref.self]
@@ -760,7 +756,6 @@ module aptos_token_objects::collection {
     }
 
     // Tests
-
     #[test_only]
     fun downgrade_from_concurrent_for_test(ref: &ExtendRef) acquires ConcurrentSupply {
         let metadata_object_address = object::address_from_extend_ref(ref);

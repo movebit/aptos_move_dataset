@@ -2,6 +2,7 @@ module 0x42::A {
     // check we don't add duplicate `friend 0x42::B;`
     // during the transformation
     friend 0x42::B;
+
     fun foo() {}
 
     public(package) fun bar() {}

@@ -72,7 +72,6 @@ module 0x8675309::M {
     //     let sum = 0;
     //     foreach(&v, |e| { sum = sum + *e; *e }) // expected to have wrong result type of lambda
     // }
-
     public fun lambda_not_allowed() {
         let _x = |i| i + 1; // expected lambda not allowed
     }
@@ -80,7 +79,6 @@ module 0x8675309::M {
     // struct FieldFunNotAllowed {
     //     f: |u64|u64, // expected lambda not allowed
     // }
-
     public fun fun_arg_lambda_not_allowed(x: |u64|) {} // expected lambda not allowed
 
     public inline fun inline_result_lambda_not_allowed(): |u64| { // expected lambda not allowed

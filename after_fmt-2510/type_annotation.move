@@ -1,5 +1,4 @@
 module 0x42::m {
-
     fun an_1() {
         (true: u64);
     }

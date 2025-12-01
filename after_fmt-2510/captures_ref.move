@@ -1,5 +1,4 @@
 module 0x815::M {
-
     fun captures_ref(x: u64): u64 {
         let r = &x;
         let f = || *r + 1;

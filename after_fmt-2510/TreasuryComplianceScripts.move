@@ -63,7 +63,6 @@ module DiemFramework::TreasuryComplianceScripts {
     /// * `TreasuryComplianceScripts::burn_txn_fees`
     /// * `TreasuryComplianceScripts::burn_with_amount`
     /// * `TreasuryComplianceScripts::preburn`
-
     public entry fun cancel_burn_with_amount<Token>(
         account: signer, preburn_address: address, amount: u64
     ) {
@@ -358,7 +357,6 @@ module DiemFramework::TreasuryComplianceScripts {
     /// * `AccountCreationScripts::create_designated_dealer`
     /// * `PaymentScripts::peer_to_peer_with_metadata`
     /// * `AccountAdministrationScripts::rotate_dual_attestation_info`
-
     public entry fun tiered_mint<CoinType>(
         tc_account: signer,
         sliding_nonce: u64,
@@ -480,7 +478,6 @@ module DiemFramework::TreasuryComplianceScripts {
     ///
     /// # Related Scripts
     /// * `TreasuryComplianceScripts::freeze_account`
-
     public entry fun unfreeze_account(
         account: signer, sliding_nonce: u64, to_unfreeze_account: address
     ) {
@@ -516,7 +513,6 @@ module DiemFramework::TreasuryComplianceScripts {
     /// # Related Scripts
     /// * `TreasuryComplianceScripts::update_exchange_rate`
     /// * `TreasuryComplianceScripts::update_minting_ability`
-
     public entry fun update_dual_attestation_limit(
         tc_account: signer, sliding_nonce: u64, new_micro_xdx_limit: u64
     ) {
@@ -559,7 +555,6 @@ module DiemFramework::TreasuryComplianceScripts {
     /// # Related Scripts
     /// * `TreasuryComplianceScripts::update_dual_attestation_limit`
     /// * `TreasuryComplianceScripts::update_minting_ability`
-
     public entry fun update_exchange_rate<Currency>(
         tc_account: signer,
         sliding_nonce: u64,

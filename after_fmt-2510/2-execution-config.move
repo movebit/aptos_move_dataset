@@ -24,7 +24,6 @@
 //         transaction_deduper_type: TxnHashAndAuthenticatorV1,
 //     },
 // )
-
 script {
     use aptos_framework::aptos_governance;
     use aptos_framework::execution_config;

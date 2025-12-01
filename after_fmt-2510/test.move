@@ -1,5 +1,4 @@
 module abi::test {
-
     struct State has key {
         value: u64
     }

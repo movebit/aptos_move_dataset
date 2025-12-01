@@ -24,7 +24,6 @@ module aptos_experimental::market_mixed_order_tests {
     };
 
     const PRE_CANCEL_WINDOW_MICROS: u64 = 1000000; // 1 second
-
     #[test(
         admin = @0x1,
         market_signer = @0x123,

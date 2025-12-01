@@ -1,5 +1,4 @@
 module 0x42::m {
-
     struct S {
         f1: u64,
         f2: u64,

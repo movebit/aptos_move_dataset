@@ -1,5 +1,4 @@
 /// This module implements ECDSA signatures based on the prime-order secp256r1 ellptic curve (i.e., cofactor is 1).
-
 module aptos_std::secp256r1 {
 
     /// An error occurred while deserializing, for example due to wrong input size.

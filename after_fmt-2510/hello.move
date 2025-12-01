@@ -1,5 +1,4 @@
 module 0xA550C18::TestPackagePublish {
-
     struct S {
         x: u64,
         y: u64

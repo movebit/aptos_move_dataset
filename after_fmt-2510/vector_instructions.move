@@ -1,5 +1,4 @@
 // dep: ../../move-stdlib/sources/vector.move
-
 module 0x42::M {
     use std::vector;
     const ZERO: u8 = 0;

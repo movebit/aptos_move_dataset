@@ -6,7 +6,6 @@
 // will run subsequent phases of the move-compiler compiler.
 //
 // For parse failures, see the `spec_*_fail.move` test cases.
-
 module 0x8675309::M {
     spec module {
         global expected_coin_sum: u64;
@@ -79,7 +78,6 @@ module 0x8675309::M {
             y + 1
         };
     }
-
     fun using_block(x: u64): u64 {
         x + 1
     }

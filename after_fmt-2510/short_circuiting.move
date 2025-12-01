@@ -8,6 +8,7 @@ module 0x42::X {
 //# run
 script {
     use 0x42::X;
+
     fun main() {
         let vtrue = true;
         let vfalse = false;

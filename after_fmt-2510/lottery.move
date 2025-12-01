@@ -11,7 +11,6 @@
 /// incorrectly treated as a valid future drand round, even though that round has passed. It is therefore important that
 /// contracts account for any drift between the Aptos clock and the drand clock. In this example, this can be done by
 /// increasing the MINIMUM_LOTTERY_DURATION_SECS to account for this drift.
-
 module drand::lottery {
     use std::signer;
     use aptos_framework::account;
@@ -205,7 +204,6 @@ module drand::lottery {
     //
     // Internal functions
     //
-
     fun get_rsrc_acc(lottery: &Lottery): (signer, address) {
         let rsrc_acc_signer = account::create_signer_with_capability(&lottery.signer_cap);
         let rsrc_acc_addr = signer::address_of(&rsrc_acc_signer);
@@ -216,7 +214,6 @@ module drand::lottery {
     //
     // Test functions
     //
-
     #[test_only]
     public fun init_module_for_testing(developer: &signer) {
         account::create_account_for_test(signer::address_of(developer));

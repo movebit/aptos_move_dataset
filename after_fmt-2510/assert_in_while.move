@@ -21,6 +21,7 @@ module 0x42::Test {
 //# run
 script {
     use 0x42::Test;
+
     fun main() {
         let x = Test::new();
         assert!(Test::len(&x) == 10, 70002);

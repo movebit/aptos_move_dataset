@@ -1,6 +1,5 @@
 // Two loops in the resulting graph.
 // One error for each loop.
-
 module 0x8675309::M {
     struct S<T> {
         f: T

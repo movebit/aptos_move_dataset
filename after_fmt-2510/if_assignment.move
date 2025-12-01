@@ -13,6 +13,7 @@ module ReassignCond {
 //# run
 script {
     use 0x42::ReassignCond::reassign_cond;
+
     fun main() {
         assert!(reassign_cond(@0x1, false) == @0x1, 42);
     }

@@ -1,11 +1,9 @@
 module 0x42::m {
-
     struct S<T> {
         x: T
     }
 
     // Call styles
-
     fun receiver<T>(self: S<T>, y: T) {
         self.x = y;
     }

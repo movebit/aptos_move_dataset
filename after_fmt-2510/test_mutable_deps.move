@@ -1,5 +1,4 @@
 module object_mutable_deps::test_mutable_deps {
-
     struct State has key {
         value: u64
     }

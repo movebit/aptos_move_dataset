@@ -3,6 +3,7 @@ module X {}
 
 module M {
     use 0x2::X;
+
     fun foo() {
         let x = X;
     }

@@ -10,6 +10,7 @@ module 0x42::TestAssertWithReferences {
         let z;
         y = x;
         z = x + y;
+
         spec {
             assert x == y;
             assert z == 2 * x;
@@ -21,6 +22,7 @@ module 0x42::TestAssertWithReferences {
     // Feature: An input reference parameter is mutated
     fun simple2(x: &mut u64, y: &mut u64) {
         *y = *x;
+
         spec {
             assert x == y;
         };
@@ -29,10 +31,12 @@ module 0x42::TestAssertWithReferences {
     // This function verifies.
     fun simple3(x: &mut u64, y: &mut u64) {
         *y = *x;
+
         spec {
             assert x == y;
         };
         *y = *y + 1;
+
         spec {
             assert x + 1 == y;
         }
@@ -47,6 +51,7 @@ module 0x42::TestAssertWithReferences {
         let vy = *y;
         let fx = freeze(x);
         let fy = freeze(y);
+
         spec {
             assert fx == fy;
             assert vx == vy;
@@ -54,6 +59,7 @@ module 0x42::TestAssertWithReferences {
         };
         _ = fy; // release fy
         *y = *y + 1;
+
         spec {
             assert x + 1 == y;
             assert z + 1 == x + y;
@@ -71,6 +77,7 @@ module 0x42::TestAssertWithReferences {
             if (!(x < n)) break;
             x = x + 1;
         };
+
         spec {
             assert x == n;
         };
@@ -93,6 +100,7 @@ module 0x42::TestAssertWithReferences {
         }) {
             x = x + 1;
         };
+
         spec {
             assert x == n;
         };
@@ -110,6 +118,7 @@ module 0x42::TestAssertWithReferences {
         let c = &mut b;
         *c = *a;
         *a = y;
+
         spec {
             assert a == y;
             assert x == y;

@@ -7,6 +7,7 @@ module X {
 
 module Y {
     friend 0x2::M;
+
     fun f_private() {}
 }
 

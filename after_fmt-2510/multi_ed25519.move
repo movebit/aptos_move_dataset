@@ -1,6 +1,5 @@
 /// Exports MultiEd25519 multi-signatures in Move.
 /// This module has the exact same interface as the Ed25519 module.
-
 module aptos_std::multi_ed25519 {
     use std::bcs;
     use std::error;
@@ -86,7 +85,6 @@ module aptos_std::multi_ed25519 {
     //
     // Functions
     //
-
     #[test_only]
     public fun generate_keys(threshold: u8, n: u8): (SecretKey, ValidatedPublicKey) {
         assert!(
@@ -365,7 +363,6 @@ module aptos_std::multi_ed25519 {
     //
     // Tests
     //
-
     #[test_only]
     struct TestMessage has copy, drop {
         foo: vector<u8>,

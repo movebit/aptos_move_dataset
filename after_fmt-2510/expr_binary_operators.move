@@ -1,6 +1,5 @@
 //# run
 script {
-
     fun main() {
         assert!(1 == 1, 101);
         assert!(2 != 3, 102);

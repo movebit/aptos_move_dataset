@@ -1,6 +1,5 @@
 // These vectors should not be made constants
 // If they are made constants, the IR will error
-
 module 0x42::M {
     struct S {}
 

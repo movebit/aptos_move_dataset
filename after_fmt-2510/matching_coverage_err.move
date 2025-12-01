@@ -25,7 +25,6 @@ module 0xc0ffee::m {
     }
 
     // Exhaustiveness
-
     public fun non_exhaustive(o: &Outer) {
         match(o) { None => {} One { i: _ } => {} }
     }
@@ -73,7 +72,6 @@ module 0xc0ffee::m {
     }
 
     // Reachability
-
     public fun unreachable(o: &Outer) {
         match(o) {
             None => {}

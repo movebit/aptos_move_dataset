@@ -1,5 +1,4 @@
 module 0x42::acquires_inferred {
-
     struct R has key, store {
         f: u64
     }

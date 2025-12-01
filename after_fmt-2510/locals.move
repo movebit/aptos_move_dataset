@@ -1,6 +1,5 @@
 // Copyright Aptos Foundation
 // SPDX-License-Identifier: Apache-2.0
-
 module 0xABCD::locals {
     struct Data<A: copy + drop, B: copy + drop, C: copy + drop> has copy, drop {
         a: vector<A>,

@@ -1,5 +1,4 @@
 module 0x42::m {
-
     fun foo(x: &vector<u64>): (vector<u64>, u64) {
         (*x, 0)
     }

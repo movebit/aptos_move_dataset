@@ -1,6 +1,5 @@
 address 0x0 {
 module A {
-
     struct S has key {
         x: u64
     }
@@ -73,6 +72,7 @@ module B {
         let x0 = A::read_at(addr2);
         A::mutate_at(addr1);
         let x1 = A::read_at(addr2);
+
         spec {
             assert x0 == x1;
         };

@@ -4,6 +4,7 @@ module X {
         fun foo(): bool {
             true
         }
+
         fun bar(): bool {
             true
         }
@@ -12,6 +13,7 @@ module X {
 
 module M {
     use 0x2::X::{foo, bar as baz};
+
     fun t() {}
 
     spec t {

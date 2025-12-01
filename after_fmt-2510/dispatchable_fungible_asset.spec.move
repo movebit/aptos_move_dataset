@@ -1,5 +1,6 @@
 spec aptos_framework::dispatchable_fungible_asset {
     use aptos_framework::permissioned_signer;
+
     spec module {
         pragma verify = false;
     }

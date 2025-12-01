@@ -6,6 +6,7 @@ module 0x42::mathtest {
 
 module 0x42::mathtest2 {
     use 0x42::mathtest;
+
     public inline fun mul_div2(a: u64, b: u64, c: u64): u64 {
         mathtest::mul_div(b, a, c)
     }
@@ -13,6 +14,7 @@ module 0x42::mathtest2 {
 
 module 0x42::mathtest3 {
     use 0x42::mathtest2;
+
     public inline fun mul_div3(a: u64, b: u64, c: u64): u64 {
         mathtest2::mul_div2(b, a, c)
     }
@@ -22,6 +24,7 @@ module 0x42::test {
     use 0x42::mathtest;
     use 0x42::mathtest2;
     use 0x42::mathtest3;
+
     fun test_nested_mul_div() {
         let a =
             mathtest::mul_div(

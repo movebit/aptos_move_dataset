@@ -1,5 +1,6 @@
 module 0x42::m {
     friend 0x42::o;
+
     public inline fun foo(): u64 {
         bar()
     }

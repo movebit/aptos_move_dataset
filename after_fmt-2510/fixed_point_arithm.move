@@ -7,6 +7,7 @@
 module 0x42::FixedPointArithmetic {
 
     use std::fixed_point32::{Self, FixedPoint32};
+
     spec module {
         pragma verify = true;
     }

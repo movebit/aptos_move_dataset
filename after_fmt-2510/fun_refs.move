@@ -1,6 +1,5 @@
 //# publish
 module 0x42::test {
-
     public fun ref(): u64 {
         // TODO(#15664): ability inference not working as expected. The closure gets a type assigned
         //   via the parameter to `ref_helper` which makes it non-droppable, but it IS droppable.

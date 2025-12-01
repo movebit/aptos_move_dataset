@@ -73,7 +73,6 @@ module aptos_experimental::order_book {
     }
 
     // ============================= APIs relevant to single order only ====================================
-
     public fun cancel_order<M: store + copy + drop>(
         self: &mut OrderBook<M>, order_creator: address, order_id: OrderIdType
     ): SingleOrder<M> {

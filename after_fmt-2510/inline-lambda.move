@@ -11,11 +11,13 @@ module 0x42::Test {
         let r1 = apply(0, |v| v >= 0 spec {
             ensures result == (v >= 0);
         });
+
         spec {
             assert r1;
         };
 
         let r2 = apply(0, |v| v != a1 + a2);
+
         spec {
             assert!r2;
         };
@@ -25,6 +27,7 @@ module 0x42::Test {
         let y = f(x);
         let z = g(x);
         let w = e(x);
+
         spec {
             assert y == (x > 2);
             assert y == f(x);

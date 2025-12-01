@@ -1,5 +1,4 @@
 module 0x42::TestSchemaName {
-
     fun with_name_conflict(b: u64) {
         assert!(b > 0, 1);
     }

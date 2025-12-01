@@ -1,5 +1,4 @@
 module 0x42::event {
-
     #[deprecated]
     /// A handle for an event such that:
     /// 1. Other modules can emit events to this handle.

@@ -1,5 +1,4 @@
 module 0x1::DisableInv {
-
     struct R1 has key {}
 
     struct R2 has key {}

@@ -44,7 +44,6 @@ module C {
 
 address 0x3 {
 module A {
-
     struct S has drop {}
 
     public fun s(): S {
@@ -57,7 +56,6 @@ module A {
 }
 
 module C {
-
     struct S has drop {}
 
     public fun s(): S {
@@ -70,7 +68,6 @@ module C {
 }
 
 module B {
-
     struct S has drop {}
 
     public fun s(): S {
@@ -109,7 +106,6 @@ module B {
 }
 
 module A {
-
     struct S {}
 
     public fun s(): S {

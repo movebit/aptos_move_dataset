@@ -357,8 +357,10 @@ module aptos_framework::primary_fungible_store {
         generate_burn_ref,
         generate_transfer_ref
     };
+
     #[test_only]
     use std::string;
+
     #[test_only]
     use std::option;
 

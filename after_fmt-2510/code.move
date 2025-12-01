@@ -261,6 +261,7 @@ module aptos_framework::code {
             &mut registry.packages,
             |pack| {
                 let package: &mut PackageMetadata = pack;
+
                 package.upgrade_policy = upgrade_policy_immutable();
             }
         );

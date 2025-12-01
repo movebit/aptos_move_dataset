@@ -66,7 +66,6 @@ module 0xc0ffee::m {
     // public fun test10c(): u64 {
     //     fun10(4, 3, |_|1)
     // }
-
     inline fun fun11(x: u64, _: u64, f: |u64| u64): u64 {
         f(x)
     }

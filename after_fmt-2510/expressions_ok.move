@@ -1,7 +1,6 @@
 module 0x42::M {
 
     spec module {
-
         fun add1(x: num): num {
             x + 1
         }
@@ -40,7 +39,6 @@ module 0x42::M {
           x
         }
         */
-
         fun lambdas(p1: |num| bool, p2: |num| bool): |num| bool {
             |x| p1(x) && p2(x)
         }
@@ -77,9 +75,11 @@ module 0x42::M {
         fun generic_function<T>(x: T, y: T): bool {
             x == y
         }
+
         fun generic_function_call(): bool {
             generic_function(1, 2)
         }
+
         fun generic_function_instantiated_call(): bool {
             generic_function<num>(3, 3)
         }

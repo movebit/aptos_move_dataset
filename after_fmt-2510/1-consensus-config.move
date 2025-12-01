@@ -30,7 +30,6 @@
 //         per_block_limit_total_bytes: 2097152,
 //     },
 // }
-
 script {
     use aptos_framework::aptos_governance;
     use aptos_framework::consensus_config;

@@ -21,6 +21,7 @@ module TestViz1 {
     /// 然后內联函数
     public fun main() {}
 }
+
 module TestViz2 {
     /** # 算法注释
      ```

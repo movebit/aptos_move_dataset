@@ -15,8 +15,10 @@ module aptos_experimental::price_time_index {
     };
     use aptos_experimental::single_order_types::{get_slippage_pct_precision};
     use aptos_experimental::order_book_types::{new_active_matched_order, ActiveMatchedOrder};
+
     #[test_only]
     use std::vector;
+
     #[test_only]
     use aptos_experimental::order_book_types::{
         new_order_id_type,
@@ -31,6 +33,7 @@ module aptos_experimental::price_time_index {
     friend aptos_experimental::single_order_book;
     friend aptos_experimental::order_book;
     friend aptos_experimental::bulk_order_book;
+
     #[test_only]
     friend aptos_experimental::bulk_order_book_tests;
 
@@ -129,7 +132,6 @@ module aptos_experimental::price_time_index {
     }
 
     // TODO check if keeping depth book is more efficient than computing impact prices manually
-
     fun get_impact_bid_price(self: &PriceTimeIndex, impact_size: u64): Option<u64> {
         let total_value = (0 as u128);
         let total_size = 0;

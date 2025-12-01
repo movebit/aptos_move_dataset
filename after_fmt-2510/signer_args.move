@@ -1,6 +1,5 @@
 address 0x1 {
 module M {
-
     #[test(_a = @0x1)]
     fun single_signer_pass(_a: signer) {}
 

@@ -1,6 +1,5 @@
 address 0x42 {
 module M {
-
     fun t1() {
         loop {
             continue;

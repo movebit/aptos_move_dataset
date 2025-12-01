@@ -7,7 +7,6 @@ module 0x42::TestSome {
 
     // Basic tests
     // ===========
-
     fun simple(): u64 {
         4
     }
@@ -122,7 +121,6 @@ module 0x42::TestSome {
 
     // Testing using the same choice in multiple verification targets
     // ==============================================================
-
     struct S has drop {
         x: u64
     }

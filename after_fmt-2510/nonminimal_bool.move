@@ -1,5 +1,4 @@
 module 0xc0ffee::m {
-
     public fun test_warn_and(x: bool) {
         if (true && x) ();
         if (x && true) ();

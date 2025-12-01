@@ -1,5 +1,4 @@
 module 0x42::m {
-
     fun ref_mut_mut(x: &mut u64, y: &mut u64) {
         x == y;
     }

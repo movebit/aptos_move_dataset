@@ -10,7 +10,6 @@ module 0x8675309::M {
 // check: MOVETO_NO_RESOURCE_ERROR
 
 //! new-transaction
-
 module 0x8675309::N {
     struct R<T> {
         f: T

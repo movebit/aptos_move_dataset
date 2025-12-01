@@ -36,7 +36,6 @@
 ///      + This would require a storage-friendly RistrettoBasepointTable and an in-memory variant of it too
 ///      + Similar to the CompressedRistretto and RistrettoPoint structs in this module
 ///      + The challenge is that curve25519-dalek's RistrettoBasepointTable is not serializable
-
 module aptos_std::ristretto255 {
     use std::features;
     use std::option::Option;
@@ -522,6 +521,7 @@ module aptos_std::ristretto255 {
     ): (u64, bool);
 
     native fun point_clone_internal(point_handle: u64): u64;
+
     native fun point_compress_internal(point: &RistrettoPoint): vector<u8>;
 
     native fun point_mul_internal(
@@ -559,7 +559,6 @@ module aptos_std::ristretto255 {
     //
     // Only used internally for implementing Scalar.
     //
-
     native fun scalar_is_canonical_internal(s: vector<u8>): bool;
 
     native fun scalar_from_u64_internal(num: u64): vector<u8>;
@@ -595,7 +594,6 @@ module aptos_std::ristretto255 {
     //
     // Test-only functions
     //
-
     #[test_only]
     public fun random_scalar(): Scalar {
         Scalar { data: random_scalar_internal() }
@@ -683,8 +681,10 @@ module aptos_std::ristretto255 {
 
     #[test_only]
     const A_POINT: vector<u8> = x"e87feda199d72b83de4f5b2d45d34805c57019c6c59c42cb70ee3d19aa996f75";
+
     #[test_only]
     const B_POINT: vector<u8> = x"fa0b3624b081c62f364d0b2839dcc76d7c3ab0e27e31beb2b9ed766575f28e76";
+
     #[test_only]
     const A_PLUS_B_POINT: vector<u8> = x"70cf3753475b9ff33e2f84413ed6b5052073bccc0a0a81789d3e5675dc258056";
 
@@ -695,7 +695,6 @@ module aptos_std::ristretto255 {
     //
     // Tests
     //
-
     #[test]
     fun test_point_decompression() {
         let compressed = new_compressed_point_from_bytes(A_POINT);

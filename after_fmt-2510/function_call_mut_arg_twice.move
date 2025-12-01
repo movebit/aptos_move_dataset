@@ -1,6 +1,5 @@
 //# publish
 module 0xc0ffee::m {
-
     fun update(r: &mut u64, x: u64, y: u64) {
         *r = x + y;
     }

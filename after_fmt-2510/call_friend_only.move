@@ -4,6 +4,7 @@ module 0xdeadbeef::M {
     use 0xdeadbeef::P;
     friend OO;
     friend P;
+
     fun foo(): u64 {
         1
     }
@@ -43,6 +44,7 @@ module 0xdeadbeef::O {
 
 module 0xdeadbeef::P {
     use 0xdeadbeef::M;
+
     fun my_foo(): u64 {
         4
     }

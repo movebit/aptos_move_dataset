@@ -1,7 +1,6 @@
 // :!:>module
 /// Mock on-chain governance parameters.
 module upgrade_and_govern::parameters {
-
     struct GovernanceParameters has key {
         parameter_1: u64,
         parameter_2: u64

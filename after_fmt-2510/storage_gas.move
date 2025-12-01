@@ -441,6 +441,7 @@ module aptos_framework::storage_gas {
 
     fun validate_points(points: &vector<Point>) {
         let len = vector::length(points);
+
         spec {
             assume len < MAX_U64;
         };

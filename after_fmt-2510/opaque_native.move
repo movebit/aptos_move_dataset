@@ -18,6 +18,7 @@ module 0x42::OpaqueNative {
 
     // Axiomatized native function
     native fun hash(v: vector<u8>): u64;
+
     spec hash {
         pragma opaque;
         ensures result == injection(v);
@@ -39,6 +40,7 @@ module 0x42::OpaqueNative {
     }
 
     native fun hash_generic<T>(x: T): u64;
+
     spec hash_generic {
         pragma opaque;
         ensures result == generic_injection(x);

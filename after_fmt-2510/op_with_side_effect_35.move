@@ -1,6 +1,5 @@
 //# publish
 module 0xc0ffee::m {
-
     struct S has drop {
         x: u64,
         y: u64,

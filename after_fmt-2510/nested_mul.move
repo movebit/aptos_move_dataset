@@ -6,6 +6,7 @@ module 0x42::mathtest {
 
 module 0x42::test {
     use 0x42::mathtest;
+
     fun test_nested_mul_div() {
         let a = mathtest::mul_div(1, mathtest::mul_div(1, 1, 1), 1);
         assert!(a == 1, 0);

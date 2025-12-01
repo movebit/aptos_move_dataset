@@ -19,6 +19,7 @@ module 0x42::worker1 {
 //# publish
 module 0x42::worker2 {
     use 0x42::worker1;
+
     struct R(u64) has key;
 
     public fun work(cont: ||) acquires R {
@@ -39,6 +40,7 @@ module 0x42::worker2 {
 module 0x42::tests {
     use 0x42::worker1;
     use 0x42::worker2;
+
     struct R(u64) has key;
 
     fun init(s: &signer) {

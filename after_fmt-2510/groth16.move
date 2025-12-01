@@ -108,6 +108,7 @@ module groth16_example::groth16 {
         deserialize,
         enable_cryptography_algebra_natives
     };
+
     #[test_only]
     use aptos_std::bls12381_algebra::{
         Fr,
@@ -121,10 +122,13 @@ module groth16_example::groth16 {
         Fq12,
         FormatGt
     };
+
     #[test_only]
     use aptos_std::bn254_algebra;
+
     #[test_only]
     use std::bcs;
+
     #[test_only]
     use std::vector;
 

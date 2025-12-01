@@ -2,7 +2,6 @@
 ///
 /// Once the component makeup of the XDX has been chosen the
 /// `Reserve` will be updated to hold the backing coins in the correct ratios.
-
 module DiemFramework::XDX {
     use DiemFramework::AccountLimits;
     use DiemFramework::CoreAddresses;

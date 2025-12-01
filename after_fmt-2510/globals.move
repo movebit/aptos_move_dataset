@@ -1,5 +1,4 @@
 module 0x42::globals {
-
     struct R has store {
         f: u64
     }

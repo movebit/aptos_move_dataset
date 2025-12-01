@@ -1,7 +1,5 @@
 //# publish
-
 module 0x42::Test {
-
     struct Cup<T> {
         value: T
     }

@@ -128,7 +128,6 @@ module aptos_framework::managed_coin {
     //
     // Tests
     //
-
     #[test_only]
     use std::option;
 

@@ -10,6 +10,7 @@ module 0x42::X {
 //# run
 script {
     use 0x42::X;
+
     fun main() {
         false || X::error();
     }
@@ -18,6 +19,7 @@ script {
 //# run
 script {
     use 0x42::X;
+
     fun main() {
         true && X::error();
     }
@@ -26,6 +28,7 @@ script {
 //# run
 script {
     use 0x42::X;
+
     fun main() {
         X::error() && false;
     }
@@ -34,6 +37,7 @@ script {
 //# run
 script {
     use 0x42::X;
+
     fun main() {
         X::error() || true;
     }

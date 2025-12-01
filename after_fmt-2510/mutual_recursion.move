@@ -1,6 +1,5 @@
 //# publish
 module 0x42::Mutual {
-
     inline fun odd(x: u64): bool {
         if (x == 0) { false }
         else {

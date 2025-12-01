@@ -42,7 +42,6 @@ module 0xc0ffee::m {
     //     let _ = _;
     //     _
     // }
-
     inline fun fun9(x: u64, _: u64, _: u64): u64 {
         x + 3
     }
@@ -58,7 +57,6 @@ module 0xc0ffee::m {
     // public fun test10a(): u64 {
     //     fun10(4, 3, 2)
     // }
-
     public fun test10b(): u64 {
         fun10(4, 3, |x| x + 1)
     }

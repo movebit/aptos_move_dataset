@@ -172,7 +172,6 @@ module aptos_experimental::confidential_asset {
     //
     // Events
     //
-
     #[event]
     /// Emitted when tokens are brought into the protocol.
     struct Deposited has drop, store {
@@ -200,7 +199,6 @@ module aptos_experimental::confidential_asset {
     //
     // Module initialization, done only once when this module is first published on the blockchain
     //
-
     fun init_module(deployer: &signer) {
         assert!(
             bulletproofs::get_max_range_bits()
@@ -559,7 +557,6 @@ module aptos_experimental::confidential_asset {
     //
     // Public view functions
     //
-
     #[view]
     /// Checks if the user has a confidential asset store for the specified token.
     public fun has_confidential_asset_store(

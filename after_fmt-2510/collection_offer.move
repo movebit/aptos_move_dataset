@@ -42,7 +42,6 @@ module collection_offer {
     const EEXPIRED: u64 = 6;
 
     // Core data structures
-
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
     /// Create a timed offer to buy tokens from a collection. The collection and
     /// assets used to buy are stored in other resources within the object.
@@ -481,7 +480,6 @@ module collection_offer {
     }
 
     // View
-
     #[view]
     public fun exists_at(collection_offer: Object<CollectionOffer>): bool {
         exists<CollectionOffer>(object::object_address(&collection_offer))

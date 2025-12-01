@@ -162,6 +162,7 @@ module DiemFramework::VASP {
                 global<ChildVASP>(addr).parent_vasp_addr
             }
         }
+
         fun spec_has_account_limits<Token>(addr: address): bool {
             AccountLimits::has_window_published<Token>(spec_parent_address(addr))
         }

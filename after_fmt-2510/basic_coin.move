@@ -105,7 +105,6 @@ module named_addr::basic_coin {
     }
 
     // EXERCISE: Write `balance_of_dne` test here!
-
     #[test]
     #[expected_failure]
     fun withdraw_dne() acquires Balance {

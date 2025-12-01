@@ -45,11 +45,13 @@ module aptos_experimental::single_order_book {
         PendingOrderBookIndex,
         new_pending_order_book_index
     };
+
     #[test_only]
     use aptos_experimental::order_book_types::{
         new_order_id_type,
         new_ascending_id_generator
     };
+
     #[test_only]
     use aptos_experimental::order_book_types::{
         good_till_cancelled,
@@ -603,7 +605,6 @@ module aptos_experimental::single_order_book {
     }
 
     // ============================= test_only APIs ====================================
-
     #[test_only]
     public(friend) fun destroy_single_order_book<M: store + copy + drop>(
         self: SingleOrderBook<M>
@@ -794,7 +795,6 @@ module aptos_experimental::single_order_book {
     }
 
     // ============================= Test Helper Functions ====================================
-
     #[test_only]
     public fun create_test_order_request<M: store + copy + drop>(
         account: address,
@@ -941,7 +941,6 @@ module aptos_experimental::single_order_book {
     }
 
     // ============================= Tests ====================================
-
     #[test]
     fun test_good_til_cancelled_order() {
         let (order_book, price_time_idx, ascending_id_generator) = set_up_test();

@@ -1,5 +1,4 @@
 module 0x42::reference_conversion {
-
     fun deref(r: &u64): u64 {
         *r
     }

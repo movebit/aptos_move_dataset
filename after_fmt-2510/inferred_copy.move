@@ -1,5 +1,4 @@
 module 0x42::m {
-
     struct R has key, copy, drop {
         v: u64
     }

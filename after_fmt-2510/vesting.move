@@ -1346,20 +1346,18 @@ module aptos_framework::vesting {
 
     #[test_only]
     const MIN_STAKE: u64 = 100000000000000; // 1M APT coins with 8 decimals.
-
     #[test_only]
     const GRANT_AMOUNT: u64 = 20000000000000000; // 200M APT coins with 8 decimals.
-
     #[test_only]
     const VESTING_SCHEDULE_CLIFF: u64 = 31536000; // 1 year
-
     #[test_only]
     const VESTING_PERIOD: u64 = 2592000; // 30 days
-
     #[test_only]
     const VALIDATOR_STATUS_PENDING_ACTIVE: u64 = 1;
+
     #[test_only]
     const VALIDATOR_STATUS_ACTIVE: u64 = 2;
+
     #[test_only]
     const VALIDATOR_STATUS_INACTIVE: u64 = 4;
 

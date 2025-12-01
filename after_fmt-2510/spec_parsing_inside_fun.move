@@ -35,6 +35,7 @@ module 0x8675309::M {
 
         // the following should parse successfully but fail typing
         spec {} + 1;
+
         spec {} && spec {};
         &mut spec {};
     }

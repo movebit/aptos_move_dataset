@@ -1,5 +1,4 @@
 /// This module implements the Federated Keyless authentication scheme.
-
 module aptos_std::federated_keyless {
     use aptos_std::bcs_stream;
     use aptos_std::keyless;
@@ -59,14 +58,12 @@ module aptos_std::federated_keyless {
     }
 
     /// Returns the identifier bytes of the public key
-    friend
-    fun get_jwk_address(self: &PublicKey): address {
+    friend fun get_jwk_address(self: &PublicKey): address {
         self.jwk_address
     }
 
     /// Returns the keyless public key of the public key
-    friend
-    fun get_keyless_public_key(self: &PublicKey): keyless::PublicKey {
+    friend fun get_keyless_public_key(self: &PublicKey): keyless::PublicKey {
         self.keyless_public_key
     }
 }

@@ -1,5 +1,4 @@
 module 0x42::Test {
-
     public inline fun f(): u64 {
         g()
     }

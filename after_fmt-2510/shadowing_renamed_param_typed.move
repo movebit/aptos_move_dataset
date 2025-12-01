@@ -1,6 +1,5 @@
 //# publish
 module 0x42::Test {
-
     public inline fun foo(f: |u64|, x: u64) {
         f(x);
     }

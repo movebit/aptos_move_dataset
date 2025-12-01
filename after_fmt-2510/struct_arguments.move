@@ -45,7 +45,6 @@ module 0x42::M {
         move_to(account, Cup { b: move_from(@0x0), a: fail(0) });
     }
     */
-
     public fun t6(account: &signer) {
         move_to(account, Cup { b: R {}, a: 0 });
         S { b: mts(account), a: fail(0) };
@@ -64,6 +63,7 @@ module 0x42::M {
 //# run
 script {
     use 0x42::M;
+
     fun main() {
         // arithmetic error
         M::t0()
@@ -73,6 +73,7 @@ script {
 //# run
 script {
     use 0x42::M;
+
     fun main() {
         // arithmetic error
         M::t1()
@@ -82,6 +83,7 @@ script {
 //# run
 script {
     use 0x42::M;
+
     fun main() {
         // arithmetic error
         M::t2()
@@ -91,6 +93,7 @@ script {
 //# run
 script {
     use 0x42::M;
+
     fun main() {
         // arithmetic error
         M::t3()
@@ -100,6 +103,7 @@ script {
 //# run
 script {
     use 0x42::M;
+
     fun main() {
         // arithmetic error
         M::t4()
@@ -119,6 +123,7 @@ script {
 //# run --signers 0x1
 script {
     use 0x42::M;
+
     fun main(account: signer) {
         // resource already exists
         M::t6(&account)

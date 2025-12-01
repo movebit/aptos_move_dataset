@@ -1,7 +1,6 @@
 /// The `ExperimentalAccount` module manages experimental accounts.
 /// It also defines the prolog and epilog that run before and after every
 /// transaction in addition to the core prologue and epilogue.
-
 module ExperimentalFramework::ExperimentalAccount {
     use std::event;
     use std::errors;
@@ -110,7 +109,6 @@ module ExperimentalFramework::ExperimentalAccount {
     ///////////////////////////////////////////////////////////////////////////
     /// Basic account creation method: no roles attached, no conditions checked.
     ///////////////////////////////////////////////////////////////////////////
-
     public fun create_account(
         new_account_address: address, auth_key_prefix: vector<u8>
     ) {

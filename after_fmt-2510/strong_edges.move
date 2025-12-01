@@ -27,6 +27,7 @@ module 0x42::TestStrongEdges {
         let r = 5;
         let r_ref = &mut r;
         *r_ref = 6;
+
         spec {
             assert r == 6;
         };
@@ -60,6 +61,7 @@ module 0x42::TestStrongEdges {
         let r = 5;
         let r_ref = &mut r;
         *r_ref = 6;
+
         spec {
             assert r == 5;
         };

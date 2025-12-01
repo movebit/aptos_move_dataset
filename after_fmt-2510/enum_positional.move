@@ -10,6 +10,7 @@ module 0x815::m {
 
     fun test_positional_incorrect(): u8 {
         let x = Positional::A(42);
+
         spec {
             assert x.0 == 42;
         };
@@ -22,6 +23,7 @@ module 0x815::m {
 
     fun test_positional_correct(): u8 {
         let x = Positional::A(42);
+
         spec {
             assert x.0 == 42;
         };

@@ -1,5 +1,6 @@
 module 0x42::TestHash {
     use std::hash;
+
     spec module {
         pragma verify = true;
     }

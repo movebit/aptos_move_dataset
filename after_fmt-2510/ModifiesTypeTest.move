@@ -1,6 +1,5 @@
 address 0x0 {
 module A {
-
     struct S has key {
         x: u64
     }

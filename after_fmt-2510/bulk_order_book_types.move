@@ -52,6 +52,7 @@ module aptos_experimental::bulk_order_book_types {
     friend aptos_experimental::pending_order_book_index;
     friend aptos_experimental::order_placement;
     friend aptos_experimental::bulk_order_book;
+
     #[test_only]
     friend aptos_experimental::bulk_order_book_tests;
 

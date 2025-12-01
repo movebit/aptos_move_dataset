@@ -323,7 +323,6 @@ module marketplace::fee_schedule {
     }
 
     // Tests
-
     #[test_only]
     use aptos_framework::account;
 

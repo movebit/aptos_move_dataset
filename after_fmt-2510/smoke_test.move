@@ -2,14 +2,12 @@
 // to stackless bytecode. Coverage for byte code translation is achieved by many more tests in the prover.
 
 // dep: ../../move-stdlib/sources/signer.move
-
 module 0x42::SmokeTest {
     use std::signer;
 
     // -----------------
     // Basic Ops
     // -----------------
-
     fun bool_ops(a: u64, b: u64): (bool, bool) {
         let c: bool;
         let d: bool;
@@ -29,7 +27,6 @@ module 0x42::SmokeTest {
     // -----------------
     // Resources
     // -----------------
-
     struct R has key {
         x: u64
     }

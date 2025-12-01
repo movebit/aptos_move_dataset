@@ -1,5 +1,4 @@
 module 0x42::test {
-
     struct U256 has copy, drop, store {
         n0: u64,
         n1: u64,

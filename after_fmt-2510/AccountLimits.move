@@ -420,6 +420,7 @@ module DiemFramework::AccountLimits {
             DiemTimestamp::spec_now_microseconds()
                 > window.window_start + limits_definition.time_period
         }
+
         fun spec_window_reset_with_limits<CoinType>(
             window: Window<CoinType>, limits_definition: LimitsDefinition<CoinType>
         ): Window<CoinType> {

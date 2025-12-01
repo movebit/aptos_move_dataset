@@ -3,7 +3,6 @@
 // cvc5 seems to go into an infinite loop because of the recursive $pow function.
 // For some reason, it does not time out in a reasonable time.
 module 0x42::TestShift {
-
     fun shiftl_1_correct(x: u64): u64 {
         x << 1
     }

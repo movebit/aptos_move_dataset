@@ -3,6 +3,7 @@ module 0x42::bit_vector {
 
     public fun new(_length: u64) {
         let bit_field = vector::empty();
+
         spec {
             assert len(bit_field) == 0;
         };

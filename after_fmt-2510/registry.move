@@ -1,6 +1,7 @@
 //# publish
 module 0x66::registry {
     use 0x1::signer;
+
     struct R<T>(T) has key;
 
     public fun store<T: store>(s: &signer, x: T) {

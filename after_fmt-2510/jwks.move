@@ -22,6 +22,7 @@ module aptos_framework::jwks {
     use aptos_framework::event::emit;
     use aptos_framework::reconfiguration;
     use aptos_framework::system_addresses;
+
     #[test_only]
     use aptos_framework::account::create_account_for_test;
 
@@ -815,7 +816,6 @@ module aptos_framework::jwks {
     // Functions end.
     // Tests begin.
     //
-
     #[test_only]
     fun initialize_for_test(aptos_framework: &signer) {
         create_account_for_test(@aptos_framework);

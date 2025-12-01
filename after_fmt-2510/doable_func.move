@@ -6,8 +6,8 @@ module 0x42::mod1 {
 
 module 0x42::mod2 {
     friend 0x42::test;
-    friend
-    fun double(x: u64): u64 {
+
+    friend fun double(x: u64): u64 {
         x * 2
     }
 }
@@ -29,6 +29,7 @@ module 0x42::test {
     use 0x42::mod2;
     use 0x42::mod3;
     use 0x42::mod4::alt_multiply;
+
     fun multiply3(x: u64, y: u64, z: u64): u64 {
         x * y * z
     }

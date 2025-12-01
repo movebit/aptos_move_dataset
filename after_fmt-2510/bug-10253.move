@@ -1,6 +1,7 @@
 //#publish
 module 0xcafe::vectors {
     use std::vector;
+
     public entry fun guess_flips(flips: vector<u8>) {
         loops_with_break(&flips);
         let _v = copy flips; // this is ok

@@ -1,5 +1,6 @@
 module 0x42::m {
     use std::vector;
+
     spec module {
         global var: num;
     }

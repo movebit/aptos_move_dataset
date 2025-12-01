@@ -14,8 +14,10 @@ module aptos_experimental::order_book_types {
     friend aptos_experimental::market_types;
     friend aptos_experimental::bulk_order_book;
     friend aptos_experimental::bulk_order_book_types;
+
     #[test_only]
     friend aptos_experimental::bulk_order_book_tests;
+
     #[test_only]
     friend aptos_experimental::order_book_client_order_id;
 

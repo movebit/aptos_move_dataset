@@ -15,7 +15,6 @@
 /// - Slush
 /// - Phantom
 /// - Nightly
-
 module aptos_framework::sui_derivable_account {
 
     use aptos_framework::auth_data::AbstractionAuthData;
@@ -292,6 +291,7 @@ module aptos_framework::sui_derivable_account {
 
     #[test_only]
     use std::chain_id;
+
     #[test_only]
     use aptos_framework::auth_data::{create_derivable_auth_data};
 

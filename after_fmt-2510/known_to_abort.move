@@ -125,7 +125,6 @@ module 0xc0ffee::m {
     }
 
     // ===== LINT SKIP TESTS =====
-
     #[lint::skip(known_to_abort)]
     public fun test_divide_by_zero_skip(x: u64): u64 {
         x / 0
@@ -147,7 +146,6 @@ module 0xc0ffee::m {
     }
 
     // ===== NEGATIVE TESTS (should NOT trigger lint) =====
-
     public fun test_complex_expr(x: u8): u8 {
         ((x + 1) * 2) as u8
     }

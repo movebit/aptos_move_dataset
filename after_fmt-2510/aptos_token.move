@@ -348,7 +348,6 @@ module aptos_token_objects::aptos_token {
     }
 
     // Token accessors
-
     inline fun borrow<T: key>(token: &Object<T>): &AptosToken {
         let token_address = object::object_address(token);
         assert!(
@@ -390,7 +389,6 @@ module aptos_token_objects::aptos_token {
     }
 
     // Token mutators
-
     inline fun authorized_borrow<T: key>(
         token: &Object<T>, creator: &signer
     ): &AptosToken {
@@ -555,7 +553,6 @@ module aptos_token_objects::aptos_token {
     }
 
     // Collection accessors
-
     inline fun collection_object(creator: &signer, name: &String): Object<AptosCollection> {
         let collection_addr =
             collection::create_collection_address(&signer::address_of(creator), name);
@@ -626,7 +623,6 @@ module aptos_token_objects::aptos_token {
     }
 
     // Collection mutators
-
     inline fun authorized_borrow_collection<T: key>(
         collection: &Object<T>, creator: &signer
     ): &AptosCollection {
@@ -688,9 +684,9 @@ module aptos_token_objects::aptos_token {
     }
 
     // Tests
-
     #[test_only]
     use std::string;
+
     #[test_only]
     use aptos_framework::account;
 

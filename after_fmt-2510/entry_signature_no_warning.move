@@ -1,9 +1,7 @@
 module 0x42::M {
-
     struct CoolStruct has drop {}
 
     // entry functions no longer have any built in checks outside of visibility rules
-
     public entry fun signer_ref(_: &signer) {}
 
     public entry fun late_signer(_u: u64, _s: signer) {}

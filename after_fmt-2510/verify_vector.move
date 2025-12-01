@@ -310,6 +310,7 @@ module 0x42::VerifyVector {
             if (vector::borrow(v, i) == e) return true;
             i = i + 1;
         };
+
         spec {
             assert!(exists x in v: x == e);
         };
@@ -330,6 +331,7 @@ module 0x42::VerifyVector {
             if (vector::borrow(v, i) == e) return true;
             i = i + 1;
         };
+
         spec {
             assert!(exists x in v: x == e);
         };
@@ -467,22 +469,27 @@ module 0x42::VerifyVector {
         let v0 = vector::empty();
         let v3 = vector::empty();
         vector::push_back(&mut v3, e1);
+
         spec {
             assert v3 == vector[e1];
         };
         vector::push_back(&mut v3, e2);
+
         spec {
             assert v3 == vector[e1, e2];
         };
         vector::push_back(&mut v3, e3);
+
         spec {
             assert v3 == vector_operator_in_function(e1, e2, e3);
         };
         vector::push_back(&mut v3, e1);
+
         spec {
             assert v3 == vector[e1, e2, e3, e1];
         };
         vector::push_back(&mut v3, e2);
+
         spec {
             assert v3 == vector[e1, e2, e3, e1, e2];
         };

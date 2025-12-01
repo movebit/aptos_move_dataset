@@ -105,6 +105,7 @@ module 0xc0ffee::m {
     public fun test_no_warn_1(x: u64) {
         while ({
             x = x + 1;
+
             spec {
                 invariant x <= 100;
             };

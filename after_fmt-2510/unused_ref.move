@@ -1,5 +1,4 @@
 module 0x42::m {
-
     struct Txn {
         sender: address
     }

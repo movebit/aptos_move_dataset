@@ -217,7 +217,6 @@ module aptos_experimental::market_tests_common {
     }
 
     // Additional common test helper functions to eliminate duplication
-
     public fun test_gtc_taker_fully_filled_internal(
         market: &mut Market<clearinghouse_test::TestOrderMetadata>,
         maker: &signer,

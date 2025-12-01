@@ -1,11 +1,9 @@
 module 0x42::m {
-
     struct S<T> {
         x: T
     }
 
     // Call styles
-
     fun receiver<T>(self: S<T>, y: T) {
         self.x = y;
     }
@@ -31,7 +29,6 @@ module 0x42::m {
     }
 
     // Inference of receiver function
-
     inline fun inlined<T>(f: |S<T>| S<T>, s: S<T>) {
         f(s);
     }

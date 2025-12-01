@@ -1,5 +1,4 @@
 module 0x42::m {
-
     #[test]
     #[expected_failure(out_of_gas, location = Self)]
     fun t0() {}

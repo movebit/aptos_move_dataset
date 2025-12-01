@@ -10,5 +10,6 @@ module M {
 
 script {
     use 0x42::N::{C as c1, C as _C1, C as Self};
+
     fun main() {}
 }

@@ -1,5 +1,4 @@
 module 0x42::TestModule {
-
     struct R has key {
         value: u64
     }

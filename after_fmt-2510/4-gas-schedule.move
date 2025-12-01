@@ -258,7 +258,6 @@
 //     misc.abs_val.per_u256_packed                                        : 32
 //     misc.abs_val.per_bool_packed                                        : 1
 //     misc.abs_val.per_address_packed                                     : 32
-
 script {
     use aptos_framework::aptos_governance;
     use aptos_framework::gas_schedule;

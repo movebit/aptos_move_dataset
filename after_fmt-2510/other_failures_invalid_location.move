@@ -1,7 +1,6 @@
 // tests non-abort related execution failures
 // missing or invalid location
 module 0x1::m {
-
     #[test]
     #[expected_failure(vector_error)]
     fun t0() {}

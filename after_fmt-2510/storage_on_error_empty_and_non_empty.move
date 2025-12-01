@@ -13,7 +13,6 @@ module 0x1::A {
     }
 
     // make sure that we only show storage state for failed tests
-
     #[test]
     #[expected_failure(abort_code = 0, location = 0x1::A)]
     fun a() {

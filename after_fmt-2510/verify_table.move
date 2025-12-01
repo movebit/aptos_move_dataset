@@ -4,7 +4,6 @@ module 0x42::VerifyTable {
     use extensions::table::{spec_get, spec_len, spec_contains};
 
     // TODO: test precise aborts behavior of all table functions
-
     fun add(): Table<u8, u64> {
         let t = table::new<u8, u64>();
         table::add(&mut t, 1, 2);

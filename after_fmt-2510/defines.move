@@ -35,6 +35,7 @@ module 0x42::TestDefines {
         fun exists_both(addr1: address, addr2: address): bool {
             exists<R>(addr1) && exists<R>(addr2)
         }
+
         fun get(addr: address): u64 {
             global<R>(addr).x
         }

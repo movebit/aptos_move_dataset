@@ -41,6 +41,7 @@ module 0xc0ffee::m {
         if (f <= U256_MAX) { bar() };
         if (U256_MAX >= f) { bar() };
         if (U128_MAX > e) { bar() };
+
         spec {
             assert a <= U8_MAX;
         }

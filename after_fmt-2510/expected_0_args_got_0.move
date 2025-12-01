@@ -1,5 +1,4 @@
 //# run
-
 script {
     fun main() {}
 }

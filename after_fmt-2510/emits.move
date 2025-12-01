@@ -10,7 +10,6 @@ module 0x42::TestEmits {
     // -------------------------
     // simple `emits` statements
     // -------------------------
-
     public fun simple(handle: &mut EventHandle<DummyEvent>) {
         event::emit_event(handle, DummyEvent { msg: 0 });
     }

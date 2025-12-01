@@ -1,9 +1,11 @@
 module 0x1::BARSToken {
     use std::option;
+
     #[test_only]
     use std::signer;
     use 0x1::NFT;
     use 0x1::NFTGallery;
+
     #[test_only]
     use std::guid;
 
@@ -80,8 +82,10 @@ module 0x1::BARSToken {
 
     #[test_only]
     const EMINT_FAILED: u64 = 0;
+
     #[test_only]
     const ETRANSFER_FAILED: u64 = 1;
+
     #[test_only]
     const ArtistAddr: address = @0x42;
 

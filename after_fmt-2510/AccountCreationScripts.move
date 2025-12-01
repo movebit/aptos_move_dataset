@@ -59,7 +59,6 @@ module DiemFramework::AccountCreationScripts {
     /// * `AccountAdministrationScripts::rotate_authentication_key`
     /// * `AccountAdministrationScripts::add_recovery_rotation_capability`
     /// * `AccountAdministrationScripts::create_recovery_address`
-
     public entry fun create_child_vasp_account<CoinType>(
         parent_vasp: signer,
         child_address: address,

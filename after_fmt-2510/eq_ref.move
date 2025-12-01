@@ -1,5 +1,4 @@
 module 0x42::m {
-
     fun ref_to_ref(x: u64, y: u64) {
         &x == &y;
     }

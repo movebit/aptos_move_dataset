@@ -115,6 +115,7 @@ module aptos_experimental::veiled_coin {
     use aptos_std::ristretto255_bulletproofs::RangeProof;
     use aptos_std::ristretto255_elgamal as elgamal;
     use aptos_std::ristretto255_pedersen as pedersen;
+
     #[test_only]
     use aptos_std::ristretto255::Scalar;
 
@@ -801,7 +802,6 @@ module aptos_experimental::veiled_coin {
     //
     // Test-only functions
     //
-
     #[test_only]
     /// Returns true if the balance at address `owner` equals `value`.
     /// Requires the ElGamal encryption randomness `r` and public key `pk` as auxiliary inputs.

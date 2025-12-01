@@ -34,7 +34,6 @@ module aptos_std::ed25519 {
     //
     // Structs
     //
-
     #[test_only]
     /// This struct holds an Ed25519 secret key that can be used to generate Ed25519 signatures during testing.
     struct SecretKey has drop {
@@ -236,7 +235,6 @@ module aptos_std::ed25519 {
     //
     // Tests
     //
-
     #[test_only]
     struct TestMessage has copy, drop {
         title: vector<u8>,

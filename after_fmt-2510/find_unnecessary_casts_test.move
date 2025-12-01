@@ -12,7 +12,6 @@ module 0xc0ffee::unnecessary_casts_test {
     }
 
     // ========== POSITIVE TESTS (should warn) ==========
-
     public fun test_cast_in_let_warn() {
         let x: u64 = 42;
         let y = (x as u64);
@@ -60,7 +59,6 @@ module 0xc0ffee::unnecessary_casts_test {
     }
 
     // ========== NEGATIVE TESTS (should not warn) ==========
-
     public fun test_necessary_cast_no_warn() {
         let x: u8 = 10;
         let y = (x as u64);
@@ -91,7 +89,6 @@ module 0xc0ffee::unnecessary_casts_test {
     }
 
     // ========== LINT SKIP TESTS ==========
-
     #[lint::skip(find_unnecessary_casts)]
     public fun test_skip_function_no_warn() {
         let x: u64 = 42;
@@ -109,7 +106,6 @@ module 0xc0ffee::unnecessary_casts_test {
 // Module-level lint skip test
 #[lint::skip(find_unnecessary_casts)]
 module 0xc0ffee::unnecessary_casts_skip_module {
-
     public fun test_module_skip_no_warn() {
         let x: u64 = 100;
         let y = (x as u64);

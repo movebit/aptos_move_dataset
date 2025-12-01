@@ -73,7 +73,6 @@ module aptos_experimental::confidential_proof {
     //
     // Helper structs
     //
-
     struct WithdrawalSigmaProofXs has drop {
         x1: CompressedRistretto,
         x2: CompressedRistretto,
@@ -1253,7 +1252,6 @@ module aptos_experimental::confidential_proof {
     //
     // Public view functions
     //
-
     #[view]
     /// Returns the Fiat Shamir DST for the `WithdrawalSigmaProof`.
     public fun get_fiat_shamir_withdrawal_sigma_dst(): vector<u8> {
@@ -1664,7 +1662,6 @@ module aptos_experimental::confidential_proof {
     //
     // Test-only structs
     //
-
     #[test_only]
     struct WithdrawalSigmaProofRandomness has drop {
         x1s: vector<Scalar>,
@@ -1703,7 +1700,6 @@ module aptos_experimental::confidential_proof {
     //
     // Test-only prove functions
     //
-
     #[test_only]
     public fun prove_withdrawal(
         dk: &Scalar,
@@ -2348,7 +2344,6 @@ module aptos_experimental::confidential_proof {
     //
     // Test-only serialization functions
     //
-
     #[test_only]
     public fun serialize_withdrawal_proof(proof: &WithdrawalProof)
         : (vector<u8>, vector<u8>) {
@@ -2558,7 +2553,6 @@ module aptos_experimental::confidential_proof {
     //
     // Test-only private functions
     //
-
     #[test_only]
     fun prove_new_balance_range(
         new_amount: u128, randomness: &vector<Scalar>

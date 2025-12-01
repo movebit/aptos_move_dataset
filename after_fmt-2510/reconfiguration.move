@@ -142,6 +142,7 @@ module aptos_framework::reconfiguration {
             error::invalid_state(EINVALID_BLOCK_TIME)
         );
         config_ref.last_reconfiguration_time = current_time;
+
         spec {
             assume config_ref.epoch + 1 <= MAX_U64;
         };

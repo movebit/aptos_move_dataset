@@ -21,7 +21,6 @@
 ///     "metadata": {"beaconID": "fastnet"}
 /// }
 /// ```
-
 module drand::drand {
     use std::hash::{sha3_256, sha2_256};
     use std::option::{Self, Option, extract};

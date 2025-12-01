@@ -1,5 +1,4 @@
 module 0x8675309::Tester {
-
     fun foo(_other: &mut u64): &mut u64 {
         _other
     }

@@ -1,5 +1,4 @@
 module 0x42::fields {
-
     struct S {
         f: u64,
         g: T

@@ -1,5 +1,4 @@
 module 0x42::test {
-
     struct R has store, key, drop {
         dummy_field: bool
     }

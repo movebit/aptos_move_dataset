@@ -1,7 +1,6 @@
 address 0x2 {
 module N {
     fun foo() {}
-
 }
 
 module M {
@@ -41,5 +40,6 @@ script {
         foo as assert,
         foo as Self
     };
+
     fun main() {}
 }

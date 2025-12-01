@@ -1,5 +1,4 @@
 module 0x42::M {
-
     struct S has drop {
         x: u64,
         y: bool,

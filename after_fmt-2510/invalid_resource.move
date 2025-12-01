@@ -1,5 +1,6 @@
 module 0x42::invalid_resource {
     use std::signer;
+
     fun test_exist1(addr: address): i64 {
         if (exists<i64>(addr)) { 1 }
         else { 2 }

@@ -212,7 +212,6 @@ module 0x99::lambda_arg {
 }
 
 module 0x99::lambda_generics {
-
     struct S<T> has drop {
         x: T
     }

@@ -7,8 +7,7 @@ module 0xc0ffee::m {
         secret() + secret()
     }
 
-    friend
-    fun some_what_inner(): u64 {
+    friend fun some_what_inner(): u64 {
         secret() + secret()
     }
 

@@ -49,6 +49,7 @@ module 0x42::TestAxioms {
 
     spec module {
         use std::bcs::serialize;
+
         fun deserialize<T>(bytes: vector<u8>): T;
         // We need the trigger annotation below, otherwise timeout
         axiom<T> forall v: T { serialize(v) }: deserialize<T>(serialize(v)) == v;

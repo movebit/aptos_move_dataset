@@ -1,6 +1,5 @@
 // Copyright Aptos Foundation
 // SPDX-License-Identifier: Apache-2.0
-
 module 0xABCD::smart_table_picture {
     use std::signer;
     use std::vector;

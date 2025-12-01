@@ -1,5 +1,4 @@
 module 0x8675309::M {
-
     fun ok(x: &u64) {
         ref(x, x)
     }

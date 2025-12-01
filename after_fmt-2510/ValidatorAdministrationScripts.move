@@ -51,7 +51,6 @@ module ValidatorAdministrationScripts {
     /// * `ValidatorAdministrationScripts::set_validator_operator`
     /// * `ValidatorAdministrationScripts::set_validator_operator_with_nonce_admin`
     /// * `ValidatorAdministrationScripts::set_validator_config_and_reconfigure`
-
     public entry fun add_validator_and_reconfigure(
         dr_account: signer,
         sliding_nonce: u64,

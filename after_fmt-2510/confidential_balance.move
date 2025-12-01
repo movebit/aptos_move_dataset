@@ -350,7 +350,6 @@ module aptos_experimental::confidential_balance {
     //
     // View functions
     //
-
     #[view]
     /// Returns the number of chunks in a pending balance.
     public fun get_pending_balance_chunks(): u64 {
@@ -372,7 +371,6 @@ module aptos_experimental::confidential_balance {
     //
     // Test-only
     //
-
     #[test_only]
     /// A helper struct for generating randomness for confidential balances in test environments.
     /// Each `r` element represents a random scalar used for Twisted ElGamal encryption.

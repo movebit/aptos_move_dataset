@@ -1,9 +1,7 @@
 // tests that control structures are right associative when not immediately followed by a block
 
 // valid usage with field access
-
 module 0x42::M {
-
     struct S has copy, drop {
         f: u64
     }

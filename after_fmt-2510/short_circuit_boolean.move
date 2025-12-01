@@ -23,6 +23,7 @@ module 0x42::X {
 //# run
 script {
     use 0x42::X;
+
     fun main() {
         assert!(X::tester(false, false) == 70, 1);
         assert!(X::tester(false, true) == 10, 2);

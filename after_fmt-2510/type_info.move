@@ -15,7 +15,6 @@ module aptos_std::type_info {
     //
     // Structs
     //
-
     struct TypeInfo has copy, drop, store {
         account_address: address,
         module_name: vector<u8>,
@@ -25,7 +24,6 @@ module aptos_std::type_info {
     //
     // Public functions
     //
-
     public fun account_address(self: &TypeInfo): address {
         self.account_address
     }
@@ -159,6 +157,7 @@ module aptos_std::type_info {
         let account_address = type_info.account_address();
         let module_name = type_info.module_name();
         let struct_name = type_info.struct_name();
+
         spec {
             assert account_address == @aptos_std;
             assert module_name == b"type_info";
@@ -172,6 +171,7 @@ module aptos_std::type_info {
         let account_address = type_info.account_address();
         let module_name = type_info.module_name();
         let struct_name = type_info.struct_name();
+
         spec {
             assert account_address == type_of<T>().account_address;
             assert module_name == type_of<T>().module_name;

@@ -1,5 +1,6 @@
 module 0x42::nested_loop {
     use std::vector;
+
     public fun assert_no_duplicate(v: &vector<u64>) {
         let i = 0;
         let n = vector::length(v);

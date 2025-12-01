@@ -42,6 +42,7 @@ module M {
         t.r
     }
 }
+
 module M2 {
     use 0x42::M;
 

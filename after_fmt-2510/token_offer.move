@@ -38,7 +38,6 @@ module token_offer {
     const EEXPIRED: u64 = 6;
 
     // Core data structures
-
     #[resource_group_member(group = aptos_framework::object::ObjectGroup)]
     /// Create a timed offer to buy a token. The token and
     /// assets used to buy are stored in other resources within the object.
@@ -469,7 +468,6 @@ module token_offer {
     }
 
     // View
-
     #[view]
     public fun exists_at(token_offer: Object<TokenOffer>): bool {
         exists<TokenOffer>(object::object_address(&token_offer))

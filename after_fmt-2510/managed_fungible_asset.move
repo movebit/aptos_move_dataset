@@ -394,6 +394,7 @@ module example_addr::managed_fungible_asset {
 
     #[test_only]
     use aptos_framework::object::object_from_constructor_ref;
+
     #[test_only]
     use std::string::utf8;
     use std::vector;

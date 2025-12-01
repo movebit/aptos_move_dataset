@@ -1,5 +1,4 @@
 /// Standard math utilities missing in the Move Language.
-
 module aptos_std::math_fixed64 {
     use aptos_std::fixed_point64;
     use aptos_std::fixed_point64::FixedPoint64;

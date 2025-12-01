@@ -5,7 +5,6 @@
 module alice::foo {
 
     // --- All these should be okay ---
-
     public entry fun no_arg() {}
 
     entry fun one_signer_arg_1(_s: &signer) {}
@@ -15,7 +14,6 @@ module alice::foo {
     entry fun multiple_signers(_s1: &signer, _s2: &signer) {}
 
     // --- All these should be warnings ---
-
     entry fun one_signer_later(_x: u64, _s: &signer) {}
 
     entry fun multiple_signers_later(

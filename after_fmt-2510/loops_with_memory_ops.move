@@ -1,12 +1,14 @@
 // separate_baseline: cvc5
 module 0x42::VerifyLoopsWithMemoryOps {
     use std::vector;
+
     spec module {
         pragma verify = true;
     }
 
     public fun nested_loop1(a: &mut vector<u64>, b: &mut vector<u64>) {
         let length = vector::length(a);
+
         spec {
             assume length > 0;
             assume length == len(b);
@@ -32,6 +34,7 @@ module 0x42::VerifyLoopsWithMemoryOps {
                 *x = *x + 1;
             };
         };
+
         spec {
             assert forall m in 0..length: a[m] == b[m];
         };
@@ -52,6 +55,7 @@ module 0x42::VerifyLoopsWithMemoryOps {
     // takes a mutable reference and returns its "location" and "path".
     public fun nested_loop2(a: &mut vector<u64>, b: &mut vector<u64>) {
         let length = vector::length(a);
+
         spec {
             assume length > 0;
             assume length == len(b);
@@ -80,6 +84,7 @@ module 0x42::VerifyLoopsWithMemoryOps {
             x = vector::borrow_mut(a, i);
             y = vector::borrow_mut(b, i);
         };
+
         spec {
             assert forall m in 0..length: a[m] == b[m];
         };

@@ -1,5 +1,4 @@
 module 0x42::not_supported_ops {
-
     fun test_or1(x: i8, y: i8): i8 {
         x | y
     }

@@ -2,10 +2,10 @@
 address M {}
 
 module M::Mod {
-
     struct S {}
 
     friend M::M;
+
     public(friend) fun foo() {}
 }
 

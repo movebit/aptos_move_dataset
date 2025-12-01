@@ -4,6 +4,7 @@ module 0x42::VerifySort {
 
     public fun verify_sort(v: &mut vector<u64>) {
         let vlen = vector::length(v);
+
         spec {
             assume vlen == 45;
         };
@@ -45,6 +46,7 @@ module 0x42::VerifySort {
             //     TRACE(v);
             // }
         };
+
         spec {
             assert len(v) == vlen;
             assert i == vlen - 1;

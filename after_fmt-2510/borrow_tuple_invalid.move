@@ -1,5 +1,4 @@
 module 0x8675309::M {
-
     fun borrow_local() {
         &();
         &(1, 2);

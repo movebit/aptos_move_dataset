@@ -1,5 +1,4 @@
 // benchmark is run without indexer, so we need to do bookeeping onchain.
-
 module publisher_address::liquidity_pool_wrapper {
     use aptos_framework::fungible_asset::{Self, Metadata, MintRef};
     use aptos_framework::object::{Self, Object};

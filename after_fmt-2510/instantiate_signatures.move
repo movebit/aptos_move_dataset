@@ -12,7 +12,6 @@ module M {
 
     // Written types with unsatisified constraints
     // Checked in various positions
-
     struct S1 {
         f1: S<R>,
         f2: S<&u64>,
