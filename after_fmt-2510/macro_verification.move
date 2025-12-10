@@ -19,6 +19,7 @@ module 0x42::FunMacros {
             *x = *x + 1;
             i = i + 1;
         }
+
         spec {
             invariant i >= 0 && i <= len(v);
             invariant len(v) == len(old(v));
@@ -46,6 +47,7 @@ module 0x42::FunMacros {
             sum = sum + *x;
             i = i + 1;
         }
+
         spec {
             invariant i >= 0 && i <= len(v);
             invariant sum == spec_sum(v, i);
@@ -90,6 +92,7 @@ module 0x42::FunMacros {
             if (*x > 2) return i;
             i = i + 1;
         }
+
         spec {
             invariant i >= 0 && i <= len(v);
             invariant forall j in 0..i: !(v[j] > 2);

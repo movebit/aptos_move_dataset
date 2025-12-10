@@ -78,6 +78,7 @@ module 0x8675309::M {
             y + 1
         };
     }
+
     fun using_block(x: u64): u64 {
         x + 1
     }

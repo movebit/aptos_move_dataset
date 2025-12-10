@@ -15,6 +15,7 @@ module A {
                 let s = borrow_global_mut<S>(addr);
                 s.x = 2;
             }
+
             spec {
                 modifies global<S>(addr);
                 pragma opaque;
@@ -38,6 +39,7 @@ module A {
                 let s = borrow_global_mut<S>(addr);
                 s.x = 2;
             }
+
             spec {
                 pragma opaque;
                 aborts_if !exists<S>(addr);
@@ -53,6 +55,7 @@ module A {
                 let s = borrow_global_mut<S>(addr);
                 s.x = 2;
             }
+
             spec {
                 pragma opaque;
                 modifies global<S>(addr);

@@ -10,6 +10,7 @@ module M {
     }
 }
 }
+
 module 123::N {
     use 123::M;
     use 123::M::S;
