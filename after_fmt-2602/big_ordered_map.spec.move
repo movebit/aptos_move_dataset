@@ -141,7 +141,9 @@ spec aptos_std::big_ordered_map {
                 spec_contains_key(self, k);
     }
 
-    spec new_from<K: drop + copy + store, V: store>(keys: vector<K>, values: vector<V>): BigOrderedMap<K, V> {
+    spec new_from<K: drop + copy + store, V: store>(
+        keys: vector<K>, values: vector<V>
+    ): BigOrderedMap<K, V> {
         pragma opaque;
         pragma verify = false;
         aborts_if [abstract] exists i in 0..len(keys), j in 0..len(keys) where i != j:
@@ -187,7 +189,9 @@ spec aptos_std::big_ordered_map {
         pragma verify = false;
     }
 
-    spec borrow_front<K: drop + copy + store, V: store>(self: &BigOrderedMap<K, V>): (K, &V) {
+    spec borrow_front<K: drop + copy + store, V: store>(
+        self: &BigOrderedMap<K, V>
+    ): (K, &V) {
         pragma opaque;
         pragma verify = false;
         ensures [abstract] spec_contains_key(self, result_1);
@@ -207,7 +211,9 @@ spec aptos_std::big_ordered_map {
                 std::cmp::compare(result_1, k) == std::cmp::Ordering::Greater;
     }
 
-    spec pop_front<K: drop + copy + store, V: store>(self: &mut BigOrderedMap<K, V>): (K, V) {
+    spec pop_front<K: drop + copy + store, V: store>(
+        self: &mut BigOrderedMap<K, V>
+    ): (K, V) {
         pragma opaque;
         pragma verify = false;
     }
@@ -217,7 +223,9 @@ spec aptos_std::big_ordered_map {
         pragma verify = false;
     }
 
-    spec prev_key<K: drop + copy + store, V: store>(self: &BigOrderedMap<K, V>, key: &K): Option<K> {
+    spec prev_key<K: drop + copy + store, V: store>(
+        self: &BigOrderedMap<K, V>, key: &K
+    ): Option<K> {
         pragma opaque;
         pragma verify = false;
         ensures [abstract] result == std::option::spec_none() <==>
@@ -248,7 +256,9 @@ spec aptos_std::big_ordered_map {
                 );
     }
 
-    spec next_key<K: drop + copy + store, V: store>(self: &BigOrderedMap<K, V>, key: &K): Option<K> {
+    spec next_key<K: drop + copy + store, V: store>(
+        self: &BigOrderedMap<K, V>, key: &K
+    ): Option<K> {
         pragma opaque;
         pragma verify = false;
         ensures [abstract] result == std::option::spec_none() <==>

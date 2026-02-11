@@ -129,13 +129,17 @@ spec aptos_framework::object {
 
     spec fun spec_create_user_derived_object_address_impl(source: address, derive_from: address): address;
 
-    spec create_user_derived_object_address_impl(source: address, derive_from: address): address {
+    spec create_user_derived_object_address_impl(
+        source: address, derive_from: address
+    ): address {
         pragma opaque;
         ensures [abstract] result
             == spec_create_user_derived_object_address_impl(source, derive_from);
     }
 
-    spec create_user_derived_object_address(source: address, derive_from: address): address {
+    spec create_user_derived_object_address(
+        source: address, derive_from: address
+    ): address {
         pragma opaque;
         pragma aborts_if_is_strict = false;
         aborts_if [abstract] false;
@@ -186,7 +190,9 @@ spec aptos_framework::object {
         ensures result == ConstructorRef { self: obj_addr, can_delete: false };
     }
 
-    spec create_user_derived_object(creator_address: address, derive_ref: &DeriveRef): ConstructorRef {
+    spec create_user_derived_object(
+        creator_address: address, derive_ref: &DeriveRef
+    ): ConstructorRef {
         let obj_addr = spec_create_user_derived_object_address(
             creator_address, derive_ref.self
         );
@@ -288,7 +294,9 @@ spec aptos_framework::object {
         ensures result == ConstructorRef { self: obj_addr, can_delete: true };
     }
 
-    spec create_object_from_guid(creator_address: address, guid: guid::GUID): ConstructorRef {
+    spec create_object_from_guid(
+        creator_address: address, guid: guid::GUID
+    ): ConstructorRef {
         let bytes_spec = bcs::to_bytes(guid);
         let bytes = concat(bytes_spec, vec<u8>(OBJECT_FROM_GUID_ADDRESS_SCHEME));
         let hash_bytes = hash::sha3_256(bytes);
@@ -315,12 +323,16 @@ spec aptos_framework::object {
         ensures result == ConstructorRef { self: obj_addr, can_delete: true };
     }
 
-    spec create_sticky_object_at_address(owner_address: address, object_address: address): ConstructorRef {
+    spec create_sticky_object_at_address(
+        owner_address: address, object_address: address
+    ): ConstructorRef {
         // TODO(fa_migration)
         pragma verify = false;
     }
 
-    spec create_object_internal(creator_address: address, object: address, can_delete: bool): ConstructorRef {
+    spec create_object_internal(
+        creator_address: address, object: address, can_delete: bool
+    ): ConstructorRef {
         // property 1: Creating an object twice on the same address must never occur.
         /// [high-level-req-1]
         aborts_if exists<ObjectCore>(object);
@@ -452,7 +464,9 @@ spec aptos_framework::object {
         aborts_if !global<ObjectCore>(object).allow_ungated_transfer;
     }
 
-    spec transfer_to_object<O: key, T: key>(owner: &signer, object: Object<O>, to: Object<T>) {
+    spec transfer_to_object<O: key, T: key>(
+        owner: &signer, object: Object<O>, to: Object<T>
+    ) {
         pragma aborts_if_is_partial;
         // TODO: Verify the link list loop in verify_ungated_and_descendant
         let owner_address = signer::address_of(owner);
@@ -470,7 +484,9 @@ spec aptos_framework::object {
         ensures is_owner(object, signer::address_of(owner));
     }
 
-    spec burn_object_with_transfer<T: key>(owner: &signer, object: Object<T>) {
+    spec burn_object_with_transfer<T: key>(
+        owner: &signer, object: Object<T>
+    ) {
         pragma aborts_if_is_partial;
         let object_address = object.inner;
         aborts_if !exists<ObjectCore>(object_address);
@@ -490,7 +506,9 @@ spec aptos_framework::object {
             && tomb_stone.original_owner != original_owner_address;
     }
 
-    spec verify_ungated_and_descendant(owner: address, destination: address) {
+    spec verify_ungated_and_descendant(
+        owner: address, destination: address
+    ) {
         // TODO: Verify the link list loop in verify_ungated_and_descendant
         pragma aborts_if_is_partial;
         pragma unroll = MAXIMUM_OBJECT_NESTING;

@@ -24,7 +24,9 @@ spec aptos_framework::jwks {
         pragma verify_duration_estimate = 80;
     }
 
-    spec upsert_into_observed_jwks(fx: &signer, provider_jwks_vec: vector<ProviderJWKs>) {
+    spec upsert_into_observed_jwks(
+        fx: &signer, provider_jwks_vec: vector<ProviderJWKs>
+    ) {
         pragma verify_duration_estimate = 80;
     }
 
@@ -32,7 +34,9 @@ spec aptos_framework::jwks {
         pragma verify_duration_estimate = 80;
     }
 
-    spec try_get_jwk_by_issuer(jwks: &AllProvidersJWKs, issuer: vector<u8>, jwk_id: vector<u8>): Option<JWK> {
+    spec try_get_jwk_by_issuer(
+        jwks: &AllProvidersJWKs, issuer: vector<u8>, jwk_id: vector<u8>
+    ): Option<JWK> {
         pragma verify_duration_estimate = 80;
     }
 
@@ -52,17 +56,20 @@ spec aptos_framework::jwks {
         pragma verify_duration_estimate = 80;
     }
 
-    spec remove_issuer_from_observed_jwks(fx: &signer, issuer: vector<u8>): Option<
-        ProviderJWKs> {
+    spec remove_issuer_from_observed_jwks(
+        fx: &signer, issuer: vector<u8>
+    ): Option<ProviderJWKs> {
         pragma verify_duration_estimate = 80;
     }
 
-    spec try_get_jwk_by_id(provider_jwks: &ProviderJWKs, jwk_id: vector<u8>): Option<JWK> {
+    spec try_get_jwk_by_id(
+        provider_jwks: &ProviderJWKs, jwk_id: vector<u8>
+    ): Option<JWK> {
         pragma verify_duration_estimate = 80;
     }
 
-    spec remove_issuer(jwks: &mut AllProvidersJWKs, issuer: vector<u8>): Option<
-        ProviderJWKs> {
+    spec remove_issuer(jwks: &mut AllProvidersJWKs, issuer: vector<u8>)
+        : Option<ProviderJWKs> {
         use std::option;
         use std::vector;
         pragma opaque;

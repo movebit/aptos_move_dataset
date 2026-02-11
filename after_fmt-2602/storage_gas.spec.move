@@ -120,7 +120,9 @@ spec aptos_framework::storage_gas {
             };
     }
 
-    spec new_storage_gas_config(item_config: UsageGasConfig, byte_config: UsageGasConfig): StorageGasConfig {
+    spec new_storage_gas_config(
+        item_config: UsageGasConfig, byte_config: UsageGasConfig
+    ): StorageGasConfig {
         aborts_if false;
 
         ensures result.item_config == item_config;
@@ -155,7 +157,9 @@ spec aptos_framework::storage_gas {
         include ValidatePointsAbortsIf;
     }
 
-    spec calculate_gas(max_usage: u64, current_usage: u64, curve: &GasCurve): u64 {
+    spec calculate_gas(
+        max_usage: u64, current_usage: u64, curve: &GasCurve
+    ): u64 {
         pragma opaque;
         // Not verified when verify_duration_estimate > vc_timeout
         pragma verify_duration_estimate = 120; // TODO: set because of timeout (property proved).
@@ -166,9 +170,7 @@ spec aptos_framework::storage_gas {
             == spec_calculate_gas(max_usage, current_usage, curve);
     }
 
-    spec interpolate(
-        x0: u64, x1: u64, y0: u64, y1: u64, x: u64
-    ): u64 {
+    spec interpolate(x0: u64, x1: u64, y0: u64, y1: u64, x: u64): u64 {
         pragma opaque;
         pragma intrinsic;
 

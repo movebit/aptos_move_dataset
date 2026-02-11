@@ -53,7 +53,9 @@ spec aptos_std::smart_table {
         pragma verify = false;
     }
 
-    spec to_simple_map<K: store + copy + drop, V: store + copy>(self: &SmartTable<K, V>): SimpleMap<K, V> {
+    spec to_simple_map<K: store + copy + drop, V: store + copy>(
+        self: &SmartTable<K, V>
+    ): SimpleMap<K, V> {
         pragma verify = false;
     }
 
@@ -76,11 +78,15 @@ spec aptos_std::smart_table {
         pragma verify = false;
     }
 
-    spec update_split_load_threshold<K, V>(self: &mut SmartTable<K, V>, split_load_threshold: u8) {
+    spec update_split_load_threshold<K, V>(
+        self: &mut SmartTable<K, V>, split_load_threshold: u8
+    ) {
         pragma verify = false;
     }
 
-    spec update_target_bucket_size<K, V>(self: &mut SmartTable<K, V>, target_bucket_size: u64) {
+    spec update_target_bucket_size<K, V>(
+        self: &mut SmartTable<K, V>, target_bucket_size: u64
+    ) {
         pragma verify = false;
     }
 
@@ -96,11 +102,14 @@ spec aptos_std::smart_table {
         pragma verify = false;
     }
 
-    spec borrow_buckets<K, V>(self: &SmartTable<K, V>): &TableWithLength<u64, vector<Entry<K, V>>> {
+    spec borrow_buckets<K, V>(self: &SmartTable<K, V>)
+        : &TableWithLength<u64, vector<Entry<K, V>>> {
         pragma verify = false;
     }
 
-    spec borrow_buckets_mut<K, V>(self: &mut SmartTable<K, V>): &mut TableWithLength<u64, vector<Entry<K, V>>> {
+    spec borrow_buckets_mut<K, V>(
+        self: &mut SmartTable<K, V>
+    ): &mut TableWithLength<u64, vector<Entry<K, V>>> {
         pragma verify = false;
     }
 

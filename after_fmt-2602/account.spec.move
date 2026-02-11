@@ -209,7 +209,9 @@ spec aptos_framework::account {
 
     /// The Account existed under the signer before the call.
     /// The length of new_auth_key is 32.
-    spec rotate_authentication_key_internal(account: &signer, new_auth_key: vector<u8>) {
+    spec rotate_authentication_key_internal(
+        account: &signer, new_auth_key: vector<u8>
+    ) {
         let addr = signer::address_of(account);
         /// [high-level-req-10]
         let post account_resource = global<Account>(addr);
@@ -219,7 +221,9 @@ spec aptos_framework::account {
         ensures account_resource.authentication_key == new_auth_key;
     }
 
-    spec rotate_authentication_key_call(account: &signer, new_auth_key: vector<u8>) {
+    spec rotate_authentication_key_call(
+        account: &signer, new_auth_key: vector<u8>
+    ) {
         let addr = signer::address_of(account);
         /// [high-level-req-10]
         let post account_resource = global<Account>(addr);
@@ -622,7 +626,9 @@ spec aptos_framework::account {
 
     /// The Account existed under the signer.
     /// The value of signer_capability_offer.for of Account resource under the signer is to_be_revoked_address.
-    spec revoke_signer_capability(account: &signer, to_be_revoked_address: address) {
+    spec revoke_signer_capability(
+        account: &signer, to_be_revoked_address: address
+    ) {
         aborts_if !exists<Account>(to_be_revoked_address);
         let addr = signer::address_of(account);
         let account_resource = global<Account>(addr);
@@ -643,7 +649,9 @@ spec aptos_framework::account {
         aborts_if !option::is_some(account_resource.signer_capability_offer.for);
     }
 
-    spec revoke_rotation_capability(account: &signer, to_be_revoked_address: address) {
+    spec revoke_rotation_capability(
+        account: &signer, to_be_revoked_address: address
+    ) {
         aborts_if !exists<Account>(to_be_revoked_address);
         let addr = signer::address_of(account);
         let account_resource = global<Account>(addr);
@@ -671,7 +679,9 @@ spec aptos_framework::account {
 
     /// The Account existed under the signer.
     /// The value of signer_capability_offer.for of Account resource under the signer is offerer_address.
-    spec create_authorized_signer(account: &signer, offerer_address: address): signer {
+    spec create_authorized_signer(
+        account: &signer, offerer_address: address
+    ): signer {
         /// [high-level-req-8]
         include AccountContainsAddr { account, address: offerer_address };
         modifies global<Account>(offerer_address);
@@ -704,7 +714,8 @@ spec aptos_framework::account {
 
     spec fun spec_create_resource_address(source: address, seed: vector<u8>): address;
 
-    spec create_resource_account(source: &signer, seed: vector<u8>): (signer, SignerCapability) {
+    spec create_resource_account(source: &signer, seed: vector<u8>)
+        : (signer, SignerCapability) {
         let source_addr = signer::address_of(source);
         let resource_addr = spec_create_resource_address(source_addr, seed);
 

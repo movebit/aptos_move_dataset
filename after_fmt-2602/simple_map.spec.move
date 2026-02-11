@@ -76,7 +76,9 @@ spec aptos_std::simple_map {
         ensures [abstract] forall k: Key: !spec_contains_key(result, k);
     }
 
-    spec new_from<Key: store, Value: store>(keys: vector<Key>, values: vector<Value>): SimpleMap<Key, Value> {
+    spec new_from<Key: store, Value: store>(
+        keys: vector<Key>, values: vector<Value>
+    ): SimpleMap<Key, Value> {
         pragma intrinsic;
         pragma opaque;
         aborts_if [abstract] false;
@@ -88,9 +90,8 @@ spec aptos_std::simple_map {
             spec_get(result, keys.borrow(i)) == values.borrow(i);
     }
 
-    spec to_vec_pair<Key: store, Value: store>(self: SimpleMap<Key, Value>): (
-        vector<Key>, vector<Value>
-    ) {
+    spec to_vec_pair<Key: store, Value: store>(self: SimpleMap<Key, Value>)
+        : (vector<Key>, vector<Value>) {
         pragma intrinsic;
         pragma opaque;
         ensures [abstract] forall k: Key:

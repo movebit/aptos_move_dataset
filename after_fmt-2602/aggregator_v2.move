@@ -382,9 +382,7 @@ module aptos_framework::aggregator_v2 {
     }
 
     spec verify_aggregator_generic<IntElement1: copy + drop, IntElement2: copy + drop>()
-        : (
-        Aggregator<IntElement1>, Aggregator<IntElement2>
-    ) {
+        : (Aggregator<IntElement1>, Aggregator<IntElement2>) {
         use aptos_std::type_info;
         aborts_if type_info::type_name<IntElement1>().bytes != b"u64"
             && type_info::type_name<IntElement1>().bytes != b"u128";

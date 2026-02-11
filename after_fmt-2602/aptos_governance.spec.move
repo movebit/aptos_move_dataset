@@ -142,7 +142,9 @@ spec aptos_framework::aptos_governance {
 
     /// Signer address must be @aptos_framework.
     /// Address @aptos_framework must exist GovernanceConfig and GovernanceEvents.
-    spec toggle_features(aptos_framework: &signer, enable: vector<u64>, disable: vector<u64>) {
+    spec toggle_features(
+        aptos_framework: &signer, enable: vector<u64>, disable: vector<u64>
+    ) {
         use aptos_framework::chain_status;
         use aptos_framework::coin::CoinInfo;
         use aptos_framework::aptos_coin::AptosCoin;
@@ -692,7 +694,9 @@ spec aptos_framework::aptos_governance {
     /// Signer address must be @core_resources.
     /// signer must exist in MintCapStore.
     /// Address @aptos_framework must exist GovernanceResponsbility.
-    spec get_signer_testnet_only(core_resources: &signer, signer_address: address): signer {
+    spec get_signer_testnet_only(
+        core_resources: &signer, signer_address: address
+    ): signer {
         aborts_if signer::address_of(core_resources) != @core_resources;
         aborts_if !exists<aptos_coin::MintCapStore>(signer::address_of(core_resources));
         include GetSignerAbortsIf;
@@ -737,7 +741,9 @@ spec aptos_framework::aptos_governance {
         } else { 0 }
     }
 
-    spec get_remaining_voting_power(stake_pool: address, proposal_id: u64): u64 {
+    spec get_remaining_voting_power(
+        stake_pool: address, proposal_id: u64
+    ): u64 {
         aborts_if !exists<VotingRecordsV2>(@aptos_framework);
         include voting::AbortsIfNotContainProposalID<GovernanceProposal> {
             voting_forum_address: @aptos_framework
@@ -774,7 +780,9 @@ spec aptos_framework::aptos_governance {
         ensures result == spec_get_remaining_voting_power(stake_pool, proposal_id);
     }
 
-    spec fun spec_get_remaining_voting_power(stake_pool: address, proposal_id: u64): u64 {
+    spec fun spec_get_remaining_voting_power(
+        stake_pool: address, proposal_id: u64
+    ): u64 {
         let spec_proposal_expiration =
             voting::spec_get_proposal_expiration_secs<GovernanceProposal>(
                 @aptos_framework, proposal_id
@@ -801,7 +809,9 @@ spec aptos_framework::aptos_governance {
         }
     }
 
-    spec fun spec_has_entirely_voted(stake_pool: address, proposal_id: u64, record_key: RecordKey): bool {
+    spec fun spec_has_entirely_voted(
+        stake_pool: address, proposal_id: u64, record_key: RecordKey
+    ): bool {
         let voting_records = global<VotingRecords>(@aptos_framework);
         table::spec_contains(voting_records.votes, record_key)
     }
@@ -839,7 +849,9 @@ spec aptos_framework::aptos_governance {
         aborts_if !simple_map::spec_contains_key(cap_map, signer_address);
     }
 
-    spec create_proposal_metadata(metadata_location: vector<u8>, metadata_hash: vector<u8>): SimpleMap<String, vector<u8>> {
+    spec create_proposal_metadata(
+        metadata_location: vector<u8>, metadata_hash: vector<u8>
+    ): SimpleMap<String, vector<u8>> {
         include CreateProposalMetadataAbortsIf;
     }
 
@@ -1003,7 +1015,9 @@ spec aptos_framework::aptos_governance {
         include VotingInitializationAbortIfs;
     }
 
-    spec assert_proposal_expiration(stake_pool: address, proposal_id: u64) {
+    spec assert_proposal_expiration(
+        stake_pool: address, proposal_id: u64
+    ) {
         include VotingInitializationAbortIfs;
         include voting::AbortsIfNotContainProposalID<GovernanceProposal> {
             voting_forum_address: @aptos_framework

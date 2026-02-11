@@ -19,8 +19,9 @@ spec aptos_std::secp256k1 {
         ensures result == sig.bytes;
     }
 
-    spec ecdsa_recover(message: vector<u8>, recovery_id: u8, signature: &ECDSASignature): Option<
-        ECDSARawPublicKey> {
+    spec ecdsa_recover(
+        message: vector<u8>, recovery_id: u8, signature: &ECDSASignature
+    ): Option<ECDSARawPublicKey> {
         aborts_if recovery_id > 3;
         aborts_if ecdsa_recover_internal_abort_condition(
             message, recovery_id, signature.bytes
@@ -37,9 +38,9 @@ spec aptos_std::secp256k1 {
             result == std::option::spec_none<ECDSARawPublicKey>();
     }
 
-    spec ecdsa_recover_internal(message: vector<u8>, recovery_id: u8, signature: vector<u8>): (
-        vector<u8>, bool
-    ) {
+    spec ecdsa_recover_internal(
+        message: vector<u8>, recovery_id: u8, signature: vector<u8>
+    ): (vector<u8>, bool) {
         pragma opaque;
         aborts_if ecdsa_recover_internal_abort_condition(message, recovery_id, signature);
         ensures result_1

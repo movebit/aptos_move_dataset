@@ -164,7 +164,9 @@ spec aptos_framework::optional_aggregator {
     }
 
     /// The aggregator exists and the integer does not exist when destroy the aggregator.
-    spec destroy_optional_aggregator(optional_aggregator: OptionalAggregator): u128 {
+    spec destroy_optional_aggregator(
+        optional_aggregator: OptionalAggregator
+    ): u128 {
         aborts_if option::is_none(optional_aggregator.aggregator);
         aborts_if option::is_some(optional_aggregator.integer);
         ensures result
@@ -172,13 +174,17 @@ spec aptos_framework::optional_aggregator {
     }
 
     /// The integer exists and the aggregator does not exist when destroy the integer.
-    spec destroy_optional_integer(optional_aggregator: OptionalAggregator): u128 {
+    spec destroy_optional_integer(
+        optional_aggregator: OptionalAggregator
+    ): u128 {
         aborts_if option::is_none(optional_aggregator.integer);
         aborts_if option::is_some(optional_aggregator.aggregator);
         ensures result == option::borrow(optional_aggregator.integer).limit;
     }
 
-    spec fun optional_aggregator_value(optional_aggregator: OptionalAggregator): u128 {
+    spec fun optional_aggregator_value(
+        optional_aggregator: OptionalAggregator
+    ): u128 {
         if (is_parallelizable(optional_aggregator)) {
             aggregator::spec_aggregator_get_val(
                 option::borrow(optional_aggregator.aggregator)
@@ -188,7 +194,9 @@ spec aptos_framework::optional_aggregator {
         }
     }
 
-    spec fun optional_aggregator_limit(optional_aggregator: OptionalAggregator): u128 {
+    spec fun optional_aggregator_limit(
+        optional_aggregator: OptionalAggregator
+    ): u128 {
         if (is_parallelizable(optional_aggregator)) {
             aggregator::spec_get_limit(option::borrow(optional_aggregator.aggregator))
         } else {

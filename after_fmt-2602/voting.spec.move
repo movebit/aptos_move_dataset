@@ -276,7 +276,9 @@ spec aptos_framework::voting {
             != proposal.execution_hash;
     }
 
-    spec resolve<ProposalType: store>(voting_forum_address: address, proposal_id: u64): ProposalType {
+    spec resolve<ProposalType: store>(
+        voting_forum_address: address, proposal_id: u64
+    ): ProposalType {
         use aptos_framework::chain_status;
         // Ensures existence of Timestamp
         requires chain_status::is_operating();
@@ -389,13 +391,17 @@ spec aptos_framework::voting {
             post_proposal.execution_hash == next_execution_hash;
     }
 
-    spec next_proposal_id<ProposalType: store>(voting_forum_address: address): u64 {
+    spec next_proposal_id<ProposalType: store>(
+        voting_forum_address: address
+    ): u64 {
         aborts_if !exists<VotingForum<ProposalType>>(voting_forum_address);
         ensures result
             == global<VotingForum<ProposalType>>(voting_forum_address).next_proposal_id;
     }
 
-    spec is_voting_closed<ProposalType: store>(voting_forum_address: address, proposal_id: u64): bool {
+    spec is_voting_closed<ProposalType: store>(
+        voting_forum_address: address, proposal_id: u64
+    ): bool {
         use aptos_framework::chain_status;
         // Ensures existence of Timestamp
         requires chain_status::is_operating();
@@ -414,13 +420,16 @@ spec aptos_framework::voting {
             || is_voting_period_over(proposal)
     }
 
-    spec can_be_resolved_early<ProposalType: store>(proposal: &Proposal<ProposalType>): bool {
+    spec can_be_resolved_early<ProposalType: store>(
+        proposal: &Proposal<ProposalType>
+    ): bool {
         aborts_if false;
         ensures result == spec_can_be_resolved_early<ProposalType>(proposal);
     }
 
-    spec fun spec_can_be_resolved_early<ProposalType: store>(proposal: Proposal<
-        ProposalType>): bool {
+    spec fun spec_can_be_resolved_early<ProposalType: store>(
+        proposal: Proposal<ProposalType>
+    ): bool {
         if (option::is_some(proposal.early_resolution_vote_threshold)) {
             let early_resolution_threshold =
                 option::borrow(proposal.early_resolution_vote_threshold);
@@ -461,7 +470,9 @@ spec aptos_framework::voting {
         proposal.expiration_secs
     }
 
-    spec get_proposal_state<ProposalType: store>(voting_forum_address: address, proposal_id: u64): u64 {
+    spec get_proposal_state<ProposalType: store>(
+        voting_forum_address: address, proposal_id: u64
+    ): u64 {
 
         use aptos_framework::chain_status;
 
@@ -476,7 +487,9 @@ spec aptos_framework::voting {
             == spec_get_proposal_state(voting_forum_address, proposal_id, voting_forum);
     }
 
-    spec get_proposer<ProposalType: store>(voting_forum_address: address, proposal_id: u64): address {
+    spec get_proposer<ProposalType: store>(
+        voting_forum_address: address, proposal_id: u64
+    ): address {
         include AbortsIfNotContainProposalID<ProposalType>;
         let voting_forum = global<VotingForum<ProposalType>>(voting_forum_address);
         let proposal = table::spec_get(voting_forum.proposals, proposal_id);
@@ -511,7 +524,9 @@ spec aptos_framework::voting {
         ensures result == proposal.resolution_time_secs;
     }
 
-    spec get_execution_hash<ProposalType: store>(voting_forum_address: address, proposal_id: u64): vector<u8> {
+    spec get_execution_hash<ProposalType: store>(
+        voting_forum_address: address, proposal_id: u64
+    ): vector<u8> {
         include AbortsIfNotContainProposalID<ProposalType>;
         let voting_forum = global<VotingForum<ProposalType>>(voting_forum_address);
         let proposal = table::spec_get(voting_forum.proposals, proposal_id);
@@ -536,7 +551,9 @@ spec aptos_framework::voting {
         ensures result == proposal.early_resolution_vote_threshold;
     }
 
-    spec get_proposal_metadata<ProposalType: store>(voting_forum_address: address, proposal_id: u64): SimpleMap<String, vector<u8>> {
+    spec get_proposal_metadata<ProposalType: store>(
+        voting_forum_address: address, proposal_id: u64
+    ): SimpleMap<String, vector<u8>> {
         include AbortsIfNotContainProposalID<ProposalType>;
         let voting_forum = global<VotingForum<ProposalType>>(voting_forum_address);
         let proposal = table::spec_get(voting_forum.proposals, proposal_id);
@@ -553,7 +570,9 @@ spec aptos_framework::voting {
         ensures result == simple_map::spec_get(proposal.metadata, metadata_key);
     }
 
-    spec get_votes<ProposalType: store>(voting_forum_address: address, proposal_id: u64): (u128, u128) {
+    spec get_votes<ProposalType: store>(
+        voting_forum_address: address, proposal_id: u64
+    ): (u128, u128) {
         include AbortsIfNotContainProposalID<ProposalType>;
         let voting_forum = global<VotingForum<ProposalType>>(voting_forum_address);
         let proposal = table::spec_get(voting_forum.proposals, proposal_id);
@@ -561,7 +580,9 @@ spec aptos_framework::voting {
         ensures result_2 == proposal.no_votes;
     }
 
-    spec is_resolved<ProposalType: store>(voting_forum_address: address, proposal_id: u64): bool {
+    spec is_resolved<ProposalType: store>(
+        voting_forum_address: address, proposal_id: u64
+    ): bool {
         include AbortsIfNotContainProposalID<ProposalType>;
         let voting_forum = global<VotingForum<ProposalType>>(voting_forum_address);
         let proposal = table::spec_get(voting_forum.proposals, proposal_id);
@@ -599,7 +620,9 @@ spec aptos_framework::voting {
         ensures result == from_bcs::deserialize<bool>(is_multi_step_in_execution_key);
     }
 
-    spec is_voting_period_over<ProposalType: store>(proposal: &Proposal<ProposalType>): bool {
+    spec is_voting_period_over<ProposalType: store>(
+        proposal: &Proposal<ProposalType>
+    ): bool {
         use aptos_framework::chain_status;
         requires chain_status::is_operating();
         aborts_if false;

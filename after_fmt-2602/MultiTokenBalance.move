@@ -21,11 +21,15 @@ module ExperimentalFramework::MultiTokenBalance {
         global<TokenBalance<TokenType>>(addr).gallery
     }
 
-    spec fun is_in_gallery<TokenType>(gallery: vector<Token<TokenType>>, token_id: guid::ID): bool {
+    spec fun is_in_gallery<TokenType>(
+        gallery: vector<Token<TokenType>>, token_id: guid::ID
+    ): bool {
         exists i in range(gallery): gallery[i].id == token_id
     }
 
-    spec fun find_token_index_by_id<TokenType>(gallery: vector<Token<TokenType>>, id: guid::ID): u64 {
+    spec fun find_token_index_by_id<TokenType>(
+        gallery: vector<Token<TokenType>>, id: guid::ID
+    ): u64 {
         choose i in range(gallery) where gallery[i].id == id
     }
 

@@ -26,7 +26,9 @@ module 0x42::table_option {
         }
     }
 
-    spec get_next_transaction_payload(multisig_account: address, provided_payload: vector<u8>): vector<u8> {
+    spec get_next_transaction_payload(
+        multisig_account: address, provided_payload: vector<u8>
+    ): vector<u8> {
         let multisig_account_resource = global<MultisigAccount>(multisig_account);
         let sequence_number = multisig_account_resource.last_executed_sequence_number
             + 1;

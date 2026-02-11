@@ -117,7 +117,9 @@ module DiemFramework::AccountLimits {
         aborts_if !exists<Window<CoinType>>(addr) with errors::NOT_PUBLISHED;
     }
 
-    spec fun spec_update_deposit_limits<CoinType>(amount: u64, addr: address): bool {
+    spec fun spec_update_deposit_limits<CoinType>(
+        amount: u64, addr: address
+    ): bool {
         spec_receiving_limits_ok(global<Window<CoinType>>(addr), amount)
     }
 
@@ -156,7 +158,9 @@ module DiemFramework::AccountLimits {
         };
     }
 
-    spec fun spec_update_withdrawal_limits<CoinType>(amount: u64, addr: address): bool {
+    spec fun spec_update_withdrawal_limits<CoinType>(
+        amount: u64, addr: address
+    ): bool {
         spec_withdrawal_limits_ok(global<Window<CoinType>>(addr), amount)
     }
 
@@ -515,12 +519,15 @@ module DiemFramework::AccountLimits {
     }
 
     /// Returns the limits associated with this window.
-    spec fun spec_window_limits<CoinType>(window: Window<CoinType>): LimitsDefinition<CoinType> {
+    spec fun spec_window_limits<CoinType>(window: Window<CoinType>)
+        : LimitsDefinition<CoinType> {
         global<LimitsDefinition<CoinType>>(window.limit_address)
     }
 
     /// Returns true of the window has unrestricted limits.
-    spec fun spec_window_unrestricted<CoinType>(window: Window<CoinType>): bool {
+    spec fun spec_window_unrestricted<CoinType>(
+        window: Window<CoinType>
+    ): bool {
         spec_is_unrestricted(spec_window_limits<CoinType>(window))
     }
 
@@ -530,7 +537,9 @@ module DiemFramework::AccountLimits {
     }
 
     /// Checks whether receiving limits are satisfied.
-    spec fun spec_receiving_limits_ok<CoinType>(receiving: Window<CoinType>, amount: u64): bool {
+    spec fun spec_receiving_limits_ok<CoinType>(
+        receiving: Window<CoinType>, amount: u64
+    ): bool {
         spec_window_unrestricted(receiving)
             || spec_window_reset(receiving).window_inflow + amount
                 <= spec_window_limits(receiving).max_inflow
@@ -538,7 +547,9 @@ module DiemFramework::AccountLimits {
                     <= spec_window_limits(receiving).max_holding
     }
 
-    spec fun spec_update_inflow<CoinType>(receiving: Window<CoinType>, amount: u64): Window<CoinType> {
+    spec fun spec_update_inflow<CoinType>(
+        receiving: Window<CoinType>, amount: u64
+    ): Window<CoinType> {
         update_field(
             update_field(receiving, window_inflow, receiving.window_inflow + amount),
             tracked_balance,
@@ -617,14 +628,18 @@ module DiemFramework::AccountLimits {
     }
 
     /// Check whether withdrawal limits are satisfied.
-    spec fun spec_withdrawal_limits_ok<CoinType>(sending: Window<CoinType>, amount: u64): bool {
+    spec fun spec_withdrawal_limits_ok<CoinType>(
+        sending: Window<CoinType>, amount: u64
+    ): bool {
         spec_window_unrestricted(sending)
             || spec_window_reset(sending).window_outflow + amount
                 <= spec_window_limits(sending).max_outflow
     }
 
     /// Update outflow.
-    spec fun spec_update_outflow<CoinType>(sending: Window<CoinType>, amount: u64): Window<CoinType> {
+    spec fun spec_update_outflow<CoinType>(
+        sending: Window<CoinType>, amount: u64
+    ): Window<CoinType> {
         update_field(
             update_field(sending, window_outflow, sending.window_outflow + amount),
             tracked_balance,
@@ -651,7 +666,9 @@ module DiemFramework::AccountLimits {
 
     spec module {
         /// Checks whether the limits definition is unrestricted.
-        fun spec_is_unrestricted<CoinType>(limits_def: LimitsDefinition<CoinType>): bool {
+        fun spec_is_unrestricted<CoinType>(
+            limits_def: LimitsDefinition<CoinType>
+        ): bool {
             limits_def.max_inflow == max_u64()
                 && limits_def.max_outflow == max_u64()
                 && limits_def.max_holding == max_u64()

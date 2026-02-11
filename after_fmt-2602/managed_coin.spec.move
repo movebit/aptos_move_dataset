@@ -147,7 +147,8 @@ spec aptos_framework::managed_coin {
     }
 
     spec remove_caps<CoinType>(
-        account: &signer): (
+        account: &signer
+    ): (
         BurnCapability<CoinType>, FreezeCapability<CoinType>, MintCapability<CoinType>
     ) {
         let account_addr = signer::address_of(account);

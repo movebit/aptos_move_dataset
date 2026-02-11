@@ -132,7 +132,9 @@ module 0x2::Bug7 {
 
     /// Get the ballot matching ballot_id out of the ballots vector, if it is there.
     /// CAUTION: Returns a arbitrary value if it's not there.
-    spec fun get_ballot<Proposal>(ballot_address: address, ballot_id: BallotID): Ballot {
+    spec fun get_ballot<Proposal>(
+        ballot_address: address, ballot_id: BallotID
+    ): Ballot {
         let ballots = global<Ballots<Proposal>>(ballot_address).ballots;
         get_ballots<Proposal>(ballot_address)[choose min i in 0..len(ballots) where ballots[i]
         .ballot_id == ballot_id]
@@ -142,7 +144,9 @@ module 0x2::Bug7 {
 
     // helper functions
 
-    spec fun existing_ballots_have_small_counters<Proposal>(proposer_address: address): bool {
+    spec fun existing_ballots_have_small_counters<Proposal>(
+        proposer_address: address
+    ): bool {
         // Just return true if there is no Ballots<Proposal> published at proposer_address
         // DD: Is it hinky to be doing this let when we don't know if it exists?
         let ballots = get_ballots<Proposal>(proposer_address);

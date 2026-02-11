@@ -63,7 +63,9 @@ spec aptos_framework::resource_account {
         pragma aborts_if_is_partial;
     }
 
-    spec create_resource_account(origin: &signer, seed: vector<u8>, optional_auth_key: vector<u8>) {
+    spec create_resource_account(
+        origin: &signer, seed: vector<u8>, optional_auth_key: vector<u8>
+    ) {
         use aptos_framework::create_signer;
         let source_addr = signer::address_of(origin);
         let resource_addr = account::spec_create_resource_address(source_addr, seed);
@@ -184,7 +186,9 @@ spec aptos_framework::resource_account {
         ensures exists<Container>(source_addr);
     }
 
-    spec retrieve_resource_account_cap(resource: &signer, source_addr: address): account::SignerCapability {
+    spec retrieve_resource_account_cap(
+        resource: &signer, source_addr: address
+    ): account::SignerCapability {
         pragma aborts_if_is_partial;
 
         /// [high-level-req-6]

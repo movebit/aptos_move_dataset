@@ -8,8 +8,8 @@ spec aptos_framework::aggregator_v2 {
         pragma intrinsic;
     }
 
-    spec create_aggregator<IntElement: copy + drop>(max_value: IntElement): Aggregator<
-        IntElement> {
+    spec create_aggregator<IntElement: copy + drop>(max_value: IntElement)
+        : Aggregator<IntElement> {
         pragma intrinsic;
     }
 
@@ -17,23 +17,33 @@ spec aptos_framework::aggregator_v2 {
         pragma intrinsic;
     }
 
-    spec try_add<IntElement>(self: &mut Aggregator<IntElement>, value: IntElement): bool {
+    spec try_add<IntElement>(
+        self: &mut Aggregator<IntElement>, value: IntElement
+    ): bool {
         pragma intrinsic;
     }
 
-    spec add<IntElement>(self: &mut Aggregator<IntElement>, value: IntElement) {
+    spec add<IntElement>(
+        self: &mut Aggregator<IntElement>, value: IntElement
+    ) {
         pragma intrinsic;
     }
 
-    spec try_sub<IntElement>(self: &mut Aggregator<IntElement>, value: IntElement): bool {
+    spec try_sub<IntElement>(
+        self: &mut Aggregator<IntElement>, value: IntElement
+    ): bool {
         pragma intrinsic;
     }
 
-    spec sub<IntElement>(self: &mut Aggregator<IntElement>, value: IntElement) {
+    spec sub<IntElement>(
+        self: &mut Aggregator<IntElement>, value: IntElement
+    ) {
         pragma intrinsic;
     }
 
-    spec is_at_least_impl<IntElement>(self: &Aggregator<IntElement>, min_amount: IntElement): bool {
+    spec is_at_least_impl<IntElement>(
+        self: &Aggregator<IntElement>, min_amount: IntElement
+    ): bool {
         pragma intrinsic;
     }
 
@@ -41,20 +51,23 @@ spec aptos_framework::aggregator_v2 {
         pragma intrinsic;
     }
 
-    spec snapshot<IntElement>(self: &Aggregator<IntElement>): AggregatorSnapshot<IntElement> {
+    spec snapshot<IntElement>(self: &Aggregator<IntElement>)
+        : AggregatorSnapshot<IntElement> {
         pragma opaque;
         include AbortsIfIntElement<IntElement>;
         ensures [abstract] result.value == spec_get_value(self);
     }
 
-    spec create_snapshot<IntElement: copy + drop>(value: IntElement): AggregatorSnapshot<
-        IntElement> {
+    spec create_snapshot<IntElement: copy + drop>(value: IntElement)
+        : AggregatorSnapshot<IntElement> {
         pragma opaque;
         include AbortsIfIntElement<IntElement>;
         ensures [abstract] result.value == value;
     }
 
-    spec read_snapshot<IntElement>(self: &AggregatorSnapshot<IntElement>): IntElement {
+    spec read_snapshot<IntElement>(
+        self: &AggregatorSnapshot<IntElement>
+    ): IntElement {
         pragma opaque;
         include AbortsIfIntElement<IntElement>;
         ensures [abstract] result == self.value;
@@ -112,7 +125,9 @@ spec aptos_framework::aggregator_v2 {
     // Uninterpreted spec function that translates the value inside aggregator into corresponding string representation
     spec fun spec_get_string_value<IntElement>(aggregator: AggregatorSnapshot<IntElement>): String;
 
-    spec fun spec_read_snapshot<IntElement>(snapshot: AggregatorSnapshot<IntElement>): IntElement {
+    spec fun spec_read_snapshot<IntElement>(
+        snapshot: AggregatorSnapshot<IntElement>
+    ): IntElement {
         snapshot.value
     }
 

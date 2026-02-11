@@ -66,7 +66,9 @@ spec aptos_framework::permissioned_signer {
         ensures result.permissions_storage_addr == permissions_storage_addr;
     }
 
-    spec create_storable_permissioned_handle(master: &signer, expiration_time: u64): StorablePermissionedHandle {
+    spec create_storable_permissioned_handle(
+        master: &signer, expiration_time: u64
+    ): StorablePermissionedHandle {
         use aptos_framework::transaction_context;
         pragma opaque;
         aborts_if [abstract] spec_is_permissioned_signer(master);
@@ -88,14 +90,18 @@ spec aptos_framework::permissioned_signer {
         ensures !exists<PermissionStorage>(p.permissions_storage_addr);
     }
 
-    spec destroy_storable_permissioned_handle(p: StorablePermissionedHandle) {
+    spec destroy_storable_permissioned_handle(
+        p: StorablePermissionedHandle
+    ) {
         ensures !exists<PermissionStorage>(p.permissions_storage_addr);
         let post granted_permissions = global<GrantedPermissionHandles>(
             p.master_account_addr
         );
     }
 
-    spec revoke_permission_storage_address(s: &signer, permissions_storage_addr: address) {
+    spec revoke_permission_storage_address(
+        s: &signer, permissions_storage_addr: address
+    ) {
         // aborts_if spec_is_permissioned_signer(s);
     }
 
@@ -109,7 +115,9 @@ spec aptos_framework::permissioned_signer {
         ensures exists<PermissionStorage>(spec_permission_address(permissioned));
     }
 
-    spec check_permission_exists<PermKey: copy + drop + store>(s: &signer, perm: PermKey): bool {
+    spec check_permission_exists<PermKey: copy + drop + store>(
+        s: &signer, perm: PermKey
+    ): bool {
         pragma opaque;
         modifies global<PermissionStorage>(spec_permission_address(s));
         ensures [abstract] result == spec_check_permission_exists(s, perm);

@@ -5,7 +5,9 @@ module 0x42::Test {
     use std::vector;
 
     spec module {
-        fun eq_append<Element>(v: vector<Element>, v1: vector<Element>, v2: vector<Element>): bool {
+        fun eq_append<Element>(
+            v: vector<Element>, v1: vector<Element>, v2: vector<Element>
+        ): bool {
             len(v) == len(v1) + len(v2)
                 && v[0..len(v1)] == v1
                 && v[len(v1)..len(v)] == v2

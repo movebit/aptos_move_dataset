@@ -28,7 +28,9 @@ spec aptos_framework::transaction_validation {
         pragma aborts_if_is_strict;
     }
 
-    spec grant_gas_permission(master: &signer, permissioned: &signer, gas_amount: u64) {
+    spec grant_gas_permission(
+        master: &signer, permissioned: &signer, gas_amount: u64
+    ) {
         pragma aborts_if_is_partial;
     }
 
@@ -175,7 +177,9 @@ spec aptos_framework::transaction_validation {
                 );
     }
 
-    spec fun can_skip(feature_flag: bool, is_simulation: bool, auth_key: Option<vector<u8>>): bool {
+    spec fun can_skip(
+        feature_flag: bool, is_simulation: bool, auth_key: Option<vector<u8>>
+    ): bool {
         features::spec_simulation_enhancement_enabled()
             && is_simulation
             && option::is_none(auth_key)

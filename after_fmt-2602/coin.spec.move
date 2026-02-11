@@ -69,7 +69,9 @@ spec aptos_framework::coin {
         //     burn, burn_from, initialize, initialize_internal, initialize_with_parallelizable_supply;
     }
 
-    spec fun spec_fun_supply_tracked<CoinType>(val: u64, supply: Option<OptionalAggregator>): bool {
+    spec fun spec_fun_supply_tracked<CoinType>(
+        val: u64, supply: Option<OptionalAggregator>
+    ): bool {
         option::is_some(supply) ==>
             val
                 == optional_aggregator::optional_aggregator_value(
@@ -250,7 +252,9 @@ spec aptos_framework::coin {
         };
     }
 
-    spec burn<CoinType>(coin: Coin<CoinType>, _cap: &BurnCapability<CoinType>) {
+    spec burn<CoinType>(
+        coin: Coin<CoinType>, _cap: &BurnCapability<CoinType>
+    ) {
         // TODO(fa_migration)
         pragma verify = false;
         let addr = type_info::type_of<CoinType>().account_address;
@@ -268,7 +272,9 @@ spec aptos_framework::coin {
         modifies global<CoinInfo<CoinType>>(addr);
     }
 
-    spec burn_from<CoinType>(account_addr: address, amount: u64, burn_cap: &BurnCapability<CoinType>) {
+    spec burn_from<CoinType>(
+        account_addr: address, amount: u64, burn_cap: &BurnCapability<CoinType>
+    ) {
         // TODO(fa_migration)
         pragma verify = false;
         let addr = type_info::type_of<CoinType>().account_address;
@@ -321,7 +327,9 @@ spec aptos_framework::coin {
         modifies global<CoinInfo<CoinType>>(addr);
     }
 
-    spec fungible_asset_to_coin<CoinType>(fungible_asset: FungibleAsset): Coin<CoinType> {
+    spec fungible_asset_to_coin<CoinType>(
+        fungible_asset: FungibleAsset
+    ): Coin<CoinType> {
         // TODO(fa_migration)
         pragma verify = false;
     }
@@ -340,7 +348,9 @@ spec aptos_framework::coin {
         aborts_if coin_store.frozen;
     }
 
-    spec deposit_for_gas_fee<CoinType>(account_addr: address, coin: Coin<CoinType>) {
+    spec deposit_for_gas_fee<CoinType>(
+        account_addr: address, coin: Coin<CoinType>
+    ) {
         // TODO(fa_migration)
         pragma verify = false;
         modifies global<CoinStore<CoinType>>(account_addr);
@@ -476,7 +486,9 @@ spec aptos_framework::coin {
         ensures result_3 == MintCapability<CoinType> {};
     }
 
-    spec merge<CoinType>(dst_coin: &mut Coin<CoinType>, source_coin: Coin<CoinType>) {
+    spec merge<CoinType>(
+        dst_coin: &mut Coin<CoinType>, source_coin: Coin<CoinType>
+    ) {
         /// [high-level-req-3]
         ensures dst_coin.value == old(dst_coin.value) + source_coin.value;
     }

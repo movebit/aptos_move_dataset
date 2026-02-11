@@ -196,7 +196,9 @@ spec aptos_framework::staking_config {
     /// Caller must be @aptos_framework.
     /// The maximum_stake must be greater than maximum_stake in the range of Specified stake and the maximum_stake greater than zero.
     /// The StakingConfig is under @aptos_framework.
-    spec update_required_stake(aptos_framework: &signer, minimum_stake: u64, maximum_stake: u64) {
+    spec update_required_stake(
+        aptos_framework: &signer, minimum_stake: u64, maximum_stake: u64
+    ) {
         use std::signer;
         let addr = signer::address_of(aptos_framework);
         /// [high-level-req-1.3]

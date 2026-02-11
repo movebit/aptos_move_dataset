@@ -126,7 +126,9 @@ spec aptos_framework::aptos_account {
         // ensures global<DirectTransferConfig>(addr).allow_arbitrary_coin_transfers == allow;
     }
 
-    spec batch_transfer(source: &signer, recipients: vector<address>, amounts: vector<u64>) {
+    spec batch_transfer(
+        source: &signer, recipients: vector<address>, amounts: vector<u64>
+    ) {
         //TODO: Can't verify the loop invariant in enumerate
         pragma verify = false;
         let account_addr_source = signer::address_of(source);
@@ -343,7 +345,9 @@ spec aptos_framework::aptos_account {
         pragma verify = false;
     }
 
-    spec burn_from_fungible_store_for_gas(ref: &BurnRef, account: address, amount: u64) {
+    spec burn_from_fungible_store_for_gas(
+        ref: &BurnRef, account: address, amount: u64
+    ) {
         // TODO: temporary mockup.
         pragma verify = false;
     }

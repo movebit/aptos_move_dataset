@@ -436,7 +436,9 @@ spec aptos_framework::stake {
         ensures validator_info.fullnode_addresses == new_fullnode_addresses;
     }
 
-    spec set_operator_with_cap(owner_cap: &OwnerCapability, new_operator: address) {
+    spec set_operator_with_cap(
+        owner_cap: &OwnerCapability, new_operator: address
+    ) {
         let pool_address = owner_cap.pool_address;
         let post post_stake_pool = global<StakePool>(pool_address);
         modifies global<StakePool>(pool_address);
@@ -445,7 +447,9 @@ spec aptos_framework::stake {
         ensures post_stake_pool.operator_address == new_operator;
     }
 
-    spec reactivate_stake_with_cap(owner_cap: &OwnerCapability, amount: u64) {
+    spec reactivate_stake_with_cap(
+        owner_cap: &OwnerCapability, amount: u64
+    ) {
         let pool_address = owner_cap.pool_address;
         include StakedValueNochange;
 
@@ -488,7 +492,9 @@ spec aptos_framework::stake {
         ensures validator_info.consensus_pubkey == new_consensus_pubkey;
     }
 
-    spec set_delegated_voter_with_cap(owner_cap: &OwnerCapability, new_voter: address) {
+    spec set_delegated_voter_with_cap(
+        owner_cap: &OwnerCapability, new_voter: address
+    ) {
         let pool_address = owner_cap.pool_address;
         let post post_stake_pool = global<StakePool>(pool_address);
         include StakedValueNochange;
@@ -880,7 +886,9 @@ spec aptos_framework::stake {
         aborts_if !stake_pool_exists(pool_address);
     }
 
-    spec configure_allowed_validators(aptos_framework: &signer, accounts: vector<address>) {
+    spec configure_allowed_validators(
+        aptos_framework: &signer, accounts: vector<address>
+    ) {
         let aptos_framework_address = signer::address_of(aptos_framework);
         aborts_if !system_addresses::is_aptos_framework_address(aptos_framework_address);
         let post allowed = global<AllowedValidators>(aptos_framework_address);
@@ -892,8 +900,9 @@ spec aptos_framework::stake {
         aborts_if !exists<OwnerCapability>(owner);
     }
 
-    spec validator_consensus_infos_from_validator_set(validator_set: &ValidatorSet): vector<
-        ValidatorConsensusInfo> {
+    spec validator_consensus_infos_from_validator_set(
+        validator_set: &ValidatorSet
+    ): vector<ValidatorConsensusInfo> {
         aborts_if false;
         invariant spec_validator_indices_are_valid_config(
             validator_set.active_validators,
@@ -979,19 +988,25 @@ spec aptos_framework::stake {
     spec fun spec_find_validator(v: vector<ValidatorInfo>, addr: address): Option<u64>;
 
     // A predicate that all given validators have been initialized.
-    spec fun spec_validators_are_initialized(validators: vector<ValidatorInfo>): bool {
+    spec fun spec_validators_are_initialized(
+        validators: vector<ValidatorInfo>
+    ): bool {
         forall i in 0..len(validators):
             spec_has_stake_pool(validators[i].addr)
                 && spec_has_validator_config(validators[i].addr)
     }
 
-    spec fun spec_validators_are_initialized_addrs(addrs: vector<address>): bool {
+    spec fun spec_validators_are_initialized_addrs(
+        addrs: vector<address>
+    ): bool {
         forall i in 0..len(addrs):
             spec_has_stake_pool(addrs[i]) && spec_has_validator_config(addrs[i])
     }
 
     // A predicate that the validator index of each given validator in-range.
-    spec fun spec_validator_indices_are_valid(validators: vector<ValidatorInfo>): bool {
+    spec fun spec_validator_indices_are_valid(
+        validators: vector<ValidatorInfo>
+    ): bool {
         spec_validator_indices_are_valid_addr(
             validators, spec_validator_index_upper_bound()
         ) && spec_validator_indices_are_valid_config(
@@ -1013,7 +1028,9 @@ spec aptos_framework::stake {
             validators[i].config.validator_index < upper_bound
     }
 
-    spec fun spec_validator_indices_active_pending_inactive(validator_set: ValidatorSet): bool {
+    spec fun spec_validator_indices_active_pending_inactive(
+        validator_set: ValidatorSet
+    ): bool {
         len(validator_set.pending_inactive) + len(validator_set.active_validators)
             == spec_validator_index_upper_bound()
     }
@@ -1040,7 +1057,9 @@ spec aptos_framework::stake {
         rewards_rate_denominator: u64
     ): u64;
 
-    spec fun spec_contains(validators: vector<ValidatorInfo>, addr: address): bool {
+    spec fun spec_contains(
+        validators: vector<ValidatorInfo>, addr: address
+    ): bool {
         exists i in 0..len(validators): validators[i].addr == addr
     }
 

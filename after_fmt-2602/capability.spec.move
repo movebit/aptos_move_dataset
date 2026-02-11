@@ -30,7 +30,9 @@ spec aptos_std::capability {
             result.root == addr;
     }
 
-    spec acquire_linear<Feature>(requester: &signer, _feature_witness: &Feature): LinearCap<Feature> {
+    spec acquire_linear<Feature>(
+        requester: &signer, _feature_witness: &Feature
+    ): LinearCap<Feature> {
         let addr = signer::address_of(requester);
         let root_addr = global<CapDelegateState<Feature>>(addr).root;
         include AcquireSchema<Feature>;
@@ -51,7 +53,9 @@ spec aptos_std::capability {
             && !spec_has_cap<Feature>(addr);
     }
 
-    spec delegate<Feature>(self: Cap<Feature>, _feature_witness: &Feature, to: &signer) {
+    spec delegate<Feature>(
+        self: Cap<Feature>, _feature_witness: &Feature, to: &signer
+    ) {
         let addr = signer::address_of(to);
         ensures spec_has_delegate_cap<Feature>(addr);
         ensures !old(spec_has_delegate_cap<Feature>(addr)) ==>
@@ -60,7 +64,9 @@ spec aptos_std::capability {
             vector::spec_contains(spec_delegates<Feature>(self.root), addr);
     }
 
-    spec revoke<Feature>(self: Cap<Feature>, _feature_witness: &Feature, from: address) {
+    spec revoke<Feature>(
+        self: Cap<Feature>, _feature_witness: &Feature, from: address
+    ) {
         ensures !spec_has_delegate_cap<Feature>(from);
         // TODO: this cannot be proved. See issue #7422
         // ensures old(spec_has_delegate_cap<Feature>(from))

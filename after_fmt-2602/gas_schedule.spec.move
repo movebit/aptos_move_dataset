@@ -34,7 +34,9 @@ spec aptos_framework::gas_schedule {
         pragma aborts_if_is_strict;
     }
 
-    spec initialize(aptos_framework: &signer, gas_schedule_blob: vector<u8>) {
+    spec initialize(
+        aptos_framework: &signer, gas_schedule_blob: vector<u8>
+    ) {
         use std::signer;
 
         let addr = signer::address_of(aptos_framework);
@@ -46,7 +48,9 @@ spec aptos_framework::gas_schedule {
         ensures exists<GasScheduleV2>(addr);
     }
 
-    spec set_gas_schedule(aptos_framework: &signer, gas_schedule_blob: vector<u8>) {
+    spec set_gas_schedule(
+        aptos_framework: &signer, gas_schedule_blob: vector<u8>
+    ) {
         use std::signer;
         use aptos_framework::util;
         use aptos_framework::coin::CoinInfo;
@@ -73,7 +77,9 @@ spec aptos_framework::gas_schedule {
         ensures global<GasScheduleV2>(@aptos_framework) == new_gas_schedule;
     }
 
-    spec set_storage_gas_config(aptos_framework: &signer, config: StorageGasConfig) {
+    spec set_storage_gas_config(
+        aptos_framework: &signer, config: StorageGasConfig
+    ) {
         use aptos_framework::coin::CoinInfo;
         use aptos_framework::aptos_coin::AptosCoin;
         use aptos_framework::staking_config;
@@ -87,7 +93,9 @@ spec aptos_framework::gas_schedule {
         ensures global<StorageGasConfig>(@aptos_framework) == config;
     }
 
-    spec set_for_next_epoch(aptos_framework: &signer, gas_schedule_blob: vector<u8>) {
+    spec set_for_next_epoch(
+        aptos_framework: &signer, gas_schedule_blob: vector<u8>
+    ) {
         use aptos_framework::util;
 
         include system_addresses::AbortsIfNotAptosFramework { account: aptos_framework };
@@ -135,7 +143,9 @@ spec aptos_framework::gas_schedule {
         aborts_if false;
     }
 
-    spec set_storage_gas_config(aptos_framework: &signer, config: storage_gas::StorageGasConfig) {
+    spec set_storage_gas_config(
+        aptos_framework: &signer, config: storage_gas::StorageGasConfig
+    ) {
         include system_addresses::AbortsIfNotAptosFramework { account: aptos_framework };
         aborts_if !exists<storage_gas::StorageGasConfig>(@aptos_framework);
     }

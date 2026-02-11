@@ -19,7 +19,9 @@ spec aptos_token::property_map {
         aborts_if !(length == len(types));
     }
 
-    spec new_with_key_and_property_value(keys: vector<String>, values: vector<PropertyValue>): PropertyMap {
+    spec new_with_key_and_property_value(
+        keys: vector<String>, values: vector<PropertyValue>
+    ): PropertyMap {
         // TODO: Can't handle abort in loop.
         pragma aborts_if_is_partial;
         let length = len(keys);
@@ -170,7 +172,9 @@ spec aptos_token::property_map {
         aborts_if !(key_len == typ_len);
     }
 
-    spec update_property_value(self: &mut PropertyMap, key: &String, value: PropertyValue) {
+    spec update_property_value(
+        self: &mut PropertyMap, key: &String, value: PropertyValue
+    ) {
         aborts_if !simple_map::spec_contains_key(self.map, key);
     }
 

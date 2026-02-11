@@ -141,7 +141,9 @@ spec aptos_framework::staking_contract {
         pragma aborts_if_is_partial;
     }
 
-    spec fun spec_staking_contract_exists(staker: address, operator: address): bool {
+    spec fun spec_staking_contract_exists(
+        staker: address, operator: address
+    ): bool {
         if (!exists<Store>(staker)) { false }
         else {
             let store = global<Store>(staker);
@@ -228,7 +230,9 @@ spec aptos_framework::staking_contract {
     }
 
     /// Staking_contract exists the stacker/operator pair.
-    spec update_voter(staker: &signer, operator: address, new_voter: address) {
+    spec update_voter(
+        staker: &signer, operator: address, new_voter: address
+    ) {
         let staker_address = signer::address_of(staker);
         include UpdateVoterSchema { staker: staker_address };
 
@@ -253,7 +257,9 @@ spec aptos_framework::staking_contract {
         include IncreaseLockupWithCapAbortsIf { staker: staker_address };
     }
 
-    spec update_commision(staker: &signer, operator: address, new_commission_percentage: u64) {
+    spec update_commision(
+        staker: &signer, operator: address, new_commission_percentage: u64
+    ) {
         // TODO: Call `distribute_internal` and could not verify `update_distribution_pool`.
         // TODO: A data invariant not hold happened here involve with 'pool_u64' #L16.
         pragma verify = false;
@@ -263,7 +269,9 @@ spec aptos_framework::staking_contract {
     }
 
     /// Only staker or operator can call this.
-    spec request_commission(account: &signer, staker: address, operator: address) {
+    spec request_commission(
+        account: &signer, staker: address, operator: address
+    ) {
         // TODO: Call `update_distribution_pool` and could not verify `update_distribution_pool`.
         // TODO: A data invariant not hold happened here involve with 'pool_u64' #L16.
         pragma verify = false;
@@ -331,7 +339,9 @@ spec aptos_framework::staking_contract {
         aborts_if simple_map::spec_contains_key(staking_contracts, new_operator);
     }
 
-    spec set_beneficiary_for_operator(operator: &signer, new_beneficiary: address) {
+    spec set_beneficiary_for_operator(
+        operator: &signer, new_beneficiary: address
+    ) {
         // TODO: temporary mockup
         pragma verify = false;
     }
@@ -372,7 +382,9 @@ spec aptos_framework::staking_contract {
     }
 
     /// Staking_contract exists the stacker/operator pair.
-    spec assert_staking_contract_exists(staker: address, operator: address) {
+    spec assert_staking_contract_exists(
+        staker: address, operator: address
+    ) {
         include ContractExistsAbortsIf;
     }
 
@@ -388,7 +400,9 @@ spec aptos_framework::staking_contract {
     }
 
     /// The StakePool exists under the pool_address of StakingContract.
-    spec get_staking_contract_amounts_internal(staking_contract: &StakingContract): (u64, u64, u64) {
+    spec get_staking_contract_amounts_internal(
+        staking_contract: &StakingContract
+    ): (u64, u64, u64) {
         pragma verify_duration_estimate = 120;
         include GetStakingContractAmountsAbortsIf;
 

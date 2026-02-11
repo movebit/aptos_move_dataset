@@ -4,7 +4,9 @@ spec aptos_framework::function_info {
     }
 
     // native function
-    spec check_dispatch_type_compatibility_impl(lhs: &FunctionInfo, r: &FunctionInfo): bool {
+    spec check_dispatch_type_compatibility_impl(
+        lhs: &FunctionInfo, r: &FunctionInfo
+    ): bool {
         // TODO: temporary mockup
         pragma opaque;
     }
@@ -22,7 +24,9 @@ spec aptos_framework::function_info {
         ensures [abstract] result == spec_is_identifier(s);
     }
 
-    spec new_function_info(module_signer: &signer, module_name: String, function_name: String): FunctionInfo {
+    spec new_function_info(
+        module_signer: &signer, module_name: String, function_name: String
+    ): FunctionInfo {
         aborts_if !spec_is_identifier(string::bytes(module_name));
         aborts_if !spec_is_identifier(string::bytes(function_name));
         ensures result

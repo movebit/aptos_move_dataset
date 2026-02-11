@@ -34,9 +34,8 @@ spec aptos_framework::aptos_coin {
         pragma aborts_if_is_partial;
     }
 
-    spec initialize(aptos_framework: &signer): (
-        BurnCapability<AptosCoin>, MintCapability<AptosCoin>
-    ) {
+    spec initialize(aptos_framework: &signer)
+        : (BurnCapability<AptosCoin>, MintCapability<AptosCoin>) {
         use aptos_framework::aggregator_factory;
         use aptos_framework::permissioned_signer;
 

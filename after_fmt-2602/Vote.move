@@ -440,7 +440,9 @@ module ExperimentalFramework::Vote {
 
     /// Predicate to test if a `Ballots` resource for `Proposal` is published at `ballot_addr`,
     /// there is a `BallotCounter` published at `ballot_addr`.
-    spec fun ballot_counter_initialized_first<Proposal>(ballot_addr: address): bool {
+    spec fun ballot_counter_initialized_first<Proposal>(
+        ballot_addr: address
+    ): bool {
         exists<Ballots<Proposal>>(ballot_addr) ==>
             exists<BallotCounter>(ballot_addr)
     }
@@ -463,7 +465,9 @@ module ExperimentalFramework::Vote {
 
     /// Get the ballot matching ballot_id out of the ballots vector, if it is there.
     /// CAUTION: Returns a arbitrary value if it's not there.
-    spec fun get_ballot<Proposal>(ballot_address: address, ballot_id: BallotID): Ballot<Proposal> {
+    spec fun get_ballot<Proposal>(
+        ballot_address: address, ballot_id: BallotID
+    ): Ballot<Proposal> {
         let ballots = global<Ballots<Proposal>>(ballot_address).ballots;
         get_ballots<Proposal>(ballot_address)[choose min i in 0..len(ballots) where ballots[i]
         .ballot_id == ballot_id]
@@ -471,7 +475,9 @@ module ExperimentalFramework::Vote {
 
     /// Tests whether ballot_id is represented in the ballots vector. Returns false if there is no
     /// ballots vector.
-    spec fun ballot_exists<Proposal>(ballot_address: address, ballot_id: BallotID): bool {
+    spec fun ballot_exists<Proposal>(
+        ballot_address: address, ballot_id: BallotID
+    ): bool {
         if (exists<Ballots<Proposal>>(ballot_address)) {
             let ballots = global<Ballots<Proposal>>(ballot_address).ballots;
             exists i in 0..len(ballots): ballots[i].ballot_id == ballot_id
@@ -481,7 +487,9 @@ module ExperimentalFramework::Vote {
     /// Assuming ballot exists, check if it's expired. Returns an arbitrary result if the
     /// ballot does not exist.
     /// NOTE: Maybe this should be "<=" not "<"
-    spec fun is_expired_if_exists<Proposal>(ballot_address: address, ballot_id: BallotID): bool {
+    spec fun is_expired_if_exists<Proposal>(
+        ballot_address: address, ballot_id: BallotID
+    ): bool {
         get_ballot<Proposal>(ballot_address, ballot_id).expiration_timestamp_secs
             <= DiemTimestamp::spec_now_seconds()
     }
@@ -511,13 +519,17 @@ module ExperimentalFramework::Vote {
 
     /// A BallotID is in the expired state if it is in the ballots vector and the
     /// current time is >= the expiration time.
-    spec fun is_expired<Proposal>(ballot_address: address, ballot_id: BallotID): bool {
+    spec fun is_expired<Proposal>(
+        ballot_address: address, ballot_id: BallotID
+    ): bool {
         ballot_exists<Proposal>(ballot_address, ballot_id)
             && is_expired_if_exists<Proposal>(ballot_address, ballot_id)
     }
 
     /// A BallotID is active state if it is in the ballots vector and not expired.
-    spec fun is_active<Proposal>(ballot_address: address, ballot_id: BallotID): bool {
+    spec fun is_active<Proposal>(
+        ballot_address: address, ballot_id: BallotID
+    ): bool {
         ballot_exists<Proposal>(ballot_address, ballot_id)
             && !is_expired_if_exists<Proposal>(ballot_address, ballot_id)
     }
@@ -533,7 +545,9 @@ module ExperimentalFramework::Vote {
 
     /// Returns "true" iff there are no ballots in v at indices less than i whose
     /// expiration time is less than or equal to the current time.
-    spec fun no_expired_ballots<Proposal>(ballots: vector<Ballot<Proposal>>, now_seconds: u64, i: u64): bool {
+    spec fun no_expired_ballots<Proposal>(
+        ballots: vector<Ballot<Proposal>>, now_seconds: u64, i: u64
+    ): bool {
         forall j in 0..i: ballots[j].expiration_timestamp_secs >= now_seconds
     }
 
@@ -577,7 +591,9 @@ module ExperimentalFramework::Vote {
 
     // helper functions
 
-    spec fun ballot_ids_have_correct_ballot_address<Proposal>(proposer_address: address): bool {
+    spec fun ballot_ids_have_correct_ballot_address<Proposal>(
+        proposer_address: address
+    ): bool {
         let ballots = get_ballots<Proposal>(proposer_address);
         forall i in 0..len(ballots): ballots[i].ballot_id.proposer == proposer_address
     }
@@ -586,7 +602,9 @@ module ExperimentalFramework::Vote {
     /// than the current value of the BallotCounter.counter published at proposer_address.
     /// This property is necessary to show that the ballot IDs are not repeated in the
     /// Ballots.ballots vector
-    spec fun existing_ballots_have_small_counters<Proposal>(proposer_address: address): bool {
+    spec fun existing_ballots_have_small_counters<Proposal>(
+        proposer_address: address
+    ): bool {
         // Just return true if there is no Ballots<Proposal> published at proposer_address
         // get_ballots may be undefined here, but we only use it when we know the Ballots
         // is published (in the next property.
@@ -603,7 +621,9 @@ module ExperimentalFramework::Vote {
     /// I.e., none have sum >= required.
     /// TODO: This should be part of is_active/expired, and should follow from an invariant
     /// that every BallotID is in one of the legal states.
-    spec fun no_winning_ballots_in_vector<Proposal>(proposer_address: address): bool {
+    spec fun no_winning_ballots_in_vector<Proposal>(
+        proposer_address: address
+    ): bool {
         let ballots = get_ballots<Proposal>(proposer_address);
         forall i in 0..len(ballots):
             ballots[i].total_weighted_votes_received < ballots[i].num_votes_required

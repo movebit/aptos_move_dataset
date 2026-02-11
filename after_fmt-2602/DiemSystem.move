@@ -720,7 +720,9 @@ module DiemFramework::DiemSystem {
         DiemConfig::get<DiemSystem>().validators
     }
 
-    spec fun spec_index_of_validator(validators: vector<ValidatorInfo>, addr: address): u64 {
+    spec fun spec_index_of_validator(
+        validators: vector<ValidatorInfo>, addr: address
+    ): u64 {
         choose min i in range(validators) where validators[i].addr == addr
     }
 

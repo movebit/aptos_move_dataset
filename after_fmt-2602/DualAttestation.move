@@ -395,7 +395,9 @@ module DiemFramework::DualAttestation {
     }
 
     /// Helper functions which simulates `Self::dual_attestation_required`.
-    spec fun spec_dual_attestation_required<Token>(payer: address, payee: address, deposit_value: u64): bool {
+    spec fun spec_dual_attestation_required<Token>(
+        payer: address, payee: address, deposit_value: u64
+    ): bool {
         Diem::spec_approx_xdx_for_value<Token>(deposit_value)
             >= spec_get_cur_microdiem_limit()
             && payer != payee

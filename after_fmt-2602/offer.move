@@ -159,7 +159,9 @@ module std::offer {
     spec module {
         /// Returns true if the recipient is allowed to redeem `Offer<Offered>` at `offer_address`
         /// and false otherwise.
-        fun is_allowed_recipient<Offered>(offer_addr: address, recipient: address): bool {
+        fun is_allowed_recipient<Offered>(
+            offer_addr: address, recipient: address
+        ): bool {
             recipient == global<Offer<Offered>>(offer_addr).for
                 || recipient == offer_addr
         }

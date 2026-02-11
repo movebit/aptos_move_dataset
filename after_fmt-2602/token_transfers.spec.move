@@ -181,7 +181,9 @@ spec aptos_token::token_transfers {
         aborts_if token.amount <= 0;
     }
 
-    spec cancel_offer(sender: &signer, receiver: address, token_id: TokenId) {
+    spec cancel_offer(
+        sender: &signer, receiver: address, token_id: TokenId
+    ) {
         use aptos_token::token::{TokenStore};
 
         // TODO: deposit_token has pending issues.

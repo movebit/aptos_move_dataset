@@ -117,7 +117,9 @@ spec aptos_framework::block {
     /// The Account is not under the caller until the BlockResource is created for the caller.
     /// Make sure The BlockResource under the caller existed after initializing.
     /// The number of new events created does not exceed MAX_U64.
-    spec initialize(aptos_framework: &signer, epoch_interval_microsecs: u64) {
+    spec initialize(
+        aptos_framework: &signer, epoch_interval_microsecs: u64
+    ) {
         use std::signer;
         /// [high-level-req-1]
         include Initialize;
@@ -185,7 +187,9 @@ spec aptos_framework::block {
     /// The caller is @aptos_framework.
     /// The new_epoch_interval must be greater than 0.
     /// The BlockResource existed under the @aptos_framework.
-    spec update_epoch_interval_microsecs(aptos_framework: &signer, new_epoch_interval: u64) {
+    spec update_epoch_interval_microsecs(
+        aptos_framework: &signer, new_epoch_interval: u64
+    ) {
         /// [high-level-req-3.1]
         include UpdateEpochIntervalMicrosecs;
     }
@@ -217,7 +221,9 @@ spec aptos_framework::block {
     /// The BlockResource existed under the @aptos_framework.
     /// The Configuration existed under the @aptos_framework.
     /// The CurrentTimeMicroseconds existed under the @aptos_framework.
-    spec emit_writeset_block_event(vm_signer: &signer, fake_block_hash: address) {
+    spec emit_writeset_block_event(
+        vm_signer: &signer, fake_block_hash: address
+    ) {
         use aptos_framework::chain_status;
         requires chain_status::is_operating();
         include EmitWritesetBlockEvent;

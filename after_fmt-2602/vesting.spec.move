@@ -136,11 +136,15 @@ spec aptos_framework::vesting {
         aborts_if !exists<VestingContract>(vesting_contract_address);
     }
 
-    spec beneficiary(vesting_contract_address: address, shareholder: address): address {
+    spec beneficiary(
+        vesting_contract_address: address, shareholder: address
+    ): address {
         aborts_if !exists<VestingContract>(vesting_contract_address);
     }
 
-    spec operator_commission_percentage(vesting_contract_address: address): u64 {
+    spec operator_commission_percentage(
+        vesting_contract_address: address
+    ): u64 {
         aborts_if !exists<VestingContract>(vesting_contract_address);
     }
 
@@ -248,7 +252,9 @@ spec aptos_framework::vesting {
         vesting_contract_address: address, shareholder_or_beneficiary: address
     ): address;
 
-    spec shareholder(vesting_contract_address: address, shareholder_or_beneficiary: address): address {
+    spec shareholder(
+        vesting_contract_address: address, shareholder_or_beneficiary: address
+    ): address {
         pragma opaque;
         include ActiveVestingContractAbortsIf { contract_address: vesting_contract_address };
         ensures [abstract] result
@@ -343,7 +349,9 @@ spec aptos_framework::vesting {
         aborts_if len(contract_addresses) == 0;
     }
 
-    spec terminate_vesting_contract(admin: &signer, contract_address: address) {
+    spec terminate_vesting_contract(
+        admin: &signer, contract_address: address
+    ) {
         // TODO: Calls `staking_contract::distribute` which is not verified.
         pragma verify = false;
         include ActiveVestingContractAbortsIf;
@@ -403,7 +411,9 @@ spec aptos_framework::vesting {
         pragma verify = false;
     }
 
-    spec update_voter(admin: &signer, contract_address: address, new_voter: address) {
+    spec update_voter(
+        admin: &signer, contract_address: address, new_voter: address
+    ) {
         // TODO: set because of timeout (property proved)
         pragma verify_duration_estimate = 300;
         include VerifyAdminAbortsIf;
@@ -453,7 +463,9 @@ spec aptos_framework::vesting {
         );
     }
 
-    spec reset_beneficiary(account: &signer, contract_address: address, shareholder: address) {
+    spec reset_beneficiary(
+        account: &signer, contract_address: address, shareholder: address
+    ) {
         aborts_if !exists<VestingContract>(contract_address);
 
         let addr = signer::address_of(account);
@@ -493,7 +505,9 @@ spec aptos_framework::vesting {
         include SetManagementRoleAbortsIf;
     }
 
-    spec set_beneficiary_for_operator(operator: &signer, new_beneficiary: address) {
+    spec set_beneficiary_for_operator(
+        operator: &signer, new_beneficiary: address
+    ) {
         // TODO: temporary mockup
         pragma verify = false;
     }
@@ -504,20 +518,24 @@ spec aptos_framework::vesting {
         aborts_if !simple_map::spec_contains_key(roles, role);
     }
 
-    spec get_vesting_account_signer(admin: &signer, contract_address: address): signer {
+    spec get_vesting_account_signer(
+        admin: &signer, contract_address: address
+    ): signer {
         pragma verify_duration_estimate = 120;
         include VerifyAdminAbortsIf;
     }
 
-    spec get_vesting_account_signer_internal(vesting_contract: &VestingContract): signer {
+    spec get_vesting_account_signer_internal(
+        vesting_contract: &VestingContract
+    ): signer {
         aborts_if false;
     }
 
     spec fun spec_get_vesting_account_signer(vesting_contract: VestingContract): signer;
 
-    spec create_vesting_contract_account(admin: &signer, contract_creation_seed: vector<u8>): (
-        signer, SignerCapability
-    ) {
+    spec create_vesting_contract_account(
+        admin: &signer, contract_creation_seed: vector<u8>
+    ): (signer, SignerCapability) {
         pragma verify_duration_estimate = 300;
         let admin_addr = signer::address_of(admin);
         let admin_store = global<AdminStore>(admin_addr);
@@ -599,8 +617,9 @@ spec aptos_framework::vesting {
             };
     }
 
-    spec withdraw_stake(vesting_contract: &VestingContract, contract_address: address): Coin<
-        AptosCoin> {
+    spec withdraw_stake(
+        vesting_contract: &VestingContract, contract_address: address
+    ): Coin<AptosCoin> {
         // TODO: Calls `staking_contract::distribute` which is not verified.
         pragma verify = false;
         include WithdrawStakeAbortsIf;
@@ -657,7 +676,9 @@ spec aptos_framework::vesting {
             && inactive_1 + pending_inactive_1 > MAX_U64;
     }
 
-    spec get_beneficiary(contract: &VestingContract, shareholder: address): address {
+    spec get_beneficiary(
+        contract: &VestingContract, shareholder: address
+    ): address {
         /// [high-level-spec-3.2]
         aborts_if false;
     }

@@ -98,7 +98,9 @@ spec aptos_std::pool_u64_unbound {
             self.shares == table::spec_set(old(self.shares), shareholder, new_shares);
     }
 
-    spec fun spec_amount_to_shares_with_total_coins(pool: Pool, coins_amount: u64, total_coins: u64): u128 {
+    spec fun spec_amount_to_shares_with_total_coins(
+        pool: Pool, coins_amount: u64, total_coins: u64
+    ): u128 {
         if (pool.total_coins == 0 || pool.total_shares == 0) {
             coins_amount * pool.scaling_factor
         } else {
@@ -106,7 +108,9 @@ spec aptos_std::pool_u64_unbound {
         }
     }
 
-    spec amount_to_shares_with_total_coins(self: &Pool, coins_amount: u64, total_coins: u64): u128 {
+    spec amount_to_shares_with_total_coins(
+        self: &Pool, coins_amount: u64, total_coins: u64
+    ): u128 {
         aborts_if self.total_coins > 0
             && self.total_shares > 0
             && (coins_amount * self.total_shares) / total_coins > MAX_U128;
@@ -119,7 +123,9 @@ spec aptos_std::pool_u64_unbound {
             == spec_amount_to_shares_with_total_coins(self, coins_amount, total_coins);
     }
 
-    spec shares_to_amount_with_total_coins(self: &Pool, shares: u128, total_coins: u64): u64 {
+    spec shares_to_amount_with_total_coins(
+        self: &Pool, shares: u128, total_coins: u64
+    ): u64 {
         aborts_if self.total_coins > 0
             && self.total_shares > 0
             && (shares * total_coins) / self.total_shares > MAX_U64;
@@ -127,7 +133,9 @@ spec aptos_std::pool_u64_unbound {
             == spec_shares_to_amount_with_total_coins(self, shares, total_coins);
     }
 
-    spec fun spec_shares_to_amount_with_total_coins(pool: Pool, shares: u128, total_coins: u64): u64 {
+    spec fun spec_shares_to_amount_with_total_coins(
+        pool: Pool, shares: u128, total_coins: u64
+    ): u64 {
         if (pool.total_coins == 0 || pool.total_shares == 0) { 0 }
         else {
             (shares * total_coins) / pool.total_shares
@@ -140,7 +148,9 @@ spec aptos_std::pool_u64_unbound {
         ensures result == (x * y) / z;
     }
 
-    spec redeem_shares(self: &mut Pool, shareholder: address, shares_to_redeem: u128): u64 {
+    spec redeem_shares(
+        self: &mut Pool, shareholder: address, shares_to_redeem: u128
+    ): u64 {
         let redeemed_coins = spec_shares_to_amount_with_total_coins(
             self, shares_to_redeem, self.total_coins
         );
@@ -209,7 +219,9 @@ spec aptos_std::pool_u64_unbound {
             );
     }
 
-    spec deduct_shares(self: &mut Pool, shareholder: address, num_shares: u128): u128 {
+    spec deduct_shares(
+        self: &mut Pool, shareholder: address, num_shares: u128
+    ): u128 {
         aborts_if !spec_contains(self, shareholder);
         aborts_if spec_shares(self, shareholder) < num_shares;
 

@@ -52,7 +52,9 @@ spec aptos_framework::staking_proxy {
     }
 
     /// Aborts if conditions of SetStakePoolOperator are not met
-    spec set_operator(owner: &signer, old_operator: address, new_operator: address) {
+    spec set_operator(
+        owner: &signer, old_operator: address, new_operator: address
+    ) {
         pragma verify = false;
         pragma aborts_if_is_partial;
         // TODO: Can't verify due to timeout (>1000)
@@ -70,12 +72,16 @@ spec aptos_framework::staking_proxy {
         include SetStakePoolVoterAbortsIf;
     }
 
-    spec set_vesting_contract_operator(owner: &signer, old_operator: address, new_operator: address) {
+    spec set_vesting_contract_operator(
+        owner: &signer, old_operator: address, new_operator: address
+    ) {
         // TODO: Can't verify `update_voter` in while loop.
         pragma verify = false;
     }
 
-    spec set_staking_contract_operator(owner: &signer, old_operator: address, new_operator: address) {
+    spec set_staking_contract_operator(
+        owner: &signer, old_operator: address, new_operator: address
+    ) {
         pragma aborts_if_is_partial;
         pragma verify = false;
         // TODO: Verify timeout and can't verify `staking_contract::switch_operator`.
@@ -134,7 +140,9 @@ spec aptos_framework::staking_proxy {
             simple_map::spec_contains_key(post_store.staking_contracts, new_operator);
     }
 
-    spec set_vesting_contract_voter(owner: &signer, operator: address, new_voter: address) {
+    spec set_vesting_contract_voter(
+        owner: &signer, operator: address, new_voter: address
+    ) {
         // TODO: Can't verify `update_voter` in while loop.
         pragma verify = false;
     }
@@ -165,7 +173,9 @@ spec aptos_framework::staking_proxy {
             global<stake::StakePool>(pool_address).operator_address == new_operator;
     }
 
-    spec set_staking_contract_voter(owner: &signer, operator: address, new_voter: address) {
+    spec set_staking_contract_voter(
+        owner: &signer, operator: address, new_voter: address
+    ) {
         include SetStakingContractVoter;
         include AbortsIfSignerPermissionStakeProxy { s: owner };
     }

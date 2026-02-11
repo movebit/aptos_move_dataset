@@ -26,8 +26,8 @@ spec aptos_std::multi_ed25519 {
             result == option::none<ValidatedPublicKey>();
     }
 
-    spec new_validated_public_key_from_bytes_v2(bytes: vector<u8>): Option<
-        ValidatedPublicKey> {
+    spec new_validated_public_key_from_bytes_v2(bytes: vector<u8>)
+        : Option<ValidatedPublicKey> {
         let cond = spec_public_key_validate_v2_internal(bytes);
         ensures cond ==>
             result == option::some(ValidatedPublicKey { bytes });

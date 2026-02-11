@@ -270,13 +270,17 @@ module DiemFramework::RecoveryAddress {
         }
 
         /// Returns all the `KeyRotationCapability`s held at `recovery_address`.
-        fun spec_get_rotation_caps(recovery_address: address): vector<DiemAccount::KeyRotationCapability> {
+        fun spec_get_rotation_caps(
+            recovery_address: address
+        ): vector<DiemAccount::KeyRotationCapability> {
             global<RecoveryAddress>(recovery_address).rotation_caps
         }
 
         /// Returns true if `recovery_address` holds the
         /// `KeyRotationCapability` for `addr`.
-        fun spec_holds_key_rotation_cap_for(recovery_address: address, addr: address): bool {
+        fun spec_holds_key_rotation_cap_for(
+            recovery_address: address, addr: address
+        ): bool {
             exists i: u64 where 0 <= i
                 && i < len(spec_get_rotation_caps(recovery_address)):
                 spec_get_rotation_caps(recovery_address)[i].account_address == addr
