@@ -68,7 +68,7 @@ module aptos_std::math_fixed {
         // This has an error of 5000 / 4 10^9 roughly 6 digits of precission
         let power = pow_raw(roottwo, exponent);
         let eps_correction = 1241009291;
-        power +=((power * eps_correction * exponent) >> 64);
+        power += ((power * eps_correction * exponent) >> 64);
         // x is fixed point number smaller than 595528/2^32 < 0.00014 so we need only 2 tayler steps
         // to get the 6 digits of precission
         let taylor1 = (power * x) >> (32 - shift);

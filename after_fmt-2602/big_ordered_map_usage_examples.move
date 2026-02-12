@@ -11,7 +11,7 @@ module aptos_std::big_ordered_map_usage_examples {
         assert!(map.contains(&2));
 
         let sum = 0;
-        map.for_each_ref(|k, v| sum +=*k + *v);
+        map.for_each_ref(|k, v| sum += *k + *v);
         assert!(sum == 10);
 
         *map.borrow_mut(&2) = 5;

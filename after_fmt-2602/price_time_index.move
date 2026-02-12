@@ -147,7 +147,7 @@ module aptos_experimental::price_time_index {
                 } else {
                     front_value.size
                 };
-            total_value +=(matched_size as u128) * (front_key.price as u128);
+            total_value += (matched_size as u128) * (front_key.price as u128);
             total_size += matched_size;
             let next_key = orders.prev_key(&front_key);
             if (next_key.is_none()) {
@@ -175,7 +175,7 @@ module aptos_experimental::price_time_index {
                 } else {
                     front_value.size
                 };
-            total_value +=(matched_size as u128) * (front_key.price as u128);
+            total_value += (matched_size as u128) * (front_key.price as u128);
             total_size += matched_size;
             let next_key = orders.next_key(&front_key);
             if (next_key.is_none()) {

@@ -16,7 +16,7 @@ module aptos_std::smart_table_test {
         let t = make_smart_table();
         let s = 0;
         t.for_each_ref(|x, y| {
-            s +=*x + *y;
+            s += *x + *y;
         });
         assert!(s == 9900, 0);
         t.destroy();

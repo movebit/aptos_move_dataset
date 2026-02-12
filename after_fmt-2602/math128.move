@@ -96,9 +96,9 @@ module aptos_std::math128 {
         let integer_part = floor_log2(x);
         // Normalize x to [1, 2) in fixed point 32.
         if (x >= 1 << 32) {
-            x >>=(integer_part - 32);
+            x >>= (integer_part - 32);
         } else {
-            x <<=(32 - integer_part);
+            x <<= (32 - integer_part);
         };
         let frac = 0;
         let delta = 1 << 31;
@@ -122,9 +122,9 @@ module aptos_std::math128 {
         let integer_part = floor_log2(x);
         // Normalize x to [1, 2) in fixed point 63. To ensure x is smaller then 1<<64
         if (x >= 1 << 63) {
-            x >>=(integer_part - 63);
+            x >>= (integer_part - 63);
         } else {
-            x <<=(63 - integer_part);
+            x <<= (63 - integer_part);
         };
         let frac = 0;
         let delta = 1 << 63;

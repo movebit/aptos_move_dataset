@@ -51,7 +51,7 @@ module aptos_std::bcs_stream {
             if (((val << shift) >> shift) != val) {
                 abort error::invalid_argument(EMALFORMED_DATA)
             };
-            res |=(val << shift);
+            res |= (val << shift);
 
             if ((byte & 0x80) == 0) {
                 if (shift > 0 && val == 0) {

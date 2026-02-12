@@ -4,7 +4,7 @@ module 0x42::bitset128 {
     }
 
     public fun insert(s: &mut BitSet128, i: u64) {
-        s.s |=(i as u128);
+        s.s |= (i as u128);
     }
 
     spec insert {
